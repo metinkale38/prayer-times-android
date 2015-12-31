@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="widget_countdown" translatable="false">
+        <item>01:23:45 => 01:23</item>
+        <item>01:23:45 => 01:24</item>
+    </string-array>
+
+    <string-array name="widget_countdown_" translatable="false">
+        <item>default</item>
+        <item>alt</item>
+    </string-array>
+
+
+    <string-array name="tz_correct" translatable="false">
+        <item>+4</item>
+        <item>+3.5</item>
+        <item>+3</item>
+        <item>+2.5</item>
+        <item>+2</item>
+        <item>+1.5</item>
+        <item>+1</item>
+        <item>+0.5</item>
+        <item>0</item>
+        <item>-0.5</item>
+        <item>-1</item>
+        <item>-1.5</item>
+        <item>-2</item>
+        <item>-2.5</item>
+        <item>-3</item>
+        <item>-3.5</item>
+        <item>-4</item>
+    </string-array>
+
+    <string-array name="hijri_fix_mins" translatable="false">
+        <item>+4</item>
+        <item>+3</item>
+        <item>+2</item>
+        <item>+1</item>
+        <item>0</item>
+        <item>-1</item>
+        <item>-2</item>
+        <item>-3</item>
+        <item>-4</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>Türkçe</item>
+        <item>Almanca</item>
+        <item>Ingilizce</item>
+    </string-array>
+
+
+    <string-array name="language_val" translatable="false">
+        <item>tr</item>
+        <item>de</item>
+        <item>en</item>
+    </string-array>
+    <string-array name="lefttext_part">
+        <item>İmsak\'a</item>
+        <item>Güneş\'e</item>
+        <item>Öğle\'ye</item>
+        <item>İkindi\'ye</item>
+        <item>Akşam\'a</item>
+        <item>Yatsı\'ya</item>
+        <item>İmsak\'a</item>
+    </string-array>
+    <string-array name="ezan_volume">
+        <item>Zil Sesine göre</item>
+        <item>Alarm Sesine göre</item>
+        <item>Media Sesine göre</item>
+    </string-array>
+    <string-array name="ezan_volume_val" translatable="false">
+        <item>noti</item>
+        <item>alarm</item>
+        <item>media</item>
+    </string-array>
+    <string-array name="silenterType">
+        <item>Sessiz Modu\'na al</item>
+        <item>Titreşim Modu\'na al</item>
+    </string-array>
+    <string-array name="silenterType_val" translatable="false">
+        <item>silent</item>
+        <item>vibrate</item>
+    </string-array>
+    <string-array name="week_days">
+        <item>Pazar</item>
+        <item>Pazartesi</item>
+        <item>Salı</item>
+        <item>Çarşamba</item>
+        <item>Perşembe</item>
+        <item>Cuma</item>
+        <item>Cumartesi</item>
+    </string-array>
+    <string-array name="week_days_short">
+        <item>Paz.</item>
+        <item>Pzt.</item>
+        <item>Sal.</item>
+        <item>Çar.</item>
+        <item>Per.</item>
+        <item>Cum.</item>
+        <item>Cmt.</item>
+    </string-array>
+    <string-array name="months">
+        <item>Ocak</item>
+        <item>Şubat</item>
+        <item>Mart</item>
+        <item>Nisan</item>
+        <item>Mayıs</item>
+        <item>Haziran</item>
+        <item>Temmuz</item>
+        <item>Ağustos</item>
+        <item>Eylül</item>
+        <item>Ekim</item>
+        <item>Kasım</item>
+        <item>Aralık</item>
+    </string-array>
+    <string-array name="months_hicri">
+        <item>Muharrem</item>
+        <item>Safer</item>
+        <item>Rebiülevvel</item>
+        <item>Rebiülahir</item>
+        <item>Cemaziyelevvel</item>
+        <item>Cemaziyelahir</item>
+        <item>Recep</item>
+        <item>Şaban</item>
+        <item>Ramazan</item>
+        <item>Şevval</item>
+        <item>Zilkade</item>
+        <item>Zilhicce</item>
+    </string-array>
+    <string-array name="dropdown">
+        <item>@string/vakit</item>
+        <item>@string/compass</item>
+        <item>@string/names</item>
+        <item>@string/calendar</item>
+        <item>@string/tesbihat</item>
+        <item>@string/hadis</item>
+        <item>@string/kaza</item>
+        <item>@string/zikr</item>
+        <item>@string/settings</item>
+    </string-array>
+    <string-array name="holydays">
+        <item>Hicri Yilbaşı</item>
+        <item>Aşure</item>
+        <item>Mevlid Kandili</item>
+        <item>Mübârek 3 ayların başlangıcı</item>
+        <item>Regaib Kandili</item>
+        <item>Mirac Kandili</item>
+        <item>Beraat Kandili</item>
+        <item>Ramazan\'ın başlangıcı</item>
+        <item>Kadir Gecesi</item>
+        <item>Arefe Günü</item>
+        <item>Ramazan Bayramının 1.Günü</item>
+        <item>Ramazan Bayramının 2.Günü</item>
+        <item>Ramazan Bayramının 3.Günü</item>
+        <item>Arefe Günü</item>
+        <item>Kurban Bayramının 1.Günü</item>
+        <item>Kurban Bayramının 2.Günü</item>
+        <item>Kurban Bayramının 3.Günü</item>
+        <item>Kurban Bayramının 4.Günü</item>
+    </string-array>
+    <string-array name="greg_df" translatable="false">
+        <item>DD MMM YYYY</item>
+        <item>DD MMM YY</item>
+        <item>DD.MM.YYYY</item>
+        <item>DD.MM.YY</item>
+        <item>DD/MM/YYYY</item>
+        <item>DD/MM/YY</item>
+        <item>DD MM YYYY</item>
+        <item>DD MM YY</item>
+        <item>DD&#8211;MM&#8211;YYYY</item>
+        <item>DD&#8211;MM&#8211;YY</item>
+        <item>E, DD MMM YYYY</item>
+        <item>E, DD MMM YY</item>
+        <item>E, DD.MM.YYYY</item>
+        <item>E, DD.MM.YY</item>
+        <item>E, DD/MM/YYYY</item>
+        <item>E, DD/MM/YY</item>
+        <item>E, DD MM YYYY</item>
+        <item>E, DD MM YY</item>
+        <item>E, DD&#8211;MM&#8211;YYYY</item>
+        <item>E, DD&#8211;MM&#8211;YY</item>
+        <item>EE, DD MMM YYYY</item>
+        <item>EE, DD MMM YY</item>
+        <item>EE, DD.MM.YYYY</item>
+        <item>EE, DD.MM.YY</item>
+        <item>EE, DD/MM/YYYY</item>
+        <item>EE, DD/MM/YY</item>
+        <item>EE, DD MM YYYY</item>
+        <item>EE, DD MM YY</item>
+        <item>EE, DD&#8211;MM&#8211;YYYY</item>
+        <item>EE, DD&#8211;MM&#8211;YY</item>
+    </string-array>
+    <string-array name="greg_text">
+        <item>31 Aralik 2013</item>
+        <item>31 Aralik 13</item>
+        <item>31.12.2013</item>
+        <item>31.12.13</item>
+        <item>31/12/2013</item>
+        <item>31/12/13</item>
+        <item>31 12 2013</item>
+        <item>31 12 13</item>
+        <item>31&#8211;12&#8211;2013</item>
+        <item>31&#8211;12&#8211;13</item>
+        <item>Pzt., 31 Aralik 2013</item>
+        <item>Pzt., 31 Aralik 13</item>
+        <item>Pzt., 31.12.2013</item>
+        <item>Pzt., 31.12.13</item>
+        <item>Pzt., 31/12/2013</item>
+        <item>Pzt., 31/12/13</item>
+        <item>Pzt., 31 12 2013</item>
+        <item>Pzt., 31 12 13</item>
+        <item>Pzt., 31&#8211;12&#8211;2013</item>
+        <item>Pzt., 31&#8211;12&#8211;13</item>
+        <item>Pazartest, 31 Aralik 2013</item>
+        <item>Pazartest, 31 Aralik 13</item>
+        <item>Pazartest, 31.12.2013</item>
+        <item>Pazartest, 31.12.13</item>
+        <item>Pazartest, 31/12/2013</item>
+        <item>Pazartest, 31/12/13</item>
+        <item>Pazartest, 31 12 2013</item>
+        <item>Pazartest, 31 12 13</item>
+        <item>Pazartest, 31&#8211;12&#8211;2013</item>
+        <item>Pazartest, 31&#8211;12&#8211;13</item>
+    </string-array>
+    <string-array name="hicri_text">
+        <item>30 Muharrem 1434</item>
+        <item>30 Muharrem 34</item>
+        <item>30.01.1434</item>
+        <item>30.01.34</item>
+        <item>30/01/1434</item>
+        <item>30/01/34</item>
+        <item>30 01 1434</item>
+        <item>30 01 34</item>
+        <item>30&#8211;01&#8211;1434</item>
+        <item>30&#8211;01&#8211;34</item>
+    </string-array>
+    <string-array name="hicri_df" translatable="false">
+        <item>DD MMM YYYY</item>
+        <item>DD MMM YY</item>
+        <item>DD.MM.YYYY</item>
+        <item>DD.MM.YY</item>
+        <item>DD/MM/YYYY</item>
+        <item>DD/MM/YY</item>
+        <item>DD MM YYYY</item>
+        <item>DD MM YY</item>
+        <item>DD&#8211;MM&#8211;YYYY</item>
+        <item>DD&#8211;MM&#8211;YY</item>
+    </string-array>
+
+    <string-array name="adjMethod">
+        <item>Açı\'ya göre (angle/60th of night)</item>
+        <item>Zaman\'a göre (Gecenin 7\'de biri)</item>
+        <item>Gece yarısı</item>
+    </string-array>
+
+    <string-array name="juristicMethod">
+        <item>Asr-ı Evvel</item>
+        <item>Asr-ı Sânî</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#e3e3e3"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/selcity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#00bbff"
+        android:gravity="center"
+        android:text="@string/touchtoselcity"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+    <FrameLayout
+        android:id="@+id/frag3D"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/selcity">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frag2D"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/selcity">
+
+    </FrameLayout>
+</RelativeLayout>

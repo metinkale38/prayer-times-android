@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:ignore="PxUsage">
+
+    <TextView
+        android:id="@+id/kerahat"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/kerahat"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/kerahat"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <com.metinkale.prayerapp.custom.WeightedFloatLayout
+        android:id="@+id/weightedFloatLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/kerahat">
+
+        <View
+            android:layout_width="1000px"
+            android:layout_height="40px" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="1000px"
+            android:layout_height="70px"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lines="1"
+            android:textStyle="italic" />
+
+        <RelativeLayout
+            android:layout_width="1000px"
+            android:layout_height="100px">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:lines="1" />
+
+            <ImageView
+                android:id="@+id/gps"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/city"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_gps"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/hicri"
+            android:layout_width="1000px"
+            android:layout_height="70px"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:textStyle="italic" />
+
+        <View
+            android:layout_width="1000px"
+            android:layout_height="40px" />
+
+        <TextView
+            android:id="@+id/imsak"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/imsak" />
+
+        <TextView
+            android:id="@+id/imsaktime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/gunes"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/gunes" />
+
+        <TextView
+            android:id="@+id/gunestime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/ogle"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/ogle" />
+
+        <TextView
+            android:id="@+id/ogletime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/ikindi"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/ikindi" />
+
+        <TextView
+            android:id="@+id/ikinditime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/aksam"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/aksam" />
+
+        <TextView
+            android:id="@+id/aksamtime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/yatsi"
+            style="@style/vakit_names"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/yatsi" />
+
+        <TextView
+            android:id="@+id/yatsitime"
+            style="@style/vakit_times"
+            android:fontFamily="sans-serif-thin" />
+
+        <View
+            android:layout_width="1000px"
+            android:layout_height="40px" />
+
+        <TextView
+            android:id="@+id/countdown"
+            android:layout_width="1000px"
+            android:layout_height="80px"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center" />
+    </com.metinkale.prayerapp.custom.WeightedFloatLayout>
+
+    <ImageView
+        android:id="@+id/source2"
+        android:layout_width="60dp"
+        android:layout_height="60dip"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/kerahat"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/vakit"
+        android:scaleType="fitEnd" />
+
+    <ImageView
+        android:id="@+id/source1"
+        android:layout_width="60dp"
+        android:layout_height="60dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/kerahat"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/vakit"
+        android:scaleType="fitStart" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

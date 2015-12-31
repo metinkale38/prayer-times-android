@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="mail"
+        android:summary="metinkale38@gmail.com"
+        android:title="Metin Kale" />
+
+
+    <ListPreference
+        android:dialogTitle="@string/dateformat"
+        android:entries="@array/greg_text"
+        android:entryValues="@array/greg_df"
+        android:key="dateformat"
+        android:title="@string/dateformat" />
+    <ListPreference
+        android:dialogTitle="@string/language"
+        android:entries="@array/language"
+        android:entryValues="@array/language_val"
+        android:key="language"
+        android:title="@string/language" />
+    <ListPreference
+        android:dialogTitle="@string/hdateformat"
+        android:entries="@array/hicri_text"
+        android:entryValues="@array/hicri_df"
+        android:key="hdateformat"
+        android:title="@string/hdateformat" />
+
+
+    <ListPreference
+        android:dialogTitle="@string/hijri_fix"
+        android:entries="@array/hijri_fix_mins"
+        android:entryValues="@array/hijri_fix_mins"
+        android:key="hijri_fix"
+        android:title="@string/hijri_fix" />
+
+    <PreferenceScreen
+        android:title="@string/kerahat_duration">
+        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
+            xmlns:vnt="http://schemas.android.com/apk/res-auto"
+            android:defaultValue="45"
+            android:key="kerahat_sunrise"
+            android:title="@string/kerahat_gunes"
+            vnt:vnt_maxValue="120"
+            vnt:vnt_minValue="0"
+            vnt:vnt_setWrapSelectorWheel="false"/>
+
+        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
+            xmlns:vnt="http://schemas.android.com/apk/res-auto"
+            android:defaultValue="45"
+            android:key="kerahat_istiva"
+            android:title="@string/kerahat_istiva"
+            vnt:vnt_maxValue="120"
+            vnt:vnt_minValue="0"
+            vnt:vnt_setWrapSelectorWheel="false"/>
+
+
+        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
+            xmlns:vnt="http://schemas.android.com/apk/res-auto"
+            android:defaultValue="45"
+            android:key="kerahat_sunset"
+            android:title="@string/kerahat_aksam"
+            vnt:vnt_maxValue="120"
+            vnt:vnt_minValue="0"
+            vnt:vnt_setWrapSelectorWheel="false"/>
+
+
+
+    </PreferenceScreen>
+    <SwitchPreference
+        android:key="arabicNames"
+        android:title="@string/useArabicNames" />
+
+
+    <SwitchPreference
+        android:key="ongoingIcon"
+        android:title="@string/ongoingIcon"
+        android:defaultValue="true"/>
+
+
+    <SwitchPreference
+        android:key="use12h"
+        android:title="@string/use12h" />
+
+    <ListPreference
+        android:defaultValue="default"
+        android:dialogTitle="@string/widget_countdown_type"
+        android:entries="@array/widget_countdown"
+        android:entryValues="@array/widget_countdown_"
+        android:key="widget_countdown"
+        android:title="@string/widget_countdown_type" />
+
+    <ListPreference
+        android:defaultValue="noti"
+        android:dialogTitle="@string/ezanvolume"
+        android:entries="@array/ezan_volume"
+        android:entryValues="@array/ezan_volume_val"
+        android:key="ezanvolume"
+        android:title="@string/ezanvolume" />
+    <ListPreference
+        android:defaultValue="silent"
+        android:dialogTitle="@string/silenterType"
+        android:entries="@array/silenterType"
+        android:entryValues="@array/silenterType_val"
+        android:key="silenterType"
+        android:title="@string/silenterType" />
+
+    <com.metinkale.prayerapp.calendar.CalendarPreference
+        android:defaultValue="1"
+        android:key="calendarIntegration"
+        android:title="@string/calendarIntegration" />
+
+    <Preference
+        android:key="backupRestore"
+        android:title="@string/backupRestore" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="acra.enable"
+        android:title="@string/sendreports" />
+
+    <Preference
+        android:summary="@string/version_nr"
+        android:title="@string/version" />
+    <Preference
+        android:key="donate"
+        android:summary="@string/donateDesc"
+        android:title="@string/donate" />
+    <Preference />
+
+</PreferenceScreen>

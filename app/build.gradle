@@ -1,0 +1,79 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+android {
+    signingConfigs {
+        debugKey {
+            storeFile file('D:/Dropbox/Dokumente/Sonstiges/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+        releaseKey {
+            keyAlias 'metinkale38'
+            keyPassword 'password'
+            storeFile file('D:/Dropbox/Dokumente/Sonstiges/metin.keystore')
+            storePassword 'password'
+        }
+    }
+
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+
+
+    defaultConfig {
+        applicationId "com.metinkale.prayer"
+        minSdkVersion 14
+        targetSdkVersion 23
+        signingConfig signingConfigs.debugKey
+        versionCode 92
+        versionName '3.5.3'
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debugKey
+            renderscriptDebuggable true
+            minifyEnabled false
+            zipAlignEnabled true
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            signingConfig signingConfigs.releaseKey
+            minifyEnabled false
+            zipAlignEnabled true
+        }
+    }
+    productFlavors {
+    }
+}
+
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+    compile 'com.vanniktech:vntnumberpickerpreference:0.2.0-SNAPSHOT'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'asia.ivity.android:drag-sort-listview:1.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+}

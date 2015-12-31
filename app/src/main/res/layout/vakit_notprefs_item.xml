@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    android:paddingBottom="10dp">
+
+    <Switch
+        android:id="@+id/active"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp" />
+
+    <TextView
+        android:id="@+id/switchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/active"
+        android:layout_toRightOf="@+id/active"
+        android:text="@string/ezanNotification"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/contalt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/active"
+        android:layout_below="@+id/active"
+        android:layout_margin="5dp"
+        android:text="@string/activateForMorePrefs"
+        android:textColor="#dddddd"
+        android:textSize="18sp" />
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/active"
+        android:layout_below="@+id/active">
+
+        <LinearLayout
+
+            android:id="@+id/prefscontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.metinkale.prayerapp.vakit.PrefsView
+                android:id="@+id/sound"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:tag="Sound" />
+
+            <com.metinkale.prayerapp.vakit.PrefsView
+                android:id="@+id/vibration"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:tag="Vibration" />
+
+            <com.metinkale.prayerapp.vakit.PrefsView
+                android:id="@+id/silenter"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:tag="Silenter" />
+
+            <com.metinkale.prayerapp.vakit.PrefsView
+                android:id="@+id/dua"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:tag="Dua" />
+
+            <com.metinkale.prayerapp.vakit.PrefsView
+                android:id="@+id/time"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:tag="Time" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

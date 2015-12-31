@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
+    android:minHeight="100dp"
+    android:minWidth="250dp"
+    android:previewImage="@drawable/widget_clock"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="6000"
+    android:widgetCategory="keyguard|home_screen">
+
+</appwidget-provider>

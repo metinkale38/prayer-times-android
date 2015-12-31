@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.metinkale.prayerapp.vakit.MyPaneView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pane"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/settings"
+        class="com.metinkale.prayerapp.vakit.fragments.SettingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="settings"
+        tools:layout="@layout/vakit_settings" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/holyday"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/holyday"></android.support.v4.view.ViewPager>
+
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/footerText"
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/imsakiye"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+    <fragment
+        class="com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:tag="imsakiye"
+        tools:layout="@layout/vakit_imsakiye" />
+
+</com.metinkale.prayerapp.vakit.MyPaneView>
