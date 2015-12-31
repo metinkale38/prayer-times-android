@@ -1,6 +1,8 @@
 # namaz-vakti-android
 A useful Application with a set of tools needed by any muslim.
 
+Play Store: https://play.google.com/store/apps/details?id=com.metinkale.prayer
+
 ##DESCRIPTION
 ###English
 يسروا ولا تعسروا, وبشروا ولا تنفروا
