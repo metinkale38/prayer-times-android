@@ -5,6 +5,7 @@ import com.metinkale.prayerapp.App;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.io.BufferedReader;
@@ -27,6 +28,36 @@ public class NVCTimes extends WebTimes {
         return Source.NVC;
     }
 
+    public static String getName(String id) {
+        try {
+            URL url = new URL("http://namazvakti.com/XML.php?cityID=" + id);
+            URLConnection ucon = url.openConnection();
+
+            InputStream is = ucon.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis, "UTF-8"));
+
+            String line;
+
+            Calendar l = new GregorianCalendar();
+
+            int y = l.get(Calendar.YEAR);
+            while ((line = reader.readLine()) != null)
+                if (line.contains("cityNameTR")) {
+                    line = line.substring(line.indexOf("cityNameTR"));
+                    line = line.substring(line.indexOf("\"") + 1);
+                    line = line.substring(0, line.indexOf("\""));
+                    return line;
+
+                }
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     protected boolean syncTimes() throws Exception {
 
@@ -46,13 +77,6 @@ public class NVCTimes extends WebTimes {
         int y = l.get(Calendar.YEAR);
         while ((line = reader.readLine()) != null)
             try {
-                if (line.contains("cityNameTR")) {
-                    line = line.substring(line.indexOf("cityNameTr"));
-                    line = line.substring(line.indexOf("\"") + 1);
-                    line = line.substring(0, line.indexOf("\""));
-                    setName(line);
-
-                }
                 if (line.contains("<prayertimes")) {
                     String doy = line.substring(line.indexOf("dayofyear=") + 11);
                     String day = line.substring(line.indexOf("day=") + 5);

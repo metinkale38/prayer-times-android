@@ -102,9 +102,9 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
             final View v = convertView;
             ViewHolder vh = (ViewHolder) v.getTag();
             vh.pos = position;
+
             final Times c = getItem(position);
-            vh.space1.setVisibility(View.GONE);
-            vh.space2.setVisibility(View.GONE);
+            if (c == null) return new View(getContext());
             vh.city.setText(c.getName());
             vh.source.setText(c.getSource().text);
 
@@ -126,15 +126,12 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
             public TextView source;
             public ImageView drag, delete;
             public int pos;
-            public View space1, space2;
 
             public ViewHolder(View v) {
                 city = (TextView) v.findViewById(R.id.city);
                 source = (TextView) v.findViewById(R.id.source);
                 drag = (ImageView) v.findViewById(R.id.drag);
                 delete = (ImageView) v.findViewById(R.id.delete);
-                space1 = v.findViewById(R.id.space1);
-                space2 = v.findViewById(R.id.space2);
             }
         }
     }

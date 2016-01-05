@@ -42,7 +42,10 @@ public class WidgetConfigure extends Activity {
         String[] array = new String[MainHelper.getCount()];
         for (int i = 0; i < array.length; i++) {
             Times t = MainHelper.getTimes(MainHelper.getIds().get(i));
-            array[i] = t.getName() + " (" + t.getSource() + ")";
+            if (t == null)
+                array[i] = "DELETED";
+            else
+                array[i] = t.getName() + " (" + t.getSource() + ")";
         }
         builder.setItems(array, new DialogInterface.OnClickListener() {
             @Override

@@ -21,7 +21,7 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application {
-    public static final String API_URL = "http://namazvakti.tk";
+    public static final String API_URL = "http://5vkt.tk";
     private static Context mContext;
 
     public static void e(Exception e) {

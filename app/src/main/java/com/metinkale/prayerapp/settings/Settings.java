@@ -83,6 +83,7 @@ public class Settings extends BaseActivity implements SoundPreferenceContext {
             findPreference("donate").setOnPreferenceClickListener(this);
 
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
+
         }
 
         @Override
@@ -132,7 +133,7 @@ public class Settings extends BaseActivity implements SoundPreferenceContext {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            } else if (preference.getKey().equals("ongoingNoti"))
+            } else if (preference.getKey().equals("ongoingIcon"))
                 WidgetService.updateOngoing();
             return true;
 

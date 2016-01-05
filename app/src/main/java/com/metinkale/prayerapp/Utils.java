@@ -81,7 +81,7 @@ public class Utils {
         Locale.setDefault(locale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = locale;
-        ((Application)  App.getContext()).getBaseContext().getResources().updateConfiguration(config,  ((Application)  App.getContext()).getBaseContext().getResources().getDisplayMetrics());
+        ((Application) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((Application) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
 
         if (Prefs.getLanguage() != newLang) {
             sGMonths = null;
@@ -157,7 +157,8 @@ public class Utils {
                 act.finish();
                 act.startActivity(new Intent(act, act.getClass()));
             }
-        });
+        }).setCancelable(false);
+
         builder.show();
         return true;
     }

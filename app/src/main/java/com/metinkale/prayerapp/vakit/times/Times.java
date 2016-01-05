@@ -26,6 +26,7 @@ public abstract class Times extends TimesBase {
         List<Long> ids = MainHelper.get().getIds();
         for (long id : ids) {
             Times t = MainHelper.getTimes(id);
+            if(t!=null)continue;
             alarms.addAll(t.getAlarms());
         }
         return alarms;

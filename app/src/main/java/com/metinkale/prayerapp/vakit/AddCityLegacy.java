@@ -1,6 +1,5 @@
 package com.metinkale.prayerapp.vakit;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,18 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.vakit.times.Search.Item;
+import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Cities.Item;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
@@ -74,52 +67,17 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     public void get(final String source, final String country, final String state, final String city) {
 
-        if (mThread != null && mThread.isAlive()) {
-            mThread.interrupt();
+        List<String> resp = Cities.list(source, country, state, city);
+        if (!resp.isEmpty()) {
+            mSource = source;
+            mCountry = country;
+            mState = state;
+            mCity = city;
+            mAdapter.clear();
+            mAdapter.addAll(resp);
+            mListView.scrollTo(0, 0);
         }
-        final ProgressDialog dlg = new ProgressDialog(this);
-        dlg.show();
-        mThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<String> resp = new ArrayList<String>();
-                try {
-                    URL website = new URL(App.API_URL+"/api/list.php?source=" + source + "&country=" + country + "&state=" + state);
-                    HttpURLConnection connection = (HttpURLConnection) website.openConnection();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String inputLine;
-
-                    while ((inputLine = in.readLine()) != null)
-                        resp.add(inputLine);
-
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (!mThread.isInterrupted()) {
-                    AddCityLegacy.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if (!resp.isEmpty()) {
-                                mSource = source;
-                                mCountry = country;
-                                mState = state;
-                                mCity = city;
-                                mAdapter.clear();
-                                mAdapter.addAll(resp);
-                                mListView.scrollTo(0, 0);
-                            }
-                            mAdapter.notifyDataSetChanged();
-                            try{
-                            dlg.dismiss();}catch(Exception ignore){}
-                        }
-                    });
-                }
-
-            }
-        });
-        mThread.start();
+        mAdapter.notifyDataSetChanged();
     }
 
     public void onBackPressed() {

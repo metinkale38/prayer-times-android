@@ -99,8 +99,7 @@ public class MainFragment extends Fragment {
 
         try {
             mTimes = MainHelper.getTimes(mCity);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             return new View(getActivity());
         }
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
@@ -177,7 +176,8 @@ public class MainFragment extends Fragment {
                 }
             }
             case R.id.refresh: {
-                mTimes.refresh();
+                if (mTimes != null)
+                    mTimes.refresh();
                 break;
             }
 

@@ -69,11 +69,11 @@ public class WidgetProviderClock extends AppWidgetProvider {
         }
 
         Times times = null;
-
         try {
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (RuntimeException e) {
-
+        } catch (Exception ignore) {
+        }
+        if (times == null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigureClock.class);
             i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);

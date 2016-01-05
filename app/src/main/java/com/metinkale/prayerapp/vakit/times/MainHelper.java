@@ -63,20 +63,24 @@ public class MainHelper extends SQLiteOpenHelper {
 
     public static Times getTimes(long id) {
 
+        try {
+            TimesBase.Source source = TimesBase.getSource(id);
+            switch (source) {
+                case Diyanet:
+                    return new DiyanetTimes(id);
+                case Fazilet:
+                    return new FaziletTimes(id);
+                case IGMG:
+                    return new IGMGTimes(id);
+                case NVC:
+                    return new NVCTimes(id);
+                case Calc:
+                    return new CalcTimes(id);
+            }
 
-        TimesBase.Source source = TimesBase.getSource(id);
-        switch (source) {
-            case Diyanet:
-            case Fazilet:
-            case IGMG:
-                return new WebTimes(id);
-            case NVC:
-                return new NVCTimes(id);
-            case Calc:
-                return new CalcTimes(id);
+        } catch (Exception e) {
         }
-
-        throw new RuntimeException("Source of " + id + " not defined");
+        return null;
     }
 
     @Override
@@ -220,6 +224,7 @@ public class MainHelper extends SQLiteOpenHelper {
         get().getDB().setTransactionSuccessful();
         get().getDB().endTransaction();
     }
+
 
     protected class _TimesBase {
         private long id;

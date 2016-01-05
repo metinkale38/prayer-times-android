@@ -88,8 +88,9 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+        if (mAddresses == null) return;
         Response a = mAddresses.get(pos);
-        Prefs.setCompassPos((float) a.lat,(float)a.lon);
+        Prefs.setCompassPos((float) a.lat, (float) a.lon);
 
         finish();
 

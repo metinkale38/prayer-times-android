@@ -37,11 +37,8 @@ public class WidgetService extends Service {
 
         for (int i = mOngoing.size() - 1; i >= 0; i--) {
             long id = mOngoing.get(i);
-            Times t = null;
-            try {
-                t = MainHelper.getTimes(id);
-            } catch (Exception ignore) {
-            }
+            Times t = MainHelper.getTimes(id);
+
             if (t == null || !t.isOngoingNotificationActive()) {
                 nm.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
@@ -50,14 +47,10 @@ public class WidgetService extends Service {
         List<Long> ids = MainHelper.getIds();
         for (long id : ids) {
 
-            Times t = null;
-            try {
-                t = MainHelper.getTimes(id);
-            } catch (Exception ignore) {
-            } finally {
-                if (t != null && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
-                    mOngoing.add(id);
-                }
+            Times t = MainHelper.getTimes(id);
+
+            if (t != null && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
+                mOngoing.add(id);
             }
         }
 

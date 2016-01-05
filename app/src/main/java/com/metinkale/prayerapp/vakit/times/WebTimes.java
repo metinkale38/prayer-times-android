@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 
 
@@ -22,6 +23,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class WebTimes extends Times {
     private static final String _ID = "id";
@@ -54,7 +56,8 @@ public class WebTimes extends Times {
                 }
             };
 
-            mThread.start();
+            if (!mThread.isAlive())
+                mThread.start();
             return;
         }
 
@@ -67,9 +70,27 @@ public class WebTimes extends Times {
             ret = false;
         }
         mSyncing = false;
+        if (!ret && getSource() == Source.IGMG && fixIGMG()) {
+            refresh();
+        }
+
 
         setLastSync(System.currentTimeMillis());
 
+    }
+
+    private boolean fixIGMG() {
+        if (is("fixedIGMG")) return false;
+        List<Cities.Item> resp = Cities.search(getName());
+        for (Cities.Item i : resp) {
+            if (i.source == Source.IGMG) {
+                setId(i.id);
+                set("fixedIGMG", true);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     String getId() {
@@ -96,35 +117,8 @@ public class WebTimes extends Times {
         return super.getTime(d, m, y, time);
     }
 
-    boolean syncTimes() throws Exception {
-
-        URL url = new URL(App.API_URL + "/api/getTimes.php?path=" + URLEncoder.encode(getId(), "utf8"));
-        URLConnection ucon = url.openConnection();
-
-        InputStream is = ucon.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(bis, "UTF-8"));
-
-        String line;
-
-        int i = 0;
-        while ((line = reader.readLine()) != null)
-            try {
-                String date = line.split("=")[0];
-                String data[] = line.split("=")[1].split(" ");
-
-
-                this.setTimes(Integer.parseInt(date.substring(0, 2)), Integer.parseInt(date.substring(3, 5)), Integer.parseInt(date.substring(6, 10)), data);
-                i++;
-
-            } catch (Exception ignore) {
-            }
-
-
-        return i != 0;
-
+    protected boolean syncTimes() throws Exception {
+        return false;
     }
 
 
@@ -135,6 +129,7 @@ public class WebTimes extends Times {
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.DAY_OF_YEAR, 15);
             long lastSync = getLastSync();
+
             if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
                 // always if +15 days does not exist
                 if (getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00")) {
@@ -150,12 +145,14 @@ public class WebTimes extends Times {
                 if (wifi.isConnected())
                     reasons++;
 
-                IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-                Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
-                int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
-                    reasons++;
-
+                try {
+                    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+                    Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
+                    int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
+                        reasons++;
+                } catch (Exception ignroe) {
+                }
                 if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn())
                     reasons++;
 
@@ -186,13 +183,31 @@ public class WebTimes extends Times {
 
     public static void add(Source source, String city, String id, double lat, double lng) {
         long _id = System.currentTimeMillis();
-        WebTimes t = source == Source.NVC ? new NVCTimes(_id) : new WebTimes(_id);
+        WebTimes t = new WebTimes(_id);
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);
         t.setLng(lng);
         t.setId(id);
+        if (source == Source.IGMG)
+            t.set("fixedIGMG", true);
     }
 
 
+    protected String extractLine(String str) {
+        str = str.substring(str.indexOf(">") + 1);
+        str = str.substring(0, str.indexOf("</"));
+        return str;
+    }
+
+
+    protected String az(int i) {
+        if (i < 10) return "0" + i;
+        else return i + "";
+    }
+
+    protected String az(String i) {
+        if (i.length() == 1) return "0" + i;
+        else return i + "";
+    }
 }

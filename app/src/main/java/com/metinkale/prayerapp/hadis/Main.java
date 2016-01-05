@@ -83,7 +83,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         } catch (RuntimeException e) {
             finish();
             new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Prefs.getLanguage() + "/hadis.db").delete();
-            startActivity(new Intent(this,com.metinkale.prayerapp.vakit.Main.class));
+            startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
     }
 
@@ -250,6 +250,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     void setCurrentPage(int i) {
+        if (i >= mAdapter.getCount())
+            i = mAdapter.getCount() - 1;
+
         mNumber.setText(i + 1 + "/" + mAdapter.getCount());
         if (mFav == null) {
             return;

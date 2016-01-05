@@ -89,7 +89,9 @@ public class WidgetProviderLong extends AppWidgetProvider {
         Times times = null;
         try {
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (RuntimeException e) {
+        } catch (Exception ignore) {
+        }
+        if (times == null) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);
@@ -97,7 +99,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.image, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT));
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
             return;
-    }
+        }
 
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);

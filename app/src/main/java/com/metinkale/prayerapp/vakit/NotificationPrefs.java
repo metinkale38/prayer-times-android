@@ -41,6 +41,7 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         getActionBar().setIcon(R.drawable.ic_abicon);
 
         mTimes = MainHelper.getTimes(getIntent().getLongExtra("city", 0));
+        if (mTimes == null) finish();
         Switch ongoing = (Switch) findViewById(R.id.ongoing);
         ExpandableListView list = (ExpandableListView) findViewById(R.id.expandableListView);
         MyAdapter adapter = new MyAdapter();

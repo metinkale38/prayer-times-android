@@ -3,7 +3,9 @@ package com.metinkale.prayerapp.vakit;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -24,18 +26,19 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
-import com.metinkale.prayerapp.vakit.times.Search;
-import com.metinkale.prayerapp.vakit.times.Search.Item;
+import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Cities.Item;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener {
-
-    private Thread mThread;
+public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener {
+    private Executor mExecutor = Executors.newSingleThreadExecutor();
     private MyAdapter mAdapter;
 
     @Override
@@ -89,11 +92,17 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
             if (loc != null)
                 onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
-            else
-                onQueryTextSubmit("geoIP");
+
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
+            criteria.setAltitudeRequired(false);
+            criteria.setBearingRequired(false);
+            criteria.setCostAllowed(false);
+            criteria.setSpeedRequired(false);
+            lm.requestSingleUpdate(criteria, this, null);
+
         } else {
             PermissionUtils.get(this).needLocation(this);
-            onQueryTextSubmit("geoIP");
         }
     }
 
@@ -111,7 +120,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        final Search.Item i = mAdapter.getItem(pos);
+        final Cities.Item i = mAdapter.getItem(pos);
         switch (i.source) {
             case Calc:
                 Bundle bdl = new Bundle();
@@ -134,7 +143,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public boolean onQueryTextSubmit(final String query) {
-        if (query.contains(";")) {
+        if (query.contains(";") && mAdapter.getCount() <= 1) {
             mAdapter.clear();
             Item item = new Item();
             item.city = "GPS";
@@ -145,32 +154,26 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.add(item);
             mAdapter.notifyDataSetChanged();
         }
-        if (mThread != null && mThread.isAlive()) {
-            mThread.interrupt();
-        }
-        final ProgressDialog dlg = new ProgressDialog(this);
-        dlg.show();
-        mThread = new Thread(new Runnable() {
+        mExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                final List<Search.Item> items = Search.search(query);
-                if (!mThread.isInterrupted()) {
-                    AddCity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                final List<Cities.Item> items = Cities.search(query);
+                AddCity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                            if (items != null && !items.isEmpty()) {
-                                mAdapter.clear();
-                                mAdapter.addAll(items);
-                            }
-                            mAdapter.notifyDataSetChanged();
-                            dlg.dismiss();
+                        if (items != null && !items.isEmpty()) {
+                            mAdapter.clear();
+                            mAdapter.addAll(items);
                         }
-                    });
-                }
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+                });
+
             }
         });
-        mThread.start();
+
         return true;
     }
 
@@ -186,7 +189,27 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         return true;
     }
 
-    class MyAdapter extends ArrayAdapter<Search.Item> {
+    @Override
+    public void onLocationChanged(Location loc) {
+        onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    class MyAdapter extends ArrayAdapter<Cities.Item> {
 
         public MyAdapter(Context context) {
             super(context, 0, 0);
@@ -223,7 +246,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             } else {
                 vh = (ViewHolder) convertView.getTag();
             }
-            Search.Item i = getItem(position);
+            Cities.Item i = getItem(position);
             vh.city.setText(i.city);
             vh.country.setText(i.country);
 
