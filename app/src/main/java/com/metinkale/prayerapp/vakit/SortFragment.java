@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -20,7 +18,7 @@ import com.mobeta.android.dslv.DragSortListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortFragment extends Fragment implements DragSortListView.DropListener {
+public class SortFragment extends Fragment implements DragSortListView.DropListener, MainHelper.MainHelperListener {
 
     private MyAdapter mAdapter;
     private Main act;
@@ -35,10 +33,21 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
 
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(act.mAdapter);
-
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainHelper.addListener(this);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainHelper.removeListener(this);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -112,7 +121,7 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
 
                 @Override
                 public void onClick(View arg0) {
-                    act.mAdapter.remove(position + 1);
+                    act.mAdapter.remove(position );
                 }
             });
 

@@ -1,7 +1,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.preference.PreferenceManager;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
@@ -253,7 +252,7 @@ public class TimesBase extends MainHelper._TimesBase {
     }
 
     public enum Source {
-        Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.diyanet), Fazilet("Fazilet Takvimi", R.drawable.fazilet), IGMG("IGMG", R.drawable.igmg), NVC("NamazVakti.com", R.drawable.namazvakticom);
+        Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.diyanet), Fazilet("Fazilet Takvimi", R.drawable.fazilet), IGMG("IGMG", R.drawable.igmg),Semerkand("Semerkand",R.drawable.semerkand), NVC("NamazVakti.com", R.drawable.namazvakticom);
 
         public int resId;
         public String text;

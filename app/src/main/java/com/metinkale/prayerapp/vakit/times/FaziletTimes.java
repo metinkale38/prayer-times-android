@@ -20,10 +20,10 @@ public class FaziletTimes extends WebTimes {
 
     @Override
     protected boolean syncTimes() throws Exception {
-        String path = getId().replace("nix", "-1");
-        String a[] = path.split("_");
+        String a[] = getId().split("_");
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
+        int city = Integer.parseInt(a[3]);
 
         List<String> ay = new ArrayList<String>();
         ay.add("Ocak");
@@ -48,6 +48,7 @@ public class FaziletTimes extends WebTimes {
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("ulke_id", country);
         params.put("sehir_id", state);
+        params.put("ilce_id", city);
         params.put("baslangic_tarihi", Y + "-" + az(M) + "-01");
         params.put("bitis_tarihi", (Y + 5) + "-12-31");
 
@@ -87,8 +88,6 @@ public class FaziletTimes extends WebTimes {
                 int y = Integer.parseInt(dd[2]);
                 String times[] = new String[6];
 
-                reader.readLine();//0
-                reader.readLine();//1
                 times[0] = extractLine(reader.readLine());//2
                 reader.readLine();//3
                 times[1] = extractLine(reader.readLine());//4

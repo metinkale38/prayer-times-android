@@ -20,10 +20,11 @@ import java.util.Locale;
 public class Cities extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "cities.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public Cities(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        setForcedUpgrade(DATABASE_VERSION);
     }
 
     public static List<String> list(String source, String country, String state, String city) {
@@ -45,6 +46,7 @@ public class Cities extends SQLiteAssetHelper {
                 resp.add("Diyanet");
                 resp.add("IGMG");
                 resp.add("Fazilet");
+                resp.add("Semerkand");
                 return resp;
             } else if (country == null) {
                 Cursor c = db.query(source, new String[]{"COUNTRY"}, null, null, "COUNTRY", null, "COUNTRY");
@@ -75,7 +77,7 @@ public class Cities extends SQLiteAssetHelper {
                         if (source.equals("IGMG"))
                             resp.add(c.getString(c.getColumnIndex("state")) + ",I_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "," + c.getDouble(c.getColumnIndex("lat")) + "," + c.getDouble(c.getColumnIndex("lng")));
                         else if (source.equals("FAZILET"))
-                            resp.add(c.getString(c.getColumnIndex("city")) + ",F_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("cityId")) + "," + c.getDouble(c.getColumnIndex("lat")) + "," + c.getDouble(c.getColumnIndex("lng")));
+                            resp.add(c.getString(c.getColumnIndex("city")) + ",F_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId  ")) + "_" + c.getString(c.getColumnIndex("cityId")) + "," + c.getDouble(c.getColumnIndex("lat")) + "," + c.getDouble(c.getColumnIndex("lng")));
                         else if (c.getColumnIndex("countryId") == -1)
                             resp.add(c.getString(c.getColumnIndex("state")));
                         else
@@ -138,7 +140,7 @@ public class Cities extends SQLiteAssetHelper {
 
     private static List<Item> search2(double lat, double lng, String country, String city, String q) throws SQLException, IOException {
 
-        String[] sources = new String[]{"Diyanet", "IGMG", "Fazilet", "NVC"};
+        String[] sources = new String[]{"Diyanet", "IGMG", "Fazilet", "NVC", "Semerkand"};
 
         List<Item> items = new ArrayList<Item>();
         Item calc = new Item();
@@ -166,6 +168,8 @@ public class Cities extends SQLiteAssetHelper {
                     table = "DIYANET";
                 } else if (source.equals("IGMG")) {
                     table = "IGMG";
+                } else if (source.equals("Semerkand")) {
+                    table = "SEMERKAND";
                 }
 
                 String query;
@@ -174,7 +178,7 @@ public class Cities extends SQLiteAssetHelper {
                 if (source.equals("NVC")) {
                     c = db.query(table, null, "name like '%" + q + "%'", null, null, null, "abs(lat - " + lat + ") + abs(lng-" + lng + ")", "1");
                 } else {
-                    boolean diy = source.equals("Diyanet");
+                    boolean diy = source.equals("Diyanet") || source.equals("Semerkand");
                     c = db.query(table, null, "city like '%" + q + "%'" + (diy ? "or state like '%" + q + "%' " : ""), null, null, null, "abs(lat - " + lat + ") + abs(lng-" + lng + ")", "1");
                 }
 
@@ -209,7 +213,7 @@ public class Cities extends SQLiteAssetHelper {
                     item.source = TimesBase.Source.Fazilet;
                     item.country = c.getString(c.getColumnIndex("country"));
                     item.city = c.getString(c.getColumnIndex("city"));
-                    item.id = "F_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("cityId"));
+                    item.id = "F_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_" + c.getString(c.getColumnIndex("cityId"));
                 } else if (source.equals("Diyanet")) {
                     item.source = TimesBase.Source.Diyanet;
                     if (c.getInt(c.getColumnIndex("cityId")) == 0) {
@@ -220,6 +224,18 @@ public class Cities extends SQLiteAssetHelper {
                         item.country = c.getString(c.getColumnIndex("country"));
                         item.city = c.getString(c.getColumnIndex("city"));
                         item.id = "D_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_" + c.getString(c.getColumnIndex("cityId"));
+
+                    }
+                } else if (source.equals("Semerkand")) {
+                    item.source = TimesBase.Source.Semerkand;
+                    if (c.getInt(c.getColumnIndex("cityId")) == 0) {
+                        item.country = c.getString(c.getColumnIndex("country"));
+                        item.city = c.getString(c.getColumnIndex("state"));
+                        item.id = "S_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_0";
+                    } else {
+                        item.country = c.getString(c.getColumnIndex("country"));
+                        item.city = c.getString(c.getColumnIndex("city"));
+                        item.id = "S_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_" + c.getString(c.getColumnIndex("cityId"));
 
                     }
                 }

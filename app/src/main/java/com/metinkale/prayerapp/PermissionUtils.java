@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -48,22 +47,21 @@ public class PermissionUtils {
     public void needCamera(final Activity act) {
         if (!pCamera) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                    Manifest.permission.CAMERA)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-                builder.setTitle(R.string.permission_camera_title)
-                        .setMessage(R.string.permission_camera_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(act,
-                                new String[]{Manifest.permission.CAMERA},
-                                REQUEST_CAMERA);
-                    }
-                });
+            AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-                builder.show();
-            }
+            builder.setTitle(R.string.permission_camera_title)
+                    .setMessage(R.string.permission_camera_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(act,
+                            new String[]{Manifest.permission.CAMERA},
+                            REQUEST_CAMERA);
+                }
+            });
+
+            builder.show();
+
         }
     }
 
@@ -71,23 +69,21 @@ public class PermissionUtils {
     public void needLocation(final Activity act) {
         if (!pLocation) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(act);
+            AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-                builder.setTitle(R.string.permission_location_title)
-                        .setMessage(R.string.permission_location_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(act,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                REQUEST_LOCATION);
-                    }
-                });
+            builder.setTitle(R.string.permission_location_title)
+                    .setMessage(R.string.permission_location_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(act,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_LOCATION);
+                }
+            });
 
 
-                builder.show();
-            }
+            builder.show();
+
         }
     }
 
@@ -95,47 +91,43 @@ public class PermissionUtils {
     public void needCalendar(final Activity act, boolean force) {
         if (!pCalendar && (!Prefs.getCalendar().equals("-1") || force)) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                    Manifest.permission.WRITE_CALENDAR)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(act);
+            AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-                builder.setTitle(R.string.permission_calendar_title)
-                        .setMessage(R.string.permission_calendar_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(act,
-                                new String[]{Manifest.permission.WRITE_CALENDAR},
-                                REQUEST_CALENDAR);
-                    }
-                });
+            builder.setTitle(R.string.permission_calendar_title)
+                    .setMessage(R.string.permission_calendar_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(act,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            REQUEST_CALENDAR);
+                }
+            });
 
 
-                builder.show();
-            }
+            builder.show();
         }
+
     }
 
 
     public void needStorage(final Activity act) {
         if (!pStorage) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(act);
+            AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-                builder.setTitle(R.string.permission_storage_title)
-                        .setMessage(R.string.permission_storage_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(act,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                REQUEST_STORAGE);
-                    }
-                });
+            builder.setTitle(R.string.permission_storage_title)
+                    .setMessage(R.string.permission_storage_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(act,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_STORAGE);
+                }
+            });
 
 
-                builder.show();
-            }
+            builder.show();
+
         }
     }
 

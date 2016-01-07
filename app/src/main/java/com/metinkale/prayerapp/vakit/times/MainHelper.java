@@ -7,16 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.LruCache;
-
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Metin on 19.06.2015.
@@ -42,26 +36,42 @@ public class MainHelper extends SQLiteOpenHelper {
     private static MainHelper sInstance;
     private SQLiteDatabase mDB;
 
+    private List<Times> mTimes = new ArrayList<Times>();
+    private LruCache<String, Object> cache = new LruCache<String, Object>(500);
+    private List<MainHelperListener> mListeners = new ArrayList<>();
+
     private MainHelper() {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
+
     }
 
-    private LruCache<String, Object> cache = new LruCache<String, Object>(500);
+    public static void addListener(MainHelperListener listener) {
+        get().mListeners.add(listener);
+        listener.notifyDataSetChanged();
+    }
+
+    public static void removeListener(MainHelperListener listener) {
+        get().mListeners.remove(listener);
+    }
 
     static MainHelper get() {
-        if (sInstance == null)
+        if (sInstance == null) {
             sInstance = new MainHelper();
+            sInstance.loadTimes();
+        }
 
         return sInstance;
     }
 
-    public SQLiteDatabase getDB() {
-        if (mDB == null)
-            mDB = getWritableDatabase();
-        return mDB;
+    public static Times getTimesAt(int index) {
+        return get().mTimes.get(index);
     }
 
     public static Times getTimes(long id) {
+        for (Times t : get().mTimes) {
+            if (t.getID() == id)
+                return t;
+        }
 
         try {
             TimesBase.Source source = TimesBase.getSource(id);
@@ -74,6 +84,8 @@ public class MainHelper extends SQLiteOpenHelper {
                     return new IGMGTimes(id);
                 case NVC:
                     return new NVCTimes(id);
+                case Semerkand:
+                    return new SemerkandTimes(id);
                 case Calc:
                     return new CalcTimes(id);
             }
@@ -81,6 +93,49 @@ public class MainHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
         }
         return null;
+    }
+
+    public static List<Times> getTimes() {
+        return get().mTimes;
+    }
+
+    public static List<Long> getIds() {
+        List<Long> ids = new ArrayList<>();
+        List<Times> times = getTimes();
+        for (Times t : times) {
+            ids.add(t.getID());
+        }
+        return ids;
+    }
+
+    public static int getCount() {
+        return get().mTimes.size();
+    }
+
+    public static void drop(int from, int to) {
+
+        List<Long> keys = getIds();
+        Long key = keys.get(from);
+        keys.remove(key);
+        keys.add(to, key);
+        get().getDB().beginTransaction();
+        for (Long i : keys) {
+            getTimes(i).setSortId(keys.indexOf(i));
+        }
+        get().getDB().setTransactionSuccessful();
+        get().getDB().endTransaction();
+        get().loadTimes();
+    }
+
+    private void notifyOnDataSetChanged() {
+        for (MainHelperListener list : mListeners)
+            list.notifyDataSetChanged();
+    }
+
+    public SQLiteDatabase getDB() {
+        if (mDB == null)
+            mDB = getWritableDatabase();
+        return mDB;
     }
 
     @Override
@@ -157,7 +212,7 @@ public class MainHelper extends SQLiteOpenHelper {
                 if (!key.contains("_")) {
                     try {
                         edit.remove(key);
-                        edit.putLong(key, newids.get((Integer) all.get(key)));
+                        edit.putLong(key, newids.get(all.get(key)));
                     } catch (Exception ignore) {
                     }
                 }
@@ -172,78 +227,63 @@ public class MainHelper extends SQLiteOpenHelper {
         mDB = db;
     }
 
-    public static List<Long> getIds() {
+    protected void loadTimes() {
+        List<Long> ids = new ArrayList<>();
+        List<Times> times = new ArrayList<>(mTimes);
+        for (Times t : times) {
+            if (t.isDeleted()) {
+                mTimes.remove(t);
+            } else {
+                ids.add(t.getID());
+            }
+        }
+
         Cursor c = get().getDB().query(CITIES_TABLE, new String[]{_ID}, "key != 'deleted'", null, _ID, null, null);
         c.moveToFirst();
-        List<Long> ids = new ArrayList<>();
         if (!c.isAfterLast()) {
             do {
-                ids.add(c.getLong(0));
+                long id = c.getLong(0);
+                if (!ids.contains(id)) mTimes.add(MainHelper.getTimes(id));
             } while (c.moveToNext());
         }
         c.close();
 
-        Collections.sort(ids, new Comparator<Long>() {
+        Collections.sort(mTimes, new Comparator<Times>() {
             @Override
-            public int compare(Long l1, Long l2) {
+            public int compare(Times t1, Times t2) {
                 try {
-                    return getTimes(l1).getSortId() - getTimes(l2).getSortId();
+                    return t1.getSortId() - t2.getSortId();
                 } catch (RuntimeException e) {
                     return 0;
                 }
             }
         });
-        return ids;
+
+        notifyOnDataSetChanged();
     }
 
 
-    public static int getCount() {
-        Cursor c = get().getDB().query(CITIES_TABLE, new String[]{"count(DISTINCT " + _ID + ")"}, "key != 'deleted'", null, null, null, null);
-        try {
-            c.moveToFirst();
-            if (!c.isAfterLast()) {
-                return c.getInt(0);
-            }
-        } finally {
-            c.close();
-        }
-        return 0;
+    public interface MainHelperListener {
+        void notifyDataSetChanged();
     }
-
-
-    public static void drop(int from, int to) {
-
-        List<Long> keys = getIds();
-        Long key = keys.get(from);
-        keys.remove(key);
-        keys.add(to, key);
-        get().getDB().beginTransaction();
-        for (Long i : keys) {
-            getTimes(i).setSortId(keys.indexOf(i));
-        }
-        get().getDB().setTransactionSuccessful();
-        get().getDB().endTransaction();
-    }
-
 
     protected class _TimesBase {
         private long id;
         private boolean deleted = false;
 
-        _TimesBase(long id) {
+        public _TimesBase(long id) {
             this.id = id;
             if (id == 0) throw new RuntimeException("can't create _TimesBase with i=0");
             if (is("deleted"))
                 throw new RuntimeException("can't create TimesBase with deleted id(" + id + ")");
         }
 
-        private void checkDeleted() {
-            if (deleted)
-                throw new RuntimeException(" _TimesBase; id " + id + " has been deleted, you can't use it");
+        boolean isDeleted() {
+            return deleted || is("deleted");
         }
 
         public void setTimes(int d, int m, int y, String[] time) {
-            checkDeleted();
+            if (deleted) return;
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_DATE, y + "-" + Utils.az(m) + "-" + Utils.az(d));
@@ -255,7 +295,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         String _getTime(int d, int m, int y, int time) {
-            checkDeleted();
+            if (deleted) return null;
             String date = y + "-" + Utils.az(m) + "-" + Utils.az(d);
 
             Object cached = cache.get(id + date + time);
@@ -278,23 +318,24 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public void delete() {
-            checkDeleted();
+            if (deleted) return;
             getDB().delete(CITIES_TABLE, _ID + " = " + id, null);
             getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
             set("deleted", true);
             deleted = true;
             id = 0;
+            loadTimes();
         }
 
 
         public final long getID() {
-            checkDeleted();
+            if (deleted) return 0;
             return id;
         }
 
 
         public void set(String key, String value) {
-            checkDeleted();
+            if (deleted) return;
             cache.put(id + key, value);
             ContentValues values = new ContentValues();
             values.put(_ID, id);
@@ -306,7 +347,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
         public void set(String key, int value) {
-            checkDeleted();
+            if (deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -324,7 +365,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
         public void set(String key, double value) {
-            checkDeleted();
+            if (deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -337,7 +378,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
         public void set(String key, long value) {
-            checkDeleted();
+            if (deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -350,7 +391,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
         public void set(String key, byte[] value) {
-            checkDeleted();
+            if (deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -366,7 +407,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public long getLong(String key, long def) {
-            checkDeleted();
+            if (deleted) return def;
             Object cached = cache.get(id + key);
             if (cached instanceof Long) return (Long) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
@@ -389,7 +430,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public double getDouble(String key, double def) {
-            checkDeleted();
+            if (deleted) return def;
             Object cached = cache.get(id + key);
             if (cached instanceof Double) return (Double) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
@@ -412,7 +453,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public String getString(String key, String def) {
-            checkDeleted();
+            if (deleted) return def;
             Object cached = cache.get(id + key);
             if (cached instanceof String) return (String) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
@@ -439,7 +480,8 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public int getInt(String key, int def) {
-            checkDeleted();
+            if (!key.equals("deleted"))
+                if (deleted) return def;
             Object cached = cache.get(id + key);
             if (cached instanceof Integer) return (Integer) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);

@@ -1,11 +1,13 @@
 package com.metinkale.prayerapp.vakit.times;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DiyanetTimes extends WebTimes {
 
@@ -47,7 +49,7 @@ public class DiyanetTimes extends WebTimes {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+        conn.setRequestProperty("Content-Size", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
         OutputStream writer = conn.getOutputStream();
         writer.write(postDataBytes);
@@ -66,7 +68,7 @@ public class DiyanetTimes extends WebTimes {
                     d = Integer.parseInt(s[0]);
                     m = Integer.parseInt(s[1]);
                     y = Integer.parseInt(s[2]);
-                } else {
+                } else if (i <= 5) {
                     times[i] = line;
 
                     if (i == 5)

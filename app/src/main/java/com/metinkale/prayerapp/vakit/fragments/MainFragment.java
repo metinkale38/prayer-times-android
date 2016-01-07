@@ -6,16 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Date;
@@ -45,6 +38,7 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
 
+            if(mTimes.deleted())return;
             if (mTimes != null) {
                 if (!mHasTimes) {
                     update();
@@ -97,11 +91,9 @@ public class MainFragment extends Fragment {
 
         mKerahat = (TextView) mView.findViewById(R.id.kerahat);
 
-        try {
-            mTimes = MainHelper.getTimes(mCity);
-        } catch (Exception e) {
-            return new View(getActivity());
-        }
+        mTimes = MainHelper.getTimes(mCity);
+
+        if (mTimes == null) return new View(getActivity());
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
         ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
         if (mTimes.getSource().resId != 0) {

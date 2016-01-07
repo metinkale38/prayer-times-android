@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
@@ -28,9 +27,6 @@ import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {
 
@@ -70,7 +66,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mPaneView = (MyPaneView) findViewById(R.id.pane);
         mAdapter = new MyAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
-        mPaneView.setEnabled(true);
+
 
         String holyday = Date.isHolyday();
         if (holyday != null) {
@@ -79,9 +75,8 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             tv.setText(holyday);
         }
 
-
-        mAdapter.notifyDataSetChanged();
         mPager.setCurrentItem(mStartPos);
+        mPaneView.setEnabled(mStartPos != 0);
         mPager.setOnPageChangeListener(this);
 
         mSettingsFrag = (SettingsFragment) getFragmentManager().findFragmentByTag("settings");
@@ -124,8 +119,8 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.notifyDataSetChanged();
         isRunning = true;
+        MainHelper.addListener(mAdapter);
 
 
     }
@@ -133,6 +128,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void onPause() {
         super.onPause();
         isRunning = false;
+        MainHelper.removeListener(mAdapter);
 
     }
 
@@ -163,26 +159,19 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
     }
 
-    public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener {
-        private List<Long> ids = new ArrayList<Long>();
+    public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener, MainHelper.MainHelperListener {
 
         public MyAdapter(FragmentManager fm) {
             super(fm);
-            notifyDataSetChanged();
-        }
 
+        }
 
         public void drop(int from, int to) {
             MainHelper.drop(from, to);
-            notifyDataSetChanged();
         }
 
         public void remove(final int which) {
-            if (ids.size() <= which) {
-                return;
-            }
-            long id = ids.get(which);
-            final Times times = MainHelper.getTimes(id);
+            final Times times = MainHelper.getTimesAt(which);
 
             AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
             dialog.setTitle(R.string.delete);
@@ -191,16 +180,13 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int buttonId) {
-
                     times.delete();
-                    notifyDataSetChanged();
                 }
             });
             dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int buttonId) {
                     dialog.cancel();
-                    notifyDataSetChanged();
                 }
             });
             dialog.setIcon(R.drawable.ic_delete);
@@ -210,30 +196,16 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         @Override
-        public void notifyDataSetChanged() {
-            ids.clear();
-            ids.addAll(MainHelper.getIds());
-            ids.add(0, 0L);
-            super.notifyDataSetChanged();
-
-            List<Fragment> frags = getSupportFragmentManager().getFragments();
-            if (frags != null)
-                for (Fragment frag : frags) {
-                    if (frag instanceof SortFragment) {
-                        ((SortFragment) frag).notifyDataSetChanged();
-                    }
-                }
-        }
-
-        @Override
 
         public int getCount() {
-            return ids.size();
+            return MainHelper.getCount() + 1;
         }
 
         @Override
         public long getItemId(int position) {
-            return ids.get(position);
+            if (position == 0) return 0;
+
+            return MainHelper.getTimesAt(position - 1).getID();
         }
 
         @Override
@@ -241,7 +213,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             if (position > 0) {
                 MainFragment frag = new MainFragment();
                 Bundle bdl = new Bundle();
-                bdl.putLong("city", ids.get(position));
+                bdl.putLong("city", getItemId(position));
                 frag.setArguments(bdl);
 
                 if (position == mStartPos) {

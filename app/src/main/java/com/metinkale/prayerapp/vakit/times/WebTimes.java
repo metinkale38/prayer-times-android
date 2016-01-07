@@ -8,19 +8,9 @@ import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.PowerManager;
-
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -38,9 +28,17 @@ public class WebTimes extends Times {
 
     WebTimes(long id) {
         super(id);
+
         mContext = App.getContext();
 
 
+    }
+
+    @Override
+    public void delete() {
+        super.delete();
+        mHandler.removeCallbacks(mCheckSync);
+        if (mThread != null && mThread.isAlive()) mThread.interrupt();
     }
 
     @Override
@@ -67,6 +65,7 @@ public class WebTimes extends Times {
         try {
             ret = syncTimes();
         } catch (Exception e) {
+            e.printStackTrace();
             ret = false;
         }
         mSyncing = false;
@@ -191,6 +190,8 @@ public class WebTimes extends Times {
         t.setId(id);
         if (source == Source.IGMG)
             t.set("fixedIGMG", true);
+        MainHelper.get().loadTimes();
+
     }
 
 
