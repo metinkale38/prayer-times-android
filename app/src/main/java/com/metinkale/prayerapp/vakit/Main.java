@@ -196,7 +196,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         @Override
-
         public int getCount() {
             return MainHelper.getCount() + 1;
         }
@@ -207,6 +206,19 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
             return MainHelper.getTimesAt(position - 1).getID();
         }
+
+        @Override
+        public int getItemPosition(Object object) {
+            if(object instanceof SortFragment){
+                return 0;
+            }else{
+                MainFragment frag=(MainFragment)object;
+                int pos= MainHelper.getTimes().indexOf(frag.getTimes());
+                if(pos>=0)return pos+1;
+            }
+            return POSITION_NONE;
+        }
+
 
         @Override
         public Fragment getItem(int position) {

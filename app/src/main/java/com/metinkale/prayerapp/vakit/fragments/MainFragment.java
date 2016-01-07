@@ -147,6 +147,8 @@ public class MainFragment extends Fragment {
 
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.vakit, menu);
@@ -192,7 +194,7 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    protected Times getTimes() {
+    public Times getTimes() {
         return mTimes;
     }
 
