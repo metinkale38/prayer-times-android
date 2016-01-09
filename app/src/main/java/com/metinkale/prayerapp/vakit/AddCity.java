@@ -99,7 +99,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             criteria.setBearingRequired(false);
             criteria.setCostAllowed(false);
             criteria.setSpeedRequired(false);
-            lm.requestSingleUpdate(criteria, this, null);
+            lm.requestSingleUpdate( lm.getBestProvider(criteria,true), this, null);
 
         } else {
             PermissionUtils.get(this).needLocation(this);
@@ -132,6 +132,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             case NVC:
             case Diyanet:
             case Fazilet:
+            case Semerkand:
             case IGMG:
                 WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
                 finish();

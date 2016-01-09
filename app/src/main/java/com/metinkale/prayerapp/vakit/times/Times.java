@@ -1,17 +1,12 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.os.Bundle;
-
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 public abstract class Times extends TimesBase {
 
@@ -26,7 +21,7 @@ public abstract class Times extends TimesBase {
         List<Long> ids = MainHelper.get().getIds();
         for (long id : ids) {
             Times t = MainHelper.getTimes(id);
-            if(t!=null)continue;
+            if (t == null) continue;
             alarms.addAll(t.getAlarms());
         }
         return alarms;
@@ -54,7 +49,7 @@ public abstract class Times extends TimesBase {
                         if (vakit != 0)
                             vakit--;
 
-                        long mills = getTimeCal(cal,vakit).getTimeInMillis();
+                        long mills = getTimeCal(cal, vakit).getTimeInMillis();
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -73,9 +68,9 @@ public abstract class Times extends TimesBase {
                     } else {
                         long mills;
                         if (isAfterImsak())
-                            mills = getTimeCal(cal,0).getTimeInMillis() + getSabahTime() * 60 * 1000;
+                            mills = getTimeCal(cal, 0).getTimeInMillis() + getSabahTime() * 60 * 1000;
                         else
-                            mills = getTimeCal(cal,1).getTimeInMillis() - getSabahTime() * 60 * 1000;
+                            mills = getTimeCal(cal, 1).getTimeInMillis() - getSabahTime() * 60 * 1000;
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -99,7 +94,7 @@ public abstract class Times extends TimesBase {
                             vakit--;
 
                         int early = getEarlyTime(v);
-                        long mills =getTimeCal(cal,vakit).getTimeInMillis() - early * 60 * 1000;
+                        long mills = getTimeCal(cal, vakit).getTimeInMillis() - early * 60 * 1000;
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -125,7 +120,7 @@ public abstract class Times extends TimesBase {
                 c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                 if (c.getTimeInMillis() < System.currentTimeMillis())
                     c.add(Calendar.WEEK_OF_YEAR, 1);
-                long mills = getTimeCal(c,2).getTimeInMillis();
+                long mills = getTimeCal(c, 2).getTimeInMillis();
                 mills -= early * 60 * 1000;
                 if (System.currentTimeMillis() < mills) {
                     Alarm a = new Alarm();
@@ -166,13 +161,13 @@ public abstract class Times extends TimesBase {
             m = cal.get(Calendar.MONTH) + 1;
             y = cal.get(Calendar.YEAR);
         }
-        String[] t=getTime(d,m,y,time).split(":");
-        cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(t[0]));
-        cal.set(Calendar.MINUTE,Integer.parseInt(t[1]));
-        cal.set(Calendar.SECOND,0);
-        cal.set(Calendar.MILLISECOND,0);
+        String[] t = getTime(d, m, y, time).split(":");
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(t[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(t[1]));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-        if(time>=3&&cal.get(Calendar.HOUR_OF_DAY)<5)
+        if (time >= 3 && cal.get(Calendar.HOUR_OF_DAY) < 5)
             cal.add(Calendar.DATE, 1);
         return cal;
     }
@@ -305,13 +300,13 @@ public abstract class Times extends TimesBase {
             t.add(Calendar.DAY_OF_YEAR, -1);
             which = 5;
         }
-        return getTimeCal(t,which).getTimeInMillis();
+        return getTimeCal(t, which).getTimeInMillis();
     }
 
     public int getNext() {
-        long mills=System.currentTimeMillis();
-        for(int i=0;i<6;i++){
-            if(mills<getMills(i))
+        long mills = System.currentTimeMillis();
+        for (int i = 0; i < 6; i++) {
+            if (mills < getMills(i))
                 return i;
         }
 

@@ -26,7 +26,7 @@ public class App extends Application {
 
     public static void e(Exception e) {
         e.printStackTrace();
-
+        Crashlytics.logException(e);
     }
 
     public static void setContext(Context context) {

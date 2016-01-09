@@ -19,7 +19,7 @@ public class SemerkandTimes extends WebTimes {
 
     @Override
     public Source getSource() {
-        return Source.IGMG;
+        return Source.Semerkand;
     }
 
     @Override

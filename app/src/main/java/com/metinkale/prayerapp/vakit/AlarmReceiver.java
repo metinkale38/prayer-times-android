@@ -1,10 +1,6 @@
 package com.metinkale.prayerapp.vakit;
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
@@ -125,8 +120,7 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (IOException e) {
-
-             App.e(e);
+            App.e(e);
         }
 
         return null;
@@ -223,14 +217,17 @@ public class AlarmReceiver extends IntentService {
 
         int volume = -2;
 
-        MediaPlayer mp = null;
+        class MPHolder {
+            MediaPlayer mp = null;
+        }
+        final MPHolder mp = new MPHolder();
         if (next.sound != null && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
 
             if (next.sound.contains("$volume")) {
                 volume = Integer.parseInt(next.sound.substring(next.sound.indexOf("$volume") + 7));
                 next.sound = next.sound.substring(0, next.sound.indexOf("$volume"));
             }
-            if (volume !=-2) {
+            if (volume != -2) {
                 int oldvalue = am.getStreamVolume(getStreamType(c));
                 am.setStreamVolume(getStreamType(c), volume, 0);
                 volume = oldvalue;
@@ -245,23 +242,25 @@ public class AlarmReceiver extends IntentService {
                 c.startActivity(i);
             }
 
-            mp = play(c, next);
+            mp.mp = play(c, next);
 
-            if (mp != null) {
+            if (mp.mp != null) {
 
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        mp.stop();
-                        mp.release();
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mp.mp.stop();
+                        mp.mp.release();
+                        mp.mp = null;
                     }
                 });
 
-                mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                     @Override
-                    public void onSeekComplete(MediaPlayer mp) {
-                        mp.stop();
-                        mp.release();
+                    public void onSeekComplete(MediaPlayer mediaPlayer) {
+                        mp.mp.stop();
+                        mp.mp.release();
+                        mp.mp = null;
                         Log.e("", "scompleted");
                     }
                 });
@@ -273,10 +272,11 @@ public class AlarmReceiver extends IntentService {
         nm.notify(next.city + "", NotIds.ALARM, not);
 
         sInterrupt = false;
-        while (mp != null && mp.isPlaying()) {
+        while (mp.mp != null && mp.mp.isPlaying()) {
             if (sInterrupt) {
-                mp.stop();
-                mp.release();
+                mp.mp.stop();
+                mp.mp.release();
+                mp.mp = null;
             }
         }
 
