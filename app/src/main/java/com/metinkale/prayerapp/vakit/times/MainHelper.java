@@ -103,7 +103,8 @@ public class MainHelper extends SQLiteOpenHelper {
         List<Long> ids = new ArrayList<>();
         List<Times> times = getTimes();
         for (Times t : times) {
-            ids.add(t.getID());
+            if (t != null)
+                ids.add(t.getID());
         }
         return ids;
     }
@@ -243,7 +244,11 @@ public class MainHelper extends SQLiteOpenHelper {
         if (!c.isAfterLast()) {
             do {
                 long id = c.getLong(0);
-                if (!ids.contains(id)) mTimes.add(MainHelper.getTimes(id));
+                if (!ids.contains(id)) {
+                    Times t = MainHelper.getTimes(id);
+                    if (t != null)
+                        mTimes.add(t);
+                }
             } while (c.moveToNext());
         }
         c.close();
@@ -327,6 +332,9 @@ public class MainHelper extends SQLiteOpenHelper {
             loadTimes();
         }
 
+        public void clearTimes() {
+            getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
+        }
 
         public final long getID() {
             if (deleted) return 0;

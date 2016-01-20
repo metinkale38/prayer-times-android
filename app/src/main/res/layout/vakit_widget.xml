@@ -8,6 +8,6 @@
         android:id="@+id/widget"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/ic_launcher" />
+        android:src="@mipmap/ic_launcher" />
 
 </RelativeLayout>

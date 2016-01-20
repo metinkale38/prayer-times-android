@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -42,6 +43,12 @@ public class PermissionUtils {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(act,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        Crashlytics.setBool("pCalendar",pCalendar);
+        Crashlytics.setBool("pCamera",pCamera);
+        Crashlytics.setBool("pStorage",pStorage);
+        Crashlytics.setBool("pLocation",pLocation);
+
     }
 
     public void needCamera(final Activity act) {

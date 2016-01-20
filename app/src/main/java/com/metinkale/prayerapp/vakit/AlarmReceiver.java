@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
@@ -60,8 +61,9 @@ public class AlarmReceiver extends IntentService {
     }
 
     public static MediaPlayer play(Context c, Alarm alarm) {
+        Uri uri = null;
         try {
-            Uri uri = null;
+
             String path = null;
             switch (alarm.sound) {
                 case "ezan":
@@ -120,7 +122,8 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (IOException e) {
-            App.e(e);
+            Crashlytics.setString("data", uri.toString());
+            Crashlytics.logException(e);
         }
 
         return null;

@@ -1,6 +1,5 @@
 package com.metinkale.prayerapp.vakit;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -15,13 +14,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.PermissionUtils;
@@ -99,7 +93,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             criteria.setBearingRequired(false);
             criteria.setCostAllowed(false);
             criteria.setSpeedRequired(false);
-            lm.requestSingleUpdate( lm.getBestProvider(criteria,true), this, null);
+            String provider = lm.getBestProvider(criteria, true);
+            if (provider != null)
+                lm.requestSingleUpdate(provider, this, null);
 
         } else {
             PermissionUtils.get(this).needLocation(this);

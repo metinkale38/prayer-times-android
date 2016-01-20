@@ -13,18 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -60,8 +55,31 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
+            int id = R.mipmap.ic_launcher;
+            switch (mNavPos) {
+                case 1: {
+                    id = R.mipmap.ic_compass;
+                    break;
+                }
+                case 2: {
+                    id = R.mipmap.ic_names;
+                    break;
+                }
+                case 3: {
+                    id = R.mipmap.ic_calendar;
+                    break;
+                }
+                case 7:
+                case 4: {
+                    id = R.mipmap.ic_tesbihat;
+                    break;
+                }
+            }
+
             Intent.ShortcutIconResource icon =
-                    Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);
+                    Intent.ShortcutIconResource.fromContext(this, id);
+
+
             Intent intent = new Intent();
             Intent launchIntent = new Intent(this, this.getClass());
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

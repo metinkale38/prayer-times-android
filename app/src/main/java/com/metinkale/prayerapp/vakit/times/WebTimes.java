@@ -13,7 +13,6 @@ import com.metinkale.prayerapp.vakit.Main;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class WebTimes extends Times {
     private static final String _ID = "id";
@@ -47,15 +46,19 @@ public class WebTimes extends Times {
             return;
 
         if (Thread.currentThread() != mThread) {
-            mThread = new Thread() {
+            Thread t = new Thread() {
                 @Override
                 public void run() {
                     refresh();
+
+                    if(mThread==this)
+                        mThread=null;
                 }
             };
+            if (t.getState() == Thread.State.NEW)
+                t.start();
 
-            if (!mThread.isAlive())
-                mThread.start();
+            mThread = t;
             return;
         }
 
@@ -69,28 +72,12 @@ public class WebTimes extends Times {
             ret = false;
         }
         mSyncing = false;
-        if (!ret && getSource() == Source.IGMG && fixIGMG()) {
-            refresh();
-        }
 
 
         setLastSync(System.currentTimeMillis());
 
     }
 
-    private boolean fixIGMG() {
-        if (is("fixedIGMG")) return false;
-        List<Cities.Item> resp = Cities.search(getName());
-        for (Cities.Item i : resp) {
-            if (i.source == Source.IGMG) {
-                setId(i.id);
-                set("fixedIGMG", true);
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     String getId() {
         return getString(_ID);

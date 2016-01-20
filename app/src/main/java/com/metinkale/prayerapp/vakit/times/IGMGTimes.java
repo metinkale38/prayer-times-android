@@ -1,18 +1,18 @@
 package com.metinkale.prayerapp.vakit.times;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
 
 public class IGMGTimes extends WebTimes {
 
     IGMGTimes(long id) {
         super(id);
+        fixIGMG();
     }
 
     @Override
@@ -70,5 +70,25 @@ public class IGMGTimes extends WebTimes {
     }
 
 
+    private void fixIGMG() {
+        String oid = getId();
+        if (oid.split("_").length == 4) return;
+        try {
+            List<Cities.Item> resp = Cities.search2(0, 0, null, null, getName());
+            if (resp != null)
+                for (Cities.Item i : resp) {
+                    if (i.source == Source.IGMG) {
+                        setId(i.id);
+                        if (!i.id.startsWith(oid))
+                            clearTimes();
+                        return;
+                    }
+                }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

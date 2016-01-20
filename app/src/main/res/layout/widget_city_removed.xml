@@ -1,3 +1,3 @@
 <ImageView android:id="@+id/image" xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_height="wrap_content"
-    android:layout_width="wrap_content" android:src="@drawable/ic_launcher"></ImageView>
+    android:layout_width="wrap_content" android:src="@mipmap/ic_launcher"></ImageView>
