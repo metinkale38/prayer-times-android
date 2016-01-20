@@ -193,8 +193,13 @@
                 android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
                 android:name="com.metinkale.prayerapp.zikr.Main"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver"/>
         <service android:name="com.metinkale.prayerapp.MainIntentService"/>
         <service
