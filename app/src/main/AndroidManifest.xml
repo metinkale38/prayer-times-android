@@ -192,6 +192,7 @@
                 android:name="com.metinkale.prayerapp.compass.LocationPicker"
                 android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
+                android:logo="@mipmap/ic_zikr"
                 android:name="com.metinkale.prayerapp.zikr.Main"
                 android:screenOrientation="portrait">
             <intent-filter>

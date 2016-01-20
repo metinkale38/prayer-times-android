@@ -69,9 +69,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                     id = R.mipmap.ic_calendar;
                     break;
                 }
-                case 7:
                 case 4: {
                     id = R.mipmap.ic_tesbihat;
+                    break;
+                }
+                case 7: {
+                    id = R.mipmap.ic_zikr;
                     break;
                 }
             }
