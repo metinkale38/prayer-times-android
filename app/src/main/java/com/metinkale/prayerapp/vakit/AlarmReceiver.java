@@ -213,9 +213,6 @@ public class AlarmReceiver extends IntentService {
             not.vibrate = new long[]{0, 300, 150, 300, 150, 500};
         }
 
-        if (next.silenter != 0) {
-            silenter(c, next.silenter);
-        }
         AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
 
         int volume = -2;
@@ -303,6 +300,11 @@ public class AlarmReceiver extends IntentService {
             am.setStreamVolume(getStreamType(c), volume, 0);
 
         }
+
+        if (next.silenter != 0) {
+            silenter(c, next.silenter);
+        }
+
 
         wakeLock.release();
     }

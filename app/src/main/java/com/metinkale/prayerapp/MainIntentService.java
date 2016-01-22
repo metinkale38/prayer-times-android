@@ -16,11 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.util.Log;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.NotificationPopup;
 import com.metinkale.prayerapp.vakit.NotificationPrefs;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -185,7 +182,7 @@ public class MainIntentService extends IntentService {
         String file = Prefs.getLanguage() + "/hadis.db";
         File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
-        String url = App.API_URL + "/files/" + file;
+        String url = App.API_URL + "/hadis." + Prefs.getLanguage() + ".db";
         downloadFile(url, f, getString(R.string.hadis));
         if (callback != null) callback.run();
     }
