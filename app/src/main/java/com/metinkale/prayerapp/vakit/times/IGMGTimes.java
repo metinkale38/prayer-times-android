@@ -72,15 +72,19 @@ public class IGMGTimes extends WebTimes {
 
     private void fixIGMG() {
         String oid = getId();
-        if (oid.split("_").length == 4) return;
+        if (oid.split("_").length == 4 && !oid.equals("I_1_nix_0")) return;
         try {
-            List<Cities.Item> resp = Cities.search2(0, 0, null, null, getName());
+            List<Cities.Item> resp = null;
+            if (getLat() != 0)
+                resp = Cities.search2(getLat(), getLng(), null, getName().trim(), getName().trim());
+            else resp = Cities.search(getName().trim());
             if (resp != null)
                 for (Cities.Item i : resp) {
                     if (i.source == Source.IGMG) {
                         setId(i.id);
                         if (!i.id.startsWith(oid))
                             clearTimes();
+                        setLastSync(0);
                         return;
                     }
                 }
