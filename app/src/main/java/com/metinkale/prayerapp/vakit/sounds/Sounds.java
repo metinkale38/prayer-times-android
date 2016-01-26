@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import com.metinkale.prayerapp.App;
@@ -156,7 +157,20 @@ public class Sounds {
         }
 
         public File getFile() {
-            return new File(url.replace(App.API_URL + "/sounds/", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
+            File old = new File(url.replace(App.API_URL + "/sounds/", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
+            if (old.exists()) return old;
+
+            File def = new File(url.replace(App.API_URL + "/sounds", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
+            if (def.exists()) return def;
+
+            File nosd = new File(url.replace(App.API_URL + "/sounds", App.getContext().getFilesDir().getAbsolutePath()));
+            if (nosd.exists()) return nosd;
+
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                return def;
+            } else {
+                return nosd;
+            }
         }
 
         public boolean needsRedownload(List<Times.Alarm> alarms) {

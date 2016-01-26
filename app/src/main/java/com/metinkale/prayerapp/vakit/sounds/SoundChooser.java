@@ -7,12 +7,14 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,10 +199,25 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         }
     }
 
+    public static String getRingtonePathFromContentUri(Context context,
+                                                       Uri contentUri) {
+        String[] proj = { MediaStore.Audio.Media.DATA };
+        Cursor ringtoneCursor = context.getContentResolver().query(contentUri,
+                proj, null, null, null);
+        ringtoneCursor.moveToFirst();
+
+        String path = ringtoneCursor.getString(ringtoneCursor
+                .getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+
+        ringtoneCursor.close();
+        return path;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            uri=Uri.parse(getRingtonePathFromContentUri(getContext(),uri));
             try {
                 MediaPlayer mp = new MediaPlayer();
                 mp.setDataSource(getActivity(), uri);

@@ -17,6 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
@@ -26,6 +27,7 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AlarmReceiver extends IntentService {
@@ -106,6 +108,8 @@ public class AlarmReceiver extends IntentService {
                     break;
             }
             if (path != null) {
+                Crashlytics.setString("sound",path);
+                Crashlytics.getInstance().answers.logCustom( new CustomEvent("oldsound"));
                 File file = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), path);
                 if (!file.exists())
                     return null;
@@ -114,14 +118,14 @@ public class AlarmReceiver extends IntentService {
 
             MediaPlayer mp = new MediaPlayer();
             mp.setLooping(false);
-            mp.setDataSource(c, uri);
+            mp.setDataSource(c,uri);
             mp.setAudioStreamType(getStreamType(c));
 
             mp.prepare();
             mp.start();
 
             return mp;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Crashlytics.setString("data", uri.toString());
             Crashlytics.logException(e);
         }
