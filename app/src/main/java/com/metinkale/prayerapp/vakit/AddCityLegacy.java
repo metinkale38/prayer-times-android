@@ -10,11 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.times.Cities;
-import com.metinkale.prayerapp.vakit.times.Cities.Item;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
@@ -65,7 +63,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     }
 
-    public void get(final String source, final String country, final String state, final String city) {
+    public void get(String source, String country, String state, String city) {
 
         List<String> resp = Cities.list(source, country, state, city);
         if (!resp.isEmpty()) {
@@ -76,6 +74,9 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
             mAdapter.clear();
             mAdapter.addAll(resp);
             mListView.scrollTo(0, 0);
+        }
+        if (resp.size() == 1) {
+            onItemClick(mListView, null, 0, 0);
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -96,11 +97,11 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        if (mAdapter.getFullText(pos).contains(",")) {
-            Item i = new Item();
+        if (mAdapter.getFullText(pos).contains(";")) {
+            Cities.Item i = new Cities.Item();
             i.city = mAdapter.getItem(pos);
             i.country = mCountry;
-            String[] s = mAdapter.getFullText(pos).split(",");
+            String[] s = mAdapter.getFullText(pos).split(";");
             i.id = s[1];
             i.lat = Double.parseDouble(s[2]);
             i.lng = Double.parseDouble(s[3]);
@@ -108,6 +109,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
             WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
             finish();
+            return;
         }
 
         if (mSource == "") {
@@ -118,6 +120,8 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
             get(mSource, mCountry, mAdapter.getItem(pos), "");
         } else if (mCity == "") {
             get(mSource, mCountry, mState, mAdapter.getItem(pos));
+        } else {
+            get(mSource, mCountry, mState, mCity);
         }
     }
 
@@ -141,8 +145,8 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         @Override
         public String getItem(int pos) {
             String s = super.getItem(pos);
-            if (s.contains(","))
-                s = s.substring(0, s.indexOf(","));
+            if (s.contains(";"))
+                s = s.substring(0, s.indexOf(";"));
 
             return s;
         }
