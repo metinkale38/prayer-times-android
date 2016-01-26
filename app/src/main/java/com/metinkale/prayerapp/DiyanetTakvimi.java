@@ -1,7 +1,6 @@
 package com.metinkale.prayerapp;
 
 import android.util.LruCache;
-
 import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.ArrayList;

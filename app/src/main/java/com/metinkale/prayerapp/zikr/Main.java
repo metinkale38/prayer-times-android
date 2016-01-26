@@ -19,7 +19,6 @@ import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
@@ -88,7 +87,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         mCurrent.color = mZikr.getColor();
         mCurrent.count = mZikr.getCount();
         mCurrent.max = mZikr.getMax();
-        mCurrent.count2=mZikr.getCount2();
+        mCurrent.count2 = mZikr.getCount2();
         try {
             FileWriter fileWriter = new FileWriter(new File(getFilesDir(), "zikr.json"));
             gson.toJson(mZikrList, fileWriter);
@@ -133,7 +132,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             mCurrent.color = mZikr.getColor();
             mCurrent.count = mZikr.getCount();
             mCurrent.max = mZikr.getMax();
-            mCurrent.count2=mZikr.getCount2();
+            mCurrent.count2 = mZikr.getCount2();
             mCurrent = z;
         }
         mTitle.setText(z.title);

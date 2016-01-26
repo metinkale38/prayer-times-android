@@ -13,21 +13,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.PermissionUtils;
 import com.metinkale.prayerapp.vakit.Main;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;

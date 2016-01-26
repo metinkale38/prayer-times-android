@@ -15,11 +15,10 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager.OnActivityResultListener;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.MainIntentService;
+import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.vakit.SoundPreference.SoundPreferenceContext;
 import com.metinkale.prayerapp.vakit.WidgetService;
 
@@ -91,13 +90,13 @@ public class Settings extends BaseActivity implements SoundPreferenceContext {
             if (preference.getKey().equals("mail")) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Namaz Vakti uygulamasi");
-                String versionCode="Undefined";
+                String versionCode = "Undefined";
                 try {
-                    versionCode=  getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionCode+"" ;
+                    versionCode = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionCode + "";
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode );
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
                 startActivity(Intent.createChooser(emailIntent, getString(R.string.sendemail)));
             } else if (preference.getKey().equals("backupRestore")) {
                 startActivity(new Intent(this.getActivity(), BackupRestoreActivity.class));

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.preference.ListPreference;
 import android.provider.CalendarContract;
 import android.util.AttributeSet;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.PermissionUtils;
 

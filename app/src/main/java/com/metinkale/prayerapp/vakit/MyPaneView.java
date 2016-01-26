@@ -107,13 +107,13 @@ public class MyPaneView extends RelativeLayout {
                 mMode = Mode.SlideTop;
                 mTop.setVisibility(View.VISIBLE);
                 mBottom.setVisibility(View.GONE);
-                if(mTopOpen!=null)
+                if (mTopOpen != null)
                     post(mTopOpen);
             } else if (y > mHeight * 9 / 10 + mMain.getTranslationY()) {
                 mMode = Mode.SlideBottom;
                 mTop.setVisibility(View.GONE);
                 mBottom.setVisibility(View.VISIBLE);
-                if(mBottomOpen!=null)
+                if (mBottomOpen != null)
                     post(mBottomOpen);
             } else mMode = Mode.Click;
 

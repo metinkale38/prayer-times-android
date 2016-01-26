@@ -1,8 +1,6 @@
 package com.metinkale.prayerapp.compass.classes;
 
-import android.util.FloatMath;
 import android.view.Surface;
-
 import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.math.Util;
 import com.metinkale.prayerapp.compass.classes.math.Vector3;

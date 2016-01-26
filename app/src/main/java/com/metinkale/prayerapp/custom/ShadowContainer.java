@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-
 import com.metinkale.prayer.R;
 
 public class ShadowContainer extends ViewGroup {

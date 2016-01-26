@@ -1,7 +1,5 @@
 package com.metinkale.prayerapp.compass.classes.math;
 
-import android.util.FloatMath;
-
 public class Util {
     /**
      * Converts a double to a value between 0 and 360

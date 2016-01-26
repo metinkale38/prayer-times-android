@@ -12,7 +12,7 @@ public class ZikrView extends View {
     private final Paint mPaint = new Paint();
     private int mMax = 33;
     private int mCount = 0;
-    private int mCount2=0;
+    private int mCount2 = 0;
     private int mColor = 0xFF33B5E5;
     private RectF mRectF = new RectF();
 
@@ -67,8 +67,7 @@ public class ZikrView extends View {
         canvas.drawText(Math.round(mCount) + "", center, center, mPaint);
 
         mPaint.setTextSize(center * 2 / 20);
-        canvas.drawText(getCount2()+"", center/10, center/10, mPaint);
-
+        canvas.drawText(getCount2() + "", center / 10, center / 10, mPaint);
 
 
         mPaint.setTextSize(center * 2 / 10);

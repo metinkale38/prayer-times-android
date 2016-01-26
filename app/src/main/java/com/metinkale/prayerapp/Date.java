@@ -2,16 +2,7 @@ package com.metinkale.prayerapp;
 
 import com.metinkale.prayerapp.settings.Prefs;
 
-import java.util.AbstractList;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Date {
     private static final Calendar CAL = new GregorianCalendar();

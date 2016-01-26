@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
 
-            if(mTimes.deleted())return;
+            if (mTimes.deleted()) return;
             if (mTimes != null) {
                 if (!mHasTimes) {
                     update();
@@ -146,7 +146,6 @@ public class MainFragment extends Fragment {
         mHandler.post(onSecond);
 
     }
-
 
 
     @Override

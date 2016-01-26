@@ -2,7 +2,6 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import com.metinkale.prayerapp.App;
 
 /**
@@ -26,7 +25,7 @@ public class Prefs {
     private final int mTesbihatTextSize;
     private final float mCompassLat;
     private final float mCompassLng;
-    private final int mKerahatSunrise,mKerahatIstiwa,mKerahatSunset;
+    private final int mKerahatSunrise, mKerahatIstiwa, mKerahatSunset;
 
     private static Prefs get() {
         synchronized (LOCK) {
@@ -59,7 +58,6 @@ public class Prefs {
         mKerahatSunset = prefs.getInt("kerahat_sunset", 45);
 
 
-
         String calIntegration = "-1";
         try {
             calIntegration = prefs.getString("calendarIntegration", "-1");
@@ -72,7 +70,6 @@ public class Prefs {
         }
         mCalendarIntegration = calIntegration;
     }
-
 
 
     public static String getLanguage() {

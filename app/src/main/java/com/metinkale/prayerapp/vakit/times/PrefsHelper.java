@@ -4,12 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import com.metinkale.prayerapp.App;
 
 public class PrefsHelper extends SQLiteOpenHelper {
-     static final String _KEY = "key";
-     static final String _VALUE = "value";
+    static final String _KEY = "key";
+    static final String _VALUE = "value";
     private static final String DATABASE_NAME = "timesprefs.sqlite";
     private static final int DATABASE_VERSION = 1;
     private static volatile PrefsHelper mInstance;

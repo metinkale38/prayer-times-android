@@ -9,14 +9,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.StrictMode;
-
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.TimesHelper;
-
 import io.fabric.sdk.android.Fabric;
 
 
@@ -70,7 +66,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        
+
         Fabric.with(this, new Crashlytics());
         Utils.init();
 

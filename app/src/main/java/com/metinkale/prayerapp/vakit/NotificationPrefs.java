@@ -7,14 +7,8 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ExpandableListView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;

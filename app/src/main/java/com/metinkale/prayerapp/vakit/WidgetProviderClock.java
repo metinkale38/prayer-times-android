@@ -19,9 +19,7 @@ import android.os.Handler;
 import android.provider.AlarmClock;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
-
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;

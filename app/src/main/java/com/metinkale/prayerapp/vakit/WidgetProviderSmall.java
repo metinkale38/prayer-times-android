@@ -16,7 +16,6 @@ import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;

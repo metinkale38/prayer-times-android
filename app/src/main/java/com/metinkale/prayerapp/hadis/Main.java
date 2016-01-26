@@ -28,7 +28,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;

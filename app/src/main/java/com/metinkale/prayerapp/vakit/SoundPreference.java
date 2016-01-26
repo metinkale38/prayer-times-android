@@ -13,7 +13,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager.OnActivityResultListener;
 import android.util.AttributeSet;
 import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 
 import java.util.ArrayList;

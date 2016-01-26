@@ -1,17 +1,12 @@
 package com.metinkale.prayerapp.compass._3D;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 

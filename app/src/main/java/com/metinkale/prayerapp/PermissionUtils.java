@@ -44,10 +44,10 @@ public class PermissionUtils {
         pLocation = ContextCompat.checkSelfPermission(act,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        Crashlytics.setBool("pCalendar",pCalendar);
-        Crashlytics.setBool("pCamera",pCamera);
-        Crashlytics.setBool("pStorage",pStorage);
-        Crashlytics.setBool("pLocation",pLocation);
+        Crashlytics.setBool("pCalendar", pCalendar);
+        Crashlytics.setBool("pCamera", pCamera);
+        Crashlytics.setBool("pStorage", pStorage);
+        Crashlytics.setBool("pLocation", pLocation);
 
     }
 

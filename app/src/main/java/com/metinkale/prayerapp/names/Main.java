@@ -8,7 +8,6 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;

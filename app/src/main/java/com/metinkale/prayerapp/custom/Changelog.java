@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
 import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 

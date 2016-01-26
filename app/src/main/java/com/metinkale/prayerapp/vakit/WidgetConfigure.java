@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;

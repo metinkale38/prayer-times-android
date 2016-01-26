@@ -209,12 +209,12 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
         @Override
         public int getItemPosition(Object object) {
-            if(object instanceof SortFragment){
+            if (object instanceof SortFragment) {
                 return 0;
-            }else{
-                MainFragment frag=(MainFragment)object;
-                int pos= MainHelper.getTimes().indexOf(frag.getTimes());
-                if(pos>=0)return pos+1;
+            } else {
+                MainFragment frag = (MainFragment) object;
+                int pos = MainHelper.getTimes().indexOf(frag.getTimes());
+                if (pos >= 0) return pos + 1;
             }
             return POSITION_NONE;
         }

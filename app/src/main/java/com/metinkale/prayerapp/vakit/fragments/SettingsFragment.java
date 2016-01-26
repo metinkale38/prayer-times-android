@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 

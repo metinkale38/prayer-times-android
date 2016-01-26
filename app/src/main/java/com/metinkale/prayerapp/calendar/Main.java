@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Date;

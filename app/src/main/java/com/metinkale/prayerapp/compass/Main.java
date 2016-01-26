@@ -12,16 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Surface;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;

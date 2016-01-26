@@ -51,8 +51,8 @@ public class WebTimes extends Times {
                 public void run() {
                     refresh();
 
-                    if(mThread==this)
-                        mThread=null;
+                    if (mThread == this)
+                        mThread = null;
                 }
             };
             if (t.getState() == Thread.State.NEW)

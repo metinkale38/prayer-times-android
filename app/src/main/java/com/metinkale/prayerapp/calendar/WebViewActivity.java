@@ -3,7 +3,6 @@ package com.metinkale.prayerapp.calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.compass.LowPassFilter;
 import com.metinkale.prayerapp.compass.Main;
@@ -75,9 +74,10 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     }
 
-    public boolean mHidden=false;
+    public boolean mHidden = false;
+
     public void show() {
-        mHidden=false;
+        mHidden = false;
         mCompassView.post(new Runnable() {
             public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
@@ -96,7 +96,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     }
 
     public void hide() {
-        mHidden=false;
+        mHidden = false;
         mCompassView.post(new Runnable() {
             public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);

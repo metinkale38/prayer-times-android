@@ -16,7 +16,6 @@ import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
-
 import com.metinkale.prayer.R;
 
 public class WidgetProviderSilenter extends AppWidgetProvider {

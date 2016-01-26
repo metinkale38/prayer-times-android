@@ -1,21 +1,12 @@
 package com.metinkale.prayerapp.vakit.times;
 
-import com.metinkale.prayerapp.App;
-
 import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 public class NVCTimes extends WebTimes {
 

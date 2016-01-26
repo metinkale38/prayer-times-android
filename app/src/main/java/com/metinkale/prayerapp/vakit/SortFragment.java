@@ -121,7 +121,7 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
 
                 @Override
                 public void onClick(View arg0) {
-                    act.mAdapter.remove(position );
+                    act.mAdapter.remove(position);
                 }
             });
 

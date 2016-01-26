@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 
 public class NumberDialog extends DialogFragment implements TextWatcher {

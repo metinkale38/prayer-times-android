@@ -240,7 +240,7 @@ public class Matrix4 implements Serializable {
      * otherwise.
      */
     public static native boolean inv(float[] values); /*
-	 * return
+     * return
 	 * matrix4_inv(values);
 	 */
 

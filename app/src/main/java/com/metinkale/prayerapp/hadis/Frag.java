@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.hadis.SqliteHelper.Hadis;

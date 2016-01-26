@@ -6,7 +6,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 

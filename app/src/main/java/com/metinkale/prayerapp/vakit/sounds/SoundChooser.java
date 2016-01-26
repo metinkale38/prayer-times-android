@@ -18,17 +18,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
@@ -201,7 +192,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
     public static String getRingtonePathFromContentUri(Context context,
                                                        Uri contentUri) {
-        String[] proj = { MediaStore.Audio.Media.DATA };
+        String[] proj = {MediaStore.Audio.Media.DATA};
         Cursor ringtoneCursor = context.getContentResolver().query(contentUri,
                 proj, null, null, null);
         ringtoneCursor.moveToFirst();
@@ -217,7 +208,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            uri=Uri.parse(getRingtonePathFromContentUri(getContext(),uri));
+            uri = Uri.parse(getRingtonePathFromContentUri(getContext(), uri));
             try {
                 MediaPlayer mp = new MediaPlayer();
                 mp.setDataSource(getActivity(), uri);
