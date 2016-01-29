@@ -252,10 +252,13 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         if (i >= mAdapter.getCount())
             i = mAdapter.getCount() - 1;
 
+
         mNumber.setText(i + 1 + "/" + mAdapter.getCount());
         if (mFav == null) {
             return;
         }
+        if(mAdapter.getCount()==0)return;
+
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
             mFav.setIcon(R.drawable.ic_action_favorite);
         } else {
@@ -342,7 +345,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         @Override
         public long getItemId(int pos) {
             return mList.get(pos);
-
         }
 
         @Override

@@ -20,7 +20,7 @@ public class Adapter extends ArrayAdapter<Item> {
 
     public Adapter(Context context, Item[] objects) {
         super(context, 0, objects);
-        lang = Language.valueOf(Prefs.getLanguage()).ordinal();
+        lang = Language.valueOf((Prefs.getLanguage() == null) ? "tr" : Prefs.getLanguage()).ordinal();
     }
 
     public static float convertDpToPixel(float dp, Context context) {

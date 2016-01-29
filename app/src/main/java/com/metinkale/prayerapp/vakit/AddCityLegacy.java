@@ -22,7 +22,6 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     private ListView mListView;
     private MyAdapter mAdapter;
-    private Thread mThread;
     private String mSource, mCountry, mState, mCity;
 
     @Override
@@ -63,22 +62,25 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     }
 
-    public void get(String source, String country, String state, String city) {
-
-        List<String> resp = Cities.list(source, country, state, city);
-        if (!resp.isEmpty()) {
-            mSource = source;
-            mCountry = country;
-            mState = state;
-            mCity = city;
-            mAdapter.clear();
-            mAdapter.addAll(resp);
-            mListView.scrollTo(0, 0);
-        }
-        if (resp.size() == 1) {
-            onItemClick(mListView, null, 0, 0);
-        }
-        mAdapter.notifyDataSetChanged();
+    public void get(final String source, final String country, final String state, final String city) {
+        Cities.list(source, country, state, city, new Cities.Callback() {
+            @Override
+            public void onResult(List result) {
+                if (!result.isEmpty()) {
+                    mSource = source;
+                    mCountry = country;
+                    mState = state;
+                    mCity = city;
+                    mAdapter.clear();
+                    mAdapter.addAll(result);
+                    mListView.scrollTo(0, 0);
+                }
+                if (result.size() == 1) {
+                    onItemClick(mListView, null, 0, 0);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void onBackPressed() {

@@ -67,7 +67,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:0.2.0-SNAPSHOT'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.google.code.gson:gson:2.3.1'

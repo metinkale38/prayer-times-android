@@ -28,11 +28,8 @@ import com.metinkale.prayerapp.vakit.times.WebTimes;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener {
-    private Executor mExecutor = Executors.newSingleThreadExecutor();
     private MyAdapter mAdapter;
 
     @Override
@@ -151,25 +148,19 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.add(item);
             mAdapter.notifyDataSetChanged();
         }
-        mExecutor.execute(new Runnable() {
+
+        Cities.search(query, new Cities.Callback() {
             @Override
-            public void run() {
-                final List<Cities.Item> items = Cities.search(query);
-                AddCity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (items != null && !items.isEmpty()) {
-                            mAdapter.clear();
-                            mAdapter.addAll(items);
-                        }
-                        mAdapter.notifyDataSetChanged();
-
-                    }
-                });
-
+            public void onResult(List result) {
+                List<Item> items = result;
+                if (items != null && !items.isEmpty()) {
+                    mAdapter.clear();
+                    mAdapter.addAll(items);
+                }
+                mAdapter.notifyDataSetChanged();
             }
         });
+
 
         return true;
     }
