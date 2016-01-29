@@ -16,7 +16,8 @@ import com.metinkale.prayer.R;
  * A dialog that prompts the user for the message deletion limits.
  */
 @TargetApi(11)
-public class NumberPickerDialog extends AlertDialog implements OnClickListener {
+public class NumberPickerDialog extends AlertDialog implements OnClickListener
+{
 
     private static final String NUMBER = "number";
     private final NumberPicker mNumberPicker;
@@ -28,7 +29,8 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * @param callBack How parent is notified.
      * @param number   The initial number.
      */
-    public NumberPickerDialog(Context context, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
+    public NumberPickerDialog(Context context, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId)
+    {
         this(context, 0, callBack, number, rangeMin, rangeMax, title, units, dialogId);
     }
 
@@ -38,7 +40,8 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * @param callBack How parent is notified.
      * @param number   The initial number.
      */
-    private NumberPickerDialog(Context context, int theme, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
+    private NumberPickerDialog(Context context, int theme, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId)
+    {
         super(context, theme);
         mCallback = callBack;
         mDialogId = dialogId;
@@ -51,7 +54,8 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         setView(view);
         mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
 
-        if (units != 0) {
+        if(units != 0)
+        {
             TextView unit = (TextView) view.findViewById(R.id.unit);
             unit.setText(units);
             unit.setVisibility(View.VISIBLE);
@@ -64,8 +68,10 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (mCallback != null) {
+    public void onClick(DialogInterface dialog, int which)
+    {
+        if(mCallback != null)
+        {
             mNumberPicker.clearFocus();
             mCallback.onNumberSet(mDialogId, mNumberPicker.getValue());
             dialog.dismiss();
@@ -73,14 +79,16 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     }
 
     @Override
-    public Bundle onSaveInstanceState() {
+    public Bundle onSaveInstanceState()
+    {
         Bundle state = super.onSaveInstanceState();
         state.putInt(NUMBER, mNumberPicker.getValue());
         return state;
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         int number = savedInstanceState.getInt(NUMBER);
         mNumberPicker.setValue(number);
@@ -90,7 +98,8 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * The callback interface used to indicate the user is done filling in the
      * time (they clicked on the 'Set' button).
      */
-    public interface OnNumberSetListener {
+    public interface OnNumberSetListener
+    {
 
         /**
          * @param number The number that was set.

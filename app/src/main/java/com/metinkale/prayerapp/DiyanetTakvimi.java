@@ -8,31 +8,35 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-class DiyanetTakvimi {
+class DiyanetTakvimi
+{
     private final List<DATE> mDates = new ArrayList<>();
     private final LruCache<int[], int[]> mCache = new LruCache<>(31);
 
     private static DiyanetTakvimi mInstance;
 
 
-    public static DiyanetTakvimi get() {
-        if (mInstance == null)
-            mInstance = new DiyanetTakvimi();
+    public static DiyanetTakvimi get()
+    {
+        if(mInstance == null) mInstance = new DiyanetTakvimi();
 
         return mInstance;
     }
 
-    public static void init() {
+    public static void init()
+    {
         mInstance = null;
     }
 
 
-    public int[] toHicri(int d, int m, int y) {
+    public int[] toHicri(int d, int m, int y)
+    {
         int key[] = new int[]{d, m, y};
         int ret[] = mCache.get(key);
-        if (ret != null) return ret;
+        if(ret != null) return ret;
         int hfix = Prefs.getHijriFix();
-        if (hfix != 0) {
+        if(hfix != 0)
+        {
             Calendar cal = Calendar.getInstance();
             cal.set(y, m - 1, d, 0, 0, 0);
             cal.setTimeInMillis(cal.getTimeInMillis() + hfix * 1000 * 60 * 60 * 24);
@@ -42,23 +46,31 @@ class DiyanetTakvimi {
         }
 
         DATE last = null;
-        for (DATE date : mDates) {
-            if (date.grg[2] < y) {
+        for(DATE date : mDates)
+        {
+            if(date.grg[2] < y)
+            {
                 last = date;
-            } else if (date.grg[2] == y && date.grg[1] < m) {
+            } else if(date.grg[2] == y && date.grg[1] < m)
+            {
                 last = date;
-            } else if (date.grg[2] == y && date.grg[1] == m && date.grg[0] <= d) {
+            } else if(date.grg[2] == y && date.grg[1] == m && date.grg[0] <= d)
+            {
                 last = date;
-            } else {
+            } else
+            {
                 break;
             }
         }
-        if (last == null) {
+        if(last == null)
+        {
             return null;
-        } else {
+        } else
+        {
             int h[] = new int[]{last.hcr[0], last.hcr[1], last.hcr[2]};
             h[0] += new GregorianCalendar(y, m - 1, d).get(Calendar.DAY_OF_YEAR) - new GregorianCalendar(last.grg[2], last.grg[1] - 1, last.grg[0]).get(Calendar.DAY_OF_YEAR);
-            if (h[0] >= 30 || h[0] <= 0) {
+            if(h[0] >= 30 || h[0] <= 0)
+            {
                 return null;
             }
             mCache.put(key, h);
@@ -66,10 +78,13 @@ class DiyanetTakvimi {
         }
     }
 
-    public List<DATE> getHolydays(int year) {
+    public List<DATE> getHolydays(int year)
+    {
         List<DATE> dates = new ArrayList<>();
-        for (DATE d : mDates) {
-            if (d.grg[2] == year && d.day != 0) {
+        for(DATE d : mDates)
+        {
+            if(d.grg[2] == year && d.day != 0)
+            {
                 dates.add(d);
             }
         }
@@ -77,12 +92,14 @@ class DiyanetTakvimi {
     }
 
 
-    class DATE {
+    class DATE
+    {
         int[] grg = new int[3];
         int[] hcr = new int[3];
         int day;
 
-        DATE(int h1, int h2, int h3, int g1, int g2, int g3, int day) {
+        DATE(int h1, int h2, int h3, int g1, int g2, int g3, int day)
+        {
             hcr[0] = h1;
             hcr[1] = h2;
             hcr[2] = h3;
@@ -93,7 +110,8 @@ class DiyanetTakvimi {
         }
     }
 
-    private DiyanetTakvimi() {
+    private DiyanetTakvimi()
+    {
         mDates.add(new DATE(1, 3, 1433, 24, 1, 2012, 0));
         mDates.add(new DATE(11, 3, 1433, 3, 2, 2012, 3));
         mDates.add(new DATE(1, 4, 1433, 23, 2, 2012, 0));

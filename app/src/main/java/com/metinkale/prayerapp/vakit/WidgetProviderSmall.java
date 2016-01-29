@@ -21,13 +21,16 @@ import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
-public class WidgetProviderSmall extends AppWidgetProvider {
+public class WidgetProviderSmall extends AppWidgetProvider
+{
     private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
-    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId)
+    {
 
-        if (mDP == 0) {
+        if(mDP == 0)
+        {
             Resources r = context.getResources();
             mDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
         }
@@ -44,7 +47,8 @@ public class WidgetProviderSmall extends AppWidgetProvider {
 
         int s = (int) (SCALE_MULT * Math.min(w, h));
 
-        if (s <= 0) {
+        if(s <= 0)
+        {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -54,7 +58,8 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         }
 
         Theme theme = null;
-        switch (t) {
+        switch(t)
+        {
             case 0:
                 theme = Theme.Light;
                 break;
@@ -70,11 +75,14 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         }
 
         Times times = null;
-        try {
+        try
+        {
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (Exception ignore) {
+        } catch(Exception ignore)
+        {
         }
-        if (times == null) {
+        if(times == null)
+        {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);
@@ -138,9 +146,11 @@ public class WidgetProviderSmall extends AppWidgetProvider {
 
         remoteViews.setImageViewBitmap(R.id.widget, bmp);
 
-        try {
+        try
+        {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        } catch (RuntimeException e) {
+        } catch(RuntimeException e)
+        {
             SCALE_MULT -= 0.1f;
             updateAppWidget(context, appWidgetManager, widgetId);
 
@@ -149,7 +159,8 @@ public class WidgetProviderSmall extends AppWidgetProvider {
     }
 
     @Override
-    public void onEnabled(Context context) {
+    public void onEnabled(Context context)
+    {
         ComponentName thisWidget = new ComponentName(context, WidgetProviderSmall.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
@@ -157,25 +168,30 @@ public class WidgetProviderSmall extends AppWidgetProvider {
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
 
-        for (int widgetId : appWidgetIds) {
+        for(int widgetId : appWidgetIds)
+        {
             updateAppWidget(context, appWidgetManager, widgetId);
         }
 
     }
 
     @Override
-    public void onDisabled(Context context) {
+    public void onDisabled(Context context)
+    {
 
     }
 
     @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
+    {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if(w * h != 0)
+        {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

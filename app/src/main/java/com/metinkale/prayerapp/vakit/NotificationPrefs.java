@@ -20,14 +20,16 @@ import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
-public class NotificationPrefs extends Activity implements SoundPreferenceContext {
+public class NotificationPrefs extends Activity implements SoundPreferenceContext
+{
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
     public static NotificationPrefs instance;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
@@ -35,7 +37,8 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         getActionBar().setIcon(R.drawable.ic_abicon);
 
         mTimes = MainHelper.getTimes(getIntent().getLongExtra("city", 0));
-        if (mTimes == null) {
+        if(mTimes == null)
+        {
             finish();
             return;
         }
@@ -47,10 +50,12 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         setTitle(mTimes.getName());
 
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
-        ongoing.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        ongoing.setOnCheckedChangeListener(new OnCheckedChangeListener()
+        {
 
             @Override
-            public void onCheckedChanged(CompoundButton arg0, boolean val) {
+            public void onCheckedChanged(CompoundButton arg0, boolean val)
+            {
                 mTimes.setOngoingNotificationActive(val);
             }
         });
@@ -58,46 +63,55 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         MainIntentService.setAlarms(this);
         instance = null;
     }
 
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         instance = this;
     }
 
 
     @Override
-    public void setActivityResultListener(PreferenceManager.OnActivityResultListener list) {
+    public void setActivityResultListener(PreferenceManager.OnActivityResultListener list)
+    {
         mListener = list;
 
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mListener == null || !mListener.onActivityResult(requestCode, resultCode, data)) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(mListener == null || !mListener.onActivityResult(requestCode, resultCode, data))
+        {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
     }
 
-    public class MyAdapter extends BaseExpandableListAdapter {
+    public class MyAdapter extends BaseExpandableListAdapter
+    {
 
         @Override
-        public Object getChild(int groupPosition, int childPosition) {
+        public Object getChild(int groupPosition, int childPosition)
+        {
             return null;
         }
 
         @Override
-        public long getChildId(int groupPosition, int childPosition) {
+        public long getChildId(int groupPosition, int childPosition)
+        {
             return 0;
         }
 
         @Override
-        public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
+        {
             View v = View.inflate(NotificationPrefs.this, R.layout.vakit_notprefs_item, null);
             final View container = v.findViewById(R.id.prefscontainer);
             final View contalt = v.findViewById(R.id.contalt);
@@ -110,9 +124,11 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
             PrefsView time = (PrefsView) v.findViewById(R.id.time);
 
 
-            title.setOnLongClickListener(new View.OnLongClickListener() {
-                public boolean onLongClick(View v) {
-                    if (!BuildConfig.DEBUG) return false;
+            title.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                public boolean onLongClick(View v)
+                {
+                    if(!BuildConfig.DEBUG) return false;
                     Times.Alarm a = new Times.Alarm();
                     a.time = System.currentTimeMillis() + 5 * 1000;
                     a.sound = (String) sound.getValue();
@@ -126,7 +142,8 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                     return true;
                 }
             });
-            if (childPosition == 0) {
+            if(childPosition == 0)
+            {
                 title.setText(R.string.ezanNotification);
                 boolean isChecked = mTimes.isNotificationActive(Vakit.values()[groupPosition]);
                 s.setChecked(isChecked);
@@ -135,10 +152,12 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
 
                 contalt.setVisibility(isChecked ? View.INVISIBLE : View.VISIBLE);
 
-                s.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                s.setOnCheckedChangeListener(new OnCheckedChangeListener()
+                {
 
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
                         mTimes.setNotificationActive(Vakit.values()[groupPosition], isChecked);
 
                         container.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
@@ -149,77 +168,95 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                 });
 
                 sound.setVakit((Vakit) getGroup(groupPosition));
-                sound.setPrefFunctions(new PrefsFunctions() {
+                sound.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getSound(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setSound(Vakit.values()[groupPosition], (String) obj);
                     }
                 });
 
-                vibration.setPrefFunctions(new PrefsFunctions() {
+                vibration.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.hasVibration(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setVibration(Vakit.values()[groupPosition], (Boolean) obj);
                     }
                 });
 
-                silenter.setPrefFunctions(new PrefsFunctions() {
+                silenter.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getSilenterDuration(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setSilenterDuration(Vakit.values()[groupPosition], (Integer) obj);
                     }
                 });
 
-                dua.setPrefFunctions(new PrefsFunctions() {
+                dua.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getDua(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setDua(Vakit.values()[groupPosition], (String) obj);
                     }
                 });
 
-                if (groupPosition == 1) {
+                if(groupPosition == 1)
+                {
                     time.setTag("SabahTime");
-                    time.setPrefFunctions(new PrefsFunctions() {
+                    time.setPrefFunctions(new PrefsFunctions()
+                    {
 
                         @Override
-                        public Object getValue() {
+                        public Object getValue()
+                        {
                             return mTimes.getSabahTime() * (mTimes.isAfterImsak() ? -1 : 1);
                         }
 
                         @Override
-                        public void setValue(Object obj) {
+                        public void setValue(Object obj)
+                        {
                             mTimes.setSabahTime(Math.abs((Integer) obj));
                             mTimes.setAfterImsak((Integer) obj < 0);
                         }
                     });
-                } else {
+                } else
+                {
                     time.setVisibility(View.GONE);
                 }
-            } else if (childPosition == 2) {
+            } else if(childPosition == 2)
+            {
                 title.setText(R.string.ecuma);
                 boolean isChecked = mTimes.isCumaActive();
                 s.setChecked(isChecked);
@@ -228,10 +265,12 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
 
                 contalt.setVisibility(isChecked ? View.INVISIBLE : View.VISIBLE);
 
-                s.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                s.setOnCheckedChangeListener(new OnCheckedChangeListener()
+                {
 
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
                         mTimes.setCumaActive(isChecked);
 
                         container.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
@@ -242,61 +281,74 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                 });
 
                 sound.setPrefType(Pref.Sela);
-                sound.setPrefFunctions(new PrefsFunctions() {
+                sound.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getCumaSound();
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setCumaSound((String) obj);
                     }
                 });
 
-                vibration.setPrefFunctions(new PrefsFunctions() {
+                vibration.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.hasCumaVibration();
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setCumaVibration((Boolean) obj);
                     }
                 });
 
-                silenter.setPrefFunctions(new PrefsFunctions() {
+                silenter.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getCumaSilenterDuration();
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setCumaSilenterDuration((Integer) obj);
                     }
                 });
 
                 dua.setVisibility(View.GONE);
 
-                time.setPrefFunctions(new PrefsFunctions() {
+                time.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getCumaTime();
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setCumaTime((Integer) obj);
                     }
                 });
 
-            } else {
+            } else
+            {
                 title.setText(R.string.earlynotification);
 
                 boolean isChecked = mTimes.isEarlyNotificationActive(Vakit.values()[groupPosition]);
@@ -306,10 +358,12 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
 
                 contalt.setVisibility(isChecked ? View.INVISIBLE : View.VISIBLE);
 
-                s.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                s.setOnCheckedChangeListener(new OnCheckedChangeListener()
+                {
 
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
                         mTimes.setEarlyNotificationActive(Vakit.values()[groupPosition], isChecked);
 
                         container.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
@@ -320,56 +374,68 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                 });
 
                 sound.setVakit((Vakit) getGroup(groupPosition));
-                sound.setPrefFunctions(new PrefsFunctions() {
+                sound.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getEarlySound(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setEarlySound(Vakit.values()[groupPosition], (String) obj);
                     }
                 });
 
-                vibration.setPrefFunctions(new PrefsFunctions() {
+                vibration.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.hasEarlyVibration(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setEarlyVibration(Vakit.values()[groupPosition], (Boolean) obj);
                     }
                 });
 
-                silenter.setPrefFunctions(new PrefsFunctions() {
+                silenter.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getEarlySilenterDuration(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setEarlySilenterDuration(Vakit.values()[groupPosition], (Integer) obj);
                     }
                 });
 
                 dua.setVisibility(View.GONE);
 
-                time.setPrefFunctions(new PrefsFunctions() {
+                time.setPrefFunctions(new PrefsFunctions()
+                {
 
                     @Override
-                    public Object getValue() {
+                    public Object getValue()
+                    {
                         return mTimes.getEarlyTime(Vakit.values()[groupPosition]);
                     }
 
                     @Override
-                    public void setValue(Object obj) {
+                    public void setValue(Object obj)
+                    {
                         mTimes.setEarlyTime(Vakit.values()[groupPosition], (Integer) obj);
                     }
                 });
@@ -378,8 +444,10 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         }
 
         @Override
-        public int getChildrenCount(int groupPosition) {
-            switch (groupPosition) {
+        public int getChildrenCount(int groupPosition)
+        {
+            switch(groupPosition)
+            {
                 case 1:
                     return 1;
                 case 3:
@@ -390,23 +458,28 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         }
 
         @Override
-        public Object getGroup(int groupPosition) {
+        public Object getGroup(int groupPosition)
+        {
             return Vakit.values()[groupPosition];
         }
 
         @Override
-        public int getGroupCount() {
+        public int getGroupCount()
+        {
             return Vakit.values().length;
         }
 
         @Override
-        public long getGroupId(int groupPosition) {
+        public long getGroupId(int groupPosition)
+        {
             return Vakit.values()[groupPosition].ordinal();
         }
 
         @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            if (convertView == null) {
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+        {
+            if(convertView == null)
+            {
                 convertView = View.inflate(NotificationPrefs.this, R.layout.vakit_notprefs_group, null);
             }
 
@@ -416,12 +489,14 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         }
 
         @Override
-        public boolean hasStableIds() {
+        public boolean hasStableIds()
+        {
             return false;
         }
 
         @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
+        public boolean isChildSelectable(int groupPosition, int childPosition)
+        {
             return false;
         }
     }

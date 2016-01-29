@@ -10,31 +10,36 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.metinkale.prayer.R;
 
-public class CompassView extends View {
+public class CompassView extends View
+{
     private final Path mPath = new Path();
     private final Paint mPaint = new Paint();
     private final Drawable mKaabe;
     private float mAngle = -80;
     private float mqAngle = 0;
 
-    public CompassView(Context context, AttributeSet attrs, int defStyle) {
+    public CompassView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         mKaabe = context.getResources().getDrawable(R.drawable.kaabe);
 
     }
 
-    public CompassView(Context context, AttributeSet attrs) {
+    public CompassView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
 
     }
 
-    public CompassView(Context context) {
+    public CompassView(Context context)
+    {
         this(context, null);
 
     }
 
     @Override
-    public void onMeasure(int widthSpec, int heightSpec) {
+    public void onMeasure(int widthSpec, int heightSpec)
+    {
         super.onMeasure(widthSpec, heightSpec);
         int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
 
@@ -55,7 +60,8 @@ public class CompassView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         int width = getWidth();
         int center = width / 2;
 
@@ -97,7 +103,8 @@ public class CompassView extends View {
 
         canvas.rotate(mqAngle, center, center);
 
-        if (mqAngle != 0) {
+        if(mqAngle != 0)
+        {
             int y = center * 9 / 20;
             int size = center / 8;
             mKaabe.setBounds(center - size, y - size, center + size, y + size);
@@ -113,29 +120,35 @@ public class CompassView extends View {
 
     }
 
-    float getAngle() {
+    float getAngle()
+    {
         float angle = mAngle;
-        if (angle < 0) {
+        if(angle < 0)
+        {
             angle += 360;
         }
         return angle;
 
     }
 
-    public void setAngle(float rot) {
+    public void setAngle(float rot)
+    {
         mAngle = rot;
         invalidate();
     }
 
-    public float getQiblaAngle() {
+    public float getQiblaAngle()
+    {
         float angle = mqAngle;
-        if (angle < 0) {
+        if(angle < 0)
+        {
             angle += 360;
         }
         return angle;
     }
 
-    public void setQiblaAngle(int qiblaAngle) {
+    public void setQiblaAngle(int qiblaAngle)
+    {
         mqAngle = qiblaAngle;
         invalidate();
     }

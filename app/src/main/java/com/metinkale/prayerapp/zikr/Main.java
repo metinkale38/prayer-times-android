@@ -36,7 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class Main extends BaseActivity implements OnClickListener, OnNavigationListener, OnLongClickListener {
+public class Main extends BaseActivity implements OnClickListener, OnNavigationListener, OnLongClickListener
+{
 
     private ZikrView mZikr;
     private EditText mTitle;
@@ -47,7 +48,8 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     private int mVibrate;
 
     @Override
-    public void onCreate(Bundle bdl) {
+    public void onCreate(Bundle bdl)
+    {
         super.onCreate(bdl);
         setContentView(R.layout.zikr_main);
         mZikr = (ZikrView) findViewById(R.id.zikr);
@@ -62,15 +64,18 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        ((PrefsView) findViewById(R.id.vibration)).setPrefFunctions(new PrefsFunctions() {
+        ((PrefsView) findViewById(R.id.vibration)).setPrefFunctions(new PrefsFunctions()
+        {
 
             @Override
-            public Object getValue() {
+            public Object getValue()
+            {
                 return mVibrate;
             }
 
             @Override
-            public void setValue(Object obj) {
+            public void setValue(Object obj)
+            {
                 PreferenceManager.getDefaultSharedPreferences(Main.this).edit().putInt("zikrvibrate2", (Integer) obj).apply();
                 mVibrate = (Integer) obj;
 
@@ -80,7 +85,8 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         Gson gson = new Gson();
         mCurrent.title = mTitle.getText().toString();
@@ -88,29 +94,35 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         mCurrent.count = mZikr.getCount();
         mCurrent.max = mZikr.getMax();
         mCurrent.count2 = mZikr.getCount2();
-        try {
+        try
+        {
             FileWriter fileWriter = new FileWriter(new File(getFilesDir(), "zikr.json"));
             gson.toJson(mZikrList, fileWriter);
             fileWriter.close();
-        } catch (JsonIOException | IOException e) {
+        } catch(JsonIOException | IOException e)
+        {
             App.e(e);
         }
 
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         Gson gson = new Gson();
 
-        try {
+        try
+        {
             FileReader reader = new FileReader(new File(getFilesDir(), "zikr.json"));
-            mZikrList = gson.fromJson(reader, new TypeToken<List<Zikr>>() {
+            mZikrList = gson.fromJson(reader, new TypeToken<List<Zikr>>()
+            {
             }.getType());
             reader.close();
             mCurrent = mZikrList.get(0);
-        } catch (Exception e) {
+        } catch(Exception e)
+        {
             mZikrList = new ArrayList<>();
             mCurrent = new Zikr();
             mCurrent.title = getString(R.string.tesbih);
@@ -122,12 +134,15 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
-    private void load(Zikr z) {
-        if (!mZikrList.contains(z)) {
+    private void load(Zikr z)
+    {
+        if(!mZikrList.contains(z))
+        {
             mZikrList.add(z);
         }
 
-        if (mCurrent != z) {
+        if(mCurrent != z)
+        {
             mCurrent.title = mTitle.getText().toString();
             mCurrent.color = mZikr.getColor();
             mCurrent.count = mZikr.getCount();
@@ -142,14 +157,17 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         mZikr.setCount2(z.count2);
         mZikr.setMax(z.max);
 
-        if (mZikrList.indexOf(z) == 0) {
+        if(mZikrList.indexOf(z) == 0)
+        {
             mTitle.setEnabled(false);
             mTitle.setText(getString(R.string.tesbih));
-        } else {
+        } else
+        {
             mTitle.setEnabled(true);
         }
         ArrayList<String> itemList = new ArrayList<>();
-        for (Zikr zi : mZikrList) {
+        for(Zikr zi : mZikrList)
+        {
             itemList.add(zi.title);
         }
         Context c = new ContextThemeWrapper(this, R.style.ToolbarTheme);
@@ -159,40 +177,49 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
-    public void changeColor(View v) {
+    public void changeColor(View v)
+    {
         int c = Color.parseColor((String) v.getTag());
         setNavBarColor(c);
         mZikr.setColor(c);
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == mZikr) {
+    public void onClick(View v)
+    {
+        if(v == mZikr)
+        {
             mZikr.setCount(mZikr.getCount() + 1);
 
-            if (mZikr.getCount() == mZikr.getMax()) {
+            if(mZikr.getCount() == mZikr.getMax())
+            {
                 mZikr.counter();
-                if (mVibrate != -1)
-                    mVibrator.vibrate(new long[]{0, 100, 100, 100, 100, 100}, -1);
+                if(mVibrate != -1) mVibrator.vibrate(new long[]{0, 100, 100, 100, 100, 100}, -1);
                 mZikr.setCount(0);
-            } else if (mVibrate == 0) {
+            } else if(mVibrate == 0)
+            {
                 mVibrator.vibrate(10);
             }
 
-        } else if (v == mReset) {
+        } else if(v == mReset)
+        {
             AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
             dialog.setTitle(R.string.zikr);
             dialog.setMessage(getString(R.string.resetConfirmZikr, mCurrent.title));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
+                public void onClick(DialogInterface dialog, int buttonId)
+                {
                     mZikr.setCount(0);
                 }
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
+                public void onClick(DialogInterface dialog, int buttonId)
+                {
                 }
             });
             dialog.setIcon(R.drawable.ic_delete);
@@ -201,8 +228,10 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (mZikrList.indexOf(mCurrent) != itemPosition) {
+    public boolean onNavigationItemSelected(int itemPosition, long itemId)
+    {
+        if(mZikrList.indexOf(mCurrent) != itemPosition)
+        {
             load(mZikrList.get(itemPosition));
             return true;
         }
@@ -210,7 +239,8 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
 
         getMenuInflater().inflate(R.menu.zikr, menu);
 
@@ -218,8 +248,10 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
             case R.id.add:
                 Zikr z = new Zikr();
                 z.title = getString(R.string.new_zikr);
@@ -229,23 +261,28 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 return true;
 
             case R.id.del:
-                if (mZikrList.indexOf(mCurrent) == 0) {
+                if(mZikrList.indexOf(mCurrent) == 0)
+                {
                     return false;
                 }
                 AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
                 dialog.setTitle(R.string.delete);
                 dialog.setMessage(getString(R.string.delConfirmZikr, mCurrent.title));
                 dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
+                    public void onClick(DialogInterface dialog, int buttonId)
+                    {
                         mZikrList.remove(mCurrent);
                         load(mZikrList.get(0));
                     }
                 });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
+                    public void onClick(DialogInterface dialog, int buttonId)
+                    {
                     }
                 });
                 dialog.setIcon(R.drawable.ic_delete);
@@ -257,8 +294,10 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onLongClick(View arg0) {
-        if (mZikrList.indexOf(mCurrent) == 0) {
+    public boolean onLongClick(View arg0)
+    {
+        if(mZikrList.indexOf(mCurrent) == 0)
+        {
             return false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -271,20 +310,26 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                try
+                {
                     mZikr.setMax(Integer.parseInt(input.getText().toString()));
-                } catch (Exception e) {
+                } catch(Exception e)
+                {
 
                 }
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 dialog.cancel();
             }
         });
@@ -294,11 +339,13 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean setNavBar() {
+    public boolean setNavBar()
+    {
         return true;
     }
 
-    private class Zikr {
+    private class Zikr
+    {
         String title;
         int max;
         int count;

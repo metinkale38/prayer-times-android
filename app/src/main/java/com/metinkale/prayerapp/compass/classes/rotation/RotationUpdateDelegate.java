@@ -5,7 +5,8 @@ package com.metinkale.prayerapp.compass.classes.rotation;
  *
  * @author Adam
  */
-public interface RotationUpdateDelegate {
+public interface RotationUpdateDelegate
+{
     /**
      * @param newMatrix - 4x4 matrix
      */

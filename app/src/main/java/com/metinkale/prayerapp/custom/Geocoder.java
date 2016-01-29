@@ -11,30 +11,38 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Geocoder {
+public class Geocoder
+{
 
-    public static List<Response> from(String address, int limit, String lang) {
-        if (address.contains(";")) {
+    public static List<Response> from(String address, int limit, String lang)
+    {
+        if(address.contains(";"))
+        {
             String a[] = address.split(";");
-            try {
+            try
+            {
                 List<Response> resp = new ArrayList<>();
                 resp.add(from(Double.parseDouble(a[0]), Double.parseDouble(a[1]), limit, lang));
                 return resp;
-            } catch (Exception ignore) {
+            } catch(Exception ignore)
+            {
             }
         }
         Gson gson = new GsonBuilder().create();
-        try {
+        try
+        {
 
             URL url = new URL("http://nominatim.openstreetmap.org/search?q=" + address.replace(" ", "+") + "&format=json&limit=" + limit + "&addressdetails=1&accept-language=" + lang);
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
 
-            List<Response> resp = gson.fromJson(in, new TypeToken<List<Response>>() {
+            List<Response> resp = gson.fromJson(in, new TypeToken<List<Response>>()
+            {
             }.getType());
             in.close();
             return resp;
-        } catch (Exception e) {
+        } catch(Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -42,19 +50,23 @@ public class Geocoder {
 
     }
 
-    public static Response from(double lat, double lng, int limit, String lang) {
+    public static Response from(double lat, double lng, int limit, String lang)
+    {
         Gson gson = new GsonBuilder().create();
-        try {
+        try
+        {
 
             URL url = new URL("http://nominatim.openstreetmap.org/reverse?lat=" + lat + "&lon=" + lng + "&format=json&limit=" + limit + "&addressdetails=1&accept-language=" + lang);
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
 
-            Response resp = gson.fromJson(in, new TypeToken<Response>() {
+            Response resp = gson.fromJson(in, new TypeToken<Response>()
+            {
             }.getType());
             in.close();
             return resp;
-        } catch (Exception e) {
+        } catch(Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -62,7 +74,8 @@ public class Geocoder {
 
     }
 
-    public static class Response {
+    public static class Response
+    {
         public double lat, lon;
         public double[] boundingbox;
         public String display_name;
@@ -70,7 +83,8 @@ public class Geocoder {
 
     }
 
-    public static class Address {
+    public static class Address
+    {
         public String city, county, state, country, country_code, continent;
     }
 

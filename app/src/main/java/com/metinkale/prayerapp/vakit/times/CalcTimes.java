@@ -18,7 +18,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class CalcTimes extends Times {
+public class CalcTimes extends Times
+{
 
     private Double mLat, mLng;
 
@@ -29,31 +30,38 @@ public class CalcTimes extends Times {
     private static final String _ADJMETHOD = "adjMethod";
     private static final String _JURISTIC = "juristic";
 
-    public Method getMethod() {
+    public Method getMethod()
+    {
         return Method.valueOf(getString(_METHOD));
     }
 
-    public Juristic getJuristic() {
+    public Juristic getJuristic()
+    {
         return Juristic.valueOf(getString(_JURISTIC));
     }
 
-    public AdjMethod getAdjMethod() {
+    public AdjMethod getAdjMethod()
+    {
         return AdjMethod.valueOf(getString(_ADJMETHOD));
     }
 
-    public void setMethod(Method value) {
+    public void setMethod(Method value)
+    {
         set(_METHOD, value.name());
     }
 
-    public void setJuristic(Juristic value) {
+    public void setJuristic(Juristic value)
+    {
         set(_JURISTIC, value.name());
     }
 
-    public void setAdjMethod(AdjMethod value) {
+    public void setAdjMethod(AdjMethod value)
+    {
         set(_ADJMETHOD, value.name());
     }
 
-    CalcTimes(long id) {
+    CalcTimes(long id)
+    {
         super(id);
         mPrayTime = new PrayTime();
         mLat = getLat();
@@ -64,13 +72,15 @@ public class CalcTimes extends Times {
         mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
     }
 
-    CalcTimes(long id, boolean placeholder) {
+    CalcTimes(long id, boolean placeholder)
+    {
         super(id);
         //this class is just used when creating a CalcTimes below
     }
 
     @SuppressLint("InflateParams")
-    public static void add(final Activity c, final Bundle bdl) {
+    public static void add(final Activity c, final Bundle bdl)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
@@ -78,9 +88,11 @@ public class CalcTimes extends Times {
         final Spinner sp = (Spinner) view.findViewById(R.id.spinner);
         final Spinner sp2 = (Spinner) view.findViewById(R.id.spinner2);
 
-        lv.setAdapter(new ArrayAdapter<Method>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch, Method.values()) {
+        lv.setAdapter(new ArrayAdapter<Method>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch, Method.values())
+        {
             @Override
-            public View getView(int pos, View convertView, ViewGroup parent) {
+            public View getView(int pos, View convertView, ViewGroup parent)
+            {
                 ViewGroup vg = (ViewGroup) super.getView(pos, convertView, parent);
                 ((TextView) vg.getChildAt(0)).setText(getItem(pos).title);
                 ((TextView) vg.getChildAt(1)).setText(getItem(pos).desc);
@@ -97,10 +109,12 @@ public class CalcTimes extends Times {
         builder.setTitle(R.string.calcMethod);
         builder.setView(view);
         final AlertDialog dlg = builder.create();
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        lv.setOnItemClickListener(new OnItemClickListener()
+        {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index)
+            {
 
                 CalcTimes t = new CalcTimes(System.currentTimeMillis(), true);
                 t.setSource(Source.Calc);
@@ -123,7 +137,8 @@ public class CalcTimes extends Times {
     }
 
     @Override
-    public Source getSource() {
+    public Source getSource()
+    {
         return Source.Calc;
     }
 
@@ -132,9 +147,9 @@ public class CalcTimes extends Times {
     private List<String> mLastTimes;
 
     @Override
-    public String _getTime(int d, int m, int y, int time) {
-        if (mLastD == d && mLastM == m && mLastY == y)
-            return mLastTimes.get(time);
+    public String _getTime(int d, int m, int y, int time)
+    {
+        if(mLastD == d && mLastM == m && mLastY == y) return mLastTimes.get(time);
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, d);

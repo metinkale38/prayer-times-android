@@ -10,7 +10,8 @@ import android.view.View;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 
-public class CompassView extends View {
+public class CompassView extends View
+{
     private float mX, mY, mZ;
     private double mqAngle = 0;
     private float mqDist;
@@ -19,24 +20,28 @@ public class CompassView extends View {
     private RectF mRectF = new RectF();
     private Path mPath = new Path();
 
-    public CompassView(Context context, AttributeSet attrs, int defStyle) {
+    public CompassView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         mKaabe = context.getResources().getDrawable(R.drawable.kaabe);
 
     }
 
-    public CompassView(Context context, AttributeSet attrs) {
+    public CompassView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
 
     }
 
-    public CompassView(Context context) {
+    public CompassView(Context context)
+    {
         this(context, null);
 
     }
 
     @Override
-    public void onMeasure(int widthSpec, int heightSpec) {
+    public void onMeasure(int widthSpec, int heightSpec)
+    {
         super.onMeasure(widthSpec, heightSpec);
         int w = getMeasuredWidth();
 
@@ -56,7 +61,8 @@ public class CompassView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         int w = getWidth();
         int h = getHeight();
 
@@ -89,26 +95,32 @@ public class CompassView extends View {
         mPaint.setTextAlign(Align.LEFT);
         canvas.drawText(Math.round(mqAngle) + "°", w * 0.55f, h * 0.98f, mPaint);
 
-        if (mX > 180) {
+        if(mX > 180)
+        {
             mX -= 360;
         }
 
-        if (mY > 180) {
+        if(mY > 180)
+        {
             mY -= 360;
         }
 
-        if (mqAngle != 0) {
+        if(mqAngle != 0)
+        {
             canvas.translate(0, -0.05f * h);
 
             int dist = (int) Math.sqrt(Math.pow(Math.abs(getAngle() - mqAngle), 2) + mY * mY);
 
-            if (dist > 30) {
+            if(dist > 30)
+            {
                 float a = getAngle();
-                while (Math.abs(mqAngle - (a + 360)) < Math.abs(mqAngle - a)) {
+                while(Math.abs(mqAngle - (a + 360)) < Math.abs(mqAngle - a))
+                {
                     a += 360;
                 }
 
-                while (Math.abs(mqAngle - (a - 360)) < Math.abs(mqAngle - a)) {
+                while(Math.abs(mqAngle - (a - 360)) < Math.abs(mqAngle - a))
+                {
                     a -= 360;
                 }
 
@@ -126,7 +138,8 @@ public class CompassView extends View {
 
             mPaint.setStyle(Style.FILL);
 
-            if (dist <= 25) {
+            if(dist <= 25)
+            {
                 mPaint.setColor(0xFFFFFFFF);
                 mPaint.setAlpha((int) (170 - dist * 6.8));
 
@@ -148,7 +161,8 @@ public class CompassView extends View {
 
             canvas.translate((int) (mqAngle * w / 45), 0);
             int kw = w / 4 - dist * w / 180;
-            if (kw > 0) {
+            if(kw > 0)
+            {
                 mKaabe.setBounds(w / 2 - kw, h / 2 - kw, w / 2 + kw, h / 2 + kw);
                 mKaabe.draw(canvas);
             }
@@ -157,35 +171,42 @@ public class CompassView extends View {
 
     }
 
-    int getAngle() {
+    int getAngle()
+    {
         int angle = (int) mX;
-        while (angle < 0) {
+        while(angle < 0)
+        {
             angle += 360;
         }
 
-        while (angle > 360) {
+        while(angle > 360)
+        {
             angle -= 360;
         }
         return angle;
 
     }
 
-    public int getQiblaAngle() {
+    public int getQiblaAngle()
+    {
         int angle = (int) mqAngle;
-        if (angle < 0) {
+        if(angle < 0)
+        {
             angle += 360;
         }
         return angle;
     }
 
-    public void setAngle(float x, float y, float z) {
+    public void setAngle(float x, float y, float z)
+    {
         mX = x;
         mY = y;
         mZ = z;
         invalidate();
     }
 
-    public void setQibla(double qiblaAngle, float dist) {
+    public void setQibla(double qiblaAngle, float dist)
+    {
         mqDist = dist;
         mqAngle = qiblaAngle;
         invalidate();

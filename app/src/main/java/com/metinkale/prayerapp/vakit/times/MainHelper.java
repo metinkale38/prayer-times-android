@@ -15,7 +15,8 @@ import java.util.*;
 /**
  * Created by Metin on 19.06.2015.
  */
-public class MainHelper extends SQLiteOpenHelper {
+public class MainHelper extends SQLiteOpenHelper
+{
     private static final String DATABASE_NAME = "times";
     private static final int DATABASE_VERSION = 1;
 
@@ -40,22 +41,27 @@ public class MainHelper extends SQLiteOpenHelper {
     private LruCache<String, Object> cache = new LruCache<String, Object>(500);
     private List<MainHelperListener> mListeners = new ArrayList<>();
 
-    private MainHelper() {
+    private MainHelper()
+    {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
 
     }
 
-    public static void addListener(MainHelperListener listener) {
+    public static void addListener(MainHelperListener listener)
+    {
         get().mListeners.add(listener);
         listener.notifyDataSetChanged();
     }
 
-    public static void removeListener(MainHelperListener listener) {
+    public static void removeListener(MainHelperListener listener)
+    {
         get().mListeners.remove(listener);
     }
 
-    static MainHelper get() {
-        if (sInstance == null) {
+    static MainHelper get()
+    {
+        if(sInstance == null)
+        {
             sInstance = new MainHelper();
             sInstance.loadTimes();
         }
@@ -63,19 +69,23 @@ public class MainHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    public static Times getTimesAt(int index) {
+    public static Times getTimesAt(int index)
+    {
         return get().mTimes.get(index);
     }
 
-    public static Times getTimes(long id) {
-        for (Times t : get().mTimes) {
-            if (t.getID() == id)
-                return t;
+    public static Times getTimes(long id)
+    {
+        for(Times t : get().mTimes)
+        {
+            if(t.getID() == id) return t;
         }
 
-        try {
+        try
+        {
             TimesBase.Source source = TimesBase.getSource(id);
-            switch (source) {
+            switch(source)
+            {
                 case Diyanet:
                     return new DiyanetTimes(id);
                 case Fazilet:
@@ -90,37 +100,43 @@ public class MainHelper extends SQLiteOpenHelper {
                     return new CalcTimes(id);
             }
 
-        } catch (Exception e) {
+        } catch(Exception e)
+        {
         }
         return null;
     }
 
-    public static List<Times> getTimes() {
+    public static List<Times> getTimes()
+    {
         return get().mTimes;
     }
 
-    public static List<Long> getIds() {
+    public static List<Long> getIds()
+    {
         List<Long> ids = new ArrayList<>();
         List<Times> times = getTimes();
-        for (Times t : times) {
-            if (t != null)
-                ids.add(t.getID());
+        for(Times t : times)
+        {
+            if(t != null) ids.add(t.getID());
         }
         return ids;
     }
 
-    public static int getCount() {
+    public static int getCount()
+    {
         return get().mTimes.size();
     }
 
-    public static void drop(int from, int to) {
+    public static void drop(int from, int to)
+    {
 
         List<Long> keys = getIds();
         Long key = keys.get(from);
         keys.remove(key);
         keys.add(to, key);
         get().getDB().beginTransaction();
-        for (Long i : keys) {
+        for(Long i : keys)
+        {
             getTimes(i).setSortId(keys.indexOf(i));
         }
         get().getDB().setTransactionSuccessful();
@@ -128,19 +144,21 @@ public class MainHelper extends SQLiteOpenHelper {
         get().loadTimes();
     }
 
-    private void notifyOnDataSetChanged() {
-        for (MainHelperListener list : mListeners)
+    private void notifyOnDataSetChanged()
+    {
+        for(MainHelperListener list : mListeners)
             list.notifyDataSetChanged();
     }
 
-    public SQLiteDatabase getDB() {
-        if (mDB == null)
-            mDB = getWritableDatabase();
+    public SQLiteDatabase getDB()
+    {
+        if(mDB == null) mDB = getWritableDatabase();
         return mDB;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         mDB = db;
         mDB.execSQL(CITIES_CREATE);
         mDB.execSQL(TIMES_CREATE);
@@ -153,12 +171,15 @@ public class MainHelper extends SQLiteOpenHelper {
         c.moveToFirst();
         List<Long> ids = new ArrayList<>();
         long l = System.currentTimeMillis() / 2;
-        if (!c.isAfterLast()) {
-            do {
+        if(!c.isAfterLast())
+        {
+            do
+            {
                 l++;
                 String source = c.getString(c.getColumnIndex(TimesHelper.KEY_SOURCE));
                 Times times = null;
-                if (source.equals("Calc")) {
+                if(source.equals("Calc"))
+                {
                     CalcTimes calc = new CalcTimes(l, true);
                     calc.setSource(TimesBase.Source.Calc);
                     calc.setAdjMethod(PrayTime.AdjMethod.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_ADJMETHOD))));
@@ -168,7 +189,8 @@ public class MainHelper extends SQLiteOpenHelper {
                     calc.setLat(c.getLong(c.getColumnIndex(TimesHelper.KEY_LNG)));
                     calc.setName(c.getString(c.getColumnIndex(TimesHelper.KEY_NAME)));
                     times = calc;
-                } else {
+                } else
+                {
                     WebTimes web = new WebTimes(l);
                     web.setSource(TimesBase.Source.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_SOURCE))));
                     web.setLng(c.getLong(c.getColumnIndex(TimesHelper.KEY_LAT)));
@@ -180,24 +202,29 @@ public class MainHelper extends SQLiteOpenHelper {
                 int id = c.getInt(c.getColumnIndex(TimesHelper.KEY__ID));
                 newids.put(id, l);
                 Cursor cc = null;
-                try {
+                try
+                {
                     cc = p.query("id_" + id, null, null, null, null, null, null);
                     cc.moveToFirst();
-                    if (!cc.isAfterLast()) {
-                        do {
+                    if(!cc.isAfterLast())
+                    {
+                        do
+                        {
                             times.set(cc.getString(cc.getColumnIndex(PrefsHelper._KEY)), cc.getString(cc.getColumnIndex(PrefsHelper._VALUE)));
-                        } while (cc.moveToNext());
+                        } while(cc.moveToNext());
                     }
                     cc.close();
 
-                } catch (SQLiteException ignore) {
+                } catch(SQLiteException ignore)
+                {
 
-                } finally {
-                    if (cc != null && !cc.isClosed()) cc.close();
+                } finally
+                {
+                    if(cc != null && !cc.isClosed()) cc.close();
                 }
 
 
-            } while (c.moveToNext());
+            } while(c.moveToNext());
         }
         c.close();
 
@@ -208,13 +235,18 @@ public class MainHelper extends SQLiteOpenHelper {
         SharedPreferences widgets = App.getContext().getSharedPreferences("widgets", 0);
         SharedPreferences.Editor edit = widgets.edit();
         Map<String, ?> all = widgets.getAll();
-        for (String key : all.keySet()) {
-            if (all.get(key) instanceof Integer) {
-                if (!key.contains("_")) {
-                    try {
+        for(String key : all.keySet())
+        {
+            if(all.get(key) instanceof Integer)
+            {
+                if(!key.contains("_"))
+                {
+                    try
+                    {
                         edit.remove(key);
                         edit.putLong(key, newids.get(all.get(key)));
-                    } catch (Exception ignore) {
+                    } catch(Exception ignore)
+                    {
                     }
                 }
             }
@@ -224,41 +256,52 @@ public class MainHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
         mDB = db;
     }
 
-    protected void loadTimes() {
+    protected void loadTimes()
+    {
         List<Long> ids = new ArrayList<>();
         List<Times> times = new ArrayList<>(mTimes);
-        for (Times t : times) {
-            if (t.isDeleted()) {
+        for(Times t : times)
+        {
+            if(t.isDeleted())
+            {
                 mTimes.remove(t);
-            } else {
+            } else
+            {
                 ids.add(t.getID());
             }
         }
 
         Cursor c = get().getDB().query(CITIES_TABLE, new String[]{_ID}, "key != 'deleted'", null, _ID, null, null);
         c.moveToFirst();
-        if (!c.isAfterLast()) {
-            do {
+        if(!c.isAfterLast())
+        {
+            do
+            {
                 long id = c.getLong(0);
-                if (!ids.contains(id)) {
+                if(!ids.contains(id))
+                {
                     Times t = MainHelper.getTimes(id);
-                    if (t != null)
-                        mTimes.add(t);
+                    if(t != null) mTimes.add(t);
                 }
-            } while (c.moveToNext());
+            } while(c.moveToNext());
         }
         c.close();
 
-        Collections.sort(mTimes, new Comparator<Times>() {
+        Collections.sort(mTimes, new Comparator<Times>()
+        {
             @Override
-            public int compare(Times t1, Times t2) {
-                try {
+            public int compare(Times t1, Times t2)
+            {
+                try
+                {
                     return t1.getSortId() - t2.getSortId();
-                } catch (RuntimeException e) {
+                } catch(RuntimeException e)
+                {
                     return 0;
                 }
             }
@@ -268,62 +311,70 @@ public class MainHelper extends SQLiteOpenHelper {
     }
 
 
-    public interface MainHelperListener {
+    public interface MainHelperListener
+    {
         void notifyDataSetChanged();
     }
 
-    protected class _TimesBase {
+    protected class _TimesBase
+    {
         private long id;
         private boolean deleted = false;
 
-        public _TimesBase(long id) {
+        public _TimesBase(long id)
+        {
             this.id = id;
-            if (id == 0) throw new RuntimeException("can't create _TimesBase with i=0");
-            if (is("deleted"))
-                throw new RuntimeException("can't create TimesBase with deleted id(" + id + ")");
+            if(id == 0) throw new RuntimeException("can't create _TimesBase with i=0");
+            if(is("deleted")) throw new RuntimeException("can't create TimesBase with deleted id(" + id + ")");
         }
 
-        boolean isDeleted() {
+        boolean isDeleted()
+        {
             return deleted || is("deleted");
         }
 
-        public void setTimes(int d, int m, int y, String[] time) {
-            if (deleted) return;
+        public void setTimes(int d, int m, int y, String[] time)
+        {
+            if(deleted) return;
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_DATE, y + "-" + Utils.az(m) + "-" + Utils.az(d));
-            for (int i = 0; i < Math.min(time.length, _TIME.length); i++)
+            for(int i = 0; i < Math.min(time.length, _TIME.length); i++)
                 values.put(_TIME[i], time[i]);
 
             getDB().insertWithOnConflict(TIMES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
         }
 
-        String _getTime(int d, int m, int y, int time) {
-            if (deleted) return null;
+        String _getTime(int d, int m, int y, int time)
+        {
+            if(deleted) return null;
             String date = y + "-" + Utils.az(m) + "-" + Utils.az(d);
 
             Object cached = cache.get(id + date + time);
-            if (cached instanceof String)
-                return (String) cached;
+            if(cached instanceof String) return (String) cached;
 
             Cursor c = getDB().query(TIMES_TABLE, new String[]{_TIME[time]}, _ID + " = " + id + " AND " + _DATE + " = '" + date + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 c.close();
                 return "00:00";
             }
-            try {
+            try
+            {
                 String ret = c.getString(0);
                 cache.put(id + date + time, ret);
                 return ret;
-            } finally {
+            } finally
+            {
                 c.close();
             }
         }
 
-        public void delete() {
-            if (deleted) return;
+        public void delete()
+        {
+            if(deleted) return;
             getDB().delete(CITIES_TABLE, _ID + " = " + id, null);
             getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
             set("deleted", true);
@@ -332,18 +383,21 @@ public class MainHelper extends SQLiteOpenHelper {
             loadTimes();
         }
 
-        public void clearTimes() {
+        public void clearTimes()
+        {
             getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
         }
 
-        public final long getID() {
-            if (deleted) return 0;
+        public final long getID()
+        {
+            if(deleted) return 0;
             return id;
         }
 
 
-        public void set(String key, String value) {
-            if (deleted) return;
+        public void set(String key, String value)
+        {
+            if(deleted) return;
             cache.put(id + key, value);
             ContentValues values = new ContentValues();
             values.put(_ID, id);
@@ -354,8 +408,9 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
 
-        public void set(String key, int value) {
-            if (deleted) return;
+        public void set(String key, int value)
+        {
+            if(deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -367,13 +422,15 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
 
-        public void set(String key, boolean value) {
+        public void set(String key, boolean value)
+        {
             set(key, value ? 1 : 0);
         }
 
 
-        public void set(String key, double value) {
-            if (deleted) return;
+        public void set(String key, double value)
+        {
+            if(deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -385,8 +442,9 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
 
-        public void set(String key, long value) {
-            if (deleted) return;
+        public void set(String key, long value)
+        {
+            if(deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -398,8 +456,9 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
 
-        public void set(String key, byte[] value) {
-            if (deleted) return;
+        public void set(String key, byte[] value)
+        {
+            if(deleted) return;
             cache.put(id + key, value);
 
             ContentValues values = new ContentValues();
@@ -410,105 +469,126 @@ public class MainHelper extends SQLiteOpenHelper {
 
         }
 
-        public long getLong(String key) {
+        public long getLong(String key)
+        {
             return getLong(key, 0);
         }
 
-        public long getLong(String key, long def) {
-            if (deleted) return def;
+        public long getLong(String key, long def)
+        {
+            if(deleted) return def;
             Object cached = cache.get(id + key);
-            if (cached instanceof Long) return (Long) cached;
+            if(cached instanceof Long) return (Long) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 c.close();
                 return def;
             }
-            try {
+            try
+            {
                 long ret = c.getLong(0);
                 cache.put(id + key, ret);
                 return ret;
-            } finally {
+            } finally
+            {
                 c.close();
             }
         }
 
-        public double getDouble(String key) {
+        public double getDouble(String key)
+        {
             return getDouble(key, 0);
         }
 
-        public double getDouble(String key, double def) {
-            if (deleted) return def;
+        public double getDouble(String key, double def)
+        {
+            if(deleted) return def;
             Object cached = cache.get(id + key);
-            if (cached instanceof Double) return (Double) cached;
+            if(cached instanceof Double) return (Double) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 c.close();
                 return def;
             }
-            try {
+            try
+            {
                 double ret = c.getDouble(0);
                 cache.put(id + key, ret);
                 return ret;
-            } finally {
+            } finally
+            {
                 c.close();
             }
         }
 
-        public String getString(String key) {
+        public String getString(String key)
+        {
             return getString(key, null);
         }
 
-        public String getString(String key, String def) {
-            if (deleted) return def;
+        public String getString(String key, String def)
+        {
+            if(deleted) return def;
             Object cached = cache.get(id + key);
-            if (cached instanceof String) return (String) cached;
+            if(cached instanceof String) return (String) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 c.close();
                 return def;
             }
-            try {
+            try
+            {
                 String ret = c.getString(0);
                 cache.put(id + key, ret);
                 return ret;
-            } finally {
+            } finally
+            {
                 c.close();
             }
         }
 
-        public boolean deleted() {
+        public boolean deleted()
+        {
             return deleted;
         }
 
-        public int getInt(String key) {
+        public int getInt(String key)
+        {
             return getInt(key, -1);
         }
 
-        public int getInt(String key, int def) {
-            if (!key.equals("deleted"))
-                if (deleted) return def;
+        public int getInt(String key, int def)
+        {
+            if(!key.equals("deleted")) if(deleted) return def;
             Object cached = cache.get(id + key);
-            if (cached instanceof Integer) return (Integer) cached;
+            if(cached instanceof Integer) return (Integer) cached;
             Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 c.close();
                 return def;
             }
-            try {
+            try
+            {
                 int ret = c.getInt(0);
                 cache.put(id + key, ret);
                 return ret;
-            } finally {
+            } finally
+            {
                 c.close();
             }
         }
 
 
-        public boolean is(String key) {
+        public boolean is(String key)
+        {
             return getInt(key, 0) == 1;
         }
 

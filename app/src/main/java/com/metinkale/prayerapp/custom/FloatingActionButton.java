@@ -19,7 +19,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
-public class FloatingActionButton extends View {
+public class FloatingActionButton extends View
+{
 
     private final static TimeInterpolator overshootInterpolator = new OvershootInterpolator();
     private final static TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
@@ -30,22 +31,26 @@ public class FloatingActionButton extends View {
     private Bitmap mBitmap;
     private boolean mHidden = false;
 
-    public FloatingActionButton(Context context) {
+    public FloatingActionButton(Context context)
+    {
         super(context);
         this.context = context;
         init(Color.WHITE);
     }
 
-    void setFloatingActionButtonColor(int FloatingActionButtonColor) {
+    void setFloatingActionButtonColor(int FloatingActionButtonColor)
+    {
         init(FloatingActionButtonColor);
     }
 
-    void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable) {
+    void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable)
+    {
         mBitmap = ((BitmapDrawable) FloatingActionButtonDrawable).getBitmap();
         invalidate();
     }
 
-    void init(int FloatingActionButtonColor) {
+    void init(int FloatingActionButtonColor)
+    {
         setWillNotDraw(false);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
@@ -60,16 +65,20 @@ public class FloatingActionButton extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         setClickable(true);
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, (float) (getWidth() / 2.6), mButtonPaint);
         canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2, (getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!mHidden) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if(!mHidden)
+        {
+            if(event.getAction() == MotionEvent.ACTION_UP)
+            {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", getScaleX(), 1);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", getScaleY(), 1);
                 AnimatorSet animSetXY = new AnimatorSet();
@@ -78,7 +87,8 @@ public class FloatingActionButton extends View {
                 animSetXY.setDuration(100);
                 animSetXY.start();
 
-            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            } else if(event.getAction() == MotionEvent.ACTION_DOWN)
+            {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1, 1.1f);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 1, 1.1f);
                 AnimatorSet animSetXY = new AnimatorSet();
@@ -92,8 +102,10 @@ public class FloatingActionButton extends View {
         return super.onTouchEvent(event);
     }
 
-    public void hideFloatingActionButton() {
-        if (!mHidden) {
+    public void hideFloatingActionButton()
+    {
+        if(!mHidden)
+        {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1, 0);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 1, 0);
             AnimatorSet animSetXY = new AnimatorSet();
@@ -105,8 +117,10 @@ public class FloatingActionButton extends View {
         }
     }
 
-    public void showFloatingActionButton() {
-        if (mHidden) {
+    public void showFloatingActionButton()
+    {
+        if(mHidden)
+        {
             setVisibility(View.VISIBLE);
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0, 1);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0, 1);
@@ -119,17 +133,20 @@ public class FloatingActionButton extends View {
         }
     }
 
-    public boolean isHidden() {
+    public boolean isHidden()
+    {
         return mHidden;
     }
 
     @Override
-    public boolean performClick() {
-        if (!mHidden) return super.performClick();
+    public boolean performClick()
+    {
+        if(!mHidden) return super.performClick();
         return false;
     }
 
-    static public class Builder {
+    static public class Builder
+    {
         private final Activity activity;
         int gravity = Gravity.BOTTOM | Gravity.RIGHT; // default bottom right
         Drawable drawable;
@@ -139,7 +156,8 @@ public class FloatingActionButton extends View {
         boolean hidden;
         private FrameLayout.LayoutParams params;
 
-        public Builder(Activity context) {
+        public Builder(Activity context)
+        {
             scale = context.getResources().getDisplayMetrics().density;
             size = convertToPixels(72, scale); // default size is 72dp by 72dp
             params = new FrameLayout.LayoutParams(size, size);
@@ -148,7 +166,8 @@ public class FloatingActionButton extends View {
             this.activity = context;
         }
 
-        public Builder hide() {
+        public Builder hide()
+        {
             hidden = true;
             return this;
         }
@@ -156,7 +175,8 @@ public class FloatingActionButton extends View {
         /**
          * Sets the gravity for the FAB
          */
-        public Builder withGravity(int gravity) {
+        public Builder withGravity(int gravity)
+        {
             this.gravity = gravity;
             return this;
         }
@@ -164,7 +184,8 @@ public class FloatingActionButton extends View {
         /**
          * Sets the margins for the FAB in dp
          */
-        public Builder withMargins(int left, int top, int right, int bottom) {
+        public Builder withMargins(int left, int top, int right, int bottom)
+        {
             params.setMargins(convertToPixels(left, scale), convertToPixels(top, scale), convertToPixels(right, scale), convertToPixels(bottom, scale));
             return this;
         }
@@ -172,7 +193,8 @@ public class FloatingActionButton extends View {
         /**
          * Sets the FAB drawable
          */
-        public Builder withDrawable(final Drawable drawable) {
+        public Builder withDrawable(final Drawable drawable)
+        {
             this.drawable = drawable;
             return this;
         }
@@ -180,7 +202,8 @@ public class FloatingActionButton extends View {
         /**
          * Sets the FAB color
          */
-        public Builder withButtonColor(final int color) {
+        public Builder withButtonColor(final int color)
+        {
             this.color = color;
             return this;
         }
@@ -188,15 +211,18 @@ public class FloatingActionButton extends View {
         /**
          * Sets the FAB size in dp
          */
-        public Builder withButtonSize(int size) {
+        public Builder withButtonSize(int size)
+        {
             size = convertToPixels(size, scale);
             params = new FrameLayout.LayoutParams(size, size);
             return this;
         }
 
-        public FloatingActionButton create() {
+        public FloatingActionButton create()
+        {
             final FloatingActionButton button = new FloatingActionButton(activity);
-            if (hidden) {
+            if(hidden)
+            {
                 button.setScaleX(0);
                 button.setScaleY(0);
                 button.mHidden = hidden;
@@ -213,7 +239,8 @@ public class FloatingActionButton extends View {
         // dps to pixel units
         // based on density scale
         // see developer.android.com (Supporting Multiple Screen Sizes)
-        private int convertToPixels(int dp, float scale) {
+        private int convertToPixels(int dp, float scale)
+        {
             return (int) (dp * scale + 0.5f);
         }
     }

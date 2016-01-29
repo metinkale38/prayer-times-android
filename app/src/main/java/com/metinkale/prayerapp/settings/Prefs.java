@@ -7,7 +7,8 @@ import com.metinkale.prayerapp.App;
 /**
  * Created by Metin on 14.06.2015.
  */
-public class Prefs {
+public class Prefs
+{
     private static final Object LOCK = new Object();
     private static Prefs ourInstance;
     private SharedPreferences.Editor mEditor;
@@ -27,15 +28,17 @@ public class Prefs {
     private final float mCompassLng;
     private final int mKerahatSunrise, mKerahatIstiwa, mKerahatSunset;
 
-    private static Prefs get() {
-        synchronized (LOCK) {
-            if (ourInstance == null)
-                ourInstance = new Prefs();
+    private static Prefs get()
+    {
+        synchronized(LOCK)
+        {
+            if(ourInstance == null) ourInstance = new Prefs();
         }
         return ourInstance;
     }
 
-    private Prefs() {
+    private Prefs()
+    {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         mEditor = prefs.edit();
 
@@ -59,10 +62,12 @@ public class Prefs {
 
 
         String calIntegration = "-1";
-        try {
+        try
+        {
             calIntegration = prefs.getString("calendarIntegration", "-1");
             calIntegration.equals("-1");
-        } catch (Exception e) {//catch Exception if calendarIntegration is an INT
+        } catch(Exception e)
+        {//catch Exception if calendarIntegration is an INT
             mEditor.remove("calendarIntegration").commit();//revert
             mEditor = prefs.edit();
 
@@ -72,107 +77,131 @@ public class Prefs {
     }
 
 
-    public static String getLanguage() {
+    public static String getLanguage()
+    {
         return get().mLanguage;
     }
 
-    public static String getDF() {
+    public static String getDF()
+    {
         return get().mDF;
     }
 
-    public static String getHDF() {
+    public static String getHDF()
+    {
         return get().mHDF;
     }
 
-    public static boolean useArabic() {
+    public static boolean useArabic()
+    {
         return get().mUseArabic;
     }
 
-    public static boolean use12H() {
+    public static boolean use12H()
+    {
         return get().mUse12H;
     }
 
-    public static int getLastCalIntegration() {
+    public static int getLastCalIntegration()
+    {
         return get().mLastCalIntegration;
     }
 
-    public static String getCalendar() {
+    public static String getCalendar()
+    {
         return get().mCalendarIntegration;
     }
 
-    public static boolean isDefaultWidgetMinuteType() {
+    public static boolean isDefaultWidgetMinuteType()
+    {
         return get().mWidgetMinute;
     }
 
-    public static int getHijriFix() {
+    public static int getHijriFix()
+    {
         return get().mHijriFix;
     }
 
-    public static int getChangelogVersion() {
+    public static int getChangelogVersion()
+    {
         return get().mChangelogVersion;
     }
 
-    public static float getCompassLng() {
+    public static float getCompassLng()
+    {
         return get().mCompassLng;
     }
 
-    public static float getCompassLat() {
+    public static float getCompassLat()
+    {
         return get().mCompassLat;
     }
 
-    public static int getTesbihatTextSize() {
+    public static int getTesbihatTextSize()
+    {
         return get().mTesbihatTextSize;
     }
 
 
-    public static float getKerahatSunrise() {
+    public static float getKerahatSunrise()
+    {
         return get().mKerahatSunrise;
     }
 
-    public static float getKerahatIstiwa() {
+    public static float getKerahatIstiwa()
+    {
         return get().mKerahatIstiwa;
     }
 
-    public static int getKerahatSunet() {
+    public static int getKerahatSunet()
+    {
         return get().mKerahatSunset;
     }
 
-    public static void setTesbihatTextSize(int size) {
+    public static void setTesbihatTextSize(int size)
+    {
         get().mEditor.putInt("tesbihatTextSize", size);
         commit();
     }
 
-    public static void setChangelogVersion(int clv) {
+    public static void setChangelogVersion(int clv)
+    {
         get().mEditor.putInt("changelog_version", clv);
         commit();
     }
 
-    public static void setLanguage(String language) {
+    public static void setLanguage(String language)
+    {
         get().mEditor.putString("language", language);
         commit();
     }
 
 
-    public static void setLastCalIntegration(int date) {
+    public static void setLastCalIntegration(int date)
+    {
         get().mEditor.putInt("lastCalIntegration", date);
         commit();
     }
 
-    public static void setCalendar(String cal) {
+    public static void setCalendar(String cal)
+    {
         get().mEditor.putString("calendarIntegration", cal);
         commit();
     }
 
-    private static void commit() {
+    private static void commit()
+    {
         get().mEditor.commit();
         ourInstance = null;
     }
 
-    public static void reset() {
+    public static void reset()
+    {
         ourInstance = null;
     }
 
-    public static void setCompassPos(float lat, float lon) {
+    public static void setCompassPos(float lat, float lon)
+    {
         get().mEditor.putFloat("compassLat", lat).putFloat("compassLong", lon);
         commit();
     }

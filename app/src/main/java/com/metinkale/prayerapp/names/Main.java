@@ -21,20 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Main extends BaseActivity implements OnQueryTextListener {
+public class Main extends BaseActivity implements OnQueryTextListener
+{
 
     private ListView listView;
     private Item[] values;
 
     @SuppressLint("NewApi")
-    private static String normalize(String str) {
+    private static String normalize(String str)
+    {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "");
         return string.toLowerCase(Locale.ENGLISH);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
 
@@ -43,11 +46,13 @@ public class Main extends BaseActivity implements OnQueryTextListener {
         listView = (ListView) findViewById(android.R.id.list);
         values = new Item[99];
 
-        try {
+        try
+        {
             BufferedReader br = new BufferedReader(new InputStreamReader(getResources().openRawResource(R.raw.names)));
             String line;
             int i = 0;
-            while ((line = br.readLine()) != null) {
+            while((line = br.readLine()) != null)
+            {
                 String[] p = line.split("\t");
                 values[i] = new Item();
                 values[i].arabic = p[0];
@@ -60,7 +65,8 @@ public class Main extends BaseActivity implements OnQueryTextListener {
                 i++;
             }
             br.close();
-        } catch (IOException e) {
+        } catch(IOException e)
+        {
             App.e(e);
         }
 
@@ -69,7 +75,8 @@ public class Main extends BaseActivity implements OnQueryTextListener {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
 
         getMenuInflater().inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_search);
@@ -80,15 +87,19 @@ public class Main extends BaseActivity implements OnQueryTextListener {
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
+    public boolean onQueryTextSubmit(String query)
+    {
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(String newText)
+    {
         List<Item> values = new ArrayList<>();
-        for (Item val : this.values) {
-            if (normalize(val.toString()).contains(normalize(newText))) {
+        for(Item val : this.values)
+        {
+            if(normalize(val.toString()).contains(normalize(newText)))
+            {
                 values.add(val);
             }
         }
@@ -98,7 +109,8 @@ public class Main extends BaseActivity implements OnQueryTextListener {
     }
 
     @Override
-    public boolean setNavBar() {
+    public boolean setNavBar()
+    {
         return false;
     }
 

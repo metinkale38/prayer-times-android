@@ -27,13 +27,16 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import java.util.Calendar;
 
-public class WidgetProviderLong extends AppWidgetProvider {
+public class WidgetProviderLong extends AppWidgetProvider
+{
     private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
-    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId)
+    {
 
-        if (mDP == 0) {
+        if(mDP == 0)
+        {
             Resources r = context.getResources();
             mDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
         }
@@ -55,9 +58,9 @@ public class WidgetProviderLong extends AppWidgetProvider {
         w = (int) (20 * scale);
         h = (int) (5 * scale);
 
-        if (w <= 0 || h <= 0) {
-            if (!widgets.contains(widgetId + "_width") && !widgets.contains(widgetId + "_height"))
-                return;
+        if(w <= 0 || h <= 0)
+        {
+            if(!widgets.contains(widgetId + "_width") && !widgets.contains(widgetId + "_height")) return;
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -67,7 +70,8 @@ public class WidgetProviderLong extends AppWidgetProvider {
         }
 
         Theme theme;
-        switch (t) {
+        switch(t)
+        {
             case 0:
                 theme = Theme.Light;
                 break;
@@ -86,11 +90,14 @@ public class WidgetProviderLong extends AppWidgetProvider {
         }
 
         Times times = null;
-        try {
+        try
+        {
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (Exception ignore) {
+        } catch(Exception ignore)
+        {
         }
-        if (times == null) {
+        if(times == null)
+        {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);
@@ -124,7 +131,8 @@ public class WidgetProviderLong extends AppWidgetProvider {
         paint.setSubpixelText(true);
 
         paint.setColor(theme.hovercolor);
-        if (next != 0) {
+        if(next != 0)
+        {
             canvas.drawRect(w * (next - 1) / 6, h * 3 / 9, w * next / 6, h, paint);
         }
         float s = paint.getStrokeWidth();
@@ -146,33 +154,37 @@ public class WidgetProviderLong extends AppWidgetProvider {
         paint.setTextSize(h / 5);
         paint.setTextAlign(Align.CENTER);
         int y = h * 6 / 7;
-        if (Prefs.use12H())
-            y += h / 14;
+        if(Prefs.use12H()) y += h / 14;
 
         boolean fits = true;
         String[] vakits = new String[]{Vakit.getByIndex(0).getString(), Vakit.GUNES.getString(), Vakit.OGLE.getString(), Vakit.IKINDI.getString(), Vakit.AKSAM.getString(), Vakit.YATSI.getString()};
-        do {
-            if (!fits)
-                paint.setTextSize((float) (paint.getTextSize() * 0.95));
+        do
+        {
+            if(!fits) paint.setTextSize((float) (paint.getTextSize() * 0.95));
             fits = true;
-            for (String v : vakits) {
-                if (paint.measureText(v) > w / 6 && w > 5)
-                    fits = false;
+            for(String v : vakits)
+            {
+                if(paint.measureText(v) > w / 6 && w > 5) fits = false;
             }
-        } while (!fits);
+        } while(!fits);
 
-        for (int i = 0; i < vakits.length; i++) {
+        for(int i = 0; i < vakits.length; i++)
+        {
             canvas.drawText(vakits[i], w * (1 + 2 * i) / 12, y, paint);
         }
 
 
         paint.setTextSize(h * 2 / 9);
-        if (!Prefs.use12H()) {
-            for (int i = 0; i < daytimes.length; i++) {
+        if(!Prefs.use12H())
+        {
+            for(int i = 0; i < daytimes.length; i++)
+            {
                 canvas.drawText(daytimes[i], w * (1 + 2 * i) / 12, h * 3 / 5, paint);
             }
-        } else {
-            for (int i = 0; i < daytimes.length; i++) {
+        } else
+        {
+            for(int i = 0; i < daytimes.length; i++)
+            {
                 String time = Utils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
@@ -192,9 +204,11 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         remoteViews.setImageViewBitmap(R.id.widget, bmp);
 
-        try {
+        try
+        {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        } catch (RuntimeException e) {
+        } catch(RuntimeException e)
+        {
             SCALE_MULT -= 0.1f;
             updateAppWidget(context, appWidgetManager, widgetId);
 
@@ -202,7 +216,8 @@ public class WidgetProviderLong extends AppWidgetProvider {
     }
 
     @Override
-    public void onEnabled(Context context) {
+    public void onEnabled(Context context)
+    {
         ComponentName thisWidget = new ComponentName(context, WidgetProviderLong.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
@@ -210,26 +225,31 @@ public class WidgetProviderLong extends AppWidgetProvider {
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
 
-        for (int widgetId : appWidgetIds) {
+        for(int widgetId : appWidgetIds)
+        {
             updateAppWidget(context, appWidgetManager, widgetId);
         }
 
     }
 
     @Override
-    public void onDisabled(Context context) {
+    public void onDisabled(Context context)
+    {
 
     }
 
     @SuppressLint("InlinedApi")
     @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
+    {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if(w * h != 0)
+        {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

@@ -26,7 +26,8 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import java.util.List;
 
-public class PrefsView extends View implements OnClickListener {
+public class PrefsView extends View implements OnClickListener
+{
     private final static ColorFilter sCFInactive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
     private final Paint mPaint = new Paint();
     private Pref mPref;
@@ -34,31 +35,39 @@ public class PrefsView extends View implements OnClickListener {
     private PrefsFunctions mFunc;
     private Vakit mVakit;
 
-    public PrefsView(Context c) {
+    public PrefsView(Context c)
+    {
         this(c, null, 0);
     }
 
-    public PrefsView(Context c, Pref pref) {
+    public PrefsView(Context c, Pref pref)
+    {
         this(c, null, 0, pref);
     }
 
-    public PrefsView(Context c, AttributeSet attrs) {
+    public PrefsView(Context c, AttributeSet attrs)
+    {
         this(c, attrs, 0);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle) {
+    public PrefsView(Context c, AttributeSet attrs, int defStyle)
+    {
         this(c, attrs, defStyle, null);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle, Pref pref) {
+    public PrefsView(Context c, AttributeSet attrs, int defStyle, Pref pref)
+    {
         super(c, attrs, defStyle);
-        if (pref != null) {
+        if(pref != null)
+        {
             mPref = pref;
-        } else {
+        } else
+        {
             mPref = Pref.valueOf((String) getTag());
         }
 
-        if (mPref == null) {
+        if(mPref == null)
+        {
             mPref = Pref.Sound;
         }
         mDrawable = c.getResources().getDrawable(mPref.resId);
@@ -66,30 +75,34 @@ public class PrefsView extends View implements OnClickListener {
 
     }
 
-    public void setPrefFunctions(PrefsFunctions func) {
+    public void setPrefFunctions(PrefsFunctions func)
+    {
         mFunc = func;
     }
 
-    public void setVakit(Vakit vakit) {
+    public void setVakit(Vakit vakit)
+    {
         mVakit = vakit;
     }
 
     @Override
-    public void setTag(Object obj) {
+    public void setTag(Object obj)
+    {
         super.setTag(obj);
         mPref = Pref.valueOf((String) getTag());
     }
 
-    public void setPrefType(Pref pref) {
+    public void setPrefType(Pref pref)
+    {
         mPref = pref;
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas)
+    {
         Object o = getValue();
         boolean active = o instanceof Boolean && o.equals(true) || o instanceof Integer && !o.equals(0) || o instanceof String && !o.equals("silent");
-        if (mPref == Pref.Vibration2)
-            active = !o.equals(-1);
+        if(mPref == Pref.Vibration2) active = !o.equals(-1);
         mPaint.setColor(active ? Color.WHITE : Color.LTGRAY);
         int w = getHeight();
         canvas.drawCircle(w / 2, w / 2, w / 2, mPaint);
@@ -97,51 +110,56 @@ public class PrefsView extends View implements OnClickListener {
         mDrawable.setColorFilter(active ? null : sCFInactive);
         mDrawable.draw(canvas);
 
-        if (mPref == Pref.Silenter) {
+        if(mPref == Pref.Silenter)
+        {
             int s = (Integer) getValue();
             mPaint.setColor(Color.BLACK);
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setTextSize(w / 2);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             canvas.drawText(s + "'", w * 6 / 10, w / 2, mPaint);
-        } else if (mPref == Pref.Time || mPref == Pref.SabahTime) {
+        } else if(mPref == Pref.Time || mPref == Pref.SabahTime)
+        {
             int s = (Integer) getValue();
             mPaint.setColor(Color.BLACK);
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setTextSize(w / 2);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             canvas.drawText(s + "'", w / 2, w * 2 / 3, mPaint);
-        } else if (mPref == Pref.Vibration2) {
+        } else if(mPref == Pref.Vibration2)
+        {
             int s = (Integer) getValue();
             String txt = "";
-            if (s == 0)
-                txt = "8";
-            else if (s == 1)
-                txt = "1";
+            if(s == 0) txt = "8";
+            else if(s == 1) txt = "1";
             mPaint.setColor(Color.BLACK);
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setTextSize(w / 2);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            if (s == 0) {
+            if(s == 0)
+            {
                 canvas.rotate(90, canvas.getWidth() / 2, canvas.getHeight() / 2);
                 canvas.drawText(txt, w / 2, w * 2 / 3, mPaint);
                 canvas.rotate(-90, canvas.getWidth() / 2, canvas.getHeight() / 2);
-            } else
-                canvas.drawText(txt, w / 2, w * 2 / 3, mPaint);
+            } else canvas.drawText(txt, w / 2, w * 2 / 3, mPaint);
         }
     }
 
     @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         int size = width > height ? height : width;
         setMeasuredDimension(size, size);
     }
 
-    public Object getValue() {
-        if (mFunc == null) {
-            switch (mPref) {
+    public Object getValue()
+    {
+        if(mFunc == null)
+        {
+            switch(mPref)
+            {
                 case Dua:
                 case Sela:
                 case Sound:
@@ -156,57 +174,65 @@ public class PrefsView extends View implements OnClickListener {
                 default:
                     break;
             }
-        } else {
+        } else
+        {
             return mFunc.getValue();
         }
 
         return null;
     }
 
-    public void setValue(Object obj) {
-        if (mFunc != null) {
+    public void setValue(Object obj)
+    {
+        if(mFunc != null)
+        {
             mFunc.setValue(obj);
         }
         this.invalidate();
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         final Object o = getValue();
-        if (mPref == Pref.Sound || mPref == Pref.Dua || mPref == Pref.Sela) {
-            new SoundChooser().showExpanded(((Activity) this.getContext()).getFragmentManager(), new Callback() {
+        if(mPref == Pref.Sound || mPref == Pref.Dua || mPref == Pref.Sela)
+        {
+            new SoundChooser().showExpanded(((Activity) this.getContext()).getFragmentManager(), new Callback()
+            {
 
                 @Override
-                public String getCurrent() {
+                public String getCurrent()
+                {
                     return (String) getValue();
                 }
 
                 @Override
-                public void setCurrent(String current) {
+                public void setCurrent(String current)
+                {
                     setValue(current);
 
                 }
 
                 @Override
-                public Vakit getVakit() {
+                public Vakit getVakit()
+                {
                     return mVakit;
                 }
 
                 @Override
-                public List<Sound> getSounds() {
-                    if (mPref == Pref.Sound)
-                        return Sounds.getSounds(mVakit);
-                    else if (mPref == Pref.Dua)
-                        return Sounds.getSounds("dua", "extra");
-                    else if (mPref == Pref.Sela)
-                        return Sounds.getSounds("sela", "extra");
+                public List<Sound> getSounds()
+                {
+                    if(mPref == Pref.Sound) return Sounds.getSounds(mVakit);
+                    else if(mPref == Pref.Dua) return Sounds.getSounds("dua", "extra");
+                    else if(mPref == Pref.Sela) return Sounds.getSounds("sela", "extra");
 
                     return Sounds.getSounds(mVakit);
                 }
 
             });
 
-        } else if (mPref == Pref.SabahTime) {
+        } else if(mPref == Pref.SabahTime)
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View view = inflater.inflate(R.layout.sabahtime_dialog, null);
@@ -219,30 +245,37 @@ public class PrefsView extends View implements OnClickListener {
             np.setValue(Math.abs(val));
 
             rg.check(val < 0 ? R.id.afterImsak : R.id.beforeGunes);
-            builder.setView(view).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setView(view).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int id) {
+                public void onClick(DialogInterface dialog, int id)
+                {
                     setValue(np.getValue() * (rg.getCheckedRadioButtonId() == R.id.beforeGunes ? 1 : -1));
                 }
-            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int id) {
+                public void onClick(DialogInterface dialog, int id)
+                {
                 }
             });
             builder.show();
-        } else if (mPref == Pref.Vibration2) {
+        } else if(mPref == Pref.Vibration2)
+        {
             int i = (Integer) o;
             i++;
-            if (i < -1 || i > 1)
-                i = -1;
+            if(i < -1 || i > 1) i = -1;
             setValue(i);
             performHapticFeedback(HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING | HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-        } else if (o instanceof Boolean) {
+        } else if(o instanceof Boolean)
+        {
             setValue(!(Boolean) o);
             performHapticFeedback(HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING | HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-        } else if (o instanceof Integer) {
+        } else if(o instanceof Integer)
+        {
             int titleId = 0;
-            switch (mPref) {
+            switch(mPref)
+            {
                 case Silenter:
                     titleId = R.string.silenter_duration;
                     break;
@@ -252,10 +285,12 @@ public class PrefsView extends View implements OnClickListener {
                 default:
                     break;
             }
-            NumberPickerDialog npd = new NumberPickerDialog(getContext(), new OnNumberSetListener() {
+            NumberPickerDialog npd = new NumberPickerDialog(getContext(), new OnNumberSetListener()
+            {
 
                 @Override
-                public void onNumberSet(int dialogId, int number) {
+                public void onNumberSet(int dialogId, int number)
+                {
                     setValue(number);
 
                 }
@@ -265,17 +300,20 @@ public class PrefsView extends View implements OnClickListener {
 
     }
 
-    enum Pref {
+    enum Pref
+    {
         Silenter(R.drawable.ic_silenter), Sound(R.drawable.ic_sound), Sela(R.drawable.ic_sound), Dua(R.drawable.ic_dua), Vibration2(R.drawable.ic_vibration), Vibration(R.drawable.ic_vibration), Time(R.drawable.ic_time), SabahTime(R.drawable.ic_time);
         int resId;
 
-        Pref(int resId) {
+        Pref(int resId)
+        {
             this.resId = resId;
         }
 
     }
 
-    public interface PrefsFunctions {
+    public interface PrefsFunctions
+    {
         Object getValue();
 
         void setValue(Object obj);

@@ -29,11 +29,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener {
+public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener
+{
     private MyAdapter mAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.vakit_addcity);
 
@@ -45,10 +47,12 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.oldAddCity);
-        legacy.setOnClickListener(new OnClickListener() {
+        legacy.setOnClickListener(new OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 AddCity.this.finish();
                 startActivity(new Intent(AddCity.this, AddCityLegacy.class));
 
@@ -62,27 +66,31 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (PermissionUtils.get(this).pLocation) checkLocation();
+        if(PermissionUtils.get(this).pLocation) checkLocation();
     }
 
-    public void checkLocation() {
-        if (PermissionUtils.get(this).pLocation) {
+    public void checkLocation()
+    {
+        if(PermissionUtils.get(this).pLocation)
+        {
             LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
             Location loc = null;
             List<String> providers = lm.getProviders(true);
-            for (String provider : providers) {
+            for(String provider : providers)
+            {
                 Location last = lm.getLastKnownLocation(provider);
                 // one hour==1meter in accuracy
-                if (last != null && (loc == null || last.getAccuracy() - last.getTime() / (1000 * 60 * 60) < loc.getAccuracy() - loc.getTime() / (1000 * 60 * 60))) {
+                if(last != null && (loc == null || last.getAccuracy() - last.getTime() / (1000 * 60 * 60) < loc.getAccuracy() - loc.getTime() / (1000 * 60 * 60)))
+                {
                     loc = last;
                 }
             }
 
-            if (loc != null)
-                onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
+            if(loc != null) onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
 
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
@@ -91,17 +99,18 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             criteria.setCostAllowed(false);
             criteria.setSpeedRequired(false);
             String provider = lm.getBestProvider(criteria, true);
-            if (provider != null)
-                lm.requestSingleUpdate(provider, this, null);
+            if(provider != null) lm.requestSingleUpdate(provider, this, null);
 
-        } else {
+        } else
+        {
             PermissionUtils.get(this).needLocation(this);
         }
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.search, menu);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
@@ -112,9 +121,11 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
+    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index)
+    {
         final Cities.Item i = mAdapter.getItem(pos);
-        switch (i.source) {
+        switch(i.source)
+        {
             case Calc:
                 Bundle bdl = new Bundle();
                 bdl.putString("city", i.city);
@@ -136,8 +147,10 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(final String query) {
-        if (query.contains(";") && mAdapter.getCount() <= 1) {
+    public boolean onQueryTextSubmit(final String query)
+    {
+        if(query.contains(";") && mAdapter.getCount() <= 1)
+        {
             mAdapter.clear();
             Item item = new Item();
             item.city = "GPS";
@@ -149,11 +162,14 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.notifyDataSetChanged();
         }
 
-        Cities.search(query, new Cities.Callback() {
+        Cities.search(query, new Cities.Callback()
+        {
             @Override
-            public void onResult(List result) {
+            public void onResult(List result)
+            {
                 List<Item> items = result;
-                if (items != null && !items.isEmpty()) {
+                if(items != null && !items.isEmpty())
+                {
                     mAdapter.clear();
                     mAdapter.addAll(items);
                 }
@@ -166,51 +182,62 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(String newText)
+    {
 
         return false;
     }
 
     @Override
-    public boolean setNavBar() {
+    public boolean setNavBar()
+    {
         this.setNavBarColor(0xffeeeeee);
         return true;
     }
 
     @Override
-    public void onLocationChanged(Location loc) {
+    public void onLocationChanged(Location loc)
+    {
         onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(String provider)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(String provider)
+    {
 
     }
 
-    class MyAdapter extends ArrayAdapter<Cities.Item> {
+    class MyAdapter extends ArrayAdapter<Cities.Item>
+    {
 
-        public MyAdapter(Context context) {
+        public MyAdapter(Context context)
+        {
             super(context, 0, 0);
 
         }
 
         @Override
-        public void addAll(Collection<? extends Item> collection) {
+        public void addAll(Collection<? extends Item> collection)
+        {
             super.addAll(collection);
-            sort(new Comparator<Item>() {
+            sort(new Comparator<Item>()
+            {
 
                 @Override
-                public int compare(Item i0, Item i1) {
+                public int compare(Item i0, Item i1)
+                {
                     return i0.source.ordinal() - i1.source.ordinal();
                 }
 
@@ -218,9 +245,11 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             ViewHolder vh;
-            if (convertView == null) {
+            if(convertView == null)
+            {
                 convertView = View.inflate(parent.getContext(), R.layout.vakit_addcity_row, null);
                 vh = new ViewHolder();
                 vh.city = (TextView) convertView.findViewById(R.id.city);
@@ -231,7 +260,8 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 // .findViewById(R.id.internet_dsc);
 
                 convertView.setTag(vh);
-            } else {
+            } else
+            {
                 vh = (ViewHolder) convertView.getTag();
             }
             Cities.Item i = getItem(position);
@@ -239,16 +269,19 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             vh.country.setText(i.country);
 
             vh.sourcetxt.setText(i.source.text);
-            if (i.source.resId != 0) {
+            if(i.source.resId != 0)
+            {
                 vh.source.setImageResource(i.source.resId);
                 vh.source.setVisibility(View.VISIBLE);
-            } else {
+            } else
+            {
                 vh.source.setVisibility(View.GONE);
             }
             return convertView;
         }
 
-        class ViewHolder {
+        class ViewHolder
+        {
             TextView country, city, sourcetxt, internetdsc;
             ImageView source, internet;
         }

@@ -11,49 +11,60 @@ import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.List;
 
-public class SemerkandTimes extends WebTimes {
+public class SemerkandTimes extends WebTimes
+{
 
-    SemerkandTimes(long id) {
+    SemerkandTimes(long id)
+    {
         super(id);
     }
 
     @Override
-    public Source getSource() {
+    public Source getSource()
+    {
         return Source.Semerkand;
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    protected boolean syncTimes() throws Exception
+    {
         Calendar cal = Calendar.getInstance();
         int Y = cal.get(Calendar.YEAR);
         int i = 0;
-        for (int y = Y; y <= Y + 1; y++) {
+        for(int y = Y; y <= Y + 1; y++)
+        {
             cal.set(Calendar.YEAR, y);
             Gson gson = new GsonBuilder().create();
-            try {
+            try
+            {
 
                 String Url = "http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + y + "&";
                 String id[] = getId().split("_");
-                if (!id[3].equals("0")) {
+                if(!id[3].equals("0"))
+                {
                     Url += "countyID=" + id[3];
-                } else {
+                } else
+                {
                     Url += "cityID=" + id[2];
                 }
                 URL url = new URL(Url);
                 URLConnection connection = url.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
 
-                List<Day> resp = gson.fromJson(in, new TypeToken<List<Day>>() {
+                List<Day> resp = gson.fromJson(in, new TypeToken<List<Day>>()
+                {
                 }.getType());
                 in.close();
 
-                for (Day d : resp) {
+                for(Day d : resp)
+                {
                     cal.set(Calendar.DAY_OF_YEAR, d.Day);
                     setTimes(cal.get(Calendar.DATE), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
                     i++;
                 }
 
-            } catch (Exception e) {
+            } catch(Exception e)
+            {
                 e.printStackTrace();
             }
         }
@@ -61,7 +72,8 @@ public class SemerkandTimes extends WebTimes {
     }
 
 
-    static class Day {
+    static class Day
+    {
         int Day;
         String Fajr, Tulu, Zuhr, Asr, Maghrib, Isha;
     }

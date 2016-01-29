@@ -19,20 +19,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SoundPreference extends ListPreference implements OnActivityResultListener, OnPreferenceChangeListener {
+public class SoundPreference extends ListPreference implements OnActivityResultListener, OnPreferenceChangeListener
+{
 
     private Context mContext;
 
-    public SoundPreference(SoundPreferenceContext act) {
+    public SoundPreference(SoundPreferenceContext act)
+    {
         this((Context) act, null);
 
     }
 
-    private SoundPreference(Context context, AttributeSet attrs) {
+    private SoundPreference(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
-        if (!(context instanceof SoundPreferenceContext) && context instanceof ContextWrapper) {
+        if(!(context instanceof SoundPreferenceContext) && context instanceof ContextWrapper)
+        {
             mContext = ((ContextWrapper) context).getBaseContext();
-        } else {
+        } else
+        {
             mContext = context;
         }
         setEntries(new String[]{mContext.getString(R.string.silent), mContext.getString(R.string.dua), mContext.getString(R.string.selectother)});
@@ -42,18 +47,23 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
     }
 
     @Override
-    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(data != null)
+        {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            try {
+            try
+            {
                 MediaPlayer mp = new MediaPlayer();
                 mp.setDataSource(getContext(), uri);
                 mp.release();
-            } catch (Exception e) {
+            } catch(Exception e)
+            {
                 Toast.makeText(getContext(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
                 return false;
             }
-            if (uri != null) {
+            if(uri != null)
+            {
                 persistString(uri.toString());
                 setValue(uri.toString());
                 return true;
@@ -63,11 +73,14 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
     }
 
     @Override
-    public void setValue(String value) {
+    public void setValue(String value)
+    {
 
         List<CharSequence> vals = new ArrayList<CharSequence>(Arrays.asList(getEntryValues()));
-        if (!vals.contains(value)) {
-            try {
+        if(!vals.contains(value))
+        {
+            try
+            {
                 List<CharSequence> ents = new ArrayList<CharSequence>(Arrays.asList(getEntries()));
                 Ringtone r = RingtoneManager.getRingtone(getContext(), Uri.parse(value));
                 String name = r.getTitle(getContext());
@@ -76,7 +89,8 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
 
                 this.setEntries(ents.toArray(new CharSequence[ents.size()]));
                 this.setEntryValues(vals.toArray(new CharSequence[vals.size()]));
-            } catch (Exception e) {
+            } catch(Exception e)
+            {
 
             }
         }
@@ -84,8 +98,10 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if ("picker".equals(newValue)) {
+    public boolean onPreferenceChange(Preference preference, Object newValue)
+    {
+        if("picker".equals(newValue))
+        {
 
             Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
@@ -101,12 +117,14 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
 
     }
 
-    public void setDefaultTitle(String title) {
+    public void setDefaultTitle(String title)
+    {
         getEntries()[1] = title;
 
     }
 
-    public interface SoundPreferenceContext {
+    public interface SoundPreferenceContext
+    {
         void setActivityResultListener(OnActivityResultListener list);
 
         void startActivityForResult(Intent chooserIntent, int i);

@@ -23,7 +23,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @SuppressLint("ClickableViewAccessibility")
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment
+{
 
     private static final int ids[] = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
     private static final int idsNames[] = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
@@ -33,26 +34,33 @@ public class MainFragment extends Fragment {
     private long mCity;
     private TextView mCountdown, mKerahat, mTitle;
     private boolean mHasTimes = false;
-    private Runnable onSecond = new Runnable() {
+    private Runnable onSecond = new Runnable()
+    {
 
         @Override
-        public void run() {
+        public void run()
+        {
 
-            if (mTimes.deleted()) return;
-            if (mTimes != null) {
-                if (!mHasTimes) {
+            if(mTimes.deleted()) return;
+            if(mTimes != null)
+            {
+                if(!mHasTimes)
+                {
                     update();
                 }
                 checkKerahat();
 
                 int next = mTimes.getNext();
-                for (int i = 0; i < 6; i++) {
+                for(int i = 0; i < 6; i++)
+                {
                     TextView time = (TextView) mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == next - 1) {
+                    if(i == next - 1)
+                    {
                         time.setBackgroundResource(R.color.indicator);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.indicator);
-                    } else {
+                    } else
+                    {
                         time.setBackgroundColor(Color.TRANSPARENT);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundColor(Color.TRANSPARENT);
                     }
@@ -63,7 +71,8 @@ public class MainFragment extends Fragment {
 
             }
 
-            if (mTitle.getText().toString().equals("gps")) {
+            if(mTitle.getText().toString().equals("gps"))
+            {
                 mTitle.setText(mTimes.getName());
             }
 
@@ -73,16 +82,19 @@ public class MainFragment extends Fragment {
     };
 
     @Override
-    public void onCreate(Bundle bdl) {
+    public void onCreate(Bundle bdl)
+    {
         super.onCreate(bdl);
         mCity = getArguments().getLong("city");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl)
+    {
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
         this.setHasOptionsMenu(true);
-        if (mCity == 0) {
+        if(mCity == 0)
+        {
             return mView;
         }
 
@@ -93,10 +105,11 @@ public class MainFragment extends Fragment {
 
         mTimes = MainHelper.getTimes(mCity);
 
-        if (mTimes == null) return new View(getActivity());
+        if(mTimes == null) return new View(getActivity());
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
         ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
-        if (mTimes.getSource().resId != 0) {
+        if(mTimes.getSource().resId != 0)
+        {
             source1.setImageResource(mTimes.getSource().resId);
             source2.setImageResource(mTimes.getSource().resId);
         }
@@ -104,9 +117,11 @@ public class MainFragment extends Fragment {
 
         update();
 
-        if (Prefs.useArabic()) {
+        if(Prefs.useArabic())
+        {
             View v = mView.findViewById(R.id.weightedFloatLayout1);
-            for (int i = 0; i < idsNames.length; i++) {
+            for(int i = 0; i < idsNames.length; i++)
+            {
                 TextView tv = (TextView) v.findViewById(idsNames[i]);
                 tv.setGravity(Gravity.LEFT);
                 tv.setText(Vakit.getByIndex(i).getString());
@@ -115,8 +130,10 @@ public class MainFragment extends Fragment {
         return mView;
     }
 
-    private void update() {
-        if (mTimes == null || mView == null) {
+    private void update()
+    {
+        if(mTimes == null || mView == null)
+        {
             return;
         }
 
@@ -132,13 +149,12 @@ public class MainFragment extends Fragment {
 
         String[] daytimes = {mTimes.getTime(now, 0), mTimes.getTime(now, 1), mTimes.getTime(now, 2), mTimes.getTime(now, 3), mTimes.getTime(now, 4), mTimes.getTime(now, 5)};
 
-        for (int i = 0; i < 6; i++) {
+        for(int i = 0; i < 6; i++)
+        {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
-            if (!Prefs.use12H())
-                time.setText(daytimes[i]);
-            else
-                time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            if(!Prefs.use12H()) time.setText(daytimes[i]);
+            else time.setText(Utils.fixTimeForHTML(daytimes[i]));
             mHasTimes = !daytimes[i].equals("00:00");
         }
 
@@ -149,36 +165,44 @@ public class MainFragment extends Fragment {
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
         inflater.inflate(R.menu.vakit, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
 
-        switch (item.getItemId()) {
+        switch(item.getItemId())
+        {
 
-            case R.id.notification: {
-                try {
+            case R.id.notification:
+            {
+                try
+                {
                     Intent intent = new Intent(getActivity(), NotificationPrefs.class);
                     intent.putExtra("city", mCity);
                     startActivity(intent);
                     return true;
-                } catch (Exception e) {
+                } catch(Exception e)
+                {
                     App.e(e);
                 }
             }
-            case R.id.refresh: {
-                if (mTimes != null)
-                    mTimes.refresh();
+            case R.id.refresh:
+            {
+                if(mTimes != null) mTimes.refresh();
                 break;
             }
 
-            case R.id.share: {
+            case R.id.share:
+            {
                 String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
                 Calendar cal = Calendar.getInstance();
                 String[] times = {mTimes.getTime(cal, 0), mTimes.getTime(cal, 1), mTimes.getTime(cal, 2), mTimes.getTime(cal, 3), mTimes.getTime(cal, 4), mTimes.getTime(cal, 5)};
-                for (int i = 0; i < times.length; i++) {
+                for(int i = 0; i < times.length; i++)
+                {
                     txt += "\n   " + Vakit.getByIndex(i).getString() + ": " + times[i];
                 }
 
@@ -193,24 +217,28 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public Times getTimes() {
+    public Times getTimes()
+    {
         return mTimes;
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mHandler.removeCallbacks(onSecond);
         mHandler.post(onSecond);
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         mHandler.removeCallbacks(onSecond);
     }
 
-    void checkKerahat() {
+    void checkKerahat()
+    {
         boolean k = mTimes.isKerahat();
         mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
     }

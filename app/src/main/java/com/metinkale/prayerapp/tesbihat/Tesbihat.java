@@ -14,7 +14,8 @@ import com.metinkale.prayerapp.custom.PagerSlidingTabStrip;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 
-public class Tesbihat extends BaseActivity {
+public class Tesbihat extends BaseActivity
+{
 
     private static int mTextSize;
     private static String mLang;
@@ -22,7 +23,8 @@ public class Tesbihat extends BaseActivity {
     private ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tesbihat_main);
         mLang = Prefs.getLanguage();
@@ -31,10 +33,12 @@ public class Tesbihat extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        if (mLang.equals("tr")) {
+        if(mLang.equals("tr"))
+        {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getSupportFragmentManager());
 
-        } else {
+        } else
+        {
             mSectionsPagerAdapter = new OtherPagerAdapter(getSupportFragmentManager());
             indicator.setVisibility(View.GONE);
         }
@@ -44,10 +48,12 @@ public class Tesbihat extends BaseActivity {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if (MainHelper.getCount() != 0 && mLang.equals("tr")) {
+        if(MainHelper.getCount() != 0 && mLang.equals("tr"))
+        {
             int next = MainHelper.getTimes(MainHelper.getIds().get(0)).getNext();
 
-            switch (next) {
+            switch(next)
+            {
                 case 0:
                 case 6:
                     mViewPager.setCurrentItem(4);
@@ -73,7 +79,8 @@ public class Tesbihat extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
 
         getMenuInflater().inflate(R.menu.tesbihat, menu);
 
@@ -81,10 +88,13 @@ public class Tesbihat extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
 
-        switch (item.getItemId()) {
-            case R.id.zoomIn: {
+        switch(item.getItemId())
+        {
+            case R.id.zoomIn:
+            {
                 mTextSize++;
 
                 Prefs.setTesbihatTextSize(mTextSize);
@@ -94,7 +104,8 @@ public class Tesbihat extends BaseActivity {
                 mViewPager.setCurrentItem(i);
             }
             break;
-            case R.id.zoomOut: {
+            case R.id.zoomOut:
+            {
                 mTextSize--;
 
                 PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("tesbihatTextSize", mTextSize).apply();
@@ -111,35 +122,43 @@ public class Tesbihat extends BaseActivity {
     }
 
     @Override
-    public boolean setNavBar() {
+    public boolean setNavBar()
+    {
         return false;
     }
 
-    public static class TesbihatFragment extends Fragment {
+    public static class TesbihatFragment extends Fragment
+    {
 
         private int pos;
 
-        public static TesbihatFragment create(int pos) {
+        public static TesbihatFragment create(int pos)
+        {
             TesbihatFragment frag = new TesbihatFragment();
             frag.pos = pos;
             return frag;
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
             View rootView = inflater.inflate(R.layout.webview, container, false);
             WebView wv = (WebView) rootView.findViewById(R.id.webview);
             wv.getSettings().setTextZoom((int) (102.38 * Math.pow(1.41, mTextSize)));
-            if (mLang.equals("tr")) {
+            if(mLang.equals("tr"))
+            {
                 wv.loadUrl("file:///android_asset/" + mLang + "/tesbihat/" + getAssetDir(pos));
-            } else {
+            } else
+            {
                 wv.loadUrl("file:///android_asset/en/tasbihat.html");
             }
             return rootView;
         }
 
-        public String getAssetDir(int position) {
-            switch (position) {
+        public String getAssetDir(int position)
+        {
+            switch(position)
+            {
                 case 0:
                     return "sabah.htm";
                 case 1:
@@ -156,25 +175,31 @@ public class Tesbihat extends BaseActivity {
 
     }
 
-    public class TurkishPagerAdapter extends FragmentStatePagerAdapter {
+    public class TurkishPagerAdapter extends FragmentStatePagerAdapter
+    {
 
-        public TurkishPagerAdapter(FragmentManager fm) {
+        public TurkishPagerAdapter(FragmentManager fm)
+        {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(int position)
+        {
             return TesbihatFragment.create(position);
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return 5;
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
+        public CharSequence getPageTitle(int position)
+        {
+            switch(position)
+            {
                 case 0:
                     return getString(R.string.sabah);
                 case 1:
@@ -190,25 +215,30 @@ public class Tesbihat extends BaseActivity {
         }
     }
 
-    public class OtherPagerAdapter extends FragmentStatePagerAdapter {
+    public class OtherPagerAdapter extends FragmentStatePagerAdapter
+    {
 
-        public OtherPagerAdapter(FragmentManager fm) {
+        public OtherPagerAdapter(FragmentManager fm)
+        {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(int position)
+        {
             return TesbihatFragment.create(position);
 
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return 1;
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(int position)
+        {
             return "";
         }
     }

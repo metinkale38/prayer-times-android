@@ -18,23 +18,27 @@ import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.List;
 
-public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
+public class AddCityLegacy extends BaseActivity implements OnItemClickListener
+{
 
     private ListView mListView;
     private MyAdapter mAdapter;
     private String mSource, mCountry, mState, mCity;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.vakit_addcity);
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
-        legacy.setOnClickListener(new OnClickListener() {
+        legacy.setOnClickListener(new OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 AddCityLegacy.this.finish();
                 startActivity(new Intent(AddCityLegacy.this, AddCity.class));
 
@@ -52,21 +56,27 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
 
     }
 
-    public void get(final String source, final String country, final String state, final String city) {
-        Cities.list(source, country, state, city, new Cities.Callback() {
+    public void get(final String source, final String country, final String state, final String city)
+    {
+        Cities.list(source, country, state, city, new Cities.Callback()
+        {
             @Override
-            public void onResult(List result) {
-                if (!result.isEmpty()) {
+            public void onResult(List result)
+            {
+                if(!result.isEmpty())
+                {
                     mSource = source;
                     mCountry = country;
                     mState = state;
@@ -75,7 +85,8 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
                     mAdapter.addAll(result);
                     mListView.scrollTo(0, 0);
                 }
-                if (result.size() == 1) {
+                if(result.size() == 1)
+                {
                     onItemClick(mListView, null, 0, 0);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -83,23 +94,31 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         });
     }
 
-    public void onBackPressed() {
-        if (mCity != "") {
+    public void onBackPressed()
+    {
+        if(mCity != "")
+        {
             get(mSource, mCountry, mState, "");
-        } else if (mState != "") {
+        } else if(mState != "")
+        {
             get(mSource, mCountry, "", "");
-        } else if (mCountry != "") {
+        } else if(mCountry != "")
+        {
             get(mSource, "", "", "");
-        } else if (mSource != "") {
+        } else if(mSource != "")
+        {
             get("", "", "", "");
-        } else {
+        } else
+        {
             super.onBackPressed();
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        if (mAdapter.getFullText(pos).contains(";")) {
+    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index)
+    {
+        if(mAdapter.getFullText(pos).contains(";"))
+        {
             Cities.Item i = new Cities.Item();
             i.city = mAdapter.getItem(pos);
             i.country = mCountry;
@@ -114,41 +133,50 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
             return;
         }
 
-        if (mSource == "") {
+        if(mSource == "")
+        {
             get(mAdapter.getItem(pos), "", "", "");
-        } else if (mCountry == "") {
+        } else if(mCountry == "")
+        {
             get(mSource, mAdapter.getItem(pos), "", "");
-        } else if (mState == "") {
+        } else if(mState == "")
+        {
             get(mSource, mCountry, mAdapter.getItem(pos), "");
-        } else if (mCity == "") {
+        } else if(mCity == "")
+        {
             get(mSource, mCountry, mState, mAdapter.getItem(pos));
-        } else {
+        } else
+        {
             get(mSource, mCountry, mState, mCity);
         }
     }
 
     @Override
-    public boolean setNavBar() {
+    public boolean setNavBar()
+    {
         setNavBarColor(0xffeeeeee);
         return true;
     }
 
-    class MyAdapter extends ArrayAdapter<String> {
+    class MyAdapter extends ArrayAdapter<String>
+    {
 
-        public MyAdapter(Context context) {
+        public MyAdapter(Context context)
+        {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
 
         }
 
-        public String getFullText(int pos) {
+        public String getFullText(int pos)
+        {
             return super.getItem(pos);
         }
 
         @Override
-        public String getItem(int pos) {
+        public String getItem(int pos)
+        {
             String s = super.getItem(pos);
-            if (s.contains(";"))
-                s = s.substring(0, s.indexOf(";"));
+            if(s.contains(";")) s = s.substring(0, s.indexOf(";"));
 
             return s;
         }

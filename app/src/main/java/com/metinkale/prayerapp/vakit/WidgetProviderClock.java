@@ -29,13 +29,16 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import java.util.Calendar;
 
-public class WidgetProviderClock extends AppWidgetProvider {
+public class WidgetProviderClock extends AppWidgetProvider
+{
     private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
-    public static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager, final int widgetId) {
+    public static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager, final int widgetId)
+    {
 
-        if (mDP == 0) {
+        if(mDP == 0)
+        {
             Resources r = context.getResources();
             mDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
         }
@@ -57,7 +60,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
         w = (int) (5 * scale);
         h = (int) (2 * scale);
 
-        if (w <= 0 || h <= 0) {
+        if(w <= 0 || h <= 0)
+        {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -67,11 +71,14 @@ public class WidgetProviderClock extends AppWidgetProvider {
         }
 
         Times times = null;
-        try {
+        try
+        {
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (Exception ignore) {
+        } catch(Exception ignore)
+        {
         }
-        if (times == null) {
+        if(times == null)
+        {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigureClock.class);
             i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
@@ -106,14 +113,16 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         paint.setTextSize(h * 0.55f);
         String time = Utils.az(cal.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(cal.get(Calendar.MINUTE));
-        if (Prefs.use12H()) {
+        if(Prefs.use12H())
+        {
             time = Utils.fixTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);
             time = time.substring(0, time.indexOf(" "));
             canvas.drawText(time, w / 2 - paint.measureText(suffix) / 4, h * 0.4f, paint);
             paint.setTextSize(h * 0.275f);
             canvas.drawText(suffix, w / 2 + paint.measureText(time), h * 0.2f, paint);
-        } else {
+        } else
+        {
             canvas.drawText(time, w / 2, h * 0.4f, paint);
         }
         paint.setTextSize(h * 0.12f);
@@ -125,9 +134,11 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         canvas.drawRect(w * 0.1f, h * 0.6f, w * 0.9f, h * 0.63f, paint);
 
-        if (times.isKerahat()) {
+        if(times.isKerahat())
+        {
             paint.setColor(0xffbf3f5b);
-        } else {
+        } else
+        {
             paint.setColor(Theme.Light.strokecolor);
         }
         long mills1 = times.getMills(last);
@@ -139,7 +150,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
         paint.setColor(Color.WHITE);
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Align.LEFT);
-        if (Prefs.use12H()) {
+        if(Prefs.use12H())
+        {
             String l = Utils.fixTime(times.getTime(last));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
@@ -147,7 +159,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
             paint.setTextSize(h * 0.1f);
             canvas.drawText(s, w * 0.1f + 2 * paint.measureText(l), h * 0.72f, paint);
 
-        } else {
+        } else
+        {
             canvas.drawText(times.getTime(last), w * 0.1f, h * 0.82f, paint);
 
         }
@@ -157,7 +170,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
         paint.setColor(Color.WHITE);
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Align.RIGHT);
-        if (Prefs.use12H()) {
+        if(Prefs.use12H())
+        {
             String l = Utils.fixTime(times.getTime(next));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
@@ -165,7 +179,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
             paint.setTextSize(h * 0.1f);
             canvas.drawText(s, w * 0.9f, h * 0.72f, paint);
 
-        } else {
+        } else
+        {
             canvas.drawText(times.getTime(next), w * 0.9f, h * 0.82f, paint);
         }
         paint.setTextSize(h * 0.12f);
@@ -178,22 +193,26 @@ public class WidgetProviderClock extends AppWidgetProvider {
         paint.setFakeBoldText(true);
         canvas.drawText(times.getLeft(next, false), w * 0.5f, h * 0.9f, paint);
         paint.setFakeBoldText(false);
-        try {
+        try
+        {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        } catch (RuntimeException e) {
+        } catch(RuntimeException e)
+        {
             SCALE_MULT -= 0.1f;
-            if (SCALE_MULT > 0 && e.getMessage().contains("exceeds"))
-                new Handler().post(new Runnable() {
-                    public void run() {
-                        updateAppWidget(context, appWidgetManager, widgetId);
-                    }
-                });
+            if(SCALE_MULT > 0 && e.getMessage().contains("exceeds")) new Handler().post(new Runnable()
+            {
+                public void run()
+                {
+                    updateAppWidget(context, appWidgetManager, widgetId);
+                }
+            });
 
         }
     }
 
     @Override
-    public void onEnabled(Context context) {
+    public void onEnabled(Context context)
+    {
         ComponentName thisWidget = new ComponentName(context, WidgetProviderClock.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
@@ -201,25 +220,30 @@ public class WidgetProviderClock extends AppWidgetProvider {
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
 
-        for (int widgetId : appWidgetIds) {
+        for(int widgetId : appWidgetIds)
+        {
             updateAppWidget(context, appWidgetManager, widgetId);
         }
 
     }
 
     @Override
-    public void onDisabled(Context context) {
+    public void onDisabled(Context context)
+    {
 
     }
 
     @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
+    {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if(w * h != 0)
+        {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

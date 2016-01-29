@@ -4,7 +4,8 @@ package com.metinkale.prayerapp.compass.classes.math;
  * Derived from Vector3 from libgdx - encapsulates a 4 component vector for
  * representing Homogeneous Coordinates
  */
-public final class Vector4 {
+public final class Vector4
+{
 
     private static Vector4 tmp = new Vector4();
     private static Vector4 tmp2 = new Vector4();
@@ -17,7 +18,8 @@ public final class Vector4 {
     /**
      * Constructs a vector at (0,0,0)
      */
-    public Vector4() {
+    public Vector4()
+    {
     }
 
     /**
@@ -27,7 +29,8 @@ public final class Vector4 {
      * @param y The y-component
      * @param z The z-component
      */
-    public Vector4(float x, float y, float z, float w) {
+    public Vector4(float x, float y, float z, float w)
+    {
         this.set(x, y, z, w);
     }
 
@@ -36,7 +39,8 @@ public final class Vector4 {
      *
      * @param vector The vector
      */
-    private Vector4(Vector4 vector) {
+    private Vector4(Vector4 vector)
+    {
         this.set(vector);
     }
 
@@ -46,7 +50,8 @@ public final class Vector4 {
      *
      * @param values The array
      */
-    public Vector4(float[] values) {
+    public Vector4(float[] values)
+    {
         this.set(values[0], values[1], values[2], values[3]);
     }
 
@@ -56,7 +61,8 @@ public final class Vector4 {
      * @param matrix The matrix
      * @return This vector for chaining
      */
-    public Vector4 mul(Matrix4 matrix) {
+    public Vector4 mul(Matrix4 matrix)
+    {
         float l_mat[] = matrix.val;
         return this.set(x * l_mat[Matrix4.M00] + y * l_mat[Matrix4.M01] + z * l_mat[Matrix4.M02] + w * l_mat[Matrix4.M03], x * l_mat[Matrix4.M10] + y * l_mat[Matrix4.M11] + z * l_mat[Matrix4.M12] + w * l_mat[Matrix4.M13], x * l_mat[Matrix4.M20] + y * l_mat[Matrix4.M21] + z * l_mat[Matrix4.M22] + w * l_mat[Matrix4.M23], x * l_mat[Matrix4.M30] + y * l_mat[Matrix4.M31] + z * l_mat[Matrix4.M32] + w * l_mat[Matrix4.M33]);
     }
@@ -69,7 +75,8 @@ public final class Vector4 {
      * @param z The z-component
      * @return this vector for chaining
      */
-    public Vector4 set(float x, float y, float z, float w) {
+    public Vector4 set(float x, float y, float z, float w)
+    {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -83,7 +90,8 @@ public final class Vector4 {
      * @param vector The vector
      * @return This vector for chaining
      */
-    Vector4 set(Vector4 vector) {
+    Vector4 set(Vector4 vector)
+    {
         return this.set(vector.x, vector.y, vector.z, vector.w);
     }
 
@@ -94,14 +102,16 @@ public final class Vector4 {
      * @param values The array
      * @return this vector for chaining
      */
-    public Vector4 set(float[] values) {
+    public Vector4 set(float[] values)
+    {
         return this.set(values[0], values[1], values[2], values[3]);
     }
 
     /**
      * @return a copy of this vector
      */
-    public Vector4 cpy() {
+    public Vector4 cpy()
+    {
         return new Vector4(this);
     }
 
@@ -110,7 +120,8 @@ public final class Vector4 {
      *
      * @return
      */
-    public Vector4 tmp() {
+    public Vector4 tmp()
+    {
         return tmp.set(this);
     }
 
@@ -119,7 +130,8 @@ public final class Vector4 {
      *
      * @return
      */
-    public Vector4 tmp2() {
+    public Vector4 tmp2()
+    {
         return tmp2.set(this);
     }
 
@@ -128,7 +140,8 @@ public final class Vector4 {
      *
      * @return
      */
-    Vector4 tmp3() {
+    Vector4 tmp3()
+    {
         return tmp3.set(this);
     }
 
@@ -138,7 +151,8 @@ public final class Vector4 {
      * @param vector The other vector
      * @return This vector for chaining
      */
-    public Vector4 add(Vector4 vector) {
+    public Vector4 add(Vector4 vector)
+    {
         return this.add(vector.x, vector.y, vector.z, vector.w);
     }
 
@@ -150,7 +164,8 @@ public final class Vector4 {
      * @param z The z-component of the other vector
      * @return This vector for chaining.
      */
-    Vector4 add(float x, float y, float z, float w) {
+    Vector4 add(float x, float y, float z, float w)
+    {
         return this.set(this.x + x, this.y + y, this.z + z, this.w + w);
     }
 
@@ -160,7 +175,8 @@ public final class Vector4 {
      * @param values The value
      * @return This vector for chaining
      */
-    public Vector4 add(float values) {
+    public Vector4 add(float values)
+    {
         return this.set(x + values, y + values, z + values, w + values);
     }
 
@@ -170,7 +186,8 @@ public final class Vector4 {
      * @param a_vec The other vector
      * @return This vector for chaining
      */
-    public Vector4 sub(Vector4 a_vec) {
+    public Vector4 sub(Vector4 a_vec)
+    {
         return this.sub(a_vec.x, a_vec.y, a_vec.z, a_vec.w);
     }
 
@@ -182,7 +199,8 @@ public final class Vector4 {
      * @param z The z-component of the other vector
      * @return This vector for chaining
      */
-    Vector4 sub(float x, float y, float z, float w) {
+    Vector4 sub(float x, float y, float z, float w)
+    {
         return this.set(this.x - x, this.y - y, this.z - z, this.w - w);
     }
 
@@ -192,7 +210,8 @@ public final class Vector4 {
      * @param value The value
      * @return This vector for chaining
      */
-    public Vector4 sub(float value) {
+    public Vector4 sub(float value)
+    {
         return this.set(x - value, y - value, z - value, w - value);
     }
 
@@ -202,7 +221,8 @@ public final class Vector4 {
      * @param value The value
      * @return This vector for chaining
      */
-    public Vector4 mul(float value) {
+    public Vector4 mul(float value)
+    {
         return this.set(x * value, y * value, z * value, w * value);
     }
 
@@ -212,7 +232,8 @@ public final class Vector4 {
      * @param value The value
      * @return This vector for chaining
      */
-    Vector4 div(float value) {
+    Vector4 div(float value)
+    {
         float d = 1 / value;
         return this.set(x * d, y * d, z * d, w * d);
     }
@@ -220,14 +241,16 @@ public final class Vector4 {
     /**
      * @return The euclidian length
      */
-    float len() {
+    float len()
+    {
         return (float) Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
      * @return The squared euclidian length
      */
-    public float len2() {
+    public float len2()
+    {
         return x * x + y * y + z * z + w * w;
     }
 
@@ -235,7 +258,8 @@ public final class Vector4 {
      * @param vector The other vector
      * @return Wether this and the other vector are equal
      */
-    public boolean idt(Vector4 vector) {
+    public boolean idt(Vector4 vector)
+    {
         return x == vector.x && y == vector.y && z == vector.z && w == vector.w;
     }
 
@@ -243,7 +267,8 @@ public final class Vector4 {
      * @param vector The other vector
      * @return The euclidian distance between this and the other vector
      */
-    public float dst(Vector4 vector) {
+    public float dst(Vector4 vector)
+    {
         float a = vector.x - x;
         float b = vector.y - y;
         float c = vector.z - z;
@@ -260,7 +285,8 @@ public final class Vector4 {
      * @param vector The other vector
      * @return The squared euclidian distance between this and the other vector
      */
-    public float dist2(Vector4 vector) {
+    public float dist2(Vector4 vector)
+    {
         float a = vector.x - x;
         float b = vector.y - y;
         float c = vector.z - z;
@@ -273,10 +299,13 @@ public final class Vector4 {
      *
      * @return This vector for chaining
      */
-    public Vector4 nor() {
-        if (x == 0 && y == 0 && z == 0 && w == 0) {
+    public Vector4 nor()
+    {
+        if(x == 0 && y == 0 && z == 0 && w == 0)
+        {
             return this;
-        } else {
+        } else
+        {
             return div(len());
         }
     }
@@ -285,7 +314,8 @@ public final class Vector4 {
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
         result = prime * result + Float.floatToIntBits(x);
@@ -299,24 +329,31 @@ public final class Vector4 {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if(obj == null)
+        {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if(getClass() != obj.getClass())
+        {
             return false;
         }
         Vector4 other = (Vector4) obj;
-        if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x)) {
+        if(Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+        {
             return false;
         }
-        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y)) {
+        if(Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+        {
             return false;
         }
-        if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z)) {
+        if(Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
+        {
             return false;
         }
         return Float.floatToIntBits(w) == Float.floatToIntBits(other.w);

@@ -17,18 +17,23 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.List;
 
-public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener {
+public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener
+{
     private EditText mCity;
     private ArrayAdapter<String> mAdapter;
     private Thread mThread;
     private List<Response> mAddresses;
-    private Runnable mSearch = new Runnable() {
+    private Runnable mSearch = new Runnable()
+    {
 
         @Override
-        public void run() {
-            try {
+        public void run()
+        {
+            try
+            {
                 Thread.sleep(500);
-            } catch (InterruptedException e) {
+            } catch(InterruptedException e)
+            {
                 //expected to happen sometimes
             }
 
@@ -36,21 +41,24 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
             mAddresses = Geocoder.from(query, 5, Prefs.getLanguage());
 
-            if (mAddresses != null)
-                LocationPicker.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        mAdapter.clear();
-                        for (Response a : mAddresses) {
+            if(mAddresses != null) LocationPicker.this.runOnUiThread(new Runnable()
+            {
+                public void run()
+                {
+                    mAdapter.clear();
+                    for(Response a : mAddresses)
+                    {
 
-                            mAdapter.add(a.display_name);
-                        }
+                        mAdapter.add(a.display_name);
                     }
-                });
+                }
+            });
         }
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.compass_location);
 
@@ -67,8 +75,10 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     }
 
     @Override
-    public void afterTextChanged(Editable arg0) {
-        if (mThread != null && mThread.isAlive()) {
+    public void afterTextChanged(Editable arg0)
+    {
+        if(mThread != null && mThread.isAlive())
+        {
             mThread.interrupt();
         }
         mThread = new Thread(mSearch);
@@ -76,18 +86,21 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     }
 
     @Override
-    public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+    public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+    {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+    public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+    {
 
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-        if (mAddresses == null) return;
+    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3)
+    {
+        if(mAddresses == null) return;
         Response a = mAddresses.get(pos);
         Prefs.setCompassPos((float) a.lat, (float) a.lon);
 

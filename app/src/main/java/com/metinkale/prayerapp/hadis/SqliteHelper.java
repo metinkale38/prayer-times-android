@@ -15,34 +15,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SqliteHelper extends SQLiteOpenHelper {
+public class SqliteHelper extends SQLiteOpenHelper
+{
     private static SqliteHelper mInstance;
     private static File FILE;
     private SQLiteDatabase mDB;
     private List<String> categories = new ArrayList<>();
     private volatile int mOpenCounter;
 
-    private SqliteHelper(Context context) {
+    private SqliteHelper(Context context)
+    {
         super(context, "hadis.db", null, 1);
         FILE = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         mInstance = this;
     }
 
-    private static String normalize(String str) {
+    private static String normalize(String str)
+    {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "_");
         return string.toLowerCase(Locale.ENGLISH);
     }
 
-    public static SqliteHelper get() {
-        if (mInstance == null) {
+    public static SqliteHelper get()
+    {
+        if(mInstance == null)
+        {
             new SqliteHelper(App.getContext());
 
         }
         return mInstance;
     }
 
-    public int getCount() {
+    public int getCount()
+    {
         openDatabase();
         Cursor c = mDB.query("HADIS", null, null, null, null, null, null);
         int ret = c.getCount();
@@ -51,58 +57,72 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return ret;
     }
 
-    public List<Integer> search(String query) {
+    public List<Integer> search(String query)
+    {
         openDatabase();
         List<Integer> list = new ArrayList<>();
-        try {
+        try
+        {
             Cursor c = mDB.query("HADIS", null, null, null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 return list;
             }
-            do {
+            do
+            {
                 String txt = c.getString(c.getColumnIndex("KONU"));
                 txt += c.getString(c.getColumnIndex("DETAY"));
                 txt += c.getString(c.getColumnIndex("HADIS"));
                 txt += c.getString(c.getColumnIndex("KAYNAK"));
-                if (normalize(txt).contains(normalize(query))) {
+                if(normalize(txt).contains(normalize(query)))
+                {
                     list.add(c.getInt(c.getColumnIndex("ID")));
                 }
-            } while (c.moveToNext());
+            } while(c.moveToNext());
             c.close();
-        } finally {
+        } finally
+        {
             closeDatabase();
 
         }
         return list;
     }
 
-    public List<Integer> get(String cat) {
+    public List<Integer> get(String cat)
+    {
         openDatabase();
         List<Integer> list = new ArrayList<>();
-        try {
+        try
+        {
             Cursor c = mDB.query("HADIS", new String[]{"ID"}, "KONU = \"" + cat + "\"", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 return list;
             }
-            do {
+            do
+            {
                 list.add(c.getInt(c.getColumnIndex("ID")));
-            } while (c.moveToNext());
+            } while(c.moveToNext());
             c.close();
-        } finally {
+        } finally
+        {
             closeDatabase();
 
         }
         return list;
     }
 
-    public Hadis get(int id) {
+    public Hadis get(int id)
+    {
         openDatabase();
-        try {
+        try
+        {
             Cursor c = mDB.query("HADIS", null, "ID=" + id, null, null, null, null, "1");
             c.moveToFirst();
-            if (c.isAfterLast()) {
+            if(c.isAfterLast())
+            {
                 return null;
             }
             Hadis h = new Hadis();
@@ -113,62 +133,76 @@ public class SqliteHelper extends SQLiteOpenHelper {
             h.kaynak = c.getString(c.getColumnIndex("KAYNAK"));
             c.close();
             return h;
-        } finally {
+        } finally
+        {
             closeDatabase();
         }
     }
 
-    public List<String> getCategories() {
-        if (!categories.isEmpty()) {
+    public List<String> getCategories()
+    {
+        if(!categories.isEmpty())
+        {
             return categories;
         }
         openDatabase();
-        try {
+        try
+        {
             Cursor c = mDB.query("HADIS", new String[]{"KONU"}, null, null, "KONU", null, "ID");
             c.moveToFirst();
-            do {
+            do
+            {
                 String cat = c.getString(c.getColumnIndex("KONU"));
 
-                if (!categories.contains(cat)) {
+                if(!categories.contains(cat))
+                {
                     categories.add(cat);
                 }
-            } while (c.moveToNext());
+            } while(c.moveToNext());
             // Collections.sort(categories);
             c.close();
             return categories;
-        } finally {
+        } finally
+        {
             closeDatabase();
         }
     }
 
 
-    private void openDatabase() throws SQLException {
+    private void openDatabase() throws SQLException
+    {
         mOpenCounter++;
-        if (mOpenCounter == 1) {
+        if(mOpenCounter == 1)
+        {
             mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + Prefs.getLanguage() + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
         }
 
     }
 
-    synchronized void closeDatabase() throws SQLException {
+    synchronized void closeDatabase() throws SQLException
+    {
         mOpenCounter--;
-        if (mOpenCounter == 0) {
+        if(mOpenCounter == 0)
+        {
             mDB.close();
 
         }
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
         FILE.delete();
     }
 
-    static class Hadis {
+    static class Hadis
+    {
         int id;
         String konu, detay, hadis, kaynak;
     }

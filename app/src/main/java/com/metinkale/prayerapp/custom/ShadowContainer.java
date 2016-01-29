@@ -9,40 +9,47 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import com.metinkale.prayer.R;
 
-public class ShadowContainer extends ViewGroup {
+public class ShadowContainer extends ViewGroup
+{
     private Drawable mShadow;
     private float mShadowSize = 1f, mMaxShadowSize;
     private boolean mTop, mLeft, mRight, mBottom;
 
     @SuppressLint("NewApi")
-    public ShadowContainer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ShadowContainer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
 
     }
 
-    public ShadowContainer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ShadowContainer(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         init(attrs, defStyleAttr, 0);
 
     }
 
-    public ShadowContainer(Context context, AttributeSet attrs) {
+    public ShadowContainer(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
 
         init(attrs, 0, 0);
 
     }
 
-    public ShadowContainer(Context context) {
+    public ShadowContainer(Context context)
+    {
         super(context);
         init(null, 0, 0);
     }
 
     @SuppressLint("NewApi")
-    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         mShadow = this.getResources().getDrawable(R.drawable.shadow);
-        if (attrs != null) {
+        if(attrs != null)
+        {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowContainer, defStyleAttr, defStyleRes);
 
             mBottom = a.getBoolean(R.styleable.ShadowContainer_shadow, false);
@@ -62,38 +69,46 @@ public class ShadowContainer extends ViewGroup {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
         //int wm = MeasureSpec.getMode(widthMeasureSpec);
         int hm = MeasureSpec.getMode(heightMeasureSpec);
 
         int w = MeasureSpec.getSize(widthMeasureSpec);
         int h = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (hm == MeasureSpec.UNSPECIFIED) {
+        if(hm == MeasureSpec.UNSPECIFIED)
+        {
             getChildAt(0).measure(widthMeasureSpec, heightMeasureSpec);
             h = getChildAt(0).getMeasuredHeight();
-            if (mTop) {
+            if(mTop)
+            {
                 h += mShadowSize * mMaxShadowSize;
             }
-            if (mBottom) {
+            if(mBottom)
+            {
                 h += mShadowSize * mMaxShadowSize;
             }
 
         }
         this.setMeasuredDimension(w, h);
-        if (mTop) {
+        if(mTop)
+        {
             h -= mShadowSize * mMaxShadowSize;
         }
 
-        if (mLeft) {
+        if(mLeft)
+        {
             w -= mShadowSize * mMaxShadowSize;
         }
 
-        if (mRight) {
+        if(mRight)
+        {
             w -= mShadowSize * mMaxShadowSize;
         }
 
-        if (mBottom) {
+        if(mBottom)
+        {
             h -= mShadowSize * mMaxShadowSize;
         }
 
@@ -101,41 +116,49 @@ public class ShadowContainer extends ViewGroup {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(boolean changed, int l, int t, int r, int b)
+    {
         r = r - l;
         b = b - t;
         t = 0;
         l = 0;
 
-        if (mTop) {
+        if(mTop)
+        {
             t += mShadowSize * mMaxShadowSize;
 
         }
 
-        if (mLeft) {
+        if(mLeft)
+        {
             l += mShadowSize * mMaxShadowSize;
         }
 
-        if (mRight) {
+        if(mRight)
+        {
             r -= mShadowSize * mMaxShadowSize;
         }
 
-        if (mBottom) {
+        if(mBottom)
+        {
             b -= mShadowSize * mMaxShadowSize;
         }
         this.getChildAt(0).layout(l, t, r, b);
 
     }
 
-    public void setShadowSize(float shadowSize) {
+    public void setShadowSize(float shadowSize)
+    {
         mShadowSize = shadowSize;
     }
 
-    public void setMaxShadowSize(float maxShadowSize) {
+    public void setMaxShadowSize(float maxShadowSize)
+    {
         mMaxShadowSize = maxShadowSize;
     }
 
-    public void setShadows(boolean left, boolean top, boolean right, boolean bottom) {
+    public void setShadows(boolean left, boolean top, boolean right, boolean bottom)
+    {
         mLeft = left;
         mTop = top;
         mRight = right;
@@ -143,23 +166,28 @@ public class ShadowContainer extends ViewGroup {
     }
 
     @Override
-    public void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(Canvas canvas)
+    {
         super.dispatchDraw(canvas);
         int size = (int) (mShadowSize * mMaxShadowSize);
 
-        if (mTop) {
+        if(mTop)
+        {
             mShadow.setBounds(0, 0, getWidth(), size);
             mShadow.draw(canvas);
         }
-        if (mLeft) {
+        if(mLeft)
+        {
             mShadow.setBounds(0, 0, size, getHeight());
             mShadow.draw(canvas);
         }
-        if (mRight) {
+        if(mRight)
+        {
             mShadow.setBounds(canvas.getWidth() - size, 0, canvas.getWidth(), canvas.getHeight());
             mShadow.draw(canvas);
         }
-        if (mBottom) {
+        if(mBottom)
+        {
             mShadow.setBounds(0, canvas.getHeight() - size, getWidth(), canvas.getHeight());
             mShadow.draw(canvas);
         }
