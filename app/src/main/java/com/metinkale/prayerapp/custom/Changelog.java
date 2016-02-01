@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.settings.Settings;
 
 public class Changelog
 {
@@ -34,7 +35,7 @@ public class Changelog
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(mContext.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);
 
-        builder.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
+        builder.setNegativeButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
@@ -43,21 +44,16 @@ public class Changelog
             }
         });
 
-        builder.setNeutralButton(mContext.getResources().getString(R.string.shareApp), new DialogInterface.OnClickListener()
+        builder.setNeutralButton(mContext.getResources().getString(R.string.sendemail), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.vakit));
-                intent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=" + mContext.getPackageName());
-
-                mContext.startActivity(Intent.createChooser(intent, mContext.getString(R.string.shareApp)));
+                Settings.sendMail(mContext);
             }
         });
 
-        builder.setNegativeButton(mContext.getResources().getString(R.string.vote), new DialogInterface.OnClickListener()
+        builder.setPositiveButton(mContext.getResources().getString(R.string.vote), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)

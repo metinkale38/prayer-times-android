@@ -3,6 +3,7 @@ package com.metinkale.prayerapp.settings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -30,6 +31,22 @@ public class Settings extends BaseActivity implements SoundPreferenceContext
     private static final String DONATE_LINK_DE = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GV6N4NZ6RELTU";
     private static final String DONATE_LINK_TR = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HPW6ZNL8GK77Y";
     private OnActivityResultListener mList;
+
+    public static void sendMail(Context ctx)
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Namaz Vakti uygulamasi");
+        String versionCode = "Undefined";
+        try
+        {
+            versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + "";
+        } catch(PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
+        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendemail)));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -99,18 +116,7 @@ public class Settings extends BaseActivity implements SoundPreferenceContext
         {
             if(preference.getKey().equals("mail"))
             {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Namaz Vakti uygulamasi");
-                String versionCode = "Undefined";
-                try
-                {
-                    versionCode = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionCode + "";
-                } catch(PackageManager.NameNotFoundException e)
-                {
-                    e.printStackTrace();
-                }
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
-                startActivity(Intent.createChooser(emailIntent, getString(R.string.sendemail)));
+                sendMail(getActivity());
             } else if(preference.getKey().equals("backupRestore"))
             {
                 startActivity(new Intent(this.getActivity(), BackupRestoreActivity.class));
