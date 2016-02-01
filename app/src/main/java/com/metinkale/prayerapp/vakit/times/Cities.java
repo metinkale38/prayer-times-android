@@ -61,14 +61,14 @@ public class Cities extends SQLiteAssetHelper
 
     public static void list(final String source, final String country, final String state, final String city, final Callback cb)
     {
-        final Cities _ = get();
-        _.mExecutor.execute(new Runnable()
+        final Cities c = get();
+        c.mExecutor.execute(new Runnable()
         {
             @Override
             public void run()
             {
-                final List<String> result = _.list(source, country, state, city);
-                _.mHandler.post(new Runnable()
+                final List<String> result = c.list(source, country, state, city);
+                c.mHandler.post(new Runnable()
                 {
                     @Override
                     public void run()
@@ -84,16 +84,16 @@ public class Cities extends SQLiteAssetHelper
 
     public static void search2(final double lat, final double lng, final String country, final String city, final String q, final Callback cb)
     {
-        final Cities _ = get();
-        _.mExecutor.execute(new Runnable()
+        final Cities c = get();
+        c.mExecutor.execute(new Runnable()
         {
             @Override
             public void run()
             {
                 try
                 {
-                    final List<Item> result = _.search2(lat, lng, country, city, q);
-                    _.mHandler.post(new Runnable()
+                    final List<Item> result = c.search2(lat, lng, country, city, q);
+                    c.mHandler.post(new Runnable()
                     {
                         @Override
                         public void run()
@@ -119,14 +119,14 @@ public class Cities extends SQLiteAssetHelper
 
     public static void search(final String q, final Callback cb)
     {
-        final Cities _ = get();
-        _.mExecutor.execute(new Runnable()
+        final Cities c = get();
+        c.mExecutor.execute(new Runnable()
         {
             @Override
             public void run()
             {
-                final List<Item> result = _.search(q);
-                _.mHandler.post(new Runnable()
+                final List<Item> result = c.search(q);
+                c.mHandler.post(new Runnable()
                 {
                     @Override
                     public void run()
