@@ -153,7 +153,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.metinkale.prayerapp.settings.Settings"/>
-        <activity android:icon="@mipmap/ic_calendar" android:name="com.metinkale.prayerapp.calendar.Main">
+        <activity android:label="@string/calendar" android:icon="@mipmap/ic_calendar" android:name="com.metinkale.prayerapp.calendar.Main">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -193,6 +193,7 @@
                 android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
                 android:logo="@mipmap/ic_zikr"
+                android:label="@string/zikr"
                 android:name="com.metinkale.prayerapp.zikr.Main"
                 android:screenOrientation="portrait">
             <intent-filter>
