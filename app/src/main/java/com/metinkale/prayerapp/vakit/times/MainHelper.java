@@ -354,7 +354,7 @@ public class MainHelper extends SQLiteOpenHelper
             Object cached = cache.get(id + date + time);
             if(cached instanceof String) return (String) cached;
 
-            Cursor c = getDB().query(TIMES_TABLE, new String[]{_TIME[time]}, _ID + " = " + id + " AND " + _DATE + " = '" + date + "'", null, null, null, null);
+            Cursor c = getDB().query(TIMES_TABLE, null, _ID + " = " + id + " AND " + _DATE + " = '" + date + "'", null, null, null, null);
             c.moveToFirst();
             if(c.isAfterLast())
             {
@@ -363,9 +363,11 @@ public class MainHelper extends SQLiteOpenHelper
             }
             try
             {
-                String ret = c.getString(0);
-                cache.put(id + date + time, ret);
-                return ret;
+                String ret = c.getString(c.getColumnIndex(_TIME[time]));
+                for(int i=0;i<_TIME.length;i++){
+                    cache.put(id + date + i, c.getString(c.getColumnIndex(_TIME[i])));
+                }
+               return ret;
             } finally
             {
                 c.close();
