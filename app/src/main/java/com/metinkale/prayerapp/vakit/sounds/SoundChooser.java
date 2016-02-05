@@ -234,7 +234,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         if(data != null)
         {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            uri = Uri.parse(getRingtonePathFromContentUri(getContext(), uri));
+            uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
             try
             {
                 MediaPlayer mp = new MediaPlayer();

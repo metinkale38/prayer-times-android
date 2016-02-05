@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
@@ -153,7 +154,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.metinkale.prayerapp.settings.Settings"/>
-        <activity android:label="@string/calendar" android:icon="@mipmap/ic_calendar" android:name="com.metinkale.prayerapp.calendar.Main">
+        <activity android:label="@string/calendar" android:icon="@mipmap/ic_calendar"
+                  android:name="com.metinkale.prayerapp.calendar.Main">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 

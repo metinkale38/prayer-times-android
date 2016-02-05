@@ -252,11 +252,25 @@ public class Cities extends SQLiteAssetHelper
             resp = Geocoder.from(q, 1, lang).get(0);
         } catch(Exception e)
         {
-            Crashlytics.setString("q", q);
-            Crashlytics.logException(e);
         }
 
-        if(resp == null || resp.address == null) return null;
+        if(resp == null || resp.address == null)
+        {
+            try
+            {
+                return this.search2(0, 0, q, q, q);
+            } catch(IOException e)
+            {
+                Crashlytics.setDouble("lat", 0);
+                Crashlytics.setDouble("lng", 0);
+                Crashlytics.setString("country", q);
+                Crashlytics.setString("city", q);
+                Crashlytics.setString("q", q);
+                Crashlytics.logException(e);
+            }
+
+        }
+        ;
         double lat = resp.lat;
         double lng = resp.lon;
         String country = resp.address.country;
@@ -410,10 +424,9 @@ public class Cities extends SQLiteAssetHelper
                 item.lng = c.getDouble(c.getColumnIndex("lng"));
                 c.close();
 
-                items.add(item);
+                if(lat != 0 || lng != 0 || item.lat != 0 || item.lng != 0) items.add(item);
 
             }
-            db.close();
 
         } finally
         {

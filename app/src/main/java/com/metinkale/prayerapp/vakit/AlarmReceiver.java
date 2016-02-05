@@ -22,6 +22,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.MainIntentService;
+import com.metinkale.prayerapp.custom.MD5;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
@@ -133,7 +134,10 @@ public class AlarmReceiver extends IntentService
             return mp;
         } catch(Exception e)
         {
+            File file=new File(uri.getPath());
             Crashlytics.setString("data", uri.toString());
+            Crashlytics.setString("md5", MD5.calculateMD5(file));
+            Crashlytics.setBool("exists", file.exists());
             Crashlytics.logException(e);
         }
 
