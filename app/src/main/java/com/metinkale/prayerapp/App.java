@@ -21,12 +21,6 @@ public class App extends Application
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
     private static Context mContext;
 
-    public static void e(Exception e)
-    {
-        e.printStackTrace();
-        Crashlytics.logException(e);
-    }
-
     public static void setContext(Context context)
     {
         mContext = context;

@@ -8,8 +8,8 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
 
@@ -67,7 +67,7 @@ public class Main extends BaseActivity implements OnQueryTextListener
             br.close();
         } catch(IOException e)
         {
-            App.e(e);
+            Crashlytics.logException(e);
         }
 
         listView.setAdapter(new Adapter(this, values));

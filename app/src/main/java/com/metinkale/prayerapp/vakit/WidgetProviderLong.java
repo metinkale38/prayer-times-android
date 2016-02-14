@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -209,9 +210,7 @@ public class WidgetProviderLong extends AppWidgetProvider
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch(RuntimeException e)
         {
-            SCALE_MULT -= 0.1f;
-            updateAppWidget(context, appWidgetManager, widgetId);
-
+            Crashlytics.logException(e);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.preference.PreferenceManager;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
@@ -81,6 +82,7 @@ public class TimesBase extends MainHelper._TimesBase
                 mins[i] = Integer.parseInt(smins[i]);
             } catch(Exception ignore)
             {
+                Crashlytics.logException(ignore);
             }
         }
         return mins;

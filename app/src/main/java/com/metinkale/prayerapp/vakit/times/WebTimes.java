@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.PowerManager;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.Main;
 
@@ -74,7 +75,7 @@ public class WebTimes extends Times
             ret = syncTimes();
         } catch(Exception e)
         {
-            e.printStackTrace();
+            Crashlytics.logException(e);
             ret = false;
         }
         mSyncing = false;
@@ -153,8 +154,9 @@ public class WebTimes extends Times
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
                         reasons++;
-                } catch(Exception ignroe)
+                } catch(Exception ignore)
                 {
+                    Crashlytics.logException(ignore);
                 }
                 if(((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) reasons++;
 

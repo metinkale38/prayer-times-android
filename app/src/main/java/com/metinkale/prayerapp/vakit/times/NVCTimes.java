@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -50,7 +52,7 @@ public class NVCTimes extends WebTimes
             }
         } catch(Exception ignore)
         {
-            ignore.printStackTrace();
+            Crashlytics.logException(ignore);
         }
         return null;
     }
@@ -113,6 +115,7 @@ public class NVCTimes extends WebTimes
             }
         } catch(Exception e)
         {
+            Crashlytics.logException(e);
         }
 
         return true;

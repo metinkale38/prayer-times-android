@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.custom.MD5;
@@ -208,7 +209,7 @@ public class Sounds
 
                     } catch(Exception e)
                     {
-                        e.printStackTrace();
+                        Crashlytics.logException(e);
                     }
                 }
 

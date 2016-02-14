@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
@@ -79,7 +80,7 @@ public class WidgetService extends Service
                 nm.notify(id + "", NotIds.ONGOING, noti);
             } catch(Exception e)
             {
-                App.e(e);
+                Crashlytics.logException(e);
             }
 
         }

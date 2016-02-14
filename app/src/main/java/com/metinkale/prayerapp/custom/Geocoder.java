@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.custom;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,7 @@ public class Geocoder
             return resp;
         } catch(Exception e)
         {
-            e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         return null;
@@ -67,7 +68,7 @@ public class Geocoder
             return resp;
         } catch(Exception e)
         {
-            e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         return null;

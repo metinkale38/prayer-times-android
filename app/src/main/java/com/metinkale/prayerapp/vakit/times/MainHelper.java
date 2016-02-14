@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.LruCache;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 
@@ -102,7 +103,7 @@ public class MainHelper extends SQLiteOpenHelper
 
         } catch(Exception e)
         {
-        }
+            Crashlytics.logException(e);}
         return null;
     }
 
@@ -217,6 +218,7 @@ public class MainHelper extends SQLiteOpenHelper
 
                 } catch(SQLiteException ignore)
                 {
+                    Crashlytics.logException(ignore);
 
                 } finally
                 {
@@ -302,7 +304,7 @@ public class MainHelper extends SQLiteOpenHelper
                     return t1.getSortId() - t2.getSortId();
                 } catch(RuntimeException e)
                 {
-                    return 0;
+                    Crashlytics.logException(e);return 0;
                 }
             }
         });
@@ -364,10 +366,11 @@ public class MainHelper extends SQLiteOpenHelper
             try
             {
                 String ret = c.getString(c.getColumnIndex(_TIME[time]));
-                for(int i=0;i<_TIME.length;i++){
+                for(int i = 0; i < _TIME.length; i++)
+                {
                     cache.put(id + date + i, c.getString(c.getColumnIndex(_TIME[i])));
                 }
-               return ret;
+                return ret;
             } finally
             {
                 c.close();

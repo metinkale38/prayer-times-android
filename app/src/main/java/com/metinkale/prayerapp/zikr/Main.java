@@ -19,6 +19,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
@@ -101,7 +102,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             fileWriter.close();
         } catch(JsonIOException | IOException e)
         {
-            App.e(e);
+            Crashlytics.logException(e);
         }
 
     }
@@ -123,6 +124,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             mCurrent = mZikrList.get(0);
         } catch(Exception e)
         {
+            Crashlytics.logException(e);
             mZikrList = new ArrayList<>();
             mCurrent = new Zikr();
             mCurrent.title = getString(R.string.tesbih);
@@ -320,7 +322,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                     mZikr.setMax(Integer.parseInt(input.getText().toString()));
                 } catch(Exception e)
                 {
-
+                    Crashlytics.logException(e);
                 }
             }
         });

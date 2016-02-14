@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
+import com.metinkale.prayerapp.PermissionUtils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.sounds.Sounds.Sound;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
@@ -40,6 +41,19 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     private Callback mCb;
     private int mStartVolume;
     private AudioManager mAm;
+    private Runnable onResume;
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if(onResume != null)
+        {
+            onResume.run();
+            onResume = null;
+        }
+    }
 
     public void showExpanded(FragmentManager fm, Callback cb)
     {
@@ -160,12 +174,26 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         mList.setTag(s);
         if(s.uri.equals("picker"))
         {
-            Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-            i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-            i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-            i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-            Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-            this.startActivityForResult(chooserIntent, 0);
+            onResume = new Runnable()
+            {
+                public void run()
+                {
+                    Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                    Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
+                    SoundChooser.this.startActivityForResult(chooserIntent, 0);
+                }
+            };
+            if(PermissionUtils.get(getActivity()).pStorage)
+            {
+                onResume.run();
+                onResume = null;
+            } else
+            {
+                PermissionUtils.get(getActivity()).needStorage(getActivity());
+            }
         } else if(!s.uri.equals("silent"))
         {
             if(Sounds.isDownloaded(s))

@@ -1,18 +1,21 @@
-package com.metinkale.prayerapp.vakit;
+package com.metinkale.prayerapp.vakit.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
+import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.Pref;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
 import com.metinkale.prayerapp.vakit.SoundPreference.SoundPreferenceContext;
@@ -20,34 +23,35 @@ import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
-public class NotificationPrefs extends Activity implements SoundPreferenceContext
+public class NotificationPrefs extends Fragment implements SoundPreferenceContext
 {
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
-    public static NotificationPrefs instance;
 
+    public static NotificationPrefs create(Times t)
+    {
+        Bundle bdl = new Bundle();
+        bdl.putLong("city", t.getID());
+        NotificationPrefs frag = new NotificationPrefs();
+        frag.setArguments(bdl);
+        return frag;
+    }
+
+    public NotificationPrefs()
+    {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        View v = inflater.inflate(R.layout.vakit_notprefs, container, false);
 
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        this.setContentView(R.layout.vakit_notprefs);
-        getActionBar().setIcon(R.drawable.ic_abicon);
-
-        mTimes = MainHelper.getTimes(getIntent().getLongExtra("city", 0));
-        if(mTimes == null)
-        {
-            finish();
-            return;
-        }
-        Switch ongoing = (Switch) findViewById(R.id.ongoing);
-        ExpandableListView list = (ExpandableListView) findViewById(R.id.expandableListView);
+        mTimes = MainHelper.getTimes(getArguments().getLong("city", 0));
+        Switch ongoing = (Switch) v.findViewById(R.id.ongoing);
+        ExpandableListView list = (ExpandableListView) v.findViewById(R.id.expandableListView);
         MyAdapter adapter = new MyAdapter();
         list.setAdapter(adapter);
 
-        setTitle(mTimes.getName());
 
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
         ongoing.setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -59,21 +63,19 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                 mTimes.setOngoingNotificationActive(val);
             }
         });
-
+        return v;
     }
 
     @Override
-    protected void onPause()
+    public void onPause()
     {
         super.onPause();
-        MainIntentService.setAlarms(this);
-        instance = null;
+        MainIntentService.setAlarms(getActivity());
     }
 
     public void onResume()
     {
         super.onResume();
-        instance = this;
     }
 
 
@@ -112,7 +114,7 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
         {
-            View v = View.inflate(NotificationPrefs.this, R.layout.vakit_notprefs_item, null);
+            View v = View.inflate(getActivity(), R.layout.vakit_notprefs_item, null);
             final View container = v.findViewById(R.id.prefscontainer);
             final View contalt = v.findViewById(R.id.contalt);
             Switch s = (Switch) v.findViewById(R.id.active);
@@ -137,7 +139,7 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
                     a.vibrate = (boolean) vibration.getValue();
                     a.city = mTimes.getID();
                     a.pref = "TEST";
-                    AlarmReceiver.setAlarm(getApplicationContext(), a);
+                    AlarmReceiver.setAlarm(getActivity(), a);
                     Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                     return true;
                 }
@@ -479,8 +481,9 @@ public class NotificationPrefs extends Activity implements SoundPreferenceContex
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
         {
             if(convertView == null)
+
             {
-                convertView = View.inflate(NotificationPrefs.this, R.layout.vakit_notprefs_group, null);
+                convertView = View.inflate(getActivity(), R.layout.vakit_notprefs_group, null);
             }
 
             Vakit v = (Vakit) getGroup(groupPosition);

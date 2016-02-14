@@ -23,6 +23,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.custom.MD5;
+import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
@@ -164,8 +165,7 @@ public class AlarmReceiver extends IntentService
         {
             fireAlarm(intent);
         } catch(Exception e)
-        {
-            App.e(e);
+        {Crashlytics.logException(e);
         }
 
         Times.setAlarms();
@@ -333,7 +333,6 @@ public class AlarmReceiver extends IntentService
         }
         sInterrupt = false;
 
-        if(NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
 
         if(volume != -2)

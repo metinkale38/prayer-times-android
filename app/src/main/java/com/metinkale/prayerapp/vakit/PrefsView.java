@@ -300,7 +300,7 @@ public class PrefsView extends View implements OnClickListener
 
     }
 
-    enum Pref
+    public enum Pref
     {
         Silenter(R.drawable.ic_silenter), Sound(R.drawable.ic_sound), Sela(R.drawable.ic_sound), Dua(R.drawable.ic_dua), Vibration2(R.drawable.ic_vibration), Vibration(R.drawable.ic_vibration), Time(R.drawable.ic_time), SabahTime(R.drawable.ic_time);
         int resId;

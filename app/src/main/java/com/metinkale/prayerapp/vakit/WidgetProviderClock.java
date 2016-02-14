@@ -15,10 +15,10 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.AlarmClock;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.Utils;
@@ -198,15 +198,7 @@ public class WidgetProviderClock extends AppWidgetProvider
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch(RuntimeException e)
         {
-            SCALE_MULT -= 0.1f;
-            if(SCALE_MULT > 0 && e.getMessage().contains("exceeds")) new Handler().post(new Runnable()
-            {
-                public void run()
-                {
-                    updateAppWidget(context, appWidgetManager, widgetId);
-                }
-            });
-
+            Crashlytics.logException(e);
         }
     }
 

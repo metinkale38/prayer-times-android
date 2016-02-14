@@ -16,6 +16,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager.OnActivityResultListener;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.MainIntentService;
@@ -42,7 +43,7 @@ public class Settings extends BaseActivity implements SoundPreferenceContext
             versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + "";
         } catch(PackageManager.NameNotFoundException e)
         {
-            e.printStackTrace();
+            Crashlytics.logException(e);
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
         ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendemail)));

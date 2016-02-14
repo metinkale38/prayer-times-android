@@ -28,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
@@ -84,6 +85,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             setState(STATE_SHUFFLED);
         } catch(RuntimeException e)
         {
+            Crashlytics.logException(e);
             finish();
             new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Prefs.getLanguage() + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));

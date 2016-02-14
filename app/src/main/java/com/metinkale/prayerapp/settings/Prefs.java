@@ -2,6 +2,7 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 
 /**
@@ -67,7 +68,10 @@ public class Prefs
             calIntegration = prefs.getString("calendarIntegration", "-1");
             calIntegration.equals("-1");
         } catch(Exception e)
-        {//catch Exception if calendarIntegration is an INT
+        {
+            Crashlytics.logException(e);
+
+            //catch Exception if calendarIntegration is an INT
             mEditor.remove("calendarIntegration").commit();//revert
             mEditor = prefs.edit();
 

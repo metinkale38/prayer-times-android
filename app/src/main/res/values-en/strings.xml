@@ -123,5 +123,6 @@
     <string name="permission_calendar_title">Calendar Berechtigung</string>
     <string name="permission_calendar_text">If you want, that the Holy Days appear in your Phone Calendar, you have to allow Calendar Access. Otherwise do not.</string>
     <string name="permission_storage_title">Storage Permission</string>
-    <string name="permission_storage_text">Backups are stored on the external Storage. If you want to use that Feature, you have to allow Write Access to your external Storage.</string>
+    <string name="permission_storage_text">Storage Permission is needed... Without that Permission some things will not
+        work</string>
 </resources>

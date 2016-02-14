@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -65,7 +66,7 @@ public class SemerkandTimes extends WebTimes
 
             } catch(Exception e)
             {
-                e.printStackTrace();
+                Crashlytics.logException(e);;
             }
         }
         return i > 0;

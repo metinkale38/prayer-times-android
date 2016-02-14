@@ -123,6 +123,7 @@
     <string name="permission_calendar_title">Takvim Izni</string>
     <string name="permission_calendar_text">Eğer Dini Günlerin Telefon Takvimine yazılmasını istiyorsanız, bu izni vermelisiniz. Eğer bunu istemiyorsanız, izini vermeyin.</string>
     <string name="permission_storage_title">Bellek izni</string>
-    <string name="permission_storage_text">Backup/Restore özelligi icin Bellek izni gerekiyor. Eger bu izini vermez iseniz, bu özelligi kullanamaz</string>
+    <string name="permission_storage_text">Bellek izni gerekiyor. Eğer bu izni vermezseniz, bazı özellikler çalışmaya
+        bilir.</string>
 
 </resources>

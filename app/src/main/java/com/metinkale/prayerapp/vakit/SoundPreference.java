@@ -13,6 +13,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager.OnActivityResultListener;
 import android.util.AttributeSet;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class SoundPreference extends ListPreference implements OnActivityResultL
                 this.setEntryValues(vals.toArray(new CharSequence[vals.size()]));
             } catch(Exception e)
             {
-
+                Crashlytics.logException(e);
             }
         }
         super.setValue(value);

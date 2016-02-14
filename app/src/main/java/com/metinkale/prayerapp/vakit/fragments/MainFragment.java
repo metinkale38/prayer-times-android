@@ -10,11 +10,10 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.NotificationPrefs;
+import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
@@ -179,22 +178,22 @@ public class MainFragment extends Fragment
 
             case R.id.notification:
             {
-                try
+                Fragment frag = getChildFragmentManager().findFragmentByTag("notPrefs" + mTimes.getID());
+                if(frag == null)
                 {
-                    Intent intent = new Intent(getActivity(), NotificationPrefs.class);
-                    intent.putExtra("city", mCity);
-                    startActivity(intent);
-                    return true;
-                } catch(Exception e)
+                    ((Main) getActivity()).setFooterText(mTimes.getName(), false);
+                    getChildFragmentManager().beginTransaction().add(R.id.fragRoot, NotificationPrefs.create(mTimes), "notPrefs" + mTimes.getID()).commit();
+                } else
                 {
-                    App.e(e);
+                    ((Main) getActivity()).setFooterText(getString(R.string.imsakiye), true);
+                    getChildFragmentManager().beginTransaction().remove(frag).commit();
                 }
-            }
-            case R.id.refresh:
-            {
-                if(mTimes != null) mTimes.refresh();
-                break;
-            }
+
+            } case R.id.refresh:
+        {
+            if(mTimes != null) mTimes.refresh();
+            break;
+        }
 
             case R.id.share:
             {
@@ -213,8 +212,7 @@ public class MainFragment extends Fragment
                 startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
 
             }
-        }
-        return super.onOptionsItemSelected(item);
+        } return super.onOptionsItemSelected(item);
     }
 
     public Times getTimes()

@@ -22,6 +22,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.custom.FloatingActionButton;
+import com.metinkale.prayerapp.custom.LockableViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
@@ -34,7 +35,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public static boolean isRunning = false;
     public MyAdapter mAdapter;
     public FloatingActionButton mAddCityFab;
-    private ViewPager mPager;
+    private LockableViewPager mPager;
     private int mStartPos = 1;
     private SettingsFragment mSettingsFrag;
     private ImsakiyeFragment mImsakiyeFrag;
@@ -66,7 +67,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             mStartPos = 1;
         }
         mFooterText = (TextView) findViewById(R.id.footerText);
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = (LockableViewPager) findViewById(R.id.pager);
         mPaneView = (MyPaneView) findViewById(R.id.pane);
         mAdapter = new MyAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
@@ -165,6 +166,14 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if(mAddCityFab != null) if(position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
         else mAddCityFab.hideFloatingActionButton();
 
+
+    }
+
+    public void setFooterText(String txt, boolean enablePane)
+    {
+        mFooterText.setText(txt);
+        mPaneView.setEnabled(enablePane);
+        mPager.setSwipeLocked(!enablePane);
 
     }
 

@@ -1,6 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.os.Bundle;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -283,6 +284,7 @@ public abstract class Times extends TimesBase
             cal.add(Calendar.MINUTE, m + adj[t]);
         } catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
         {
+            Crashlytics.logException(e);
             cal.set(0, 0, 0, 0, 0, 0);
         }
 

@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.PermissionUtils;
@@ -129,7 +130,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             zip.closeZip();
         } catch(IOException e)
         {
-            e.printStackTrace();
+            Crashlytics.logException(e);
             Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
             zipFile.delete();
         }
@@ -192,7 +193,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
                 zis.close();
             } catch(IOException e)
             {
-                e.printStackTrace();
+                Crashlytics.logException(e);
                 return false;
             }
 

@@ -123,5 +123,6 @@
     <string name="permission_calendar_title">Kalendar Berechtigung</string>
     <string name="permission_calendar_text">Falls Sie wollen, dass die Islamischen Feiertage in den Kalender eingetragen werden, musst du dieser App Kalender Berechtigungen erteilen. Erteile keine Berechtigung, falls du dies nicht möchtest.</string>
     <string name="permission_storage_title">Speicher Berechtigung</string>
-    <string name="permission_storage_text">Backups werden auf dem externen Speicher gespeichert. Falls du diese Berechtigung nicht erteilst, kannst du diese Funktion nicht benutzen.</string>
+    <string name="permission_storage_text">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Sachen
+        nicht funktionieren...</string>
 </resources>

@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -55,7 +56,7 @@ public class Utils
             } else return az(hour - 12) + suffix + " PM";
         } catch(Exception e)
         {
-            App.e(e);
+            Crashlytics.logException(e);
             return time;
         }
         return time;

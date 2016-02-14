@@ -2,6 +2,7 @@ package com.metinkale.prayerapp.custom;
 
 import android.text.TextUtils;
 import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -41,6 +42,8 @@ public class MD5
             digest = MessageDigest.getInstance("MD5");
         } catch(NoSuchAlgorithmException e)
         {
+
+            Crashlytics.logException(e);
             Log.e(TAG, "Exception while getting digest", e);
             return null;
         }
@@ -51,6 +54,7 @@ public class MD5
             is = new FileInputStream(updateFile);
         } catch(FileNotFoundException e)
         {
+            Crashlytics.logException(e);
             Log.e(TAG, "Exception while getting FileInputStream", e);
             return null;
         }
@@ -71,6 +75,7 @@ public class MD5
             return output;
         } catch(IOException e)
         {
+            Crashlytics.logException(e);
             throw new RuntimeException("Unable to process file for MD5", e);
         } finally
         {
@@ -79,6 +84,7 @@ public class MD5
                 is.close();
             } catch(IOException e)
             {
+                Crashlytics.logException(e);
                 Log.e(TAG, "Exception on closing MD5 input stream", e);
             }
         }

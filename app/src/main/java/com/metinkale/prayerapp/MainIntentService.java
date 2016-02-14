@@ -16,9 +16,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.NotificationPrefs;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -112,7 +112,7 @@ public class MainIntentService extends IntentService
 
             } catch(Exception e)
             {
-                App.e(e);
+                Crashlytics.logException(e);
             }
 
         }
@@ -121,7 +121,7 @@ public class MainIntentService extends IntentService
 
     private void downloadFile(String Url, File to, final String notificationText)
     {
-        final Activity act = (BaseActivity.CurrectAct == null) ? NotificationPrefs.instance : BaseActivity.CurrectAct;
+        final Activity act = BaseActivity.CurrectAct;
 
 
         NotificationManager nm = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -177,7 +177,7 @@ public class MainIntentService extends IntentService
         } catch(Exception e)
         {
             f.delete();
-            e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         if(act != null) act.runOnUiThread(new Runnable()
@@ -273,6 +273,7 @@ public class MainIntentService extends IntentService
             Prefs.setLastCalIntegration(year);
         } catch(Exception e)
         {
+            Crashlytics.logException(e);
             Prefs.setCalendar("-1");
         }
     }

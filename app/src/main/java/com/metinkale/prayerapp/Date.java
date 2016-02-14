@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp;
 
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.*;
@@ -398,6 +399,7 @@ public class Date
             }
         } catch(ArrayIndexOutOfBoundsException ex)
         {
+            Crashlytics.logException(ex);
             if(hicri)
             {
                 calcHicri();

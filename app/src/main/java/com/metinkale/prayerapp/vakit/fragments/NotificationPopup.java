@@ -1,4 +1,4 @@
-package com.metinkale.prayerapp.vakit;
+package com.metinkale.prayerapp.vakit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
+import com.metinkale.prayerapp.vakit.AlarmReceiver;
 
 public class NotificationPopup extends Activity
 {
