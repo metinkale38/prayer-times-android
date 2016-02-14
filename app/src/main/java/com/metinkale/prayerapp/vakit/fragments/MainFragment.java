@@ -178,15 +178,16 @@ public class MainFragment extends Fragment
 
             case R.id.notification:
             {
-                Fragment frag = getChildFragmentManager().findFragmentByTag("notPrefs" + mTimes.getID());
+                Fragment frag = getChildFragmentManager().findFragmentByTag("notPrefs" );
                 if(frag == null)
                 {
                     ((Main) getActivity()).setFooterText(mTimes.getName(), false);
-                    getChildFragmentManager().beginTransaction().add(R.id.fragRoot, NotificationPrefs.create(mTimes), "notPrefs" + mTimes.getID()).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commit();
                 } else
                 {
                     ((Main) getActivity()).setFooterText(getString(R.string.imsakiye), true);
-                    getChildFragmentManager().beginTransaction().remove(frag).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+
                 }
 
             } case R.id.refresh:

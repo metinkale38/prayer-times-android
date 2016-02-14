@@ -10,9 +10,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,8 +29,7 @@ import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 
-public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener
-{
+public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {
 
     public static boolean isRunning = false;
     public MyAdapter mAdapter;
@@ -42,9 +41,8 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private MyPaneView mPaneView;
     private TextView mFooterText;
 
-    public static PendingIntent getPendingIntent(Times t)
-    {
-        if(t == null) return null;
+    public static PendingIntent getPendingIntent(Times t) {
+        if (t == null) return null;
         Context context = App.getContext();
         Intent intent = new Intent(context, Main.class);
         intent.putExtra("startCity", MainHelper.getIds().indexOf(t.getID()));
@@ -53,8 +51,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -62,8 +59,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         mStartPos = getIntent().getIntExtra("startCity", -1) + 1;
-        if(mStartPos <= 0)
-        {
+        if (mStartPos <= 0) {
             mStartPos = 1;
         }
         mFooterText = (TextView) findViewById(R.id.footerText);
@@ -74,8 +70,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         String holyday = Date.isHolyday();
-        if(holyday != null)
-        {
+        if (holyday != null) {
             TextView tv = (TextView) findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
             tv.setText(holyday);
@@ -88,28 +83,22 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mSettingsFrag = (SettingsFragment) getFragmentManager().findFragmentByTag("settings");
         mImsakiyeFrag = (ImsakiyeFragment) getFragmentManager().findFragmentByTag("imsakiye");
 
-        mPaneView.setOnTopOpen(new Runnable()
-        {
+        mPaneView.setOnTopOpen(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 int position = mPager.getCurrentItem();
-                if(position != 0)
-                {
+                if (position != 0) {
                     Times t = MainHelper.getTimes(mAdapter.getItemId(position));
                     mSettingsFrag.setTimes(t);
                 }
             }
         });
 
-        mPaneView.setOnBottomOpen(new Runnable()
-        {
+        mPaneView.setOnBottomOpen(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 int position = mPager.getCurrentItem();
-                if(position != 0)
-                {
+                if (position != 0) {
                     Times t = MainHelper.getTimes(mAdapter.getItemId(position));
                     mImsakiyeFrag.setTimes(t);
                 }
@@ -121,18 +110,15 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if(v == mAddCityFab)
-        {
+    public void onClick(View v) {
+        if (v == mAddCityFab) {
             startActivity(new Intent(this, AddCity.class));
         }
 
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         isRunning = true;
         MainHelper.addListener(mAdapter);
@@ -140,8 +126,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     }
 
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         isRunning = false;
         MainHelper.removeListener(mAdapter);
@@ -149,28 +134,39 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    public boolean setNavBar()
-    {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("notPrefs");
+            if (frag == null) {
+                return super.onKeyUp(keyCode, event);
+            } else {
+                setFooterText(getString(R.string.imsakiye), true);
+                getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean setNavBar() {
         setNavBarResource(R.color.colorPrimary);
         return true;
     }
 
     @Override
-    public void onPageScrollStateChanged(int arg0)
-    {
+    public void onPageScrollStateChanged(int arg0) {
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-    {
-        if(mAddCityFab != null) if(position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (mAddCityFab != null) if (position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
         else mAddCityFab.hideFloatingActionButton();
 
 
     }
 
-    public void setFooterText(String txt, boolean enablePane)
-    {
+    public void setFooterText(String txt, boolean enablePane) {
         mFooterText.setText(txt);
         mPaneView.setEnabled(enablePane);
         mPager.setSwipeLocked(!enablePane);
@@ -178,47 +174,38 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    public void onPageSelected(int pos)
-    {
+    public void onPageSelected(int pos) {
         mPaneView.setEnabled(pos != 0);
         mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
     }
 
-    public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener, MainHelper.MainHelperListener
-    {
+    public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener, MainHelper.MainHelperListener {
 
-        public MyAdapter(FragmentManager fm)
-        {
+        public MyAdapter(FragmentManager fm) {
             super(fm);
 
         }
 
-        public void drop(int from, int to)
-        {
+        public void drop(int from, int to) {
             MainHelper.drop(from, to);
         }
 
-        public void remove(final int which)
-        {
+        public void remove(final int which) {
             final Times times = MainHelper.getTimesAt(which);
 
             AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
             dialog.setTitle(R.string.delete);
             dialog.setMessage(getString(R.string.delConfirm, times.getName()));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener()
-            {
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int buttonId)
-                {
+                public void onClick(DialogInterface dialog, int buttonId) {
                     times.delete();
                 }
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener()
-            {
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int buttonId)
-                {
+                public void onClick(DialogInterface dialog, int buttonId) {
                     dialog.cancel();
                 }
             });
@@ -229,59 +216,49 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             return MainHelper.getCount() + 1;
         }
 
         @Override
-        public long getItemId(int position)
-        {
-            if(position == 0) return 0;
+        public long getItemId(int position) {
+            if (position == 0) return 0;
 
             return MainHelper.getTimesAt(position - 1).getID();
         }
 
         @Override
-        public int getItemPosition(Object object)
-        {
-            if(object instanceof SortFragment)
-            {
+        public int getItemPosition(Object object) {
+            if (object instanceof SortFragment) {
                 return 0;
-            } else
-            {
+            } else {
                 MainFragment frag = (MainFragment) object;
                 int pos = MainHelper.getTimes().indexOf(frag.getTimes());
-                if(pos >= 0) return pos + 1;
+                if (pos >= 0) return pos + 1;
             }
             return POSITION_NONE;
         }
 
 
         @Override
-        public Fragment getItem(int position)
-        {
-            if(position > 0)
-            {
+        public Fragment getItem(int position) {
+            if (position > 0) {
                 MainFragment frag = new MainFragment();
                 Bundle bdl = new Bundle();
                 bdl.putLong("city", getItemId(position));
                 frag.setArguments(bdl);
 
-                if(position == mStartPos)
-                {
+                if (position == mStartPos) {
                     mStartPos = 0;
                 }
                 return frag;
-            } else
-            {
+            } else {
                 return new SortFragment();
             }
         }
 
         @Override
-        public void onItemClick(AdapterView<?> a, View v, int pos, long index)
-        {
+        public void onItemClick(AdapterView<?> a, View v, int pos, long index) {
             mPager.setCurrentItem(pos + 1, true);
 
         }

@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#efefef"
+                android:background="#f0f0f0"
                 android:paddingBottom="10dp">
 
     <Switch
             android:id="@+id/active"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"/>
