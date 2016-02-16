@@ -624,7 +624,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      */
     private View findFocusableViewInMyBounds(final boolean topFocus, final int top, View preferredFocusable) {
         /*
-		 * The fading edge's transparent side should be considered for focus
+         * The fading edge's transparent side should be considered for focus
 		 * since it's mostly visible, so we divide the actual fading edge length
 		 * by 2.
 		 */
@@ -1202,7 +1202,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     /**
      * When looking for focus in children of a scroll view, need to be a little
      * more careful not to give focus to something that is scrolled off screen.
-     * <p>
+     * <p/>
      * This is more expensive than the default {@link android.view.ViewGroup}
      * implementation, otherwise this behavior might have been made the default.
      */
@@ -1345,8 +1345,8 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
     /**
      * {@inheritDoc}
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This version also clamps the scrolling to the bounds of our child.
      */
     @Override

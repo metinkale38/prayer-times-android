@@ -58,7 +58,7 @@ public class Geocoder {
                 String line;
                 String txt = "";
                 while ((line = in.readLine()) != null)
-                    txt+=line+"\n";
+                    txt += line + "\n";
 
                 Crashlytics.logException(new RuntimeException(txt));
             } else {

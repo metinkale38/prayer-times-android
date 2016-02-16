@@ -1,6 +1,5 @@
 package com.metinkale.prayerapp.vakit.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -18,12 +17,11 @@ import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.Pref;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
-import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
-public class NotificationPrefs extends Fragment{
+public class NotificationPrefs extends Fragment {
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
 
@@ -69,7 +67,6 @@ public class NotificationPrefs extends Fragment{
     public void onResume() {
         super.onResume();
     }
-
 
 
     public class MyAdapter extends BaseExpandableListAdapter {

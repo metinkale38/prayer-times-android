@@ -91,7 +91,7 @@ public class MainHelper extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            if(e.getMessage().contains("can't create TimesBase with deleted"))return null;
+            if (e.getMessage().contains("can't create TimesBase with deleted")) return null;
             Crashlytics.logException(e);
         }
         return null;

@@ -8,7 +8,7 @@ import android.hardware.SensorManager;
 /**
  * Magnetometer / Accelerometer sensor fusion Smoothed by means of simple high
  * pass filter
- * <p>
+ * <p/>
  * When it receives an event it will notify the constructor-specified delegate.
  *
  * @author Adam
