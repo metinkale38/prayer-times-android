@@ -8,13 +8,12 @@ import android.hardware.SensorManager;
 /**
  * Magnetometer / Accelerometer sensor fusion Smoothed by means of simple high
  * pass filter
- * <p/>
+ * <p>
  * When it receives an event it will notify the constructor-specified delegate.
  *
  * @author Adam
  */
-public class MagAccelListener implements SensorEventListener
-{
+public class MagAccelListener implements SensorEventListener {
     // smoothing factor - tune to taste
     private final float mFilterFactor = 0.05f;
     // smoothed accelerometer values
@@ -25,16 +24,13 @@ public class MagAccelListener implements SensorEventListener
     private boolean mIsReady = false;
     private RotationUpdateDelegate mRotationUpdateDelegate;
 
-    public MagAccelListener(RotationUpdateDelegate rotationUpdateDelegate)
-    {
+    public MagAccelListener(RotationUpdateDelegate rotationUpdateDelegate) {
         mRotationUpdateDelegate = rotationUpdateDelegate;
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event)
-    {
-        switch(event.sensor.getType())
-        {
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 smooth(event.values, mAccelVals, mAccelVals);
                 break;
@@ -46,21 +42,18 @@ public class MagAccelListener implements SensorEventListener
                 break;
         }
         // wait until we have both a new accelerometer and magnetometer sample
-        if(mIsReady)
-        {
+        if (mIsReady) {
             mIsReady = false;
             fuseValues();
         }
     }
 
-    private void fuseValues()
-    {
+    private void fuseValues() {
         SensorManager.getRotationMatrix(mRotationM, null, mAccelVals, mMagVals);
         mRotationUpdateDelegate.onRotationUpdate(mRotationM);
     }
 
-    private void smooth(float[] inv, float prevv[], float outv[])
-    {
+    private void smooth(float[] inv, float prevv[], float outv[]) {
         float filterFactorInv = 1.0f - mFilterFactor;
         outv[0] = inv[0] * mFilterFactor + prevv[0] * filterFactorInv;
         outv[1] = inv[1] * mFilterFactor + prevv[1] * filterFactorInv;
@@ -68,7 +61,6 @@ public class MagAccelListener implements SensorEventListener
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy)
-    {
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 }

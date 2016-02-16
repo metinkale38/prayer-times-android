@@ -6,12 +6,10 @@ import android.webkit.WebView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 
-public class WebViewActivity extends BaseActivity
-{
+public class WebViewActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
         WebView v = (WebView) findViewById(R.id.webview);
@@ -20,10 +18,8 @@ public class WebViewActivity extends BaseActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
 
                 onBackPressed();
@@ -37,8 +33,7 @@ public class WebViewActivity extends BaseActivity
     }
 
     @Override
-    public boolean setNavBar()
-    {
+    public boolean setNavBar() {
         return false;
     }
 }

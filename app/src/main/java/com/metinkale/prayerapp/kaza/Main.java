@@ -11,20 +11,17 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 
-public class Main extends BaseActivity
-{
+public class Main extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kaza_main);
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
 
         int ids[] = new int[]{R.string.sabah, R.string.ogle, R.string.ikindi, R.string.aksam, R.string.yatsi, R.string.vitr};
-        for(int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             View v = vg.getChildAt(i);
             TextView name = (TextView) v.findViewById(R.id.text);
             final EditText nr = (EditText) v.findViewById(R.id.nr);
@@ -33,18 +30,14 @@ public class Main extends BaseActivity
 
             name.setText(ids[i]);
 
-            plus.setOnClickListener(new OnClickListener()
-            {
+            plus.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View arg0)
-                {
+                public void onClick(View arg0) {
                     int i = 0;
-                    try
-                    {
+                    try {
                         i = Integer.parseInt(nr.getText().toString());
-                    } finally
-                    {
+                    } finally {
                         i++;
                     }
 
@@ -53,18 +46,14 @@ public class Main extends BaseActivity
                 }
             });
 
-            minus.setOnClickListener(new OnClickListener()
-            {
+            minus.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     int i = 0;
-                    try
-                    {
+                    try {
                         i = Integer.parseInt(nr.getText().toString());
-                    } finally
-                    {
+                    } finally {
                         i--;
                     }
 
@@ -76,14 +65,12 @@ public class Main extends BaseActivity
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
         SharedPreferences prefs = getSharedPreferences("kaza", 0);
-        for(int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             View v = vg.getChildAt(i);
             EditText nr = (EditText) v.findViewById(R.id.nr);
             nr.setText(prefs.getString("count" + i, "0"));
@@ -92,14 +79,12 @@ public class Main extends BaseActivity
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
         SharedPreferences.Editor edit = getSharedPreferences("kaza", 0).edit();
-        for(int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             View v = vg.getChildAt(i);
             EditText nr = (EditText) v.findViewById(R.id.nr);
             edit.putString("count" + i, nr.getText().toString());
@@ -110,8 +95,7 @@ public class Main extends BaseActivity
     }
 
     @Override
-    public boolean setNavBar()
-    {
+    public boolean setNavBar() {
         setNavBarColor(0xffffffff);
         return true;
     }

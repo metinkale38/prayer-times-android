@@ -14,8 +14,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 /**
  * Created by metin on 14.12.2015.
  */
-public class PermissionUtils
-{
+public class PermissionUtils {
     private static final int REQUEST_CALENDAR = 1;
     private static final int REQUEST_CAMERA = 2;
     private static final int REQUEST_STORAGE = 3;
@@ -23,23 +22,19 @@ public class PermissionUtils
     public boolean pCalendar, pCamera, pStorage, pLocation;
     private static PermissionUtils mInstance;
 
-    public static PermissionUtils get(Activity act)
-    {
-        if(mInstance == null)
-        {
+    public static PermissionUtils get(Activity act) {
+        if (mInstance == null) {
             mInstance = new PermissionUtils(act);
         }
         return mInstance;
     }
 
-    private PermissionUtils(Activity act)
-    {
+    private PermissionUtils(Activity act) {
         checkPermissions(act);
     }
 
 
-    private void checkPermissions(Activity act)
-    {
+    private void checkPermissions(Activity act) {
         pCalendar = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pCamera = ContextCompat.checkSelfPermission(act, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -52,19 +47,15 @@ public class PermissionUtils
 
     }
 
-    public void needCamera(final Activity act)
-    {
-        if(!pCamera)
-        {
+    public void needCamera(final Activity act) {
+        if (!pCamera) {
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_camera_title).setMessage(R.string.permission_camera_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-            {
+            builder.setTitle(R.string.permission_camera_title).setMessage(R.string.permission_camera_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
+                public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
                 }
             });
@@ -75,18 +66,14 @@ public class PermissionUtils
     }
 
 
-    public void needLocation(final Activity act)
-    {
-        if(!pLocation)
-        {
+    public void needLocation(final Activity act) {
+        if (!pLocation) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_location_title).setMessage(R.string.permission_location_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-            {
+            builder.setTitle(R.string.permission_location_title).setMessage(R.string.permission_location_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
+                public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
                 }
             });
@@ -98,18 +85,14 @@ public class PermissionUtils
     }
 
 
-    public void needCalendar(final Activity act, boolean force)
-    {
-        if(!pCalendar && (!Prefs.getCalendar().equals("-1") || force))
-        {
+    public void needCalendar(final Activity act, boolean force) {
+        if (!pCalendar && (!Prefs.getCalendar().equals("-1") || force)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_calendar_title).setMessage(R.string.permission_calendar_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-            {
+            builder.setTitle(R.string.permission_calendar_title).setMessage(R.string.permission_calendar_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
+                public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CALENDAR);
                 }
             });
@@ -121,18 +104,14 @@ public class PermissionUtils
     }
 
 
-    public void needStorage(final Activity act)
-    {
-        if(!pStorage)
-        {
+    public void needStorage(final Activity act) {
+        if (!pStorage) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_storage_title).setMessage(R.string.permission_storage_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-            {
+            builder.setTitle(R.string.permission_storage_title).setMessage(R.string.permission_storage_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
+                public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
                 }
             });
@@ -144,54 +123,40 @@ public class PermissionUtils
     }
 
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults)
-    {
-        switch(requestCode)
-        {
-            case REQUEST_CAMERA:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pCamera = true;
-                } else
-                {
+                } else {
                     pCamera = false;
                 }
                 return;
             }
 
-            case REQUEST_CALENDAR:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+            case REQUEST_CALENDAR: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pCalendar = true;
-                } else
-                {
+                } else {
                     pCalendar = false;
                 }
                 return;
             }
 
-            case REQUEST_LOCATION:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+            case REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pLocation = true;
-                } else
-                {
+                } else {
                     pLocation = false;
                     Prefs.setCalendar("-1");
                 }
                 return;
             }
 
-            case REQUEST_STORAGE:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+            case REQUEST_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pStorage = true;
-                } else
-                {
+                } else {
                     pStorage = false;
                 }
                 return;

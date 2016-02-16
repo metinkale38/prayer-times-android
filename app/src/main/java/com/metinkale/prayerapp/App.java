@@ -16,29 +16,23 @@ import com.metinkale.prayerapp.vakit.times.TimesHelper;
 import io.fabric.sdk.android.Fabric;
 
 
-public class App extends Application
-{
+public class App extends Application {
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
     private static Context mContext;
 
-    public static void setContext(Context context)
-    {
+    public static void setContext(Context context) {
         mContext = context;
     }
 
-    public static Context getContext()
-    {
+    public static Context getContext() {
         return mContext;
     }
 
-    public static boolean isOnline()
-    {
+    public static boolean isOnline() {
 
-        if(Sounds.needsCheck()) new Thread(new Runnable()
-        {
+        if (Sounds.needsCheck()) new Thread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Sounds.checkIfNeeded();
 
             }
@@ -51,24 +45,19 @@ public class App extends Application
 
 
     @SuppressLint("NewApi")
-    public static void setExact(AlarmManager am, int type, long time, PendingIntent service)
-    {
-        if(Build.VERSION.SDK_INT >= 23)
-        {
+    public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
+        if (Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);
-        } else if(Build.VERSION.SDK_INT >= 19)
-        {
+        } else if (Build.VERSION.SDK_INT >= 19) {
             am.setExact(type, time, service);
-        } else
-        {
+        } else {
             am.set(type, time, service);
         }
 
     }
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         mContext = this;
 
@@ -83,8 +72,7 @@ public class App extends Application
 
     }
 
-    public static final class NotIds
-    {
+    public static final class NotIds {
         public static final int ALARM = 1;
         public static final int ONGOING = 2;
     }

@@ -2,8 +2,7 @@ package com.metinkale.prayerapp.compass.classes;
 
 import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 
-public interface OrientationCalculator
-{
+public interface OrientationCalculator {
     /**
      * Given a rotation matrix and the current device screen rotation, produce
      * values for azimuth, altitude, roll (yaw, pitch, roll)

@@ -19,16 +19,13 @@ import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 
-public class WidgetProviderSilenter extends AppWidgetProvider
-{
+public class WidgetProviderSilenter extends AppWidgetProvider {
     private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
-    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId)
-    {
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
-        if(mDP == 0)
-        {
+        if (mDP == 0) {
             Resources r = context.getResources();
             mDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
         }
@@ -44,8 +41,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider
 
         int s = (int) (SCALE_MULT * Math.min(w, h));
 
-        if(s <= 0)
-        {
+        if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -55,8 +51,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider
         }
 
         Theme theme = null;
-        switch(t)
-        {
+        switch (t) {
             case 0:
                 theme = Theme.Light;
                 break;
@@ -107,19 +102,16 @@ public class WidgetProviderSilenter extends AppWidgetProvider
 
         remoteViews.setImageViewBitmap(R.id.widget, bmp);
 
-        try
-        {
+        try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        } catch(RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             Crashlytics.logException(e);
         }
 
     }
 
     @Override
-    public void onEnabled(Context context)
-    {
+    public void onEnabled(Context context) {
         ComponentName thisWidget = new ComponentName(context, WidgetProviderSilenter.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
@@ -127,30 +119,25 @@ public class WidgetProviderSilenter extends AppWidgetProvider
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
-    {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        for(int widgetId : appWidgetIds)
-        {
+        for (int widgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, widgetId);
         }
 
     }
 
     @Override
-    public void onDisabled(Context context)
-    {
+    public void onDisabled(Context context) {
 
     }
 
     @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
-    {
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if(w * h != 0)
-        {
+        if (w * h != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

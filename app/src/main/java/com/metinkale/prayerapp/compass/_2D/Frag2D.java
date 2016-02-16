@@ -17,8 +17,7 @@ import com.metinkale.prayerapp.compass.LowPassFilter;
 import com.metinkale.prayerapp.compass.Main;
 import com.metinkale.prayerapp.compass.Main.MyCompassListener;
 
-public class Frag2D extends Fragment implements MyCompassListener
-{
+public class Frag2D extends Fragment implements MyCompassListener {
     private final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
     private final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
     private CompassView mCompassView;
@@ -28,8 +27,7 @@ public class Frag2D extends Fragment implements MyCompassListener
     private float[] mGeo = new float[3];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
 
@@ -44,10 +42,8 @@ public class Frag2D extends Fragment implements MyCompassListener
     }
 
     @Override
-    public void onUpdateDirection()
-    {
-        if(mCompassView != null)
-        {
+    public void onUpdateDirection() {
+        if (mCompassView != null) {
             mCompassView.setQiblaAngle((int) Main.getQiblaAngle());
             mAngle.setText(Math.round(mCompassView.getQiblaAngle()) + "°");
             mDist.setText(Math.round(Main.getDistance()) + "km");
@@ -56,21 +52,17 @@ public class Frag2D extends Fragment implements MyCompassListener
     }
 
     @Override
-    public void onUpdateSensors(float[] rot)
-    {
-        if(mCompassView != null)
-        {
+    public void onUpdateSensors(float[] rot) {
+        if (mCompassView != null) {
             // mCompassView.setAngle(rot[0]);
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
 
-            if(mGravity != null && mGeo != null)
-            {
+            if (mGravity != null && mGeo != null) {
                 float R[] = new float[9];
                 float I[] = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeo);
-                if(success)
-                {
+                if (success) {
                     float orientation[] = new float[3];
                     SensorManager.getOrientation(R, orientation);
 
@@ -84,13 +76,10 @@ public class Frag2D extends Fragment implements MyCompassListener
 
     public boolean mHidden = false;
 
-    public void show()
-    {
+    public void show() {
         mHidden = false;
-        mCompassView.post(new Runnable()
-        {
-            public void run()
-            {
+        mCompassView.post(new Runnable() {
+            public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
 
@@ -106,13 +95,10 @@ public class Frag2D extends Fragment implements MyCompassListener
 
     }
 
-    public void hide()
-    {
+    public void hide() {
         mHidden = false;
-        mCompassView.post(new Runnable()
-        {
-            public void run()
-            {
+        mCompassView.post(new Runnable() {
+            public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
 

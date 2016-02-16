@@ -19,21 +19,17 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-public class Sounds
-{
+public class Sounds {
     private static LinkedHashMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
 
-    public static boolean isDownloaded(Sound sound)
-    {
+    public static boolean isDownloaded(Sound sound) {
         return sound.url == null || sound.getFile().exists();
 
     }
 
-    public static HashMap<String, List<Sound>> getSounds()
-    {
+    public static HashMap<String, List<Sound>> getSounds() {
 
-        if(sSounds.isEmpty())
-        {
+        if (sSounds.isEmpty()) {
             List<Sound> sabah = new ArrayList<Sound>();
             List<Sound> ogle = new ArrayList<Sound>();
             List<Sound> ikindi = new ArrayList<Sound>();
@@ -114,84 +110,71 @@ public class Sounds
         return sSounds;
     }
 
-    public static List<Sound> getSounds(Vakit vakit)
-    {
-        if(vakit == Vakit.IMSAK) vakit = Vakit.SABAH;
-        if(vakit == Vakit.GUNES) vakit = Vakit.SABAH;
-        if(vakit == null) return (getSounds("extra"));
+    public static List<Sound> getSounds(Vakit vakit) {
+        if (vakit == Vakit.IMSAK) vakit = Vakit.SABAH;
+        if (vakit == Vakit.GUNES) vakit = Vakit.SABAH;
+        if (vakit == null) return (getSounds("extra"));
         return (getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra"));
     }
 
-    public static List<Sound> getSounds(String... categories)
-    {
+    public static List<Sound> getSounds(String... categories) {
         List<Sound> sounds = new ArrayList<>();
-        for(String cat : categories)
-            if(getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
+        for (String cat : categories)
+            if (getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
 
 
         return sounds;
     }
 
-    public static List<Sound> getAllSounds()
-    {
+    public static List<Sound> getAllSounds() {
         List<Sound> sounds = new ArrayList<>();
         Set<String> set = getSounds().keySet();
-        for(String cat : set)
-            if(getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
+        for (String cat : set)
+            if (getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
 
 
         return sounds;
     }
 
-    public static class Sound implements Serializable
-    {
+    public static class Sound implements Serializable {
         public String name;
         public String uri;
         public String url;
         public String size;
 
-        public Sound()
-        {
+        public Sound() {
         }
 
-        public Sound(String name, String url, String size)
-        {
+        public Sound(String name, String url, String size) {
             this.name = name;
             this.url = url;
             this.size = size;
             this.uri = getFile().toURI().toString();
         }
 
-        public File getFile()
-        {
+        public File getFile() {
             File old = new File(url.replace(App.API_URL + "/sounds/", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if(old.exists()) return old;
+            if (old.exists()) return old;
 
             File def = new File(url.replace(App.API_URL + "/sounds", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if(def.exists()) return def;
+            if (def.exists()) return def;
 
             File nosd = new File(url.replace(App.API_URL + "/sounds", App.getContext().getFilesDir().getAbsolutePath()));
-            if(nosd.exists()) return nosd;
+            if (nosd.exists()) return nosd;
 
-            if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-            {
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 return def;
-            } else
-            {
+            } else {
                 return nosd;
             }
         }
 
-        public boolean needsRedownload(List<Times.Alarm> alarms)
-        {
-            if(getFile().exists())
-            {
+        public boolean needsRedownload(List<Times.Alarm> alarms) {
+            if (getFile().exists()) {
                 SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
                 String md5 = preferences.getString(name, null);
-                if(md5 == null)
-                {
-                    try
-                    {
+                if (md5 == null) {
+                    try {
                         URL url = new URL(this.url + ".md5");
                         URLConnection ucon = url.openConnection();
 
@@ -199,27 +182,22 @@ public class Sounds
                         BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
                         md5 = in.readLine();
-                        if(md5.equals("failed") || !in.readLine().equals("done"))
-                        {
+                        if (md5.equals("failed") || !in.readLine().equals("done")) {
                             return false;
                         }
 
                         preferences.edit().putString(name, md5).apply();
 
 
-                    } catch(Exception e)
-                    {
+                    } catch (Exception e) {
                         Crashlytics.logException(e);
                     }
                 }
 
                 return !MD5.checkMD5(md5, getFile());
-            } else
-            {
-                for(Times.Alarm alarm : alarms)
-                {
-                    if(alarm.sound.startsWith(uri))
-                    {
+            } else {
+                for (Times.Alarm alarm : alarms) {
+                    if (alarm.sound.startsWith(uri)) {
                         return true;
                     }
                 }
@@ -227,10 +205,8 @@ public class Sounds
             return false;
         }
 
-        public boolean equals(Object o)
-        {
-            if(o instanceof Sound)
-            {
+        public boolean equals(Object o) {
+            if (o instanceof Sound) {
                 return uri.equals(((Sound) o).uri);
             } else return uri.equals(o.toString());
         }
@@ -241,17 +217,14 @@ public class Sounds
 
     private static boolean checking;
 
-    public static void checkIfNeeded()
-    {
-        if(checking) return;
+    public static void checkIfNeeded() {
+        if (checking) return;
         checking = true;
-        if(!needsCheck()) return;
+        if (!needsCheck()) return;
         List<Sound> sounds = getAllSounds();
         List<Times.Alarm> alarms = Times.getAllAlarms();
-        for(Sound sound : sounds)
-        {
-            if(sound.needsRedownload(alarms))
-            {
+        for (Sound sound : sounds) {
+            if (sound.needsRedownload(alarms)) {
                 sound.getFile().delete();
                 MainIntentService.downloadSound(App.getContext(), sound, null);
             }
@@ -262,21 +235,19 @@ public class Sounds
     }
 
     @SuppressWarnings("deprecation")
-    public static boolean needsCheck()
-    {
-        if(checking) return false;
+    public static boolean needsCheck() {
+        if (checking) return false;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         long lastSync = prefs.getLong("lastMD5Check", 0);
-        if(System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * 7 || lastSync == 0)
-        {
+        if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * 7 || lastSync == 0) {
 
 
             ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            if(!wifi.isConnected()) return false;
+            if (!wifi.isConnected()) return false;
 
-            if(!((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) return false;
+            if (!((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) return false;
 
 
             return true;

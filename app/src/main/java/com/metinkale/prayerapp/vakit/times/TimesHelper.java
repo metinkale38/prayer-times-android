@@ -6,8 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.custom.WeakValueHashMap;
 
-public class TimesHelper extends SQLiteOpenHelper
-{
+public class TimesHelper extends SQLiteOpenHelper {
 
     static final String DATABASE_NAME = "times.sqlite";
     static final int DATABASE_VERSION = 2;
@@ -34,20 +33,15 @@ public class TimesHelper extends SQLiteOpenHelper
 
     private WeakValueHashMap<Integer, Times> mTimes = new WeakValueHashMap<>();
 
-    private TimesHelper(Context context)
-    {
+    private TimesHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
-    public static synchronized TimesHelper getInstance()
-    {
-        if(mInstance == null)
-        {
-            synchronized(TimesHelper.class)
-            {
-                if(mInstance == null)
-                {
+    public static synchronized TimesHelper getInstance() {
+        if (mInstance == null) {
+            synchronized (TimesHelper.class) {
+                if (mInstance == null) {
                     mInstance = new TimesHelper(App.getContext());
                 }
             }
@@ -57,30 +51,25 @@ public class TimesHelper extends SQLiteOpenHelper
     }
 
 
-    synchronized SQLiteDatabase openDB()
-    {
+    synchronized SQLiteDatabase openDB() {
         mOpenCounter++;
-        if(mOpenCounter == 1)
-        {
+        if (mOpenCounter == 1) {
             mDatabase = getWritableDatabase();
         }
         return mDatabase;
     }
 
 
-    private synchronized void closeDB()
-    {
+    private synchronized void closeDB() {
         mOpenCounter--;
-        if(mOpenCounter == 0 && mDatabase != null)
-        {
+        if (mOpenCounter == 0 && mDatabase != null) {
             mDatabase.close();
 
         }
     }
 
     @Override
-    public synchronized void onCreate(SQLiteDatabase db)
-    {
+    public synchronized void onCreate(SQLiteDatabase db) {
         mDatabase = db;
         mOpenCounter++;
         db.execSQL(TABLE_CREATE);
@@ -89,12 +78,10 @@ public class TimesHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         mDatabase = db;
         mOpenCounter++;
-        if(oldVersion < 2)
-        {
+        if (oldVersion < 2) {
             db.compileStatement("ALTER TABLE " + TABLE_NAME + " add " + KEY_TIMEZONE + " double").execute();
             db.compileStatement("ALTER TABLE " + TABLE_NAME + " add " + KEY_MINUTEADJ + " text").execute();
         }

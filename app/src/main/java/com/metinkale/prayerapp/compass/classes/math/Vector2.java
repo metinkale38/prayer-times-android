@@ -3,13 +3,13 @@ package com.metinkale.prayerapp.compass.classes.math;
 /**
  * ****************************************************************************
  * Copyright 2011 See AUTHORS file.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,8 +26,7 @@ import java.io.Serializable;
  *
  * @author badlogicgames@gmail.com
  */
-public class Vector2 implements Serializable
-{
+public class Vector2 implements Serializable {
     public final static Vector2 tmp2 = new Vector2();
     public final static Vector2 tmp3 = new Vector2();
     public final static Vector2 X = new Vector2(1, 0);
@@ -45,8 +44,7 @@ public class Vector2 implements Serializable
 
     public float y;
 
-    private Vector2()
-    {
+    private Vector2() {
     }
 
     /**
@@ -55,8 +53,7 @@ public class Vector2 implements Serializable
      * @param x The x-component
      * @param y The y-component
      */
-    private Vector2(float x, float y)
-    {
+    private Vector2(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -66,23 +63,19 @@ public class Vector2 implements Serializable
      *
      * @param v The vector
      */
-    private Vector2(Vector2 v)
-    {
+    private Vector2(Vector2 v) {
         set(v);
     }
 
-    public Vector2 cpy()
-    {
+    public Vector2 cpy() {
         return new Vector2(this);
     }
 
-    float len()
-    {
+    float len() {
         return (float) Math.sqrt(x * x + y * y);
     }
 
-    public float len2()
-    {
+    public float len2() {
         return x * x + y * y;
     }
 
@@ -92,8 +85,7 @@ public class Vector2 implements Serializable
      * @param v The vector
      * @return This vector for chaining
      */
-    Vector2 set(Vector2 v)
-    {
+    Vector2 set(Vector2 v) {
         x = v.x;
         y = v.y;
         return this;
@@ -106,8 +98,7 @@ public class Vector2 implements Serializable
      * @param y The y-component
      * @return This vector for chaining
      */
-    Vector2 set(float x, float y)
-    {
+    Vector2 set(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
@@ -119,8 +110,7 @@ public class Vector2 implements Serializable
      * @param v The vector
      * @return This vector for chaining
      */
-    public Vector2 sub(Vector2 v)
-    {
+    public Vector2 sub(Vector2 v) {
         x -= v.x;
         y -= v.y;
         return this;
@@ -131,11 +121,9 @@ public class Vector2 implements Serializable
      *
      * @return This vector for chaining
      */
-    public Vector2 nor()
-    {
+    public Vector2 nor() {
         float len = len();
-        if(len != 0)
-        {
+        if (len != 0) {
             x /= len;
             y /= len;
         }
@@ -148,8 +136,7 @@ public class Vector2 implements Serializable
      * @param v The vector
      * @return This vector for chaining
      */
-    Vector2 add(Vector2 v)
-    {
+    Vector2 add(Vector2 v) {
         x += v.x;
         y += v.y;
         return this;
@@ -162,8 +149,7 @@ public class Vector2 implements Serializable
      * @param y The y-component
      * @return This vector for chaining
      */
-    public Vector2 add(float x, float y)
-    {
+    public Vector2 add(float x, float y) {
         this.x += x;
         this.y += y;
         return this;
@@ -173,8 +159,7 @@ public class Vector2 implements Serializable
      * @param v The other vector
      * @return The dot product between this and the other vector
      */
-    public float dot(Vector2 v)
-    {
+    public float dot(Vector2 v) {
         return x * v.x + y * v.y;
     }
 
@@ -184,8 +169,7 @@ public class Vector2 implements Serializable
      * @param scalar The scalar
      * @return This vector for chaining
      */
-    Vector2 mul(float scalar)
-    {
+    Vector2 mul(float scalar) {
         x *= scalar;
         y *= scalar;
         return this;
@@ -196,25 +180,21 @@ public class Vector2 implements Serializable
      *
      * @return This vector for chaining
      */
-    Vector2 mul(float x, float y)
-    {
+    Vector2 mul(float x, float y) {
         this.x *= x;
         this.y *= y;
         return this;
     }
 
-    public Vector2 div(float value)
-    {
+    public Vector2 div(float value) {
         return this.mul(1 / value);
     }
 
-    public Vector2 div(float vx, float vy)
-    {
+    public Vector2 div(float vx, float vy) {
         return this.mul(1 / vx, 1 / vy);
     }
 
-    public Vector2 div(Vector2 other)
-    {
+    public Vector2 div(Vector2 other) {
         return this.mul(1 / other.x, 1 / other.y);
     }
 
@@ -222,8 +202,7 @@ public class Vector2 implements Serializable
      * @param v The other vector
      * @return the distance between this and the other vector
      */
-    public float dst(Vector2 v)
-    {
+    public float dst(Vector2 v) {
         final float x_d = v.x - x;
         final float y_d = v.y - y;
         return (float) Math.sqrt(x_d * x_d + y_d * y_d);
@@ -234,8 +213,7 @@ public class Vector2 implements Serializable
      * @param y The y-component of the other vector
      * @return the distance between this and the other vector
      */
-    public float dst(float x, float y)
-    {
+    public float dst(float x, float y) {
         final float x_d = x - this.x;
         final float y_d = y - this.y;
         return (float) Math.sqrt(x_d * x_d + y_d * y_d);
@@ -245,8 +223,7 @@ public class Vector2 implements Serializable
      * @param v The other vector
      * @return the squared distance between this and the other vector
      */
-    public float dst2(Vector2 v)
-    {
+    public float dst2(Vector2 v) {
         final float x_d = v.x - x;
         final float y_d = v.y - y;
         return x_d * x_d + y_d * y_d;
@@ -257,16 +234,14 @@ public class Vector2 implements Serializable
      * @param y The y-component of the other vector
      * @return the squared distance between this and the other vector
      */
-    public float dst2(float x, float y)
-    {
+    public float dst2(float x, float y) {
         final float x_d = x - this.x;
         final float y_d = y - this.y;
         return x_d * x_d + y_d * y_d;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "[" + x + ":" + y + "]";
     }
 
@@ -277,8 +252,7 @@ public class Vector2 implements Serializable
      * @param y The y-component of the other vector
      * @return This vector for chaining
      */
-    public Vector2 sub(float x, float y)
-    {
+    public Vector2 sub(float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
@@ -292,8 +266,7 @@ public class Vector2 implements Serializable
      * by a single static Vector2 instance. v1.tmp().add( v2.tmp() )
      * will not work!
      */
-    Vector2 tmp()
-    {
+    Vector2 tmp() {
         return tmp.set(this);
     }
 
@@ -303,8 +276,7 @@ public class Vector2 implements Serializable
      * @param mat the matrix
      * @return this vector
      */
-    public Vector2 mul(Matrix3 mat)
-    {
+    public Vector2 mul(Matrix3 mat) {
         float x = this.x * mat.val[0] + y * mat.val[3] + mat.val[6];
         float y = this.x * mat.val[1] + this.y * mat.val[4] + mat.val[7];
         this.x = x;
@@ -318,8 +290,7 @@ public class Vector2 implements Serializable
      * @param v the other vector
      * @return the cross product
      */
-    public float crs(Vector2 v)
-    {
+    public float crs(Vector2 v) {
         return x * v.y - y * v.x;
     }
 
@@ -330,8 +301,7 @@ public class Vector2 implements Serializable
      * @param y the y-coordinate of the other vector
      * @return the cross product
      */
-    public float crs(float x, float y)
-    {
+    public float crs(float x, float y) {
         return this.x * y - this.y * x;
     }
 
@@ -339,11 +309,9 @@ public class Vector2 implements Serializable
      * @return the angle in degrees of this vector (point) relative to the
      * x-axis. Angles are counter-clockwise and between 0 and 360.
      */
-    public float angle()
-    {
+    public float angle() {
         float angle = (float) Math.atan2(y, x) * MathUtils.radiansToDegrees;
-        if(angle < 0)
-        {
+        if (angle < 0) {
             angle += 360;
         }
         return angle;
@@ -354,8 +322,7 @@ public class Vector2 implements Serializable
      *
      * @param angle The angle to set.
      */
-    public void setAngle(float angle)
-    {
+    public void setAngle(float angle) {
         this.set(len(), 0f);
         rotate(angle);
     }
@@ -365,8 +332,7 @@ public class Vector2 implements Serializable
      *
      * @param degrees the angle in degrees
      */
-    Vector2 rotate(float degrees)
-    {
+    Vector2 rotate(float degrees) {
         float rad = degrees * MathUtils.degreesToRadians;
         float cos = (float) Math.cos(rad);
         float sin = (float) Math.sin(rad);
@@ -388,16 +354,14 @@ public class Vector2 implements Serializable
      * @param alpha  The interpolation coefficient
      * @return This vector for chaining.
      */
-    public Vector2 lerp(Vector2 target, float alpha)
-    {
+    public Vector2 lerp(Vector2 target, float alpha) {
         Vector2 r = this.mul(1.0f - alpha);
         r.add(target.tmp().mul(alpha));
         return r;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + NumberUtils.floatToIntBits(x);
@@ -406,23 +370,18 @@ public class Vector2 implements Serializable
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if(this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if(obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if(getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         Vector2 other = (Vector2) obj;
-        if(NumberUtils.floatToIntBits(x) != NumberUtils.floatToIntBits(other.x))
-        {
+        if (NumberUtils.floatToIntBits(x) != NumberUtils.floatToIntBits(other.x)) {
             return false;
         }
         return NumberUtils.floatToIntBits(y) == NumberUtils.floatToIntBits(other.y);
@@ -436,14 +395,11 @@ public class Vector2 implements Serializable
      * @param epsilon
      * @return whether the vectors are the same.
      */
-    public boolean epsilonEquals(Vector2 obj, float epsilon)
-    {
-        if(obj == null)
-        {
+    public boolean epsilonEquals(Vector2 obj, float epsilon) {
+        if (obj == null) {
             return false;
         }
-        if(Math.abs(obj.x - x) > epsilon)
-        {
+        if (Math.abs(obj.x - x) > epsilon) {
             return false;
         }
         return Math.abs(obj.y - y) <= epsilon;

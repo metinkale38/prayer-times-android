@@ -3,13 +3,13 @@ package com.metinkale.prayerapp.compass.classes.math;
 /**
  * ****************************************************************************
  * Copyright 2011 See AUTHORS file.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,20 +18,16 @@ package com.metinkale.prayerapp.compass.classes.math;
  * ****************************************************************************
  */
 
-class NumberUtils
-{
-    public static int floatToIntBits(float value)
-    {
+class NumberUtils {
+    public static int floatToIntBits(float value) {
         return Float.floatToIntBits(value);
     }
 
-    public static int floatToRawIntBits(float value)
-    {
+    public static int floatToRawIntBits(float value) {
         return Float.floatToRawIntBits(value);
     }
 
-    public static int floatToIntColor(float value)
-    {
+    public static int floatToIntColor(float value) {
         return Float.floatToRawIntBits(value);
     }
 
@@ -40,23 +36,19 @@ class NumberUtils
      * using floats in the NaN range, which unfortunately means the full range
      * of alpha cannot be used. See {@link Float#intBitsToFloat(int)} javadocs.
      */
-    public static float intToFloatColor(int value)
-    {
+    public static float intToFloatColor(int value) {
         return Float.intBitsToFloat(value & 0xfeffffff);
     }
 
-    public static float intBitsToFloat(int value)
-    {
+    public static float intBitsToFloat(int value) {
         return Float.intBitsToFloat(value);
     }
 
-    public static long doubleToLongBits(double value)
-    {
+    public static long doubleToLongBits(double value) {
         return Double.doubleToLongBits(value);
     }
 
-    public static double longBitsToDouble(long value)
-    {
+    public static double longBitsToDouble(long value) {
         return Double.longBitsToDouble(value);
     }
 }

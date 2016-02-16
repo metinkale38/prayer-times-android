@@ -22,15 +22,13 @@ import java.util.GregorianCalendar;
 /**
  * Created by Metin on 21.07.2015.
  */
-public class ImsakiyeFragment extends Fragment
-{
+public class ImsakiyeFragment extends Fragment {
     private ListView mLV;
     private ImsakiyeAdapter mAdapter;
     private Times mTimes;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         mLV = new ListView(getActivity());
         mAdapter = new ImsakiyeAdapter(getActivity());
         mLV.setAdapter(mAdapter);
@@ -38,11 +36,9 @@ public class ImsakiyeFragment extends Fragment
         TextView addMore = new TextView(getActivity());
         addMore.setText("\n" + getString(R.string.showMore) + "\n");
         addMore.setGravity(Gravity.CENTER);
-        addMore.setOnClickListener(new View.OnClickListener()
-        {
+        addMore.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 mAdapter.daysInMonth += 7;
                 mAdapter.notifyDataSetInvalidated();
             }
@@ -51,11 +47,9 @@ public class ImsakiyeFragment extends Fragment
         return mLV;
     }
 
-    public void setTimes(Times t)
-    {
+    public void setTimes(Times t) {
         mTimes = t;
-        if(mAdapter != null)
-        {
+        if (mAdapter != null) {
             mAdapter.times = mTimes;
             mAdapter.notifyDataSetChanged();
             mAdapter.daysInMonth = ((Calendar) mAdapter.getItem(1)).getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -63,8 +57,7 @@ public class ImsakiyeFragment extends Fragment
         }
     }
 
-    public class ImsakiyeAdapter extends BaseAdapter
-    {
+    public class ImsakiyeAdapter extends BaseAdapter {
         private Times times;
         private int daysInMonth;
         private int month;
@@ -73,8 +66,7 @@ public class ImsakiyeFragment extends Fragment
         private LayoutInflater inflater;
         private int today;
 
-        public ImsakiyeAdapter(Context context)
-        {
+        public ImsakiyeAdapter(Context context) {
             calendar = new GregorianCalendar();
             today = calendar.get(Calendar.DAY_OF_MONTH);
             daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -85,14 +77,12 @@ public class ImsakiyeFragment extends Fragment
         }
 
         @Override
-        public long getItemId(int position)
-        {
+        public long getItemId(int position) {
             return position + (times == null ? 0 : times.getID());
         }
 
         @Override
-        public Object getItem(int position)
-        {
+        public Object getItem(int position) {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, position);
@@ -100,23 +90,18 @@ public class ImsakiyeFragment extends Fragment
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            if(convertView == null)
-            {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
                 convertView = inflater.inflate(R.layout.vakit_imsakiye, parent, false);
             }
             ViewGroup v = (ViewGroup) convertView;
             v = (ViewGroup) v.getChildAt(0);
             String[] a;
-            if(position == 0)
-            {
+            if (position == 0) {
                 a = new String[]{getString(R.string.date), getString(R.string.imsak), getString(R.string.gunes), getString(R.string.ogle), getString(R.string.ikindi), getString(R.string.aksam), getString(R.string.yatsi)};
-            } else if(times == null)
-            {
+            } else if (times == null) {
                 a = new String[]{"00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"};
-            } else
-            {
+            } else {
                 Calendar cal = (Calendar) getItem(position);
 
                 String[] daytimes = {times.getTime(cal, 0), times.getTime(cal, 1), times.getTime(cal, 2), times.getTime(cal, 3), times.getTime(cal, 4), times.getTime(cal, 5)};
@@ -124,24 +109,19 @@ public class ImsakiyeFragment extends Fragment
                 a = new String[]{Utils.az(cal.get(Calendar.DAY_OF_MONTH)) + "." + Utils.az(cal.get(Calendar.MONTH) + 1), daytimes[0], daytimes[1], daytimes[2], daytimes[3], daytimes[4], daytimes[5]};
             }
 
-            for(int i = 0; i < 7; i++)
-            {
+            for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                if(i == 0 || !Prefs.use12H() || position == 0) tv.setText(a[i]);
+                if (i == 0 || !Prefs.use12H() || position == 0) tv.setText(a[i]);
                 else tv.setText(Utils.fixTimeForHTML(a[i]));
             }
 
-            if(position == today)
-            {
+            if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);
-            } else if(position == 0)
-            {
+            } else if (position == 0) {
                 v.setBackgroundResource(R.color.indicator);
-            } else if(position % 2 == 0)
-            {
+            } else if (position % 2 == 0) {
                 v.setBackgroundResource(R.color.colorPrimaryLight);
-            } else
-            {
+            } else {
                 v.setBackgroundColor(Color.WHITE);
             }
 
@@ -149,8 +129,7 @@ public class ImsakiyeFragment extends Fragment
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             return daysInMonth + 1;
         }
 

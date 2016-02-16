@@ -9,29 +9,25 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class DiyanetTimes extends WebTimes
-{
+public class DiyanetTimes extends WebTimes {
 
-    DiyanetTimes(long id)
-    {
+    DiyanetTimes(long id) {
         super(id);
     }
 
     @Override
-    public Source getSource()
-    {
+    public Source getSource() {
         return Source.Diyanet;
     }
 
     @Override
-    protected boolean syncTimes() throws Exception
-    {
+    protected boolean syncTimes() throws Exception {
         String path = getId();
         String a[] = path.split("_");
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = 0;
-        if(a.length == 4) city = Integer.parseInt(a[3]);
+        if (a.length == 4) city = Integer.parseInt(a[3]);
 
         URL url = new URL("http://www.diyanet.gov.tr/PrayerTime/PrayerTimesList");
         Map<String, Object> params = new LinkedHashMap<>();
@@ -41,9 +37,8 @@ public class DiyanetTimes extends WebTimes
         params.put("period", "Aylik");
 
         StringBuilder postData = new StringBuilder();
-        for(Map.Entry<String, Object> param : params.entrySet())
-        {
-            if(postData.length() != 0) postData.append('&');
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
             postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
             postData.append('=');
             postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
@@ -63,23 +58,19 @@ public class DiyanetTimes extends WebTimes
         int i = 0;
         int d = 0, m = 0, y = 0;
         String[] times = new String[6];
-        while((line = reader.readLine()) != null)
-        {
-            if(line.contains("class=\"tCenter\""))
-            {
+        while ((line = reader.readLine()) != null) {
+            if (line.contains("class=\"tCenter\"")) {
                 line = extractLine(line);
-                if(line.contains("."))
-                {
+                if (line.contains(".")) {
                     i = 0;
                     String s[] = line.split("\\.");
                     d = Integer.parseInt(s[0]);
                     m = Integer.parseInt(s[1]);
                     y = Integer.parseInt(s[2]);
-                } else if(i <= 5)
-                {
+                } else if (i <= 5) {
                     times[i] = line;
 
-                    if(i == 5) setTimes(d, m, y, times);
+                    if (i == 5) setTimes(d, m, y, times);
                     i++;
                 }
             }

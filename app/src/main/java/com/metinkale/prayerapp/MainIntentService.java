@@ -33,8 +33,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.TimeZone;
 
-public class MainIntentService extends IntentService
-{
+public class MainIntentService extends IntentService {
 
     private static final String ACTION_DOWNLOAD_HADIS = "com.metinkale.prayer.action.DOWNLOAD_HADIS";
     private static final String ACTION_DOWNLOAD_SOUND = "com.metinkale.prayer.action.DOWNLOAD_SOUND";
@@ -44,30 +43,26 @@ public class MainIntentService extends IntentService
 
     private static Runnable mCallback;
 
-    public MainIntentService()
-    {
+    public MainIntentService() {
         super("MainIntentService");
     }
 
 
-    public static void startCalendarIntegration(Context context)
-    {
+    public static void startCalendarIntegration(Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_CALENDAR_INTEGRATION);
         context.startService(intent);
     }
 
 
-    public static void downloadHadis(Context context, Runnable callback)
-    {
+    public static void downloadHadis(Context context, Runnable callback) {
         mCallback = callback;
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_DOWNLOAD_HADIS);
         context.startService(intent);
     }
 
-    public static void downloadSound(Context context, Sounds.Sound sound, Runnable callback)
-    {
+    public static void downloadSound(Context context, Sounds.Sound sound, Runnable callback) {
         mCallback = callback;
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_DOWNLOAD_SOUND);
@@ -75,24 +70,19 @@ public class MainIntentService extends IntentService
         context.startService(intent);
     }
 
-    public static void setAlarms(Context context)
-    {
+    public static void setAlarms(Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_SET_ALARMS);
         context.startService(intent);
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
-        if(intent != null)
-        {
-            try
-            {
+    protected void onHandleIntent(Intent intent) {
+        if (intent != null) {
+            try {
                 final String action = intent.getAction();
                 Runnable callback = mCallback;
-                switch(action)
-                {
+                switch (action) {
                     case ACTION_DOWNLOAD_HADIS:
                         mCallback = null;
                         handleDownloadHadis(callback);
@@ -110,8 +100,7 @@ public class MainIntentService extends IntentService
                         break;
                 }
 
-            } catch(Exception e)
-            {
+            } catch (Exception e) {
                 Crashlytics.logException(e);
             }
 
@@ -119,30 +108,25 @@ public class MainIntentService extends IntentService
     }
 
 
-    private void downloadFile(String Url, File to, final String notificationText)
-    {
+    private void downloadFile(String Url, File to, final String notificationText) {
         final Activity act = BaseActivity.CurrectAct;
 
 
         NotificationManager nm = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         final File f = to;
 
-        if(f.exists())
-        {
+        if (f.exists()) {
             f.delete();
         }
         nm.notify(1111, new NotificationCompat.Builder(App.getContext()).setSmallIcon(R.drawable.ic_abicon).setContentTitle("Downloading").setContentText(notificationText).build());
 
-        class Holder
-        {
+        class Holder {
             ProgressDialog dlg;
         }
         final Holder holder = new Holder();
-        if(act != null) act.runOnUiThread(new Runnable()
-        {
+        if (act != null) act.runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 holder.dlg = new ProgressDialog(act);
                 holder.dlg.setTitle("Downloading");
                 holder.dlg.setMessage(notificationText);
@@ -152,8 +136,7 @@ public class MainIntentService extends IntentService
                 holder.dlg.show();
             }
         });
-        try
-        {
+        try {
             URL url = new URL(Url);
             f.getParentFile().mkdirs();
             URLConnection ucon = url.openConnection();
@@ -166,25 +149,21 @@ public class MainIntentService extends IntentService
             byte data[] = new byte[4096];
             long total = 0;
             int count;
-            while((count = bis.read(data)) != -1)
-            {
+            while ((count = bis.read(data)) != -1) {
                 total += count;
                 fos.write(data, 0, count);
             }
 
 
             fos.close();
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             f.delete();
             Crashlytics.logException(e);
         }
 
-        if(act != null) act.runOnUiThread(new Runnable()
-        {
+        if (act != null) act.runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 holder.dlg.dismiss();
             }
         });
@@ -193,9 +172,8 @@ public class MainIntentService extends IntentService
     }
 
 
-    private void handleDownloadHadis(Runnable callback)
-    {
-        if(Prefs.getLanguage() == null) return;
+    private void handleDownloadHadis(Runnable callback) {
+        if (Prefs.getLanguage() == null) return;
 
 
         String file = Prefs.getLanguage() + "/hadis.db";
@@ -203,26 +181,23 @@ public class MainIntentService extends IntentService
 
         String url = App.API_URL + "/hadis." + Prefs.getLanguage() + ".db";
         downloadFile(url, f, getString(R.string.hadis));
-        if(callback != null) callback.run();
+        if (callback != null) callback.run();
     }
 
 
-    private void handleDownloadSound(Sounds.Sound sound, Runnable callback)
-    {
+    private void handleDownloadSound(Sounds.Sound sound, Runnable callback) {
         downloadFile(sound.url, sound.getFile(), sound.name);
-        if(callback != null) callback.run();
+        if (callback != null) callback.run();
     }
 
 
-    private void handleCalendarIntegration()
-    {
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
-        {
+    private void handleCalendarIntegration() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             Prefs.setCalendar("-1");
+            return;
         }
         Context context = App.getContext();
-        try
-        {
+        try {
             ContentResolver cr = context.getContentResolver();
 
 
@@ -231,7 +206,7 @@ public class MainIntentService extends IntentService
 
             String id = Prefs.getCalendar();
 
-            if(id.equals("-1") || Prefs.getLanguage() == null) return;
+            if (id.equals("-1") || Prefs.getLanguage() == null) return;
             int year = Calendar.getInstance().get(Calendar.YEAR);
             HashMap<Date, String> days = new LinkedHashMap<>();
             days.putAll(Date.getHolydays(year, false));
@@ -239,8 +214,7 @@ public class MainIntentService extends IntentService
 
             int i = 0;
             ContentValues[] events = new ContentValues[days.size()];
-            for(Date date : days.keySet())
-            {
+            for (Date date : days.keySet()) {
                 ContentValues event = new ContentValues();
 
                 event.put(CalendarContract.Events.CALENDAR_ID, id);
@@ -271,8 +245,7 @@ public class MainIntentService extends IntentService
             }
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
             Prefs.setLastCalIntegration(year);
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             Crashlytics.logException(e);
             Prefs.setCalendar("-1");
         }

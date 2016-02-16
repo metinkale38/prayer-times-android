@@ -20,12 +20,10 @@ import com.metinkale.prayerapp.settings.Prefs;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Main extends BaseActivity
-{
+public class Main extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_main);
 
@@ -37,24 +35,20 @@ public class Main extends BaseActivity
     }
 
     @Override
-    public boolean setNavBar()
-    {
+    public boolean setNavBar() {
         return false;
     }
 
-    public static class YearFragment extends Fragment implements OnItemClickListener
-    {
+    public static class YearFragment extends Fragment implements OnItemClickListener {
 
         public static final String YEAR = "year";
         private int year;
 
-        public YearFragment()
-        {
+        public YearFragment() {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View view = inflater.inflate(R.layout.calendar_frag, container, false);
 
@@ -70,11 +64,9 @@ public class Main extends BaseActivity
         }
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3)
-        {
+        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
             String asset = Date.getAssetForHolyday(year, pos, false);
-            if(asset != null && !Prefs.getLanguage().equals("en"))
-            {
+            if (asset != null && !Prefs.getLanguage().equals("en")) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);
@@ -83,18 +75,15 @@ public class Main extends BaseActivity
         }
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter
-    {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm)
-        {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
 
         }
 
         @Override
-        public Fragment getItem(int position)
-        {
+        public Fragment getItem(int position) {
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
             args.putInt(YearFragment.YEAR, position);
@@ -103,14 +92,12 @@ public class Main extends BaseActivity
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             return 3000;
         }
 
         @Override
-        public CharSequence getPageTitle(int position)
-        {
+        public CharSequence getPageTitle(int position) {
             return position + "";
         }
     }

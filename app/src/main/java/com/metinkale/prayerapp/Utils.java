@@ -20,13 +20,11 @@ import com.metinkale.prayerapp.settings.Prefs;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class Utils
-{
+public class Utils {
     private static String[] sGMonths, sHMonths, sHolydays, sWeekdays, sShortWeekdays;
 
-    public static Spanned fixTimeForHTML(String time)
-    {
-        if(!Prefs.use12H()) return new SpannableString(time);
+    public static Spanned fixTimeForHTML(String time) {
+        if (!Prefs.use12H()) return new SpannableString(time);
         time = fixTime(time);
         int d = time.indexOf(" ");
         time = time.replace(" ", "");
@@ -39,23 +37,19 @@ public class Utils
     }
 
 
-    public static String fixTime(String time)
-    {
-        if(Prefs.use12H()) try
-        {
+    public static String fixTime(String time) {
+        if (Prefs.use12H()) try {
             String fix = time.substring(0, time.indexOf(":"));
             String suffix = time.substring(time.indexOf(":"));
 
 
             int hour = Integer.parseInt(fix);
-            if(hour == 0) return "00" + suffix + " AM";
-            else if(hour < 12) return az(hour) + suffix + " AM";
-            else if(hour == 12)
-            {
+            if (hour == 0) return "00" + suffix + " AM";
+            else if (hour < 12) return az(hour) + suffix + " AM";
+            else if (hour == 12) {
                 return "12" + suffix + " PM";
             } else return az(hour - 12) + suffix + " PM";
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             Crashlytics.logException(e);
             return time;
         }
@@ -64,8 +58,7 @@ public class Utils
     }
 
 
-    public static void init()
-    {
+    public static void init() {
         DiyanetTakvimi.init();
         String newLang = Prefs.getLanguage();
         Context c = App.getContext();
@@ -73,20 +66,18 @@ public class Utils
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
-        if(year != Prefs.getLastCalIntegration())
-        {
+        if (year != Prefs.getLastCalIntegration()) {
             MainIntentService.startCalendarIntegration(c);
         }
 
-        if(newLang == null) return;
+        if (newLang == null) return;
         Locale locale = new Locale(newLang);
         Locale.setDefault(locale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = locale;
         ((Application) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((Application) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
 
-        if(Prefs.getLanguage() != newLang)
-        {
+        if (Prefs.getLanguage() != newLang) {
             sGMonths = null;
             sHMonths = null;
             sHolydays = null;
@@ -107,69 +98,54 @@ public class Utils
 
     }
 
-    public static String getHolyday(int which)
-    {
-        if(sHolydays == null)
-        {
+    public static String getHolyday(int which) {
+        if (sHolydays == null) {
             sHolydays = App.getContext().getResources().getStringArray(R.array.holydays);
         }
         return sHolydays[which];
     }
 
-    public static String getGregMonth(int which)
-    {
-        if(sGMonths == null)
-        {
+    public static String getGregMonth(int which) {
+        if (sGMonths == null) {
             sGMonths = App.getContext().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }
 
-    public static String getHijriMonth(int which)
-    {
-        if(sHMonths == null)
-        {
+    public static String getHijriMonth(int which) {
+        if (sHMonths == null) {
             sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
     }
 
-    public static String getWeekday(int which)
-    {
-        if(sWeekdays == null)
-        {
+    public static String getWeekday(int which) {
+        if (sWeekdays == null) {
             sWeekdays = App.getContext().getResources().getStringArray(R.array.week_days);
         }
         return sWeekdays[which];
     }
 
-    public static String getShortWeekday(int which)
-    {
-        if(sShortWeekdays == null)
-        {
+    public static String getShortWeekday(int which) {
+        if (sShortWeekdays == null) {
             sShortWeekdays = App.getContext().getResources().getStringArray(R.array.week_days_short);
         }
         return sShortWeekdays[which];
     }
 
-    public static String[] getAllHolydays()
-    {
+    public static String[] getAllHolydays() {
         return sHolydays;
     }
 
-    public static boolean askLang(final Activity act)
-    {
-        if(Prefs.getLanguage() != null)
-        {
+    public static boolean askLang(final Activity act) {
+        if (Prefs.getLanguage() != null) {
             return false;
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener()
-        {
+        builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 Prefs.setLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
                 init();
                 act.finish();
@@ -181,17 +157,14 @@ public class Utils
         return true;
     }
 
-    public static String az(int i)
-    {
-        if(i < 10)
-        {
+    public static String az(int i) {
+        if (i < 10) {
             return "0" + i;
         }
         return i + "";
     }
 
-    public static String getDateFormat(boolean hicri)
-    {
+    public static String getDateFormat(boolean hicri) {
         return hicri ? Prefs.getHDF() : Prefs.getDF();
     }
 

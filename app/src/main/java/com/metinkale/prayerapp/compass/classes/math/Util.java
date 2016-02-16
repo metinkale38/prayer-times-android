@@ -1,15 +1,13 @@
 package com.metinkale.prayerapp.compass.classes.math;
 
-public class Util
-{
+public class Util {
     /**
      * Converts a double to a value between 0 and 360
      *
      * @param x
      * @return double in 0-360 range
      */
-    public static float floatrev(double x)
-    {
+    public static float floatrev(double x) {
         return (float) (x - Math.floor(x / 360.0f) * 360.0f);
     }
 
@@ -20,8 +18,7 @@ public class Util
      * @param b
      * @return
      */
-    public static float calcDistance(Vector3 a, Vector3 b)
-    {
+    public static float calcDistance(Vector3 a, Vector3 b) {
         return (float) Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
     }
 
@@ -33,8 +30,7 @@ public class Util
      * @param c
      * @return
      */
-    public static float calcRadius(float a, float b, float c)
-    {
+    public static float calcRadius(float a, float b, float c) {
         return (float) (a * b * c / Math.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a)));
     }
 
@@ -46,8 +42,7 @@ public class Util
      * @param r
      * @return angle A in radians
      */
-    public static float calcAngle(float a, float r)
-    {
+    public static float calcAngle(float a, float r) {
         return (float) Math.asin(a / (2 * r));
     }
 
@@ -59,8 +54,7 @@ public class Util
      * @param r
      * @return angle A in radians
      */
-    public static float calcAngleClamp(float a, float r)
-    {
+    public static float calcAngleClamp(float a, float r) {
         return (float) Math.asin(Math.min(1, Math.max(-1, a / (2 * r))));
     }
 }

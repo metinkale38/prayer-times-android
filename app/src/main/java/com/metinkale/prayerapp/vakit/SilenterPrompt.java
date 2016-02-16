@@ -8,13 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.NumberPicker;
 import com.metinkale.prayer.R;
 
-public class SilenterPrompt extends Activity
-{
+public class SilenterPrompt extends Activity {
     private SharedPreferences widgets;
 
     @Override
-    public void onCreate(Bundle bdl)
-    {
+    public void onCreate(Bundle bdl) {
         super.onCreate(bdl);
         widgets = getSharedPreferences("widgets", 0);
 
@@ -25,20 +23,16 @@ public class SilenterPrompt extends Activity
         np.setMaxValue(300);
         np.setValue(widgets.getInt("silenterWidget", 15));
 
-        findViewById(R.id.cancel).setOnClickListener(new OnClickListener()
-        {
+        findViewById(R.id.cancel).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 SilenterPrompt.this.finish();
             }
         });
 
-        findViewById(R.id.ok).setOnClickListener(new OnClickListener()
-        {
+        findViewById(R.id.ok).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 widgets.edit().putInt("silenterWidget", np.getValue()).apply();
                 AlarmReceiver.silenter(v.getContext(), np.getValue());
                 SilenterPrompt.this.finish();

@@ -15,8 +15,7 @@ import com.metinkale.prayerapp.vakit.Main;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class WebTimes extends Times
-{
+public class WebTimes extends Times {
     private static final String _ID = "id";
     private static final String _LASTSYNC = "lastSync";
     private Context mContext;
@@ -27,8 +26,7 @@ public class WebTimes extends Times
     private Handler mHandler = new Handler();
     private boolean mSyncing = false;
 
-    WebTimes(long id)
-    {
+    WebTimes(long id) {
         super(id);
 
         mContext = App.getContext();
@@ -37,31 +35,26 @@ public class WebTimes extends Times
     }
 
     @Override
-    public void delete()
-    {
+    public void delete() {
         super.delete();
         mHandler.removeCallbacks(mCheckSync);
-        if(mThread != null && mThread.isAlive()) mThread.interrupt();
+        if (mThread != null && mThread.isAlive()) mThread.interrupt();
     }
 
     @Override
-    public void refresh()
-    {
-        if(getId() == null || !App.isOnline() || mSyncing) return;
+    public void refresh() {
+        if (getId() == null || !App.isOnline() || mSyncing) return;
 
-        if(Thread.currentThread() != mThread)
-        {
-            Thread t = new Thread()
-            {
+        if (Thread.currentThread() != mThread) {
+            Thread t = new Thread() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     refresh();
 
-                    if(mThread == this) mThread = null;
+                    if (mThread == this) mThread = null;
                 }
             };
-            if(t.getState() == Thread.State.NEW) t.start();
+            if (t.getState() == Thread.State.NEW) t.start();
 
             mThread = t;
             return;
@@ -70,11 +63,9 @@ public class WebTimes extends Times
 
         boolean ret;
         mSyncing = true;
-        try
-        {
+        try {
             ret = syncTimes();
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             Crashlytics.logException(e);
             ret = false;
         }
@@ -86,56 +77,46 @@ public class WebTimes extends Times
     }
 
 
-    String getId()
-    {
+    String getId() {
         return getString(_ID);
     }
 
-    void setId(String id)
-    {
+    void setId(String id) {
         set(_ID, id);
     }
 
 
-    long getLastSync()
-    {
+    long getLastSync() {
         return getLong(_LASTSYNC);
     }
 
-    void setLastSync(long lastSync)
-    {
+    void setLastSync(long lastSync) {
         set(_LASTSYNC, lastSync);
     }
 
     @Override
-    public String getTime(int d, int m, int y, int time)
-    {
+    public String getTime(int d, int m, int y, int time) {
         mHandler.post(mCheckSync);
 
         return super.getTime(d, m, y, time);
     }
 
-    protected boolean syncTimes() throws Exception
-    {
+    protected boolean syncTimes() throws Exception {
         return false;
     }
 
 
-    private Runnable mCheckSync = new Runnable()
-    {
+    private Runnable mCheckSync = new Runnable() {
         @Override
-        public void run()
-        {
+        public void run() {
             mHandler.removeCallbacks(mCheckSync);
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.DAY_OF_YEAR, 15);
             long lastSync = getLastSync();
 
-            if(System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24)
-            {
+            if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
                 // always if +15 days does not exist
-                if(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00"))
-                {
+                if (getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00")) {
                     refresh();
                     return;
                 }
@@ -145,34 +126,30 @@ public class WebTimes extends Times
                 NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
                 int reasons = 0;
-                if(wifi.isConnected()) reasons++;
+                if (wifi.isConnected()) reasons++;
 
-                try
-                {
+                try {
                     IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
                     Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
                         reasons++;
-                } catch(Exception ignore)
-                {
+                } catch (Exception ignore) {
                     Crashlytics.logException(ignore);
                 }
-                if(((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) reasons++;
+                if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) reasons++;
 
-                if(Main.isRunning) reasons++;
+                if (Main.isRunning) reasons++;
 
                 cal.add(Calendar.DAY_OF_YEAR, reasons * 3);
                 // if +15+reasons*3 days does not exist
-                if(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00"))
-                {
+                if (getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00")) {
                     refresh();
                     return;
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
-                if(System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * (60 - reasons * 5))
-                {
+                if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * (60 - reasons * 5)) {
                     refresh();
                     return;
                 }
@@ -186,8 +163,7 @@ public class WebTimes extends Times
     };
 
 
-    public static void add(Source source, String city, String id, double lat, double lng)
-    {
+    public static void add(Source source, String city, String id, double lat, double lng) {
         long _id = System.currentTimeMillis();
         WebTimes t = new WebTimes(_id);
         t.setSource(source);
@@ -195,29 +171,26 @@ public class WebTimes extends Times
         t.setLat(lat);
         t.setLng(lng);
         t.setId(id);
-        if(source == Source.IGMG) t.set("fixedIGMG", true);
+        if (source == Source.IGMG) t.set("fixedIGMG", true);
         MainHelper.get().loadTimes();
 
     }
 
 
-    protected String extractLine(String str)
-    {
+    protected String extractLine(String str) {
         str = str.substring(str.indexOf(">") + 1);
         str = str.substring(0, str.indexOf("</"));
         return str;
     }
 
 
-    protected String az(int i)
-    {
-        if(i < 10) return "0" + i;
+    protected String az(int i) {
+        if (i < 10) return "0" + i;
         else return i + "";
     }
 
-    protected String az(String i)
-    {
-        if(i.length() == 1) return "0" + i;
+    protected String az(String i) {
+        if (i.length() == 1) return "0" + i;
         else return i + "";
     }
 }

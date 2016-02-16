@@ -14,16 +14,14 @@ import com.metinkale.prayerapp.hadis.SqliteHelper.Hadis;
 import java.text.Normalizer;
 import java.util.Locale;
 
-public class Frag extends Fragment
-{
+public class Frag extends Fragment {
 
     private static final String NUMBER = "nr";
     private TextView mTv;
     private String mText;
     private String mQuery;
 
-    public static Fragment create(int nr)
-    {
+    public static Fragment create(int nr) {
         Frag frag = new Frag();
         Bundle bdl = new Bundle();
         bdl.putInt(NUMBER, nr);
@@ -31,22 +29,19 @@ public class Frag extends Fragment
         return frag;
     }
 
-    private static String normalize(String str)
-    {
+    private static String normalize(String str) {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "_");
         return string.toLowerCase(Locale.ENGLISH);
     }
 
     @Override
-    public void setArguments(Bundle bdl)
-    {
+    public void setArguments(Bundle bdl) {
         super.setArguments(bdl);
         int nr = bdl.getInt(NUMBER);
 
         Hadis h = SqliteHelper.get().get(nr);
-        if(h.kaynak == null)
-        {
+        if (h.kaynak == null) {
             h.kaynak = "";
         }
         bdl.putString("kaynak", h.kaynak);
@@ -57,8 +52,7 @@ public class Frag extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bdl = getArguments();
         String hadis = bdl.getString("hadis");
         String kaynak = bdl.getString("kaynak");
@@ -68,8 +62,7 @@ public class Frag extends Fragment
         mTv = (TextView) v.findViewById(R.id.hadis);
         mTv.setPadding(mTv.getPaddingLeft(), mTv.getPaddingTop(), mTv.getPaddingRight(), mTv.getPaddingBottom() + ((BaseActivity) getActivity()).getBottomMargin());
 
-        if(hadis.startsWith("Narrated"))
-        {
+        if (hadis.startsWith("Narrated")) {
             hadis = "<b>" + hadis.substring(0, hadis.indexOf("\n")) + "</b><br/>" + hadis.substring(hadis.indexOf("\n"));
 
         }
@@ -84,26 +77,21 @@ public class Frag extends Fragment
         return v;
     }
 
-    public void setQuery(String query)
-    {
-        if(query == null || mText == null)
-        {
+    public void setQuery(String query) {
+        if (query == null || mText == null) {
             mQuery = query;
             return;
         }
-        if(query == "")
-        {
+        if (query == "") {
             mTv.setText(Html.fromHtml(mText));
-        } else
-        {
+        } else {
             query = normalize(query);
 
             StringBuilder st = new StringBuilder(mText);
             String normalized = mText;
             int i = normalized.indexOf(normalize(query));
             int p = 0;
-            while(i >= 0)
-            {
+            while (i >= 0) {
                 st.insert(i + p, "<b>");
                 p += 3;
                 st.insert(i + query.length() + p, "</b>");

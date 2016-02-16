@@ -3,13 +3,13 @@ package com.metinkale.prayerapp.compass.classes.math;
 /**
  * ****************************************************************************
  * Copyright 2011 See AUTHORS file.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,8 +27,7 @@ import java.util.Random;
  *
  * @author Nathan Sweet
  */
-class MathUtils
-{
+class MathUtils {
     static public final float nanoToSec = 1 / 1000000000f;
 
     // ---
@@ -60,51 +59,40 @@ class MathUtils
     static private final double CEIL = 0.9999999;
     private static Random random = new Random();
 
-    static public final float sin(float radians)
-    {
+    static public final float sin(float radians) {
         return Sin.table[(int) (radians * radToIndex) & SIN_MASK];
     }
 
-    static public final float cos(float radians)
-    {
+    static public final float cos(float radians) {
         return Cos.table[(int) (radians * radToIndex) & SIN_MASK];
     }
 
     // ---
 
-    static public final float sinDeg(float degrees)
-    {
+    static public final float sinDeg(float degrees) {
         return Sin.table[(int) (degrees * degToIndex) & SIN_MASK];
     }
 
-    static public final float cosDeg(float degrees)
-    {
+    static public final float cosDeg(float degrees) {
         return Cos.table[(int) (degrees * degToIndex) & SIN_MASK];
     }
 
-    static public final float atan2(float y, float x)
-    {
+    static public final float atan2(float y, float x) {
         float add, mul;
-        if(x < 0)
-        {
-            if(y < 0)
-            {
+        if (x < 0) {
+            if (y < 0) {
                 y = -y;
                 mul = 1;
-            } else
-            {
+            } else {
                 mul = -1;
             }
             x = -x;
             add = -PI;
-        } else
-        {
-            if(y < 0)
-            {
+        } else {
+            if (y < 0) {
                 y = -y;
                 mul = -1;
-            } else
-            {
+            } else {
                 mul = 1;
             }
             add = 0;
@@ -115,44 +103,36 @@ class MathUtils
         return (Atan2.table[yi * ATAN2_DIM + xi] + add) * mul;
     }
 
-    static public final int random(int range)
-    {
+    static public final int random(int range) {
         return random.nextInt(range + 1);
     }
 
-    static public final int random(int start, int end)
-    {
+    static public final int random(int start, int end) {
         return start + random.nextInt(end - start + 1);
     }
 
-    static public final boolean randomBoolean()
-    {
+    static public final boolean randomBoolean() {
         return random.nextBoolean();
     }
 
-    static public final float random()
-    {
+    static public final float random() {
         return random.nextFloat();
     }
 
     // ---
 
-    static public final float random(float range)
-    {
+    static public final float random(float range) {
         return random.nextFloat() * range;
     }
 
-    static public final float random(float start, float end)
-    {
+    static public final float random(float start, float end) {
         return start + random.nextFloat() * (end - start);
     }
 
     // ---
 
-    static public int nextPowerOfTwo(int value)
-    {
-        if(value == 0)
-        {
+    static public int nextPowerOfTwo(int value) {
+        if (value == 0) {
             return 1;
         }
         value--;
@@ -164,19 +144,15 @@ class MathUtils
         return value + 1;
     }
 
-    static public boolean isPowerOfTwo(int value)
-    {
+    static public boolean isPowerOfTwo(int value) {
         return value != 0 && (value & value - 1) == 0;
     }
 
-    static public int clamp(int value, int min, int max)
-    {
-        if(value < min)
-        {
+    static public int clamp(int value, int min, int max) {
+        if (value < min) {
             return min;
         }
-        if(value > max)
-        {
+        if (value > max) {
             return max;
         }
         return value;
@@ -184,27 +160,21 @@ class MathUtils
 
     // ---
 
-    static public short clamp(short value, short min, short max)
-    {
-        if(value < min)
-        {
+    static public short clamp(short value, short min, short max) {
+        if (value < min) {
             return min;
         }
-        if(value > max)
-        {
+        if (value > max) {
             return max;
         }
         return value;
     }
 
-    static public float clamp(float value, float min, float max)
-    {
-        if(value < min)
-        {
+    static public float clamp(float value, float min, float max) {
+        if (value < min) {
             return min;
         }
-        if(value > max)
-        {
+        if (value > max) {
             return max;
         }
         return value;
@@ -215,8 +185,7 @@ class MathUtils
      * This method will only properly floor floats from -(2^14) to
      * (Float.MAX_VALUE - 2^14).
      */
-    static public int floor(float x)
-    {
+    static public int floor(float x) {
         return (int) (x + BIG_ENOUGH_FLOOR) - BIG_ENOUGH_INT;
     }
 
@@ -225,8 +194,7 @@ class MathUtils
      * This method will only properly floor floats that are positive. Note this
      * method simply casts the float to int.
      */
-    static public int floorPositive(float x)
-    {
+    static public int floorPositive(float x) {
         return (int) x;
     }
 
@@ -235,8 +203,7 @@ class MathUtils
      * float. This method will only properly ceil floats from -(2^14) to
      * (Float.MAX_VALUE - 2^14).
      */
-    static public int ceil(float x)
-    {
+    static public int ceil(float x) {
         return (int) (x + BIG_ENOUGH_CEIL) - BIG_ENOUGH_INT;
     }
 
@@ -244,8 +211,7 @@ class MathUtils
      * Returns the smallest integer greater than or equal to the specified
      * float. This method will only properly ceil floats that are positive.
      */
-    static public int ceilPositive(float x)
-    {
+    static public int ceilPositive(float x) {
         return (int) (x + CEIL);
     }
 
@@ -253,60 +219,46 @@ class MathUtils
      * Returns the closest integer to the specified float. This method will only
      * properly round floats from -(2^14) to (Float.MAX_VALUE - 2^14).
      */
-    static public int round(float x)
-    {
+    static public int round(float x) {
         return (int) (x + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;
     }
 
-    static public int roundPositive(float x)
-    {
+    static public int roundPositive(float x) {
         return (int) (x + 0.5f);
     }
 
-    static private class Sin
-    {
+    static private class Sin {
         static final float[] table = new float[SIN_COUNT];
 
-        static
-        {
-            for(int i = 0; i < SIN_COUNT; i++)
-            {
+        static {
+            for (int i = 0; i < SIN_COUNT; i++) {
                 table[i] = (float) Math.sin((i + 0.5f) / SIN_COUNT * radFull);
             }
-            for(int i = 0; i < 360; i += 90)
-            {
+            for (int i = 0; i < 360; i += 90) {
                 table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.sin(i * degreesToRadians);
             }
         }
     }
 
-    static private class Cos
-    {
+    static private class Cos {
         static final float[] table = new float[SIN_COUNT];
 
-        static
-        {
-            for(int i = 0; i < SIN_COUNT; i++)
-            {
+        static {
+            for (int i = 0; i < SIN_COUNT; i++) {
                 table[i] = (float) Math.cos((i + 0.5f) / SIN_COUNT * radFull);
             }
-            for(int i = 0; i < 360; i += 90)
-            {
+            for (int i = 0; i < 360; i += 90) {
                 table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.cos(i * degreesToRadians);
             }
         }
     }
 
-    static private class Atan2
-    {
+    static private class Atan2 {
         static final float[] table = new float[ATAN2_COUNT];
 
-        static
-        {
-            for(int i = 0; i < ATAN2_DIM; i++)
-            {
-                for(int j = 0; j < ATAN2_DIM; j++)
-                {
+        static {
+            for (int i = 0; i < ATAN2_DIM; i++) {
+                for (int j = 0; j < ATAN2_DIM; j++) {
                     float x0 = (float) i / ATAN2_DIM;
                     float y0 = (float) j / ATAN2_DIM;
                     table[j * ATAN2_DIM + i] = (float) Math.atan2(y0, x0);

@@ -8,23 +8,19 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
-public class FaziletTimes extends WebTimes
-{
+public class FaziletTimes extends WebTimes {
 
-    FaziletTimes(long id)
-    {
+    FaziletTimes(long id) {
         super(id);
     }
 
     @Override
-    public Source getSource()
-    {
+    public Source getSource() {
         return Source.Fazilet;
     }
 
     @Override
-    protected boolean syncTimes() throws Exception
-    {
+    protected boolean syncTimes() throws Exception {
         String a[] = getId().split("_");
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
@@ -58,9 +54,8 @@ public class FaziletTimes extends WebTimes
         params.put("bitis_tarihi", (Y + 5) + "-12-31");
 
         StringBuilder postData = new StringBuilder();
-        for(Map.Entry<String, Object> param : params.entrySet())
-        {
-            if(postData.length() != 0) postData.append('&');
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
             postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
             postData.append('=');
             postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
@@ -79,10 +74,8 @@ public class FaziletTimes extends WebTimes
         String line;
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         int i = 0;
-        while((line = reader.readLine()) != null)
-        {
-            if(line.contains("<tr class=\"acik\">") || line.contains("<tr class=\"koyu\">"))
-            {
+        while ((line = reader.readLine()) != null) {
+            if (line.contains("<tr class=\"acik\">") || line.contains("<tr class=\"koyu\">")) {
                 String date = extractLine(reader.readLine());
                 String[] dd = date.split(" ");
                 int d = Integer.parseInt(dd[0]);

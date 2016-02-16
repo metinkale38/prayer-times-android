@@ -31,8 +31,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.List;
 
-public class Main extends BaseActivity implements LocationListener, RotationUpdateDelegate
-{
+public class Main extends BaseActivity implements LocationListener, RotationUpdateDelegate {
 
     static private double mQAngle;
     static private float mDist;
@@ -50,19 +49,16 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private Frag2D mFrag2D;
     private Frag3D mFrag3D;
 
-    public static float getDistance()
-    {
+    public static float getDistance() {
         return mDist;
     }
 
-    public static double getQiblaAngle()
-    {
+    public static double getQiblaAngle() {
         return mQAngle;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_main);
         PermissionUtils.get(this).needLocation(this);
@@ -84,36 +80,29 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         fragmentTransaction.commit();
     }
 
-    private void updateFrag(boolean is3d)
-    {
+    private void updateFrag(boolean is3d) {
 
 
-        if(is3d != m3D)
-        {
+        if (is3d != m3D) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            if(is3d)
-            {
+            if (is3d) {
 
-                if(PermissionUtils.get(this).pCamera)
-                {
+                if (PermissionUtils.get(this).pCamera) {
 
-                    if(mFrag3D == null) mFrag3D = new Frag3D();
-                    if(mList != mFrag3D)
-                    {
+                    if (mFrag3D == null) mFrag3D = new Frag3D();
+                    if (mList != mFrag3D) {
                         fragmentTransaction.add(R.id.frag3D, mFrag3D, "3d");
 
                         mList = mFrag3D;
                         mFrag2D.hide();
                     }
-                } else
-                {
+                } else {
                     PermissionUtils.get(this).needCamera(this);
                 }
 
-            } else if(mFrag2D.mHidden)
-            {
+            } else if (mFrag2D.mHidden) {
                 fragmentTransaction.remove((Fragment) mList);
                 mList = mFrag2D;
                 mFrag2D.show();
@@ -126,19 +115,15 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if(mRefresh == item)
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mRefresh == item) {
             mOnlyNew = true;
-            if(PermissionUtils.get(this).pLocation)
-            {
+            if (PermissionUtils.get(this).pLocation) {
                 LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
                 locMan.removeUpdates(this);
                 List<String> providers = locMan.getProviders(true);
-                for(String provider : providers)
-                {
+                for (String provider : providers) {
                     locMan.requestLocationUpdates(provider, 0, 0, this);
                 }
             }
@@ -148,28 +133,23 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         mRefresh = menu.add(Menu.NONE, Menu.NONE, 1, R.string.refresh);
         MenuItemCompat.setShowAsAction(mRefresh, MenuItemCompat.SHOW_AS_ACTION_NEVER);
         return true;
     }
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults)
-    {
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(PermissionUtils.get(this).pLocation)
-        {
+        if (PermissionUtils.get(this).pLocation) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             List<String> providers = locMan.getProviders(true);
-            for(String provider : providers)
-            {
+            for (String provider : providers) {
                 locMan.requestLocationUpdates(provider, 0, 0, this);
                 Location lastKnownLocation = locMan.getLastKnownLocation(provider);
-                if(lastKnownLocation != null)
-                {
+                if (lastKnownLocation != null) {
                     calcQiblaAngel(lastKnownLocation);
                 }
             }
@@ -177,51 +157,41 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mSensorManager.unregisterListener(mMagAccel);
 
         mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
 
-        if(mSelCity == null)
-        {
+        if (mSelCity == null) {
             mSelCity = (TextView) findViewById(R.id.selcity);
-            mSelCity.setOnClickListener(new OnClickListener()
-            {
+            mSelCity.setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View arg0)
-                {
-                    if(App.isOnline())
-                    {
+                public void onClick(View arg0) {
+                    if (App.isOnline()) {
                         startActivity(new Intent(Main.this, LocationPicker.class));
-                    } else
-                    {
+                    } else {
                         Toast.makeText(Main.this, R.string.noConnection, Toast.LENGTH_LONG).show();
                     }
                 }
             });
         }
 
-        if(PermissionUtils.get(this).pLocation)
-        {
+        if (PermissionUtils.get(this).pLocation) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             List<String> providers = locMan.getProviders(true);
-            for(String provider : providers)
-            {
+            for (String provider : providers) {
                 locMan.requestLocationUpdates(provider, 0, 0, this);
                 Location lastKnownLocation = locMan.getLastKnownLocation(provider);
-                if(lastKnownLocation != null)
-                {
+                if (lastKnownLocation != null) {
                     calcQiblaAngel(lastKnownLocation);
                 }
             }
         }
 
-        if(Prefs.getCompassLat() != 0)
-        {
+        if (Prefs.getCompassLat() != 0) {
             Location loc = new Location("custom");
             loc.setLatitude(Prefs.getCompassLat());
             loc.setLongitude(Prefs.getCompassLng());
@@ -230,24 +200,20 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(PermissionUtils.get(this).pCamera)
-        {
+        if (PermissionUtils.get(this).pCamera) {
             m3D = false;
         }
     }
 
     // RotationUpdateDelegate methods
     @Override
-    public void onRotationUpdate(float[] newMatrix)
-    {
+    public void onRotationUpdate(float[] newMatrix) {
 
         // remap matrix values according to display rotation, as in
         // SensorManager documentation.
-        switch(mDisplayRotation)
-        {
+        switch (mDisplayRotation) {
             case Surface.ROTATION_0:
             case Surface.ROTATION_180:
                 break;
@@ -269,12 +235,10 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mMagAccel);
-        if(PermissionUtils.get(this).pLocation)
-        {
+        if (PermissionUtils.get(this).pLocation) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
@@ -282,21 +246,17 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public void onLocationChanged(Location location)
-    {
+    public void onLocationChanged(Location location) {
         calcQiblaAngel(location);
-        if(System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24))
-        {
+        if (System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24)) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
 
     }
 
-    private void calcQiblaAngel(Location location)
-    {
-        if(location.getProvider() != "custom")
-        {
+    private void calcQiblaAngel(Location location) {
+        if (location.getProvider() != "custom") {
             mSelCity.setVisibility(View.GONE);
         }
         double lat1 = location.getLatitude();// Latitude of Desired Location
@@ -316,40 +276,33 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
     }
 
-    private double getDirection(double lat1, double lng1, double lat2, double lng2)
-    {
+    private double getDirection(double lat1, double lng1, double lat2, double lng2) {
         double dLng = lng1 - lng2;
         return Math.toDegrees(getDirectionRad(Math.toRadians(lat1), Math.toRadians(lat2), Math.toRadians(dLng)));
     }
 
-    private double getDirectionRad(double lat1, double lat2, double dLng)
-    {
+    private double getDirectionRad(double lat1, double lat2, double dLng) {
         return Math.atan2(Math.sin(dLng), Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng));
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras)
-    {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
     @Override
-    public void onProviderEnabled(String provider)
-    {
+    public void onProviderEnabled(String provider) {
     }
 
     @Override
-    public void onProviderDisabled(String provider)
-    {
+    public void onProviderDisabled(String provider) {
     }
 
     @Override
-    public boolean setNavBar()
-    {
+    public boolean setNavBar() {
         return false;
     }
 
-    public interface MyCompassListener
-    {
+    public interface MyCompassListener {
         void onUpdateDirection();
 
         void onUpdateSensors(float[] rot);

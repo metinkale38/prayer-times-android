@@ -14,19 +14,16 @@ import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
 import com.metinkale.prayerapp.settings.Prefs;
 
-public class Adapter extends ArrayAdapter<Item>
-{
+public class Adapter extends ArrayAdapter<Item> {
 
     private int lang;
 
-    public Adapter(Context context, Item[] objects)
-    {
+    public Adapter(Context context, Item[] objects) {
         super(context, 0, objects);
         lang = Language.valueOf((Prefs.getLanguage() == null) ? "tr" : Prefs.getLanguage()).ordinal();
     }
 
-    public static float convertDpToPixel(float dp, Context context)
-    {
+    public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return dp * (metrics.densityDpi / 160f);
@@ -34,11 +31,9 @@ public class Adapter extends ArrayAdapter<Item>
     }
 
     @Override
-    public View getView(int pos, View convertView, ViewGroup parent)
-    {
+    public View getView(int pos, View convertView, ViewGroup parent) {
         ViewHolder vh;
-        if(convertView == null)
-        {
+        if (convertView == null) {
 
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.names_item, parent, false);
@@ -49,22 +44,19 @@ public class Adapter extends ArrayAdapter<Item>
             vh.meaning = (TextView) convertView.findViewById(R.id.meaning);
 
             convertView.setTag(vh);
-        } else
-        {
+        } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
         convertView.setPadding(0, 0, 0, pos == getCount() - 1 ? ((BaseActivity) getContext()).getBottomMargin() : 0);
 
         Item i = getItem(pos);
-        if(pos == 0)
-        {
+        if (pos == 0) {
             vh.arabicImg.setVisibility(View.VISIBLE);
             vh.arabicImg.setImageResource(R.drawable.allah);
             vh.name.setVisibility(View.GONE);
             vh.arabic.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             vh.arabicImg.setImageDrawable(null);
             vh.arabicImg.setVisibility(View.GONE);
             vh.arabic.setText(i.arabic);
@@ -78,26 +70,22 @@ public class Adapter extends ArrayAdapter<Item>
         return convertView;
     }
 
-    enum Language
-    {
+    enum Language {
         tr, de, en
     }
 
-    static class Item
-    {
+    static class Item {
         String arabic;
         String name[] = new String[3];
         String meaning[] = new String[3];
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return arabic + " " + name[0] + " " + name[1] + " " + name[2] + " " + meaning[0] + " " + meaning[1] + " " + meaning[2];
         }
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView name, meaning, arabic;
         ImageView arabicImg;
     }

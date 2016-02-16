@@ -1,11 +1,9 @@
 package com.metinkale.prayerapp.vakit;
 
-public class WidgetConfigureSilenter extends WidgetConfigure
-{
+public class WidgetConfigureSilenter extends WidgetConfigure {
 
     @Override
-    public void cityDialog()
-    {
+    public void cityDialog() {
         themeDialog();
     }
 }

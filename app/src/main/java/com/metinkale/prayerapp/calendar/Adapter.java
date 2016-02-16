@@ -14,14 +14,12 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.Map;
 
-public class Adapter extends ArrayAdapter<Date>
-{
+public class Adapter extends ArrayAdapter<Date> {
     private final Context context;
     private Map<Date, String> days;
     private boolean hasInfo;
 
-    public Adapter(Context context, int year)
-    {
+    public Adapter(Context context, int year) {
         super(context, R.layout.names_item);
         this.context = context;
         days = Date.getHolydays(year, false);
@@ -29,12 +27,10 @@ public class Adapter extends ArrayAdapter<Date>
     }
 
     @Override
-    public View getView(int pos, View convertView, ViewGroup parent)
-    {
+    public View getView(int pos, View convertView, ViewGroup parent) {
 
         ViewHolder vh;
-        if(convertView == null)
-        {
+        if (convertView == null) {
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.calendar_item, parent, false);
@@ -46,8 +42,7 @@ public class Adapter extends ArrayAdapter<Date>
             vh.next = (ImageView) convertView.findViewById(R.id.next);
             vh.next.setVisibility(hasInfo ? View.VISIBLE : View.GONE);
             convertView.setTag(vh);
-        } else
-        {
+        } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
@@ -62,13 +57,11 @@ public class Adapter extends ArrayAdapter<Date>
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return days.size();
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView name;
         TextView date;
         TextView hicri;
