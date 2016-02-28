@@ -23,7 +23,7 @@ import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 
 public class NotificationPopup extends Activity {
-    static NotificationPopup instance;
+    public static NotificationPopup instance;
     private TextView name;
     private TextView vakit;
 

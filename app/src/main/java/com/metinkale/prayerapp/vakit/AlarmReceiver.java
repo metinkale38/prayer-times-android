@@ -304,6 +304,9 @@ public class AlarmReceiver extends IntentService {
         }
         sInterrupt = false;
 
+        if(NotificationPopup.instance != null) NotificationPopup.instance.finish();
+
+
 
         if (volume != -2) {
             am.setStreamVolume(getStreamType(c), volume, 0);
