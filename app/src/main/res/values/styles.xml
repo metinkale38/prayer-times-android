@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
+<resources  xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
 
-
-    <style name="vakit_names">
-        <item name="android:layout_width">500px</item>
-        <item name="android:layout_height">80px</item>
-        <item name="android:paddingLeft">50dp</item>
-    </style>
-
-    <style name="vakit_times">
-        <item name="android:layout_width">500px</item>
-        <item name="android:layout_height">80px</item>
-        <item name="android:paddingRight">50dp</item>
-        <item name="android:gravity">right</item>
-        <item name="android:text">00:00</item>
-    </style>
 
     <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowIsFloating">false</item>

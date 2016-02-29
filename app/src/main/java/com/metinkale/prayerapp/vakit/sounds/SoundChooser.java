@@ -289,6 +289,8 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             try {
                 Alarm alarm = new Alarm();
                 alarm.sound = s.uri;
+                if(alarm.sound.contains("$"))
+                    alarm.sound=alarm.sound.substring(0,alarm.sound.indexOf("$"));
                 AlarmReceiver.play(App.getContext(), alarm).reset();
             } catch (Exception e) {
                 mCb.setCurrent("silent");

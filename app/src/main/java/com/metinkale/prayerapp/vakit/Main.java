@@ -38,7 +38,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private int mStartPos = 1;
     private SettingsFragment mSettingsFrag;
     private ImsakiyeFragment mImsakiyeFrag;
-    private MyPaneView mPaneView;
+    public MyPaneView mPaneView;
     private TextView mFooterText;
 
     public static PendingIntent getPendingIntent(Times t) {
@@ -137,11 +137,12 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Fragment frag = getSupportFragmentManager().findFragmentByTag("notPrefs");
-            if (frag == null) {
-                return super.onKeyUp(keyCode, event);
-            } else {
+            if (frag != null) {
                 setFooterText(getString(R.string.imsakiye), true);
                 getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                return true;
+            } else if (mPaneView.isOpen()) {
+                mPaneView.close();
                 return true;
             }
         }

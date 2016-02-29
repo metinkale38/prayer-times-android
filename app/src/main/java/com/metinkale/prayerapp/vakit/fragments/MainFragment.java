@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
 
-            if (mTimes.deleted()) return;
+            if (mTimes.deleted()||((Main)getActivity()).mPaneView.isOpen()) return;
             if (mTimes != null) {
                 if (!mHasTimes) {
                     update();
@@ -104,7 +104,7 @@ public class MainFragment extends Fragment {
         update();
 
         if (Prefs.useArabic()) {
-            View v = mView.findViewById(R.id.weightedFloatLayout1);
+            View v = mView.findViewById(R.id.fragContainer);
             for (int i = 0; i < idsNames.length; i++) {
                 TextView tv = (TextView) v.findViewById(idsNames[i]);
                 tv.setGravity(Gravity.LEFT);
@@ -156,7 +156,7 @@ public class MainFragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.notification: {
-                Fragment frag = getChildFragmentManager().findFragmentByTag("notPrefs");
+                Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
                 if (frag == null) {
                     ((Main) getActivity()).setFooterText(mTimes.getName(), false);
                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commit();

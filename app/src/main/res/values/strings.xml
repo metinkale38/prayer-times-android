@@ -98,7 +98,7 @@
     <string name="dlSound">"%1$s" (%2$s) Sesini indirmek istiyormusunuz?</string>
     <string name="dlHadith">Hadisleri indirmek istiyormusunuz?</string>
     <string name="fixTimezone">Zaman dilimi +/-:</string>
-    <string name="shareTimes">%1$s için bugünlük Namaz Vakitleri</string>
+    <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>
     <string name="useArabicNames">Arapça Vakitleri kullan</string>
     <string name="off">Kapalı</string>
     <string name="calendarIntegration">Dini Günler\'i Takvime yaz</string>
