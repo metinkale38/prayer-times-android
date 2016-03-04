@@ -90,9 +90,7 @@ public class MainHelper extends SQLiteOpenHelper {
                     return new CalcTimes(id);
             }
 
-        } catch (Exception e) {
-            if (e.getMessage().contains("can't create TimesBase with deleted")) return null;
-            Crashlytics.logException(e);
+        } catch (Exception ignore) {
         }
         return null;
     }

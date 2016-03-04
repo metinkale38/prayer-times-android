@@ -58,9 +58,13 @@ public class CalcTimes extends Times {
         mPrayTime = new PrayTime();
         mLat = getLat();
         mLng = getLng();
-        mPrayTime.setCalcMethod(getMethod());
-        mPrayTime.setAsrJuristic(getJuristic());
-        mPrayTime.setAdjustHighLats(getAdjMethod());
+        try {
+            mPrayTime.setCalcMethod(getMethod());
+            mPrayTime.setAsrJuristic(getJuristic());
+            mPrayTime.setAdjustHighLats(getAdjMethod());
+        } catch (NullPointerException e) {
+            this.delete();
+        }
         mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
     }
 

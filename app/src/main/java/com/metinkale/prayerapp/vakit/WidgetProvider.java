@@ -94,6 +94,7 @@ public class WidgetProvider extends AppWidgetProvider {
         if (id != 0)
             times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
 
+
         if (times == null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);
@@ -190,7 +191,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     static float correctScaleFactorIfNeeded(Context c, float scale, int w, int h) {
         DisplayMetrics metrics = c.getResources().getDisplayMetrics();
-        float max = metrics.widthPixels * metrics.heightPixels * 4 * 1.5f;
+        float max = metrics.widthPixels * metrics.heightPixels * 4 * 1.3f;
         float current = scale * scale * w * h;
 
         if (current < max) return scale;

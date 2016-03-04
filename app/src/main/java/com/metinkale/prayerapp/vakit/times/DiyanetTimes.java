@@ -24,6 +24,8 @@ public class DiyanetTimes extends WebTimes {
     protected boolean syncTimes() throws Exception {
         String path = getId();
         String a[] = path.split("_");
+
+
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = 0;

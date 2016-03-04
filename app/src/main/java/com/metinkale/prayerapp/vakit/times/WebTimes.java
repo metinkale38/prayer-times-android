@@ -66,7 +66,16 @@ public class WebTimes extends Times {
         try {
             ret = syncTimes();
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            if (e instanceof ArrayIndexOutOfBoundsException) {
+                try {
+                    Crashlytics.setString("city", getName());
+                    Crashlytics.setString("path", getId());
+                    Crashlytics.setString("source", getSource().toString());
+                } catch (Exception ee) {
+                    Crashlytics.logException(ee);
+                }
+                Crashlytics.logException(e);
+            }
             ret = false;
         }
         mSyncing = false;

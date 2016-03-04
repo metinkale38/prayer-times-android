@@ -286,16 +286,17 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             Sound s = new Sound();
             s.uri = mCb.getCurrent();
 
-            try {
-                Alarm alarm = new Alarm();
-                alarm.sound = s.uri;
-                if(alarm.sound.contains("$"))
-                    alarm.sound=alarm.sound.substring(0,alarm.sound.indexOf("$"));
-                AlarmReceiver.play(App.getContext(), alarm).reset();
-            } catch (Exception e) {
-                mCb.setCurrent("silent");
-                s.uri = "silent";
-            }
+            if (!s.uri.startsWith("silent"))
+                try {
+                    Alarm alarm = new Alarm();
+                    alarm.sound = s.uri;
+                    if (alarm.sound.contains("$"))
+                        alarm.sound = alarm.sound.substring(0, alarm.sound.indexOf("$"));
+                    AlarmReceiver.play(App.getContext(), alarm).reset();
+                } catch (Exception e) {
+                    mCb.setCurrent("silent");
+                    s.uri = "silent";
+                }
 
             if (s.uri != null && s.uri.contains("$volume")) {
                 s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));

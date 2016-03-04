@@ -124,6 +124,7 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (Exception e) {
+            if (alarm.city == 0) return null;
             File file = new File(uri.getPath());
             Crashlytics.setString("data", uri.toString());
             if (file.exists())
@@ -132,7 +133,7 @@ public class AlarmReceiver extends IntentService {
                 try {
                     MainHelper.getTimes(alarm.city).set(alarm.pref, "silent");
                 } catch (Exception ee) {
-                    Crashlytics.logException(ee);
+                    //Crashlytics.logException(ee);
                 }
 
             Crashlytics.setBool("exists", file.exists());
@@ -157,7 +158,11 @@ public class AlarmReceiver extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AlarmReceiver");
+            wakeLock.acquire();
             fireAlarm(intent);
+            wakeLock.release();
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
@@ -180,18 +185,18 @@ public class AlarmReceiver extends IntentService {
     }
 
     public void fireAlarm(Intent intent) {
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "MyWakelockTag");
-        wakeLock.acquire();
+
 
         final Context c = App.getContext();
 
         if (intent == null || !intent.hasExtra("bdl")) {
+
             return;
         }
         final Alarm next = Alarm.fromBundle(intent.getExtras().getBundle("bdl"));
         intent.removeExtra("bdl");
 
+        if (next.city == 0) return;
 
         Times t = MainHelper.getTimes(next.city);
         if (!"TEST".equals(next.pref) && (t != null && next.pref != null && !t.is(next.pref))) {
@@ -304,8 +309,7 @@ public class AlarmReceiver extends IntentService {
         }
         sInterrupt = false;
 
-        if(NotificationPopup.instance != null) NotificationPopup.instance.finish();
-
+        if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
 
         if (volume != -2) {
@@ -318,7 +322,6 @@ public class AlarmReceiver extends IntentService {
         }
 
 
-        wakeLock.release();
     }
 
 

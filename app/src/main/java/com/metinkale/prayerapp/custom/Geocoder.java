@@ -4,6 +4,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.metinkale.prayerapp.App;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Geocoder {
 
     public static List<Response> from(String address, int limit, String lang) {
+        if (!App.isOnline()) return null;
         if (address.contains(";")) {
             String a[] = address.split(";");
             try {
@@ -37,7 +39,6 @@ public class Geocoder {
             in.close();
             return resp;
         } catch (Exception e) {
-            Crashlytics.logException(e);
         }
 
         return null;
@@ -45,6 +46,7 @@ public class Geocoder {
     }
 
     public static Response from(double lat, double lng, int limit, String lang) {
+        if (!App.isOnline()) return null;
         Gson gson = new GsonBuilder().create();
         try {
 

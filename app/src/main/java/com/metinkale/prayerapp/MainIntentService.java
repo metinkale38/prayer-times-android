@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -41,11 +42,13 @@ public class MainIntentService extends IntentService {
     private static final String ACTION_CALENDAR_INTEGRATION = "com.metinkale.prayer.action.CALENDAR_INTEGRATION";
     private static final String EXTRA_SOUND = "com.metinkale.prayer.extra.SOUND";
 
+
     private static Runnable mCallback;
 
     public MainIntentService() {
         super("MainIntentService");
     }
+
 
 
     public static void startCalendarIntegration(Context context) {
@@ -93,7 +96,15 @@ public class MainIntentService extends IntentService {
                         handleDownloadSound(sound, callback);
                         break;
                     case ACTION_SET_ALARMS:
+                        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "setAlarms");
+                        wakeLock.acquire();
+
                         Times.setAlarms();
+
+                        wakeLock.release();
+
+
                         break;
                     case ACTION_CALENDAR_INTEGRATION:
                         handleCalendarIntegration();
@@ -246,7 +257,6 @@ public class MainIntentService extends IntentService {
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
             Prefs.setLastCalIntegration(year);
         } catch (Exception e) {
-            Crashlytics.logException(e);
             Prefs.setCalendar("-1");
         }
     }
