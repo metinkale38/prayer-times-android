@@ -104,9 +104,8 @@ public class MainFragment extends Fragment {
         update();
 
         if (Prefs.useArabic()) {
-            View v = mView.findViewById(R.id.fragContainer);
             for (int i = 0; i < idsNames.length; i++) {
-                TextView tv = (TextView) v.findViewById(idsNames[i]);
+                TextView tv = (TextView) mView.findViewById(idsNames[i]);
                 tv.setGravity(Gravity.LEFT);
                 tv.setText(Vakit.getByIndex(i).getString());
             }
