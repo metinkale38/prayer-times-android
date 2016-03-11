@@ -45,7 +45,6 @@ public class NVCTimes extends WebTimes {
 
             }
         } catch (Exception ignore) {
-            Crashlytics.logException(ignore);
         }
         return null;
     }

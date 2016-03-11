@@ -101,6 +101,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             Zip zip = new Zip(zipFile.getAbsolutePath());
             File files = this.getFilesDir();
             for (String file : files.list()) {
+                if (file.contains(".Fabric")) continue;
                 zip.addFile("files", files.getAbsolutePath() + "/" + file);
             }
             files = new File(files.getParentFile(), "databases");

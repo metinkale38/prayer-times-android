@@ -23,7 +23,6 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
 public class WidgetProviderSmall extends AppWidgetProvider {
-    private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
@@ -44,7 +43,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
 
         int min = Math.min(w, h);
-        int s = (int) (WidgetProvider.correctScaleFactorIfNeeded(context, SCALE_MULT, min, min) * min);
+        int s = (int) min;
 
         if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
@@ -99,6 +98,9 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         Canvas canvas = new Canvas(bmp);
         canvas.scale(0.99f, 0.99f, s / 2, s / 2);
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
 
         paint.setStyle(Style.FILL);
         paint.setColor(theme.bgcolor);
@@ -135,7 +137,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         canvas.drawText(city, s / 2, s * 3 / 4 + cs * 2 / 3, paint);
 
         paint.setStyle(Style.STROKE);
-        float stroke = 1.5f * mDP;
+        float stroke = mDP;
         paint.setStrokeWidth(stroke);
         paint.setColor(theme.strokecolor);
         canvas.drawRect(0, 0, s, s, paint);

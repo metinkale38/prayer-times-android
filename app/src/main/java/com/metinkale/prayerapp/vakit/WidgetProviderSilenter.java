@@ -20,7 +20,6 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 
 public class WidgetProviderSilenter extends AppWidgetProvider {
-    private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
@@ -39,7 +38,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, w, r.getDisplayMetrics());
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
 
-        int s = (int) (SCALE_MULT * Math.min(w, h));
+        int s = (int) (Math.min(w, h));
 
         if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
@@ -75,6 +74,9 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         Canvas canvas = new Canvas(bmp);
         canvas.scale(0.99f, 0.99f, s / 2, s / 2);
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
 
         paint.setStyle(Style.FILL);
         paint.setColor(theme.bgcolor);
@@ -95,7 +97,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         canvas.drawText("al", s / 2, s * 25 / 30, paint);
 
         paint.setStyle(Style.STROKE);
-        float stroke = 1.5f * mDP;
+        float stroke =  mDP;
         paint.setStrokeWidth(stroke);
         paint.setColor(theme.strokecolor);
         canvas.drawRect(0, 0, s, s, paint);

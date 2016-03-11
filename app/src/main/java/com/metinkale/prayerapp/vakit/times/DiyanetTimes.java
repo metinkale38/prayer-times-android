@@ -31,7 +31,7 @@ public class DiyanetTimes extends WebTimes {
         int city = 0;
         if (a.length == 4) city = Integer.parseInt(a[3]);
 
-        URL url = new URL("http://www3.diyanet.gov.tr/tr/PrayerTime/PrayerTimesList");
+        URL url = new URL("http://www.diyanet.gov.tr/tr/PrayerTime/PrayerTimesList");
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("Country", country);
         params.put("State", state);

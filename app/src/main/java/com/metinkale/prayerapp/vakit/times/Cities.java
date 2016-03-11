@@ -45,7 +45,7 @@ public class Cities extends SQLiteAssetHelper {
 
     private Handler mHandler = new Handler();
 
-    private static synchronized Cities get() {
+     static synchronized Cities get() {
         if (mInstance == null) mInstance = new Cities(App.getContext());
 
         return mInstance;
@@ -205,7 +205,7 @@ public class Cities extends SQLiteAssetHelper {
     }
 
 
-    private List<Cities.Item> search(String q) {
+     List<Cities.Item> search(String q) {
         q = q.trim();
         String lang = Prefs.getLanguage();
         Response resp = null;
@@ -254,7 +254,8 @@ public class Cities extends SQLiteAssetHelper {
     }
 
 
-    private List<Cities.Item> search2(double lat, double lng, String country, String city, String q) throws SQLException, IOException {
+    List<Cities.Item> search2(double lat, double lng, String country, String city, String q) throws SQLException, IOException {
+        q = q.replace("'", "\'");
         String[] sources = {"Diyanet", "IGMG", "Fazilet", "NVC", "Semerkand"};
 
         List<Cities.Item> items = new ArrayList<Cities.Item>();
@@ -358,11 +359,11 @@ public class Cities extends SQLiteAssetHelper {
 
             }
 
-        }catch (SQLiteException e){
+        } catch (SQLiteException e) {
             Crashlytics.logException(e);
-            mInstance=null;
+            mInstance = null;
             this.setForcedUpgrade();
-        }finally {
+        } finally {
             closeDatabase();
         }
         return items;

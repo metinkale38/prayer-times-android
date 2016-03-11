@@ -22,6 +22,16 @@ public class FaziletTimes extends WebTimes {
     @Override
     protected boolean syncTimes() throws Exception {
         String a[] = getId().split("_");
+
+        if(a.length<4){
+            List<Cities.Item> items = Cities.get().search(getName());
+            for(Cities.Item i:items){
+                if(i.source==getSource()&&i.city.equals(getName())){
+                    setId(i.id);
+                }
+            }
+        }
+
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = Integer.parseInt(a[3]);

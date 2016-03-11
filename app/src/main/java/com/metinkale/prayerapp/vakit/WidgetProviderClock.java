@@ -30,8 +30,7 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.Calendar;
 
 public class WidgetProviderClock extends AppWidgetProvider {
-    private static float SCALE_MULT = 1.5f;
-    private static float mDP;
+   private static float mDP;
 
     public static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager, final int widgetId) {
 
@@ -52,10 +51,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         float scaleX = (float) w / (float) 5;
         float scaleY = (float) h / (float) 2;
-        float scale = SCALE_MULT * Math.min(scaleY, scaleX);
+        float scale =  Math.min(scaleY, scaleX);
 
-        //Workaround for exception "RemoteViews for widget update exceeds maximum bitmap memory usage"
-        scale = WidgetProvider.correctScaleFactorIfNeeded(context, scale, 5, 2);
 
         w = (int) (5 * scale);
         h = (int) (2 * scale);
@@ -96,6 +93,10 @@ public class WidgetProviderClock extends AppWidgetProvider {
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bmp);
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
+
 
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setAntiAlias(true);

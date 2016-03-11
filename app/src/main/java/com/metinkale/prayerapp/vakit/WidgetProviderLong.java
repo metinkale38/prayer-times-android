@@ -29,8 +29,7 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.Calendar;
 
 public class WidgetProviderLong extends AppWidgetProvider {
-    private static float SCALE_MULT = 1.5f;
-    private static float mDP;
+  private static float mDP;
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
@@ -51,10 +50,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         float scaleX = (float) w / (float) 20;
         float scaleY = (float) h / (float) 5;
-        float scale = SCALE_MULT * Math.min(scaleY, scaleX);
-
-        //Workaround for exception "RemoteViews for widget update exceeds maximum bitmap memory usage"
-        scale = WidgetProvider.correctScaleFactorIfNeeded(context, scale, 50, 5);
+        float scale =  Math.min(scaleY, scaleX);
 
         w = (int) (20 * scale);
         h = (int) (5 * scale);
@@ -116,6 +112,9 @@ public class WidgetProviderLong extends AppWidgetProvider {
         Canvas canvas = new Canvas(bmp);
         canvas.scale(0.99f, 0.99f, w / 2, h / 2);
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
 
         paint.setStyle(Style.FILL);
         paint.setColor(theme.bgcolor);
@@ -184,7 +183,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
 
         paint.setStyle(Style.STROKE);
-        float stroke = 1.5f * mDP;
+        float stroke = mDP;
         paint.setStrokeWidth(stroke);
         paint.setColor(theme.strokecolor);
         canvas.drawRect(0, 0, w, h, paint);

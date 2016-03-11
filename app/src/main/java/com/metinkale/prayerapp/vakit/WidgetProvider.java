@@ -14,7 +14,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
@@ -29,7 +28,6 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.Calendar;
 
 public class WidgetProvider extends AppWidgetProvider {
-    private static float SCALE_MULT = 1.5f;
     private static float mDP;
 
     private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
@@ -53,10 +51,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
         float scaleX = (float) w / (float) 13;
         float scaleY = (float) h / (float) 16;
-        float scale = SCALE_MULT * Math.min(scaleY, scaleX);
+        float scale = Math.min(scaleY, scaleX);
 
         //Workaround for exception "RemoteViews for widget update exceeds maximum bitmap memory usage"
-        scale = WidgetProvider.correctScaleFactorIfNeeded(context, scale, 13, 16);
+        //scale = WidgetProvider.correctScaleFactorIfNeeded(context, scale, 13, 16);
 
         w = (int) (13 * scale);
         h = (int) (16 * scale);
@@ -122,6 +120,9 @@ public class WidgetProvider extends AppWidgetProvider {
         canvas.scale(0.99f, 0.99f, w / 2, h / 2);
 
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
 
         paint.setStyle(Style.FILL);
         paint.setColor(theme.bgcolor);
@@ -174,7 +175,7 @@ public class WidgetProvider extends AppWidgetProvider {
         canvas.drawText(left, w / 2, (int) (l * 9.5), paint);
 
         paint.setStyle(Style.STROKE);
-        float stroke = 1.5f * mDP;
+        float stroke = mDP;
         paint.setStrokeWidth(stroke);
         paint.setColor(theme.strokecolor);
         canvas.drawRect(0, 0, w, h, paint);
@@ -189,19 +190,6 @@ public class WidgetProvider extends AppWidgetProvider {
 
     }
 
-    static float correctScaleFactorIfNeeded(Context c, float scale, int w, int h) {
-        DisplayMetrics metrics = c.getResources().getDisplayMetrics();
-        float max = metrics.widthPixels * metrics.heightPixels * 4 * 1.3f;
-        float current = scale * scale * w * h;
-
-        if (current < max) return scale;
-
-        scale *= max / current;
-        while (((int) scale * scale * w * h) >= ((int) max)) {
-            scale -= 0.99f;
-        }
-        return scale;
-    }
 
     public static void updateWidgets(Context c) {
         try {
