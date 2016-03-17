@@ -5,9 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class DiyanetTimes extends WebTimes {
 
@@ -23,6 +20,7 @@ public class DiyanetTimes extends WebTimes {
     @Override
     protected boolean syncTimes() throws Exception {
         String path = getId();
+        if (path.equals("D_13_1008_0")) path = "D_13_10080_9206";
         String a[] = path.split("_");
 
 
@@ -31,51 +29,68 @@ public class DiyanetTimes extends WebTimes {
         int city = 0;
         if (a.length == 4) city = Integer.parseInt(a[3]);
 
-        URL url = new URL("http://www.diyanet.gov.tr/tr/PrayerTime/PrayerTimesList");
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("Country", country);
-        params.put("State", state);
-        params.put("City", city);
-        params.put("period", "Aylik");
+        URL url = new URL("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc");
 
-        StringBuilder postData = new StringBuilder();
-        for (Map.Entry<String, Object> param : params.entrySet()) {
-            if (postData.length() != 0) postData.append('&');
-            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-            postData.append('=');
-            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-        }
-        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+        String postData = "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                "<v:Header /><v:Body>" +
+                "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
+                "<IlceID i:type=\"d:int\">" + (city != 0 ? city : state) + "</IlceID>" +
+                "<username i:type=\"d:string\">namazuser</username>" +
+                "<password i:type=\"d:string\">NamVak!14</password>" +
+                "</AylikNamazVakti></v:Body></v:Envelope>";
+        byte[] postDataBytes = postData.getBytes("UTF-8");
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+        conn.setRequestProperty("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti");
         conn.setRequestProperty("Content-Size", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
         OutputStream writer = conn.getOutputStream();
         writer.write(postDataBytes);
 
-        String line;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        int i = 0;
-        int d = 0, m = 0, y = 0;
-        String[] times = new String[6];
-        while ((line = reader.readLine()) != null) {
-            if (line.contains("class=\"tCenter\"")) {
-                line = extractLine(line);
-                if (line.contains(".")) {
-                    i = 0;
-                    String s[] = line.split("\\.");
-                    d = Integer.parseInt(s[0]);
-                    m = Integer.parseInt(s[1]);
-                    y = Integer.parseInt(s[2]);
-                } else if (i <= 5) {
-                    times[i] = line;
+        int code = conn.getResponseCode();
 
-                    if (i == 5) setTimes(d, m, y, times);
-                    i++;
+        BufferedReader reader = new BufferedReader(new InputStreamReader((code >= 200 && code < 400)?conn.getInputStream():conn.getErrorStream()));
+        StringBuilder total = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            total.append(line);
+        }
+
+        line = total.toString();
+
+        line = line.substring(line.indexOf("<a:NamazVakti>") + 14);
+        line = line.substring(0, line.indexOf("</AylikNamazVaktiResult>"));
+        String days[] = line.split("</a:NamazVakti><a:NamazVakti>");
+        for (String day : days) {
+            String parts[] = day.split("><a:");
+
+            String times[] = new String[6];
+            String date = null;
+            for (String part : parts) {
+                String name = part.substring(0, part.indexOf(">"));
+                name = name.substring( name.indexOf(":")+1);
+                String content = part.substring(part.indexOf(">") + 1);
+                content = content.substring(0, content.indexOf("<"));
+                if (name.equals("Imsak")) {
+                    times[0] = content;
+                } else if (name.equals("Gunes")) {
+                    times[1] = content;
+                } else if (name.equals("Ogle")) {
+                    times[2] = content;
+                } else if (name.equals("Ikindi")) {
+                    times[3] = content;
+                } else if (name.equals("Aksam")) {
+                    times[4] = content;
+                } else if (name.equals("Yatsi")) {
+                    times[5] = content;
+                } else if (name.equals("MiladiTarihKisa")) {
+                    date = content;
                 }
             }
+            String d[] = date.split("\\.");
+            setTimes(Integer.parseInt(d[0]), Integer.parseInt(d[1]), Integer.parseInt(d[2]), times);
         }
 
         reader.close();
