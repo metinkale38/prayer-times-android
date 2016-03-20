@@ -20,6 +20,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -42,6 +44,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         for (int i = 0; i < pos.length; i++) {
             if (clz.contains("prayerapp." + pos[i])) {
                 mNavPos = i;
+
+                ContentViewEvent event=new ContentViewEvent();
+                event.putContentId(clz);
+                event.putContentName(pos[i]);
+                Crashlytics.getInstance().answers.logContentView(event);
             }
         }
     }
