@@ -169,7 +169,6 @@ public class MainIntentService extends IntentService {
             fos.close();
         } catch (Exception e) {
             f.delete();
-            Crashlytics.logException(e);
         }
 
         if (act != null) act.runOnUiThread(new Runnable() {

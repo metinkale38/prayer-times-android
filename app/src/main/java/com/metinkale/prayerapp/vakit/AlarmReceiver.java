@@ -124,7 +124,7 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (Exception e) {
-            if (alarm.city == 0) return null;
+            if (alarm.city == 0||uri.toString().equals("silent")) return null;
             File file = new File(uri.getPath());
             Crashlytics.setString("data", uri.toString());
             if (file.exists())

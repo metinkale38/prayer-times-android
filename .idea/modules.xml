@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/namaz-vakti-android.iml" filepath="$PROJECT_DIR$/namaz-vakti-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/namaz-vakti-android.iml" filepath="$PROJECT_DIR$/.idea/modules/namaz-vakti-android.iml" />
     </modules>
   </component>
 </project>

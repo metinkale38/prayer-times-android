@@ -30,7 +30,7 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.Calendar;
 
 public class WidgetProviderClock extends AppWidgetProvider {
-   private static float mDP;
+    private static float mDP;
 
     public static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager, final int widgetId) {
 
@@ -51,7 +51,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         float scaleX = (float) w / (float) 5;
         float scaleY = (float) h / (float) 2;
-        float scale =  Math.min(scaleY, scaleX);
+        float scale = Math.min(scaleY, scaleX);
 
 
         w = (int) (5 * scale);
@@ -119,11 +119,20 @@ public class WidgetProviderClock extends AppWidgetProvider {
         } else {
             canvas.drawText(time, w / 2, h * 0.4f, paint);
         }
+        String greg = date.format(false);
+        String hicri = date.format(true);
+
         paint.setTextSize(h * 0.12f);
+        float m=paint.measureText(greg + "  " + hicri);
+        if (m > w * 0.8f) {
+            paint.setTextSize(h * 0.12f * w * 0.8f / m);
+        }
+
+
         paint.setTextAlign(Align.LEFT);
-        canvas.drawText(date.format(false), w * .1f, h * 0.55f, paint);
+        canvas.drawText(greg, w * .1f, h * 0.55f, paint);
         paint.setTextAlign(Align.RIGHT);
-        canvas.drawText(date.format(true), w * .9f, h * 0.55f, paint);
+        canvas.drawText(hicri, w * .9f, h * 0.55f, paint);
         remoteViews.setImageViewBitmap(R.id.widget, bmp);
 
         canvas.drawRect(w * 0.1f, h * 0.6f, w * 0.9f, h * 0.63f, paint);

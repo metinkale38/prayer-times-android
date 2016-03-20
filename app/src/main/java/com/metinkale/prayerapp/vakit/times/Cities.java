@@ -360,7 +360,7 @@ public class Cities extends SQLiteAssetHelper {
             }
 
         } catch (SQLiteException e) {
-            Crashlytics.logException(e);
+            //Crashlytics.logException(e);
             mInstance = null;
             this.setForcedUpgrade();
         } finally {
