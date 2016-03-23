@@ -5,13 +5,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.List;
 
 public class IGMGTimes extends WebTimes {
 
     IGMGTimes(long id) {
         super(id);
-        fixIGMG();
     }
 
     @Override
@@ -65,28 +63,6 @@ public class IGMGTimes extends WebTimes {
     }
 
 
-    private void fixIGMG() {
-        final String oid = getId();
-        if (oid.split("_").length == 4 && !oid.equals("I_1_nix_0")) return;
-        Cities.Callback cb = new Cities.Callback() {
-            @Override
-            public void onResult(List result) {
-                List<Cities.Item> resp = result;
-                if (resp != null) for (Cities.Item i : resp) {
-                    if (i.source == Source.IGMG) {
-                        setId(i.id);
-                        if (!i.id.startsWith(oid)) clearTimes();
-                        setLastSync(0);
-                        return;
-                    }
-                }
-            }
-        };
 
-        if (getLat() != 0) Cities.search2(getLat(), getLng(), null, getName().trim(), getName().trim(), cb);
-        else Cities.search(getName().trim(), cb);
-
-
-    }
 
 }

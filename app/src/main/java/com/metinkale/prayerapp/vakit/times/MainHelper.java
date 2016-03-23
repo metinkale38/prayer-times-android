@@ -4,15 +4,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.LruCache;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+
+import static android.R.attr.y;
+import static android.database.Cursor.*;
 
 /**
  * Created by Metin on 19.06.2015.
@@ -36,11 +35,12 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
     private static MainHelper sInstance;
-    private SQLiteDatabase mDB;
 
     private List<Times> mTimes = new ArrayList<Times>();
-    private LruCache<String, Object> cache = new LruCache<String, Object>(500);
+    private HashMap<String, Object> data = new HashMap<>();
     private List<MainHelperListener> mListeners = new ArrayList<>();
+    private int mOpenCounter;
+    private SQLiteDatabase mDatabase;
 
     private MainHelper() {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,13 +56,29 @@ public class MainHelper extends SQLiteOpenHelper {
         get().mListeners.remove(listener);
     }
 
-    static MainHelper get() {
+    static synchronized MainHelper get() {
         if (sInstance == null) {
             sInstance = new MainHelper();
             sInstance.loadTimes();
         }
 
         return sInstance;
+    }
+
+    public synchronized SQLiteDatabase openDB() {
+        mOpenCounter++;
+        if (mOpenCounter == 1) {
+            mDatabase = getWritableDatabase();
+        }
+        return mDatabase;
+    }
+
+    public synchronized void closeDB() {
+        mOpenCounter--;
+        if (mOpenCounter == 0) {
+            mDatabase.close();
+
+        }
     }
 
     public static Times getTimesAt(int index) {
@@ -114,18 +130,19 @@ public class MainHelper extends SQLiteOpenHelper {
     }
 
     public static void drop(int from, int to) {
-
+        SQLiteDatabase db = get().openDB();
         List<Long> keys = getIds();
         Long key = keys.get(from);
         keys.remove(key);
         keys.add(to, key);
-        get().getDB().beginTransaction();
+        db.beginTransaction();
         for (Long i : keys) {
             getTimes(i).setSortId(keys.indexOf(i));
         }
-        get().getDB().setTransactionSuccessful();
-        get().getDB().endTransaction();
+        db.setTransactionSuccessful();
+        db.endTransaction();
         get().loadTimes();
+        get().closeDB();
     }
 
     private void notifyOnDataSetChanged() {
@@ -133,24 +150,48 @@ public class MainHelper extends SQLiteOpenHelper {
             list.notifyDataSetChanged();
     }
 
-    public SQLiteDatabase getDB() {
-        if (mDB == null) mDB = getWritableDatabase();
-        return mDB;
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CITIES_CREATE);
+        db.execSQL(TIMES_CREATE);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        mDB = db;
-        mDB.execSQL(CITIES_CREATE);
-        mDB.execSQL(TIMES_CREATE);
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+
+        Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
+        c.moveToFirst();
+        if (!c.isAfterLast()) {
+            do {
+                long id = c.getLong(c.getColumnIndex(_ID));
+                String key = c.getString(c.getColumnIndex(_KEY));
+                int column = c.getColumnIndex(_VALUE);
+                int type = c.getType(column);
+                switch (type) {
+                    case FIELD_TYPE_INTEGER:
+                        data.put(id + key, c.getInt(column));
+                        break;
+                    case FIELD_TYPE_STRING:
+                        data.put(id + key, c.getString(column));
+                        break;
+                    case FIELD_TYPE_FLOAT:
+                        data.put(id + key, c.getDouble(column));
+                        break;
+                }
+
+            } while (c.moveToNext());
+        }
+        c.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mDB = db;
     }
 
     protected void loadTimes() {
+        SQLiteDatabase db = openDB();
+
         List<Long> ids = new ArrayList<>();
         List<Times> times = new ArrayList<>(mTimes);
         for (Times t : times) {
@@ -161,7 +202,7 @@ public class MainHelper extends SQLiteOpenHelper {
             }
         }
 
-        Cursor c = get().getDB().query(CITIES_TABLE, new String[]{_ID}, "key != 'deleted'", null, _ID, null, null);
+        Cursor c = db.query(CITIES_TABLE, new String[]{_ID}, "key != 'deleted'", null, _ID, null, null);
         c.moveToFirst();
         if (!c.isAfterLast()) {
             do {
@@ -187,6 +228,7 @@ public class MainHelper extends SQLiteOpenHelper {
         });
 
         notifyOnDataSetChanged();
+        closeDB();
     }
 
 
@@ -216,46 +258,81 @@ public class MainHelper extends SQLiteOpenHelper {
             for (int i = 0; i < Math.min(time.length, _TIME.length); i++)
                 values.put(_TIME[i], time[i]);
 
-            getDB().insertWithOnConflict(TIMES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            SQLiteDatabase db = openDB();
+            db.insertWithOnConflict(TIMES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            closeDB();
         }
 
         String _getTime(int d, int m, int y, int time) {
             if (deleted) return null;
             String date = y + "-" + Utils.az(m) + "-" + Utils.az(d);
 
-            Object cached = cache.get(id + date + time);
+            Object cached = data.get(id + date + time);
             if (cached instanceof String) return (String) cached;
-
-            Cursor c = getDB().query(TIMES_TABLE, null, _ID + " = " + id + " AND " + _DATE + " = '" + date + "'", null, null, null, null);
+            SQLiteDatabase db = openDB();
+            Cursor c = db.query(TIMES_TABLE, null, _ID + " = " + id + " AND " + _DATE + " = '" + date + "'", null, null, null, null);
             c.moveToFirst();
-            if (c.isAfterLast()) {
-                c.close();
-                return "00:00";
-            }
             try {
+                if (c.isAfterLast()) {
+                    c.close();
+                    return "00:00";
+                }
+
                 String ret = c.getString(c.getColumnIndex(_TIME[time]));
                 for (int i = 0; i < _TIME.length; i++) {
-                    cache.put(id + date + i, c.getString(c.getColumnIndex(_TIME[i])));
+                    data.put(id + date + i, c.getString(c.getColumnIndex(_TIME[i])));
                 }
                 return ret;
             } finally {
                 c.close();
+                closeDB();
             }
+        }
+
+        public void loadAllTimes() {
+            String date = y + "-" + Utils.az(Calendar.getInstance().get(Calendar.MONTH) + 1) + "-01";
+
+            SQLiteDatabase db = openDB();
+            Cursor c = db.query(TIMES_TABLE, null, _ID + " = " + id + " AND " + _DATE + " >= '" + date + "'", null, null, null, null);
+            c.moveToFirst();
+
+            c.moveToFirst();
+            if (!c.isAfterLast()) {
+                do {
+                    String d = c.getString(c.getColumnIndex(_DATE));
+                    for (int i = 0; i < _TIME.length; i++) {
+                        data.put(id + d + i, c.getString(c.getColumnIndex(_TIME[i])));
+                    }
+
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            closeDB();
         }
 
         public void delete() {
             if (deleted) return;
-            getDB().delete(CITIES_TABLE, _ID + " = " + id, null);
-            getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
+            SQLiteDatabase db = openDB();
+            db.delete(CITIES_TABLE, _ID + " = " + id, null);
+            db.delete(TIMES_TABLE, _ID + " = " + id, null);
             set("deleted", true);
+            closeDB();
+            for (String key : data.keySet()) {
+                key.startsWith(id + "");
+                data.remove(key);
+            }
+
             deleted = true;
             id = 0;
             loadTimes();
+
         }
 
         public void clearTimes() {
-            getDB().delete(TIMES_TABLE, _ID + " = " + id, null);
+            SQLiteDatabase db = openDB();
+            db.delete(TIMES_TABLE, _ID + " = " + id, null);
+            closeDB();
         }
 
         public final long getID() {
@@ -266,26 +343,28 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public void set(String key, String value) {
             if (deleted) return;
-            cache.put(id + key, value);
+            data.put(id + key, value);
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_KEY, key);
             values.put(_VALUE, value);
-            getDB().insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            SQLiteDatabase db = openDB();
+            db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            closeDB();
         }
 
 
         public void set(String key, int value) {
             if (deleted) return;
-            cache.put(id + key, value);
+            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_KEY, key);
             values.put(_VALUE, value);
-            getDB().insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            SQLiteDatabase db = openDB();
+            db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            closeDB();
         }
 
 
@@ -296,64 +375,31 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public void set(String key, double value) {
             if (deleted) return;
-            cache.put(id + key, value);
+            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_KEY, key);
             values.put(_VALUE, value);
-            getDB().insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
-        }
-
-
-        public void set(String key, long value) {
-            if (deleted) return;
-            cache.put(id + key, value);
-
-            ContentValues values = new ContentValues();
-            values.put(_ID, id);
-            values.put(_KEY, key);
-            values.put(_VALUE, value);
-            getDB().insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            SQLiteDatabase db = openDB();
+            db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            closeDB();
         }
 
 
         public void set(String key, byte[] value) {
             if (deleted) return;
-            cache.put(id + key, value);
+            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_KEY, key);
             values.put(_VALUE, value);
-            getDB().insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            SQLiteDatabase db = openDB();
+            db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            closeDB();
         }
 
-        public long getLong(String key) {
-            return getLong(key, 0);
-        }
-
-        public long getLong(String key, long def) {
-            if (deleted) return def;
-            Object cached = cache.get(id + key);
-            if (cached instanceof Long) return (Long) cached;
-            Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
-            c.moveToFirst();
-            if (c.isAfterLast()) {
-                c.close();
-                return def;
-            }
-            try {
-                long ret = c.getLong(0);
-                cache.put(id + key, ret);
-                return ret;
-            } finally {
-                c.close();
-            }
-        }
 
         public double getDouble(String key) {
             return getDouble(key, 0);
@@ -361,21 +407,9 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public double getDouble(String key, double def) {
             if (deleted) return def;
-            Object cached = cache.get(id + key);
+            Object cached = data.get(id + key);
             if (cached instanceof Double) return (Double) cached;
-            Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
-            c.moveToFirst();
-            if (c.isAfterLast()) {
-                c.close();
-                return def;
-            }
-            try {
-                double ret = c.getDouble(0);
-                cache.put(id + key, ret);
-                return ret;
-            } finally {
-                c.close();
-            }
+            return def;
         }
 
         public String getString(String key) {
@@ -384,21 +418,9 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public String getString(String key, String def) {
             if (deleted) return def;
-            Object cached = cache.get(id + key);
+            Object cached = data.get(id + key);
             if (cached instanceof String) return (String) cached;
-            Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
-            c.moveToFirst();
-            if (c.isAfterLast()) {
-                c.close();
-                return def;
-            }
-            try {
-                String ret = c.getString(0);
-                cache.put(id + key, ret);
-                return ret;
-            } finally {
-                c.close();
-            }
+            return def;
         }
 
         public boolean deleted() {
@@ -411,21 +433,9 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public int getInt(String key, int def) {
             if (!key.equals("deleted")) if (deleted) return def;
-            Object cached = cache.get(id + key);
+            Object cached = data.get(id + key);
             if (cached instanceof Integer) return (Integer) cached;
-            Cursor c = getDB().query(CITIES_TABLE, new String[]{_VALUE}, _ID + " = " + id + " AND " + _KEY + " = '" + key + "'", null, null, null, null);
-            c.moveToFirst();
-            if (c.isAfterLast()) {
-                c.close();
-                return def;
-            }
-            try {
-                int ret = c.getInt(0);
-                cache.put(id + key, ret);
-                return ret;
-            } finally {
-                c.close();
-            }
+            return def;
         }
 
 

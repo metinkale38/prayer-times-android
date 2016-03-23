@@ -100,6 +100,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
                 int position = mPager.getCurrentItem();
                 if (position != 0) {
                     Times t = MainHelper.getTimes(mAdapter.getItemId(position));
+                    t.loadAllTimes();
                     mImsakiyeFrag.setTimes(t);
                 }
             }

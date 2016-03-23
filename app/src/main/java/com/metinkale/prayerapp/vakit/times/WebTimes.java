@@ -96,11 +96,11 @@ public class WebTimes extends Times {
 
 
     long getLastSync() {
-        return getLong(_LASTSYNC);
+        return getInt(_LASTSYNC) * 1000;
     }
 
     void setLastSync(long lastSync) {
-        set(_LASTSYNC, lastSync);
+        set(_LASTSYNC, (int) (lastSync / 1000));
     }
 
     @Override
