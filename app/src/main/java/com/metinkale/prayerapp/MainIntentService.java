@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -39,6 +40,7 @@ public class MainIntentService extends IntentService {
     private static final String ACTION_DOWNLOAD_HADIS = "com.metinkale.prayer.action.DOWNLOAD_HADIS";
     private static final String ACTION_DOWNLOAD_SOUND = "com.metinkale.prayer.action.DOWNLOAD_SOUND";
     private static final String ACTION_SET_ALARMS = "com.metinkale.prayer.action.SET_ALARMS";
+    private static final String ACTION_RESCHEDULE_ALARMS = "com.metinkale.prayer.action.RESCHEDULE_ALARMS";
     private static final String ACTION_CALENDAR_INTEGRATION = "com.metinkale.prayer.action.CALENDAR_INTEGRATION";
     private static final String EXTRA_SOUND = "com.metinkale.prayer.extra.SOUND";
 
@@ -48,7 +50,6 @@ public class MainIntentService extends IntentService {
     public MainIntentService() {
         super("MainIntentService");
     }
-
 
 
     public static void startCalendarIntegration(Context context) {
@@ -79,6 +80,13 @@ public class MainIntentService extends IntentService {
         context.startService(intent);
     }
 
+    public static void rescheduleAlarms(Context context) {
+        if (!android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")) return;
+        Intent intent = new Intent(context, MainIntentService.class);
+        intent.setAction(ACTION_RESCHEDULE_ALARMS);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -95,17 +103,26 @@ public class MainIntentService extends IntentService {
                         mCallback = null;
                         handleDownloadSound(sound, callback);
                         break;
+                    case ACTION_RESCHEDULE_ALARMS:
+                        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false))
+                            break;
                     case ACTION_SET_ALARMS:
-                        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-                        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "setAlarms");
-                        wakeLock.acquire();
+                        if (android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
+                            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                            boolean isScreenOn;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT_WATCH) {
+                                isScreenOn = pm.isInteractive();
+                            } else {
+                                isScreenOn = pm.isScreenOn();
+                            }
+
+                            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
+                        }
 
                         Times.setAlarms();
 
-                        wakeLock.release();
-
-
                         break;
+
                     case ACTION_CALENDAR_INTEGRATION:
                         handleCalendarIntegration();
                         break;

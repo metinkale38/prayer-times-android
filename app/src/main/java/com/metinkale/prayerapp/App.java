@@ -12,7 +12,6 @@ import android.os.Build;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
-import com.metinkale.prayerapp.vakit.times.TimesHelper;
 import io.fabric.sdk.android.BuildConfig;
 import io.fabric.sdk.android.Fabric;
 
@@ -70,7 +69,6 @@ public class App extends Application {
 
         startService(new Intent(this, WidgetService.class));
         MainIntentService.setAlarms(this);
-        TimesHelper.getInstance();
 
 
     }

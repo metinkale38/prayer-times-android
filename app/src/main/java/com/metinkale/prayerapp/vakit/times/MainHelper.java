@@ -1,17 +1,18 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.ContentValues;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.LruCache;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Metin on 19.06.2015.
@@ -142,84 +143,6 @@ public class MainHelper extends SQLiteOpenHelper {
         mDB = db;
         mDB.execSQL(CITIES_CREATE);
         mDB.execSQL(TIMES_CREATE);
-
-        HashMap<Integer, Long> newids = new HashMap<Integer, Long>();
-        //import TimesHelper&PrefsHelper
-        SQLiteDatabase t = TimesHelper.getInstance().openDB();
-        SQLiteDatabase p = PrefsHelper.getInstance().openDB();
-        Cursor c = t.query(TimesHelper.TABLE_NAME, null, null, null, null, null, null);
-        c.moveToFirst();
-        List<Long> ids = new ArrayList<>();
-        long l = System.currentTimeMillis() / 2;
-        if (!c.isAfterLast()) {
-            do {
-                l++;
-                String source = c.getString(c.getColumnIndex(TimesHelper.KEY_SOURCE));
-                Times times = null;
-                if (source.equals("Calc")) {
-                    CalcTimes calc = new CalcTimes(l, true);
-                    calc.setSource(TimesBase.Source.Calc);
-                    calc.setAdjMethod(PrayTime.AdjMethod.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_ADJMETHOD))));
-                    calc.setJuristic(PrayTime.Juristic.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_JURISTIC))));
-                    calc.setMethod(PrayTime.Method.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_METHOD))));
-                    calc.setLng(c.getLong(c.getColumnIndex(TimesHelper.KEY_LAT)));
-                    calc.setLat(c.getLong(c.getColumnIndex(TimesHelper.KEY_LNG)));
-                    calc.setName(c.getString(c.getColumnIndex(TimesHelper.KEY_NAME)));
-                    times = calc;
-                } else {
-                    WebTimes web = new WebTimes(l);
-                    web.setSource(TimesBase.Source.valueOf(c.getString(c.getColumnIndex(TimesHelper.KEY_SOURCE))));
-                    web.setLng(c.getLong(c.getColumnIndex(TimesHelper.KEY_LAT)));
-                    web.setLat(c.getLong(c.getColumnIndex(TimesHelper.KEY_LNG)));
-                    web.setName(c.getString(c.getColumnIndex(TimesHelper.KEY_NAME)));
-                    web.setId(c.getString(c.getColumnIndex(TimesHelper.KEY_ID)));
-                    times = web;
-                }
-                int id = c.getInt(c.getColumnIndex(TimesHelper.KEY__ID));
-                newids.put(id, l);
-                Cursor cc = null;
-                try {
-                    cc = p.query("id_" + id, null, null, null, null, null, null);
-                    cc.moveToFirst();
-                    if (!cc.isAfterLast()) {
-                        do {
-                            times.set(cc.getString(cc.getColumnIndex(PrefsHelper._KEY)), cc.getString(cc.getColumnIndex(PrefsHelper._VALUE)));
-                        } while (cc.moveToNext());
-                    }
-                    cc.close();
-
-                } catch (SQLiteException ignore) {
-                    Crashlytics.logException(ignore);
-
-                } finally {
-                    if (cc != null && !cc.isClosed()) cc.close();
-                }
-
-
-            } while (c.moveToNext());
-        }
-        c.close();
-
-        t.delete(TimesHelper.TABLE_NAME, null, null);
-
-
-        //correct WidgetIds
-        SharedPreferences widgets = App.getContext().getSharedPreferences("widgets", 0);
-        SharedPreferences.Editor edit = widgets.edit();
-        Map<String, ?> all = widgets.getAll();
-        for (String key : all.keySet()) {
-            if (all.get(key) instanceof Integer) {
-                if (!key.contains("_")) {
-                    try {
-                        edit.remove(key);
-                        edit.putLong(key, newids.get(all.get(key)));
-                    } catch (Exception ignore) {
-                    }
-                }
-            }
-        }
-
-        edit.commit();
     }
 
     @Override

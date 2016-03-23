@@ -154,8 +154,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.metinkale.prayerapp.settings.Settings"/>
-        <activity android:label="@string/calendar" android:icon="@mipmap/ic_calendar"
-                  android:name="com.metinkale.prayerapp.calendar.Main">
+        <activity
+                android:label="@string/calendar"
+                android:icon="@mipmap/ic_calendar"
+                android:name="com.metinkale.prayerapp.calendar.Main">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -182,7 +184,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-      <activity
+        <activity
                 android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.Light.Dialog"/>
@@ -200,11 +202,17 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
         <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver"/>
         <service android:name="com.metinkale.prayerapp.MainIntentService"/>
         <service
                 android:name="com.metinkale.prayerapp.vakit.WidgetService"
-                android:exported="false"/>
+                android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT">
+                </action>
+            </intent-filter>
+        </service>
 
         <receiver
                 android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
@@ -274,6 +282,15 @@
                 <action android:name="android.intent.action.DATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
+        <receiver android:name="com.metinkale.prayerapp.UserPresentReceiver">
+            <intent-filter
+                    android:enabled="true"
+                    android:exported="false">
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$Audio"/>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setNormal"/>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setVibrate"/>
