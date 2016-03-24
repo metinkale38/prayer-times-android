@@ -8,7 +8,7 @@ public class Util {
      * @return double in 0-360 range
      */
     public static float floatrev(double x) {
-        return (float) (x - Math.floor(x / 360.0f) * 360.0f);
+        return (float) (x - (Math.floor(x / 360.0f) * 360.0f));
     }
 
     /**
@@ -19,7 +19,7 @@ public class Util {
      * @return
      */
     public static float calcDistance(Vector3 a, Vector3 b) {
-        return (float) Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+        return (float) Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)) + ((a.z - b.z) * (a.z - b.z)));
     }
 
     /**
@@ -31,7 +31,7 @@ public class Util {
      * @return
      */
     public static float calcRadius(float a, float b, float c) {
-        return (float) (a * b * c / Math.sqrt((a + b + c) * (a - b + c) * (a + b - c) * (b + c - a)));
+        return (float) ((a * b * c) / Math.sqrt((a + b + c) * ((a - b) + c) * ((a + b) - c) * ((b + c) - a)));
     }
 
     /**

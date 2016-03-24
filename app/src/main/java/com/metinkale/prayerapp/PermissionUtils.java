@@ -86,7 +86,7 @@ public class PermissionUtils {
 
 
     public void needCalendar(final Activity act, boolean force) {
-        if (!pCalendar && (!Prefs.getCalendar().equals("-1") || force)) {
+        if (!pCalendar && (!"-1".equals(Prefs.getCalendar()) || force)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
@@ -125,42 +125,38 @@ public class PermissionUtils {
 
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CAMERA: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_CAMERA:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pCamera = true;
                 } else {
                     pCamera = false;
                 }
                 return;
-            }
 
-            case REQUEST_CALENDAR: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_CALENDAR:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pCalendar = true;
                 } else {
                     pCalendar = false;
                 }
                 return;
-            }
 
-            case REQUEST_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_LOCATION:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pLocation = true;
                 } else {
                     pLocation = false;
                     Prefs.setCalendar("-1");
                 }
                 return;
-            }
 
-            case REQUEST_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_STORAGE:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pStorage = true;
                 } else {
                     pStorage = false;
                 }
                 return;
-            }
 
 
         }

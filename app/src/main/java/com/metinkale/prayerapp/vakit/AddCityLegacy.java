@@ -27,7 +27,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.vakit_addcity);
+        setContentView(R.layout.vakit_addcity);
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
@@ -35,7 +35,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
             @Override
             public void onClick(View v) {
-                AddCityLegacy.this.finish();
+                finish();
                 startActivity(new Intent(AddCityLegacy.this, AddCity.class));
 
             }

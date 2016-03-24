@@ -20,14 +20,14 @@ import java.net.URLConnection;
 import java.util.*;
 
 public class Sounds {
-    private static LinkedHashMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
+    private static HashMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
 
     public static boolean isDownloaded(Sound sound) {
-        return sound.url == null || sound.getFile().exists();
+        return (sound.url == null) || sound.getFile().exists();
 
     }
 
-    public static HashMap<String, List<Sound>> getSounds() {
+    public static AbstractMap<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
             List<Sound> sabah = new ArrayList<Sound>();
@@ -149,7 +149,7 @@ public class Sounds {
             this.name = name;
             this.url = url;
             this.size = size;
-            this.uri = getFile().toURI().toString();
+            uri = getFile().toURI().toString();
         }
 
         public File getFile() {
@@ -169,7 +169,7 @@ public class Sounds {
             }
         }
 
-        public boolean needsRedownload(List<Times.Alarm> alarms) {
+        public boolean needsRedownload(Iterable<Times.Alarm> alarms) {
             if (getFile().exists()) {
                 SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
                 String md5 = preferences.getString(name, null);
@@ -182,7 +182,7 @@ public class Sounds {
                         BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
                         md5 = in.readLine();
-                        if (md5.equals("failed") || !in.readLine().equals("done")) {
+                        if ("failed".equals(md5) || !"done".equals(in.readLine())) {
                             return false;
                         }
 
@@ -230,7 +230,7 @@ public class Sounds {
             }
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
-        prefs.edit().putLong("lastMD5Check", System.currentTimeMillis());
+        prefs.edit().putLong("lastMD5Check", System.currentTimeMillis()).apply();
         checking = false;
     }
 
@@ -239,7 +239,7 @@ public class Sounds {
         if (checking) return false;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         long lastSync = prefs.getLong("lastMD5Check", 0);
-        if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * 7 || lastSync == 0) {
+        if (((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * 7)) || (lastSync == 0)) {
 
 
             ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);

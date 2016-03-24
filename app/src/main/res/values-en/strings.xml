@@ -74,8 +74,8 @@
     <string name="zikr">Dhikr</string>
     <string name="new_zikr">New Dhikr</string>
     <string name="tesbih">Tasbih</string>
-    <string name="delConfirmZikr">Do you really want to delete \"%1$s\"?</string>
-    <string name="resetConfirmZikr">Do you really want to reset\"%1$s\"?</string>
+    <string name="delConfirmZikr">Do you really want to delete \“%1$s\”?</string>
+    <string name="resetConfirmZikr">Do you really want to reset\“%1$s\”?</string>
     <string name="zikr_count">Dhikr aim</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
@@ -93,7 +93,7 @@
     <string name="backupRestore">Backup/Restore</string>
     <string name="error">An error occurred</string>
     <string name="restore">Restore</string>
-    <string name="dlSound">Download "%1$s" (%2$s)?</string>
+    <string name="dlSound">Download “%1$s” (%2$s)?</string>
     <string name="dlHadith">Download Hadith Database?</string>
     <string name="fixTimezone">Timezone +/-:</string>
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
@@ -123,6 +123,11 @@
     <string name="permission_calendar_title">Calendar Berechtigung</string>
     <string name="permission_calendar_text">If you want, that the Holy Days appear in your Phone Calendar, you have to allow Calendar Access. Otherwise do not.</string>
     <string name="permission_storage_title">Storage Permission</string>
-    <string name="permission_storage_text">Storage Permission is needed... Without that Permission some things will not
+    <string name="permission_storage_text">Storage Permission is needed… Without that Permission some things will not
         work</string>
+    <string name="dateandtime">Date and Time</string>
+    <string name="other">Other</string>
+    <string name="tryvibration">Try</string>
+    <string name="vibration_pattern">Vibration pattern</string>
+    <string name="vibration_description">Miliseconds - wait vibrate vibrate...</string>
 </resources>

@@ -21,12 +21,12 @@ public class FaziletTimes extends WebTimes {
 
     @Override
     protected boolean syncTimes() throws Exception {
-        String a[] = getId().split("_");
+        String[] a = getId().split("_");
 
-        if(a.length<4){
+        if (a.length < 4) {
             List<Cities.Item> items = Cities.get().search(getName());
-            for(Cities.Item i:items){
-                if(i.source==getSource()&&i.city.equals(getName())){
+            for (Cities.Item i : items) {
+                if ((i.source == getSource()) && i.city.equals(getName())) {
                     setId(i.id);
                 }
             }
@@ -91,7 +91,7 @@ public class FaziletTimes extends WebTimes {
                 int d = Integer.parseInt(dd[0]);
                 int m = ay.indexOf(dd[1]) + 1;
                 int y = Integer.parseInt(dd[2]);
-                String times[] = new String[6];
+                String[] times = new String[6];
 
                 times[0] = extractLine(reader.readLine());//2
                 reader.readLine();//3

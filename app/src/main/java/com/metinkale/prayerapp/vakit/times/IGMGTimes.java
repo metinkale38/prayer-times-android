@@ -20,7 +20,7 @@ public class IGMGTimes extends WebTimes {
     @Override
     protected boolean syncTimes() throws Exception {
         String path = getId().replace("nix", "-1");
-        String a[] = path.split("_");
+        String[] a = path.split("_");
         int world = Integer.parseInt(a[1]);
         int germany = Integer.parseInt(a[2]);
 
@@ -29,7 +29,7 @@ public class IGMGTimes extends WebTimes {
         int Y = rY;
         int m = cal.get(Calendar.MONTH) + 1;
 
-        for (int M = m; M <= m + 1 && rY == Y; M++) {
+        for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
             if (M == 13) {
                 M = 1;
                 Y++;
@@ -45,7 +45,7 @@ public class IGMGTimes extends WebTimes {
             while ((line = reader.readLine()) != null) if (line.contains("<td class=\"green\"")) {
                 line = extractLine(line);
                 int d = Integer.parseInt(line.substring(0, line.indexOf(".")));
-                String times[] = new String[6];
+                String[] times = new String[6];
                 for (int i = 0; i < 6; i++) {
                     line = extractLine(reader.readLine());
                     line = line.replace("&nbsp;", "").replace(".", ":").replace(",", ":");
@@ -61,8 +61,6 @@ public class IGMGTimes extends WebTimes {
         }
         return true;
     }
-
-
 
 
 }

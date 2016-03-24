@@ -13,6 +13,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.PermissionUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CalendarPreference extends ListPreference {
@@ -27,7 +28,7 @@ public class CalendarPreference extends ListPreference {
 
     private Activity getActivity() {
         Context c = getContext();
-        while (c instanceof ContextWrapper && !(c instanceof Activity)) {
+        while ((c instanceof ContextWrapper) && !(c instanceof Activity)) {
             c = ((ContextWrapper) c).getBaseContext();
         }
         if (c instanceof Activity) return (Activity) c;
@@ -50,13 +51,13 @@ public class CalendarPreference extends ListPreference {
         names.add(0, getContext().getString(R.string.off));
         ids.add(0, "-1");
 
-        this.setEntries(names.toArray(new String[names.size()]));
-        this.setEntryValues(ids.toArray(new String[ids.size()]));
+        setEntries(names.toArray(new String[names.size()]));
+        setEntryValues(ids.toArray(new String[ids.size()]));
     }
 
-    void getCalendars(List<String> names, List<String> ids) {
+    void getCalendars(Collection<String> names, Collection<String> ids) {
 
-        String projection[] = {CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME};
+        String[] projection = {CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME};
         Uri calendars;
         calendars = Uri.parse("content://com.android.calendar/calendars");
 

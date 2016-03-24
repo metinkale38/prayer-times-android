@@ -9,5 +9,5 @@ public interface RotationUpdateDelegate {
     /**
      * @param newMatrix - 4x4 matrix
      */
-    void onRotationUpdate(float newMatrix[]);
+    void onRotationUpdate(float[] newMatrix);
 }

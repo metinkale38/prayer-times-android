@@ -27,11 +27,11 @@ import java.io.Serializable;
  * @author badlogicgames@gmail.com
  */
 public class Vector2 implements Serializable {
-    public final static Vector2 tmp2 = new Vector2();
-    public final static Vector2 tmp3 = new Vector2();
-    public final static Vector2 X = new Vector2(1, 0);
-    public final static Vector2 Y = new Vector2(0, 1);
-    public final static Vector2 Zero = new Vector2(0, 0);
+    public static final Vector2 tmp2 = new Vector2();
+    public static final Vector2 tmp3 = new Vector2();
+    public static final Vector2 X = new Vector2(1, 0);
+    public static final Vector2 Y = new Vector2(0, 1);
+    public static final Vector2 Zero = new Vector2(0, 0);
     private static final long serialVersionUID = 913902788239530931L;
     /**
      * Static temporary vector. Use with care! Use only when sure other code
@@ -39,7 +39,7 @@ public class Vector2 implements Serializable {
      *
      * @see #tmp()
      */
-    private final static Vector2 tmp = new Vector2();
+    private static final Vector2 tmp = new Vector2();
     public float x;
 
     public float y;
@@ -72,11 +72,11 @@ public class Vector2 implements Serializable {
     }
 
     float len() {
-        return (float) Math.sqrt(x * x + y * y);
+        return (float) Math.sqrt((x * x) + (y * y));
     }
 
     public float len2() {
-        return x * x + y * y;
+        return (x * x) + (y * y);
     }
 
     /**
@@ -160,7 +160,7 @@ public class Vector2 implements Serializable {
      * @return The dot product between this and the other vector
      */
     public float dot(Vector2 v) {
-        return x * v.x + y * v.y;
+        return (x * v.x) + (y * v.y);
     }
 
     /**
@@ -187,15 +187,15 @@ public class Vector2 implements Serializable {
     }
 
     public Vector2 div(float value) {
-        return this.mul(1 / value);
+        return mul(1 / value);
     }
 
     public Vector2 div(float vx, float vy) {
-        return this.mul(1 / vx, 1 / vy);
+        return mul(1 / vx, 1 / vy);
     }
 
     public Vector2 div(Vector2 other) {
-        return this.mul(1 / other.x, 1 / other.y);
+        return mul(1 / other.x, 1 / other.y);
     }
 
     /**
@@ -203,9 +203,9 @@ public class Vector2 implements Serializable {
      * @return the distance between this and the other vector
      */
     public float dst(Vector2 v) {
-        final float x_d = v.x - x;
-        final float y_d = v.y - y;
-        return (float) Math.sqrt(x_d * x_d + y_d * y_d);
+        float x_d = v.x - x;
+        float y_d = v.y - y;
+        return (float) Math.sqrt((x_d * x_d) + (y_d * y_d));
     }
 
     /**
@@ -214,9 +214,9 @@ public class Vector2 implements Serializable {
      * @return the distance between this and the other vector
      */
     public float dst(float x, float y) {
-        final float x_d = x - this.x;
-        final float y_d = y - this.y;
-        return (float) Math.sqrt(x_d * x_d + y_d * y_d);
+        float x_d = x - this.x;
+        float y_d = y - this.y;
+        return (float) Math.sqrt((x_d * x_d) + (y_d * y_d));
     }
 
     /**
@@ -224,9 +224,9 @@ public class Vector2 implements Serializable {
      * @return the squared distance between this and the other vector
      */
     public float dst2(Vector2 v) {
-        final float x_d = v.x - x;
-        final float y_d = v.y - y;
-        return x_d * x_d + y_d * y_d;
+        float x_d = v.x - x;
+        float y_d = v.y - y;
+        return (x_d * x_d) + (y_d * y_d);
     }
 
     /**
@@ -235,9 +235,9 @@ public class Vector2 implements Serializable {
      * @return the squared distance between this and the other vector
      */
     public float dst2(float x, float y) {
-        final float x_d = x - this.x;
-        final float y_d = y - this.y;
-        return x_d * x_d + y_d * y_d;
+        float x_d = x - this.x;
+        float y_d = y - this.y;
+        return (x_d * x_d) + (y_d * y_d);
     }
 
     @Override
@@ -277,8 +277,8 @@ public class Vector2 implements Serializable {
      * @return this vector
      */
     public Vector2 mul(Matrix3 mat) {
-        float x = this.x * mat.val[0] + y * mat.val[3] + mat.val[6];
-        float y = this.x * mat.val[1] + this.y * mat.val[4] + mat.val[7];
+        float x = (this.x * mat.val[0]) + (y * mat.val[3]) + mat.val[6];
+        float y = (this.x * mat.val[1]) + (this.y * mat.val[4]) + mat.val[7];
         this.x = x;
         this.y = y;
         return this;
@@ -291,7 +291,7 @@ public class Vector2 implements Serializable {
      * @return the cross product
      */
     public float crs(Vector2 v) {
-        return x * v.y - y * v.x;
+        return (x * v.y) - (y * v.x);
     }
 
     /**
@@ -302,7 +302,7 @@ public class Vector2 implements Serializable {
      * @return the cross product
      */
     public float crs(float x, float y) {
-        return this.x * y - this.y * x;
+        return (this.x * y) - (this.y * x);
     }
 
     /**
@@ -323,7 +323,7 @@ public class Vector2 implements Serializable {
      * @param angle The angle to set.
      */
     public void setAngle(float angle) {
-        this.set(len(), 0f);
+        set(len(), 0f);
         rotate(angle);
     }
 
@@ -337,8 +337,8 @@ public class Vector2 implements Serializable {
         float cos = (float) Math.cos(rad);
         float sin = (float) Math.sin(rad);
 
-        float newX = x * cos - y * sin;
-        float newY = x * sin + y * cos;
+        float newX = (x * cos) - (y * sin);
+        float newY = (x * sin) + (y * cos);
 
         x = newX;
         y = newY;
@@ -355,17 +355,17 @@ public class Vector2 implements Serializable {
      * @return This vector for chaining.
      */
     public Vector2 lerp(Vector2 target, float alpha) {
-        Vector2 r = this.mul(1.0f - alpha);
+        Vector2 r = mul(1.0f - alpha);
         r.add(target.tmp().mul(alpha));
         return r;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
-        result = prime * result + NumberUtils.floatToIntBits(x);
-        result = prime * result + NumberUtils.floatToIntBits(y);
+        result = (prime * result) + NumberUtils.floatToIntBits(x);
+        result = (prime * result) + NumberUtils.floatToIntBits(y);
         return result;
     }
 

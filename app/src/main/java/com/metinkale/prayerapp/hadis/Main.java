@@ -140,7 +140,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     private String last() {
-        if (mState == STATE_FAVORITE || mState == STATE_SHUFFLED || mState == STATE_ORDER) {
+        if ((mState == STATE_FAVORITE) || (mState == STATE_SHUFFLED) || (mState == STATE_ORDER)) {
             return "last_nr" + (mState == STATE_FAVORITE) + (mState == STATE_SHUFFLED);
         } else {
             return "last_nr" + mState;
@@ -266,7 +266,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             mFav.setIcon(R.drawable.ic_action_nofav);
         }
 
-        if (mRemFav != -1 && mFavs.contains(mRemFav)) {
+        if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
             mFavs.remove((Integer) mRemFav);
 
             mAdapter.notifyDataSetChanged();
@@ -303,20 +303,10 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
     }
 
-    private void setShareText(String txt) {
-        txt = txt.replace("\n", "|");
-        if (mShareActionProvider != null) {
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(txt).toString().replace("|", "\n"));
-            shareIntent.setType("text/plain");
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (mTask != null && mTask.getStatus() == Status.RUNNING) {
+        if ((mTask != null) && (mTask.getStatus() == Status.RUNNING)) {
             return false;
         }
 
@@ -333,7 +323,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
     @Override
     public boolean setNavBar() {
-        this.setNavBarColor(0xaa333333);
+        setNavBarColor(0xaa333333);
         return true;
     }
 
@@ -370,6 +360,17 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
                 setShareText(hadis + (kaynak.length() <= 3 ? "" : "\n\n" + kaynak));
             }
         }
+
+        private void setShareText(String txt) {
+            txt = txt.replace("\n", "|");
+            if (mShareActionProvider != null) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(txt).toString().replace("|", "\n"));
+                shareIntent.setType("text/plain");
+                mShareActionProvider.setShareIntent(shareIntent);
+            }
+        }
     }
 
     public class SearchTask extends AsyncTask<String, String, Boolean> {
@@ -385,7 +386,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Boolean success) {
             InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             View v = getCurrentFocus();
 
@@ -406,7 +407,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             }
 
             int s = mList.size();
-            Toast.makeText(Main.this, getString(R.string.foundXHadis, s == SqliteHelper.get().getCount() ? 0 : s), Toast.LENGTH_LONG).show();
+            Toast.makeText(Main.this, getString(R.string.foundXHadis, (s == SqliteHelper.get().getCount()) ? 0 : s), Toast.LENGTH_LONG).show();
 
         }
 
@@ -417,7 +418,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
         @Override
         protected Boolean doInBackground(String... args) {
-            if (args[0].equals("")) {
+            if ("".equals(args[0])) {
                 return false;
             }
             List<Integer> q;

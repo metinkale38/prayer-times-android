@@ -74,12 +74,12 @@ public class WidgetConfigure extends Activity {
     }
 
     void result() {
-        WidgetProvider.updateWidgets(WidgetConfigure.this);
+        WidgetProvider.updateWidgets(this);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-        WidgetConfigure.this.setResult(RESULT_OK, resultValue);
-        WidgetConfigure.this.finish();
+        setResult(RESULT_OK, resultValue);
+        finish();
     }
 
 }

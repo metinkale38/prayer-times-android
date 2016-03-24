@@ -26,7 +26,7 @@ public class SilenterPrompt extends Activity {
         findViewById(R.id.cancel).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                SilenterPrompt.this.finish();
+                finish();
             }
         });
 
@@ -35,7 +35,7 @@ public class SilenterPrompt extends Activity {
             public void onClick(View v) {
                 widgets.edit().putInt("silenterWidget", np.getValue()).apply();
                 AlarmReceiver.silenter(v.getContext(), np.getValue());
-                SilenterPrompt.this.finish();
+                finish();
             }
         });
 

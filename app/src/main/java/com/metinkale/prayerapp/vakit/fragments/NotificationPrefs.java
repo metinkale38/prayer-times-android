@@ -33,9 +33,6 @@ public class NotificationPrefs extends Fragment {
         return frag;
     }
 
-    public NotificationPrefs() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.vakit_notprefs, container, false);
@@ -43,7 +40,7 @@ public class NotificationPrefs extends Fragment {
         mTimes = MainHelper.getTimes(getArguments().getLong("city", 0));
         Switch ongoing = (Switch) v.findViewById(R.id.ongoing);
         ExpandableListView list = (ExpandableListView) v.findViewById(R.id.expandableListView);
-        MyAdapter adapter = new MyAdapter();
+        ExpandableListAdapter adapter = new MyAdapter();
         list.setAdapter(adapter);
 
 
@@ -87,7 +84,7 @@ public class NotificationPrefs extends Fragment {
             final View container = v.findViewById(R.id.prefscontainer);
             final View contalt = v.findViewById(R.id.contalt);
             Switch s = (Switch) v.findViewById(R.id.active);
-            final TextView title = (TextView) v.findViewById(R.id.switchText);
+            TextView title = (TextView) v.findViewById(R.id.switchText);
             final PrefsView sound = (PrefsView) v.findViewById(R.id.sound);
             final PrefsView vibration = (PrefsView) v.findViewById(R.id.vibration);
             final PrefsView silenter = (PrefsView) v.findViewById(R.id.silenter);
@@ -99,7 +96,7 @@ public class NotificationPrefs extends Fragment {
                 public boolean onLongClick(View v) {
                     if (!BuildConfig.DEBUG) return false;
                     Times.Alarm a = new Times.Alarm();
-                    a.time = System.currentTimeMillis() + 5 * 1000;
+                    a.time = System.currentTimeMillis() + (5 * 1000);
                     a.sound = (String) sound.getValue();
                     a.dua = (String) dua.getValue();
                     a.silenter = (Integer) silenter.getValue();

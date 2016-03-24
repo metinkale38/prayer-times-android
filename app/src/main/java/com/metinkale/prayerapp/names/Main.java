@@ -27,7 +27,7 @@ public class Main extends BaseActivity implements OnQueryTextListener {
     private Item[] values;
 
     @SuppressLint("NewApi")
-    private static String normalize(String str) {
+    private static String normalize(CharSequence str) {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "");
         return string.toLowerCase(Locale.ENGLISH);

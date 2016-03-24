@@ -19,6 +19,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SpinnerAdapter;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -153,7 +154,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             itemList.add(zi.title);
         }
         Context c = new ContextThemeWrapper(this, R.style.ToolbarTheme);
-        ArrayAdapter<String> aAdpt = new ArrayAdapter<>(c, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
+        SpinnerAdapter aAdpt = new ArrayAdapter<>(c, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
         getSupportActionBar().setListNavigationCallbacks(aAdpt, this);
         getSupportActionBar().setSelectedNavigationItem(mZikrList.indexOf(z));
 
@@ -179,7 +180,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             }
 
         } else if (v == mReset) {
-            AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
+            AlertDialog dialog = new AlertDialog.Builder(this).create();
             dialog.setTitle(R.string.zikr);
             dialog.setMessage(getString(R.string.resetConfirmZikr, mCurrent.title));
             dialog.setCancelable(false);
@@ -231,7 +232,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 if (mZikrList.indexOf(mCurrent) == 0) {
                     return false;
                 }
-                AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
+                AlertDialog dialog = new AlertDialog.Builder(this).create();
                 dialog.setTitle(R.string.delete);
                 dialog.setMessage(getString(R.string.delConfirmZikr, mCurrent.title));
                 dialog.setCancelable(false);

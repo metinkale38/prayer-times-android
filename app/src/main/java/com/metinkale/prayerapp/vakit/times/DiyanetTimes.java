@@ -20,8 +20,8 @@ public class DiyanetTimes extends WebTimes {
     @Override
     protected boolean syncTimes() throws Exception {
         String path = getId();
-        if (path.equals("D_13_1008_0")) path = "D_13_10080_9206";
-        String a[] = path.split("_");
+        if ("D_13_1008_0".equals(path)) path = "D_13_10080_9206";
+        String[] a = path.split("_");
 
 
         int country = Integer.parseInt(a[1]);
@@ -51,7 +51,7 @@ public class DiyanetTimes extends WebTimes {
 
         int code = conn.getResponseCode();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader((code >= 200 && code < 400)?conn.getInputStream():conn.getErrorStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(((code >= 200) && (code < 400)) ? conn.getInputStream() : conn.getErrorStream()));
         StringBuilder total = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -62,34 +62,34 @@ public class DiyanetTimes extends WebTimes {
 
         line = line.substring(line.indexOf("<a:NamazVakti>") + 14);
         line = line.substring(0, line.indexOf("</AylikNamazVaktiResult>"));
-        String days[] = line.split("</a:NamazVakti><a:NamazVakti>");
+        String[] days = line.split("</a:NamazVakti><a:NamazVakti>");
         for (String day : days) {
-            String parts[] = day.split("><a:");
+            String[] parts = day.split("><a:");
 
-            String times[] = new String[6];
+            String[] times = new String[6];
             String date = null;
             for (String part : parts) {
                 String name = part.substring(0, part.indexOf(">"));
-                name = name.substring( name.indexOf(":")+1);
+                name = name.substring(name.indexOf(":") + 1);
                 String content = part.substring(part.indexOf(">") + 1);
                 content = content.substring(0, content.indexOf("<"));
-                if (name.equals("Imsak")) {
+                if ("Imsak".equals(name)) {
                     times[0] = content;
-                } else if (name.equals("Gunes")) {
+                } else if ("Gunes".equals(name)) {
                     times[1] = content;
-                } else if (name.equals("Ogle")) {
+                } else if ("Ogle".equals(name)) {
                     times[2] = content;
-                } else if (name.equals("Ikindi")) {
+                } else if ("Ikindi".equals(name)) {
                     times[3] = content;
-                } else if (name.equals("Aksam")) {
+                } else if ("Aksam".equals(name)) {
                     times[4] = content;
-                } else if (name.equals("Yatsi")) {
+                } else if ("Yatsi".equals(name)) {
                     times[5] = content;
-                } else if (name.equals("MiladiTarihKisa")) {
+                } else if ("MiladiTarihKisa".equals(name)) {
                     date = content;
                 }
             }
-            String d[] = date.split("\\.");
+            String[] d = date.split("\\.");
             setTimes(Integer.parseInt(d[0]), Integer.parseInt(d[1]), Integer.parseInt(d[2]), times);
         }
 

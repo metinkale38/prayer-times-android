@@ -20,7 +20,7 @@ public class Main extends BaseActivity {
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
 
-        int ids[] = new int[]{R.string.sabah, R.string.ogle, R.string.ikindi, R.string.aksam, R.string.yatsi, R.string.vitr};
+        int[] ids = {R.string.sabah, R.string.ogle, R.string.ikindi, R.string.aksam, R.string.yatsi, R.string.vitr};
         for (int i = 0; i < 6; i++) {
             View v = vg.getChildAt(i);
             TextView name = (TextView) v.findViewById(R.id.text);

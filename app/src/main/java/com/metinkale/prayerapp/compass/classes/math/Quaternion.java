@@ -63,7 +63,7 @@ public class Quaternion implements Serializable {
      * @param w The w-component
      */
     private Quaternion(float x, float y, float z, float w) {
-        this.set(x, y, z, w);
+        set(x, y, z, w);
     }
 
     public Quaternion() {
@@ -76,7 +76,7 @@ public class Quaternion implements Serializable {
      * @param quaternion The quaternion to copy.
      */
     private Quaternion(Quaternion quaternion) {
-        this.set(quaternion);
+        set(quaternion);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Quaternion implements Serializable {
      * @param angle The angle in degrees.
      */
     public Quaternion(Vector3 axis, float angle) {
-        this.set(axis, angle);
+        set(axis, angle);
     }
 
     /**
@@ -114,7 +114,7 @@ public class Quaternion implements Serializable {
      * @return This quaternion for chaining.
      */
     Quaternion set(Quaternion quaternion) {
-        return this.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+        return set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
     }
 
     /**
@@ -129,7 +129,7 @@ public class Quaternion implements Serializable {
         float l_ang = (float) Math.toRadians(angle);
         float l_sin = (float) Math.sin(l_ang / 2);
         float l_cos = (float) Math.cos(l_ang / 2);
-        return this.set(axis.x * l_sin, axis.y * l_sin, axis.z * l_sin, l_cos).nor();
+        return set(axis.x * l_sin, axis.y * l_sin, axis.z * l_sin, l_cos).nor();
     }
 
     public Quaternion cpy() {
@@ -137,7 +137,7 @@ public class Quaternion implements Serializable {
     }
 
     public float len() {
-        return (float) Math.sqrt(x * x + y * y + z * z + w * w);
+        return (float) Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
     }
 
     @Override
@@ -171,15 +171,15 @@ public class Quaternion implements Serializable {
         float f3 = num * num3;
         float f4 = num2 * num4;
 
-        x = f1 * num5 + f2 * num6;
-        y = f2 * num5 - f1 * num6;
-        z = f3 * num6 - f4 * num5;
-        w = f3 * num5 + f4 * num6;
+        x = (f1 * num5) + (f2 * num6);
+        y = (f2 * num5) - (f1 * num6);
+        z = (f3 * num6) - (f4 * num5);
+        w = (f3 * num5) + (f4 * num6);
         return this;
     }
 
     float len2() {
-        return x * x + y * y + z * z + w * w;
+        return (x * x) + (y * y) + (z * z) + (w * w);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Quaternion implements Serializable {
      */
     Quaternion nor() {
         float len = len2();
-        if (len != 0.f && Math.abs(len - 1.0f) > NORMALIZATION_TOLERANCE) {
+        if ((len != 0.f) && (Math.abs(len - 1.0f) > NORMALIZATION_TOLERANCE)) {
             len = (float) Math.sqrt(len);
             w /= len;
             x /= len;
@@ -233,10 +233,10 @@ public class Quaternion implements Serializable {
      * @return This quaternion for chaining
      */
     public Quaternion mul(Quaternion q) {
-        float newX = w * q.x + x * q.w + y * q.z - z * q.y;
-        float newY = w * q.y + y * q.w + z * q.x - x * q.z;
-        float newZ = w * q.z + z * q.w + x * q.y - y * q.x;
-        float newW = w * q.w - x * q.x - y * q.y - z * q.z;
+        float newX = ((w * q.x) + (x * q.w) + (y * q.z)) - (z * q.y);
+        float newY = ((w * q.y) + (y * q.w) + (z * q.x)) - (x * q.z);
+        float newZ = ((w * q.z) + (z * q.w) + (x * q.y)) - (y * q.x);
+        float newW = (w * q.w) - (x * q.x) - (y * q.y) - (z * q.z);
         x = newX;
         y = newY;
         z = newZ;
@@ -251,10 +251,10 @@ public class Quaternion implements Serializable {
      * @return This quaternion for chaining
      */
     Quaternion mulLeft(Quaternion q) {
-        float newX = q.w * x + q.x * w + q.y * z - q.z * y;
-        float newY = q.w * y + q.y * w + q.z * x - q.x * z;
-        float newZ = q.w * z + q.z * w + q.x * y - q.y * x;
-        float newW = q.w * w - q.x * x - q.y * y - q.z * z;
+        float newX = ((q.w * x) + (q.x * w) + (q.y * z)) - (q.z * y);
+        float newY = ((q.w * y) + (q.y * w) + (q.z * x)) - (q.x * z);
+        float newZ = ((q.w * z) + (q.z * w) + (q.x * y)) - (q.y * x);
+        float newW = (q.w * w) - (q.x * x) - (q.y * y) - (q.z * z);
         x = newX;
         y = newY;
         z = newZ;
@@ -279,17 +279,17 @@ public class Quaternion implements Serializable {
         float zz = z * z;
         float zw = z * w;
         // Set matrix from quaternion
-        matrix[Matrix4.M00] = 1 - 2 * (yy + zz);
+        matrix[Matrix4.M00] = 1 - (2 * (yy + zz));
         matrix[Matrix4.M01] = 2 * (xy - zw);
         matrix[Matrix4.M02] = 2 * (xz + yw);
         matrix[Matrix4.M03] = 0;
         matrix[Matrix4.M10] = 2 * (xy + zw);
-        matrix[Matrix4.M11] = 1 - 2 * (xx + zz);
+        matrix[Matrix4.M11] = 1 - (2 * (xx + zz));
         matrix[Matrix4.M12] = 2 * (yz - xw);
         matrix[Matrix4.M13] = 0;
         matrix[Matrix4.M20] = 2 * (xz - yw);
         matrix[Matrix4.M21] = 2 * (yz + xw);
-        matrix[Matrix4.M22] = 1 - 2 * (xx + yy);
+        matrix[Matrix4.M22] = 1 - (2 * (xx + yy));
         matrix[Matrix4.M23] = 0;
         matrix[Matrix4.M30] = 0;
         matrix[Matrix4.M31] = 0;
@@ -303,7 +303,7 @@ public class Quaternion implements Serializable {
      * @return this quaternion for chaining
      */
     Quaternion idt() {
-        this.set(0, 0, 0, 1);
+        set(0, 0, 0, 1);
         return this;
     }
 
@@ -333,7 +333,7 @@ public class Quaternion implements Serializable {
         float l_ang = angle * MathUtils.degreesToRadians;
         float l_sin = MathUtils.sin(l_ang / 2);
         float l_cos = MathUtils.cos(l_ang / 2);
-        return this.set(x * l_sin, y * l_sin, z * l_sin, l_cos).nor();
+        return set(x * l_sin, y * l_sin, z * l_sin, l_cos).nor();
     }
 
     // fromRotationMatrix(xAxis.x, yAxis.x, zAxis.x, xAxis.y, yAxis.y, zAxis.y,
@@ -372,10 +372,10 @@ public class Quaternion implements Serializable {
     Quaternion setFromAxes(float xx, float xy, float xz, float yx, float yy, float yz, float zx, float zy, float zz) {
         // the trace is the sum of the diagonal elements; see
         // http://mathworld.wolfram.com/MatrixTrace.html
-        final float m00 = xx, m01 = xy, m02 = xz;
-        final float m10 = yx, m11 = yy, m12 = yz;
-        final float m20 = zx, m21 = zy, m22 = zz;
-        final float t = m00 + m11 + m22;
+        float m00 = xx, m01 = xy, m02 = xz;
+        float m10 = yx, m11 = yy, m12 = yz;
+        float m20 = zx, m21 = zy, m22 = zz;
+        float t = m00 + m11 + m22;
 
         // we protect the division by s by ensuring that s>=1
         double x, y, z, w;
@@ -386,22 +386,22 @@ public class Quaternion implements Serializable {
             x = (m21 - m12) * s;
             y = (m02 - m20) * s;
             z = (m10 - m01) * s;
-        } else if (m00 > m11 && m00 > m22) {
-            double s = Math.sqrt(1.0 + m00 - m11 - m22); // |s|>=1
+        } else if ((m00 > m11) && (m00 > m22)) {
+            double s = Math.sqrt((1.0 + m00) - m11 - m22); // |s|>=1
             x = s * 0.5; // |x| >= .5
             s = 0.5 / s;
             y = (m10 + m01) * s;
             z = (m02 + m20) * s;
             w = (m21 - m12) * s;
         } else if (m11 > m22) {
-            double s = Math.sqrt(1.0 + m11 - m00 - m22); // |s|>=1
+            double s = Math.sqrt((1.0 + m11) - m00 - m22); // |s|>=1
             y = s * 0.5; // |y| >= .5
             s = 0.5 / s;
             x = (m10 + m01) * s;
             z = (m21 + m12) * s;
             w = (m02 - m20) * s;
         } else {
-            double s = Math.sqrt(1.0 + m22 - m00 - m11); // |s|>=1
+            double s = Math.sqrt((1.0 + m22) - m00 - m11); // |s|>=1
             z = s * 0.5; // |z| >= .5
             s = 0.5 / s;
             x = (m02 + m20) * s;
@@ -419,8 +419,8 @@ public class Quaternion implements Serializable {
      * @param v2 The target vector
      * @return This quaternion for chaining
      */
-    public Quaternion setFromCross(final Vector3 v1, final Vector3 v2) {
-        final float dot = MathUtils.clamp(Vector3.tmp.set(v1).nor().dot(Vector3.tmp2.set(v2).nor()), -1f, 1f);
+    public Quaternion setFromCross(Vector3 v1, Vector3 v2) {
+        float dot = MathUtils.clamp(Vector3.tmp.set(v1).nor().dot(Vector3.tmp2.set(v2).nor()), -1f, 1f);
         return setFromAxis(Vector3.tmp.crs(Vector3.tmp2), (float) Math.acos(dot));
     }
 
@@ -435,8 +435,8 @@ public class Quaternion implements Serializable {
      * @param z2 The target vector z value
      * @return This quaternion for chaining
      */
-    public Quaternion setFromCross(final float x1, final float y1, final float z1, final float x2, final float y2, final float z2) {
-        final float dot = MathUtils.clamp(Vector3.tmp.set(x1, y1, z1).nor().dot(Vector3.tmp2.set(x2, y2, z2).nor()), -1f, 1f);
+    public Quaternion setFromCross(float x1, float y1, float z1, float x2, float y2, float z2) {
+        float dot = MathUtils.clamp(Vector3.tmp.set(x1, y1, z1).nor().dot(Vector3.tmp2.set(x2, y2, z2).nor()), -1f, 1f);
         return setFromAxis(Vector3.tmp.crs(Vector3.tmp2), (float) Math.acos(dot));
     }
 
@@ -468,10 +468,10 @@ public class Quaternion implements Serializable {
 
         // Check if the angle between the 2 quaternions was big enough to
         // warrant such calculations
-        if (1 - result > 0.1) {// Get the angle between the 2 quaternions,
+        if ((1 - result) > 0.1) {// Get the angle between the 2 quaternions,
             // and then store the sin() of that angle
-            final double theta = Math.acos(result);
-            final double invSinTheta = 1f / Math.sin(theta);
+            double theta = Math.acos(result);
+            double invSinTheta = 1f / Math.sin(theta);
 
             // Calculate the scale for q1 and q2, according to the angle and
             // it's sine value
@@ -481,10 +481,10 @@ public class Quaternion implements Serializable {
 
         // Calculate the x, y, z and w values for the quaternion by using a
         // special form of linear interpolation for quaternions.
-        final float x = scale0 * this.x + scale1 * end.x;
-        final float y = scale0 * this.y + scale1 * end.y;
-        final float z = scale0 * this.z + scale1 * end.z;
-        final float w = scale0 * this.w + scale1 * end.w;
+        float x = (scale0 * this.x) + (scale1 * end.x);
+        float y = (scale0 * this.y) + (scale1 * end.y);
+        float z = (scale0 * this.z) + (scale1 * end.z);
+        float w = (scale0 * this.w) + (scale1 * end.w);
         set(x, y, z, w);
 
         // Return the interpolated quaternion
@@ -492,15 +492,15 @@ public class Quaternion implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
         if (!(o instanceof Quaternion)) {
             return false;
         }
-        final Quaternion comp = (Quaternion) o;
-        return x == comp.x && y == comp.y && z == comp.z && w == comp.w;
+        Quaternion comp = (Quaternion) o;
+        return (x == comp.x) && (y == comp.y) && (z == comp.z) && (w == comp.w);
 
     }
 
@@ -511,7 +511,7 @@ public class Quaternion implements Serializable {
      * @return this quaternion for chaining.
      */
     float dot(Quaternion other) {
-        return x * other.x + y * other.y + z * other.z + w * other.w;
+        return (x * other.x) + (y * other.y) + (z * other.z) + (w * other.w);
     }
 
     /**

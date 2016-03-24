@@ -17,11 +17,11 @@ public class MagAccelListener implements SensorEventListener {
     // smoothing factor - tune to taste
     private final float mFilterFactor = 0.05f;
     // smoothed accelerometer values
-    public float[] mAccelVals = new float[]{0f, 0f, 9.8f};
+    public float[] mAccelVals = {0f, 0f, 9.8f};
     // smoothed magnetometer values
-    public float[] mMagVals = new float[]{0.5f, 0f, 0f};
+    public float[] mMagVals = {0.5f, 0f, 0f};
     private float[] mRotationM = new float[16];
-    private boolean mIsReady = false;
+    private boolean mIsReady;
     private RotationUpdateDelegate mRotationUpdateDelegate;
 
     public MagAccelListener(RotationUpdateDelegate rotationUpdateDelegate) {
@@ -53,11 +53,11 @@ public class MagAccelListener implements SensorEventListener {
         mRotationUpdateDelegate.onRotationUpdate(mRotationM);
     }
 
-    private void smooth(float[] inv, float prevv[], float outv[]) {
+    private void smooth(float[] inv, float[] prevv, float[] outv) {
         float filterFactorInv = 1.0f - mFilterFactor;
-        outv[0] = inv[0] * mFilterFactor + prevv[0] * filterFactorInv;
-        outv[1] = inv[1] * mFilterFactor + prevv[1] * filterFactorInv;
-        outv[2] = inv[2] * mFilterFactor + prevv[2] * filterFactorInv;
+        outv[0] = (inv[0] * mFilterFactor) + (prevv[0] * filterFactorInv);
+        outv[1] = (inv[1] * mFilterFactor) + (prevv[1] * filterFactorInv);
+        outv[2] = (inv[2] * mFilterFactor) + (prevv[2] * filterFactorInv);
     }
 
     @Override

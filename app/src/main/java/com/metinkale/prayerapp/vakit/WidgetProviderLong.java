@@ -29,7 +29,7 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.Calendar;
 
 public class WidgetProviderLong extends AppWidgetProvider {
-  private static float mDP;
+    private static float mDP;
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
@@ -50,17 +50,17 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         float scaleX = (float) w / (float) 20;
         float scaleY = (float) h / (float) 5;
-        float scale =  Math.min(scaleY, scaleX);
+        float scale = Math.min(scaleY, scaleX);
 
         w = (int) (20 * scale);
         h = (int) (5 * scale);
 
-        if (w <= 0 || h <= 0) {
+        if ((w <= 0) || (h <= 0)) {
             if (!widgets.contains(widgetId + "_width") && !widgets.contains(widgetId + "_height")) return;
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
-            edit.commit();
+            edit.apply();
             updateAppWidget(context, appWidgetManager, widgetId);
             return;
         }
@@ -126,12 +126,12 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         paint.setColor(theme.hovercolor);
         if (next != 0) {
-            canvas.drawRect(w * (next - 1) / 6, h * 3 / 9, w * next / 6, h, paint);
+            canvas.drawRect((w * (next - 1)) / 6, (h * 3) / 9, (w * next) / 6, h, paint);
         }
         float s = paint.getStrokeWidth();
-        float dip = Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH ? 2f : 3f;
+        float dip = (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) ? 2f : 3f;
         paint.setStrokeWidth(dip * mDP);
-        canvas.drawLine(0, h * 3 / 9, w, h * 3 / 9, paint);
+        canvas.drawLine(0, (h * 3) / 9, w, (h * 3) / 9, paint);
         // canvas.drawRect(0, 0, w, h * 3 / 9, paint);
         paint.setStrokeWidth(s);
 
@@ -146,38 +146,38 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         paint.setTextSize(h / 5);
         paint.setTextAlign(Align.CENTER);
-        int y = h * 6 / 7;
+        int y = (h * 6) / 7;
         if (Prefs.use12H()) y += h / 14;
 
         boolean fits = true;
-        String[] vakits = new String[]{Vakit.getByIndex(0).getString(), Vakit.GUNES.getString(), Vakit.OGLE.getString(), Vakit.IKINDI.getString(), Vakit.AKSAM.getString(), Vakit.YATSI.getString()};
+        String[] vakits = {Vakit.getByIndex(0).getString(), Vakit.GUNES.getString(), Vakit.OGLE.getString(), Vakit.IKINDI.getString(), Vakit.AKSAM.getString(), Vakit.YATSI.getString()};
         do {
             if (!fits) paint.setTextSize((float) (paint.getTextSize() * 0.95));
             fits = true;
             for (String v : vakits) {
-                if (paint.measureText(v) > w / 6 && w > 5) fits = false;
+                if ((paint.measureText(v) > (w / 6)) && (w > 5)) fits = false;
             }
         } while (!fits);
 
         for (int i = 0; i < vakits.length; i++) {
-            canvas.drawText(vakits[i], w * (1 + 2 * i) / 12, y, paint);
+            canvas.drawText(vakits[i], (w * (1 + (2 * i))) / 12, y, paint);
         }
 
 
-        paint.setTextSize(h * 2 / 9);
+        paint.setTextSize((h * 2) / 9);
         if (!Prefs.use12H()) {
             for (int i = 0; i < daytimes.length; i++) {
-                canvas.drawText(daytimes[i], w * (1 + 2 * i) / 12, h * 3 / 5, paint);
+                canvas.drawText(daytimes[i], (w * (1 + (2 * i))) / 12, (h * 3) / 5, paint);
             }
         } else {
             for (int i = 0; i < daytimes.length; i++) {
                 String time = Utils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
-                paint.setTextSize(h * 2 / 9);
-                canvas.drawText(time, w * (1 + 2 * i) / 12, h * 6 / 10, paint);
+                paint.setTextSize((h * 2) / 9);
+                canvas.drawText(time, (w * (1 + (2 * i))) / 12, (h * 6) / 10, paint);
                 paint.setTextSize(h / 9);
-                canvas.drawText(suffix, w * (1 + 2 * i) / 12, h * 7 / 10, paint);
+                canvas.drawText(suffix, (w * (1 + (2 * i))) / 12, (h * 7) / 10, paint);
             }
         }
 
@@ -225,7 +225,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if ((w * h) != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

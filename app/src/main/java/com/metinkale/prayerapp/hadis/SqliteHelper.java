@@ -12,6 +12,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import java.io.File;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +29,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         mInstance = this;
     }
 
-    private static String normalize(String str) {
+    private static String normalize(CharSequence str) {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "_");
         return string.toLowerCase(Locale.ENGLISH);
@@ -77,7 +78,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Integer> get(String cat) {
+    public Collection<Integer> get(String cat) {
         openDatabase();
         List<Integer> list = new ArrayList<>();
         try {

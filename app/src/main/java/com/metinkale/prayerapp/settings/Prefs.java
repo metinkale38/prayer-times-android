@@ -46,7 +46,7 @@ public class Prefs {
         mUseArabic = prefs.getBoolean("arabicNames", false);
         mUse12H = prefs.getBoolean("use12h", false);
         mLastCalIntegration = prefs.getInt("lastCalIntegration", 0);
-        mWidgetMinute = prefs.getString("widget_countdown", "default").equals("default");
+        mWidgetMinute = "default".equals(prefs.getString("widget_countdown", "default"));
         mHijriFix = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString("hijri_fix", "0").replace("+", ""));
         mChangelogVersion = prefs.getInt("changelog_version", -1);
         mTesbihatTextSize = prefs.getInt("tesbihatTextSize", 0);
@@ -61,12 +61,12 @@ public class Prefs {
         String calIntegration = "-1";
         try {
             calIntegration = prefs.getString("calendarIntegration", "-1");
-            calIntegration.equals("-1");
+            "-1".equals(calIntegration);
         } catch (Exception e) {
             Crashlytics.logException(e);
 
             //catch Exception if calendarIntegration is an INT
-            mEditor.remove("calendarIntegration").commit();//revert
+            mEditor.remove("calendarIntegration").apply();//revert
             mEditor = prefs.edit();
 
             calIntegration = "-1";

@@ -23,6 +23,7 @@
             android:required="false"/>
 
     <application
+            android:fullBackupContent="true"
             android:name="com.metinkale.prayerapp.App"
             android:allowBackup="true"
             android:hardwareAccelerated="true"

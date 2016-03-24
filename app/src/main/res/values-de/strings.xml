@@ -74,8 +74,8 @@
     <string name="zikr">Dhikr</string>
     <string name="new_zikr">Neues Dhikr</string>
     <string name="tesbih">Tesbih</string>
-    <string name="delConfirmZikr">Willst du \"%1$s\" wirklich löschen?</string>
-    <string name="resetConfirmZikr">Willst du \"%1$s\" wirklich zurücksetzen?</string>
+    <string name="delConfirmZikr">Willst du \“%1$s\” wirklich löschen?</string>
+    <string name="resetConfirmZikr">Willst du \“%1$s\” wirklich zurücksetzen?</string>
     <string name="zikr_count">Dhikr Ziel</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
@@ -93,7 +93,7 @@
     <string name="backupRestore">Backup/Restore</string>
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="restore">Wiederherstellen</string>
-    <string name="dlSound">"%1$s" (%2$s) runterladen?</string>
+    <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
     <string name="dlHadith">Hadithe runterladen?</string>
     <string name="fixTimezone">Zeitzone +/-:</string>
     <string name="shareTimes">Gebetszeiten von heute für %1$s</string>
@@ -125,4 +125,9 @@
     <string name="permission_storage_title">Speicher Berechtigung</string>
     <string name="permission_storage_text">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Sachen
         nicht funktionieren...</string>
+    <string name="dateandtime">Datum und Uhrzeit</string>
+    <string name="other">Andere</string>
+    <string name="tryvibration">Play</string>
+    <string name="vibration_pattern">Vibrationsmuster</string>
+    <string name="vibration_description">Milisekunden - warten vibration warten...</string>
 </resources>

@@ -45,13 +45,13 @@ public class Cities extends SQLiteAssetHelper {
 
     private Handler mHandler = new Handler();
 
-     static synchronized Cities get() {
+    static synchronized Cities get() {
         if (mInstance == null) mInstance = new Cities(App.getContext());
 
         return mInstance;
     }
 
-    public static abstract class Callback {
+    public abstract static class Callback {
         public abstract void onResult(List result);
     }
 
@@ -119,7 +119,7 @@ public class Cities extends SQLiteAssetHelper {
 
     private Cities(Context context) {
         super(context, Cities.DATABASE_NAME, null, Cities.DATABASE_VERSION);
-        this.setForcedUpgrade(Cities.DATABASE_VERSION);
+        setForcedUpgrade(Cities.DATABASE_VERSION);
     }
 
     private synchronized SQLiteDatabase openDatabase() {
@@ -189,7 +189,7 @@ public class Cities extends SQLiteAssetHelper {
                     double _lat = c.getDouble(c.getColumnIndex("lat"));
                     double _lng = c.getDouble(c.getColumnIndex("lng"));
 
-                    String name = _city == null || _city.equals("") ? _state : _city;
+                    String name = ((_city == null) || "".equals(_city)) ? _state : _city;
                     String id = source.substring(0, 1) + "_" + _countryId + "_" + _stateId + "_" + _cityId;
                     resp.add(name + ";" + id + ";" + _lat + ";" + _lng);
                 } while (c.moveToNext());
@@ -205,7 +205,7 @@ public class Cities extends SQLiteAssetHelper {
     }
 
 
-     List<Cities.Item> search(String q) {
+    List<Cities.Item> search(String q) {
         q = q.trim();
         String lang = Prefs.getLanguage();
         Response resp = null;
@@ -214,9 +214,9 @@ public class Cities extends SQLiteAssetHelper {
         } catch (Exception e) {
         }
 
-        if (resp == null || resp.address == null) {
+        if ((resp == null) || (resp.address == null)) {
             try {
-                return this.search2(0, 0, q, q, q);
+                return search2(0, 0, q, q, q);
             } catch (IOException e) {
                 Crashlytics.setDouble("lat", 0);
                 Crashlytics.setDouble("lng", 0);
@@ -227,7 +227,6 @@ public class Cities extends SQLiteAssetHelper {
             }
 
         }
-        ;
         double lat = resp.lat;
         double lng = resp.lon;
         String country = resp.address.country;
@@ -240,7 +239,7 @@ public class Cities extends SQLiteAssetHelper {
             city = resp.address.state;
         }
         try {
-            return this.search2(lat, lng, country, city, q);
+            return search2(lat, lng, country, city, q);
         } catch (IOException e) {
             Crashlytics.setDouble("lat", lat);
             Crashlytics.setDouble("lng", lng);
@@ -272,25 +271,25 @@ public class Cities extends SQLiteAssetHelper {
 
             for (String source : sources) {
                 String table = null;
-                if (source.equals("NVC")) {
+                if ("NVC".equals(source)) {
                     table = "NAMAZVAKTICOM";
-                } else if (source.equals("Fazilet")) {
+                } else if ("Fazilet".equals(source)) {
                     table = "FAZILET";
-                } else if (source.equals("Diyanet")) {
+                } else if ("Diyanet".equals(source)) {
                     table = "DIYANET";
-                } else if (source.equals("IGMG")) {
+                } else if ("IGMG".equals(source)) {
                     table = "IGMG";
-                } else if (source.equals("Semerkand")) {
+                } else if ("Semerkand".equals(source)) {
                     table = "SEMERKAND";
                 }
 
                 String query;
 
                 Cursor c = null;
-                if (source.equals("NVC")) {
+                if ("NVC".equals(source)) {
                     c = db.query(table, null, "name like '%" + q + "%'", null, null, null, "abs(lat - " + lat + ") + abs(lng - " + lng + ")", "1");
                 } else {
-                    boolean diy = source.equals("Diyanet") || source.equals("Semerkand");
+                    boolean diy = "Diyanet".equals(source) || "Semerkand".equals(source);
                     c = db.query(table, null, "city like '%" + q + "%'" + (diy ? " or state like '%" + q + "%' " : ""), null, null, null, "abs(lat - " + lat + ") + abs(lng - " + lng + ")", "1");
                 }
 
@@ -306,27 +305,27 @@ public class Cities extends SQLiteAssetHelper {
                 }
                 String id = "";
                 Cities.Item item = new Cities.Item();
-                if (source.equals("NVC")) {
+                if ("NVC".equals(source)) {
                     item.source = Source.NVC;
                     item.city = c.getString(c.getColumnIndex("name"));
                     item.id = c.getString(c.getColumnIndex("id"));
 
-                    if (item.city == null || item.city.equals("")) {
+                    if ((item.city == null) || "".equals(item.city)) {
                         item.city = NVCTimes.getName(item.id);
                     }
 
-                } else if (source.equals("IGMG")) {
+                } else if ("IGMG".equals(source)) {
                     item.source = Source.IGMG;
                     item.country = c.getString(c.getColumnIndex("country"));
                     item.city = c.getString(c.getColumnIndex("state"));
                     id = "I_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_0";
                     item.id = id.replace("-1", "nix");
-                } else if (source.equals("Fazilet")) {
+                } else if ("Fazilet".equals(source)) {
                     item.source = Source.Fazilet;
                     item.country = c.getString(c.getColumnIndex("country"));
                     item.city = c.getString(c.getColumnIndex("city"));
                     item.id = "F_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_" + c.getString(c.getColumnIndex("cityId"));
-                } else if (source.equals("Diyanet")) {
+                } else if ("Diyanet".equals(source)) {
                     item.source = Source.Diyanet;
                     if (c.getInt(c.getColumnIndex("cityId")) == 0) {
                         item.country = c.getString(c.getColumnIndex("country"));
@@ -338,7 +337,7 @@ public class Cities extends SQLiteAssetHelper {
                         item.id = "D_" + c.getString(c.getColumnIndex("countryId")) + "_" + c.getString(c.getColumnIndex("stateId")) + "_" + c.getString(c.getColumnIndex("cityId"));
 
                     }
-                } else if (source.equals("Semerkand")) {
+                } else if ("Semerkand".equals(source)) {
                     item.source = Source.Semerkand;
                     if (c.getInt(c.getColumnIndex("cityId")) == 0) {
                         item.country = c.getString(c.getColumnIndex("country"));
@@ -355,14 +354,14 @@ public class Cities extends SQLiteAssetHelper {
                 item.lng = c.getDouble(c.getColumnIndex("lng"));
                 c.close();
 
-                if (lat != 0 || lng != 0 || item.lat != 0 || item.lng != 0) items.add(item);
+                if ((lat != 0) || (lng != 0) || (item.lat != 0) || (item.lng != 0)) items.add(item);
 
             }
 
         } catch (SQLiteException e) {
             //Crashlytics.logException(e);
             mInstance = null;
-            this.setForcedUpgrade();
+            setForcedUpgrade();
         } finally {
             closeDatabase();
         }

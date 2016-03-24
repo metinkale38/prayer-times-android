@@ -31,7 +31,7 @@ import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {
 
-    public static boolean isRunning = false;
+    public static boolean isRunning;
     public MyAdapter mAdapter;
     public FloatingActionButton mAddCityFab;
     private LockableViewPager mPager;
@@ -162,13 +162,13 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mAddCityFab != null) if (position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
+        if (mAddCityFab != null) if ((position == 0) && (positionOffset == 0)) mAddCityFab.showFloatingActionButton();
         else mAddCityFab.hideFloatingActionButton();
 
 
     }
 
-    public void setFooterText(String txt, boolean enablePane) {
+    public void setFooterText(CharSequence txt, boolean enablePane) {
         mFooterText.setText(txt);
         mPaneView.setEnabled(enablePane);
         mPager.setSwipeLocked(!enablePane);
@@ -178,7 +178,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     @Override
     public void onPageSelected(int pos) {
         mPaneView.setEnabled(pos != 0);
-        mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
+        mFooterText.setText((pos == 0) ? R.string.cities : R.string.imsakiye);
     }
 
     public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener, MainHelper.MainHelperListener {
@@ -192,7 +192,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             MainHelper.drop(from, to);
         }
 
-        public void remove(final int which) {
+        public void remove(int which) {
             final Times times = MainHelper.getTimesAt(which);
 
             AlertDialog dialog = new AlertDialog.Builder(Main.this).create();

@@ -44,9 +44,6 @@ public class Main extends BaseActivity {
         public static final String YEAR = "year";
         private int year;
 
-        public YearFragment() {
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -66,11 +63,11 @@ public class Main extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
             String asset = Date.getAssetForHolyday(year, pos, false);
-            if (asset != null && !Prefs.getLanguage().equals("en")) {
+            if ((asset != null) && !"en".equals(Prefs.getLanguage())) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);
-                this.startActivity(i);
+                startActivity(i);
             }
         }
     }

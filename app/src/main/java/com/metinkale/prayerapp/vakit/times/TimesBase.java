@@ -126,7 +126,7 @@ public class TimesBase extends MainHelper._TimesBase {
 
     public String getDua(Vakit v) {
         String dua = getString(v.name() + "_dua", "silent");
-        if (dua.equals("1"))
+        if ("1".equals(dua))
             return PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString("dua_source", "dua");
 
         return dua;

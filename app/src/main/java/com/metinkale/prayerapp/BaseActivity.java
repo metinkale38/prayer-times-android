@@ -26,26 +26,29 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.settings.Settings;
+import com.metinkale.prayerapp.tesbihat.Tesbihat;
+import com.metinkale.prayerapp.vakit.Main;
 
 import java.io.File;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     public static BaseActivity CurrectAct;
-    private int mNavPos = 0;
+    private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private View mNavBar;
 
     public BaseActivity() {
-        String clz = this.getClass().toString();
-        String pos[] = new String[]{"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
+        String clz = getClass().toString();
+        String[] pos = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
         for (int i = 0; i < pos.length; i++) {
             if (clz.contains("prayerapp." + pos[i])) {
                 mNavPos = i;
 
-                ContentViewEvent event=new ContentViewEvent();
+                ContentViewEvent event = new ContentViewEvent();
                 event.putContentId(clz);
                 event.putContentName(pos[i]);
                 Crashlytics.getInstance().answers.logContentView(event);
@@ -63,33 +66,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
             int id = R.mipmap.ic_launcher;
             switch (mNavPos) {
-                case 1: {
+                case 1:
                     id = R.mipmap.ic_compass;
                     break;
-                }
-                case 2: {
+                case 2:
                     id = R.mipmap.ic_names;
                     break;
-                }
-                case 3: {
+                case 3:
                     id = R.mipmap.ic_calendar;
                     break;
-                }
-                case 4: {
+                case 4:
                     id = R.mipmap.ic_tesbihat;
                     break;
-                }
-                case 7: {
+                case 7:
                     id = R.mipmap.ic_zikr;
                     break;
-                }
             }
 
             Intent.ShortcutIconResource icon = Intent.ShortcutIconResource.fromContext(this, id);
 
 
             Intent intent = new Intent();
-            Intent launchIntent = new Intent(this, this.getClass());
+            Intent launchIntent = new Intent(this, getClass());
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             launchIntent.putExtra("duplicate", false);
@@ -122,7 +120,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mNavBar = findViewById(R.id.navbar);
         setNavBarColor(0xff000000);
-        if (setNavBar() && getBottomMargin() != 0) {
+        if (setNavBar() && (getBottomMargin() != 0)) {
             mNavBar.setVisibility(View.VISIBLE);
             mNavBar.getLayoutParams().height = getBottomMargin();
         } else {
@@ -144,7 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public View getView(int pos, View v, ViewGroup p) {
                 v = super.getView(pos, v, p);
-                if (pos == mNavPos && v instanceof TextView) {
+                if ((pos == mNavPos) && (v instanceof TextView)) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 }
                 return v;
@@ -218,27 +216,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             Intent i = null;
             switch (pos) {
-                case 0: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
+                case 0:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 1: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.compass.Main.class);
+                case 1:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 2: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.names.Main.class);
+                case 2:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 3: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.calendar.Main.class);
+                case 3:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 4: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.tesbihat.Tesbihat.class);
+                case 4:
+                    i = new Intent(BaseActivity.this, Tesbihat.class);
                     break;
-                }
-                case 5: {
+                case 5:
                     String file = Prefs.getLanguage() + "/hadis.db";
                     File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
@@ -253,7 +246,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             f.delete();
                             onItemClick(null, null, 5, 0);
                         }
-                        i = new Intent(BaseActivity.this, com.metinkale.prayerapp.hadis.Main.class);
+                        i = new Intent(BaseActivity.this, Main.class);
                     } else {
                         f.delete();
                         AlertDialog dialog = new AlertDialog.Builder(BaseActivity.this).create();
@@ -283,21 +276,17 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
 
                     break;
-                }
-                case 6: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.kaza.Main.class);
+                case 6:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 7: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.zikr.Main.class);
+                case 7:
+                    i = new Intent(BaseActivity.this, Main.class);
                     break;
-                }
-                case 8: {
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.settings.Settings.class);
+                case 8:
+                    i = new Intent(BaseActivity.this, Settings.class);
                     break;
-                }
                 default:
-                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
+                    i = new Intent(BaseActivity.this, Main.class);
             }
 
             i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -372,7 +361,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         PermissionUtils.get(this).onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 }

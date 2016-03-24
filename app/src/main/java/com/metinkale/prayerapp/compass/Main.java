@@ -33,8 +33,8 @@ import java.util.List;
 
 public class Main extends BaseActivity implements LocationListener, RotationUpdateDelegate {
 
-    static private double mQAngle;
-    static private float mDist;
+    private static double mQAngle;
+    private static float mDist;
     public MagAccelListener mMagAccel;
     private Matrix4 mRotationMatrix = new Matrix4();
     private int mDisplayRotation;
@@ -65,7 +65,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
 
-        final Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         mDisplayRotation = display.getRotation();
 
         // sensor listeners
@@ -248,7 +248,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     @Override
     public void onLocationChanged(Location location) {
         calcQiblaAngel(location);
-        if (System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24)) {
+        if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
@@ -282,7 +282,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     private double getDirectionRad(double lat1, double lat2, double dLng) {
-        return Math.atan2(Math.sin(dLng), Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng));
+        return Math.atan2(Math.sin(dLng), (Math.cos(lat1) * Math.tan(lat2)) - (Math.sin(lat1) * Math.cos(dLng)));
     }
 
     @Override

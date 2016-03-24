@@ -35,7 +35,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.vakit_addcity);
+        setContentView(R.layout.vakit_addcity);
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
@@ -49,7 +49,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
             @Override
             public void onClick(View v) {
-                AddCity.this.finish();
+                finish();
                 startActivity(new Intent(AddCity.this, AddCityLegacy.class));
 
             }
@@ -69,14 +69,14 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     public void checkLocation() {
         if (PermissionUtils.get(this).pLocation) {
-            LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             Location loc = null;
             List<String> providers = lm.getProviders(true);
             for (String provider : providers) {
                 Location last = lm.getLastKnownLocation(provider);
                 // one hour==1meter in accuracy
-                if (last != null && (loc == null || last.getAccuracy() - last.getTime() / (1000 * 60 * 60) < loc.getAccuracy() - loc.getTime() / (1000 * 60 * 60))) {
+                if ((last != null) && ((loc == null) || ((last.getAccuracy() - (last.getTime() / (1000 * 60 * 60))) < (loc.getAccuracy() - (loc.getTime() / (1000 * 60 * 60)))))) {
                     loc = last;
                 }
             }
@@ -111,7 +111,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        final Cities.Item i = mAdapter.getItem(pos);
+        Cities.Item i = mAdapter.getItem(pos);
         switch (i.source) {
             case Calc:
                 Bundle bdl = new Bundle();
@@ -134,8 +134,8 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(final String query) {
-        if (query.contains(";") && mAdapter.getCount() <= 1) {
+    public boolean onQueryTextSubmit(String query) {
+        if (query.contains(";") && (mAdapter.getCount() <= 1)) {
             mAdapter.clear();
             Item item = new Item();
             item.city = "GPS";
@@ -151,7 +151,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             @Override
             public void onResult(List result) {
                 List<Item> items = result;
-                if (items != null && !items.isEmpty()) {
+                if ((items != null) && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
                 }
@@ -171,7 +171,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public boolean setNavBar() {
-        this.setNavBarColor(0xffeeeeee);
+        setNavBarColor(0xffeeeeee);
         return true;
     }
 

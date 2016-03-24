@@ -77,8 +77,8 @@ public class NVCTimes extends WebTimes {
                 if (day.length() == 1) day = "0" + day;
                 if (month.length() == 1) month = "0" + month;
                 String date;
-                if (doy.equals("0")) date = day + "." + month + "." + (y - 1);
-                else if (doy.equals("366") || doy.equals("367") && month.equals("01"))
+                if ("0".equals(doy)) date = day + "." + month + "." + (y - 1);
+                else if ("366".equals(doy) || ("367".equals(doy) && "01".equals(month)))
                     date = day + "." + month + "." + (y + 1);
                 else date = day + "." + month + "." + y;
                 String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));

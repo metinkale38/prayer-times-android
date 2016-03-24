@@ -23,6 +23,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.custom.MD5;
+import com.metinkale.prayerapp.custom.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -40,10 +41,10 @@ public class AlarmReceiver extends IntentService {
 
     public static void silenter(Context c, long dur) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        boolean silent = prefs.getString("silenterType", "silent").equals("silent");
+        boolean silent = "silent".equals(prefs.getString("silenterType", "silent"));
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
-        if (ringermode != AudioManager.RINGER_MODE_SILENT && (ringermode != AudioManager.RINGER_MODE_VIBRATE || silent)) {
+        if ((ringermode != AudioManager.RINGER_MODE_SILENT) && ((ringermode != AudioManager.RINGER_MODE_VIBRATE) || silent)) {
             AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
             Intent i;
@@ -55,7 +56,7 @@ public class AlarmReceiver extends IntentService {
 
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * dur, service);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * dur), service);
 
             aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
 
@@ -124,7 +125,7 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (Exception e) {
-            if (alarm.city == 0||uri.toString().equals("silent")) return null;
+            if ((alarm.city == 0) || "silent".equals(uri.toString())) return null;
             File file = new File(uri.getPath());
             Crashlytics.setString("data", uri.toString());
             if (file.exists())
@@ -148,7 +149,7 @@ public class AlarmReceiver extends IntentService {
 
         Intent i = new Intent(c, WakefulReceiver.class);
         i.putExtra("bdl", alarm.toBundle());
-        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.vakit == null ? 0 : alarm.vakit.ordinal() + alarm.city * 10 + (alarm.time - alarm.time % (1000 * 60 * 60 * 24)) / 1000), i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent service = PendingIntent.getBroadcast(c, (int) ((alarm.vakit == null) ? 0 : (alarm.vakit.ordinal() + (alarm.city * 10) + ((alarm.time - (alarm.time % (1000 * 60 * 60 * 24))) / 1000))), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
 
@@ -187,19 +188,19 @@ public class AlarmReceiver extends IntentService {
     public void fireAlarm(Intent intent) {
 
 
-        final Context c = App.getContext();
+        Context c = App.getContext();
 
-        if (intent == null || !intent.hasExtra("bdl")) {
+        if ((intent == null) || !intent.hasExtra("bdl")) {
 
             return;
         }
-        final Alarm next = Alarm.fromBundle(intent.getExtras().getBundle("bdl"));
+        Alarm next = Alarm.fromBundle(intent.getExtras().getBundle("bdl"));
         intent.removeExtra("bdl");
 
         if (next.city == 0) return;
 
         Times t = MainHelper.getTimes(next.city);
-        if (!"TEST".equals(next.pref) && (t != null && next.pref != null && !t.is(next.pref))) {
+        if (!"TEST".equals(next.pref) && ((t != null) && (next.pref != null) && !t.is(next.pref))) {
             return;
         }
 
@@ -227,7 +228,7 @@ public class AlarmReceiver extends IntentService {
         Notification not = builder.build();
 
         if (next.vibrate) {
-            not.vibrate = new long[]{0, 300, 150, 300, 150, 500};
+            not.vibrate = VibrationPreference.getPattern(c,"vibration");
         }
 
         AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
@@ -235,10 +236,10 @@ public class AlarmReceiver extends IntentService {
         int volume = -2;
 
         class MPHolder {
-            MediaPlayer mp = null;
+            MediaPlayer mp;
         }
         final MPHolder mp = new MPHolder();
-        if (next.sound != null && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
+        if ((next.sound != null) && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
 
             if (next.sound.contains("$volume")) {
                 volume = Integer.parseInt(next.sound.substring(next.sound.indexOf("$volume") + 7));
@@ -289,7 +290,7 @@ public class AlarmReceiver extends IntentService {
         nm.notify(next.city + "", NotIds.ALARM, not);
 
         sInterrupt = false;
-        while (mp.mp != null && mp.mp.isPlaying()) {
+        while ((mp.mp != null) && mp.mp.isPlaying()) {
             if (sInterrupt) {
                 mp.mp.stop();
                 mp.mp.release();
@@ -297,12 +298,12 @@ public class AlarmReceiver extends IntentService {
             }
         }
 
-        if (!sInterrupt && next.dua != null && !next.dua.startsWith("silent")) {
+        if (!sInterrupt && (next.dua != null) && !next.dua.startsWith("silent")) {
 
             next.sound = next.dua;
             next.dua = "silent";
             next.vibrate = false;
-            Intent i = new Intent(AlarmReceiver.this, WakefulReceiver.class);
+            Intent i = new Intent(this, WakefulReceiver.class);
             i.putExtra("bdl", next.toBundle());
             sendBroadcast(i);
 
@@ -354,9 +355,6 @@ public class AlarmReceiver extends IntentService {
     }
 
     public static class WakefulReceiver extends WakefulBroadcastReceiver {
-        public WakefulReceiver() {
-            super();
-        }
 
         @Override
         public void onReceive(Context context, Intent intent) {

@@ -31,7 +31,7 @@ public class Tesbihat extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        if (mLang.equals("tr")) {
+        if ("tr".equals(mLang)) {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getSupportFragmentManager());
 
         } else {
@@ -44,7 +44,7 @@ public class Tesbihat extends BaseActivity {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if (MainHelper.getCount() != 0 && mLang.equals("tr")) {
+        if ((MainHelper.getCount() != 0) && "tr".equals(mLang)) {
             int next = MainHelper.getTimes(MainHelper.getIds().get(0)).getNext();
 
             switch (next) {
@@ -94,7 +94,7 @@ public class Tesbihat extends BaseActivity {
                 mViewPager.setCurrentItem(i);
             }
             break;
-            case R.id.zoomOut: {
+            case R.id.zoomOut:
                 mTextSize--;
 
                 PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("tesbihatTextSize", mTextSize).apply();
@@ -102,9 +102,8 @@ public class Tesbihat extends BaseActivity {
                 mViewPager.invalidate();
                 mViewPager.setAdapter(mSectionsPagerAdapter);
                 mViewPager.setCurrentItem(i);
-            }
 
-            break;
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -130,7 +129,7 @@ public class Tesbihat extends BaseActivity {
             View rootView = inflater.inflate(R.layout.webview, container, false);
             WebView wv = (WebView) rootView.findViewById(R.id.webview);
             wv.getSettings().setTextZoom((int) (102.38 * Math.pow(1.41, mTextSize)));
-            if (mLang.equals("tr")) {
+            if ("tr".equals(mLang)) {
                 wv.loadUrl("file:///android_asset/" + mLang + "/tesbihat/" + getAssetDir(pos));
             } else {
                 wv.loadUrl("file:///android_asset/en/tasbihat.html");

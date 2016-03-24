@@ -35,7 +35,7 @@ public class WidgetService extends Service {
             long id = mOngoing.get(i);
             Times t = MainHelper.getTimes(id);
 
-            if (t == null || !t.isOngoingNotificationActive()) {
+            if ((t == null) || !t.isOngoingNotificationActive()) {
                 nm.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
             }
@@ -45,7 +45,7 @@ public class WidgetService extends Service {
 
             Times t = MainHelper.getTimes(id);
 
-            if (t != null && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
+            if ((t != null) && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
                 mOngoing.add(id);
             }
         }
@@ -95,7 +95,7 @@ public class WidgetService extends Service {
 
         App.setExact(am, AlarmManager.RTC, cal.getTimeInMillis(), service);
 
-        this.stopSelf();
+        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 

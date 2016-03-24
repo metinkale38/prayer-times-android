@@ -43,13 +43,13 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
 
         int min = Math.min(w, h);
-        int s = (int) min;
+        int s = min;
 
         if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
-            edit.commit();
+            edit.apply();
             updateAppWidget(context, appWidgetManager, widgetId);
             return;
         }
@@ -118,23 +118,23 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         paint.setColor(theme.textcolor);
 
         float cs = s / 5;
-        float ts = s * 35 / 100;
+        float ts = (s * 35) / 100;
         int vs = s / 4;
         paint.setTextSize(cs);
-        cs = cs * (s * 0.9f) / paint.measureText(city);
-        cs = cs > vs ? vs : cs;
+        cs = (cs * (s * 0.9f)) / paint.measureText(city);
+        cs = (cs > vs) ? vs : cs;
 
         paint.setTextSize(vs);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(Vakit.getByIndex(next - 1).getString(), s / 2, s * 22 / 80, paint);
+        canvas.drawText(Vakit.getByIndex(next - 1).getString(), s / 2, (s * 22) / 80, paint);
 
         paint.setTextSize(ts);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(left, s / 2, s / 2 + ts * 1 / 3, paint);
+        canvas.drawText(left, s / 2, (s / 2) + ((ts * 1) / 3), paint);
 
         paint.setTextSize(cs);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(city, s / 2, s * 3 / 4 + cs * 2 / 3, paint);
+        canvas.drawText(city, s / 2, ((s * 3) / 4) + ((cs * 2) / 3), paint);
 
         paint.setStyle(Style.STROKE);
         float stroke = mDP;
@@ -179,7 +179,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if ((w * h) != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

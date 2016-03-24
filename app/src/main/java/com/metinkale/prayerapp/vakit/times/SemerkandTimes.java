@@ -27,14 +27,14 @@ public class SemerkandTimes extends WebTimes {
         Calendar cal = Calendar.getInstance();
         int Y = cal.get(Calendar.YEAR);
         int i = 0;
-        for (int y = Y; y <= Y + 1; y++) {
+        for (int y = Y; y <= (Y + 1); y++) {
             cal.set(Calendar.YEAR, y);
             Gson gson = new GsonBuilder().create();
             try {
 
                 String Url = "http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + y + "&";
-                String id[] = getId().split("_");
-                if (!id[3].equals("0")) {
+                String[] id = getId().split("_");
+                if (!"0".equals(id[3])) {
                     Url += "countyID=" + id[3];
                 } else {
                     Url += "cityID=" + id[2];

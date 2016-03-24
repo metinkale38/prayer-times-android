@@ -15,7 +15,7 @@ public class CompassView extends View {
     private final Paint mPaint = new Paint();
     private final Drawable mKaabe;
     private float mAngle = -80;
-    private float mqAngle = 0;
+    private float mqAngle;
 
     public CompassView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -44,11 +44,11 @@ public class CompassView extends View {
         mPath.setFillType(Path.FillType.EVEN_ODD);
         mPath.moveTo(center, center / 8);
 
-        mPath.lineTo(center * 15 / 20, center / 3);
+        mPath.lineTo((center * 15) / 20, center / 3);
 
         mPath.lineTo(center, center / 4);
 
-        mPath.lineTo(center * 25 / 20, center / 3);
+        mPath.lineTo((center * 25) / 20, center / 3);
         mPath.close();
 
         setMeasuredDimension(size, size);
@@ -66,19 +66,19 @@ public class CompassView extends View {
 
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawCircle(center, center, center * 19 / 20, mPaint);
+        canvas.drawCircle(center, center, (center * 19) / 20, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         mPaint.setColor(0xFF33B5E5);
-        canvas.drawCircle(center, center, center * 19 / 20, mPaint);
+        canvas.drawCircle(center, center, (center * 19) / 20, mPaint);
         mPaint.setStrokeWidth(1);
 
         mPaint.setColor(Color.BLACK);
 
-        mPaint.setTextSize(center * 2 / 5);
+        mPaint.setTextSize((center * 2) / 5);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(Math.round(getAngle()) + "°", center, center + center / 5, mPaint);
+        canvas.drawText(Math.round(getAngle()) + "°", center, center + (center / 5), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(-mAngle, center, center);
@@ -92,13 +92,13 @@ public class CompassView extends View {
         mPaint.setTextSize(center / 5);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText("N", center, center * 9 / 20, mPaint);
+        canvas.drawText("N", center, (center * 9) / 20, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(mqAngle, center, center);
 
         if (mqAngle != 0) {
-            int y = center * 9 / 20;
+            int y = (center * 9) / 20;
             int size = center / 8;
             mKaabe.setBounds(center - size, y - size, center + size, y + size);
             mKaabe.draw(canvas);

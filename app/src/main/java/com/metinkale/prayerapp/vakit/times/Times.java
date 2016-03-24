@@ -36,7 +36,7 @@ public abstract class Times extends TimesBase {
         }
     }
 
-    List<Alarm> getAlarms() {
+    Collection<Alarm> getAlarms() {
         List<Alarm> alarms = new ArrayList<>();
 
 
@@ -66,8 +66,8 @@ public abstract class Times extends TimesBase {
                     }
                 } else {
                     long mills;
-                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getTimeInMillis() + getSabahTime() * 60 * 1000;
-                    else mills = getTimeCal(cal, 1).getTimeInMillis() - getSabahTime() * 60 * 1000;
+                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getTimeInMillis() + (getSabahTime() * 60 * 1000);
+                    else mills = getTimeCal(cal, 1).getTimeInMillis() - (getSabahTime() * 60 * 1000);
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -89,7 +89,7 @@ public abstract class Times extends TimesBase {
                     if (vakit != 0) vakit--;
 
                     int early = getEarlyTime(v);
-                    long mills = getTimeCal(cal, vakit).getTimeInMillis() - early * 60 * 1000;
+                    long mills = getTimeCal(cal, vakit).getTimeInMillis() - (early * 60 * 1000);
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -140,7 +140,7 @@ public abstract class Times extends TimesBase {
     public Calendar getTimeCal(int d, int m, int y, int time) {
         Calendar cal = Calendar.getInstance();
         cal.set(y, m - 1, d);
-        if (time < 0 || time > 5) {
+        if ((time < 0) || (time > 5)) {
             while (time >= 6) {
                 cal.add(Calendar.DAY_OF_YEAR, 1);
                 time -= 6;
@@ -161,13 +161,13 @@ public abstract class Times extends TimesBase {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-        if (time >= 3 && cal.get(Calendar.HOUR_OF_DAY) < 5) cal.add(Calendar.DATE, 1);
+        if ((time >= 3) && (cal.get(Calendar.HOUR_OF_DAY) < 5)) cal.add(Calendar.DATE, 1);
         return cal;
     }
 
 
     public String getTime(int d, int m, int y, int time) {
-        if (time < 0 || time > 5) {
+        if ((time < 0) || (time > 5)) {
             Calendar cal = Calendar.getInstance();
             cal.set(y, m - 1, d);
             while (time >= 6) {
@@ -236,11 +236,11 @@ public abstract class Times extends TimesBase {
     private String adj(String time, int t) {
         Calendar cal = new GregorianCalendar();
         double drift = getTZFix();
-        int adj[] = getMinuteAdj();
-        if (drift == 0 && adj[t] == 0) return time;
+        int[] adj = getMinuteAdj();
+        if ((drift == 0) && (adj[t] == 0)) return time;
         int h = (int) Math.round(drift - 0.5);
         int m = (int) ((drift - h) * 60);
-        String s[] = time.split(":");
+        String[] s = time.split(":");
         try {
             cal.set(0, 0, 0, Integer.parseInt(s[0]), Integer.parseInt(s[1]), 0);
             cal.add(Calendar.HOUR, h);
@@ -272,7 +272,7 @@ public abstract class Times extends TimesBase {
 
         if (showsecs)
             return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(left.get(Calendar.MINUTE)) + ":" + Utils.az(left.get(Calendar.SECOND));
-        else if (com.metinkale.prayerapp.settings.Prefs.isDefaultWidgetMinuteType())
+        else if (Prefs.isDefaultWidgetMinuteType())
             return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(left.get(Calendar.MINUTE));
         else return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + (Utils.az(left.get(Calendar.MINUTE) + 1));
 
@@ -311,13 +311,13 @@ public abstract class Times extends TimesBase {
 
     public boolean isKerahat() {
         long m = getLeftMills(1) + getTZOffset();
-        if (m <= 0 && m > Prefs.getKerahatSunrise() * -60000) return true;
+        if ((m <= 0) && (m > (Prefs.getKerahatSunrise() * -60000))) return true;
 
         m = getLeftMills(2) + getTZOffset();
-        if (m >= 0 && m < Prefs.getKerahatIstiwa() * 60000) return true;
+        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa() * 60000))) return true;
 
         m = getLeftMills(4) + getTZOffset();
-        return m >= 0 && m < Prefs.getKerahatSunet() * 60000;
+        return (m >= 0) && (m < (Prefs.getKerahatSunet() * 60000));
 
     }
 

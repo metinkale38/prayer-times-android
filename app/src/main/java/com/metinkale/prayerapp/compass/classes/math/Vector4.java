@@ -28,7 +28,7 @@ public final class Vector4 {
      * @param z The z-component
      */
     public Vector4(float x, float y, float z, float w) {
-        this.set(x, y, z, w);
+        set(x, y, z, w);
     }
 
     /**
@@ -37,7 +37,7 @@ public final class Vector4 {
      * @param vector The vector
      */
     private Vector4(Vector4 vector) {
-        this.set(vector);
+        set(vector);
     }
 
     /**
@@ -47,7 +47,7 @@ public final class Vector4 {
      * @param values The array
      */
     public Vector4(float[] values) {
-        this.set(values[0], values[1], values[2], values[3]);
+        set(values[0], values[1], values[2], values[3]);
     }
 
     /**
@@ -57,8 +57,8 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 mul(Matrix4 matrix) {
-        float l_mat[] = matrix.val;
-        return this.set(x * l_mat[Matrix4.M00] + y * l_mat[Matrix4.M01] + z * l_mat[Matrix4.M02] + w * l_mat[Matrix4.M03], x * l_mat[Matrix4.M10] + y * l_mat[Matrix4.M11] + z * l_mat[Matrix4.M12] + w * l_mat[Matrix4.M13], x * l_mat[Matrix4.M20] + y * l_mat[Matrix4.M21] + z * l_mat[Matrix4.M22] + w * l_mat[Matrix4.M23], x * l_mat[Matrix4.M30] + y * l_mat[Matrix4.M31] + z * l_mat[Matrix4.M32] + w * l_mat[Matrix4.M33]);
+        float[] l_mat = matrix.val;
+        return set((x * l_mat[Matrix4.M00]) + (y * l_mat[Matrix4.M01]) + (z * l_mat[Matrix4.M02]) + (w * l_mat[Matrix4.M03]), (x * l_mat[Matrix4.M10]) + (y * l_mat[Matrix4.M11]) + (z * l_mat[Matrix4.M12]) + (w * l_mat[Matrix4.M13]), (x * l_mat[Matrix4.M20]) + (y * l_mat[Matrix4.M21]) + (z * l_mat[Matrix4.M22]) + (w * l_mat[Matrix4.M23]), (x * l_mat[Matrix4.M30]) + (y * l_mat[Matrix4.M31]) + (z * l_mat[Matrix4.M32]) + (w * l_mat[Matrix4.M33]));
     }
 
     /**
@@ -84,7 +84,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     Vector4 set(Vector4 vector) {
-        return this.set(vector.x, vector.y, vector.z, vector.w);
+        return set(vector.x, vector.y, vector.z, vector.w);
     }
 
     /**
@@ -95,7 +95,7 @@ public final class Vector4 {
      * @return this vector for chaining
      */
     public Vector4 set(float[] values) {
-        return this.set(values[0], values[1], values[2], values[3]);
+        return set(values[0], values[1], values[2], values[3]);
     }
 
     /**
@@ -139,7 +139,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 add(Vector4 vector) {
-        return this.add(vector.x, vector.y, vector.z, vector.w);
+        return add(vector.x, vector.y, vector.z, vector.w);
     }
 
     /**
@@ -151,7 +151,7 @@ public final class Vector4 {
      * @return This vector for chaining.
      */
     Vector4 add(float x, float y, float z, float w) {
-        return this.set(this.x + x, this.y + y, this.z + z, this.w + w);
+        return set(this.x + x, this.y + y, this.z + z, this.w + w);
     }
 
     /**
@@ -161,7 +161,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 add(float values) {
-        return this.set(x + values, y + values, z + values, w + values);
+        return set(x + values, y + values, z + values, w + values);
     }
 
     /**
@@ -171,7 +171,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 sub(Vector4 a_vec) {
-        return this.sub(a_vec.x, a_vec.y, a_vec.z, a_vec.w);
+        return sub(a_vec.x, a_vec.y, a_vec.z, a_vec.w);
     }
 
     /**
@@ -183,7 +183,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     Vector4 sub(float x, float y, float z, float w) {
-        return this.set(this.x - x, this.y - y, this.z - z, this.w - w);
+        return set(this.x - x, this.y - y, this.z - z, this.w - w);
     }
 
     /**
@@ -193,7 +193,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 sub(float value) {
-        return this.set(x - value, y - value, z - value, w - value);
+        return set(x - value, y - value, z - value, w - value);
     }
 
     /**
@@ -203,7 +203,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 mul(float value) {
-        return this.set(x * value, y * value, z * value, w * value);
+        return set(x * value, y * value, z * value, w * value);
     }
 
     /**
@@ -214,21 +214,21 @@ public final class Vector4 {
      */
     Vector4 div(float value) {
         float d = 1 / value;
-        return this.set(x * d, y * d, z * d, w * d);
+        return set(x * d, y * d, z * d, w * d);
     }
 
     /**
      * @return The euclidian length
      */
     float len() {
-        return (float) Math.sqrt(x * x + y * y + z * z + w * w);
+        return (float) Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
     }
 
     /**
      * @return The squared euclidian length
      */
     public float len2() {
-        return x * x + y * y + z * z + w * w;
+        return (x * x) + (y * y) + (z * z) + (w * w);
     }
 
     /**
@@ -236,7 +236,7 @@ public final class Vector4 {
      * @return Wether this and the other vector are equal
      */
     public boolean idt(Vector4 vector) {
-        return x == vector.x && y == vector.y && z == vector.z && w == vector.w;
+        return (x == vector.x) && (y == vector.y) && (z == vector.z) && (w == vector.w);
     }
 
     /**
@@ -265,7 +265,7 @@ public final class Vector4 {
         float b = vector.y - y;
         float c = vector.z - z;
         float d = vector.w - w;
-        return a * a + b * b + c * c + d * d;
+        return (a * a) + (b * b) + (c * c) + (d * d);
     }
 
     /**
@@ -274,7 +274,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 nor() {
-        if (x == 0 && y == 0 && z == 0 && w == 0) {
+        if ((x == 0) && (y == 0) && (z == 0) && (w == 0)) {
             return this;
         } else {
             return div(len());
@@ -286,12 +286,12 @@ public final class Vector4 {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(x);
-        result = prime * result + Float.floatToIntBits(y);
-        result = prime * result + Float.floatToIntBits(z);
-        result = prime * result + Float.floatToIntBits(w);
+        result = (prime * result) + Float.floatToIntBits(x);
+        result = (prime * result) + Float.floatToIntBits(y);
+        result = (prime * result) + Float.floatToIntBits(z);
+        result = (prime * result) + Float.floatToIntBits(w);
         return result;
     }
 

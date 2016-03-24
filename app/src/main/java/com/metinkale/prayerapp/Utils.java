@@ -2,15 +2,11 @@ package com.metinkale.prayerapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 import com.crashlytics.android.Crashlytics;
@@ -23,7 +19,7 @@ import java.util.Locale;
 public class Utils {
     private static String[] sGMonths, sHMonths, sHolydays, sWeekdays, sShortWeekdays;
 
-    public static Spanned fixTimeForHTML(String time) {
+    public static CharSequence fixTimeForHTML(String time) {
         if (!Prefs.use12H()) return new SpannableString(time);
         time = fixTime(time);
         int d = time.indexOf(" ");
@@ -73,9 +69,9 @@ public class Utils {
         if (newLang == null) return;
         Locale locale = new Locale(newLang);
         Locale.setDefault(locale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
+        Configuration config = new Configuration();
         config.locale = locale;
-        ((Application) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((Application) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
+        ((ContextWrapper) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((ContextWrapper) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
 
         if (Prefs.getLanguage() != newLang) {
             sGMonths = null;
@@ -86,11 +82,11 @@ public class Utils {
             Prefs.setLanguage(newLang);
             PackageManager pm = c.getPackageManager();
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), newLang.equals("tr") ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), newLang.equals("en") ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), "en".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), newLang.equals("de") ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), "de".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
             pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDefault"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
@@ -105,28 +101,28 @@ public class Utils {
         return sHolydays[which];
     }
 
-    public static String getGregMonth(int which) {
+    public static CharSequence getGregMonth(int which) {
         if (sGMonths == null) {
             sGMonths = App.getContext().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }
 
-    public static String getHijriMonth(int which) {
+    public static CharSequence getHijriMonth(int which) {
         if (sHMonths == null) {
             sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
     }
 
-    public static String getWeekday(int which) {
+    public static CharSequence getWeekday(int which) {
         if (sWeekdays == null) {
             sWeekdays = App.getContext().getResources().getStringArray(R.array.week_days);
         }
         return sWeekdays[which];
     }
 
-    public static String getShortWeekday(int which) {
+    public static CharSequence getShortWeekday(int which) {
         if (sShortWeekdays == null) {
             sShortWeekdays = App.getContext().getResources().getStringArray(R.array.week_days_short);
         }

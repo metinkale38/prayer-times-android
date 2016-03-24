@@ -74,8 +74,8 @@
     <string name="zikr">Zikir</string>
     <string name="new_zikr">Yeni Zikir</string>
     <string name="tesbih">Tesbih</string>
-    <string name="delConfirmZikr">\"%1$s\" Zikri gerçekten silmek istiyormusunuz?</string>
-    <string name="resetConfirmZikr">\"%1$s\" Zikri gerçekten sifirlamak istiyormusunuz?</string>
+    <string name="delConfirmZikr">\“%1$s\” Zikri gerçekten silmek istiyormusunuz?</string>
+    <string name="resetConfirmZikr">\“%1$s\” Zikri gerçekten sifirlamak istiyormusunuz?</string>
     <string name="zikr_count">Zikir sayısı</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
@@ -95,7 +95,7 @@
     <string name="backup">Yedekle</string>
     <string name="error">Hata oluştu</string>
     <string name="restore">Geri getir</string>
-    <string name="dlSound">"%1$s" (%2$s) Sesini indirmek istiyormusunuz?</string>
+    <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
     <string name="dlHadith">Hadisleri indirmek istiyormusunuz?</string>
     <string name="fixTimezone">Zaman dilimi +/-:</string>
     <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>
@@ -125,5 +125,10 @@
     <string name="permission_storage_title">Bellek izni</string>
     <string name="permission_storage_text">Bellek izni gerekiyor. Eğer bu izni vermezseniz, bazı özellikler çalışmaya
         bilir.</string>
+    <string name="dateandtime">Tarih ve Saat</string>
+    <string name="other">Diğer</string>
+    <string name="tryvibration">Dene</string>
+    <string name="vibration_pattern">Titreşim deseni</string>
+    <string name="vibration_description">Milisaniye - bekleme titresim bekleme....</string>
 
 </resources>

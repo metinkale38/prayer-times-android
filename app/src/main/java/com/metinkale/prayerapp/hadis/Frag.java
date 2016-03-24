@@ -29,7 +29,7 @@ public class Frag extends Fragment {
         return frag;
     }
 
-    private static String normalize(String str) {
+    private static String normalize(CharSequence str) {
         String string = Normalizer.normalize(str, Normalizer.Form.NFD);
         string = string.replaceAll("[^\\p{ASCII}]", "_");
         return string.toLowerCase(Locale.ENGLISH);
@@ -78,7 +78,7 @@ public class Frag extends Fragment {
     }
 
     public void setQuery(String query) {
-        if (query == null || mText == null) {
+        if ((query == null) || (mText == null)) {
             mQuery = query;
             return;
         }

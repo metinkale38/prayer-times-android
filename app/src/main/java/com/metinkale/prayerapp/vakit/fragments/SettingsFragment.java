@@ -22,11 +22,11 @@ public class SettingsFragment extends Fragment {
 
     private EditText mName;
     private Spinner mTZSpinner;
-    private EditText mMins[] = new EditText[6];
-    private Button mMinus[] = new Button[6];
-    private Button mPlus[] = new Button[6];
+    private EditText[] mMins = new EditText[6];
+    private Button[] mMinus = new Button[6];
+    private Button[] mPlus = new Button[6];
     private Times mTimes;
-    private int mMinAdj[];
+    private int[] mMinAdj;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
@@ -125,14 +125,14 @@ public class SettingsFragment extends Fragment {
 
 
     public void setTimes(Times t) {
-        if (mName != null && t != null) {
+        if ((mName != null) && (t != null)) {
             mTimes = null;
             mMinAdj = t.getMinuteAdj();
             for (int i = 0; i < mMins.length; i++) {
                 mMins[i].setText(mMinAdj[i] + "");
             }
             mName.setText(t.getName());
-            mTZSpinner.setSelection((int) (8 - t.getTZFix() * 2));
+            mTZSpinner.setSelection((int) (8 - (t.getTZFix() * 2)));
         }
         mTimes = t;
     }

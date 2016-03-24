@@ -16,13 +16,9 @@ import com.metinkale.prayer.R;
 
 public class NumberDialog extends DialogFragment implements TextWatcher {
     private int mMin, mMax;
-    private int mNr = 0;
+    private int mNr;
     private EditText mEdit;
     private OnNumberChangeListener mList;
-
-    public NumberDialog() {
-
-    }
 
     public static NumberDialog create(int min, int max, int current) {
         Bundle bdl = new Bundle();
@@ -63,7 +59,7 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         mEdit = (EditText) v.findViewById(R.id.nr);
         mEdit.addTextChangedListener(this);
         mEdit.setText(bdl.getInt("current") + "");
-        int ids[] = new int[]{R.id.k0, R.id.k1, R.id.k2, R.id.k3, R.id.k4, R.id.k5, R.id.k6, R.id.k7, R.id.k8, R.id.k9};
+        int[] ids = {R.id.k0, R.id.k1, R.id.k2, R.id.k3, R.id.k4, R.id.k5, R.id.k6, R.id.k7, R.id.k8, R.id.k9};
         for (int id : ids) {
             Button btn = (Button) v.findViewById(id);
             btn.setTag(btn.getText());
@@ -82,7 +78,7 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
             @Override
             public void onClick(View v) {
                 String txt = mEdit.getText().toString();
-                if (txt.length() != 0) {
+                if (!txt.isEmpty()) {
                     mEdit.setText(txt.substring(0, txt.length() - 1));
                 }
 
@@ -94,7 +90,7 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
             @Override
             public void onClick(View v) {
                 String txt = mEdit.getText().toString();
-                mEdit.setText(Integer.parseInt("0" + txt) - 1 + "");
+                mEdit.setText((Integer.parseInt("0" + txt) - 1) + "");
 
             }
         });

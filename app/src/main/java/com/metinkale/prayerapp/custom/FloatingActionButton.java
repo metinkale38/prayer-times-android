@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.custom;
 
+import android.R;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
@@ -11,24 +12,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
 public class FloatingActionButton extends View {
 
-    private final static TimeInterpolator overshootInterpolator = new OvershootInterpolator();
-    private final static TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
+    private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
+    private static final TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
 
     private Context context;
     private Paint mButtonPaint;
     private Paint mDrawablePaint;
     private Bitmap mBitmap;
-    private boolean mHidden = false;
+    private boolean mHidden;
 
     public FloatingActionButton(Context context) {
         super(context);
@@ -129,13 +127,13 @@ public class FloatingActionButton extends View {
         return false;
     }
 
-    static public class Builder {
+    public static class Builder {
         private final Activity activity;
         int gravity = Gravity.BOTTOM | Gravity.RIGHT; // default bottom right
         Drawable drawable;
         int color = Color.WHITE;
-        int size = 0;
-        float scale = 0;
+        int size;
+        float scale;
         boolean hidden;
         private FrameLayout.LayoutParams params;
 
@@ -145,7 +143,7 @@ public class FloatingActionButton extends View {
             params = new FrameLayout.LayoutParams(size, size);
             params.gravity = gravity;
 
-            this.activity = context;
+            activity = context;
         }
 
         public Builder hide() {
@@ -172,7 +170,7 @@ public class FloatingActionButton extends View {
         /**
          * Sets the FAB drawable
          */
-        public Builder withDrawable(final Drawable drawable) {
+        public Builder withDrawable(Drawable drawable) {
             this.drawable = drawable;
             return this;
         }
@@ -180,7 +178,7 @@ public class FloatingActionButton extends View {
         /**
          * Sets the FAB color
          */
-        public Builder withButtonColor(final int color) {
+        public Builder withButtonColor(int color) {
             this.color = color;
             return this;
         }
@@ -195,16 +193,16 @@ public class FloatingActionButton extends View {
         }
 
         public FloatingActionButton create() {
-            final FloatingActionButton button = new FloatingActionButton(activity);
+            FloatingActionButton button = new FloatingActionButton(activity);
             if (hidden) {
                 button.setScaleX(0);
                 button.setScaleY(0);
                 button.mHidden = hidden;
             }
-            button.setFloatingActionButtonColor(this.color);
-            button.setFloatingActionButtonDrawable(this.drawable);
-            params.gravity = this.gravity;
-            ViewGroup root = (ViewGroup) activity.findViewById(android.R.id.content);
+            button.setFloatingActionButtonColor(color);
+            button.setFloatingActionButtonDrawable(drawable);
+            params.gravity = gravity;
+            ViewManager root = (ViewGroup) activity.findViewById(R.id.content);
             root.addView(button, params);
             return button;
         }
@@ -214,7 +212,7 @@ public class FloatingActionButton extends View {
         // based on density scale
         // see developer.android.com (Supporting Multiple Screen Sizes)
         private int convertToPixels(int dp, float scale) {
-            return (int) (dp * scale + 0.5f);
+            return (int) ((dp * scale) + 0.5f);
         }
     }
 }

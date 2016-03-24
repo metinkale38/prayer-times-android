@@ -36,7 +36,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
             mAddresses = Geocoder.from(query, 5, Prefs.getLanguage());
 
-            if (mAddresses != null) LocationPicker.this.runOnUiThread(new Runnable() {
+            if (mAddresses != null) runOnUiThread(new Runnable() {
                 public void run() {
                     mAdapter.clear();
                     for (Response a : mAddresses) {
@@ -51,7 +51,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.compass_location);
+        setContentView(R.layout.compass_location);
 
         mCity = (EditText) findViewById(R.id.location);
 
@@ -67,7 +67,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void afterTextChanged(Editable arg0) {
-        if (mThread != null && mThread.isAlive()) {
+        if ((mThread != null) && mThread.isAlive()) {
             mThread.interrupt();
         }
         mThread = new Thread(mSearch);

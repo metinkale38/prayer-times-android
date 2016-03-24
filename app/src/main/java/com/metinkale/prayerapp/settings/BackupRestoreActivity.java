@@ -34,7 +34,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
     public void onCreate(Bundle bdl) {
         super.onCreate(bdl);
         PermissionUtils.get(this).needStorage(this);
-        this.setContentView(R.layout.settings_backuprestore);
+        setContentView(R.layout.settings_backuprestore);
         ListView list = (ListView) findViewById(R.id.listView1);
         mFolder = new File(Environment.getExternalStorageDirectory(), "backups/com.metinkale.prayer");
         mFolder.mkdirs();
@@ -99,7 +99,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
         try {
             Zip zip = new Zip(zipFile.getAbsolutePath());
-            File files = this.getFilesDir();
+            File files = getFilesDir();
             for (String file : files.list()) {
                 if (file.contains(".Fabric")) continue;
                 zip.addFile("files", files.getAbsolutePath() + "/" + file);
@@ -130,7 +130,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         static final int BUFFER = 2048;
 
         ZipOutputStream out;
-        byte data[];
+        byte[] data;
 
         public Zip(String name) throws FileNotFoundException {
             FileOutputStream dest = new FileOutputStream(name);

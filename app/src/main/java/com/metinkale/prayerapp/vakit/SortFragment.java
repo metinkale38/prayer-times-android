@@ -107,11 +107,11 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
                 convertView.setTag(new ViewHolder(convertView));
             }
-            final View v = convertView;
+            View v = convertView;
             ViewHolder vh = (ViewHolder) v.getTag();
             vh.pos = position;
 
-            final Times c = getItem(position);
+            Times c = getItem(position);
             if (c == null) return new View(getContext());
             vh.city.setText(c.getName());
             vh.source.setText(c.getSource().text);

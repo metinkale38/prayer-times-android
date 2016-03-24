@@ -2,6 +2,7 @@ package com.metinkale.prayerapp.compass._2D;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,8 @@ import com.metinkale.prayerapp.compass.Main;
 import com.metinkale.prayerapp.compass.Main.MyCompassListener;
 
 public class Frag2D extends Fragment implements MyCompassListener {
-    private final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
-    private final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
+    private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
+    private static final TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
     private CompassView mCompassView;
     private TextView mAngle, mDist;
     private View mInfo;
@@ -58,12 +59,12 @@ public class Frag2D extends Fragment implements MyCompassListener {
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
 
-            if (mGravity != null && mGeo != null) {
-                float R[] = new float[9];
-                float I[] = new float[9];
+            if ((mGravity != null) && (mGeo != null)) {
+                float[] R = new float[9];
+                float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeo);
                 if (success) {
-                    float orientation[] = new float[3];
+                    float[] orientation = new float[3];
                     SensorManager.getOrientation(R, orientation);
 
                     mCompassView.setAngle((int) Math.toDegrees(orientation[0]));
@@ -74,7 +75,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     }
 
-    public boolean mHidden = false;
+    public boolean mHidden;
 
     public void show() {
         mHidden = false;

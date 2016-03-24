@@ -11,8 +11,8 @@ import android.view.View;
 public class ZikrView extends View {
     private final Paint mPaint = new Paint();
     private int mMax = 33;
-    private int mCount = 0;
-    private int mCount2 = 0;
+    private int mCount;
+    private int mCount2;
     private int mColor = 0xFF33B5E5;
     private RectF mRectF = new RectF();
 
@@ -55,24 +55,24 @@ public class ZikrView extends View {
         mPaint.setStyle(Paint.Style.STROKE);
 
         mPaint.setColor(getColor());
-        if (getCount() * getMax() != 0) {
-            canvas.drawArc(mRectF, -90, getCount() * 360 / getMax(), false, mPaint);
+        if ((getCount() * getMax()) != 0) {
+            canvas.drawArc(mRectF, -90, (getCount() * 360) / getMax(), false, mPaint);
         }
         mPaint.setStrokeWidth(1);
 
         mPaint.setColor(Color.BLACK);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setTextSize(center * 2 / 5);
+        mPaint.setTextSize((center * 2) / 5);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         canvas.drawText(Math.round(mCount) + "", center, center, mPaint);
 
-        mPaint.setTextSize(center * 2 / 20);
+        mPaint.setTextSize((center * 2) / 20);
         canvas.drawText(getCount2() + "", center / 10, center / 10, mPaint);
 
 
-        mPaint.setTextSize(center * 2 / 10);
+        mPaint.setTextSize((center * 2) / 10);
         mPaint.setColor(Color.GRAY);
-        canvas.drawText("/" + Math.round(getMax()), center, width * 2 / 3, mPaint);
+        canvas.drawText("/" + Math.round(getMax()), center, (width * 2) / 3, mPaint);
 
     }
 
@@ -86,7 +86,7 @@ public class ZikrView extends View {
             this.mColor = 0xFF33B5E5;
         }
 
-        this.invalidate();
+        invalidate();
     }
 
     public int getCount() {
@@ -103,7 +103,7 @@ public class ZikrView extends View {
     }
 
     public void setCount2(int mCount) {
-        this.mCount2 = mCount;
+        mCount2 = mCount;
         invalidate();
     }
 

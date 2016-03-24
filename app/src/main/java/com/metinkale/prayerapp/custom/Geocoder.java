@@ -19,7 +19,7 @@ public class Geocoder {
     public static List<Response> from(String address, int limit, String lang) {
         if (!App.isOnline()) return null;
         if (address.contains(";")) {
-            String a[] = address.split(";");
+            String[] a = address.split(";");
             try {
                 List<Response> resp = new ArrayList<>();
                 resp.add(from(Double.parseDouble(a[0]), Double.parseDouble(a[1]), limit, lang));

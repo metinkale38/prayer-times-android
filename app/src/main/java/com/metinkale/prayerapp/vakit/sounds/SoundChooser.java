@@ -54,7 +54,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
     public void showExpanded(FragmentManager fm, Callback cb) {
         mCb = cb;
-        this.show(fm, "tag");
+        show(fm, "tag");
     }
 
     public void onPause() {
@@ -72,7 +72,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         mAm = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
         mStartVolume = mAm.getStreamVolume(AlarmReceiver.getStreamType(getActivity()));
         if (Sounds.getSounds().isEmpty()) {
-            this.dismiss();
+            dismiss();
             return new AlertDialog.Builder(getActivity()).create();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -89,7 +89,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
 
         mList.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-        mAdapter = new MyAdapter(this.getActivity(), mCb.getSounds());
+        mAdapter = new MyAdapter(getActivity(), mCb.getSounds());
         mList.setAdapter(mAdapter);
 
         mList.setOnItemClickListener(this);
@@ -114,14 +114,14 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     mMp.release();
                     mMp = null;
                 }
-                SoundChooser.this.getDialog().cancel();
+                getDialog().cancel();
             }
         });
 
         Sound s = new Sound();
         s.uri = mCb.getCurrent();
         mList.setTag(s);
-        if (s.uri != null && s.uri.contains("$volume")) {
+        if ((s.uri != null) && s.uri.contains("$volume")) {
             mVolumeCB.setChecked(true);
             mVolume.setEnabled(true);
             int progress = Integer.parseInt(s.uri.substring(s.uri.indexOf("$volume") + 7));
@@ -152,7 +152,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         }
 
         final Sound s = mAdapter.getItem(pos);
-        if (s.uri.equals("picker")) {
+        if ("picker".equals(s.uri)) {
             onResume = new Runnable() {
                 public void run() {
                     Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
@@ -160,7 +160,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
                     i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
                     Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                    SoundChooser.this.startActivityForResult(chooserIntent, 0);
+                    startActivityForResult(chooserIntent, 0);
                 }
             };
             if (PermissionUtils.get(getActivity()).pStorage) {
@@ -169,14 +169,14 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             } else {
                 PermissionUtils.get(getActivity()).needStorage(getActivity());
             }
-        } else if (!s.uri.equals("silent")) {
+        } else if (!"silent".equals(s.uri)) {
             if (Sounds.isDownloaded(s)) {
                 Alarm alarm = new Alarm();
                 alarm.sound = s.uri;
                 mMp = AlarmReceiver.play(App.getContext(), alarm);
                 mList.setTag(s);
             } else {
-                AlertDialog dialog = new AlertDialog.Builder(this.getActivity()).create();
+                AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
                 dialog.setTitle(R.string.sound);
                 dialog.setMessage(getString(R.string.dlSound, s.name, s.size));
                 dialog.setCancelable(false);
@@ -298,7 +298,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     s.uri = "silent";
                 }
 
-            if (s.uri != null && s.uri.contains("$volume")) {
+            if ((s.uri != null) && s.uri.contains("$volume")) {
                 s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
             }
             if (!sounds.contains(s)) {

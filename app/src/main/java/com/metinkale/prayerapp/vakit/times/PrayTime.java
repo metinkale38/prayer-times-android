@@ -60,28 +60,28 @@ public class PrayTime {
     // range reduce angle in degrees.
     private double fixangle(double a) {
 
-        a = a - 360 * Math.floor(a / 360.0);
+        a -= 360 * Math.floor(a / 360.0);
 
-        a = a < 0 ? a + 360 : a;
+        a = (a < 0) ? (a + 360) : a;
 
         return a;
     }
 
     // range reduce hours to 0..23
     private double fixhour(double a) {
-        a = a - 24.0 * Math.floor(a / 24.0);
-        a = a < 0 ? a + 24 : a;
+        a -= 24.0 * Math.floor(a / 24.0);
+        a = (a < 0) ? (a + 24) : a;
         return a;
     }
 
     // radian to degree
     private double radiansToDegrees(double alpha) {
-        return alpha * 180.0 / Math.PI;
+        return (alpha * 180.0) / Math.PI;
     }
 
     // deree to radian
     private double DegreesToRadians(double alpha) {
-        return alpha * Math.PI / 180.0;
+        return (alpha * Math.PI) / 180.0;
     }
 
     // degree sin
@@ -133,9 +133,9 @@ public class PrayTime {
         }
         double A = Math.floor(year / 100.0);
 
-        double B = 2 - A + Math.floor(A / 4.0);
+        double B = (2 - A) + Math.floor(A / 4.0);
 
-        return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+        return (Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B) - 1524.5;
 
     }
 
@@ -147,17 +147,17 @@ public class PrayTime {
     private double[] sunPosition(double jd) {
 
         double D = jd - 2451545;
-        double g = fixangle(357.529 + 0.98560028 * D);
-        double q = fixangle(280.459 + 0.98564736 * D);
-        double L = fixangle(q + 1.915 * dsin(g) + 0.020 * dsin(2 * g));
+        double g = fixangle(357.529 + (0.98560028 * D));
+        double q = fixangle(280.459 + (0.98564736 * D));
+        double L = fixangle(q + (1.915 * dsin(g)) + (0.020 * dsin(2 * g)));
 
         // double R = 1.00014 - 0.01671 * [self dcos:g] - 0.00014 * [self dcos:
         // (2*g)];
-        double e = 23.439 - 0.00000036 * D;
+        double e = 23.439 - (0.00000036 * D);
         double d = darcsin(dsin(e) * dsin(L));
         double RA = darctan2(dcos(e) * dsin(L), dcos(L)) / 15.0;
         RA = fixhour(RA);
-        double EqT = q / 15.0 - RA;
+        double EqT = (q / 15.0) - RA;
         double[] sPosition = new double[2];
         sPosition[0] = d;
         sPosition[1] = EqT;
@@ -186,11 +186,11 @@ public class PrayTime {
 
         double D = sunDeclination(getJDate() + t);
         double Z = computeMidDay(t);
-        double Beg = -dsin(G) - dsin(D) * dsin(getLat());
+        double Beg = -dsin(G) - (dsin(D) * dsin(getLat()));
         double Mid = dcos(D) * dcos(getLat());
         double V = darccos(Beg / Mid) / 15.0;
 
-        return Z + (G > 90 ? -V : V);
+        return Z + ((G > 90) ? -V : V);
     }
 
     // compute the time of Asr
@@ -209,7 +209,7 @@ public class PrayTime {
 
     // -------------------- Interface Functions --------------------
     // return prayer times for a given date
-    private ArrayList<String> getDatePrayerTimes(int year, int month, int day, double latitude, double longitude) {
+    private List<String> getDatePrayerTimes(int year, int month, int day, double latitude, double longitude) {
         setLat(latitude);
         setLng(longitude);
         setJDate(julianDate(year, month, day));
@@ -237,15 +237,15 @@ public class PrayTime {
             return InvalidTime;
         }
 
-        time = fixhour(time + 0.5 / 60.0); // add 0.5 minutes to round
+        time = fixhour(time + (0.5 / 60.0)); // add 0.5 minutes to round
         int hours = (int) Math.floor(time);
         double minutes = Math.floor((time - hours) * 60.0);
 
-        if (hours >= 0 && hours <= 9 && minutes >= 0 && minutes <= 9) {
+        if ((hours >= 0) && (hours <= 9) && (minutes >= 0) && (minutes <= 9)) {
             result = "0" + hours + ":0" + Math.round(minutes);
-        } else if (hours >= 0 && hours <= 9) {
+        } else if ((hours >= 0) && (hours <= 9)) {
             result = "0" + hours + ":" + Math.round(minutes);
-        } else if (minutes >= 0 && minutes <= 9) {
+        } else if ((minutes >= 0) && (minutes <= 9)) {
             result = hours + ":0" + Math.round(minutes);
         } else {
             result = hours + ":" + Math.round(minutes);
@@ -260,7 +260,7 @@ public class PrayTime {
             return InvalidTime;
         }
 
-        time = fixhour(time + 0.5 / 60); // add 0.5 minutes to round
+        time = fixhour(time + (0.5 / 60)); // add 0.5 minutes to round
         int hours = (int) Math.floor(time);
         double minutes = Math.floor((time - hours) * 60);
         String suffix, result;
@@ -269,27 +269,27 @@ public class PrayTime {
         } else {
             suffix = "am";
         }
-        hours = (hours + 12 - 1) % 12 + 1;
+        hours = (((hours + 12) - 1) % 12) + 1;
         /*
          * hours = (hours + 12) - 1; int hrs = (int) hours % 12; hrs += 1;
 		 */
         if (!noSuffix) {
-            if (hours >= 0 && hours <= 9 && minutes >= 0 && minutes <= 9) {
+            if ((hours >= 0) && (hours <= 9) && (minutes >= 0) && (minutes <= 9)) {
                 result = "0" + hours + ":0" + Math.round(minutes) + " " + suffix;
-            } else if (hours >= 0 && hours <= 9) {
+            } else if ((hours >= 0) && (hours <= 9)) {
                 result = "0" + hours + ":" + Math.round(minutes) + " " + suffix;
-            } else if (minutes >= 0 && minutes <= 9) {
+            } else if ((minutes >= 0) && (minutes <= 9)) {
                 result = hours + ":0" + Math.round(minutes) + " " + suffix;
             } else {
                 result = hours + ":" + Math.round(minutes) + " " + suffix;
             }
 
         } else {
-            if (hours >= 0 && hours <= 9 && minutes >= 0 && minutes <= 9) {
+            if ((hours >= 0) && (hours <= 9) && (minutes >= 0) && (minutes <= 9)) {
                 result = "0" + hours + ":0" + Math.round(minutes);
-            } else if (hours >= 0 && hours <= 9) {
+            } else if ((hours >= 0) && (hours <= 9)) {
                 result = "0" + hours + ":" + Math.round(minutes);
-            } else if (minutes >= 0 && minutes <= 9) {
+            } else if ((minutes >= 0) && (minutes <= 9)) {
                 result = hours + ":0" + Math.round(minutes);
             } else {
                 result = hours + ":" + Math.round(minutes);
@@ -344,16 +344,16 @@ public class PrayTime {
     // adjust times in a prayer time array
     private double[] adjustTimes(double[] times) {
         for (int i = 0; i < times.length; i++) {
-            times[i] += getTimeZone() - getLng() / 15;
+            times[i] += getTimeZone() - (getLng() / 15);
         }
 
         if (getCalcMethod().params[1] == 1) // Maghrib
         {
-            times[5] = times[4] + getCalcMethod().params[2] / 60;
+            times[5] = times[4] + (getCalcMethod().params[2] / 60);
         }
         if (getCalcMethod().params[3] == 1) // Isha
         {
-            times[6] = times[5] + getCalcMethod().params[4] / 60;
+            times[6] = times[5] + (getCalcMethod().params[4] / 60);
         }
 
         times = adjustHighLatTimes(times);
@@ -378,21 +378,21 @@ public class PrayTime {
         // Adjust Fajr
         double FajrDiff = nightPortion(getCalcMethod().params[0]) * nightTime;
 
-        if (Double.isNaN(times[0]) || timeDiff(times[0], times[1]) > FajrDiff) {
+        if (Double.isNaN(times[0]) || (timeDiff(times[0], times[1]) > FajrDiff)) {
             times[0] = times[1] - FajrDiff;
         }
 
         // Adjust Isha
-        double IshaAngle = getCalcMethod().params[3] == 0 ? getCalcMethod().params[4] : 18;
+        double IshaAngle = (getCalcMethod().params[3] == 0) ? getCalcMethod().params[4] : 18;
         double IshaDiff = nightPortion(IshaAngle) * nightTime;
-        if (Double.isNaN(times[6]) || timeDiff(times[4], times[6]) > IshaDiff) {
+        if (Double.isNaN(times[6]) || (timeDiff(times[4], times[6]) > IshaDiff)) {
             times[6] = times[4] + IshaDiff;
         }
 
         // Adjust Maghrib
-        double MaghribAngle = getCalcMethod().params[1] == 0 ? getCalcMethod().params[2] : 4;
+        double MaghribAngle = (getCalcMethod().params[1] == 0) ? getCalcMethod().params[2] : 4;
         double MaghribDiff = nightPortion(MaghribAngle) * nightTime;
-        if (Double.isNaN(times[5]) || timeDiff(times[4], times[5]) > MaghribDiff) {
+        if (Double.isNaN(times[5]) || (timeDiff(times[4], times[5]) > MaghribDiff)) {
             times[5] = times[4] + MaghribDiff;
         }
 
@@ -424,7 +424,7 @@ public class PrayTime {
 
     private double[] tuneTimes(double[] times) {
         for (int i = 0; i < times.length; i++) {
-            times[i] = times[i] + getCalcMethod().offsets[i] / 60.0;
+            times[i] += getCalcMethod().offsets[i] / 60.0;
         }
 
         return times;

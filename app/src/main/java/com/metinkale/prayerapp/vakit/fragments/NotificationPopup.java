@@ -51,12 +51,12 @@ public class NotificationPopup extends Activity {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
-        this.setContentView(R.layout.vakit_notpopup);
+        setContentView(R.layout.vakit_notpopup);
 
         name = ((TextView) findViewById(R.id.name));
-        name.setText(this.getIntent().getStringExtra("name"));
+        name.setText(getIntent().getStringExtra("name"));
         vakit = ((TextView) findViewById(R.id.vakit));
-        vakit.setText(this.getIntent().getStringExtra("vakit"));
+        vakit.setText(getIntent().getStringExtra("vakit"));
         vakit.setKeepScreenOn(true);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
@@ -76,7 +76,7 @@ public class NotificationPopup extends Activity {
     void onDismiss() {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(getIntent().getIntExtra("city", 0) + "", NotIds.ALARM);
-        this.sendBroadcast(new Intent(this, AlarmReceiver.Audio.class));
+        sendBroadcast(new Intent(this, AlarmReceiver.Audio.class));
         finish();
     }
 
@@ -86,14 +86,14 @@ public class NotificationPopup extends Activity {
         private final Paint paint = new Paint();
         private final Drawable icon, silent, close;
         private MotionEvent touch;
-        private boolean acceptTouch = false;
+        private boolean acceptTouch;
 
         public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             icon = context.getResources().getDrawable(R.drawable.ic_abicon);
             silent = context.getResources().getDrawable(R.drawable.ic_silent);
             close = context.getResources().getDrawable(R.drawable.ic_exit);
-            this.setOnTouchListener(this);
+            setOnTouchListener(this);
         }
 
         public MyView(Context context, AttributeSet attrs) {
@@ -114,7 +114,7 @@ public class NotificationPopup extends Activity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            int w = this.getWidth();
+            int w = getWidth();
             int r = w / 10;
 
             canvas.translate(w / 2, w / 2);
@@ -126,22 +126,23 @@ public class NotificationPopup extends Activity {
 
             int x = (int) touch.getX();
             int y = (int) touch.getY();
-            x -= this.getLeft();
-            y -= this.getTop();
+            x -= getLeft();
+            y -= getTop();
             x -= w / 2;
             y -= w / 2;
 
-            float tr = (float) Math.sqrt(x * x + y * y);
+            float tr = (float) Math.sqrt((x * x) + (y * y));
             double angle = Math.atan(y / (double) x);
             if (x < 0) angle += Math.PI;
-            if (tr >= w / 2 - r) tr = w / 2 - r;
+            if (tr >= ((w / 2) - r)) tr = (w / 2) - r;
 
             x = (int) (Math.cos(angle) * tr);
             y = (int) (Math.sin(angle) * tr);
 
-            if (touch.getAction() == MotionEvent.ACTION_DOWN && Math.abs(x) < r && Math.abs(y) < r) acceptTouch = true;
+            if ((touch.getAction() == MotionEvent.ACTION_DOWN) && (Math.abs(x) < r) && (Math.abs(y) < r))
+                acceptTouch = true;
 
-            if (acceptTouch && touch.getAction() != MotionEvent.ACTION_UP) {
+            if (acceptTouch && (touch.getAction() != MotionEvent.ACTION_UP)) {
                 silent.setBounds(-5 * r, -r, -3 * r, r);
 
                 silent.draw(canvas);
@@ -158,10 +159,10 @@ public class NotificationPopup extends Activity {
             } else {
                 icon.setBounds(-r, -r, r, r);
 
-                if (tr > 3 * r) {
-                    if (Math.abs(angle) < Math.PI / 10 && instance != null) instance.finish();
+                if (tr > (3 * r)) {
+                    if ((Math.abs(angle) < (Math.PI / 10)) && (instance != null)) instance.finish();
 
-                    if (Math.abs(angle - Math.PI) < Math.PI / 10 && instance != null) instance.onDismiss();
+                    if ((Math.abs(angle - Math.PI) < (Math.PI / 10)) && (instance != null)) instance.onDismiss();
                 }
             }
 
@@ -174,7 +175,7 @@ public class NotificationPopup extends Activity {
             touch = me;
             if (me.getAction() == MotionEvent.ACTION_UP) acceptTouch = false;
 
-            this.invalidate();
+            invalidate();
 
             return true;
 

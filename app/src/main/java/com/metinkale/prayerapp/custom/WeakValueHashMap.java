@@ -1,11 +1,11 @@
 package com.metinkale.prayerapp.custom;
 
 import java.lang.ref.WeakReference;
-import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Map;
 
 public class WeakValueHashMap<K, V> {
-    private AbstractMap<K, WeakReference<V>> mDatabase = new HashMap<>();
+    private Map<K, WeakReference<V>> mDatabase = new HashMap<>();
 
     public V get(K key) {
         WeakReference<V> weakRef = mDatabase.get(key);

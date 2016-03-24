@@ -46,7 +46,7 @@ public class Adapter extends ArrayAdapter<Date> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        convertView.setPadding(0, 0, 0, pos == getCount() - 1 ? ((BaseActivity) context).getBottomMargin() : 0);
+        convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) context).getBottomMargin() : 0);
         Date h = days.keySet().toArray(new Date[days.size()])[pos];
 
         vh.hicri.setText(h.format(true));

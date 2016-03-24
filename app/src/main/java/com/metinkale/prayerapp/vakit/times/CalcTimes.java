@@ -63,7 +63,7 @@ public class CalcTimes extends Times {
             mPrayTime.setAsrJuristic(getJuristic());
             mPrayTime.setAdjustHighLats(getAdjMethod());
         } catch (NullPointerException e) {
-            this.delete();
+            delete();
         }
         mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
     }
@@ -78,7 +78,7 @@ public class CalcTimes extends Times {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
-        final ListView lv = (ListView) view.findViewById(R.id.listView);
+        ListView lv = (ListView) view.findViewById(R.id.listView);
         final Spinner sp = (Spinner) view.findViewById(R.id.spinner);
         final Spinner sp2 = (Spinner) view.findViewById(R.id.spinner2);
 
@@ -137,7 +137,7 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(int d, int m, int y, int time) {
-        if (mLastD == d && mLastM == m && mLastY == y) return mLastTimes.get(time);
+        if ((mLastD == d) && (mLastM == m) && (mLastY == y)) return mLastTimes.get(time);
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, d);

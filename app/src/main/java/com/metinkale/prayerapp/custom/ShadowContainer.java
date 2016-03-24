@@ -41,7 +41,7 @@ public class ShadowContainer extends ViewGroup {
 
     @SuppressLint("NewApi")
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mShadow = this.getResources().getDrawable(R.drawable.shadow);
+        mShadow = getResources().getDrawable(R.drawable.shadow);
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowContainer, defStyleAttr, defStyleRes);
 
@@ -80,7 +80,7 @@ public class ShadowContainer extends ViewGroup {
             }
 
         }
-        this.setMeasuredDimension(w, h);
+        setMeasuredDimension(w, h);
         if (mTop) {
             h -= mShadowSize * mMaxShadowSize;
         }
@@ -102,8 +102,8 @@ public class ShadowContainer extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        r = r - l;
-        b = b - t;
+        r -= l;
+        b -= t;
         t = 0;
         l = 0;
 
@@ -123,7 +123,7 @@ public class ShadowContainer extends ViewGroup {
         if (mBottom) {
             b -= mShadowSize * mMaxShadowSize;
         }
-        this.getChildAt(0).layout(l, t, r, b);
+        getChildAt(0).layout(l, t, r, b);
 
     }
 

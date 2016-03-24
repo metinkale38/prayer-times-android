@@ -27,7 +27,7 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.List;
 
 public class PrefsView extends View implements OnClickListener {
-    private final static ColorFilter sCFInactive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
+    private static final ColorFilter sCFInactive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
     private final Paint mPaint = new Paint();
     private Pref mPref;
     private Drawable mDrawable;
@@ -86,8 +86,9 @@ public class PrefsView extends View implements OnClickListener {
 
     @Override
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         Object o = getValue();
-        boolean active = o instanceof Boolean && o.equals(true) || o instanceof Integer && !o.equals(0) || o instanceof String && !o.equals("silent");
+        boolean active = ((o instanceof Boolean) && o.equals(true)) || ((o instanceof Integer) && !o.equals(0)) || ((o instanceof String) && !"silent".equals(o));
         if (mPref == Pref.Vibration2) active = !o.equals(-1);
         mPaint.setColor(active ? Color.WHITE : Color.LTGRAY);
         int w = getHeight();
@@ -102,14 +103,14 @@ public class PrefsView extends View implements OnClickListener {
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setTextSize(w / 2);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            canvas.drawText(s + "'", w * 6 / 10, w / 2, mPaint);
-        } else if (mPref == Pref.Time || mPref == Pref.SabahTime) {
+            canvas.drawText(s + "'", (w * 6) / 10, w / 2, mPaint);
+        } else if ((mPref == Pref.Time) || (mPref == Pref.SabahTime)) {
             int s = (Integer) getValue();
             mPaint.setColor(Color.BLACK);
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setTextSize(w / 2);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            canvas.drawText(s + "'", w / 2, w * 2 / 3, mPaint);
+            canvas.drawText(s + "'", w / 2, (w * 2) / 3, mPaint);
         } else if (mPref == Pref.Vibration2) {
             int s = (Integer) getValue();
             String txt = "";
@@ -121,9 +122,9 @@ public class PrefsView extends View implements OnClickListener {
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             if (s == 0) {
                 canvas.rotate(90, canvas.getWidth() / 2, canvas.getHeight() / 2);
-                canvas.drawText(txt, w / 2, w * 2 / 3, mPaint);
+                canvas.drawText(txt, w / 2, (w * 2) / 3, mPaint);
                 canvas.rotate(-90, canvas.getWidth() / 2, canvas.getHeight() / 2);
-            } else canvas.drawText(txt, w / 2, w * 2 / 3, mPaint);
+            } else canvas.drawText(txt, w / 2, (w * 2) / 3, mPaint);
         }
     }
 
@@ -131,7 +132,7 @@ public class PrefsView extends View implements OnClickListener {
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int size = width > height ? height : width;
+        int size = (width > height) ? height : width;
         setMeasuredDimension(size, size);
     }
 
@@ -163,14 +164,14 @@ public class PrefsView extends View implements OnClickListener {
         if (mFunc != null) {
             mFunc.setValue(obj);
         }
-        this.invalidate();
+        invalidate();
     }
 
     @Override
     public void onClick(View v) {
-        final Object o = getValue();
-        if (mPref == Pref.Sound || mPref == Pref.Dua || mPref == Pref.Sela) {
-            new SoundChooser().showExpanded(((Activity) this.getContext()).getFragmentManager(), new Callback() {
+        Object o = getValue();
+        if ((mPref == Pref.Sound) || (mPref == Pref.Dua) || (mPref == Pref.Sela)) {
+            new SoundChooser().showExpanded(((Activity) getContext()).getFragmentManager(), new Callback() {
 
                 @Override
                 public String getCurrent() {
@@ -211,11 +212,11 @@ public class PrefsView extends View implements OnClickListener {
             np.setMaxValue(300);
             np.setValue(Math.abs(val));
 
-            rg.check(val < 0 ? R.id.afterImsak : R.id.beforeGunes);
+            rg.check((val < 0) ? R.id.afterImsak : R.id.beforeGunes);
             builder.setView(view).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    setValue(np.getValue() * (rg.getCheckedRadioButtonId() == R.id.beforeGunes ? 1 : -1));
+                    setValue(np.getValue() * ((rg.getCheckedRadioButtonId() == R.id.beforeGunes) ? 1 : -1));
                 }
             }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
@@ -226,7 +227,7 @@ public class PrefsView extends View implements OnClickListener {
         } else if (mPref == Pref.Vibration2) {
             int i = (Integer) o;
             i++;
-            if (i < -1 || i > 1) i = -1;
+            if ((i < -1) || (i > 1)) i = -1;
             setValue(i);
             performHapticFeedback(HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING | HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
         } else if (o instanceof Boolean) {

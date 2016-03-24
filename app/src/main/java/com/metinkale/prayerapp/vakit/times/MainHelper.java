@@ -29,7 +29,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
     private static final String _DATE = "date";
-    private static final String _TIME[] = new String[]{"time0", "time1", "time2", "time3", "time4", "time5"};
+    private static final String[] _TIME = {"time0", "time1", "time2", "time3", "time4", "time5"};
     private static final String TIMES_TABLE = "times";
     private static final String TIMES_CREATE = "CREATE TABLE " + TIMES_TABLE + " (" + _ID + " INTEGER, " + _DATE + " TEXT," + _TIME[0] + " TEXT, " + _TIME[1] + " TEXT, " + _TIME[2] + " TEXT, " + _TIME[3] + " TEXT, " + _TIME[4] + " TEXT, " + _TIME[5] + " TEXT, PRIMARY KEY (" + _ID + ", " + _DATE + "))";
 
@@ -37,8 +37,8 @@ public class MainHelper extends SQLiteOpenHelper {
     private static MainHelper sInstance;
 
     private List<Times> mTimes = new ArrayList<Times>();
-    private HashMap<String, Object> data = new HashMap<>();
-    private List<MainHelperListener> mListeners = new ArrayList<>();
+    private AbstractMap<String, Object> data = new HashMap<>();
+    private Collection<MainHelperListener> mListeners = new ArrayList<>();
     private int mOpenCounter;
     private SQLiteDatabase mDatabase;
 
@@ -192,8 +192,8 @@ public class MainHelper extends SQLiteOpenHelper {
     protected void loadTimes() {
         SQLiteDatabase db = openDB();
 
-        List<Long> ids = new ArrayList<>();
-        List<Times> times = new ArrayList<>(mTimes);
+        Collection<Long> ids = new ArrayList<>();
+        Iterable<Times> times = new ArrayList<>(mTimes);
         for (Times t : times) {
             if (t.isDeleted()) {
                 mTimes.remove(t);
@@ -238,7 +238,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
     protected class _TimesBase {
         private long id;
-        private boolean deleted = false;
+        private boolean deleted;
 
         public _TimesBase(long id) {
             this.id = id;
@@ -432,7 +432,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         public int getInt(String key, int def) {
-            if (!key.equals("deleted")) if (deleted) return def;
+            if (!"deleted".equals(key)) if (deleted) return def;
             Object cached = data.get(id + key);
             if (cached instanceof Integer) return (Integer) cached;
             return def;

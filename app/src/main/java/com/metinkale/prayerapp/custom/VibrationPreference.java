@@ -1,0 +1,122 @@
+package com.metinkale.prayerapp.custom;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Vibrator;
+import android.preference.EditTextPreference;
+import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import com.metinkale.prayer.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by metin on 24.03.2016.
+ */
+public class VibrationPreference extends EditTextPreference {
+    //Layout Fields
+    private final RelativeLayout layout = new RelativeLayout(this.getContext());
+    private final EditText editText = new EditText(this.getContext());
+    private final Button button = new Button(this.getContext());
+
+    public static long[] getPattern(Context c, String key) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        List<Long> mills = new ArrayList<Long>();
+        String txt = prefs.getString(key, "0 300 150 300 150 500");
+        String split[] = txt.split(" ");
+        for (String s : split) {
+            if (!s.isEmpty()) {
+                try {
+                    mills.add(Long.parseLong(s));
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        long[] pattern = new long[mills.size()];
+        for (int i = 0; i < pattern.length; i++)
+            pattern[i] = mills.get(i);
+        return pattern;
+
+    }
+
+    //Called when addPreferencesFromResource() is called. Initializes basic paramaters
+    public VibrationPreference(final Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setPersistent(true);
+        button.setText(R.string.tryvibration);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Long> mills = new ArrayList<Long>();
+                String txt = editText.getText().toString();
+                String split[] = txt.split(" ");
+                for (String s : split) {
+                    if (!s.isEmpty()) {
+                        try {
+                            mills.add(Long.parseLong(s));
+                        } catch (Exception ignore) {
+                        }
+                    }
+                }
+
+                Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = new long[mills.size()];
+                for (int i = 0; i < pattern.length; i++)
+                    pattern[i] = mills.get(i);
+                vib.vibrate(pattern, -1);
+            }
+        });
+        editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+    }
+
+    //Create the Dialog view
+    @Override
+    protected View onCreateDialogView() {
+        button.setId(R.id.button5);
+        layout.addView(editText);
+        layout.addView(button);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+        params2.addRule(RelativeLayout.LEFT_OF, button.getId());
+        return layout;
+    }
+
+    //Attach persisted values to Dialog
+    @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+        editText.setText(getPersistedString("EditText"), TextView.BufferType.NORMAL);
+    }
+
+    //persist values and disassemble views
+    @Override
+    protected void onDialogClosed(boolean positiveresult) {
+        super.onDialogClosed(positiveresult);
+        if (positiveresult && shouldPersist()) {
+            String value = editText.getText().toString();
+            if (callChangeListener(value))
+                persistString(value);
+        }
+
+        ((ViewGroup) editText.getParent()).removeView(editText);
+        ((ViewGroup) button.getParent()).removeView(button);
+        ((ViewGroup) layout.getParent()).removeView(layout);
+
+        notifyChanged();
+    }
+
+    public void setValue(String value) {
+        editText.setText(value);
+    }
+}

@@ -38,13 +38,13 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, w, r.getDisplayMetrics());
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
 
-        int s = (int) (Math.min(w, h));
+        int s = Math.min(w, h);
 
         if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
-            edit.commit();
+            edit.apply();
             updateAppWidget(context, appWidgetManager, widgetId);
             return;
         }
@@ -91,13 +91,13 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
 
         paint.setColor(theme.textcolor);
 
-        paint.setTextSize(s * 25 / 100);
+        paint.setTextSize((s * 25) / 100);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText("Sessize", s / 2, s * 125 / 300, paint);
-        canvas.drawText("al", s / 2, s * 25 / 30, paint);
+        canvas.drawText("Sessize", s / 2, (s * 125) / 300, paint);
+        canvas.drawText("al", s / 2, (s * 25) / 30, paint);
 
         paint.setStyle(Style.STROKE);
-        float stroke =  mDP;
+        float stroke = mDP;
         paint.setStrokeWidth(stroke);
         paint.setColor(theme.strokecolor);
         canvas.drawRect(0, 0, s, s, paint);
@@ -139,7 +139,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if ((w * h) != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

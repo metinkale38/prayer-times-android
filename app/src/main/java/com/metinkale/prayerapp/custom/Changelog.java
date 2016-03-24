@@ -18,7 +18,7 @@ public class Changelog {
 
     public static void start(Context c) {
         mContext = c;
-        if (CHANGELOG_VERSION > Prefs.getChangelogVersion()) {
+        if (Prefs.getChangelogVersion() < CHANGELOG_VERSION) {
             getDialog().show();
             Prefs.setChangelogVersion(CHANGELOG_VERSION);
         }

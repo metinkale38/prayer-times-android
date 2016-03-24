@@ -24,20 +24,20 @@ import java.util.GregorianCalendar;
 @SuppressLint("ClickableViewAccessibility")
 public class MainFragment extends Fragment {
 
-    private static final int ids[] = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
-    private static final int idsNames[] = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+    private static final int[] ids = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
+    private static final int[] idsNames = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
     private static Handler mHandler = new Handler();
     private View mView;
     private Times mTimes;
     private long mCity;
     private TextView mCountdown, mKerahat, mTitle;
-    private boolean mHasTimes = false;
+    private boolean mHasTimes;
     private Runnable onSecond = new Runnable() {
 
         @Override
         public void run() {
 
-            if (mTimes.deleted()||((Main)getActivity()).mPaneView.isOpen()) return;
+            if (mTimes.deleted() || ((Main) getActivity()).mPaneView.isOpen()) return;
             if (mTimes != null) {
                 if (!mHasTimes) {
                     update();
@@ -48,7 +48,7 @@ public class MainFragment extends Fragment {
                 for (int i = 0; i < 6; i++) {
                     TextView time = (TextView) mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == next - 1) {
+                    if (i == (next - 1)) {
                         time.setBackgroundResource(R.color.indicator);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.indicator);
                     } else {
@@ -62,7 +62,7 @@ public class MainFragment extends Fragment {
 
             }
 
-            if (mTitle.getText().toString().equals("gps")) {
+            if ("gps".equals(mTitle.getText().toString())) {
                 mTitle.setText(mTimes.getName());
             }
 
@@ -80,7 +80,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
-        this.setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         if (mCity == 0) {
             return mView;
         }
@@ -114,7 +114,7 @@ public class MainFragment extends Fragment {
     }
 
     private void update() {
-        if (mTimes == null || mView == null) {
+        if ((mTimes == null) || (mView == null)) {
             return;
         }
 
@@ -135,7 +135,7 @@ public class MainFragment extends Fragment {
             TextView time = (TextView) mView.findViewById(ids[i]);
             if (!Prefs.use12H()) time.setText(daytimes[i]);
             else time.setText(Utils.fixTimeForHTML(daytimes[i]));
-            mHasTimes = !daytimes[i].equals("00:00");
+            mHasTimes = !"00:00".equals(daytimes[i]);
         }
 
         mHandler.removeCallbacks(onSecond);
@@ -154,7 +154,7 @@ public class MainFragment extends Fragment {
 
         switch (item.getItemId()) {
 
-            case R.id.notification: {
+            case R.id.notification:
                 Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
                 if (frag == null) {
                     ((Main) getActivity()).setFooterText(mTimes.getName(), false);
@@ -165,13 +165,11 @@ public class MainFragment extends Fragment {
 
                 }
 
-            }
-            case R.id.refresh: {
+            case R.id.refresh:
                 if (mTimes != null) mTimes.refresh();
                 break;
-            }
 
-            case R.id.share: {
+            case R.id.share:
                 String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
                 Calendar cal = Calendar.getInstance();
                 String[] times = {mTimes.getTime(cal, 0), mTimes.getTime(cal, 1), mTimes.getTime(cal, 2), mTimes.getTime(cal, 3), mTimes.getTime(cal, 4), mTimes.getTime(cal, 5)};
@@ -179,13 +177,12 @@ public class MainFragment extends Fragment {
                     txt += "\n   " + Vakit.getByIndex(i).getString() + ": " + times[i];
                 }
 
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.vakit));
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, txt);
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.vakit));
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
                 startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
 
-            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -8,7 +8,7 @@ import java.util.*;
 public class Date {
     private static final Calendar CAL = new GregorianCalendar();
 
-    private static final String[] ASSETS = new String[]{"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
+    private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
 
     private int mHD, mHM, mHY, mGD, mGM, mGY, mWD;
 
@@ -39,7 +39,7 @@ public class Date {
         return hicri ? getHolydaysForHicriYear(year) : getHolydaysForGregYear(year);
     }
 
-    private static LinkedHashMap<Date, String> getHolydaysForGregYear(int year) {
+    private static AbstractMap<Date, String> getHolydaysForGregYear(int year) {
         LinkedHashMap<Date, String> map = new LinkedHashMap<>();
         List<DiyanetTakvimi.DATE> diy = DiyanetTakvimi.get().getHolydays(year);
 
@@ -52,8 +52,8 @@ public class Date {
         }
 
         int y = new Date(1, 1, year, false).getHicriYear();
-        HashMap<Date, String> y1 = getHolydaysForHicriYear(y);
-        HashMap<Date, String> y2 = getHolydaysForHicriYear(y + 1);
+        AbstractMap<Date, String> y1 = getHolydaysForHicriYear(y);
+        AbstractMap<Date, String> y2 = getHolydaysForHicriYear(y + 1);
 
         for (Date h : y1.keySet()) {
             if (h.getGregYear() == year) {
@@ -70,7 +70,7 @@ public class Date {
 
     }
 
-    private static LinkedHashMap<Date, String> getHolydaysForHicriYear(int y) {
+    private static HashMap<Date, String> getHolydaysForHicriYear(int y) {
         LinkedHashMap<Date, String> map = new LinkedHashMap<>();
 
         map.put(new Date(1, 1, y, true), Utils.getHolyday(0));
@@ -80,9 +80,9 @@ public class Date {
 
         Date h = new Date(1, 7, y, true);
         if (h.getWeekDay() <= 3) {
-            h.setHicriDay(h.getHicriDay() + 3 - h.getWeekDay());
+            h.setHicriDay((h.getHicriDay() + 3) - h.getWeekDay());
         } else {
-            h.setHicriDay(h.getHicriDay() + 10 - h.getWeekDay());
+            h.setHicriDay((h.getHicriDay() + 10) - h.getWeekDay());
         }
         map.put(h, Utils.getHolyday(4));
 
@@ -104,7 +104,7 @@ public class Date {
 
     }
 
-    private static String formatInt(int Int, int num) {
+    private static CharSequence formatInt(int Int, int num) {
         String ret = Int + "";
         if (ret.length() < num) {
             for (int i = ret.length(); i < num; i++) {
@@ -123,7 +123,7 @@ public class Date {
         } else {
             AbstractMap<Date, String> map = Date.getHolydaysForGregYear(year);
 
-            AbstractList<String> set = new ArrayList<>(map.values());
+            List<String> set = new ArrayList<>(map.values());
 
             return Prefs.getLanguage() + ASSETS[Arrays.asList(Utils.getAllHolydays()).indexOf(set.get(pos))];
 
@@ -225,20 +225,20 @@ public class Date {
         double m = mGM;
         double y = mGY;
         double jd;
-        if (y > 1582 || y == 1582 && m > 10 || y == 1582 && m == 10 && d > 14) {
-            jd = intPart(1461 * (y + 4800 + intPart((m - 14) / 12)) / 4) + intPart(367 * (m - 2 - 12 * intPart((m - 14) / 12)) / 12) - intPart(3 * intPart((y + 4900 + intPart((m - 14) / 12)) / 100) / 4) + d - 32075;
+        if ((y > 1582) || ((y == 1582) && (m > 10)) || ((y == 1582) && (m == 10) && (d > 14))) {
+            jd = (((intPart((1461 * (y + 4800 + intPart((m - 14) / 12))) / 4) + intPart((367 * (m - 2 - (12 * intPart((m - 14) / 12)))) / 12)) - intPart((3 * intPart((y + 4900 + intPart((m - 14) / 12)) / 100)) / 4)) + d) - 32075;
         } else {
-            jd = 367 * y - intPart(7 * (y + 5001 + intPart((m - 9) / 7)) / 4) + intPart(275 * m / 9) + d + 1729777;
+            jd = ((367 * y) - intPart((7 * (y + 5001 + intPart((m - 9) / 7))) / 4)) + intPart((275 * m) / 9) + d + 1729777;
         }
 
-        double l = jd - 1948440 + 10632;
+        double l = (jd - 1948440) + 10632;
         double n = intPart((l - 1) / 10631);
-        l = l - 10631 * n + 354;
-        double j = intPart((10985 - l) / 5316) * intPart(50 * l / 17719) + intPart(l / 5670) * intPart(43 * l / 15238);
-        l = l - intPart((30 - j) / 15) * intPart(17719 * j / 50) - intPart(j / 16) * intPart(15238 * j / 43) + 29;
-        m = intPart(24 * l / 709);
-        d = l - intPart(709 * m / 24);
-        y = 30 * n + j - 30;
+        l = (l - (10631 * n)) + 354;
+        double j = (intPart((10985 - l) / 5316) * intPart((50 * l) / 17719)) + (intPart(l / 5670) * intPart((43 * l) / 15238));
+        l = (l - (intPart((30 - j) / 15) * intPart((17719 * j) / 50)) - (intPart(j / 16) * intPart((15238 * j) / 43))) + 29;
+        m = intPart((24 * l) / 709);
+        d = l - intPart((709 * m) / 24);
+        y = ((30 * n) + j) - 30;
 
         mHD = (int) d;
         mHM = (int) m;
@@ -250,30 +250,30 @@ public class Date {
         double m = mHM;
         double y = mHY;
 
-        double jd = intPart((11 * y + 3) / 30) + 354 * y + 30 * m - intPart((m - 1) / 2) + d + 1948440 - 385;
+        double jd = (((intPart(((11 * y) + 3) / 30) + (354 * y) + (30 * m)) - intPart((m - 1) / 2)) + d + 1948440) - 385;
         double l, n, i, j, k;
         if (jd > 2299160) {
             l = jd + 68569;
-            n = intPart(4 * l / 146097);
-            l = l - intPart((146097 * n + 3) / 4);
-            i = intPart(4000 * (l + 1) / 1461001);
-            l = l - intPart(1461 * i / 4) + 31;
-            j = intPart(80 * l / 2447);
-            d = l - intPart(2447 * j / 80);
+            n = intPart((4 * l) / 146097);
+            l -= intPart(((146097 * n) + 3) / 4);
+            i = intPart((4000 * (l + 1)) / 1461001);
+            l = (l - intPart((1461 * i) / 4)) + 31;
+            j = intPart((80 * l) / 2447);
+            d = l - intPart((2447 * j) / 80);
             l = intPart(j / 11);
-            m = j + 2 - 12 * l;
-            y = 100 * (n - 49) + i + l;
+            m = (j + 2) - (12 * l);
+            y = (100 * (n - 49)) + i + l;
         } else {
             j = jd + 1402;
             k = intPart((j - 1) / 1461);
-            l = j - 1461 * k;
+            l = j - (1461 * k);
             n = intPart((l - 1) / 365) - intPart(l / 1461);
-            i = l - 365 * n + 30;
-            j = intPart(80 * i / 2447);
-            d = i - intPart(2447 * j / 80);
+            i = (l - (365 * n)) + 30;
+            j = intPart((80 * i) / 2447);
+            d = i - intPart((2447 * j) / 80);
             i = intPart(j / 11);
-            m = j + 2 - 12 * i;
-            y = 4 * k + n + i - 4716;
+            m = (j + 2) - (12 * i);
+            y = ((4 * k) + n + i) - 4716;
         }
 
         mGD = (int) d;
@@ -290,7 +290,7 @@ public class Date {
     public boolean equals(Object o) {
         if (o instanceof Date) {
             Date h = (Date) o;
-            if (h.mGD == mGD && h.mGM == mGM && h.mGY == mGY) {
+            if ((h.mGD == mGD) && (h.mGM == mGM) && (h.mGY == mGY)) {
                 return true;
             }
         }
@@ -318,7 +318,7 @@ public class Date {
         date = date.replace("E", Utils.getShortWeekday(mWD - 1));
         date = date.replace("DD", formatInt(d, 2));
 
-        if (m == 0 && !hicri) {
+        if ((m == 0) && !hicri) {
             calcGreg();
             m = mGM;
         } else if (m == 0) {

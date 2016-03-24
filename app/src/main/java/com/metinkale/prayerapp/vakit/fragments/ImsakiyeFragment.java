@@ -78,7 +78,7 @@ public class ImsakiyeFragment extends Fragment {
 
         @Override
         public long getItemId(int position) {
-            return position + (times == null ? 0 : times.getID());
+            return position + ((times == null) ? 0 : times.getID());
         }
 
         @Override
@@ -111,7 +111,7 @@ public class ImsakiyeFragment extends Fragment {
 
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                if (i == 0 || !Prefs.use12H() || position == 0) tv.setText(a[i]);
+                if ((i == 0) || !Prefs.use12H() || (position == 0)) tv.setText(a[i]);
                 else tv.setText(Utils.fixTimeForHTML(a[i]));
             }
 
@@ -119,7 +119,7 @@ public class ImsakiyeFragment extends Fragment {
                 v.setBackgroundResource(R.color.colorPrimary);
             } else if (position == 0) {
                 v.setBackgroundResource(R.color.indicator);
-            } else if (position % 2 == 0) {
+            } else if ((position % 2) == 0) {
                 v.setBackgroundResource(R.color.colorPrimaryLight);
             } else {
                 v.setBackgroundColor(Color.WHITE);

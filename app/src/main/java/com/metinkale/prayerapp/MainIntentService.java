@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -24,14 +25,11 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.AbstractMap;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.TimeZone;
 
@@ -66,7 +64,7 @@ public class MainIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void downloadSound(Context context, Sounds.Sound sound, Runnable callback) {
+    public static void downloadSound(Context context, Serializable sound, Runnable callback) {
         mCallback = callback;
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_DOWNLOAD_SOUND);
@@ -81,7 +79,7 @@ public class MainIntentService extends IntentService {
     }
 
     public static void rescheduleAlarms(Context context) {
-        if (!android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")) return;
+        if (!"samsung".equalsIgnoreCase(Build.MANUFACTURER)) return;
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_RESCHEDULE_ALARMS);
         context.startService(intent);
@@ -91,7 +89,7 @@ public class MainIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             try {
-                final String action = intent.getAction();
+                String action = intent.getAction();
                 Runnable callback = mCallback;
                 switch (action) {
                     case ACTION_DOWNLOAD_HADIS:
@@ -107,10 +105,10 @@ public class MainIntentService extends IntentService {
                         if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false))
                             break;
                     case ACTION_SET_ALARMS:
-                        if (android.os.Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
+                        if ("samsung".equalsIgnoreCase(Build.MANUFACTURER)) {
                             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
                             boolean isScreenOn;
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT_WATCH) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
                                 isScreenOn = pm.isInteractive();
                             } else {
                                 isScreenOn = pm.isScreenOn();
@@ -136,12 +134,12 @@ public class MainIntentService extends IntentService {
     }
 
 
-    private void downloadFile(String Url, File to, final String notificationText) {
+    private void downloadFile(String Url, File to, final CharSequence notificationText) {
         final Activity act = BaseActivity.CurrectAct;
 
 
         NotificationManager nm = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        final File f = to;
+        File f = to;
 
         if (f.exists()) {
             f.delete();
@@ -174,7 +172,7 @@ public class MainIntentService extends IntentService {
 
             FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
 
-            byte data[] = new byte[4096];
+            byte[] data = new byte[4096];
             long total = 0;
             int count;
             while ((count = bis.read(data)) != -1) {
@@ -233,9 +231,9 @@ public class MainIntentService extends IntentService {
 
             String id = Prefs.getCalendar();
 
-            if (id.equals("-1") || Prefs.getLanguage() == null) return;
+            if ("-1".equals(id) || (Prefs.getLanguage() == null)) return;
             int year = Calendar.getInstance().get(Calendar.YEAR);
-            HashMap<Date, String> days = new LinkedHashMap<>();
+            AbstractMap<Date, String> days = new LinkedHashMap<>();
             days.putAll(Date.getHolydays(year, false));
             days.putAll(Date.getHolydays(year + 1, false));
 

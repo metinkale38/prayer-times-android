@@ -47,7 +47,7 @@ public class Settings extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.settings);
+        setContentView(R.layout.settings);
 
     }
 
@@ -87,12 +87,12 @@ public class Settings extends BaseActivity {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if (preference.getKey().equals("mail")) {
+            if ("mail".equals(preference.getKey())) {
                 sendMail(getActivity());
-            } else if (preference.getKey().equals("backupRestore")) {
-                startActivity(new Intent(this.getActivity(), BackupRestoreActivity.class));
-            } else if (preference.getKey().equals("donate")) {
-                Builder builder = new AlertDialog.Builder(this.getActivity());
+            } else if ("backupRestore".equals(preference.getKey())) {
+                startActivity(new Intent(getActivity(), BackupRestoreActivity.class));
+            } else if ("donate".equals(preference.getKey())) {
+                Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.donateDlg);
                 builder.setCancelable(true);
                 builder.setPositiveButton(R.string.ok, new OnClickListener() {
@@ -103,8 +103,8 @@ public class Settings extends BaseActivity {
 
                         String lang = Prefs.getLanguage();
                         String url = DONATE_LINK_EN;
-                        if (lang.equals("tr")) url = DONATE_LINK_TR;
-                        else if (lang.equals("de")) url = DONATE_LINK_DE;
+                        if ("tr".equals(lang)) url = DONATE_LINK_TR;
+                        else if ("de".equals(lang)) url = DONATE_LINK_DE;
 
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
@@ -121,7 +121,7 @@ public class Settings extends BaseActivity {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            } else if (preference.getKey().equals("ongoingIcon")) WidgetService.updateOngoing();
+            } else if ("ongoingIcon".equals(preference.getKey())) WidgetService.updateOngoing();
             return true;
 
         }
@@ -129,15 +129,15 @@ public class Settings extends BaseActivity {
         @Override
         public boolean onPreferenceChange(Preference pref, Object newValue) {
             Prefs.reset();
-            if (pref.getKey().equals("language")) {
+            if ("language".equals(pref.getKey())) {
 
                 Activity act = getActivity();
                 act.finish();
                 Intent i = new Intent(act, act.getClass());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 act.startActivity(i);
-            } else if (pref.getKey().equals("calendarIntegration")) {
-                MainIntentService.startCalendarIntegration(this.getActivity());
+            } else if ("calendarIntegration".equals(pref.getKey())) {
+                MainIntentService.startCalendarIntegration(getActivity());
             }
             return true;
         }

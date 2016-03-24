@@ -24,7 +24,7 @@ public class WebTimes extends Times {
     private Thread mThread;
 
     private Handler mHandler = new Handler();
-    private boolean mSyncing = false;
+    private boolean mSyncing;
 
     WebTimes(long id) {
         super(id);
@@ -38,12 +38,12 @@ public class WebTimes extends Times {
     public void delete() {
         super.delete();
         mHandler.removeCallbacks(mCheckSync);
-        if (mThread != null && mThread.isAlive()) mThread.interrupt();
+        if ((mThread != null) && mThread.isAlive()) mThread.interrupt();
     }
 
     @Override
     public void refresh() {
-        if (getId() == null || !App.isOnline() || mSyncing) return;
+        if ((getId() == null) || !App.isOnline() || mSyncing) return;
 
         if (Thread.currentThread() != mThread) {
             Thread t = new Thread() {
@@ -96,7 +96,7 @@ public class WebTimes extends Times {
 
 
     long getLastSync() {
-        return getInt(_LASTSYNC) * 1000;
+        return getInt(_LASTSYNC) * 1000L;
     }
 
     void setLastSync(long lastSync) {
@@ -123,9 +123,9 @@ public class WebTimes extends Times {
             cal.add(Calendar.DAY_OF_YEAR, 15);
             long lastSync = getLastSync();
 
-            if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
+            if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24)) {
                 // always if +15 days does not exist
-                if (getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00")) {
+                if ("00:00".equals(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1))) {
                     refresh();
                     return;
                 }
@@ -141,7 +141,7 @@ public class WebTimes extends Times {
                     IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
                     Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
+                    if ((status == BatteryManager.BATTERY_STATUS_CHARGING) || (status == BatteryManager.BATTERY_STATUS_FULL))
                         reasons++;
                 } catch (Exception ignore) {
                     Crashlytics.logException(ignore);
@@ -152,13 +152,13 @@ public class WebTimes extends Times {
 
                 cal.add(Calendar.DAY_OF_YEAR, reasons * 3);
                 // if +15+reasons*3 days does not exist
-                if (getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1).equals("00:00")) {
+                if ("00:00".equals(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1))) {
                     refresh();
                     return;
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
-                if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * (60 - reasons * 5)) {
+                if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
                     refresh();
                     return;
                 }
