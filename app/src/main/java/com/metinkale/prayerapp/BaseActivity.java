@@ -26,9 +26,6 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.settings.Settings;
-import com.metinkale.prayerapp.tesbihat.Tesbihat;
-import com.metinkale.prayerapp.vakit.Main;
 
 import java.io.File;
 
@@ -207,6 +204,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private class MyClickListener implements OnItemClickListener {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
             if (pos == mNavPos) {
@@ -217,19 +215,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             Intent i = null;
             switch (pos) {
                 case 0:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
                     break;
                 case 1:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.compass.Main.class);
                     break;
                 case 2:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.names.Main.class);
                     break;
                 case 3:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.calendar.Main.class);
                     break;
                 case 4:
-                    i = new Intent(BaseActivity.this, Tesbihat.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.tesbihat.Tesbihat.class);
                     break;
                 case 5:
                     String file = Prefs.getLanguage() + "/hadis.db";
@@ -246,7 +244,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             f.delete();
                             onItemClick(null, null, 5, 0);
                         }
-                        i = new Intent(BaseActivity.this, Main.class);
+                        i = new Intent(BaseActivity.this, com.metinkale.prayerapp.hadis.Main.class);
                     } else {
                         f.delete();
                         AlertDialog dialog = new AlertDialog.Builder(BaseActivity.this).create();
@@ -277,16 +275,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     break;
                 case 6:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.kaza.Main.class);
                     break;
                 case 7:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.zikr.Main.class);
                     break;
                 case 8:
-                    i = new Intent(BaseActivity.this, Settings.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.settings.Settings.class);
                     break;
                 default:
-                    i = new Intent(BaseActivity.this, Main.class);
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
             }
 
             i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
