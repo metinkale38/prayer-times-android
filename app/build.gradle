@@ -12,8 +12,13 @@ apply plugin: 'io.fabric'
 
 android {
 
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     dexOptions {
-        preDexLibraries = false
+        preDexLibraries = true
     }
 
     signingConfigs {
@@ -58,8 +63,11 @@ android {
             jniDebuggable false
             renderscriptDebuggable false
             signingConfig signingConfigs.releaseKey
-            minifyEnabled false
+            minifyEnabled true
             zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
         }
     }
     productFlavors {
@@ -77,10 +85,9 @@ dependencies {
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
     compile 'com.android.support:percent:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.+'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'asia.ivity.android:drag-sort-listview:1.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }

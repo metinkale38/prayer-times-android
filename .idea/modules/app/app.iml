@@ -67,9 +67,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../app/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/classes-proguard" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/dex" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/asia.ivity.android/drag-sort-listview/1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/com.android.support/percent/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.2.1/jars" />
@@ -83,6 +83,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/pre-dexed" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/proguard-rules" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/resources" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/rs" />
@@ -94,7 +95,6 @@
     <orderEntry type="jdk" jdkName="Android SDK" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="sqliteassethelper-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="drag-sort-listview-1.0" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />
     <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.8" level="project" />
