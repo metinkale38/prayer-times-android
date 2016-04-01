@@ -268,7 +268,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-                        dialog.setIcon(R.drawable.ic_delete);
                         dialog.show();
                         return;
                     }

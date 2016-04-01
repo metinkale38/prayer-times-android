@@ -1,53 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+                android:id="@+id/item"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="10dp"
+                android:foreground="?selectableItemBackground">
 
-
-
-    <ImageView
-        android:id="@+id/drag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/drag" />
-
-    <ImageView
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/drag"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/drag"
-        android:src="@drawable/ic_delete" />
 
     <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/source"
-        android:layout_below="@id/source"
-        android:layout_marginBottom="5dp"
-        android:layout_toRightOf="@id/drag"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_vertical"
-        android:paddingLeft="12dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/source"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
 
     <TextView
-        android:id="@+id/source"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/delete"
-        android:layout_toLeftOf="@+id/delete"
-        android:layout_toRightOf="@+id/drag"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_vertical"
-        android:paddingLeft="8dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:id="@+id/source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-
+    <ImageView
+            android:id="@+id/handle"
+            android:layout_width="?listPreferredItemHeight"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:tint="#aaaaaa"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_reorder_white_24dp"/>
 
 </RelativeLayout>

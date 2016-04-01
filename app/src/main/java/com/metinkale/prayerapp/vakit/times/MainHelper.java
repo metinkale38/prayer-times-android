@@ -37,7 +37,7 @@ public class MainHelper extends SQLiteOpenHelper {
     private static MainHelper sInstance;
 
     private List<Times> mTimes = new ArrayList<Times>();
-    private AbstractMap<String, Object> data = new HashMap<>();
+    private AbstractMap<String, Object> data = new HashMap<String, Object>();
     private Collection<MainHelperListener> mListeners = new ArrayList<>();
     private int mOpenCounter;
     private SQLiteDatabase mDatabase;
@@ -56,7 +56,7 @@ public class MainHelper extends SQLiteOpenHelper {
         get().mListeners.remove(listener);
     }
 
-    static synchronized MainHelper get() {
+    public static synchronized MainHelper get() {
         if (sInstance == null) {
             sInstance = new MainHelper();
             sInstance.loadTimes();
@@ -145,7 +145,7 @@ public class MainHelper extends SQLiteOpenHelper {
         get().closeDB();
     }
 
-    private void notifyOnDataSetChanged() {
+    public void notifyOnDataSetChanged() {
         for (MainHelperListener list : mListeners)
             list.notifyDataSetChanged();
     }
@@ -160,29 +160,31 @@ public class MainHelper extends SQLiteOpenHelper {
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
 
-        Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
-        c.moveToFirst();
-        if (!c.isAfterLast()) {
-            do {
-                long id = c.getLong(c.getColumnIndex(_ID));
-                String key = c.getString(c.getColumnIndex(_KEY));
-                int column = c.getColumnIndex(_VALUE);
-                int type = c.getType(column);
-                switch (type) {
-                    case FIELD_TYPE_INTEGER:
-                        data.put(id + key, c.getInt(column));
-                        break;
-                    case FIELD_TYPE_STRING:
-                        data.put(id + key, c.getString(column));
-                        break;
-                    case FIELD_TYPE_FLOAT:
-                        data.put(id + key, c.getDouble(column));
-                        break;
-                }
+        if (data.isEmpty()) {
+            Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
+            c.moveToFirst();
+            if (!c.isAfterLast()) {
+                do {
+                    long id = c.getLong(c.getColumnIndex(_ID));
+                    String key = c.getString(c.getColumnIndex(_KEY));
+                    int column = c.getColumnIndex(_VALUE);
+                    int type = c.getType(column);
+                    switch (type) {
+                        case FIELD_TYPE_INTEGER:
+                            data.put(id + key, c.getInt(column));
+                            break;
+                        case FIELD_TYPE_STRING:
+                            data.put(id + key, c.getString(column));
+                            break;
+                        case FIELD_TYPE_FLOAT:
+                            data.put(id + key, c.getDouble(column));
+                            break;
+                    }
 
-            } while (c.moveToNext());
+                } while (c.moveToNext());
+            }
+            c.close();
         }
-        c.close();
     }
 
     @Override
@@ -318,10 +320,6 @@ public class MainHelper extends SQLiteOpenHelper {
             db.delete(TIMES_TABLE, _ID + " = " + id, null);
             set("deleted", true);
             closeDB();
-            for (String key : data.keySet()) {
-                key.startsWith(id + "");
-                data.remove(key);
-            }
 
             deleted = true;
             id = 0;
@@ -343,7 +341,6 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public void set(String key, String value) {
             if (deleted) return;
-            data.put(id + key, value);
             ContentValues values = new ContentValues();
             values.put(_ID, id);
             values.put(_KEY, key);
@@ -351,12 +348,12 @@ public class MainHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = openDB();
             db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             closeDB();
+            data.put(id + key, value);
         }
 
 
         public void set(String key, int value) {
             if (deleted) return;
-            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
@@ -365,6 +362,8 @@ public class MainHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = openDB();
             db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             closeDB();
+            data.put(id + key, value);
+
         }
 
 
@@ -375,7 +374,6 @@ public class MainHelper extends SQLiteOpenHelper {
 
         public void set(String key, double value) {
             if (deleted) return;
-            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
@@ -384,12 +382,13 @@ public class MainHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = openDB();
             db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             closeDB();
+            data.put(id + key, value);
+
         }
 
 
         public void set(String key, byte[] value) {
             if (deleted) return;
-            data.put(id + key, value);
 
             ContentValues values = new ContentValues();
             values.put(_ID, id);
@@ -398,6 +397,8 @@ public class MainHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = openDB();
             db.insertWithOnConflict(CITIES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             closeDB();
+            data.put(id + key, value);
+
         }
 
 
@@ -434,6 +435,7 @@ public class MainHelper extends SQLiteOpenHelper {
         public int getInt(String key, int def) {
             if (!"deleted".equals(key)) if (deleted) return def;
             Object cached = data.get(id + key);
+
             if (cached instanceof Integer) return (Integer) cached;
             return def;
         }

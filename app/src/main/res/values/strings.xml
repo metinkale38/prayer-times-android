@@ -130,5 +130,7 @@
     <string name="tryvibration">Dene</string>
     <string name="vibration_pattern">Titreşim deseni</string>
     <string name="vibration_description">Milisaniye - bekleme titresim bekleme....</string>
+    <string name="category">Kategori</string>
+    <string name="cuma">Cuma</string>
 
 </resources>

@@ -97,7 +97,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     }
 
     public void hide() {
-        mHidden = false;
+        mHidden = true;
         mCompassView.post(new Runnable() {
             public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);

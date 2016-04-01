@@ -195,7 +195,6 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 public void onClick(DialogInterface dialog, int buttonId) {
                 }
             });
-            dialog.setIcon(R.drawable.ic_delete);
             dialog.show();
         }
     }
@@ -248,7 +247,6 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                     public void onClick(DialogInterface dialog, int buttonId) {
                     }
                 });
-                dialog.setIcon(R.drawable.ic_delete);
                 dialog.show();
                 return true;
         }

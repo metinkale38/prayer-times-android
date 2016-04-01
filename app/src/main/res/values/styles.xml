@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources  xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
+<resources
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
 
+
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 
     <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowIsFloating">false</item>
@@ -10,7 +14,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

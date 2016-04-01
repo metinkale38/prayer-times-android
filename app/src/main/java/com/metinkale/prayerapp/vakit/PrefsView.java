@@ -8,6 +8,7 @@ import android.graphics.*;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -27,8 +28,10 @@ import com.metinkale.prayerapp.vakit.times.Vakit;
 import java.util.List;
 
 public class PrefsView extends View implements OnClickListener {
-    private static final ColorFilter sCFInactive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
-    private final Paint mPaint = new Paint();
+    private static final ColorFilter sCFActive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
+    private static final ColorFilter sCFInactive = new PorterDuffColorFilter(0xffa0a0a0, Mode.SRC_ATOP);
+
+    private final Paint mPaint;
     private Pref mPref;
     private Drawable mDrawable;
     private PrefsFunctions mFunc;
@@ -64,6 +67,11 @@ public class PrefsView extends View implements OnClickListener {
         mDrawable = c.getResources().getDrawable(mPref.resId);
         setOnClickListener(this);
 
+        ViewCompat.setTranslationY(this, getResources().getDimension(R.dimen.dimen4dp));
+
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
     }
 
     public void setPrefFunctions(PrefsFunctions func) {
@@ -87,31 +95,34 @@ public class PrefsView extends View implements OnClickListener {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2, canvas.getHeight() / 2);
         Object o = getValue();
         boolean active = ((o instanceof Boolean) && o.equals(true)) || ((o instanceof Integer) && !o.equals(0)) || ((o instanceof String) && !"silent".equals(o));
         if (mPref == Pref.Vibration2) active = !o.equals(-1);
-        mPaint.setColor(active ? Color.WHITE : Color.LTGRAY);
+        mPaint.setColor(active ? 0xff03A9F4 : 0xffe0e0e0);
         int w = getHeight();
         canvas.drawCircle(w / 2, w / 2, w / 2, mPaint);
-        mDrawable.setBounds(0, 0, w, w);
-        mDrawable.setColorFilter(active ? null : sCFInactive);
+
+        int p = w / 7;
+        mDrawable.setBounds(p, p, w - p, w - p);
+        mDrawable.setColorFilter(active ? sCFActive : sCFInactive);
         mDrawable.draw(canvas);
 
-        if (mPref == Pref.Silenter) {
+        if (((mPref == Pref.Time) || (mPref == Pref.SabahTime) || (mPref == Pref.Silenter))) {
             int s = (Integer) getValue();
-            mPaint.setColor(Color.BLACK);
-            mPaint.setTextAlign(Align.CENTER);
-            mPaint.setTextSize(w / 2);
-            mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            canvas.drawText(s + "'", (w * 6) / 10, w / 2, mPaint);
-        } else if ((mPref == Pref.Time) || (mPref == Pref.SabahTime)) {
-            int s = (Integer) getValue();
-            mPaint.setColor(Color.BLACK);
-            mPaint.setTextAlign(Align.CENTER);
-            mPaint.setTextSize(w / 2);
-            mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            canvas.drawText(s + "'", w / 2, (w * 2) / 3, mPaint);
-        } else if (mPref == Pref.Vibration2) {
+
+            if (s != 0) {
+                mPaint.setColor(getResources().getColor(R.color.colorPrimaryDark));
+                canvas.drawCircle(getWidth() * 0.78f, getHeight() * 0.78f, getWidth() / 4, mPaint);
+                mPaint.setColor(Color.WHITE);
+                mPaint.setTextAlign(Align.CENTER);
+                mPaint.setTextSize(w / 5);
+                mPaint.setTypeface(Typeface.DEFAULT_BOLD);
+                canvas.drawText(s + "", w * 0.78f, w * 0.87f, mPaint);
+            }
+        } else if (mPref == Pref.Vibration2)
+
+        {
             int s = (Integer) getValue();
             String txt = "";
             if (s == 0) txt = "8";
@@ -259,7 +270,7 @@ public class PrefsView extends View implements OnClickListener {
     }
 
     public enum Pref {
-        Silenter(R.drawable.ic_silenter), Sound(R.drawable.ic_sound), Sela(R.drawable.ic_sound), Dua(R.drawable.ic_dua), Vibration2(R.drawable.ic_vibration), Vibration(R.drawable.ic_vibration), Time(R.drawable.ic_time), SabahTime(R.drawable.ic_time);
+        Silenter(R.drawable.ic_volume_off_white_24dp), Sound(R.drawable.ic_volume_up_white_24dp), Sela(R.drawable.ic_volume_up_white_24dp), Dua(R.drawable.ic_dua), Vibration2(R.drawable.ic_vibration_white_24dp), Vibration(R.drawable.ic_vibration_white_24dp), Time(R.drawable.ic_access_time_white_24dp), SabahTime(R.drawable.ic_access_time_white_24dp);
         int resId;
 
         Pref(int resId) {

@@ -69,29 +69,29 @@
                 android:layout_toLeftOf="@+id/center">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -100,11 +100,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
 
@@ -117,29 +117,29 @@
                 android:layout_alignParentTop="true">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -148,11 +148,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
 
@@ -165,29 +165,29 @@
                 android:layout_below="@+id/imsak">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -196,11 +196,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
 
@@ -212,29 +212,29 @@
                 android:layout_toRightOf="@+id/imsak">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -243,11 +243,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
 
@@ -260,29 +260,29 @@
                 android:layout_toLeftOf="@+id/center">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -291,11 +291,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
 
@@ -308,29 +308,29 @@
                 android:layout_alignLeft="@+id/center">
 
                 <Button
-                    android:id="@id/plus"
+                    android:id="@+id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
                     android:layout_alignParentRight="true"
                     android:text="@string/plus" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/minus"
-                    android:layout_alignBottom="@id/minus"
-                    android:layout_toLeftOf="@id/plus"
-                    android:layout_toRightOf="@id/minus"
+                    android:layout_alignBaseline="@+id/minus"
+                    android:layout_alignBottom="@+id/minus"
+                    android:layout_toLeftOf="@+id/plus"
+                    android:layout_toRightOf="@+id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@id/text"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -339,11 +339,11 @@
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@id/minus"
+                    android:id="@+id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"
+                    android:layout_below="@+id/text"
                     android:text="@string/minus" />
             </RelativeLayout>
         </RelativeLayout>

@@ -91,8 +91,8 @@ public class NotificationPopup extends Activity {
         public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             icon = context.getResources().getDrawable(R.drawable.ic_abicon);
-            silent = context.getResources().getDrawable(R.drawable.ic_silent);
-            close = context.getResources().getDrawable(R.drawable.ic_exit);
+            silent = context.getResources().getDrawable(R.drawable.ic_volume_off_white_24dp);
+            close = context.getResources().getDrawable(R.drawable.ic_close_white_24dp);
             setOnTouchListener(this);
         }
 

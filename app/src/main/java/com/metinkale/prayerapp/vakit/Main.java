@@ -1,9 +1,7 @@
 package com.metinkale.prayerapp.vakit;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -106,7 +104,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         });
 
-        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_action_add)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.RIGHT).withMargins(0, 0, 16, 5).hide().create();
+        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.RIGHT).withMargins(0, 0, 16, 5).hide().create();
         mAddCityFab.setOnClickListener(this);
     }
 
@@ -169,6 +167,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     public void setFooterText(CharSequence txt, boolean enablePane) {
+        mFooterText.setVisibility(txt.toString().isEmpty() ? View.GONE : View.VISIBLE);
         mFooterText.setText(txt);
         mPaneView.setEnabled(enablePane);
         mPager.setSwipeLocked(!enablePane);
@@ -188,33 +187,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
         }
 
-        public void drop(int from, int to) {
-            MainHelper.drop(from, to);
-        }
-
-        public void remove(int which) {
-            final Times times = MainHelper.getTimesAt(which);
-
-            AlertDialog dialog = new AlertDialog.Builder(Main.this).create();
-            dialog.setTitle(R.string.delete);
-            dialog.setMessage(getString(R.string.delConfirm, times.getName()));
-            dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                    times.delete();
-                }
-            });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                    dialog.cancel();
-                }
-            });
-            dialog.setIcon(R.drawable.ic_delete);
-            dialog.show();
-
-        }
 
 
         @Override

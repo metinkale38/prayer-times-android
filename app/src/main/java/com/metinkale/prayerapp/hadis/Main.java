@@ -178,11 +178,11 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             int i = (int) mAdapter.getItemId(mPager.getCurrentItem());
             if (mState == STATE_FAVORITE) {
                 if (mRemFav == -1) {
-                    mFav.setIcon(R.drawable.ic_action_nofav);
+                    mFav.setIcon(R.drawable.ic_star_border_white_24dp);
                     mRemFav = i;
                     mNumber.setText(mPager.getCurrentItem() + 1 + "/" + (mAdapter.getCount() - 1));
                 } else {
-                    mFav.setIcon(R.drawable.ic_action_favorite);
+                    mFav.setIcon(R.drawable.ic_star_white_24dp);
                     mRemFav = -1;
                     mNumber.setText(mPager.getCurrentItem() + 1 + "/" + mAdapter.getCount());
 
@@ -261,9 +261,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         if (mAdapter.getCount() == 0) return;
 
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
-            mFav.setIcon(R.drawable.ic_action_favorite);
+            mFav.setIcon(R.drawable.ic_star_white_24dp);
         } else {
-            mFav.setIcon(R.drawable.ic_action_nofav);
+            mFav.setIcon(R.drawable.ic_star_border_white_24dp);
         }
 
         if ((mRemFav != -1) && mFavs.contains(mRemFav)) {

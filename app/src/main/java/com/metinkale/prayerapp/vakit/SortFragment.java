@@ -1,40 +1,53 @@
 package com.metinkale.prayerapp.vakit;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SortFragment extends Fragment implements DragSortListView.DropListener, MainHelper.MainHelperListener {
+public class SortFragment extends Fragment implements MainHelper.MainHelperListener {
 
+    private LinearLayoutManager mLinLayMan;
+    private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
     private Main act;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
-        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.vakit_sort_main, container, false);
-
-        DragSortListView list = (DragSortListView) v.findViewById(android.R.id.list);
-        list.setDropListener(this);
+        View v = inflater.inflate(R.layout.vakit_sort_main, container, false);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
         mAdapter = new MyAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mLinLayMan = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLinLayMan);
+        mRecyclerView.setHasFixedSize(true);
 
-        list.setAdapter(mAdapter);
-        list.setOnItemClickListener(act.mAdapter);
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback();
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         return v;
     }
+
 
     @Override
     public void onResume() {
@@ -50,99 +63,194 @@ public class SortFragment extends Fragment implements DragSortListView.DropListe
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
-        if (activity instanceof Main) {
-            act = (Main) activity;
+        if (context instanceof Main) {
+            act = (Main) context;
 
         }
     }
 
-    @Override
-    public void drop(int from, int to) {
-        act.mAdapter.drop(from, to);
-    }
-
     public void notifyDataSetChanged() {
-        if (mAdapter != null) mAdapter.notifyDataSetChanged();
+        if (mAdapter.getItemCount() != MainHelper.getCount()) mAdapter.dataChanged();
     }
 
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mAdapter.ids, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mAdapter.ids, i, i - 1);
+            }
+        }
+        mAdapter.notifyItemMoved(fromPosition, toPosition);
 
-    private class MyAdapter extends BaseAdapter {
+        MainHelper.drop(fromPosition, toPosition);
+    }
+
+    public void onItemDismiss(final int position) {
+        final Times times = MainHelper.getTimesAt(position);
+
+        AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+        dialog.setTitle(R.string.delete);
+        dialog.setMessage(getString(R.string.delConfirm, times.getName()));
+        dialog.setCancelable(false);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int buttonId) {
+                times.delete();
+                mAdapter.notifyItemRemoved(position);
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int buttonId) {
+                dialog.cancel();
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        dialog.show();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView city;
+        public TextView source;
+        public int pos;
+        public View handler;
+
+        public ViewHolder(View v) {
+            super(v);
+            city = (TextView) v.findViewById(R.id.city);
+            source = (TextView) v.findViewById(R.id.source);
+            handler = v.findViewById(R.id.handle);
+        }
+    }
+
+    private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
+
         private List<Long> ids = new ArrayList<Long>();
 
         private int hide = -1;
 
         public MyAdapter() {
-            super();
+            dataChanged();
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
+            return new ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder vh, final int position) {
+            vh.pos = position;
+
+            Times c = getItem(position);
+            if (c == null) return;
+            vh.city.setText(c.getName());
+            vh.source.setText(c.getSource().text);
+
+            vh.handler.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (MotionEventCompat.getActionMasked(event) ==
+                            MotionEvent.ACTION_DOWN) {
+                        mItemTouchHelper.startDrag(vh);
+                    }
+
+                    return false;
+                }
+            });
+        }
+
+
+        public void dataChanged() {
+            ids.clear();
+            ids.addAll(MainHelper.getIds());
             notifyDataSetChanged();
         }
 
-        @Override
-        public void notifyDataSetChanged() {
-            ids.clear();
-            ids.addAll(MainHelper.getIds());
-            super.notifyDataSetChanged();
-        }
 
-        @Override
-        public int getCount() {
-            return ids.size();
-        }
-
-        @Override
         public Times getItem(int pos) {
             return MainHelper.getTimes(ids.get(pos));
         }
 
         @Override
         public long getItemId(int position) {
-            return ids.size();
+            return getItem(position).getID();
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
-                convertView.setTag(new ViewHolder(convertView));
-            }
-            View v = convertView;
-            ViewHolder vh = (ViewHolder) v.getTag();
-            vh.pos = position;
-
-            Times c = getItem(position);
-            if (c == null) return new View(getContext());
-            vh.city.setText(c.getName());
-            vh.source.setText(c.getSource().text);
-
-            vh.delete.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    act.mAdapter.remove(position);
-                }
-            });
-
-
-            return convertView;
+        public int getItemCount() {
+            return ids.size();
         }
 
 
-        class ViewHolder {
-            public TextView city;
-            public TextView source;
-            public ImageView drag, delete;
-            public int pos;
+    }
 
-            public ViewHolder(View v) {
-                city = (TextView) v.findViewById(R.id.city);
-                source = (TextView) v.findViewById(R.id.source);
-                drag = (ImageView) v.findViewById(R.id.drag);
-                delete = (ImageView) v.findViewById(R.id.delete);
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView,
+                                    RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder
+                target) {
+            onItemMove(viewHolder.getAdapterPosition(),
+                    target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            onItemDismiss(viewHolder.getAdapterPosition());
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder,
+                                      int actionState) {
+            // We only want the active item
+            if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                if (viewHolder instanceof ViewHolder) {
+                    ViewHolder itemViewHolder =
+                            (ViewHolder) viewHolder;
+                    itemViewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+                }
+            }
+
+            super.onSelectedChanged(viewHolder, actionState);
+        }
+
+        @Override
+        public void clearView(RecyclerView recyclerView,
+                              RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+
+            if (viewHolder instanceof ViewHolder) {
+                ViewHolder itemViewHolder =
+                        (ViewHolder) viewHolder;
+                itemViewHolder.itemView.setBackgroundColor(Color.WHITE);
             }
         }
     }
-
-
 }

@@ -35,8 +35,7 @@ public class Adapter extends ArrayAdapter<Item> {
         ViewHolder vh;
         if (convertView == null) {
 
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.names_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.names_item, parent, false);
             vh = new ViewHolder();
             vh.name = (TextView) convertView.findViewById(R.id.name);
             vh.arabicImg = (ImageView) convertView.findViewById(R.id.arabicImg);

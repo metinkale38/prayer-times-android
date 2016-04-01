@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
@@ -25,8 +25,8 @@ public class Main extends BaseActivity {
             View v = vg.getChildAt(i);
             TextView name = (TextView) v.findViewById(R.id.text);
             final EditText nr = (EditText) v.findViewById(R.id.nr);
-            Button plus = (Button) v.findViewById(R.id.plus);
-            Button minus = (Button) v.findViewById(R.id.minus);
+            ImageView plus = (ImageView) v.findViewById(R.id.plus);
+            ImageView minus = (ImageView) v.findViewById(R.id.minus);
 
             name.setText(ids[i]);
 

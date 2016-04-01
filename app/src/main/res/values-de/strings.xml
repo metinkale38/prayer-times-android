@@ -130,4 +130,6 @@
     <string name="tryvibration">Play</string>
     <string name="vibration_pattern">Vibrationsmuster</string>
     <string name="vibration_description">Milisekunden - warten vibration warten...</string>
+    <string name="category">Kategorie</string>
+    <string name="cuma">Freitagsgebet</string>
 </resources>

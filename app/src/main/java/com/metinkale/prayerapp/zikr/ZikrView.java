@@ -67,7 +67,7 @@ public class ZikrView extends View {
         canvas.drawText(Math.round(mCount) + "", center, center, mPaint);
 
         mPaint.setTextSize((center * 2) / 20);
-        canvas.drawText(getCount2() + "", center / 10, center / 10, mPaint);
+        canvas.drawText(getCount2() + "", center / 10, center * 0.13f, mPaint);
 
 
         mPaint.setTextSize((center * 2) / 10);

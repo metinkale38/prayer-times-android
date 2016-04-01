@@ -205,8 +205,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
                     }
                 });
-                dialog.setIcon(R.drawable.ic_delete);
-                dialog.show();
+               dialog.show();
 
             }
         }

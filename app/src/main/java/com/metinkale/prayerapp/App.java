@@ -6,9 +6,12 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
@@ -72,6 +75,13 @@ public class App extends Application {
 
 
     }
+
+    public static Drawable getTintedDrawable(@DrawableRes int drawableResId, int color) {
+        Drawable drawable = App.getContext().getResources().getDrawable(drawableResId);
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        return drawable;
+    }
+
 
     public static final class NotIds {
         public static final int ALARM = 1;

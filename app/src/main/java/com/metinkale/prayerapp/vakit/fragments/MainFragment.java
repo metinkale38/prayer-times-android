@@ -157,7 +157,7 @@ public class MainFragment extends Fragment {
             case R.id.notification:
                 Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
                 if (frag == null) {
-                    ((Main) getActivity()).setFooterText(mTimes.getName(), false);
+                    ((Main) getActivity()).setFooterText("", false);
                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commit();
                 } else {
                     ((Main) getActivity()).setFooterText(getString(R.string.imsakiye), true);
