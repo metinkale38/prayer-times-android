@@ -254,7 +254,7 @@ public class TimesBase extends MainHelper._TimesBase {
     }
 
     public enum Source {
-        Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.diyanet), Fazilet("Fazilet Takvimi", R.drawable.fazilet), IGMG("IGMG", R.drawable.igmg), Semerkand("Semerkand", R.drawable.semerkand), NVC("NamazVakti.com", R.drawable.namazvakticom);
+        Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.ic_ditib), Fazilet("Fazilet Takvimi", R.drawable.ic_fazilet), IGMG("IGMG", R.drawable.ic_igmg), Semerkand("Semerkand", R.drawable.ic_semerkand), NVC("NamazVakti.com", R.drawable.ic_namazvakticom);
 
         public int resId;
         public String text;
