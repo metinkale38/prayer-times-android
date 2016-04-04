@@ -22,7 +22,7 @@ import com.metinkale.prayerapp.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
 import com.metinkale.prayerapp.vakit.times.Cities.Item;
-import com.metinkale.prayerapp.vakit.times.Times;
+import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.Collection;
@@ -140,7 +140,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             Item item = new Item();
             item.city = "GPS";
             item.country = query;
-            item.source = Times.Source.Calc;
+            item.source = Source.Calc;
             item.lat = Double.parseDouble(query.substring(0, query.indexOf(";")));
             item.lng = Double.parseDouble(query.substring(1 + query.indexOf(";")));
             mAdapter.add(item);

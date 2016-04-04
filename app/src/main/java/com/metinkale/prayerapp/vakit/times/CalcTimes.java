@@ -114,7 +114,6 @@ public class CalcTimes extends Times {
                 t.setMethod(Method.values()[pos]);
                 t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
                 t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
-                MainHelper.get().loadTimes();
                 dlg.cancel();
                 c.finish();
 

@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -24,7 +22,6 @@ import com.metinkale.prayerapp.custom.LockableViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {
@@ -43,7 +40,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (t == null) return null;
         Context context = App.getContext();
         Intent intent = new Intent(context, Main.class);
-        intent.putExtra("startCity", MainHelper.getIds().indexOf(t.getID()));
+        intent.putExtra("startCity", Times.getIds().indexOf(t.getID()));
         return PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
@@ -86,7 +83,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             public void run() {
                 int position = mPager.getCurrentItem();
                 if (position != 0) {
-                    Times t = MainHelper.getTimes(mAdapter.getItemId(position));
+                    Times t = Times.getTimes(mAdapter.getItemId(position));
                     mSettingsFrag.setTimes(t);
                 }
             }
@@ -97,8 +94,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             public void run() {
                 int position = mPager.getCurrentItem();
                 if (position != 0) {
-                    Times t = MainHelper.getTimes(mAdapter.getItemId(position));
-                    t.loadAllTimes();
+                    Times t = Times.getTimes(mAdapter.getItemId(position));
                     mImsakiyeFrag.setTimes(t);
                 }
             }
@@ -120,7 +116,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void onResume() {
         super.onResume();
         isRunning = true;
-        MainHelper.addListener(mAdapter);
+        Times.addListener(mAdapter);
 
 
     }
@@ -128,7 +124,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void onPause() {
         super.onPause();
         isRunning = false;
-        MainHelper.removeListener(mAdapter);
+        Times.removeListener(mAdapter);
 
     }
 
@@ -180,7 +176,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mFooterText.setText((pos == 0) ? R.string.cities : R.string.imsakiye);
     }
 
-    public class MyAdapter extends FragmentPagerAdapter implements OnItemClickListener, MainHelper.MainHelperListener {
+    public class MyAdapter extends FragmentPagerAdapter implements Times.TimesListener {
 
         public MyAdapter(FragmentManager fm) {
             super(fm);
@@ -188,17 +184,16 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
 
 
-
         @Override
         public int getCount() {
-            return MainHelper.getCount() + 1;
+            return Times.getCount() + 1;
         }
 
         @Override
         public long getItemId(int position) {
             if (position == 0) return 0;
 
-            return MainHelper.getTimesAt(position - 1).getID();
+            return Times.getTimesAt(position - 1).getID();
         }
 
         @Override
@@ -207,7 +202,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
                 return 0;
             } else {
                 MainFragment frag = (MainFragment) object;
-                int pos = MainHelper.getTimes().indexOf(frag.getTimes());
+                int pos = Times.getTimes().indexOf(frag.getTimes());
                 if (pos >= 0) return pos + 1;
             }
             return POSITION_NONE;
@@ -231,13 +226,12 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         }
 
-        @Override
-        public void onItemClick(AdapterView<?> a, View v, int pos, long index) {
-            mPager.setCurrentItem(pos + 1, true);
-
-        }
 
     }
 
 
+    public void onItemClick(int pos) {
+        mPager.setCurrentItem(pos + 1, true);
+
+    }
 }

@@ -14,7 +14,6 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -33,17 +32,17 @@ public class WidgetService extends Service {
 
         for (int i = mOngoing.size() - 1; i >= 0; i--) {
             long id = mOngoing.get(i);
-            Times t = MainHelper.getTimes(id);
+            Times t = Times.getTimes(id);
 
             if ((t == null) || !t.isOngoingNotificationActive()) {
                 nm.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
             }
         }
-        List<Long> ids = MainHelper.getIds();
+        List<Long> ids = Times.getIds();
         for (long id : ids) {
 
-            Times t = MainHelper.getTimes(id);
+            Times t = Times.getTimes(id);
 
             if ((t != null) && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
                 mOngoing.add(id);
@@ -57,7 +56,7 @@ public class WidgetService extends Service {
 
         String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
         for (long id : mOngoing) {
-            Times t = MainHelper.getTimes(id);
+            Times t = Times.getTimes(id);
 
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
 

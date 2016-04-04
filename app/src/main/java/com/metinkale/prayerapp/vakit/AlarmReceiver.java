@@ -25,7 +25,6 @@ import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.custom.MD5;
 import com.metinkale.prayerapp.custom.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
@@ -132,7 +131,7 @@ public class AlarmReceiver extends IntentService {
                 Crashlytics.setString("md5", MD5.calculateMD5(file));
             else
                 try {
-                    MainHelper.getTimes(alarm.city).set(alarm.pref, "silent");
+                    Times.getTimes(alarm.city).set(alarm.pref, "silent");
                 } catch (Exception ee) {
                     //Crashlytics.logException(ee);
                 }
@@ -199,7 +198,7 @@ public class AlarmReceiver extends IntentService {
 
         if (next.city == 0) return;
 
-        Times t = MainHelper.getTimes(next.city);
+        Times t = Times.getTimes(next.city);
         if (!"TEST".equals(next.pref) && ((t != null) && (next.pref != null) && !t.is(next.pref))) {
             return;
         }

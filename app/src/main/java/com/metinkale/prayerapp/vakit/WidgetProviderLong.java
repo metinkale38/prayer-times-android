@@ -22,7 +22,6 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -87,7 +86,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
         Times times = null;
         long id = widgets.getLong(widgetId + "", 0L);
         if (id != 0)
-            times = MainHelper.getTimes(widgets.getLong(widgetId + "", 0L));
+            times = Times.getTimes(widgets.getLong(widgetId + "", 0L));
         if (times == null) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);

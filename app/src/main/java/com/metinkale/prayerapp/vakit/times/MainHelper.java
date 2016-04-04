@@ -1,16 +1,14 @@
 package com.metinkale.prayerapp.vakit.times;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 
-import java.util.*;
+import java.io.File;
+import java.util.Calendar;
 
-import static android.R.attr.y;
 import static android.database.Cursor.*;
 
 /**
@@ -34,121 +32,80 @@ public class MainHelper extends SQLiteOpenHelper {
     private static final String TIMES_CREATE = "CREATE TABLE " + TIMES_TABLE + " (" + _ID + " INTEGER, " + _DATE + " TEXT," + _TIME[0] + " TEXT, " + _TIME[1] + " TEXT, " + _TIME[2] + " TEXT, " + _TIME[3] + " TEXT, " + _TIME[4] + " TEXT, " + _TIME[5] + " TEXT, PRIMARY KEY (" + _ID + ", " + _DATE + "))";
 
 
-    private static MainHelper sInstance;
+    public static void copy() {
+        File dbFile = App.getContext().getDatabasePath(DATABASE_NAME);
+        if (dbFile.exists()) {
+            MainHelper mainHelper = new MainHelper();
 
-    private List<Times> mTimes = new ArrayList<Times>();
-    private AbstractMap<String, Object> data = new HashMap<String, Object>();
-    private Collection<MainHelperListener> mListeners = new ArrayList<>();
-    private int mOpenCounter;
-    private SQLiteDatabase mDatabase;
+            SQLiteDatabase db = mainHelper.getWritableDatabase();
+            Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
+            c.moveToFirst();
+            if (!c.isAfterLast()) {
+                do {
+                    long id = c.getLong(c.getColumnIndex(_ID));
+                    String key = c.getString(c.getColumnIndex(_KEY));
+                    int column = c.getColumnIndex(_VALUE);
+                    int type = c.getType(column);
+                    AbstractTimesBasics times = new AbstractTimesBasics(id);
+                    switch (type) {
+                        case FIELD_TYPE_INTEGER:
+                            times.set(key, c.getInt(column));
+                            break;
+                        case FIELD_TYPE_STRING:
+                            times.set(key, c.getString(column));
+                            break;
+                        case FIELD_TYPE_FLOAT:
+                            times.set(key, c.getDouble(column));
+                            break;
+                    }
+
+                } while (c.moveToNext());
+            }
+            c.close();
+
+            db.delete(CITIES_TABLE, null, null);
+            Calendar cal = Calendar.getInstance();
+            String date = cal.get(Calendar.YEAR) + "-" + Utils.az(cal.get(Calendar.MONTH) + 1) + "-01";
+
+            c = db.query(TIMES_TABLE, null, _DATE + " >= '" + date + "'", null, null, null, null);
+            c.moveToFirst();
+
+            c.moveToFirst();
+            if (!c.isAfterLast()) {
+                do {
+                    try {
+                        long id = c.getLong(c.getColumnIndex(_ID));
+                        Times t = Times.getTimes(id);
+                        if (t == null) continue;
+
+                        String d = c.getString(c.getColumnIndex(_DATE));
+                        for (int i = 0; i < _TIME.length; i++) {
+                            String[] s = d.split("-");
+                            int _y = Integer.parseInt(s[0]);
+                            int _m = Integer.parseInt(s[1]);
+                            int _d = Integer.parseInt(s[2]);
+                            t.setTime(_d, _m, _y, i, c.getString(c.getColumnIndex(_TIME[i])));
+                        }
+                    } catch (Exception ignore) {
+                    }
+                } while (c.moveToNext());
+            }
+            db.delete(TIMES_TABLE, null, null);
+
+            c.close();
+            db.close();
+            mainHelper.close();
+
+            if (!dbFile.delete())
+                dbFile.deleteOnExit();
+        }
+    }
 
     private MainHelper() {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
 
     }
 
-    public static void addListener(MainHelperListener listener) {
-        get().mListeners.add(listener);
-        listener.notifyDataSetChanged();
-    }
-
-    public static void removeListener(MainHelperListener listener) {
-        get().mListeners.remove(listener);
-    }
-
-    public static synchronized MainHelper get() {
-        if (sInstance == null) {
-            sInstance = new MainHelper();
-            sInstance.loadTimes();
-        }
-
-        return sInstance;
-    }
-
-    public synchronized SQLiteDatabase openDB() {
-        mOpenCounter++;
-        if (mOpenCounter == 1) {
-            mDatabase = getWritableDatabase();
-        }
-        return mDatabase;
-    }
-
-    public synchronized void closeDB() {
-        mOpenCounter--;
-        if (mOpenCounter == 0) {
-            mDatabase.close();
-
-        }
-    }
-
-    public static Times getTimesAt(int index) {
-        return get().mTimes.get(index);
-    }
-
-    public static Times getTimes(long id) {
-        for (Times t : get().mTimes) {
-            if (t.getID() == id) return t;
-        }
-
-        try {
-            TimesBase.Source source = TimesBase.getSource(id);
-            switch (source) {
-                case Diyanet:
-                    return new DiyanetTimes(id);
-                case Fazilet:
-                    return new FaziletTimes(id);
-                case IGMG:
-                    return new IGMGTimes(id);
-                case NVC:
-                    return new NVCTimes(id);
-                case Semerkand:
-                    return new SemerkandTimes(id);
-                case Calc:
-                    return new CalcTimes(id);
-            }
-
-        } catch (Exception ignore) {
-        }
-        return null;
-    }
-
-    public static List<Times> getTimes() {
-        return get().mTimes;
-    }
-
-    public static List<Long> getIds() {
-        List<Long> ids = new ArrayList<>();
-        List<Times> times = getTimes();
-        for (Times t : times) {
-            if (t != null) ids.add(t.getID());
-        }
-        return ids;
-    }
-
-    public static int getCount() {
-        return get().mTimes.size();
-    }
-
-    public static void drop(int from, int to) {
-        SQLiteDatabase db = get().openDB();
-        List<Long> keys = getIds();
-        Long key = keys.get(from);
-        keys.remove(key);
-        keys.add(to, key);
-        db.beginTransaction();
-        for (Long i : keys) {
-            getTimes(i).setSortId(keys.indexOf(i));
-        }
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        get().loadTimes();
-        get().closeDB();
-    }
-
-    public void notifyOnDataSetChanged() {
-        for (MainHelperListener list : mListeners)
-            list.notifyDataSetChanged();
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -159,82 +116,17 @@ public class MainHelper extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-
-        if (data.isEmpty()) {
-            Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
-            c.moveToFirst();
-            if (!c.isAfterLast()) {
-                do {
-                    long id = c.getLong(c.getColumnIndex(_ID));
-                    String key = c.getString(c.getColumnIndex(_KEY));
-                    int column = c.getColumnIndex(_VALUE);
-                    int type = c.getType(column);
-                    switch (type) {
-                        case FIELD_TYPE_INTEGER:
-                            data.put(id + key, c.getInt(column));
-                            break;
-                        case FIELD_TYPE_STRING:
-                            data.put(id + key, c.getString(column));
-                            break;
-                        case FIELD_TYPE_FLOAT:
-                            data.put(id + key, c.getDouble(column));
-                            break;
-                    }
-
-                } while (c.moveToNext());
-            }
-            c.close();
-        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    protected void loadTimes() {
-        SQLiteDatabase db = openDB();
-
-        Collection<Long> ids = new ArrayList<>();
-        Iterable<Times> times = new ArrayList<>(mTimes);
-        for (Times t : times) {
-            if (t.isDeleted()) {
-                mTimes.remove(t);
-            } else {
-                ids.add(t.getID());
-            }
-        }
-
-        Cursor c = db.query(CITIES_TABLE, new String[]{_ID}, "key != 'deleted'", null, _ID, null, null);
-        c.moveToFirst();
-        if (!c.isAfterLast()) {
-            do {
-                long id = c.getLong(0);
-                if (!ids.contains(id)) {
-                    Times t = MainHelper.getTimes(id);
-                    if (t != null) mTimes.add(t);
-                }
-            } while (c.moveToNext());
-        }
-        c.close();
-
-        Collections.sort(mTimes, new Comparator<Times>() {
-            @Override
-            public int compare(Times t1, Times t2) {
-                try {
-                    return t1.getSortId() - t2.getSortId();
-                } catch (RuntimeException e) {
-                    Crashlytics.logException(e);
-                    return 0;
-                }
-            }
-        });
-
-        notifyOnDataSetChanged();
-        closeDB();
-    }
+    // @formatter:off
+    /*
 
 
-    public interface MainHelperListener {
+    public interface TimesListener {
         void notifyDataSetChanged();
     }
 
@@ -245,7 +137,7 @@ public class MainHelper extends SQLiteOpenHelper {
         public _TimesBase(long id) {
             this.id = id;
             if (id == 0) throw new RuntimeException("can't create _TimesBase with i=0");
-            if (is("deleted")) throw new RuntimeException("can't create TimesBase with deleted id(" + id + ")");
+            if (is("deleted")) throw new RuntimeException("can't create AbstractTimesBasics with deleted id(" + id + ")");
         }
 
         boolean isDeleted() {
@@ -445,5 +337,6 @@ public class MainHelper extends SQLiteOpenHelper {
             return getInt(key, 0) == 1;
         }
 
-    }
+    }*/
+// @formatter:on
 }

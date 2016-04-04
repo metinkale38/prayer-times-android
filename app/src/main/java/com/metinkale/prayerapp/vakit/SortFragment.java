@@ -16,14 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SortFragment extends Fragment implements MainHelper.MainHelperListener {
+public class SortFragment extends Fragment implements Times.TimesListener {
 
     private LinearLayoutManager mLinLayMan;
     private RecyclerView mRecyclerView;
@@ -52,14 +51,14 @@ public class SortFragment extends Fragment implements MainHelper.MainHelperListe
     @Override
     public void onResume() {
         super.onResume();
-        MainHelper.addListener(this);
+        Times.addListener(this);
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MainHelper.removeListener(this);
+        Times.removeListener(this);
     }
 
     @Override
@@ -73,7 +72,7 @@ public class SortFragment extends Fragment implements MainHelper.MainHelperListe
     }
 
     public void notifyDataSetChanged() {
-        if (mAdapter.getItemCount() != MainHelper.getCount()) mAdapter.dataChanged();
+        if (mAdapter.getItemCount() != Times.getCount()) mAdapter.dataChanged();
     }
 
     public void onItemMove(int fromPosition, int toPosition) {
@@ -88,11 +87,11 @@ public class SortFragment extends Fragment implements MainHelper.MainHelperListe
         }
         mAdapter.notifyItemMoved(fromPosition, toPosition);
 
-        MainHelper.drop(fromPosition, toPosition);
+        Times.drop(fromPosition, toPosition);
     }
 
     public void onItemDismiss(final int position) {
-        final Times times = MainHelper.getTimesAt(position);
+        final Times times = Times.getTimesAt(position);
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         dialog.setTitle(R.string.delete);
@@ -165,18 +164,25 @@ public class SortFragment extends Fragment implements MainHelper.MainHelperListe
                     return false;
                 }
             });
+
+            vh.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    act.onItemClick(position);
+                }
+            });
         }
 
 
         public void dataChanged() {
             ids.clear();
-            ids.addAll(MainHelper.getIds());
+            ids.addAll(Times.getIds());
             notifyDataSetChanged();
         }
 
 
         public Times getItem(int pos) {
-            return MainHelper.getTimes(ids.get(pos));
+            return Times.getTimes(ids.get(pos));
         }
 
         @Override

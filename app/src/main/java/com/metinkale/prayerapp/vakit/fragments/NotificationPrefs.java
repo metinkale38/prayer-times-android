@@ -18,7 +18,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.PrefsView;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -44,7 +43,7 @@ public class NotificationPrefs extends Fragment {
 
 
 
-        mTimes = MainHelper.getTimes(getArguments().getLong("city", 0));
+        mTimes = Times.getTimes(getArguments().getLong("city", 0));
         SwitchCompat ongoing = (SwitchCompat) mView.findViewById(R.id.ongoing);
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
         ongoing.setOnCheckedChangeListener(new OnCheckedChangeListener() {

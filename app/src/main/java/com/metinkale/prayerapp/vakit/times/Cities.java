@@ -12,7 +12,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.custom.Geocoder;
 import com.metinkale.prayerapp.custom.Geocoder.Response;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.times.TimesBase.Source;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.io.IOException;
@@ -375,6 +374,6 @@ public class Cities extends SQLiteAssetHelper {
         public String id;
         public double lat;
         public double lng;
-        public Times.Source source;
+        public Source source;
     }
 }

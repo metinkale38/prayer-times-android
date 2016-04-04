@@ -14,7 +14,6 @@ import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -90,7 +89,7 @@ public class MainFragment extends Fragment {
 
         mKerahat = (TextView) mView.findViewById(R.id.kerahat);
 
-        mTimes = MainHelper.getTimes(mCity);
+        mTimes = Times.getTimes(mCity);
 
         if (mTimes == null) return new View(getActivity());
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.times.Cities;
-import com.metinkale.prayerapp.vakit.times.Times;
+import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
             i.id = s[1];
             i.lat = Double.parseDouble(s[2]);
             i.lng = Double.parseDouble(s[3]);
-            i.source = Times.Source.valueOf(mSource);
+            i.source = Source.valueOf(mSource);
 
             WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
             finish();

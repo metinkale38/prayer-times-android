@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 public class WidgetConfigure extends Activity {
@@ -38,9 +37,9 @@ public class WidgetConfigure extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.cities);
 
-        String[] array = new String[MainHelper.getCount()];
+        String[] array = new String[Times.getCount()];
         for (int i = 0; i < array.length; i++) {
-            Times t = MainHelper.getTimes(MainHelper.getIds().get(i));
+            Times t = Times.getTimes(Times.getIds().get(i));
             if (t == null) array[i] = "DELETED";
             else array[i] = t.getName() + " (" + t.getSource() + ")";
         }
@@ -48,7 +47,7 @@ public class WidgetConfigure extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, MainHelper.getIds().get(which)).apply();
+                getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
 
                 themeDialog();
 

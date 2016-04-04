@@ -12,7 +12,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.custom.PagerSlidingTabStrip;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
+import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Tesbihat extends BaseActivity {
 
@@ -44,8 +44,8 @@ public class Tesbihat extends BaseActivity {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if ((MainHelper.getCount() != 0) && "tr".equals(mLang)) {
-            int next = MainHelper.getTimes(MainHelper.getIds().get(0)).getNext();
+        if ((Times.getCount() != 0) && "tr".equals(mLang)) {
+            int next = Times.getTimes(Times.getIds().get(0)).getNext();
 
             switch (next) {
                 case 0:

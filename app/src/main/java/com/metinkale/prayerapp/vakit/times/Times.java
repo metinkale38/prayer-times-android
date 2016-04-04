@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
@@ -9,7 +10,7 @@ import com.metinkale.prayerapp.vakit.AlarmReceiver;
 
 import java.util.*;
 
-public abstract class Times extends TimesBase {
+public abstract class Times extends AbstractTimesBasics {
 
 
     Times(long id) {
@@ -17,11 +18,143 @@ public abstract class Times extends TimesBase {
     }
 
 
+    private static List<TimesListener> sListeners = new ArrayList<>();
+    private static List<Times> sTimes = new ArrayList<Times>() {
+        @Override
+        public boolean add(Times object) {
+            boolean ret = super.add(object);
+            notifyDataSetChanged();
+            return ret;
+        }
+
+        @Override
+        public Times remove(int index) {
+            Times ret = super.remove(index);
+            notifyDataSetChanged();
+            return ret;
+        }
+
+        @Override
+        public boolean remove(Object object) {
+            boolean ret = super.remove(object);
+            notifyDataSetChanged();
+            return ret;
+        }
+
+        @Override
+        public void clear() {
+            super.clear();
+            notifyDataSetChanged();
+        }
+    };
+
+    public static void notifyDataSetChanged() {
+        for (TimesListener list : sListeners) {
+            try {
+                list.notifyDataSetChanged();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void addListener(TimesListener list) {
+        sListeners.add(list);
+    }
+
+    public static void removeListener(TimesListener list) {
+        sListeners.remove(list);
+    }
+
+    public interface TimesListener {
+        public void notifyDataSetChanged();
+    }
+
+
+    public static Times getTimesAt(int index) {
+        return getTimes().get(index);
+    }
+
+    public static Times getTimes(long id) {
+        for (Times t : sTimes) {
+            if (t.getID() == id) return t;
+        }
+
+        try {
+            Source source = AbstractTimesBasics.getSource(id);
+            switch (source) {
+                case Diyanet:
+                    return new DiyanetTimes(id);
+                case Fazilet:
+                    return new FaziletTimes(id);
+                case IGMG:
+                    return new IGMGTimes(id);
+                case NVC:
+                    return new NVCTimes(id);
+                case Semerkand:
+                    return new SemerkandTimes(id);
+                case Calc:
+                    return new CalcTimes(id);
+            }
+
+        } catch (Exception ignore) {
+        }
+        return null;
+    }
+
+    protected static void clearTimes() {
+        sTimes.clear();
+    }
+
+    public static List<Times> getTimes() {
+        if (sTimes.isEmpty()) {
+            SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
+
+            List<Long> ids = new ArrayList<Long>();
+            Set<String> keys = prefs.getAll().keySet();
+            for (String key : keys) {
+                if (key.startsWith("id")) {
+                    sTimes.add(getTimes(Long.parseLong(key.substring(2))));
+                }
+            }
+
+            sort();
+        }
+        return sTimes;
+
+    }
+
+    public static void sort() {
+        Collections.sort(sTimes, new Comparator<Times>() {
+            @Override
+            public int compare(Times t1, Times t2) {
+                try {
+                    return t1.getSortId() - t2.getSortId();
+                } catch (RuntimeException e) {
+                    Crashlytics.logException(e);
+                    return 0;
+                }
+            }
+        });
+    }
+
+    public static List<Long> getIds() {
+        List<Long> ids = new ArrayList<>();
+        List<Times> times = getTimes();
+        for (Times t : times) {
+            if (t != null) ids.add(t.getID());
+        }
+        return ids;
+    }
+
+    public static int getCount() {
+        return getTimes().size();
+    }
+
     public static List<Alarm> getAllAlarms() {
         List<Alarm> alarms = new ArrayList<>();
-        List<Long> ids = MainHelper.get().getIds();
+        List<Long> ids = Times.getIds();
         for (long id : ids) {
-            Times t = MainHelper.getTimes(id);
+            Times t = Times.getTimes(id);
             if (t == null) continue;
             alarms.addAll(t.getAlarms());
         }
@@ -329,6 +462,7 @@ public abstract class Times extends TimesBase {
     public String toString() {
         return "times_id_" + getID();
     }
+
 
     public static class Alarm {
         public long city;

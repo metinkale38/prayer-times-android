@@ -15,6 +15,7 @@ import android.support.annotation.DrawableRes;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
+import com.metinkale.prayerapp.vakit.times.MainHelper;
 import io.fabric.sdk.android.BuildConfig;
 import io.fabric.sdk.android.Fabric;
 
@@ -67,6 +68,8 @@ public class App extends Application {
         if (!BuildConfig.DEBUG)
             Fabric.with(this, new Crashlytics());
 
+
+        MainHelper.copy();
         Utils.init();
 
 

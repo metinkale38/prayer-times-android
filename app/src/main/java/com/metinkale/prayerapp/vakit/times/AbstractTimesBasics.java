@@ -1,102 +1,80 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.preference.PreferenceManager;
-import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
 
 /**
  * Created by Metin on 20.06.2015.
  */
-public class TimesBase extends MainHelper._TimesBase {
-    private static final String _ID = "id";
-    private static final String _MINUTEADJ = "minuteAdj";
-    private static final String _NAME = "name";
-    private static final String _SORTID = "sortId";
-    private static final String _SOURCE = "source";
-    private static final String _TIMEZONE = "timezone";
-    private static final String _LAT = "lat";
-    private static final String _LNG = "lng";
+public class AbstractTimesBasics extends AbstractTimesStorage {
 
-    TimesBase(long id) {
-        MainHelper.get().super(id);
+    AbstractTimesBasics(long id) {
+        super(id);
     }
 
     static Source getSource(long id) {
-        return new TimesBase(id).getSource();
+        return new AbstractTimesBasics(id).getSource();
     }
 
     public int getSortId() {
-        return getInt(_SORTID, 99);
+        return getInt("sortId", 99);
     }
 
     public void setSortId(int sortId) {
-        set(_SORTID, sortId);
+        set("sortId", sortId);
     }
 
     public Source getSource() {
-        return Source.valueOf(getString(_SOURCE));
+        return Source.valueOf(getString("source"));
     }
 
     public void setSource(Source source) {
-        set(_SOURCE, source.name());
+        set("source", source.name());
     }
 
     public double getLng() {
-        return getDouble(_LNG);
+        return getDouble("lng");
     }
 
     public void setLng(double value) {
-        set(_LNG, value);
+        set("lng", value);
     }
 
     public double getLat() {
-        return getDouble(_LAT);
+        return getDouble("lat");
     }
 
     public void setLat(double value) {
-        set(_LAT, value);
+        set("lat", value);
     }
 
 
     public int[] getMinuteAdj() {
-        String[] smins = getString(_MINUTEADJ, "0,0,0,0,0,0").split(",");
-        int[] mins = new int[6];
-        for (int i = 0; i < mins.length; i++) {
-            try {
-                mins[i] = Integer.parseInt(smins[i]);
-            } catch (Exception ignore) {
-                Crashlytics.logException(ignore);
-            }
-        }
-        return mins;
+        return getIntArray("minuteAdj", new int[6]);
     }
 
     public void setMinuteAdj(int[] adj) {
-        String str = "";
-        for (int a : adj)
-            str += a + ",";
         if (adj.length != 6)
             throw new RuntimeException("setMinuteAdj(double[] adj) can only be called with adj of size 6");
-        set(_MINUTEADJ, str);
+        set("minuteAdj", adj);
     }
 
     public String getName() {
-        return getString(_NAME);
+        return getString("name");
     }
 
     public void setName(String name) {
-        set(_NAME, name);
+        set("name", name);
     }
 
     public double getTZFix() {
         double def = Double.parseDouble(PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString("summertime_fixer", "0"));
-        return getDouble(_TIMEZONE, def);
+        return getDouble("timezone", def);
     }
 
     public void setTZFix(double tz) {
-        set(_TIMEZONE, tz);
+        set("timezone", tz);
     }
 
     public int getCumaSilenterDuration() {
@@ -253,17 +231,7 @@ public class TimesBase extends MainHelper._TimesBase {
         set(v.name() + "_vibration", value);
     }
 
-    public enum Source {
-        Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.ic_ditib), Fazilet("Fazilet Takvimi", R.drawable.ic_fazilet), IGMG("IGMG", R.drawable.ic_igmg), Semerkand("Semerkand", R.drawable.ic_semerkand), NVC("NamazVakti.com", R.drawable.ic_namazvakticom);
 
-        public int resId;
-        public String text;
-
-        Source(String text, int resId) {
-            this.text = text;
-            this.resId = resId;
-        }
-    }
 }
 
 

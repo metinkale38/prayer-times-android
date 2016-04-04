@@ -181,7 +181,6 @@ public class WebTimes extends Times {
         t.setLng(lng);
         t.setId(id);
         if (source == Source.IGMG) t.set("fixedIGMG", true);
-        MainHelper.get().loadTimes();
 
     }
 
