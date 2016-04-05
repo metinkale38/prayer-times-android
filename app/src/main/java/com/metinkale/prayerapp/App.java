@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.vakit.WidgetService;
@@ -23,6 +24,7 @@ import io.fabric.sdk.android.Fabric;
 public class App extends Application {
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
     private static Context mContext;
+    public static Handler aHandler = new Handler();
 
     public static void setContext(Context context) {
         mContext = context;

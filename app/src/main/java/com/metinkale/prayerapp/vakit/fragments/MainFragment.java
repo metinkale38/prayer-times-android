@@ -129,12 +129,14 @@ public class MainFragment extends Fragment {
 
         String[] daytimes = {mTimes.getTime(now, 0), mTimes.getTime(now, 1), mTimes.getTime(now, 2), mTimes.getTime(now, 3), mTimes.getTime(now, 4), mTimes.getTime(now, 5)};
 
+        mHasTimes = true;
         for (int i = 0; i < 6; i++) {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
             if (!Prefs.use12H()) time.setText(daytimes[i]);
             else time.setText(Utils.fixTimeForHTML(daytimes[i]));
-            mHasTimes = !"00:00".equals(daytimes[i]);
+
+            if ("00:00".equals(daytimes[i])) mHasTimes = false;
         }
 
         mHandler.removeCallbacks(onSecond);

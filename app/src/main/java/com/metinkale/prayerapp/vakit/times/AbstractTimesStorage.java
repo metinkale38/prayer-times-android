@@ -21,19 +21,27 @@ public abstract class AbstractTimesStorage {
     private final long id;
     private JSONObject map;
     private boolean deleted = false;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
     public void delete() {
         deleted = true;
 
-        SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
-        prefs.edit().remove("id" + id).apply();
+        editor.remove("id" + id);
+        apply();
 
         getTimes().remove(this);
     }
 
+    private void apply() {
+        App.aHandler.removeCallbacks(mApplyPrefs);
+        App.aHandler.post(mApplyPrefs);
+    }
+
     protected AbstractTimesStorage(long id) {
         this.id = id;
-        SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
+        prefs = App.getContext().getSharedPreferences("cities", 0);
+        editor = prefs.edit();
 
         String json = prefs.getString("id" + id, null);
 
@@ -46,11 +54,12 @@ public abstract class AbstractTimesStorage {
 
     private void save() {
         if (deleted) return;
-        SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
-        if (prefs.contains("id" + id))
-            prefs.edit().putString("id" + id, map.toString()).apply();
-        else {
-            prefs.edit().putString("id" + id, map.toString()).apply();
+        if (prefs.contains("id" + id)) {
+            editor.putString("id" + id, map.toString());
+            apply();
+        } else {
+            editor.putString("id" + id, map.toString());
+            apply();
             Times.clearTimes();
         }
     }
@@ -198,4 +207,11 @@ public abstract class AbstractTimesStorage {
         return def;
     }
 
+    private Runnable mApplyPrefs = new Runnable() {
+        @Override
+        public void run() {
+            editor.apply();
+            editor = prefs.edit();
+        }
+    };
 }
