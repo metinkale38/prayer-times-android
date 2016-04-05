@@ -147,6 +147,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.notifyDataSetChanged();
         }
 
+
         Cities.search(query, new Cities.Callback() {
             @Override
             public void onResult(List result) {

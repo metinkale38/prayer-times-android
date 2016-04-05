@@ -73,11 +73,11 @@ public abstract class AbstractTimesStorage {
 
 
     String _getTime(int d, int m, int y, int time) {
-        return getString(y + "-" + Utils.az(m) + "-" + Utils.az(y) + "-" + time, "00:00");
+        return getString(y + "-" + Utils.az(m) + "-" + Utils.az(d) + "-" + time, "00:00");
     }
 
     void setTime(int d, int m, int y, int time, String value) {
-        set(y + "-" + Utils.az(m) + "-" + Utils.az(y) + "-" + time, value);
+        set(y + "-" + Utils.az(m) + "-" + Utils.az(d) + "-" + time, value);
     }
 
     void setTimes(int d, int m, int y, String[] value) {

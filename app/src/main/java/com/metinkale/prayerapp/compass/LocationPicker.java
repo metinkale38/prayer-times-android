@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Geocoder;
-import com.metinkale.prayerapp.custom.Geocoder.Response;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     private EditText mCity;
     private ArrayAdapter<String> mAdapter;
     private Thread mThread;
-    private List<Response> mAddresses;
+    private List<Geocoder.Address> mAddresses;
     private Runnable mSearch = new Runnable() {
 
         @Override
@@ -34,14 +33,14 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
             String query = mCity.getText().toString();
 
-            mAddresses = Geocoder.from(query, 5, Prefs.getLanguage());
+            mAddresses = Geocoder.from(query, 5);
 
             if (mAddresses != null) runOnUiThread(new Runnable() {
                 public void run() {
                     mAdapter.clear();
-                    for (Response a : mAddresses) {
+                    for (Geocoder.Address a : mAddresses) {
 
-                        mAdapter.add(a.display_name);
+                        mAdapter.add(a.city + " - " + a.country + " - " + a.state);
                     }
                 }
             });
@@ -87,8 +86,8 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
         if (mAddresses == null) return;
-        Response a = mAddresses.get(pos);
-        Prefs.setCompassPos((float) a.lat, (float) a.lon);
+        Geocoder.Address a = mAddresses.get(pos);
+        Prefs.setCompassPos((float) a.lat, (float) a.lng);
 
         finish();
 

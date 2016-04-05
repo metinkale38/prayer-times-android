@@ -12,6 +12,13 @@ apply plugin: 'io.fabric'
 
 android {
 
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude '.readme'
+    }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -45,7 +52,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 110
+        versionCode 112
         versionName '3.5.4'
     }
 

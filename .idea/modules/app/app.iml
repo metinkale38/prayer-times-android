@@ -81,7 +81,9 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/com.vanniktech/vntnumberpickerpreference/1.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/io.fabric.sdk.android/fabric/1.3.10/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/mockable-android-23.jar" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/proguard-rules" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/res" />
@@ -90,6 +92,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/reports" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android SDK" jdkType="Android SDK" />

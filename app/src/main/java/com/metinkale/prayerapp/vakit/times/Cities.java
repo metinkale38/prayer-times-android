@@ -10,7 +10,6 @@ import android.os.Looper;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.custom.Geocoder;
-import com.metinkale.prayerapp.custom.Geocoder.Response;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
@@ -207,13 +206,13 @@ public class Cities extends SQLiteAssetHelper {
     List<Cities.Item> search(String q) {
         q = q.trim();
         String lang = Prefs.getLanguage();
-        Response resp = null;
+        Geocoder.Address resp = null;
         try {
-            resp = Geocoder.from(q, 1, lang).get(0);
+            resp = Geocoder.from(q, 1).get(0);
         } catch (Exception e) {
         }
 
-        if ((resp == null) || (resp.address == null)) {
+        if (resp == null) {
             try {
                 return search2(0, 0, q, q, q);
             } catch (IOException e) {
@@ -227,16 +226,10 @@ public class Cities extends SQLiteAssetHelper {
 
         }
         double lat = resp.lat;
-        double lng = resp.lon;
-        String country = resp.address.country;
-        String city = null;
-        if (resp.address.city != null) {
-            city = resp.address.city;
-        } else if (resp.address.county != null) {
-            city = resp.address.county;
-        } else if (resp.address.state != null) {
-            city = resp.address.state;
-        }
+        double lng = resp.lng;
+        String country = resp.country;
+        String city = resp.city;
+
         try {
             return search2(lat, lng, country, city, q);
         } catch (IOException e) {
