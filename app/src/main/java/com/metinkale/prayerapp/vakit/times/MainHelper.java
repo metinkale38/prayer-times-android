@@ -8,6 +8,7 @@ import com.metinkale.prayerapp.Utils;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static android.database.Cursor.*;
 
@@ -37,6 +38,7 @@ public class MainHelper extends SQLiteOpenHelper {
         if (dbFile.exists()) {
             MainHelper mainHelper = new MainHelper();
 
+            HashMap<Long, AbstractTimesStorage> map = new HashMap<>();
             SQLiteDatabase db = mainHelper.getWritableDatabase();
             Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
             c.moveToFirst();
@@ -46,7 +48,13 @@ public class MainHelper extends SQLiteOpenHelper {
                     String key = c.getString(c.getColumnIndex(_KEY));
                     int column = c.getColumnIndex(_VALUE);
                     int type = c.getType(column);
-                    AbstractTimesBasics times = new AbstractTimesBasics(id);
+                    AbstractTimesStorage times;
+                    if (map.containsKey(id))
+                        times = map.get(id);
+                    else {
+                        times = new AbstractTimesStorage(id);
+                        map.put(id, times);
+                    }
                     switch (type) {
                         case FIELD_TYPE_INTEGER:
                             times.set(key, c.getInt(column));
@@ -75,8 +83,13 @@ public class MainHelper extends SQLiteOpenHelper {
                 do {
                     try {
                         long id = c.getLong(c.getColumnIndex(_ID));
-                        Times t = Times.getTimes(id);
-                        if (t == null) continue;
+                        AbstractTimesStorage t;
+                        if (map.containsKey(id))
+                            t = map.get(id);
+                        else {
+                            t = new AbstractTimesStorage(id);
+                            map.put(id, t);
+                        }  if (t == null) continue;
 
                         String d = c.getString(c.getColumnIndex(_DATE));
                         for (int i = 0; i < _TIME.length; i++) {

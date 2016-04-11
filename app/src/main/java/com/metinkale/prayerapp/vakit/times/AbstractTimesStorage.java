@@ -17,7 +17,7 @@ import static com.metinkale.prayerapp.vakit.times.Times.getTimes;
 /**
  * Created by metin on 03.04.2016.
  */
-public abstract class AbstractTimesStorage {
+public class AbstractTimesStorage {
 
     private final long id;
     private JSONObject map;
@@ -39,7 +39,7 @@ public abstract class AbstractTimesStorage {
         App.aHandler.post(mApplyPrefs);
     }
 
-    protected AbstractTimesStorage(long id) {
+    public AbstractTimesStorage(long id) {
         this.id = id;
         prefs = App.getContext().getSharedPreferences("cities", 0);
         editor = prefs.edit();
