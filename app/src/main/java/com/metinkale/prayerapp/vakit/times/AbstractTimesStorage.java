@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.metinkale.prayerapp.vakit.times.Times.getIds;
@@ -109,7 +110,10 @@ public abstract class AbstractTimesStorage {
 
     public void set(String key, int[] value) {
         try {
-            map.put(key, new JSONArray(value));
+            List<Integer> v = new ArrayList<>();
+            for (int i : value)
+                v.add(i);
+            map.put(key, new JSONArray(v));
             save();
         } catch (JSONException e) {
             e.printStackTrace();
