@@ -22,6 +22,7 @@ public abstract class Times extends AbstractTimesBasics {
     private static List<Times> sTimes = new ArrayList<Times>() {
         @Override
         public boolean add(Times object) {
+            if (object == null) return false;
             boolean ret = super.add(object);
             notifyDataSetChanged();
             return ret;
@@ -76,7 +77,8 @@ public abstract class Times extends AbstractTimesBasics {
 
     public static Times getTimes(long id) {
         for (Times t : sTimes) {
-            if (t.getID() == id) return t;
+            if (t != null)
+                if (t.getID() == id) return t;
         }
 
         try {
