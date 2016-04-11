@@ -27,6 +27,7 @@ public class Prefs {
     private final float mCompassLat;
     private final float mCompassLng;
     private final int mKerahatSunrise, mKerahatIstiwa, mKerahatSunset;
+    private final boolean mMigratedFromSqlite;
 
     private static Prefs get() {
         synchronized (LOCK) {
@@ -56,6 +57,8 @@ public class Prefs {
         mKerahatSunrise = prefs.getInt("kerahat_sunrise", 45);
         mKerahatIstiwa = prefs.getInt("kerahat_istiva", 45);
         mKerahatSunset = prefs.getInt("kerahat_sunset", 45);
+
+        mMigratedFromSqlite = prefs.getBoolean("migratedFromSqlite", false);
 
 
         String calIntegration = "-1";
@@ -140,8 +143,18 @@ public class Prefs {
         return get().mKerahatSunset;
     }
 
+
+    public static boolean getMigratedFromSqlite() {
+        return get().mMigratedFromSqlite;
+    }
+
     public static void setTesbihatTextSize(int size) {
         get().mEditor.putInt("tesbihatTextSize", size);
+        commit();
+    }
+
+    public static void setMigratedFromSqlite(boolean b) {
+        get().mEditor.putBoolean("migratedFromSqlite", b);
         commit();
     }
 

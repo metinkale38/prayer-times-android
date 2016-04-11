@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.settings.Prefs;
 
 import java.io.File;
 import java.util.Calendar;
@@ -34,6 +35,7 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
     public static void copy() {
+        if (Prefs.getMigratedFromSqlite()) return;
         File dbFile = App.getContext().getDatabasePath(DATABASE_NAME);
         if (dbFile.exists()) {
             MainHelper mainHelper = new MainHelper();
@@ -89,7 +91,8 @@ public class MainHelper extends SQLiteOpenHelper {
                         else {
                             t = new AbstractTimesStorage(id);
                             map.put(id, t);
-                        }  if (t == null) continue;
+                        }
+                        if (t == null) continue;
 
                         String d = c.getString(c.getColumnIndex(_DATE));
                         for (int i = 0; i < _TIME.length; i++) {
@@ -112,6 +115,7 @@ public class MainHelper extends SQLiteOpenHelper {
             if (!dbFile.delete())
                 dbFile.deleteOnExit();
         }
+        Prefs.setMigratedFromSqlite(true);
     }
 
     private MainHelper() {
