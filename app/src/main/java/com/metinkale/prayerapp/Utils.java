@@ -12,8 +12,8 @@ import android.text.style.SuperscriptSpan;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
 
-import java.util.Calendar;
 import java.util.Locale;
 
 public class Utils {
@@ -60,7 +60,7 @@ public class Utils {
         Context c = App.getContext();
 
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int year = LocalDate.now().getYear();
 
         if (year != Prefs.getLastCalIntegration()) {
             MainIntentService.startCalendarIntegration(c);

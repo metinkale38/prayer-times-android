@@ -16,9 +16,8 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Date;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Main extends BaseActivity {
 
@@ -31,7 +30,7 @@ public class Main extends BaseActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(new GregorianCalendar().get(Calendar.YEAR));
+        viewPager.setCurrentItem(LocalDate.now().getYear());
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import org.joda.time.LocalDate;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FaziletTimes extends WebTimes {
 
@@ -50,9 +55,9 @@ public class FaziletTimes extends WebTimes {
         ay.add("Kasım");
         ay.add("Aralık");
 
-        Calendar cal = Calendar.getInstance();
-        int Y = cal.get(Calendar.YEAR);
-        int M = cal.get(Calendar.MONTH) + 1;
+        LocalDate ldate = LocalDate.now();
+        int Y = ldate.getYear();
+        int M = ldate.getMonthOfYear();
 
 
         URL url = new URL("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html");
@@ -102,7 +107,7 @@ public class FaziletTimes extends WebTimes {
                 reader.readLine();//8
                 times[4] = extractLine(reader.readLine());//9
                 times[5] = extractLine(reader.readLine());//10
-                setTimes(d, m, y, times);
+                setTimes(new LocalDate(y,m,d), times);
 
             }
 

@@ -16,9 +16,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import org.joda.time.LocalDate;
 
 @SuppressLint("ClickableViewAccessibility")
 public class MainFragment extends Fragment {
@@ -117,7 +115,6 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        Calendar now = new GregorianCalendar();
 
         TextView datetv = (TextView) mView.findViewById(R.id.date);
         TextView hicritv = (TextView) mView.findViewById(R.id.hicri);
@@ -127,6 +124,7 @@ public class MainFragment extends Fragment {
         hicritv.setText(h.format(true));
         datetv.setText(h.format(false));
 
+        LocalDate now=LocalDate.now();
         String[] daytimes = {mTimes.getTime(now, 0), mTimes.getTime(now, 1), mTimes.getTime(now, 2), mTimes.getTime(now, 3), mTimes.getTime(now, 4), mTimes.getTime(now, 5)};
 
         mHasTimes = true;
@@ -172,8 +170,8 @@ public class MainFragment extends Fragment {
 
             case R.id.share:
                 String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
-                Calendar cal = Calendar.getInstance();
-                String[] times = {mTimes.getTime(cal, 0), mTimes.getTime(cal, 1), mTimes.getTime(cal, 2), mTimes.getTime(cal, 3), mTimes.getTime(cal, 4), mTimes.getTime(cal, 5)};
+                LocalDate date=LocalDate.now();
+                String[] times = {mTimes.getTime(date, 0), mTimes.getTime(date, 1), mTimes.getTime(date, 2), mTimes.getTime(date, 3), mTimes.getTime(date, 4), mTimes.getTime(date, 5)};
                 for (int i = 0; i < times.length; i++) {
                     txt += "\n   " + Vakit.getByIndex(i).getString() + ": " + times[i];
                 }

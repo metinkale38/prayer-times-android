@@ -2,8 +2,13 @@ package com.metinkale.prayerapp;
 
 import android.util.LruCache;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 class DiyanetTakvimi {
     private final Collection<DATE> mDates = new ArrayList<>();
@@ -29,12 +34,10 @@ class DiyanetTakvimi {
         if (ret != null) return ret;
         int hfix = Prefs.getHijriFix();
         if (hfix != 0) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(y, m - 1, d, 0, 0, 0);
-            cal.setTimeInMillis(cal.getTimeInMillis() + (hfix * 1000 * 60 * 60 * 24));
-            d = cal.get(Calendar.DAY_OF_MONTH);
-            m = cal.get(Calendar.MONTH) + 1;
-            y = cal.get(Calendar.YEAR);
+            LocalDate date = new LocalDate(y, m, d).plusDays(hfix);
+            d = date.getDayOfMonth();
+            m = date.getMonthOfYear();
+            y = date.getYear();
         }
 
         DATE last = null;
@@ -53,7 +56,7 @@ class DiyanetTakvimi {
             return null;
         } else {
             int[] h = {last.hcr[0], last.hcr[1], last.hcr[2]};
-            h[0] += new GregorianCalendar(y, m - 1, d).get(Calendar.DAY_OF_YEAR) - new GregorianCalendar(last.grg[2], last.grg[1] - 1, last.grg[0]).get(Calendar.DAY_OF_YEAR);
+            h[0] += new LocalDate(y, m, d).getDayOfYear() - new LocalDate(last.grg[2], last.grg[1], last.grg[0]).getDayOfYear();
             if ((h[0] >= 30) || (h[0] <= 0)) {
                 return null;
             }

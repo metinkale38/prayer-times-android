@@ -15,9 +15,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import org.joda.time.LocalDate;
 
 /**
  * Created by Metin on 21.07.2015.
@@ -52,7 +50,7 @@ public class ImsakiyeFragment extends Fragment {
         if (mAdapter != null) {
             mAdapter.times = mTimes;
             mAdapter.notifyDataSetChanged();
-            mAdapter.daysInMonth = ((Calendar) mAdapter.getItem(1)).getActualMaximum(Calendar.DAY_OF_MONTH);
+            mAdapter.daysInMonth = ((LocalDate) mAdapter.getItem(1)).dayOfMonth().getMaximumValue();
 
         }
     }
@@ -60,18 +58,16 @@ public class ImsakiyeFragment extends Fragment {
     public class ImsakiyeAdapter extends BaseAdapter {
         private Times times;
         private int daysInMonth;
-        private int month;
-        private int year;
-        private Calendar calendar;
-        private LayoutInflater inflater;
+        private LocalDate date;
         private int today;
+        private LayoutInflater inflater;
 
         public ImsakiyeAdapter(Context context) {
-            calendar = new GregorianCalendar();
-            today = calendar.get(Calendar.DAY_OF_MONTH);
-            daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            month = calendar.get(Calendar.MONTH);
-            year = calendar.get(Calendar.YEAR);
+            LocalDate now = LocalDate.now();
+            today = now.getDayOfMonth();
+            date = now.withDayOfMonth(1);
+            daysInMonth = date.dayOfMonth().getMaximumValue();
+
 
             inflater = LayoutInflater.from(context);
         }
@@ -83,10 +79,7 @@ public class ImsakiyeFragment extends Fragment {
 
         @Override
         public Object getItem(int position) {
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, position);
-            return calendar;
+            return date.plusDays(position);
         }
 
         @Override
@@ -102,11 +95,11 @@ public class ImsakiyeFragment extends Fragment {
             } else if (times == null) {
                 a = new String[]{"00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"};
             } else {
-                Calendar cal = (Calendar) getItem(position);
+                LocalDate cal = (LocalDate) getItem(position - 1);
 
                 String[] daytimes = {times.getTime(cal, 0), times.getTime(cal, 1), times.getTime(cal, 2), times.getTime(cal, 3), times.getTime(cal, 4), times.getTime(cal, 5)};
 
-                a = new String[]{Utils.az(cal.get(Calendar.DAY_OF_MONTH)) + "." + Utils.az(cal.get(Calendar.MONTH) + 1), daytimes[0], daytimes[1], daytimes[2], daytimes[3], daytimes[4], daytimes[5]};
+                a = new String[]{cal.toString("dd.MM"), daytimes[0], daytimes[1], daytimes[2], daytimes[3], daytimes[4], daytimes[5]};
             }
 
             for (int i = 0; i < 7; i++) {
@@ -114,7 +107,6 @@ public class ImsakiyeFragment extends Fragment {
                 if ((i == 0) || !Prefs.use12H() || (position == 0)) tv.setText(a[i]);
                 else tv.setText(Utils.fixTimeForHTML(a[i]));
             }
-
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);
             } else if (position == 0) {

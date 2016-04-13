@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -24,14 +25,14 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.AbstractMap;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
-import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
 
@@ -117,8 +118,9 @@ public class MainIntentService extends IntentService {
                             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
                         }
 
+                        Debug.startMethodTracing("alarms");
                         Times.setAlarms();
-
+                        Debug.stopMethodTracing();
                         break;
 
                     case ACTION_CALENDAR_INTEGRATION:
@@ -232,7 +234,7 @@ public class MainIntentService extends IntentService {
             String id = Prefs.getCalendar();
 
             if ("-1".equals(id) || (Prefs.getLanguage() == null)) return;
-            int year = Calendar.getInstance().get(Calendar.YEAR);
+            int year = LocalDate.now().getYear();
             AbstractMap<Date, String> days = new LinkedHashMap<>();
             days.putAll(Date.getHolydays(year, false));
             days.putAll(Date.getHolydays(year + 1, false));
@@ -246,17 +248,9 @@ public class MainIntentService extends IntentService {
                 event.put(CalendarContract.Events.TITLE, days.get(date));
                 event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
 
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, date.getGregDay());
-                cal.set(Calendar.MONTH, date.getGregMonth() - 1);
-                cal.set(Calendar.YEAR, date.getGregYear());
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+                DateTime cal = new DateTime(date.getGregDay(),date.getGregDay(),date.getGregYear(),0,0,0);
 
-                long dtstart = cal.getTimeInMillis();
+                long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;
 
                 event.put(CalendarContract.Events.DTSTART, dtstart);

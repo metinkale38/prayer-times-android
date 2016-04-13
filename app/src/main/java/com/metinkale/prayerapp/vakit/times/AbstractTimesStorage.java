@@ -3,7 +3,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.content.SharedPreferences;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.Utils;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,17 +82,17 @@ public class AbstractTimesStorage {
     }
 
 
-    String _getTime(int d, int m, int y, int time) {
-        return getString(y + "-" + Utils.az(m) + "-" + Utils.az(d) + "-" + time, "00:00");
+    String _getTime(LocalDate date, int time) {
+        return getString(date.toString("yyyy-MM-dd") + "-" + time, "00:00");
     }
 
-    void setTime(int d, int m, int y, int time, String value) {
-        set(y + "-" + Utils.az(m) + "-" + Utils.az(d) + "-" + time, value);
+    void setTime(LocalDate date, int time, String value) {
+        set(date.toString("yyyy-MM-dd") + "-" + time, value);
     }
 
-    void setTimes(int d, int m, int y, String[] value) {
+    void setTimes(LocalDate date, String[] value) {
         for (int i = 0; i < value.length; i++)
-            setTime(d, m, y, i, value[i]);
+            setTime(date, i, value[i]);
     }
 
     public long getID() {

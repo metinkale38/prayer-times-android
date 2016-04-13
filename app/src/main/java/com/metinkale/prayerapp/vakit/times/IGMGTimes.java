@@ -1,10 +1,11 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import org.joda.time.LocalDate;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
 
 public class IGMGTimes extends WebTimes {
 
@@ -24,10 +25,10 @@ public class IGMGTimes extends WebTimes {
         int world = Integer.parseInt(a[1]);
         int germany = Integer.parseInt(a[2]);
 
-        Calendar cal = Calendar.getInstance();
-        int rY = cal.get(Calendar.YEAR);
+        LocalDate ldate =LocalDate.now();
+        int rY =ldate.getYear();
         int Y = rY;
-        int m = cal.get(Calendar.MONTH) + 1;
+        int m = ldate.getMonthOfYear();
 
         for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
             if (M == 13) {
@@ -53,7 +54,7 @@ public class IGMGTimes extends WebTimes {
                     times[i] = line;
                 }
 
-                setTimes(d, M, Y, times);
+                setTimes(new LocalDate(Y, M, d), times);
 
             }
 

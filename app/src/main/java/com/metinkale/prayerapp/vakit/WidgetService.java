@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Debug;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -16,10 +17,10 @@ import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class WidgetService extends Service {
@@ -52,8 +53,7 @@ public class WidgetService extends Service {
         if (mAbIcon == null)
             mAbIcon = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ic_abicon);
 
-        Calendar cal = new GregorianCalendar();
-
+        LocalDate cal = LocalDate.now();
         String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
         for (long id : mOngoing) {
             Times t = Times.getTimes(id);
@@ -79,7 +79,7 @@ public class WidgetService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Utils.init();
+        Debug.startMethodTracing("widgets");
         WidgetProvider.updateWidgets(this);
         updateOngoing();
 
@@ -87,14 +87,11 @@ public class WidgetService extends Service {
 
         PendingIntent service = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, 1);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
 
-        App.setExact(am, AlarmManager.RTC, cal.getTimeInMillis(), service);
+        App.setExact(am, AlarmManager.RTC, DateTime.now().withMillisOfSecond(0).withSecondOfMinute(0).plusMinutes(1).getMillis(), service);
 
         stopSelf();
+        Debug.stopMethodTracing();
         return super.onStartCommand(intent, flags, startId);
     }
 

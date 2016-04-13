@@ -2,22 +2,22 @@ package com.metinkale.prayerapp;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
 
 import java.util.*;
 
 public class Date {
-    private static final Calendar CAL = new GregorianCalendar();
 
     private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
 
     private int mHD, mHM, mHY, mGD, mGM, mGY, mWD;
 
     public Date() {
-        this(Calendar.getInstance());
+        this(LocalDate.now());
     }
 
-    public Date(Calendar cal) {
-        init(cal.get(Calendar.DATE), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), false);
+    public Date(LocalDate cal) {
+        init(cal.getDayOfMonth(), cal.getMonthOfYear(), cal.getYear(), false);
 
     }
 
@@ -156,8 +156,9 @@ public class Date {
             }
         }
 
-        CAL.set(mGY, mGM - 1, mGD);
-        mWD = CAL.get(Calendar.DAY_OF_WEEK);
+        LocalDate date = new LocalDate(mGY, mGM, mGD);
+        mWD = date.getDayOfWeek() - 1;
+        if (mWD == 0) mWD = 7;
 
     }
 

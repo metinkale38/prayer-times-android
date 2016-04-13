@@ -19,6 +19,7 @@ import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import io.fabric.sdk.android.BuildConfig;
 import io.fabric.sdk.android.Fabric;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 
 public class App extends Application {
@@ -66,18 +67,18 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-
+        JodaTimeAndroid.init(this);
         if (!BuildConfig.DEBUG)
             Fabric.with(this, new Crashlytics());
 
 
         MainHelper.copy();
+
         Utils.init();
 
-
         startService(new Intent(this, WidgetService.class));
-        MainIntentService.setAlarms(this);
 
+        MainIntentService.setAlarms(this);
 
     }
 

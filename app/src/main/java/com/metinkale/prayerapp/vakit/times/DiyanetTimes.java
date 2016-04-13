@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import org.joda.time.LocalDate;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -90,7 +92,7 @@ public class DiyanetTimes extends WebTimes {
                 }
             }
             String[] d = date.split("\\.");
-            setTimes(Integer.parseInt(d[0]), Integer.parseInt(d[1]), Integer.parseInt(d[2]), times);
+            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
         }
 
         reader.close();

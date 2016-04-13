@@ -24,8 +24,7 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
-
-import java.util.Calendar;
+import org.joda.time.LocalDate;
 
 public class WidgetProviderLong extends AppWidgetProvider {
     private static float mDP;
@@ -100,8 +99,9 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
-        Calendar cal = Calendar.getInstance();
-        String[] daytimes = {times.getTime(cal, 0), times.getTime(cal, 1), times.getTime(cal, 2), times.getTime(cal, 3), times.getTime(cal, 4), times.getTime(cal, 5)};
+        LocalDate date=LocalDate.now();
+        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
+
         int next = times.getNext();
         String left = times.getLeft(next, false);
 

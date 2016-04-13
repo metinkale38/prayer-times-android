@@ -1,6 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import com.crashlytics.android.Crashlytics;
+import org.joda.time.LocalDate;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -8,7 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NVCTimes extends WebTimes {
 
@@ -34,9 +37,8 @@ public class NVCTimes extends WebTimes {
 
             String line;
 
-            Calendar l = new GregorianCalendar();
 
-            int y = l.get(Calendar.YEAR);
+            int y = LocalDate.now().getYear();
             while ((line = reader.readLine()) != null) if (line.contains("cityNameTR")) {
                 line = line.substring(line.indexOf("cityNameTR"));
                 line = line.substring(line.indexOf("\"") + 1);
@@ -63,9 +65,7 @@ public class NVCTimes extends WebTimes {
 
         String line;
 
-        Calendar l = new GregorianCalendar();
-
-        int y = l.get(Calendar.YEAR);
+        int y = LocalDate.now().getYear();
         while ((line = reader.readLine()) != null) try {
             if (line.contains("<prayertimes")) {
                 String doy = line.substring(line.indexOf("dayofyear=") + 11);
@@ -99,7 +99,7 @@ public class NVCTimes extends WebTimes {
                 for (String s : d)
                     if (s.length() == 4) data += " 0" + s;
                     else data += " " + s;
-                setTimes(Integer.parseInt(day), Integer.parseInt(month), y, data.substring(1).split(" "));
+                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
 
             }
         } catch (Exception e) {

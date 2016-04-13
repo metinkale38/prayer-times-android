@@ -4,11 +4,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
 
 import java.io.File;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import static android.database.Cursor.*;
@@ -74,8 +73,8 @@ public class MainHelper extends SQLiteOpenHelper {
             c.close();
 
             db.delete(CITIES_TABLE, null, null);
-            Calendar cal = Calendar.getInstance();
-            String date = cal.get(Calendar.YEAR) + "-" + Utils.az(cal.get(Calendar.MONTH) + 1) + "-01";
+            LocalDate ldate=LocalDate.now();
+            String date =ldate.toString("yy-MM-01");
 
             c = db.query(TIMES_TABLE, null, _DATE + " >= '" + date + "'", null, null, null, null);
             c.moveToFirst();
@@ -100,7 +99,7 @@ public class MainHelper extends SQLiteOpenHelper {
                             int _y = Integer.parseInt(s[0]);
                             int _m = Integer.parseInt(s[1]);
                             int _d = Integer.parseInt(s[2]);
-                            t.setTime(_d, _m, _y, i, c.getString(c.getColumnIndex(_TIME[i])));
+                            t.setTime(new LocalDate(_y,_m,_d), i, c.getString(c.getColumnIndex(_TIME[i])));
                         }
                     } catch (Exception ignore) {
                     }

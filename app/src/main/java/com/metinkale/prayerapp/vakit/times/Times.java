@@ -7,6 +7,10 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.util.*;
 
@@ -175,7 +179,7 @@ public abstract class Times extends AbstractTimesBasics {
         List<Alarm> alarms = new ArrayList<>();
 
 
-        Calendar cal = Calendar.getInstance();
+        LocalDate cal = LocalDate.now();
 
         for (int ii = 0; ii <= 1/* next day */; ii++) {
             for (Vakit v : Vakit.values()) {
@@ -183,7 +187,7 @@ public abstract class Times extends AbstractTimesBasics {
                     int vakit = v.ordinal();
                     if (vakit != 0) vakit--;
 
-                    long mills = getTimeCal(cal, vakit).getTimeInMillis();
+                    long mills = getTimeCal(cal, vakit).getMillis();
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -201,8 +205,8 @@ public abstract class Times extends AbstractTimesBasics {
                     }
                 } else {
                     long mills;
-                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getTimeInMillis() + (getSabahTime() * 60 * 1000);
-                    else mills = getTimeCal(cal, 1).getTimeInMillis() - (getSabahTime() * 60 * 1000);
+                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + (getSabahTime() * 60 * 1000);
+                    else mills = getTimeCal(cal, 1).getMillis() - (getSabahTime() * 60 * 1000);
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -224,7 +228,7 @@ public abstract class Times extends AbstractTimesBasics {
                     if (vakit != 0) vakit--;
 
                     int early = getEarlyTime(v);
-                    long mills = getTimeCal(cal, vakit).getTimeInMillis() - (early * 60 * 1000);
+                    long mills = getTimeCal(cal, vakit).getMillis() - (early * 60 * 1000);
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -246,10 +250,9 @@ public abstract class Times extends AbstractTimesBasics {
 
                 int early = getCumaTime();
 
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                if (c.getTimeInMillis() < System.currentTimeMillis()) c.add(Calendar.WEEK_OF_YEAR, 1);
-                long mills = getTimeCal(c, 2).getTimeInMillis();
+                DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
+                if (c.getMillis() < System.currentTimeMillis()) c = c.plusDays(1);
+                long mills = getTimeCal(c.toLocalDate(), 2).getMillis();
                 mills -= early * 60 * 1000;
                 if (System.currentTimeMillis() < mills) {
                     Alarm a = new Alarm();
@@ -266,97 +269,59 @@ public abstract class Times extends AbstractTimesBasics {
                     alarms.add(a);
                 }
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
+            cal = cal.plusDays(1);
         }
         return alarms;
     }
 
 
-    public Calendar getTimeCal(int d, int m, int y, int time) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(y, m - 1, d);
+    public DateTime getTimeCal(LocalDate date, int time) {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+
         if ((time < 0) || (time > 5)) {
             while (time >= 6) {
-                cal.add(Calendar.DAY_OF_YEAR, 1);
+                date = date.plusDays(1);
                 time -= 6;
             }
 
             while (time <= -1) {
-                cal.add(Calendar.DAY_OF_YEAR, -1);
+                date = date.minusDays(1);
                 time += 6;
             }
-
-            d = cal.get(Calendar.DAY_OF_MONTH);
-            m = cal.get(Calendar.MONTH) + 1;
-            y = cal.get(Calendar.YEAR);
         }
-        String[] t = getTime(d, m, y, time).split(":");
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(t[0]));
-        cal.set(Calendar.MINUTE, Integer.parseInt(t[1]));
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        String[] t = getTime(date, time).split(":");
 
-        if ((time >= 3) && (cal.get(Calendar.HOUR_OF_DAY) < 5)) cal.add(Calendar.DATE, 1);
-        return cal;
+        int h = Integer.parseInt(t[0]);
+        int m = Integer.parseInt(t[1]);
+        DateTime timeCal = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), h, m, 0);
+
+        if ((time >= 3) && (h < 5)) timeCal = timeCal.plusDays(1);
+        return timeCal;
     }
 
 
-    public String getTime(int d, int m, int y, int time) {
+    public String getTime(LocalDate date, int time) {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+
         if ((time < 0) || (time > 5)) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(y, m - 1, d);
             while (time >= 6) {
-                cal.add(Calendar.DAY_OF_YEAR, 1);
+                date = date.plusDays(1);
                 time -= 6;
             }
 
             while (time == -1) {
-                cal.add(Calendar.DAY_OF_YEAR, -1);
+                date = date.minusDays(1);
                 time += 6;
             }
 
-            d = cal.get(Calendar.DAY_OF_MONTH);
-            m = cal.get(Calendar.MONTH) + 1;
-            y = cal.get(Calendar.YEAR);
+
         }
 
-        return adj(_getTime(d, m, y, time), time);
-    }
-
-    public String getTime(Calendar cal, int time) {
-        if (cal == null) {
-            cal = Calendar.getInstance();
-        }
-
-        while (time >= 6) {
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            time -= 6;
-        }
-
-        while (time <= -1) {
-            cal.add(Calendar.DAY_OF_YEAR, -1);
-            time += 6;
-        }
-
-        return getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), time);
-    }
-
-    public Calendar getTimeCal(Calendar cal, int time) {
-        if (cal == null) {
-            cal = Calendar.getInstance();
-        }
-
-        while (time >= 6) {
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            time -= 6;
-        }
-
-        while (time == -1) {
-            cal.add(Calendar.DAY_OF_YEAR, -1);
-            time += 6;
-        }
-
-        return getTimeCal(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), time);
+        return adj(_getTime(date, time), time);
     }
 
 
@@ -364,31 +329,30 @@ public abstract class Times extends AbstractTimesBasics {
         return getTime(null, time);
     }
 
-    public Calendar getTimeCal(int time) {
+    public DateTime getTimeCal(int time) {
         return getTimeCal(null, time);
     }
 
     private String adj(String time, int t) {
-        Calendar cal = new GregorianCalendar();
-        double drift = getTZFix();
-        int[] adj = getMinuteAdj();
-        if ((drift == 0) && (adj[t] == 0)) return time;
-        int h = (int) Math.round(drift - 0.5);
-        int m = (int) ((drift - h) * 60);
-        String[] s = time.split(":");
         try {
-            cal.set(0, 0, 0, Integer.parseInt(s[0]), Integer.parseInt(s[1]), 0);
-            cal.add(Calendar.HOUR, h);
-            cal.add(Calendar.MINUTE, m + adj[t]);
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            double drift = getTZFix();
+            int[] adj = getMinuteAdj();
+            if ((drift == 0) && (adj[t] == 0)) return time;
+
+            int h = (int) Math.round(drift - 0.5);
+            int m = (int) ((drift - h) * 60);
+
+            String[] s = time.split(":");
+            LocalTime lt = new LocalTime(Integer.parseInt(s[0]), Integer.parseInt(s[1]), 0);
+
+            time = lt.toString("HH:mm");
+
+
+            return time;
+        } catch (Exception e) {
             Crashlytics.logException(e);
-            cal.set(0, 0, 0, 0, 0, 0);
+            return "00:00";
         }
-
-        time = Utils.az(cal.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(cal.get(Calendar.MINUTE));
-
-
-        return time;
     }
 
 
@@ -402,14 +366,13 @@ public abstract class Times extends AbstractTimesBasics {
     }
 
     public String getLeft(int next, boolean showsecs) {
-        Calendar left = new GregorianCalendar();
-        left.setTimeInMillis(getLeftMills(next));
+        LocalTime left = new LocalTime(getLeftMills(next));
 
         if (showsecs)
-            return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(left.get(Calendar.MINUTE)) + ":" + Utils.az(left.get(Calendar.SECOND));
+            return left.toString("HH:mm:ss");
         else if (Prefs.isDefaultWidgetMinuteType())
-            return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(left.get(Calendar.MINUTE));
-        else return Utils.az(left.get(Calendar.HOUR_OF_DAY)) + ":" + (Utils.az(left.get(Calendar.MINUTE) + 1));
+            return left.toString("HH:mm");
+        else return Utils.az(left.getHourOfDay()) + ":" + (Utils.az(left.getMinuteOfHour() + 1));
 
     }
 
@@ -419,15 +382,7 @@ public abstract class Times extends AbstractTimesBasics {
     }
 
     public long getMills(int which) {
-        Calendar t = new GregorianCalendar();
-        if (which == 6) {
-            t.add(Calendar.DAY_OF_YEAR, 1);
-            which = 0;
-        } else if (which == -1) {
-            t.add(Calendar.DAY_OF_YEAR, -1);
-            which = 5;
-        }
-        return getTimeCal(t, which).getTimeInMillis();
+        return getTimeCal(null, which).getMillis();
     }
 
     public int getNext() {
@@ -435,7 +390,6 @@ public abstract class Times extends AbstractTimesBasics {
         for (int i = 0; i < 6; i++) {
             if (mills < getMills(i)) return i;
         }
-
         return 6;
     }
 

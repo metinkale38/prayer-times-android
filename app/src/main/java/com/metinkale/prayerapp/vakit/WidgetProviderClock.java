@@ -25,8 +25,7 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
-
-import java.util.Calendar;
+import org.joda.time.LocalTime;
 
 public class WidgetProviderClock extends AppWidgetProvider {
     private static float mDP;
@@ -104,10 +103,10 @@ public class WidgetProviderClock extends AppWidgetProvider {
         paint.setTextAlign(Align.CENTER);
         paint.setColor(Color.WHITE);
 
-        Calendar cal = Calendar.getInstance();
+        LocalTime ltime=LocalTime.now();
 
         paint.setTextSize(h * 0.55f);
-        String time = Utils.az(cal.get(Calendar.HOUR_OF_DAY)) + ":" + Utils.az(cal.get(Calendar.MINUTE));
+        String time =ltime.toString("HH:mm");
         if (Prefs.use12H()) {
             time = Utils.fixTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);

@@ -13,8 +13,8 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.PrayTime.AdjMethod;
 import com.metinkale.prayerapp.vakit.times.PrayTime.Juristic;
 import com.metinkale.prayerapp.vakit.times.PrayTime.Method;
+import org.joda.time.LocalDate;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -131,22 +131,16 @@ public class CalcTimes extends Times {
     }
 
 
-    private int mLastD, mLastM, mLastY;
+    private LocalDate mLast;
     private List<String> mLastTimes;
 
     @Override
-    public String _getTime(int d, int m, int y, int time) {
-        if ((mLastD == d) && (mLastM == m) && (mLastY == y)) return mLastTimes.get(time);
+    public String _getTime(LocalDate date, int time) {
+        if (mLast.equals(date)) return mLastTimes.get(time);
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, d);
-        cal.set(Calendar.MONTH, m - 1);
-        cal.set(Calendar.YEAR, y);
-        List<String> times = mPrayTime.getPrayerTimes(cal, mLat, mLng);
+        List<String> times = mPrayTime.getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), mLat, mLng);
         times.remove(4);
-        mLastD = d;
-        mLastM = m;
-        mLastY = y;
+        mLast=date;
         mLastTimes = times;
         return times.get(time);
     }

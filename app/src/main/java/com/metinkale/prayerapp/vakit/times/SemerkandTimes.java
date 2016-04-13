@@ -3,12 +3,12 @@ package com.metinkale.prayerapp.vakit.times;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.joda.time.LocalDate;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Calendar;
 import java.util.List;
 
 public class SemerkandTimes extends WebTimes {
@@ -24,11 +24,11 @@ public class SemerkandTimes extends WebTimes {
 
     @Override
     protected boolean syncTimes() throws Exception {
-        Calendar cal = Calendar.getInstance();
-        int Y = cal.get(Calendar.YEAR);
+        LocalDate ldate = LocalDate.now();
+        int Y = ldate.getYear();
         int i = 0;
         for (int y = Y; y <= (Y + 1); y++) {
-            cal.set(Calendar.YEAR, y);
+            ldate = ldate.withYear(y);
             Gson gson = new GsonBuilder().create();
             try {
 
@@ -48,8 +48,8 @@ public class SemerkandTimes extends WebTimes {
                 in.close();
 
                 for (Day d : resp) {
-                    cal.set(Calendar.DAY_OF_YEAR, d.Day);
-                    setTimes(cal.get(Calendar.DATE), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
+                    ldate=ldate.withDayOfWeek(d.Day);
+                   setTimes(ldate, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
                     i++;
                 }
 

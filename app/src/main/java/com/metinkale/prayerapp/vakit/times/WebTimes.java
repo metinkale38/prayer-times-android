@@ -11,9 +11,8 @@ import android.os.PowerManager;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.Main;
+import org.joda.time.LocalDate;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class WebTimes extends Times {
     private static final String _ID = "id";
@@ -104,10 +103,10 @@ public class WebTimes extends Times {
     }
 
     @Override
-    public String getTime(int d, int m, int y, int time) {
+    public String getTime(LocalDate date, int time) {
         mHandler.post(mCheckSync);
 
-        return super.getTime(d, m, y, time);
+        return super.getTime(date, time);
     }
 
     protected boolean syncTimes() throws Exception {
@@ -119,13 +118,13 @@ public class WebTimes extends Times {
         @Override
         public void run() {
             mHandler.removeCallbacks(mCheckSync);
-            Calendar cal = new GregorianCalendar();
-            cal.add(Calendar.DAY_OF_YEAR, 15);
+            LocalDate ld = LocalDate.now();
             long lastSync = getLastSync();
 
             if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24)) {
                 // always if +15 days does not exist
-                if ("00:00".equals(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1))) {
+                ld = ld.plusDays(15);
+                if ("00:00".equals(getTime(ld, 1))) {
                     refresh();
                     return;
                 }
@@ -150,9 +149,9 @@ public class WebTimes extends Times {
 
                 if (Main.isRunning) reasons++;
 
-                cal.add(Calendar.DAY_OF_YEAR, reasons * 3);
+                ld = ld.plusDays(reasons * 3);
                 // if +15+reasons*3 days does not exist
-                if ("00:00".equals(getTime(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1))) {
+                if ("00:00".equals(getTime(ld, 1))) {
                     refresh();
                     return;
                 }
