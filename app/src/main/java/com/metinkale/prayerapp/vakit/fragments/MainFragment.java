@@ -10,7 +10,7 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.Date;
+import com.metinkale.prayerapp.DiyanetTakvimi;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
@@ -119,13 +119,13 @@ public class MainFragment extends Fragment {
         TextView datetv = (TextView) mView.findViewById(R.id.date);
         TextView hicritv = (TextView) mView.findViewById(R.id.hicri);
 
-        Date h = new Date();
+        LocalDate greg = LocalDate.now();
+        LocalDate hijr = DiyanetTakvimi.toHicri(greg);
 
-        hicritv.setText(h.format(true));
-        datetv.setText(h.format(false));
+        hicritv.setText(Utils.format(hijr));
+        datetv.setText(Utils.format(greg));
 
-        LocalDate now=LocalDate.now();
-        String[] daytimes = {mTimes.getTime(now, 0), mTimes.getTime(now, 1), mTimes.getTime(now, 2), mTimes.getTime(now, 3), mTimes.getTime(now, 4), mTimes.getTime(now, 5)};
+        String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
 
         mHasTimes = true;
         for (int i = 0; i < 6; i++) {
@@ -170,7 +170,7 @@ public class MainFragment extends Fragment {
 
             case R.id.share:
                 String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
-                LocalDate date=LocalDate.now();
+                LocalDate date = LocalDate.now();
                 String[] times = {mTimes.getTime(date, 0), mTimes.getTime(date, 1), mTimes.getTime(date, 2), mTimes.getTime(date, 3), mTimes.getTime(date, 4), mTimes.getTime(date, 5)};
                 for (int i = 0; i < times.length; i++) {
                     txt += "\n   " + Vakit.getByIndex(i).getString() + ": " + times[i];

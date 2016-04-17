@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Debug;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -79,7 +78,6 @@ public class WidgetService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Debug.startMethodTracing("widgets");
         WidgetProvider.updateWidgets(this);
         updateOngoing();
 
@@ -91,7 +89,6 @@ public class WidgetService extends Service {
         App.setExact(am, AlarmManager.RTC, DateTime.now().withMillisOfSecond(0).withSecondOfMinute(0).plusMinutes(1).getMillis(), service);
 
         stopSelf();
-        Debug.stopMethodTracing();
         return super.onStartCommand(intent, flags, startId);
     }
 

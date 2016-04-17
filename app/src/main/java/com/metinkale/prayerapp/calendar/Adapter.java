@@ -9,20 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.Date;
+import com.metinkale.prayerapp.DiyanetTakvimi;
+import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import org.joda.time.LocalDate;
+import org.joda.time.chrono.IslamicChronology;
 
-import java.util.Map;
+import java.util.List;
 
-public class Adapter extends ArrayAdapter<Date> {
+public class Adapter extends ArrayAdapter<int[]> {
     private final Context context;
-    private Map<Date, String> days;
+    private List<int[]> days;
     private boolean hasInfo;
 
     public Adapter(Context context, int year) {
         super(context, R.layout.names_item);
         this.context = context;
-        days = Date.getHolydays(year, false);
+        days = DiyanetTakvimi.getHolydays(year);
+
         hasInfo = !"en".equals(Prefs.getLanguage());
     }
 
@@ -47,12 +51,12 @@ public class Adapter extends ArrayAdapter<Date> {
         }
 
         convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) context).getBottomMargin() : 0);
-        Date h = days.keySet().toArray(new Date[days.size()])[pos];
+        int[] h = days.get(pos);
 
-        vh.hicri.setText(h.format(true));
-        vh.date.setText(h.format(false));
-        vh.name.setText(days.get(h));
-
+        vh.hicri.setText(Utils.format(new LocalDate(h[DiyanetTakvimi.HY], h[DiyanetTakvimi.HM], h[DiyanetTakvimi.HD], IslamicChronology.getInstance())));
+        vh.date.setText(Utils.format(new LocalDate(h[DiyanetTakvimi.GY], h[DiyanetTakvimi.GM], h[DiyanetTakvimi.GD])));
+        vh.name.setText(Utils.getHolyday(h[DiyanetTakvimi.DAY] - 1));
+        convertView.setTag(h[DiyanetTakvimi.DAY]);
         return convertView;
     }
 

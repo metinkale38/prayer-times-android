@@ -3,7 +3,7 @@ package com.metinkale.prayerapp.compass;
 public class LowPassFilter {
 
     /*
-     * Time smoothing constant for low-pass filter 0 ≤ α ≤ 1 ; a smaller
+     * com.metinkale.calendar.Time smoothing constant for low-pass filter 0 ≤ α ≤ 1 ; a smaller
      * value basically means more smoothing See:
      * http://en.wikipedia.org/wiki/Low-pass_filter#Discrete-time_realization
      */

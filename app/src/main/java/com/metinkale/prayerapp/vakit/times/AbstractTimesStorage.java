@@ -45,7 +45,6 @@ public class AbstractTimesStorage {
         editor = prefs.edit();
 
         String json = prefs.getString("id" + id, null);
-
         try {
             map = new JSONObject(json);
         } catch (Exception e) {

@@ -14,7 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.Date;
+import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
 
@@ -60,8 +60,8 @@ public class Main extends BaseActivity {
         }
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-            String asset = Date.getAssetForHolyday(year, pos, false);
+        public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+            String asset = Utils.getAssetForHolyday((Integer) v.getTag());
             if ((asset != null) && !"en".equals(Prefs.getLanguage())) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);

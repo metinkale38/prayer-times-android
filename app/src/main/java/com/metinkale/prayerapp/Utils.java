@@ -13,10 +13,12 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
+import org.joda.time.chrono.GregorianChronology;
 
 import java.util.Locale;
 
 public class Utils {
+    private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
     private static String[] sGMonths, sHMonths, sHolydays, sWeekdays, sShortWeekdays;
 
     public static CharSequence fixTimeForHTML(String time) {
@@ -55,7 +57,6 @@ public class Utils {
 
 
     public static void init() {
-        DiyanetTakvimi.init();
         String newLang = Prefs.getLanguage();
         Context c = App.getContext();
 
@@ -165,4 +166,43 @@ public class Utils {
     }
 
 
+    public static String format(LocalDate date) {
+        if (date.getChronology() instanceof GregorianChronology) {
+            return date.toString(getDateFormat(false));
+        } else {
+
+            String format = getDateFormat(true);
+            format = format.replace("DD", az(date.getDayOfMonth(), 2));
+
+            try {
+                format = format.replace("MMM", Utils.getHijriMonth(date.getMonthOfYear() - 1));
+
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                Crashlytics.logException(ex);
+
+                return "";
+            }
+            format = format.replace("MM", az(date.getMonthOfYear(), 2));
+            format = format.replace("YYYY", az(date.getYear(), 4));
+            format = format.replace("YY", az(date.getYear(), 2));
+            return format;
+        }
+    }
+
+    private static CharSequence az(int Int, int num) {
+        String ret = Int + "";
+        if (ret.length() < num) {
+            for (int i = ret.length(); i < num; i++) {
+                ret = "0" + ret;
+            }
+        } else if (ret.length() > num) {
+            ret = ret.substring(ret.length() - num, ret.length());
+        }
+
+        return ret;
+    }
+
+    public static String getAssetForHolyday(int pos) {
+        return Prefs.getLanguage() + ASSETS[pos];
+    }
 }

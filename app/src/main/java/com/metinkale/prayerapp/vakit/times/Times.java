@@ -275,11 +275,16 @@ public abstract class Times extends AbstractTimesBasics {
     }
 
 
+    HashMap<Long, DateTime> calCache = new HashMap<Long, DateTime>();
+
     public DateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
-
+        long key = date.toDateTimeAtStartOfDay().getMillis() + time;
+        if (calCache.containsKey(key)) {
+            return calCache.get(key);
+        }
         if ((time < 0) || (time > 5)) {
             while (time >= 6) {
                 date = date.plusDays(1);
@@ -291,22 +296,28 @@ public abstract class Times extends AbstractTimesBasics {
                 time += 6;
             }
         }
-        String[] t = getTime(date, time).split(":");
 
-        int h = Integer.parseInt(t[0]);
-        int m = Integer.parseInt(t[1]);
-        DateTime timeCal = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), h, m, 0);
 
+        DateTime timeCal = date.toDateTime(new LocalTime(getTime(date, time)));
+        int h = timeCal.getHourOfDay();
         if ((time >= 3) && (h < 5)) timeCal = timeCal.plusDays(1);
+        if (h != 0)
+            calCache.put(key, timeCal);
         return timeCal;
     }
 
+
+    HashMap<Long, String> strCache = new HashMap<Long, String>();
 
     public String getTime(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
-
+        long key = date.toDateTimeAtStartOfDay().getMillis() + time;
+        if (!date.equals(LocalDate.now())) key = 0;
+        if (key != 0 && calCache.containsKey(key)) {
+            return strCache.get(key);
+        }
         if ((time < 0) || (time > 5)) {
             while (time >= 6) {
                 date = date.plusDays(1);
@@ -320,8 +331,9 @@ public abstract class Times extends AbstractTimesBasics {
 
 
         }
-
-        return adj(_getTime(date, time), time);
+        String ret = adj(_getTime(date, time), time);
+        if (key != 0 && !ret.equals("00:00")) strCache.put(key, ret);
+        return ret;
     }
 
 

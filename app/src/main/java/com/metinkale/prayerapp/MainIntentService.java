@@ -31,8 +31,8 @@ import org.joda.time.LocalDate;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.AbstractMap;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainIntentService extends IntentService {
 
@@ -118,9 +118,7 @@ public class MainIntentService extends IntentService {
                             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
                         }
 
-                        Debug.startMethodTracing("alarms");
                         Times.setAlarms();
-                        Debug.stopMethodTracing();
                         break;
 
                     case ACTION_CALENDAR_INTEGRATION:
@@ -235,20 +233,20 @@ public class MainIntentService extends IntentService {
 
             if ("-1".equals(id) || (Prefs.getLanguage() == null)) return;
             int year = LocalDate.now().getYear();
-            AbstractMap<Date, String> days = new LinkedHashMap<>();
-            days.putAll(Date.getHolydays(year, false));
-            days.putAll(Date.getHolydays(year + 1, false));
+            List<int[]> days = new ArrayList<>();
+            days.addAll(DiyanetTakvimi.getHolydays(year));
+            days.addAll(DiyanetTakvimi.getHolydays(year + 1));
 
             int i = 0;
             ContentValues[] events = new ContentValues[days.size()];
-            for (Date date : days.keySet()) {
+            for (int[] date : days) {
                 ContentValues event = new ContentValues();
 
                 event.put(CalendarContract.Events.CALENDAR_ID, id);
-                event.put(CalendarContract.Events.TITLE, days.get(date));
+                event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date[DiyanetTakvimi.DAY] - 1));
                 event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
 
-                DateTime cal = new DateTime(date.getGregDay(),date.getGregDay(),date.getGregYear(),0,0,0);
+                DateTime cal = new DateTime(date[DiyanetTakvimi.GY], date[DiyanetTakvimi.GM], date[DiyanetTakvimi.GD], 0, 0, 0);
 
                 long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;

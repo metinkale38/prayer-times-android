@@ -122,7 +122,7 @@ public class PrayTime {
         return radiansToDegrees(val);
     }
 
-    // ---------------------- Julian Date Functions -----------------------
+    // ---------------------- Julian com.metinkale.calendar.Date Functions -----------------------
     // calculate julian date from a calendar date
     private double julianDate(int year, int month, int day) {
 

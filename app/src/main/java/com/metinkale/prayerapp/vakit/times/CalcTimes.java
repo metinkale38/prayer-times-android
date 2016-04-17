@@ -130,18 +130,10 @@ public class CalcTimes extends Times {
         return Source.Calc;
     }
 
-
-    private LocalDate mLast;
-    private List<String> mLastTimes;
-
     @Override
     public String _getTime(LocalDate date, int time) {
-        if (mLast.equals(date)) return mLastTimes.get(time);
-
         List<String> times = mPrayTime.getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), mLat, mLng);
         times.remove(4);
-        mLast=date;
-        mLastTimes = times;
         return times.get(time);
     }
 

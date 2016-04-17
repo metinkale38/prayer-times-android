@@ -20,11 +20,12 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.Date;
+import com.metinkale.prayerapp.DiyanetTakvimi;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class WidgetProviderClock extends AppWidgetProvider {
@@ -84,7 +85,6 @@ public class WidgetProviderClock extends AppWidgetProvider {
         remoteViews.setOnClickPendingIntent(R.id.belowPart, Main.getPendingIntent(times));
 
 
-        Date date = new Date();
         int next = times.getNext();
         int last = next - 1;
 
@@ -103,10 +103,10 @@ public class WidgetProviderClock extends AppWidgetProvider {
         paint.setTextAlign(Align.CENTER);
         paint.setColor(Color.WHITE);
 
-        LocalTime ltime=LocalTime.now();
+        LocalTime ltime = LocalTime.now();
 
         paint.setTextSize(h * 0.55f);
-        String time =ltime.toString("HH:mm");
+        String time = ltime.toString("HH:mm");
         if (Prefs.use12H()) {
             time = Utils.fixTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);
@@ -117,8 +117,11 @@ public class WidgetProviderClock extends AppWidgetProvider {
         } else {
             canvas.drawText(time, w / 2, h * 0.4f, paint);
         }
-        String greg = date.format(false);
-        String hicri = date.format(true);
+
+
+        LocalDate date = LocalDate.now();
+        String greg = Utils.format(date);
+        String hicri = Utils.format(DiyanetTakvimi.toHicri(date));
 
         paint.setTextSize(h * 0.12f);
         float m = paint.measureText(greg + "  " + hicri);
