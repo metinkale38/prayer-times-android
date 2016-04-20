@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
@@ -30,7 +31,7 @@ public class Main extends BaseActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(LocalDate.now().getYear());
+        viewPager.setCurrentItem(LocalDate.now().getYear() - HicriDate.MIN_YEAR);
     }
 
     @Override
@@ -82,19 +83,19 @@ public class Main extends BaseActivity {
         public Fragment getItem(int position) {
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
-            args.putInt(YearFragment.YEAR, position);
+            args.putInt(YearFragment.YEAR, position + HicriDate.MIN_YEAR);
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3000;
+            return HicriDate.MAX_YEAR - HicriDate.MIN_YEAR;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return position + "";
+            return (position + HicriDate.MIN_YEAR) + "";
         }
     }
 

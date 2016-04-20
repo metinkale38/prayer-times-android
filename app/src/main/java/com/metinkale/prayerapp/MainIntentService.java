@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Debug;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -234,8 +233,8 @@ public class MainIntentService extends IntentService {
             if ("-1".equals(id) || (Prefs.getLanguage() == null)) return;
             int year = LocalDate.now().getYear();
             List<int[]> days = new ArrayList<>();
-            days.addAll(DiyanetTakvimi.getHolydays(year));
-            days.addAll(DiyanetTakvimi.getHolydays(year + 1));
+            days.addAll(HicriDate.getHolydays(year));
+            days.addAll(HicriDate.getHolydays(year + 1));
 
             int i = 0;
             ContentValues[] events = new ContentValues[days.size()];
@@ -243,10 +242,10 @@ public class MainIntentService extends IntentService {
                 ContentValues event = new ContentValues();
 
                 event.put(CalendarContract.Events.CALENDAR_ID, id);
-                event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date[DiyanetTakvimi.DAY] - 1));
+                event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date[HicriDate.DAY] - 1));
                 event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
 
-                DateTime cal = new DateTime(date[DiyanetTakvimi.GY], date[DiyanetTakvimi.GM], date[DiyanetTakvimi.GD], 0, 0, 0);
+                DateTime cal = new DateTime(date[HicriDate.GY], date[HicriDate.GM], date[HicriDate.GD], 0, 0, 0);
 
                 long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;

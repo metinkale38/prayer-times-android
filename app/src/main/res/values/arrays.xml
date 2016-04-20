@@ -171,26 +171,6 @@
         <item>DD MM YY</item>
         <item>DD&#8211;MM&#8211;YYYY</item>
         <item>DD&#8211;MM&#8211;YY</item>
-        <item>E, DD MMM YYYY</item>
-        <item>E, DD MMM YY</item>
-        <item>E, DD.MM.YYYY</item>
-        <item>E, DD.MM.YY</item>
-        <item>E, DD/MM/YYYY</item>
-        <item>E, DD/MM/YY</item>
-        <item>E, DD MM YYYY</item>
-        <item>E, DD MM YY</item>
-        <item>E, DD&#8211;MM&#8211;YYYY</item>
-        <item>E, DD&#8211;MM&#8211;YY</item>
-        <item>EE, DD MMM YYYY</item>
-        <item>EE, DD MMM YY</item>
-        <item>EE, DD.MM.YYYY</item>
-        <item>EE, DD.MM.YY</item>
-        <item>EE, DD/MM/YYYY</item>
-        <item>EE, DD/MM/YY</item>
-        <item>EE, DD MM YYYY</item>
-        <item>EE, DD MM YY</item>
-        <item>EE, DD&#8211;MM&#8211;YYYY</item>
-        <item>EE, DD&#8211;MM&#8211;YY</item>
     </string-array>
     <string-array name="greg_text">
         <item>31 Aralik 2013</item>
@@ -203,26 +183,7 @@
         <item>31 12 13</item>
         <item>31&#8211;12&#8211;2013</item>
         <item>31&#8211;12&#8211;13</item>
-        <item>Pzt., 31 Aralik 2013</item>
-        <item>Pzt., 31 Aralik 13</item>
-        <item>Pzt., 31.12.2013</item>
-        <item>Pzt., 31.12.13</item>
-        <item>Pzt., 31/12/2013</item>
-        <item>Pzt., 31/12/13</item>
-        <item>Pzt., 31 12 2013</item>
-        <item>Pzt., 31 12 13</item>
-        <item>Pzt., 31&#8211;12&#8211;2013</item>
-        <item>Pzt., 31&#8211;12&#8211;13</item>
-        <item>Pazartest, 31 Aralik 2013</item>
-        <item>Pazartest, 31 Aralik 13</item>
-        <item>Pazartest, 31.12.2013</item>
-        <item>Pazartest, 31.12.13</item>
-        <item>Pazartest, 31/12/2013</item>
-        <item>Pazartest, 31/12/13</item>
-        <item>Pazartest, 31 12 2013</item>
-        <item>Pazartest, 31 12 13</item>
-        <item>Pazartest, 31&#8211;12&#8211;2013</item>
-        <item>Pazartest, 31&#8211;12&#8211;13</item>
+
     </string-array>
     <string-array name="hicri_text">
         <item>30 Muharrem 1434</item>

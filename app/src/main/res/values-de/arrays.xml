@@ -101,26 +101,7 @@
         <item>31 12 13</item>
         <item>31&#8211;12&#8211;2013</item>
         <item>31&#8211;12&#8211;13</item>
-        <item>Mo., 31 Dezember 2013</item>
-        <item>Mo., 31 Dezember 13</item>
-        <item>Mo., 31.12.2013</item>
-        <item>Mo., 31.12.13</item>
-        <item>Mo., 31/12/2013</item>
-        <item>Mo., 31/12/13</item>
-        <item>Mo., 31 12 2013</item>
-        <item>Mo., 31 12 13</item>
-        <item>Mo., 31&#8211;12&#8211;2013</item>
-        <item>Mo., 31&#8211;12&#8211;13</item>
-        <item>Montag, 31 Dezember 2013</item>
-        <item>Montag, 31 Dezember 13</item>
-        <item>Montag, 31.12.2013</item>
-        <item>Montag, 31.12.13</item>
-        <item>Montag, 31/12/2013</item>
-        <item>Montag, 31/12/13</item>
-        <item>Montag, 31 12 2013</item>
-        <item>Montag, 31 12 13</item>
-        <item>Montag, 31&#8211;12&#8211;2013</item>
-        <item>Montag, 31&#8211;12&#8211;13</item>
+
     </string-array>
     <string-array name="hicri_text">
         <item>30 Muharram 1434</item>

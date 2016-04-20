@@ -10,7 +10,7 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.DiyanetTakvimi;
+import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
@@ -120,7 +120,7 @@ public class MainFragment extends Fragment {
         TextView hicritv = (TextView) mView.findViewById(R.id.hicri);
 
         LocalDate greg = LocalDate.now();
-        LocalDate hijr = DiyanetTakvimi.toHicri(greg);
+        HicriDate hijr = new HicriDate(greg);
 
         hicritv.setText(Utils.format(hijr));
         datetv.setText(Utils.format(greg));

@@ -7,14 +7,20 @@ import org.joda.time.chrono.IslamicChronology;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiyanetTakvimi {
-
+public class HicriDate {
 
     public static final int HD = 0, HM = 1, HY = 2, GD = 3, GM = 4, GY = 5, DAY = 6;
     private static final int[][] mDates;
 
+    public final int Year, Month, Day;
 
-    public static LocalDate toHicri(LocalDate greg) {
+    public HicriDate(int y, int m, int d) {
+        Year = y;
+        Month = m;
+        Day = d;
+    }
+
+    public HicriDate(LocalDate greg) {
         // int[] key = {d, m, y};
         //int[] ret = mCache.get(key);
         //if (ret != null) return ret;
@@ -39,14 +45,23 @@ public class DiyanetTakvimi {
             }
         }
         if (last == null) {
-            return greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
+            LocalDate date = greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
+            Year = date.getYear();
+            Month = date.getMonthOfYear();
+            Day = date.getDayOfMonth();
         } else {
             int[] h = {last[HD], last[HM], last[HY]};
             h[0] += new LocalDate(y, m, d).getDayOfYear() - new LocalDate(last[GY], last[GM], last[GD]).getDayOfYear();
             if ((h[0] >= 30) || (h[0] <= 0)) {
-                return greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
+                LocalDate date = greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
+                Year = date.getYear();
+                Month = date.getMonthOfYear();
+                Day = date.getDayOfMonth();
+            } else {
+                Year = h[HY];
+                Month = h[HM];
+                Day = h[HD];
             }
-            return new LocalDate(h[HY], h[HM], h[HD], IslamicChronology.getInstance());
         }
     }
 
@@ -60,6 +75,10 @@ public class DiyanetTakvimi {
         }
         return dates;
     }
+
+
+    public static int MIN_YEAR=2012;
+    public static int MAX_YEAR=2022;
 
     static {
         mDates = new int[][]{

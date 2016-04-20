@@ -315,7 +315,7 @@ public abstract class Times extends AbstractTimesBasics {
         }
         long key = date.toDateTimeAtStartOfDay().getMillis() + time;
         if (!date.equals(LocalDate.now())) key = 0;
-        if (key != 0 && calCache.containsKey(key)) {
+        if (key != 0 && strCache.containsKey(key)) {
             return strCache.get(key);
         }
         if ((time < 0) || (time > 5)) {

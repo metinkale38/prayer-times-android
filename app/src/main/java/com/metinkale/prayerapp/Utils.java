@@ -13,7 +13,6 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
-import org.joda.time.chrono.GregorianChronology;
 
 import java.util.Locale;
 
@@ -161,32 +160,46 @@ public class Utils {
         return i + "";
     }
 
-    public static String getDateFormat(boolean hicri) {
+    private static String getDateFormat(boolean hicri) {
         return hicri ? Prefs.getHDF() : Prefs.getDF();
+    }
+
+    public static String format(HicriDate date) {
+        String format = getDateFormat(true);
+        format = format.replace("DD", az(date.Day, 2));
+
+        try {
+            format = format.replace("MMM", Utils.getHijriMonth(date.Month));
+
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            Crashlytics.logException(ex);
+
+            return "";
+        }
+        format = format.replace("MM", az(date.Month, 2));
+        format = format.replace("YYYY", az(date.Year, 4));
+        format = format.replace("YY", az(date.Year, 2));
+        return format;
     }
 
 
     public static String format(LocalDate date) {
-        if (date.getChronology() instanceof GregorianChronology) {
-            return date.toString(getDateFormat(false));
-        } else {
+        String format = getDateFormat(true);
+        format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
-            String format = getDateFormat(true);
-            format = format.replace("DD", az(date.getDayOfMonth(), 2));
+        try {
+            format = format.replace("MMM", Utils.getGregMonth(date.getMonthOfYear()));
 
-            try {
-                format = format.replace("MMM", Utils.getHijriMonth(date.getMonthOfYear() - 1));
 
-            } catch (ArrayIndexOutOfBoundsException ex) {
-                Crashlytics.logException(ex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            Crashlytics.logException(ex);
 
-                return "";
-            }
-            format = format.replace("MM", az(date.getMonthOfYear(), 2));
-            format = format.replace("YYYY", az(date.getYear(), 4));
-            format = format.replace("YY", az(date.getYear(), 2));
-            return format;
+            return "";
         }
+        format = format.replace("MM", az(date.getMonthOfYear(), 2));
+        format = format.replace("YYYY", az(date.getYear(), 4));
+        format = format.replace("YY", az(date.getYear(), 2));
+       return format;
     }
 
     private static CharSequence az(int Int, int num) {
@@ -205,4 +218,6 @@ public class Utils {
     public static String getAssetForHolyday(int pos) {
         return Prefs.getLanguage() + ASSETS[pos];
     }
+
+
 }

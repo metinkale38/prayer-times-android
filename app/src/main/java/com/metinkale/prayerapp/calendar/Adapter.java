@@ -9,11 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.DiyanetTakvimi;
+import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
-import org.joda.time.chrono.IslamicChronology;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Adapter extends ArrayAdapter<int[]> {
     public Adapter(Context context, int year) {
         super(context, R.layout.names_item);
         this.context = context;
-        days = DiyanetTakvimi.getHolydays(year);
+        days = HicriDate.getHolydays(year);
 
         hasInfo = !"en".equals(Prefs.getLanguage());
     }
@@ -45,18 +44,18 @@ public class Adapter extends ArrayAdapter<int[]> {
             vh.hicri = (TextView) convertView.findViewById(R.id.hicri);
             vh.next = (ImageView) convertView.findViewById(R.id.next);
             vh.next.setVisibility(hasInfo ? View.VISIBLE : View.GONE);
-            convertView.setTag(vh);
+            convertView.setTag(R.id.viewholder, vh);
         } else {
-            vh = (ViewHolder) convertView.getTag();
+            vh = (ViewHolder) convertView.getTag(R.id.viewholder);
         }
 
         convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) context).getBottomMargin() : 0);
         int[] h = days.get(pos);
 
-        vh.hicri.setText(Utils.format(new LocalDate(h[DiyanetTakvimi.HY], h[DiyanetTakvimi.HM], h[DiyanetTakvimi.HD], IslamicChronology.getInstance())));
-        vh.date.setText(Utils.format(new LocalDate(h[DiyanetTakvimi.GY], h[DiyanetTakvimi.GM], h[DiyanetTakvimi.GD])));
-        vh.name.setText(Utils.getHolyday(h[DiyanetTakvimi.DAY] - 1));
-        convertView.setTag(h[DiyanetTakvimi.DAY]);
+        vh.hicri.setText(Utils.format(new HicriDate(h[HicriDate.HY], h[HicriDate.HM], h[HicriDate.HD])));
+        vh.date.setText(Utils.format(new LocalDate(h[HicriDate.GY], h[HicriDate.GM], h[HicriDate.GD])));
+        vh.name.setText(Utils.getHolyday(h[HicriDate.DAY] - 1));
+        convertView.setTag(h[HicriDate.DAY]);
         return convertView;
     }
 

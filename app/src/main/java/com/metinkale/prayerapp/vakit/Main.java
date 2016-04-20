@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.DiyanetTakvimi;
+import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.custom.FloatingActionButton;
 import com.metinkale.prayerapp.custom.LockableViewPager;
@@ -65,7 +65,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mPager.setAdapter(mAdapter);
 
 
-        int holyday = DiyanetTakvimi.isHolyday();
+        int holyday = HicriDate.isHolyday();
         if (holyday != 0) {
             TextView tv = (TextView) findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
