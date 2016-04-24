@@ -169,7 +169,7 @@ public class Utils {
         format = format.replace("DD", az(date.Day, 2));
 
         try {
-            format = format.replace("MMM", Utils.getHijriMonth(date.Month));
+            format = format.replace("MMM", Utils.getHijriMonth(date.Month - 1));
 
         } catch (ArrayIndexOutOfBoundsException ex) {
             Crashlytics.logException(ex);
@@ -188,7 +188,7 @@ public class Utils {
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
         try {
-            format = format.replace("MMM", Utils.getGregMonth(date.getMonthOfYear()));
+            format = format.replace("MMM", Utils.getGregMonth(date.getMonthOfYear() - 1));
 
 
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -199,7 +199,7 @@ public class Utils {
         format = format.replace("MM", az(date.getMonthOfYear(), 2));
         format = format.replace("YYYY", az(date.getYear(), 4));
         format = format.replace("YY", az(date.getYear(), 2));
-       return format;
+        return format;
     }
 
     private static CharSequence az(int Int, int num) {
