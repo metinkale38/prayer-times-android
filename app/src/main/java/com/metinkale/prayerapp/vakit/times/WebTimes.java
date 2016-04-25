@@ -13,23 +13,25 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.Main;
 import org.joda.time.LocalDate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class WebTimes extends Times {
-    private static final String _ID = "id";
-    private static final String _LASTSYNC = "lastSync";
-    private Context mContext;
 
-    private String mPrefsId;
-    private Thread mThread;
+    private transient Thread mThread;
 
-    private Handler mHandler = new Handler();
-    private boolean mSyncing;
+    private transient Handler mHandler = new Handler();
+    private transient boolean mSyncing;
+    protected Map<String, String> times = new HashMap<>();
+    protected int lastSync;
+    protected String id;
+
+    WebTimes() {
+    }
 
     WebTimes(long id) {
         super(id);
-
-        mContext = App.getContext();
-
 
     }
 
@@ -37,12 +39,12 @@ public class WebTimes extends Times {
     public void delete() {
         super.delete();
         mHandler.removeCallbacks(mCheckSync);
-        if ((mThread != null) && mThread.isAlive()) mThread.interrupt();
+        if (mThread != null && mThread.isAlive()) mThread.interrupt();
     }
 
     @Override
     public void refresh() {
-        if ((getId() == null) || !App.isOnline() || mSyncing) return;
+        if (getId() == null || !App.isOnline() || mSyncing) return;
 
         if (Thread.currentThread() != mThread) {
             Thread t = new Thread() {
@@ -85,25 +87,8 @@ public class WebTimes extends Times {
     }
 
 
-    String getId() {
-        return getString(_ID);
-    }
-
-    void setId(String id) {
-        set(_ID, id);
-    }
-
-
-    long getLastSync() {
-        return getInt(_LASTSYNC) * 1000L;
-    }
-
-    void setLastSync(long lastSync) {
-        set(_LASTSYNC, (int) (lastSync / 1000));
-    }
-
     @Override
-    public String getTime(LocalDate date, int time) {
+    public synchronized String getTime(LocalDate date, int time) {
         mHandler.post(mCheckSync);
 
         return super.getTime(date, time);
@@ -121,7 +106,7 @@ public class WebTimes extends Times {
             LocalDate ld = LocalDate.now();
             long lastSync = getLastSync();
 
-            if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24)) {
+            if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
                 // always if +15 days does not exist
                 ld = ld.plusDays(15);
                 if ("00:00".equals(getTime(ld, 1))) {
@@ -140,7 +125,7 @@ public class WebTimes extends Times {
                     IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
                     Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    if ((status == BatteryManager.BATTERY_STATUS_CHARGING) || (status == BatteryManager.BATTERY_STATUS_FULL))
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
                         reasons++;
                 } catch (Exception ignore) {
                     Crashlytics.logException(ignore);
@@ -157,7 +142,7 @@ public class WebTimes extends Times {
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
-                if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
+                if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * (60 - reasons * 5)) {
                     refresh();
                     return;
                 }
@@ -173,13 +158,28 @@ public class WebTimes extends Times {
 
     public static void add(Source source, String city, String id, double lat, double lng) {
         long _id = System.currentTimeMillis();
-        WebTimes t = new WebTimes(_id);
+        WebTimes t = null;
+        switch (source) {
+            case Diyanet:
+                t = new DiyanetTimes(_id);
+                break;
+            case IGMG:
+                t = new IGMGTimes(_id);
+                break;
+            case Fazilet:
+                t = new FaziletTimes(_id);
+                break;
+            case NVC:
+                t = new FaziletTimes(_id);
+                break;
+            case Semerkand:
+                t = new SemerkandTimes(_id);
+        }
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);
         t.setLng(lng);
         t.setId(id);
-        if (source == Source.IGMG) t.set("fixedIGMG", true);
 
     }
 
@@ -199,5 +199,42 @@ public class WebTimes extends Times {
     protected String az(String i) {
         if (i.length() == 1) return "0" + i;
         else return i + "";
+    }
+
+
+    long getLastSync() {
+        return lastSync * 1000L;
+    }
+
+    void setLastSync(long lastSync) {
+        this.lastSync = (int) (lastSync / 1000);
+        clearCache();
+        save();
+    }
+
+    @Override
+    public synchronized String _getTime(LocalDate date, int time) {
+        String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
+        if (str == null) return "00:00";
+        return str;
+    }
+
+    public synchronized void setTime(LocalDate date, int time, String value) {
+        times.put(date.toString("yyyy-MM-dd") + "-" + time, value);
+        save();
+    }
+
+    public void setTimes(LocalDate date, String[] value) {
+        for (int i = 0; i < value.length; i++)
+            setTime(date, i, value[i]);
+    }
+
+    public synchronized String getId() {
+        return id;
+    }
+
+    public synchronized void setId(String id) {
+        this.id = id;
+        save();
     }
 }

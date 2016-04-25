@@ -14,11 +14,16 @@ import org.joda.time.LocalTime;
 
 import java.util.*;
 
-public abstract class Times extends AbstractTimesBasics {
+public abstract class Times extends TimesBase {
 
 
     Times(long id) {
         super(id);
+        if (!sTimes.contains(this)) sTimes.add(this);
+    }
+
+
+    Times() {
     }
 
 
@@ -53,6 +58,7 @@ public abstract class Times extends AbstractTimesBasics {
         }
     };
 
+
     public static void notifyDataSetChanged() {
         for (TimesListener list : sListeners) {
             try {
@@ -64,6 +70,7 @@ public abstract class Times extends AbstractTimesBasics {
 
     public static void addListener(TimesListener list) {
         sListeners.add(list);
+        list.notifyDataSetChanged();
     }
 
     public static void removeListener(TimesListener list) {
@@ -84,26 +91,6 @@ public abstract class Times extends AbstractTimesBasics {
             if (t != null)
                 if (t.getID() == id) return t;
         }
-
-        try {
-            Source source = AbstractTimesBasics.getSource(id);
-            switch (source) {
-                case Diyanet:
-                    return new DiyanetTimes(id);
-                case Fazilet:
-                    return new FaziletTimes(id);
-                case IGMG:
-                    return new IGMGTimes(id);
-                case NVC:
-                    return new NVCTimes(id);
-                case Semerkand:
-                    return new SemerkandTimes(id);
-                case Calc:
-                    return new CalcTimes(id);
-            }
-
-        } catch (Exception ignore) {
-        }
         return null;
     }
 
@@ -115,11 +102,10 @@ public abstract class Times extends AbstractTimesBasics {
         if (sTimes.isEmpty()) {
             SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
 
-            List<Long> ids = new ArrayList<Long>();
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {
                 if (key.startsWith("id")) {
-                    sTimes.add(getTimes(Long.parseLong(key.substring(2))));
+                    sTimes.add(TimesBase.from(Long.parseLong(key.substring(2))));
                 }
             }
 
@@ -128,6 +114,7 @@ public abstract class Times extends AbstractTimesBasics {
         return sTimes;
 
     }
+
 
     public static void sort() {
         Collections.sort(sTimes, new Comparator<Times>() {
@@ -205,8 +192,8 @@ public abstract class Times extends AbstractTimesBasics {
                     }
                 } else {
                     long mills;
-                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + (getSabahTime() * 60 * 1000);
-                    else mills = getTimeCal(cal, 1).getMillis() - (getSabahTime() * 60 * 1000);
+                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
+                    else mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -228,7 +215,7 @@ public abstract class Times extends AbstractTimesBasics {
                     if (vakit != 0) vakit--;
 
                     int early = getEarlyTime(v);
-                    long mills = getTimeCal(cal, vakit).getMillis() - (early * 60 * 1000);
+                    long mills = getTimeCal(cal, vakit).getMillis() - early * 60 * 1000;
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
@@ -275,7 +262,7 @@ public abstract class Times extends AbstractTimesBasics {
     }
 
 
-    HashMap<Long, DateTime> calCache = new HashMap<Long, DateTime>();
+    transient AbstractMap<Long, DateTime> calCache = new HashMap<>();
 
     public DateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
@@ -285,7 +272,7 @@ public abstract class Times extends AbstractTimesBasics {
         if (calCache.containsKey(key)) {
             return calCache.get(key);
         }
-        if ((time < 0) || (time > 5)) {
+        if (time < 0 || time > 5) {
             while (time >= 6) {
                 date = date.plusDays(1);
                 time -= 6;
@@ -300,14 +287,14 @@ public abstract class Times extends AbstractTimesBasics {
 
         DateTime timeCal = date.toDateTime(new LocalTime(getTime(date, time)));
         int h = timeCal.getHourOfDay();
-        if ((time >= 3) && (h < 5)) timeCal = timeCal.plusDays(1);
+        if (time >= 3 && h < 5) timeCal = timeCal.plusDays(1);
         if (h != 0)
             calCache.put(key, timeCal);
         return timeCal;
     }
 
 
-    HashMap<Long, String> strCache = new HashMap<Long, String>();
+    transient AbstractMap<Long, String> strCache = new HashMap<>();
 
     public String getTime(LocalDate date, int time) {
         if (date == null) {
@@ -315,10 +302,10 @@ public abstract class Times extends AbstractTimesBasics {
         }
         long key = date.toDateTimeAtStartOfDay().getMillis() + time;
         if (!date.equals(LocalDate.now())) key = 0;
-        if (key != 0 && strCache.containsKey(key)) {
+        if ((key != 0) && strCache.containsKey(key)) {
             return strCache.get(key);
         }
-        if ((time < 0) || (time > 5)) {
+        if (time < 0 || time > 5) {
             while (time >= 6) {
                 date = date.plusDays(1);
                 time -= 6;
@@ -332,10 +319,13 @@ public abstract class Times extends AbstractTimesBasics {
 
         }
         String ret = adj(_getTime(date, time), time);
-        if (key != 0 && !ret.equals("00:00")) strCache.put(key, ret);
+        if ((key != 0) && !"00:00".equals(ret)) strCache.put(key, ret);
         return ret;
     }
 
+    protected String _getTime(LocalDate date, int time) {
+        throw new RuntimeException("You must override _getTime()");
+    }
 
     public String getTime(int time) {
         return getTime(null, time);
@@ -349,7 +339,7 @@ public abstract class Times extends AbstractTimesBasics {
         try {
             double drift = getTZFix();
             int[] adj = getMinuteAdj();
-            if ((drift == 0) && (adj[t] == 0)) return time;
+            if (drift == 0 && adj[t] == 0) return time;
 
             int h = (int) Math.round(drift - 0.5);
             int m = (int) ((drift - h) * 60);
@@ -384,7 +374,7 @@ public abstract class Times extends AbstractTimesBasics {
             return left.toString("HH:mm:ss");
         else if (Prefs.isDefaultWidgetMinuteType())
             return left.toString("HH:mm");
-        else return Utils.az(left.getHourOfDay()) + ":" + (Utils.az(left.getMinuteOfHour() + 1));
+        else return Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1);
 
     }
 
@@ -412,18 +402,24 @@ public abstract class Times extends AbstractTimesBasics {
 
     public boolean isKerahat() {
         long m = getLeftMills(1) + getTZOffset();
-        if ((m <= 0) && (m > (Prefs.getKerahatSunrise() * -60000))) return true;
+        if (m <= 0 && m > Prefs.getKerahatSunrise() * -60000) return true;
 
         m = getLeftMills(2) + getTZOffset();
-        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa() * 60000))) return true;
+        if (m >= 0 && m < Prefs.getKerahatIstiwa() * 60000) return true;
 
         m = getLeftMills(4) + getTZOffset();
-        return (m >= 0) && (m < (Prefs.getKerahatSunet() * 60000));
+        return m >= 0 && m < Prefs.getKerahatSunet() * 60000;
 
     }
 
+
     public void refresh() {
 
+    }
+
+    protected void clearCache() {
+        strCache.clear();
+        calCache.clear();
     }
 
     @Override

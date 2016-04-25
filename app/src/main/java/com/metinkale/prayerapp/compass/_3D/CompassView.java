@@ -44,13 +44,13 @@ public class CompassView extends View {
 
         mPath.reset();
         mPath.setFillType(Path.FillType.EVEN_ODD);
-        mPath.moveTo(center, (center / 8) + (center / 2));
+        mPath.moveTo(center, center / 8 + center / 2);
 
-        mPath.lineTo((center * 15) / 20, (center / 3) + (center / 2));
+        mPath.lineTo(center * 15 / 20, center / 3 + center / 2);
 
-        mPath.lineTo(center, (center / 4) + (center / 2));
+        mPath.lineTo(center, center / 4 + center / 2);
 
-        mPath.lineTo((center * 25) / 20, (center / 3) + (center / 2));
+        mPath.lineTo(center * 25 / 20, center / 3 + center / 2);
         mPath.close();
 
     }
@@ -61,8 +61,8 @@ public class CompassView extends View {
         int h = getHeight();
 
         float cx = w / 2;
-        float cy = h + (w / 2.5f);
-        float cp = (w * 2) / 3;
+        float cy = h + w / 2.5f;
+        float cp = w * 2 / 3;
         cy -= ((BaseActivity) getContext()).getBottomMargin();
         h -= ((BaseActivity) getContext()).getBottomMargin();
 
@@ -100,7 +100,7 @@ public class CompassView extends View {
         if (mqAngle != 0) {
             canvas.translate(0, -0.05f * h);
 
-            int dist = (int) Math.sqrt(Math.pow(Math.abs(getAngle() - mqAngle), 2) + (mY * mY));
+            int dist = (int) Math.sqrt(Math.pow(Math.abs(getAngle() - mqAngle), 2) + mY * mY);
 
             if (dist > 30) {
                 float a = getAngle();
@@ -128,28 +128,28 @@ public class CompassView extends View {
 
             if (dist <= 25) {
                 mPaint.setColor(0xFFFFFFFF);
-                mPaint.setAlpha((int) (170 - (dist * 6.8)));
+                mPaint.setAlpha((int) (170 - dist * 6.8));
 
                 canvas.drawCircle(w / 2, h / 2, w * 0.45f, mPaint);
 
                 mPaint.setAlpha(255);
             }
 
-            canvas.translate((-mX * w) / 45, (mY * h) / 45);
+            canvas.translate(-mX * w / 45, mY * h / 45);
 
             mPaint.setTextSize(w / 5);
 
             mPaint.setColor(0xAAFFFFFF);
-            canvas.drawCircle(w / 2, (h / 2) - (w / 15), w / 5, mPaint);
+            canvas.drawCircle(w / 2, h / 2 - w / 15, w / 5, mPaint);
 
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setColor(0xFF000000);
             canvas.drawText("N", w / 2, h / 2, mPaint);
 
-            canvas.translate((int) ((mqAngle * w) / 45), 0);
-            int kw = (w / 4) - ((dist * w) / 180);
+            canvas.translate((int) (mqAngle * w / 45), 0);
+            int kw = w / 4 - dist * w / 180;
             if (kw > 0) {
-                mKaabe.setBounds((w / 2) - kw, (h / 2) - kw, (w / 2) + kw, (h / 2) + kw);
+                mKaabe.setBounds(w / 2 - kw, h / 2 - kw, w / 2 + kw, h / 2 + kw);
                 mKaabe.draw(canvas);
             }
 

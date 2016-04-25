@@ -76,7 +76,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             for (String provider : providers) {
                 Location last = lm.getLastKnownLocation(provider);
                 // one hour==1meter in accuracy
-                if ((last != null) && ((loc == null) || ((last.getAccuracy() - (last.getTime() / (1000 * 60 * 60))) < (loc.getAccuracy() - (loc.getTime() / (1000 * 60 * 60)))))) {
+                if (last != null && (loc == null || last.getAccuracy() - last.getTime() / (1000 * 60 * 60) < loc.getAccuracy() - loc.getTime() / (1000 * 60 * 60))) {
                     loc = last;
                 }
             }
@@ -135,7 +135,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.contains(";") && (mAdapter.getCount() <= 1)) {
+        if (query.contains(";") && mAdapter.getCount() <= 1) {
             mAdapter.clear();
             Item item = new Item();
             item.city = "GPS";
@@ -152,7 +152,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             @Override
             public void onResult(List result) {
                 List<Item> items = result;
-                if ((items != null) && !items.isEmpty()) {
+                if (items != null && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
                 }
@@ -196,7 +196,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     }
 
-    class MyAdapter extends ArrayAdapter<Cities.Item> {
+    static class MyAdapter extends ArrayAdapter<Cities.Item> {
 
         public MyAdapter(Context context) {
             super(context, 0, 0);

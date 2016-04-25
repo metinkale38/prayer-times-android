@@ -83,6 +83,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         });
     }
 
+    @Override
     public void onBackPressed() {
         if (mCity != "") {
             get(mSource, mCountry, mState, "");
@@ -133,7 +134,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         return true;
     }
 
-    class MyAdapter extends ArrayAdapter<String> {
+    static class MyAdapter extends ArrayAdapter<String> {
 
         public MyAdapter(Context context) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);

@@ -140,7 +140,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     private String last() {
-        if ((mState == STATE_FAVORITE) || (mState == STATE_SHUFFLED) || (mState == STATE_ORDER)) {
+        if (mState == STATE_FAVORITE || mState == STATE_SHUFFLED || mState == STATE_ORDER) {
             return "last_nr" + (mState == STATE_FAVORITE) + (mState == STATE_SHUFFLED);
         } else {
             return "last_nr" + mState;
@@ -266,7 +266,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             mFav.setIcon(R.drawable.ic_star_border_white_24dp);
         }
 
-        if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
+        if (mRemFav != -1 && mFavs.contains(mRemFav)) {
             mFavs.remove((Integer) mRemFav);
 
             mAdapter.notifyDataSetChanged();
@@ -306,7 +306,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if ((mTask != null) && (mTask.getStatus() == Status.RUNNING)) {
+        if (mTask != null && mTask.getStatus() == Status.RUNNING) {
             return false;
         }
 
@@ -407,7 +407,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             }
 
             int s = mList.size();
-            Toast.makeText(Main.this, getString(R.string.foundXHadis, (s == SqliteHelper.get().getCount()) ? 0 : s), Toast.LENGTH_LONG).show();
+            Toast.makeText(Main.this, getString(R.string.foundXHadis, s == SqliteHelper.get().getCount() ? 0 : s), Toast.LENGTH_LONG).show();
 
         }
 

@@ -28,11 +28,13 @@ public class NotificationPopup extends Activity {
     private TextView vakit;
 
 
+    @Override
     public void onResume() {
         super.onResume();
         instance = this;
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         instance = null;
@@ -53,9 +55,9 @@ public class NotificationPopup extends Activity {
 
         setContentView(R.layout.vakit_notpopup);
 
-        name = ((TextView) findViewById(R.id.name));
+        name = (TextView) findViewById(R.id.name);
         name.setText(getIntent().getStringExtra("name"));
-        vakit = ((TextView) findViewById(R.id.vakit));
+        vakit = (TextView) findViewById(R.id.vakit);
         vakit.setText(getIntent().getStringExtra("vakit"));
         vakit.setKeepScreenOn(true);
 
@@ -131,18 +133,18 @@ public class NotificationPopup extends Activity {
             x -= w / 2;
             y -= w / 2;
 
-            float tr = (float) Math.sqrt((x * x) + (y * y));
+            float tr = (float) Math.sqrt(x * x + y * y);
             double angle = Math.atan(y / (double) x);
             if (x < 0) angle += Math.PI;
-            if (tr >= ((w / 2) - r)) tr = (w / 2) - r;
+            if (tr >= w / 2 - r) tr = w / 2 - r;
 
             x = (int) (Math.cos(angle) * tr);
             y = (int) (Math.sin(angle) * tr);
 
-            if ((touch.getAction() == MotionEvent.ACTION_DOWN) && (Math.abs(x) < r) && (Math.abs(y) < r))
+            if (touch.getAction() == MotionEvent.ACTION_DOWN && Math.abs(x) < r && Math.abs(y) < r)
                 acceptTouch = true;
 
-            if (acceptTouch && (touch.getAction() != MotionEvent.ACTION_UP)) {
+            if (acceptTouch && touch.getAction() != MotionEvent.ACTION_UP) {
                 silent.setBounds(-5 * r, -r, -3 * r, r);
 
                 silent.draw(canvas);
@@ -159,10 +161,10 @@ public class NotificationPopup extends Activity {
             } else {
                 icon.setBounds(-r, -r, r, r);
 
-                if (tr > (3 * r)) {
-                    if ((Math.abs(angle) < (Math.PI / 10)) && (instance != null)) instance.finish();
+                if (tr > 3 * r) {
+                    if (Math.abs(angle) < Math.PI / 10 && instance != null) instance.finish();
 
-                    if ((Math.abs(angle - Math.PI) < (Math.PI / 10)) && (instance != null)) instance.onDismiss();
+                    if (Math.abs(angle - Math.PI) < Math.PI / 10 && instance != null) instance.onDismiss();
                 }
             }
 

@@ -62,17 +62,17 @@ public class Matrix3 implements Serializable {
      *             least 9 elements.
      */
     private static void mul(float[] mata, float[] matb) {
-        float v00 = (mata[M00] * matb[M00]) + (mata[M01] * matb[M10]) + (mata[M02] * matb[M20]);
-        float v01 = (mata[M00] * matb[M01]) + (mata[M01] * matb[M11]) + (mata[M02] * matb[M21]);
-        float v02 = (mata[M00] * matb[M02]) + (mata[M01] * matb[M12]) + (mata[M02] * matb[M22]);
+        float v00 = mata[M00] * matb[M00] + mata[M01] * matb[M10] + mata[M02] * matb[M20];
+        float v01 = mata[M00] * matb[M01] + mata[M01] * matb[M11] + mata[M02] * matb[M21];
+        float v02 = mata[M00] * matb[M02] + mata[M01] * matb[M12] + mata[M02] * matb[M22];
 
-        float v10 = (mata[M10] * matb[M00]) + (mata[M11] * matb[M10]) + (mata[M12] * matb[M20]);
-        float v11 = (mata[M10] * matb[M01]) + (mata[M11] * matb[M11]) + (mata[M12] * matb[M21]);
-        float v12 = (mata[M10] * matb[M02]) + (mata[M11] * matb[M12]) + (mata[M12] * matb[M22]);
+        float v10 = mata[M10] * matb[M00] + mata[M11] * matb[M10] + mata[M12] * matb[M20];
+        float v11 = mata[M10] * matb[M01] + mata[M11] * matb[M11] + mata[M12] * matb[M21];
+        float v12 = mata[M10] * matb[M02] + mata[M11] * matb[M12] + mata[M12] * matb[M22];
 
-        float v20 = (mata[M20] * matb[M00]) + (mata[M21] * matb[M10]) + (mata[M22] * matb[M20]);
-        float v21 = (mata[M20] * matb[M01]) + (mata[M21] * matb[M11]) + (mata[M22] * matb[M21]);
-        float v22 = (mata[M20] * matb[M02]) + (mata[M21] * matb[M12]) + (mata[M22] * matb[M22]);
+        float v20 = mata[M20] * matb[M00] + mata[M21] * matb[M10] + mata[M22] * matb[M20];
+        float v21 = mata[M20] * matb[M01] + mata[M21] * matb[M11] + mata[M22] * matb[M21];
+        float v22 = mata[M20] * matb[M02] + mata[M21] * matb[M12] + mata[M22] * matb[M22];
 
         mata[M00] = v00;
         mata[M10] = v10;
@@ -115,17 +115,17 @@ public class Matrix3 implements Serializable {
      * @return This matrix for the purpose of chaining operations together.
      */
     public Matrix3 mul(Matrix3 m) {
-        float v00 = (val[M00] * m.val[M00]) + (val[M01] * m.val[M10]) + (val[M02] * m.val[M20]);
-        float v01 = (val[M00] * m.val[M01]) + (val[M01] * m.val[M11]) + (val[M02] * m.val[M21]);
-        float v02 = (val[M00] * m.val[M02]) + (val[M01] * m.val[M12]) + (val[M02] * m.val[M22]);
+        float v00 = val[M00] * m.val[M00] + val[M01] * m.val[M10] + val[M02] * m.val[M20];
+        float v01 = val[M00] * m.val[M01] + val[M01] * m.val[M11] + val[M02] * m.val[M21];
+        float v02 = val[M00] * m.val[M02] + val[M01] * m.val[M12] + val[M02] * m.val[M22];
 
-        float v10 = (val[M10] * m.val[M00]) + (val[M11] * m.val[M10]) + (val[M12] * m.val[M20]);
-        float v11 = (val[M10] * m.val[M01]) + (val[M11] * m.val[M11]) + (val[M12] * m.val[M21]);
-        float v12 = (val[M10] * m.val[M02]) + (val[M11] * m.val[M12]) + (val[M12] * m.val[M22]);
+        float v10 = val[M10] * m.val[M00] + val[M11] * m.val[M10] + val[M12] * m.val[M20];
+        float v11 = val[M10] * m.val[M01] + val[M11] * m.val[M11] + val[M12] * m.val[M21];
+        float v12 = val[M10] * m.val[M02] + val[M11] * m.val[M12] + val[M12] * m.val[M22];
 
-        float v20 = (val[M20] * m.val[M00]) + (val[M21] * m.val[M10]) + (val[M22] * m.val[M20]);
-        float v21 = (val[M20] * m.val[M01]) + (val[M21] * m.val[M11]) + (val[M22] * m.val[M21]);
-        float v22 = (val[M20] * m.val[M02]) + (val[M21] * m.val[M12]) + (val[M22] * m.val[M22]);
+        float v20 = val[M20] * m.val[M00] + val[M21] * m.val[M10] + val[M22] * m.val[M20];
+        float v21 = val[M20] * m.val[M01] + val[M21] * m.val[M11] + val[M22] * m.val[M21];
+        float v22 = val[M20] * m.val[M02] + val[M21] * m.val[M12] + val[M22] * m.val[M22];
 
         val[M00] = v00;
         val[M10] = v10;
@@ -238,7 +238,7 @@ public class Matrix3 implements Serializable {
     }
 
     float det() {
-        return ((val[M00] * val[M11] * val[M22]) + (val[M01] * val[M12] * val[M20]) + (val[M02] * val[M10] * val[M21])) - (val[M00] * val[M12] * val[M21]) - (val[M01] * val[M10] * val[M22]) - (val[M02] * val[M11] * val[M20]);
+        return (val[M00] * val[M11] * val[M22] + val[M01] * val[M12] * val[M20] + val[M02] * val[M10] * val[M21]) - val[M00] * val[M12] * val[M21] - val[M01] * val[M10] * val[M22] - val[M02] * val[M11] * val[M20];
     }
 
     /**
@@ -256,15 +256,15 @@ public class Matrix3 implements Serializable {
 
         float inv_det = 1.0f / det;
 
-        tmp[M00] = (val[M11] * val[M22]) - (val[M21] * val[M12]);
-        tmp[M10] = (val[M20] * val[M12]) - (val[M10] * val[M22]);
-        tmp[M20] = (val[M10] * val[M21]) - (val[M20] * val[M11]);
-        tmp[M01] = (val[M21] * val[M02]) - (val[M01] * val[M22]);
-        tmp[M11] = (val[M00] * val[M22]) - (val[M20] * val[M02]);
-        tmp[M21] = (val[M20] * val[M01]) - (val[M00] * val[M21]);
-        tmp[M02] = (val[M01] * val[M12]) - (val[M11] * val[M02]);
-        tmp[M12] = (val[M10] * val[M02]) - (val[M00] * val[M12]);
-        tmp[M22] = (val[M00] * val[M11]) - (val[M10] * val[M01]);
+        tmp[M00] = val[M11] * val[M22] - val[M21] * val[M12];
+        tmp[M10] = val[M20] * val[M12] - val[M10] * val[M22];
+        tmp[M20] = val[M10] * val[M21] - val[M20] * val[M11];
+        tmp[M01] = val[M21] * val[M02] - val[M01] * val[M22];
+        tmp[M11] = val[M00] * val[M22] - val[M20] * val[M02];
+        tmp[M21] = val[M20] * val[M01] - val[M00] * val[M21];
+        tmp[M02] = val[M01] * val[M12] - val[M11] * val[M02];
+        tmp[M12] = val[M10] * val[M02] - val[M00] * val[M12];
+        tmp[M22] = val[M00] * val[M11] - val[M10] * val[M01];
 
         val[M00] = inv_det * tmp[M00];
         val[M10] = inv_det * tmp[M10];

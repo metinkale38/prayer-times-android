@@ -126,7 +126,7 @@ public class PermissionUtils {
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CAMERA:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pCamera = true;
                 } else {
                     pCamera = false;
@@ -134,7 +134,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_CALENDAR:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pCalendar = true;
                 } else {
                     pCalendar = false;
@@ -142,7 +142,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_LOCATION:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pLocation = true;
                 } else {
                     pLocation = false;
@@ -151,7 +151,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_STORAGE:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pStorage = true;
                 } else {
                     pStorage = false;

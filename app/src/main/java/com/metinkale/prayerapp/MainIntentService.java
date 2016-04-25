@@ -230,7 +230,7 @@ public class MainIntentService extends IntentService {
 
             String id = Prefs.getCalendar();
 
-            if ("-1".equals(id) || (Prefs.getLanguage() == null)) return;
+            if ("-1".equals(id) || Prefs.getLanguage() == null) return;
             int year = LocalDate.now().getYear();
             List<int[]> days = new ArrayList<>();
             days.addAll(HicriDate.getHolydays(year));

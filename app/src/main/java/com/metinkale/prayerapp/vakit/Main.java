@@ -122,6 +122,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         isRunning = false;
@@ -157,7 +158,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mAddCityFab != null) if ((position == 0) && (positionOffset == 0)) mAddCityFab.showFloatingActionButton();
+        if (mAddCityFab != null) if (position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
         else mAddCityFab.hideFloatingActionButton();
 
 
@@ -174,7 +175,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     @Override
     public void onPageSelected(int pos) {
         mPaneView.setEnabled(pos != 0);
-        mFooterText.setText((pos == 0) ? R.string.cities : R.string.imsakiye);
+        mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
     }
 
     public class MyAdapter extends FragmentPagerAdapter implements Times.TimesListener {

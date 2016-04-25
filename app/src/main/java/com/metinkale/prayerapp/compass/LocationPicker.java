@@ -36,6 +36,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
             mAddresses = Geocoder.from(query, 5);
 
             if (mAddresses != null) runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
                     mAdapter.clear();
                     for (Geocoder.Address a : mAddresses) {
@@ -66,7 +67,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void afterTextChanged(Editable arg0) {
-        if ((mThread != null) && mThread.isAlive()) {
+        if (mThread != null && mThread.isAlive()) {
             mThread.interrupt();
         }
         mThread = new Thread(mSearch);

@@ -22,7 +22,6 @@ public class FloatingActionButton extends View {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
     private static final TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
 
-    private Context context;
     private Paint mButtonPaint;
     private Paint mDrawablePaint;
     private Bitmap mBitmap;
@@ -30,7 +29,6 @@ public class FloatingActionButton extends View {
 
     public FloatingActionButton(Context context) {
         super(context);
-        this.context = context;
         init(Color.WHITE);
     }
 
@@ -212,7 +210,7 @@ public class FloatingActionButton extends View {
         // based on density scale
         // see developer.android.com (Supporting Multiple Screen Sizes)
         private int convertToPixels(int dp, float scale) {
-            return (int) ((dp * scale) + 0.5f);
+            return (int) (dp * scale + 0.5f);
         }
     }
 }

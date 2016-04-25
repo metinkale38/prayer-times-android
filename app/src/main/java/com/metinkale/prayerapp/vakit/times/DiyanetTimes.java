@@ -9,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class DiyanetTimes extends WebTimes {
+    DiyanetTimes() {
+    }
 
     DiyanetTimes(long id) {
         super(id);
@@ -53,7 +55,7 @@ public class DiyanetTimes extends WebTimes {
 
         int code = conn.getResponseCode();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(((code >= 200) && (code < 400)) ? conn.getInputStream() : conn.getErrorStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(code >= 200 && code < 400 ? conn.getInputStream() : conn.getErrorStream()));
         StringBuilder total = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {

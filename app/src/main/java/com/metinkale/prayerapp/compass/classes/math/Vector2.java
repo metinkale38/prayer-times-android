@@ -72,11 +72,11 @@ public class Vector2 implements Serializable {
     }
 
     float len() {
-        return (float) Math.sqrt((x * x) + (y * y));
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public float len2() {
-        return (x * x) + (y * y);
+        return x * x + y * y;
     }
 
     /**
@@ -160,7 +160,7 @@ public class Vector2 implements Serializable {
      * @return The dot product between this and the other vector
      */
     public float dot(Vector2 v) {
-        return (x * v.x) + (y * v.y);
+        return x * v.x + y * v.y;
     }
 
     /**
@@ -205,7 +205,7 @@ public class Vector2 implements Serializable {
     public float dst(Vector2 v) {
         float x_d = v.x - x;
         float y_d = v.y - y;
-        return (float) Math.sqrt((x_d * x_d) + (y_d * y_d));
+        return (float) Math.sqrt(x_d * x_d + y_d * y_d);
     }
 
     /**
@@ -216,7 +216,7 @@ public class Vector2 implements Serializable {
     public float dst(float x, float y) {
         float x_d = x - this.x;
         float y_d = y - this.y;
-        return (float) Math.sqrt((x_d * x_d) + (y_d * y_d));
+        return (float) Math.sqrt(x_d * x_d + y_d * y_d);
     }
 
     /**
@@ -226,7 +226,7 @@ public class Vector2 implements Serializable {
     public float dst2(Vector2 v) {
         float x_d = v.x - x;
         float y_d = v.y - y;
-        return (x_d * x_d) + (y_d * y_d);
+        return x_d * x_d + y_d * y_d;
     }
 
     /**
@@ -237,7 +237,7 @@ public class Vector2 implements Serializable {
     public float dst2(float x, float y) {
         float x_d = x - this.x;
         float y_d = y - this.y;
-        return (x_d * x_d) + (y_d * y_d);
+        return x_d * x_d + y_d * y_d;
     }
 
     @Override
@@ -277,8 +277,8 @@ public class Vector2 implements Serializable {
      * @return this vector
      */
     public Vector2 mul(Matrix3 mat) {
-        float x = (this.x * mat.val[0]) + (y * mat.val[3]) + mat.val[6];
-        float y = (this.x * mat.val[1]) + (this.y * mat.val[4]) + mat.val[7];
+        float x = this.x * mat.val[0] + y * mat.val[3] + mat.val[6];
+        float y = this.x * mat.val[1] + this.y * mat.val[4] + mat.val[7];
         this.x = x;
         this.y = y;
         return this;
@@ -291,7 +291,7 @@ public class Vector2 implements Serializable {
      * @return the cross product
      */
     public float crs(Vector2 v) {
-        return (x * v.y) - (y * v.x);
+        return x * v.y - y * v.x;
     }
 
     /**
@@ -302,7 +302,7 @@ public class Vector2 implements Serializable {
      * @return the cross product
      */
     public float crs(float x, float y) {
-        return (this.x * y) - (this.y * x);
+        return this.x * y - this.y * x;
     }
 
     /**
@@ -337,8 +337,8 @@ public class Vector2 implements Serializable {
         float cos = (float) Math.cos(rad);
         float sin = (float) Math.sin(rad);
 
-        float newX = (x * cos) - (y * sin);
-        float newY = (x * sin) + (y * cos);
+        float newX = x * cos - y * sin;
+        float newY = x * sin + y * cos;
 
         x = newX;
         y = newY;
@@ -364,8 +364,8 @@ public class Vector2 implements Serializable {
     public int hashCode() {
         int prime = 31;
         int result = 1;
-        result = (prime * result) + NumberUtils.floatToIntBits(x);
-        result = (prime * result) + NumberUtils.floatToIntBits(y);
+        result = prime * result + NumberUtils.floatToIntBits(x);
+        result = prime * result + NumberUtils.floatToIntBits(y);
         return result;
     }
 

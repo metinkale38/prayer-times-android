@@ -57,6 +57,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         show(fm, "tag");
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), mStartVolume, 0);
@@ -108,6 +109,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                 }
             }
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (mMp != null) {
                     mMp.stop();
@@ -121,7 +123,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         Sound s = new Sound();
         s.uri = mCb.getCurrent();
         mList.setTag(s);
-        if ((s.uri != null) && s.uri.contains("$volume")) {
+        if (s.uri != null && s.uri.contains("$volume")) {
             mVolumeCB.setChecked(true);
             mVolume.setEnabled(true);
             int progress = Integer.parseInt(s.uri.substring(s.uri.indexOf("$volume") + 7));
@@ -154,6 +156,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         final Sound s = mAdapter.getItem(pos);
         if ("picker".equals(s.uri)) {
             onResume = new Runnable() {
+                @Override
                 public void run() {
                     Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
                     i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
@@ -184,6 +187,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     @Override
                     public void onClick(DialogInterface dialog, int buttonId) {
                         MainIntentService.downloadSound(App.getContext(), s, new Runnable() {
+                            @Override
                             public void run() {
                                 Alarm alarm = new Alarm();
                                 alarm.sound = s.uri;
@@ -297,7 +301,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     s.uri = "silent";
                 }
 
-            if ((s.uri != null) && s.uri.contains("$volume")) {
+            if (s.uri != null && s.uri.contains("$volume")) {
                 s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
             }
             if (!sounds.contains(s)) {
@@ -320,7 +324,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             }
 
             Sound s = getItem(pos);
-            ((TextView) convertView).setText((s).name);
+            ((TextView) convertView).setText(s.name);
 
             return convertView;
         }

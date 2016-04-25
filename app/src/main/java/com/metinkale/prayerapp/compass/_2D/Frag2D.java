@@ -59,7 +59,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
 
-            if ((mGravity != null) && (mGeo != null)) {
+            if (mGravity != null && mGeo != null) {
                 float[] R = new float[9];
                 float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeo);
@@ -80,6 +80,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public void show() {
         mHidden = false;
         mCompassView.post(new Runnable() {
+            @Override
             public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
@@ -99,6 +100,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public void hide() {
         mHidden = true;
         mCompassView.post(new Runnable() {
+            @Override
             public void run() {
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);

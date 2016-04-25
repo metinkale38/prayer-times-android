@@ -55,6 +55,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(file.getName()).setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     File files = getFilesDir();

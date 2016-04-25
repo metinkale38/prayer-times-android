@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class FaziletTimes extends WebTimes {
+    FaziletTimes() {
+    }
 
     FaziletTimes(long id) {
         super(id);
@@ -31,7 +33,7 @@ public class FaziletTimes extends WebTimes {
         if (a.length < 4) {
             List<Cities.Item> items = Cities.get().search(getName());
             for (Cities.Item i : items) {
-                if ((i.source == getSource()) && i.city.equals(getName())) {
+                if (i.source == getSource() && i.city.equals(getName())) {
                     setId(i.id);
                 }
             }
@@ -41,7 +43,7 @@ public class FaziletTimes extends WebTimes {
         int state = Integer.parseInt(a[2]);
         int city = Integer.parseInt(a[3]);
 
-        List<String> ay = new ArrayList<String>();
+        List<String> ay = new ArrayList<>();
         ay.add("Ocak");
         ay.add("Şubat");
         ay.add("Mart");
@@ -107,7 +109,7 @@ public class FaziletTimes extends WebTimes {
                 reader.readLine();//8
                 times[4] = extractLine(reader.readLine());//9
                 times[5] = extractLine(reader.readLine());//10
-                setTimes(new LocalDate(y,m,d), times);
+                setTimes(new LocalDate(y, m, d), times);
 
             }
 

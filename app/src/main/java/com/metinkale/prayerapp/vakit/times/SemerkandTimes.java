@@ -12,6 +12,8 @@ import java.net.URLConnection;
 import java.util.List;
 
 public class SemerkandTimes extends WebTimes {
+    SemerkandTimes() {
+    }
 
     SemerkandTimes(long id) {
         super(id);
@@ -27,7 +29,7 @@ public class SemerkandTimes extends WebTimes {
         LocalDate ldate = LocalDate.now();
         int Y = ldate.getYear();
         int i = 0;
-        for (int y = Y; y <= (Y + 1); y++) {
+        for (int y = Y; y <= Y + 1; y++) {
             ldate = ldate.withYear(y);
             Gson gson = new GsonBuilder().create();
             try {
@@ -48,8 +50,8 @@ public class SemerkandTimes extends WebTimes {
                 in.close();
 
                 for (Day d : resp) {
-                    ldate=ldate.withDayOfWeek(d.Day);
-                   setTimes(ldate, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
+                    ldate = ldate.withDayOfWeek(d.Day);
+                    setTimes(ldate, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
                     i++;
                 }
 

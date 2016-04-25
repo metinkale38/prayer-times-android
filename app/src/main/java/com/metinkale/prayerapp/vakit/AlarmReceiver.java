@@ -43,7 +43,7 @@ public class AlarmReceiver extends IntentService {
         boolean silent = "silent".equals(prefs.getString("silenterType", "silent"));
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
-        if ((ringermode != AudioManager.RINGER_MODE_SILENT) && ((ringermode != AudioManager.RINGER_MODE_VIBRATE) || silent)) {
+        if (ringermode != AudioManager.RINGER_MODE_SILENT && (ringermode != AudioManager.RINGER_MODE_VIBRATE || silent)) {
             AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
             Intent i;
@@ -55,7 +55,7 @@ public class AlarmReceiver extends IntentService {
 
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * dur), service);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * dur, service);
 
             aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
 
@@ -124,14 +124,14 @@ public class AlarmReceiver extends IntentService {
 
             return mp;
         } catch (Exception e) {
-            if ((alarm.city == 0) || "silent".equals(uri.toString())) return null;
+            if (alarm.city == 0 || "silent".equals(uri.toString())) return null;
             File file = new File(uri.getPath());
             Crashlytics.setString("data", uri.toString());
             if (file.exists())
                 Crashlytics.setString("md5", MD5.calculateMD5(file));
             else
                 try {
-                    Times.getTimes(alarm.city).set(alarm.pref, "silent");
+                    Times.getTimes(alarm.city)._set(alarm.pref, "silent");
                 } catch (Exception ee) {
                     //Crashlytics.logException(ee);
                 }
@@ -148,7 +148,7 @@ public class AlarmReceiver extends IntentService {
 
         Intent i = new Intent(c, WakefulReceiver.class);
         i.putExtra("bdl", alarm.toBundle());
-        PendingIntent service = PendingIntent.getBroadcast(c, (int) ((alarm.vakit == null) ? 0 : (alarm.vakit.ordinal() + (alarm.city * 10) + ((alarm.time - (alarm.time % (1000 * 60 * 60 * 24))) / 1000))), i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.vakit == null ? 0 : alarm.vakit.ordinal() + alarm.city * 10 + (alarm.time - alarm.time % (1000 * 60 * 60 * 24)) / 1000), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
 
@@ -189,7 +189,7 @@ public class AlarmReceiver extends IntentService {
 
         Context c = App.getContext();
 
-        if ((intent == null) || !intent.hasExtra("bdl")) {
+        if (intent == null || !intent.hasExtra("bdl")) {
 
             return;
         }
@@ -199,7 +199,7 @@ public class AlarmReceiver extends IntentService {
         if (next.city == 0) return;
 
         Times t = Times.getTimes(next.city);
-        if (!"TEST".equals(next.pref) && ((t != null) && (next.pref != null) && !t.is(next.pref))) {
+        if (!"TEST".equals(next.pref) && t != null && next.pref != null && !t._is(next.pref)) {
             return;
         }
 
@@ -238,7 +238,7 @@ public class AlarmReceiver extends IntentService {
             MediaPlayer mp;
         }
         final MPHolder mp = new MPHolder();
-        if ((next.sound != null) && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
+        if (next.sound != null && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
 
             if (next.sound.contains("$volume")) {
                 volume = Integer.parseInt(next.sound.substring(next.sound.indexOf("$volume") + 7));
@@ -289,7 +289,7 @@ public class AlarmReceiver extends IntentService {
         nm.notify(next.city + "", NotIds.ALARM, not);
 
         sInterrupt = false;
-        while ((mp.mp != null) && mp.mp.isPlaying()) {
+        while (mp.mp != null && mp.mp.isPlaying()) {
             if (sInterrupt) {
                 mp.mp.stop();
                 mp.mp.release();
@@ -297,7 +297,7 @@ public class AlarmReceiver extends IntentService {
             }
         }
 
-        if (!sInterrupt && (next.dua != null) && !next.dua.startsWith("silent")) {
+        if (!sInterrupt && next.dua != null && !next.dua.startsWith("silent")) {
 
             next.sound = next.dua;
             next.dua = "silent";

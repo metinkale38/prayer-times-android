@@ -47,7 +47,7 @@ public class App extends Application {
 
         ConnectivityManager conMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-        return (activeNetwork != null) && activeNetwork.isConnected();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
 

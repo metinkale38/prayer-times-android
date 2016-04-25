@@ -20,44 +20,18 @@ import java.util.TimeZone;
 
 public class CalcTimes extends Times {
 
-    private Double mLat, mLng;
+    private String method;
+    private String adjMethod;
+    private String juristic;
+    private transient PrayTime mPrayTime;
 
-    private PrayTime mPrayTime;
 
-
-    private static final String _METHOD = "method";
-    private static final String _ADJMETHOD = "adjMethod";
-    private static final String _JURISTIC = "juristic";
-
-    public Method getMethod() {
-        return Method.valueOf(getString(_METHOD));
-    }
-
-    public Juristic getJuristic() {
-        return Juristic.valueOf(getString(_JURISTIC));
-    }
-
-    public AdjMethod getAdjMethod() {
-        return AdjMethod.valueOf(getString(_ADJMETHOD));
-    }
-
-    public void setMethod(Method value) {
-        set(_METHOD, value.name());
-    }
-
-    public void setJuristic(Juristic value) {
-        set(_JURISTIC, value.name());
-    }
-
-    public void setAdjMethod(AdjMethod value) {
-        set(_ADJMETHOD, value.name());
+    CalcTimes() {
     }
 
     CalcTimes(long id) {
         super(id);
         mPrayTime = new PrayTime();
-        mLat = getLat();
-        mLng = getLng();
         try {
             mPrayTime.setCalcMethod(getMethod());
             mPrayTime.setAsrJuristic(getJuristic());
@@ -132,9 +106,37 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(LocalDate date, int time) {
-        List<String> times = mPrayTime.getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), mLat, mLng);
+        List<String> times = mPrayTime.getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), getLat(), getLng());
         times.remove(4);
         return times.get(time);
+    }
+
+
+    public synchronized PrayTime.Method getMethod() {
+        return PrayTime.Method.valueOf(method);
+    }
+
+    public synchronized void setMethod(PrayTime.Method value) {
+        method = value.name();
+        save();
+    }
+
+    public synchronized PrayTime.Juristic getJuristic() {
+        return PrayTime.Juristic.valueOf(juristic);
+    }
+
+    public synchronized void setJuristic(PrayTime.Juristic value) {
+        juristic = value.name();
+        save();
+    }
+
+    public synchronized PrayTime.AdjMethod getAdjMethod() {
+        return PrayTime.AdjMethod.valueOf(adjMethod);
+    }
+
+    public synchronized void setAdjMethod(PrayTime.AdjMethod value) {
+        adjMethod = value.name();
+        save();
     }
 
 

@@ -56,7 +56,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
         w = (int) (5 * scale);
         h = (int) (2 * scale);
 
-        if ((w <= 0) || (h <= 0)) {
+        if (w <= 0 || h <= 0) {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -111,9 +111,9 @@ public class WidgetProviderClock extends AppWidgetProvider {
             time = Utils.fixTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);
             time = time.substring(0, time.indexOf(" "));
-            canvas.drawText(time, (w / 2) - (paint.measureText(suffix) / 4), h * 0.4f, paint);
+            canvas.drawText(time, w / 2 - paint.measureText(suffix) / 4, h * 0.4f, paint);
             paint.setTextSize(h * 0.275f);
-            canvas.drawText(suffix, (w / 2) + paint.measureText(time), h * 0.2f, paint);
+            canvas.drawText(suffix, w / 2 + paint.measureText(time), h * 0.2f, paint);
         } else {
             canvas.drawText(time, w / 2, h * 0.4f, paint);
         }
@@ -125,8 +125,8 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         paint.setTextSize(h * 0.12f);
         float m = paint.measureText(greg + "  " + hicri);
-        if (m > (w * 0.8f)) {
-            paint.setTextSize((h * 0.12f * w * 0.8f) / m);
+        if (m > w * 0.8f) {
+            paint.setTextSize(h * 0.12f * w * 0.8f / m);
         }
 
 
@@ -147,7 +147,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
         long mills2 = times.getMills(next);
         long passed = System.currentTimeMillis() - mills1;
         float percent = passed / (float) (mills2 - mills1);
-        canvas.drawRect(w * 0.1f, h * 0.6f, (w * 0.1f) + (w * 0.8f * percent), h * 0.63f, paint);
+        canvas.drawRect(w * 0.1f, h * 0.6f, w * 0.1f + w * 0.8f * percent, h * 0.63f, paint);
 
         paint.setColor(Color.WHITE);
         paint.setTextSize(h * 0.2f);
@@ -158,7 +158,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             l = l.substring(0, l.indexOf(" "));
             canvas.drawText(times.getTime(last), w * 0.1f, h * 0.82f, paint);
             paint.setTextSize(h * 0.1f);
-            canvas.drawText(s, (w * 0.1f) + (2 * paint.measureText(l)), h * 0.72f, paint);
+            canvas.drawText(s, w * 0.1f + 2 * paint.measureText(l), h * 0.72f, paint);
 
         } else {
             canvas.drawText(times.getTime(last), w * 0.1f, h * 0.82f, paint);
@@ -174,7 +174,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             String l = Utils.fixTime(times.getTime(next));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
-            canvas.drawText(l, (w * 0.9f) - (paint.measureText(s) / 2), h * 0.82f, paint);
+            canvas.drawText(l, w * 0.9f - paint.measureText(s) / 2, h * 0.82f, paint);
             paint.setTextSize(h * 0.1f);
             canvas.drawText(s, w * 0.9f, h * 0.72f, paint);
 
@@ -225,7 +225,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if ((w * h) != 0) {
+        if (w * h != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

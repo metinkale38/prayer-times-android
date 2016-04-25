@@ -97,10 +97,10 @@ class MathUtils {
             }
             add = 0;
         }
-        float invDiv = 1 / (((x < y) ? y : x) * INV_ATAN2_DIM_MINUS_1);
+        float invDiv = 1 / ((x < y ? y : x) * INV_ATAN2_DIM_MINUS_1);
         int xi = (int) (x * invDiv);
         int yi = (int) (y * invDiv);
-        return (Atan2.table[(yi * ATAN2_DIM) + xi] + add) * mul;
+        return (Atan2.table[yi * ATAN2_DIM + xi] + add) * mul;
     }
 
     public static final int random(int range) {
@@ -108,7 +108,7 @@ class MathUtils {
     }
 
     public static final int random(int start, int end) {
-        return start + random.nextInt((end - start) + 1);
+        return start + random.nextInt(end - start + 1);
     }
 
     public static final boolean randomBoolean() {
@@ -126,7 +126,7 @@ class MathUtils {
     }
 
     public static final float random(float start, float end) {
-        return start + (random.nextFloat() * (end - start));
+        return start + random.nextFloat() * (end - start);
     }
 
     // ---
@@ -145,7 +145,7 @@ class MathUtils {
     }
 
     public static boolean isPowerOfTwo(int value) {
-        return (value != 0) && ((value & (value - 1)) == 0);
+        return value != 0 && (value & value - 1) == 0;
     }
 
     public static int clamp(int value, int min, int max) {
@@ -232,7 +232,7 @@ class MathUtils {
 
         static {
             for (int i = 0; i < SIN_COUNT; i++) {
-                table[i] = (float) Math.sin(((i + 0.5f) / SIN_COUNT) * radFull);
+                table[i] = (float) Math.sin((i + 0.5f) / SIN_COUNT * radFull);
             }
             for (int i = 0; i < 360; i += 90) {
                 table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.sin(i * degreesToRadians);
@@ -245,7 +245,7 @@ class MathUtils {
 
         static {
             for (int i = 0; i < SIN_COUNT; i++) {
-                table[i] = (float) Math.cos(((i + 0.5f) / SIN_COUNT) * radFull);
+                table[i] = (float) Math.cos((i + 0.5f) / SIN_COUNT * radFull);
             }
             for (int i = 0; i < 360; i += 90) {
                 table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.cos(i * degreesToRadians);
@@ -261,7 +261,7 @@ class MathUtils {
                 for (int j = 0; j < ATAN2_DIM; j++) {
                     float x0 = (float) i / ATAN2_DIM;
                     float y0 = (float) j / ATAN2_DIM;
-                    table[(j * ATAN2_DIM) + i] = (float) Math.atan2(y0, x0);
+                    table[j * ATAN2_DIM + i] = (float) Math.atan2(y0, x0);
                 }
             }
         }

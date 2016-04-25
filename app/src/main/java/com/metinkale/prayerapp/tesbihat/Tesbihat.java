@@ -44,7 +44,7 @@ public class Tesbihat extends BaseActivity {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if ((Times.getCount() != 0) && "tr".equals(mLang)) {
+        if (Times.getCount() != 0 && "tr".equals(mLang)) {
             int next = Times.getTimes(Times.getIds().get(0)).getNext();
 
             switch (next) {
@@ -189,7 +189,7 @@ public class Tesbihat extends BaseActivity {
         }
     }
 
-    public class OtherPagerAdapter extends FragmentStatePagerAdapter {
+    public static class OtherPagerAdapter extends FragmentStatePagerAdapter {
 
         public OtherPagerAdapter(FragmentManager fm) {
             super(fm);

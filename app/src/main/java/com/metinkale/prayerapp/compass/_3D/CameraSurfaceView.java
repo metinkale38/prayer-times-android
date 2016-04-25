@@ -77,7 +77,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         Camera.Size result = null;
 
         for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-            if ((size.width <= width) && (size.height <= height)) {
+            if (size.width <= width && size.height <= height) {
                 if (result == null) {
                     result = size;
                 } else {

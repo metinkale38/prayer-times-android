@@ -187,7 +187,7 @@ public class Cities extends SQLiteAssetHelper {
                     double _lat = c.getDouble(c.getColumnIndex("lat"));
                     double _lng = c.getDouble(c.getColumnIndex("lng"));
 
-                    String name = ((_city == null) || "".equals(_city)) ? _state : _city;
+                    String name = _city == null || "".equals(_city) ? _state : _city;
                     String id = source.substring(0, 1) + "_" + _countryId + "_" + _stateId + "_" + _cityId;
                     resp.add(name + ";" + id + ";" + _lat + ";" + _lng);
                 } while (c.moveToNext());
@@ -249,7 +249,7 @@ public class Cities extends SQLiteAssetHelper {
         q = q.replace("'", "\'");
         String[] sources = {"Diyanet", "IGMG", "Fazilet", "NVC", "Semerkand"};
 
-        List<Cities.Item> items = new ArrayList<Cities.Item>();
+        List<Cities.Item> items = new ArrayList<>();
         Cities.Item calc = new Cities.Item();
         calc.source = Source.Calc;
         calc.city = city;
@@ -302,7 +302,7 @@ public class Cities extends SQLiteAssetHelper {
                     item.city = c.getString(c.getColumnIndex("name"));
                     item.id = c.getString(c.getColumnIndex("id"));
 
-                    if ((item.city == null) || "".equals(item.city)) {
+                    if (item.city == null || "".equals(item.city)) {
                         item.city = NVCTimes.getName(item.id);
                     }
 
@@ -346,7 +346,7 @@ public class Cities extends SQLiteAssetHelper {
                 item.lng = c.getDouble(c.getColumnIndex("lng"));
                 c.close();
 
-                if ((lat != 0) || (lng != 0) || (item.lat != 0) || (item.lng != 0)) items.add(item);
+                if (lat != 0 || lng != 0 || item.lat != 0 || item.lng != 0) items.add(item);
 
             }
 

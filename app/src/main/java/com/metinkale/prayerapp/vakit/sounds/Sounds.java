@@ -20,24 +20,24 @@ import java.net.URLConnection;
 import java.util.*;
 
 public class Sounds {
-    private static HashMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
+    private static AbstractMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
 
     public static boolean isDownloaded(Sound sound) {
-        return (sound.url == null) || sound.getFile().exists();
+        return sound.url == null || sound.getFile().exists();
 
     }
 
     public static AbstractMap<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
-            List<Sound> sabah = new ArrayList<Sound>();
-            List<Sound> ogle = new ArrayList<Sound>();
-            List<Sound> ikindi = new ArrayList<Sound>();
-            List<Sound> aksam = new ArrayList<Sound>();
-            List<Sound> yatsi = new ArrayList<Sound>();
-            List<Sound> sela = new ArrayList<Sound>();
-            List<Sound> dua = new ArrayList<Sound>();
-            List<Sound> ezan = new ArrayList<Sound>();
+            List<Sound> sabah = new ArrayList<>();
+            List<Sound> ogle = new ArrayList<>();
+            List<Sound> ikindi = new ArrayList<>();
+            List<Sound> aksam = new ArrayList<>();
+            List<Sound> yatsi = new ArrayList<>();
+            List<Sound> sela = new ArrayList<>();
+            List<Sound> dua = new ArrayList<>();
+            List<Sound> ezan = new ArrayList<>();
 
 
             aksam.add(new Sound("Abdulkadir Sehitoglu - Segah", App.API_URL + "/sounds/aksam/Abdulkadir%20Sehitoglu%20-%20Segah.mp3", "1126kb"));
@@ -113,8 +113,8 @@ public class Sounds {
     public static List<Sound> getSounds(Vakit vakit) {
         if (vakit == Vakit.IMSAK) vakit = Vakit.SABAH;
         if (vakit == Vakit.GUNES) vakit = Vakit.SABAH;
-        if (vakit == null) return (getSounds("extra"));
-        return (getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra"));
+        if (vakit == null) return getSounds("extra");
+        return getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra");
     }
 
     public static List<Sound> getSounds(String... categories) {
@@ -239,7 +239,7 @@ public class Sounds {
         if (checking) return false;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         long lastSync = prefs.getLong("lastMD5Check", 0);
-        if (((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * 7)) || (lastSync == 0)) {
+        if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * 7 || lastSync == 0) {
 
 
             ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);

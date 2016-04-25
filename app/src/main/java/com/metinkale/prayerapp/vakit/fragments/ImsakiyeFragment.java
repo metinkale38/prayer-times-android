@@ -21,15 +21,14 @@ import org.joda.time.LocalDate;
  * Created by Metin on 21.07.2015.
  */
 public class ImsakiyeFragment extends Fragment {
-    private ListView mLV;
     private ImsakiyeAdapter mAdapter;
     private Times mTimes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
-        mLV = new ListView(getActivity());
+        ListView lv = new ListView(getActivity());
         mAdapter = new ImsakiyeAdapter(getActivity());
-        mLV.setAdapter(mAdapter);
+        lv.setAdapter(mAdapter);
         setTimes(mTimes);
         TextView addMore = new TextView(getActivity());
         addMore.setText("\n" + getString(R.string.showMore) + "\n");
@@ -41,8 +40,8 @@ public class ImsakiyeFragment extends Fragment {
                 mAdapter.notifyDataSetInvalidated();
             }
         });
-        mLV.addFooterView(addMore);
-        return mLV;
+        lv.addFooterView(addMore);
+        return lv;
     }
 
     public void setTimes(Times t) {
@@ -74,7 +73,7 @@ public class ImsakiyeFragment extends Fragment {
 
         @Override
         public long getItemId(int position) {
-            return position + ((times == null) ? 0 : times.getID());
+            return position + (times == null ? 0 : times.getID());
         }
 
         @Override
@@ -104,14 +103,14 @@ public class ImsakiyeFragment extends Fragment {
 
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                if ((i == 0) || !Prefs.use12H() || (position == 0)) tv.setText(a[i]);
+                if (i == 0 || !Prefs.use12H() || position == 0) tv.setText(a[i]);
                 else tv.setText(Utils.fixTimeForHTML(a[i]));
             }
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);
             } else if (position == 0) {
                 v.setBackgroundResource(R.color.indicator);
-            } else if ((position % 2) == 0) {
+            } else if (position % 2 == 0) {
                 v.setBackgroundResource(R.color.colorPrimaryLight);
             } else {
                 v.setBackgroundColor(Color.WHITE);

@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NVCTimes extends WebTimes {
+    NVCTimes() {
+    }
 
     NVCTimes(long id) {
         super(id);
@@ -78,7 +80,7 @@ public class NVCTimes extends WebTimes {
                 if (month.length() == 1) month = "0" + month;
                 String date;
                 if ("0".equals(doy)) date = day + "." + month + "." + (y - 1);
-                else if ("366".equals(doy) || ("367".equals(doy) && "01".equals(month)))
+                else if ("366".equals(doy) || "367".equals(doy) && "01".equals(month))
                     date = day + "." + month + "." + (y + 1);
                 else date = day + "." + month + "." + y;
                 String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));

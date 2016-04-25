@@ -44,6 +44,7 @@ public class MyPaneView extends RelativeLayout {
         mBottomOpen = run;
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
     }
@@ -85,12 +86,12 @@ public class MyPaneView extends RelativeLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!mEnabled) return false;
         if (mMain.getTranslationY() == 0) {
-            if (ev.getY() < (mHeight / 10)) {
+            if (ev.getY() < mHeight / 10) {
                 return true;
-            } else if (ev.getY() > (((mHeight * 9) / 10) + mMain.getTranslationY())) {
+            } else if (ev.getY() > mHeight * 9 / 10 + mMain.getTranslationY()) {
                 return true;
             }
-        } else if ((ev.getY() > mMain.getTranslationY()) && (ev.getY() < (mMain.getTranslationY() + mMain.getHeight())))
+        } else if (ev.getY() > mMain.getTranslationY() && ev.getY() < mMain.getTranslationY() + mMain.getHeight())
             return true;
         return false;
     }
@@ -104,7 +105,7 @@ public class MyPaneView extends RelativeLayout {
 
 
         if (mBottom != null) {
-            mBottom.getLayoutParams().height = (getMeasuredHeight() * 2) / 3;
+            mBottom.getLayoutParams().height = getMeasuredHeight() * 2 / 3;
         }
 
         if (mMain != null) mMain.bringToFront();
@@ -115,16 +116,16 @@ public class MyPaneView extends RelativeLayout {
     public boolean onTouchEvent(MotionEvent ev) {
         float y = ev.getY();
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            if (y < ((mHeight / 10) + mMain.getTranslationY())) {
+            if (y < mHeight / 10 + mMain.getTranslationY()) {
                 mMode = Mode.SlideTop;
                 mTop.setVisibility(View.VISIBLE);
                 mBottom.setVisibility(View.GONE);
-                if ((mTopOpen != null) && !isOpen()) post(mTopOpen);
-            } else if (y > (((mHeight * 9) / 10) + mMain.getTranslationY())) {
+                if (mTopOpen != null && !isOpen()) post(mTopOpen);
+            } else if (y > mHeight * 9 / 10 + mMain.getTranslationY()) {
                 mMode = Mode.SlideBottom;
                 mTop.setVisibility(View.GONE);
                 mBottom.setVisibility(View.VISIBLE);
-                if ((mBottomOpen != null) && !isOpen()) post(mBottomOpen);
+                if (mBottomOpen != null && !isOpen()) post(mBottomOpen);
             } else mMode = Mode.Click;
 
 
@@ -146,7 +147,7 @@ public class MyPaneView extends RelativeLayout {
                 case Click:
                     break;
             }
-        } else if ((ev.getAction() == MotionEvent.ACTION_UP) || (ev.getAction() == MotionEvent.ACTION_CANCEL)) {
+        } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             switch (mMode) {
                 case SlideTop:
                     if (!mSwipingUp)

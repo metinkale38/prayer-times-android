@@ -34,7 +34,7 @@ public class WidgetService extends Service {
             long id = mOngoing.get(i);
             Times t = Times.getTimes(id);
 
-            if ((t == null) || !t.isOngoingNotificationActive()) {
+            if (t == null || !t.isOngoingNotificationActive()) {
                 nm.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
             }
@@ -44,7 +44,7 @@ public class WidgetService extends Service {
 
             Times t = Times.getTimes(id);
 
-            if ((t != null) && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
+            if (t != null && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
                 mOngoing.add(id);
             }
         }

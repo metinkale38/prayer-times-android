@@ -29,9 +29,9 @@ public class VibrationPreference extends EditTextPreference {
 
     public static long[] getPattern(Context c, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        List<Long> mills = new ArrayList<Long>();
+        List<Long> mills = new ArrayList<>();
         String txt = prefs.getString(key, "0 300 150 300 150 500");
-        String split[] = txt.split(" ");
+        String[] split = txt.split(" ");
         for (String s : split) {
             if (!s.isEmpty()) {
                 try {
@@ -55,9 +55,9 @@ public class VibrationPreference extends EditTextPreference {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Long> mills = new ArrayList<Long>();
+                List<Long> mills = new ArrayList<>();
                 String txt = editText.getText().toString();
-                String split[] = txt.split(" ");
+                String[] split = txt.split(" ");
                 for (String s : split) {
                     if (!s.isEmpty()) {
                         try {

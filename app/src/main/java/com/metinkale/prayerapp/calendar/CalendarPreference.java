@@ -28,7 +28,7 @@ public class CalendarPreference extends ListPreference {
 
     private Activity getActivity() {
         Context c = getContext();
-        while ((c instanceof ContextWrapper) && !(c instanceof Activity)) {
+        while (c instanceof ContextWrapper && !(c instanceof Activity)) {
             c = ((ContextWrapper) c).getBaseContext();
         }
         if (c instanceof Activity) return (Activity) c;

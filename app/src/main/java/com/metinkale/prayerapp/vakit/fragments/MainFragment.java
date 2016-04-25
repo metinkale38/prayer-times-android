@@ -45,7 +45,7 @@ public class MainFragment extends Fragment {
                 for (int i = 0; i < 6; i++) {
                     TextView time = (TextView) mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == (next - 1)) {
+                    if (i == next - 1) {
                         time.setBackgroundResource(R.color.indicator);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.indicator);
                     } else {
@@ -111,7 +111,7 @@ public class MainFragment extends Fragment {
     }
 
     private void update() {
-        if ((mTimes == null) || (mView == null)) {
+        if (mTimes == null || mView == null) {
             return;
         }
 

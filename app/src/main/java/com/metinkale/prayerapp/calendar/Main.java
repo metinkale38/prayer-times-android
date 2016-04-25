@@ -63,7 +63,7 @@ public class Main extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
             String asset = Utils.getAssetForHolyday((Integer) v.getTag());
-            if ((asset != null) && !"en".equals(Prefs.getLanguage())) {
+            if (asset != null && !"en".equals(Prefs.getLanguage())) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);
@@ -72,7 +72,7 @@ public class Main extends BaseActivity {
         }
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

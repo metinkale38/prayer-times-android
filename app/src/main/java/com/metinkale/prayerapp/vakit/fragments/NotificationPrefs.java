@@ -84,7 +84,7 @@ public class NotificationPrefs extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mTimes.setCumaActive(b);
-                if (!b && expand.getVisibility() == View.VISIBLE) expand.setVisibility(View.GONE);
+                if (!b && (expand.getVisibility() == View.VISIBLE)) expand.setVisibility(View.GONE);
 
             }
         });
@@ -93,7 +93,7 @@ public class NotificationPrefs extends Fragment {
             @Override
             public void onClick(View view) {
                 if (sw.isChecked())
-                    expand.setVisibility(expand.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 else {
                     Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
                 }
@@ -167,17 +167,17 @@ public class NotificationPrefs extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mTimes.setNotificationActive(vakit, b);
-                if (!b && expand.getVisibility() == View.VISIBLE) expand.setVisibility(View.GONE);
+                if (!b && (expand.getVisibility() == View.VISIBLE)) expand.setVisibility(View.GONE);
 
             }
         });
 
-        View title = ((View) mView.findViewById(textId).getParent());
+        View title = (View) mView.findViewById(textId).getParent();
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sw.isChecked()) {
-                    expand.setVisibility(expand.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 } else {
                     Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
                 }
@@ -185,10 +185,11 @@ public class NotificationPrefs extends Fragment {
         });
 
         title.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
             public boolean onLongClick(View v) {
                 if (!BuildConfig.DEBUG) return false;
                 Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
+                a.time = System.currentTimeMillis() + 5 * 1000;
                 a.sound = mTimes.getSound(vakit);
                 a.dua = mTimes.getDua(vakit);
                 a.silenter = mTimes.getSilenterDuration(vakit);
@@ -284,7 +285,7 @@ public class NotificationPrefs extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mTimes.setEarlyNotificationActive(vakit, b);
-                if (!b && expand.getVisibility() == View.VISIBLE) expand.setVisibility(View.GONE);
+                if (!b && (expand.getVisibility() == View.VISIBLE)) expand.setVisibility(View.GONE);
 
             }
         });
@@ -293,7 +294,7 @@ public class NotificationPrefs extends Fragment {
             @Override
             public void onClick(View view) {
                 if (sw.isChecked())
-                    expand.setVisibility(expand.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 else {
                     Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
                 }
@@ -364,6 +365,7 @@ public class NotificationPrefs extends Fragment {
         getActivity().setTitle(getString(R.string.vakit));
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle(mTimes.getName());

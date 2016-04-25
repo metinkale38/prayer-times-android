@@ -52,7 +52,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 116
+        versionCode 118
         versionName '3.5.4'
     }
 
@@ -93,7 +93,7 @@ dependencies {
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
     compile 'com.android.support:percent:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:+'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'net.danlew:android.joda:2.9.3'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {

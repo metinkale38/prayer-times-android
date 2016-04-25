@@ -71,6 +71,7 @@ public class SortFragment extends Fragment implements Times.TimesListener {
         }
     }
 
+    @Override
     public void notifyDataSetChanged() {
         if (mAdapter.getItemCount() != Times.getCount()) mAdapter.dataChanged();
     }
@@ -130,7 +131,7 @@ public class SortFragment extends Fragment implements Times.TimesListener {
 
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private List<Long> ids = new ArrayList<Long>();
+        private List<Long> ids = new ArrayList<>();
 
         private int hide = -1;
 

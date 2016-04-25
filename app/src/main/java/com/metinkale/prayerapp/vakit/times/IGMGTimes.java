@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class IGMGTimes extends WebTimes {
+    IGMGTimes() {
+    }
 
     IGMGTimes(long id) {
         super(id);
@@ -25,12 +27,12 @@ public class IGMGTimes extends WebTimes {
         int world = Integer.parseInt(a[1]);
         int germany = Integer.parseInt(a[2]);
 
-        LocalDate ldate =LocalDate.now();
-        int rY =ldate.getYear();
+        LocalDate ldate = LocalDate.now();
+        int rY = ldate.getYear();
         int Y = rY;
         int m = ldate.getMonthOfYear();
 
-        for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
+        for (int M = m; M <= m + 1 && rY == Y; M++) {
             if (M == 13) {
                 M = 1;
                 Y++;

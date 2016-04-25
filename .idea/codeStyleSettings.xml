@@ -9,6 +9,20 @@
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
+        <codeStyleSettings language="JAVA">
+          <arrangement>
+            <groups>
+              <group>
+                <type>GETTERS_AND_SETTERS</type>
+                <order>KEEP</order>
+              </group>
+              <group>
+                <type>OVERRIDDEN_METHODS</type>
+                <order>BY_NAME</order>
+              </group>
+            </groups>
+          </arrangement>
+        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />

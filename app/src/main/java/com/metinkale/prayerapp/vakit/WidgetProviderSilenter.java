@@ -91,10 +91,10 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
 
         paint.setColor(theme.textcolor);
 
-        paint.setTextSize((s * 25) / 100);
+        paint.setTextSize(s * 25 / 100);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText("Sessize", s / 2, (s * 125) / 300, paint);
-        canvas.drawText("al", s / 2, (s * 25) / 30, paint);
+        canvas.drawText("Sessize", s / 2, s * 125 / 300, paint);
+        canvas.drawText("al", s / 2, s * 25 / 30, paint);
 
         paint.setStyle(Style.STROKE);
         float stroke = mDP;
@@ -139,7 +139,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if ((w * h) != 0) {
+        if (w * h != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

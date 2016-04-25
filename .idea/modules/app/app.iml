@@ -101,7 +101,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="sqliteassethelper-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.7-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.8" level="project" />
     <orderEntry type="library" exported="" name="beta-1.1.4" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.9.3-no-tzdb" level="project" />

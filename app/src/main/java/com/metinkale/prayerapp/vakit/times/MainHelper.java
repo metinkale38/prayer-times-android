@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Map;
 
 import static android.database.Cursor.*;
 
@@ -39,7 +42,7 @@ public class MainHelper extends SQLiteOpenHelper {
         if (dbFile.exists()) {
             MainHelper mainHelper = new MainHelper();
 
-            HashMap<Long, AbstractTimesStorage> map = new HashMap<>();
+            AbstractMap<Long, JSONObject> map = new HashMap<>();
             SQLiteDatabase db = mainHelper.getWritableDatabase();
             Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
             c.moveToFirst();
@@ -49,49 +52,58 @@ public class MainHelper extends SQLiteOpenHelper {
                     String key = c.getString(c.getColumnIndex(_KEY));
                     int column = c.getColumnIndex(_VALUE);
                     int type = c.getType(column);
-                    AbstractTimesStorage times;
+                    JSONObject times;
                     if (map.containsKey(id))
                         times = map.get(id);
                     else {
-                        times = new AbstractTimesStorage(id);
+                        times = new JSONObject();
                         map.put(id, times);
                     }
-                    switch (type) {
-                        case FIELD_TYPE_INTEGER:
-                            times.set(key, c.getInt(column));
-                            break;
-                        case FIELD_TYPE_STRING:
-                            times.set(key, c.getString(column));
-                            break;
-                        case FIELD_TYPE_FLOAT:
-                            times.set(key, c.getDouble(column));
-                            break;
+                    try {
+                        switch (type) {
+                            case FIELD_TYPE_INTEGER:
+                                times.put(key, c.getInt(column));
+                                break;
+                            case FIELD_TYPE_STRING:
+                                times.put(key, c.getString(column));
+                                break;
+                            case FIELD_TYPE_FLOAT:
+                                times.put(key, c.getDouble(column));
+                                break;
+                        }
+                    } catch (Exception e) {
                     }
 
                 } while (c.moveToNext());
             }
             c.close();
 
+
+            for (long id : map.keySet()) {
+                App.getContext().getSharedPreferences("cities", 0).edit().putString("id" + id, map.get(id).toString()).apply();
+            }
             db.delete(CITIES_TABLE, null, null);
-            LocalDate ldate=LocalDate.now();
-            String date =ldate.toString("yy-MM-01");
+            LocalDate ldate = LocalDate.now();
+            String date = ldate.toString("yy-MM-01");
 
             c = db.query(TIMES_TABLE, null, _DATE + " >= '" + date + "'", null, null, null, null);
             c.moveToFirst();
+
+            Map<Long, TimesBase> times = new HashMap<>();
 
             c.moveToFirst();
             if (!c.isAfterLast()) {
                 do {
                     try {
                         long id = c.getLong(c.getColumnIndex(_ID));
-                        AbstractTimesStorage t;
-                        if (map.containsKey(id))
-                            t = map.get(id);
+                        TimesBase t;
+                        if (times.containsKey(id))
+                            t = times.get(id);
                         else {
-                            t = new AbstractTimesStorage(id);
-                            map.put(id, t);
+                            t = new TimesBase(id);
+                            times.put(id, t);
                         }
-                        if (t == null) continue;
+                        if ((t == null) || !(t instanceof WebTimes)) continue;
 
                         String d = c.getString(c.getColumnIndex(_DATE));
                         for (int i = 0; i < _TIME.length; i++) {
@@ -99,7 +111,7 @@ public class MainHelper extends SQLiteOpenHelper {
                             int _y = Integer.parseInt(s[0]);
                             int _m = Integer.parseInt(s[1]);
                             int _d = Integer.parseInt(s[2]);
-                            t.setTime(new LocalDate(_y,_m,_d), i, c.getString(c.getColumnIndex(_TIME[i])));
+                            ((WebTimes) t).setTime(new LocalDate(_y, _m, _d), i, c.getString(c.getColumnIndex(_TIME[i])));
                         }
                     } catch (Exception ignore) {
                     }

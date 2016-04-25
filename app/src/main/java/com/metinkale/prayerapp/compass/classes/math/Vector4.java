@@ -58,7 +58,7 @@ public final class Vector4 {
      */
     public Vector4 mul(Matrix4 matrix) {
         float[] l_mat = matrix.val;
-        return set((x * l_mat[Matrix4.M00]) + (y * l_mat[Matrix4.M01]) + (z * l_mat[Matrix4.M02]) + (w * l_mat[Matrix4.M03]), (x * l_mat[Matrix4.M10]) + (y * l_mat[Matrix4.M11]) + (z * l_mat[Matrix4.M12]) + (w * l_mat[Matrix4.M13]), (x * l_mat[Matrix4.M20]) + (y * l_mat[Matrix4.M21]) + (z * l_mat[Matrix4.M22]) + (w * l_mat[Matrix4.M23]), (x * l_mat[Matrix4.M30]) + (y * l_mat[Matrix4.M31]) + (z * l_mat[Matrix4.M32]) + (w * l_mat[Matrix4.M33]));
+        return set(x * l_mat[Matrix4.M00] + y * l_mat[Matrix4.M01] + z * l_mat[Matrix4.M02] + w * l_mat[Matrix4.M03], x * l_mat[Matrix4.M10] + y * l_mat[Matrix4.M11] + z * l_mat[Matrix4.M12] + w * l_mat[Matrix4.M13], x * l_mat[Matrix4.M20] + y * l_mat[Matrix4.M21] + z * l_mat[Matrix4.M22] + w * l_mat[Matrix4.M23], x * l_mat[Matrix4.M30] + y * l_mat[Matrix4.M31] + z * l_mat[Matrix4.M32] + w * l_mat[Matrix4.M33]);
     }
 
     /**
@@ -221,14 +221,14 @@ public final class Vector4 {
      * @return The euclidian length
      */
     float len() {
-        return (float) Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
+        return (float) Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
      * @return The squared euclidian length
      */
     public float len2() {
-        return (x * x) + (y * y) + (z * z) + (w * w);
+        return x * x + y * y + z * z + w * w;
     }
 
     /**
@@ -236,7 +236,7 @@ public final class Vector4 {
      * @return Wether this and the other vector are equal
      */
     public boolean idt(Vector4 vector) {
-        return (x == vector.x) && (y == vector.y) && (z == vector.z) && (w == vector.w);
+        return x == vector.x && y == vector.y && z == vector.z && w == vector.w;
     }
 
     /**
@@ -265,7 +265,7 @@ public final class Vector4 {
         float b = vector.y - y;
         float c = vector.z - z;
         float d = vector.w - w;
-        return (a * a) + (b * b) + (c * c) + (d * d);
+        return a * a + b * b + c * c + d * d;
     }
 
     /**
@@ -274,7 +274,7 @@ public final class Vector4 {
      * @return This vector for chaining
      */
     public Vector4 nor() {
-        if ((x == 0) && (y == 0) && (z == 0) && (w == 0)) {
+        if (x == 0 && y == 0 && z == 0 && w == 0) {
             return this;
         } else {
             return div(len());
@@ -288,10 +288,10 @@ public final class Vector4 {
     public int hashCode() {
         int prime = 31;
         int result = 1;
-        result = (prime * result) + Float.floatToIntBits(x);
-        result = (prime * result) + Float.floatToIntBits(y);
-        result = (prime * result) + Float.floatToIntBits(z);
-        result = (prime * result) + Float.floatToIntBits(w);
+        result = prime * result + Float.floatToIntBits(x);
+        result = prime * result + Float.floatToIntBits(y);
+        result = prime * result + Float.floatToIntBits(z);
+        result = prime * result + Float.floatToIntBits(w);
         return result;
     }
 

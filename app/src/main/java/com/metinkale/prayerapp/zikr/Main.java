@@ -296,7 +296,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         return true;
     }
 
-    private class Zikr {
+    private static class Zikr {
         String title;
         int max;
         int count;

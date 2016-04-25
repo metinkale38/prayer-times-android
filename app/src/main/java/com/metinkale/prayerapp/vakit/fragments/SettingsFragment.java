@@ -125,14 +125,14 @@ public class SettingsFragment extends Fragment {
 
 
     public void setTimes(Times t) {
-        if ((mName != null) && (t != null)) {
+        if (mName != null && t != null) {
             mTimes = null;
             mMinAdj = t.getMinuteAdj();
             for (int i = 0; i < mMins.length; i++) {
                 mMins[i].setText(mMinAdj[i] + "");
             }
             mName.setText(t.getName());
-            mTZSpinner.setSelection((int) (8 - (t.getTZFix() * 2)));
+            mTZSpinner.setSelection((int) (8 - t.getTZFix() * 2));
         }
         mTimes = t;
     }

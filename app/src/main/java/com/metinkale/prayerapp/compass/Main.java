@@ -248,7 +248,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     @Override
     public void onLocationChanged(Location location) {
         calcQiblaAngel(location);
-        if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
+        if (System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24)) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
@@ -282,7 +282,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     private double getDirectionRad(double lat1, double lat2, double dLng) {
-        return Math.atan2(Math.sin(dLng), (Math.cos(lat1) * Math.tan(lat2)) - (Math.sin(lat1) * Math.cos(dLng)));
+        return Math.atan2(Math.sin(dLng), Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng));
     }
 
     @Override

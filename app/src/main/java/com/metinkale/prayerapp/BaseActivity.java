@@ -110,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mNavBar = findViewById(R.id.navbar);
         setNavBarColor(0xff000000);
-        if (setNavBar() && (getBottomMargin() != 0)) {
+        if (setNavBar() && getBottomMargin() != 0) {
             mNavBar.setVisibility(View.VISIBLE);
             mNavBar.getLayoutParams().height = getBottomMargin();
         } else {
@@ -132,7 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public View getView(int pos, View v, ViewGroup p) {
                 v = super.getView(pos, v, p);
-                if ((pos == mNavPos) && (v instanceof TextView)) {
+                if (pos == mNavPos && v instanceof TextView) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 }
                 return v;
@@ -248,6 +248,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int buttonId) {
                                 MainIntentService.downloadHadis(App.getContext(), new Runnable() {
+                                    @Override
                                     public void run() {
                                         onItemClick(null, null, 5, 0);
                                     }
