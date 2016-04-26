@@ -3,6 +3,7 @@ package com.metinkale.prayerapp.zikr;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -21,24 +22,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class Main extends BaseActivity implements OnClickListener, OnNavigationListener, OnLongClickListener {
 
+    private SharedPreferences mPrefs;
     private ZikrView mZikr;
     private EditText mTitle;
     private Vibrator mVibrator;
@@ -51,6 +45,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     public void onCreate(Bundle bdl) {
         super.onCreate(bdl);
         setContentView(R.layout.zikr_main);
+        mPrefs = getSharedPreferences("zikr", 0);
         mZikr = (ZikrView) findViewById(R.id.zikr);
         mTitle = (EditText) findViewById(R.id.title);
         mZikr.setOnClickListener(this);
@@ -83,40 +78,54 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     @Override
     public void onPause() {
         super.onPause();
-        Gson gson = new Gson();
+        saveCurrent();
+    }
+
+    private void saveCurrent() {
+        if (mCurrent == null) return;
         mCurrent.title = mTitle.getText().toString();
         mCurrent.color = mZikr.getColor();
         mCurrent.count = mZikr.getCount();
         mCurrent.max = mZikr.getMax();
         mCurrent.count2 = mZikr.getCount2();
-        try {
-            FileWriter fileWriter = new FileWriter(new File(getFilesDir(), "zikr.json"));
-            gson.toJson(mZikrList, fileWriter);
-            fileWriter.close();
-        } catch (JsonIOException | IOException e) {
-            Crashlytics.logException(e);
-        }
 
+        mPrefs.edit().putStringSet(mCurrent.key, new HashSet<String>(Arrays.asList(new String[]{"0" + mCurrent.title, "1" + mCurrent.color, "2" + mCurrent.count, "3" + mCurrent.count2, "4" + mCurrent.max}))).apply();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        Gson gson = new Gson();
+        Map<String, Set<String>> map = (Map<String, Set<String>>) mPrefs.getAll();
+        Set<String> keys = map.keySet();
+        mZikrList = new ArrayList<Zikr>();
+        for (String key : keys) {
+            if (key == null) continue;
+            Set set = map.get(key);
+            if (set == null) continue;
+            try {
+                List<String> list = new ArrayList<>(set);
+                Collections.sort(list);
+                Zikr zikr = new Zikr();
+                zikr.title = list.get(0).substring(1);
+                zikr.color = Integer.parseInt(list.get(1).substring(1));
+                zikr.count = Integer.parseInt(list.get(2).substring(1));
+                zikr.count2 = Integer.parseInt(list.get(3).substring(1));
+                zikr.max = Integer.parseInt(list.get(4).substring(1));
+                zikr.key = key;
+                mZikrList.add(zikr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        try {
-            FileReader reader = new FileReader(new File(getFilesDir(), "zikr.json"));
-            mZikrList = gson.fromJson(reader, new TypeToken<List<Zikr>>() {
-            }.getType());
-            reader.close();
-            mCurrent = mZikrList.get(0);
-        } catch (Exception e) {
+        if (mZikrList.isEmpty()) {
             mZikrList = new ArrayList<>();
             mCurrent = new Zikr();
             mCurrent.title = getString(R.string.tesbih);
             mCurrent.max = 33;
-
+            mCurrent.key = System.currentTimeMillis() + "";
+            mZikrList.add(mCurrent);
         }
 
         load(mCurrent);
@@ -124,24 +133,22 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     private void load(Zikr z) {
-        if (!mZikrList.contains(z)) {
+        if (!mZikrList.contains(z) && z != null) {
             mZikrList.add(z);
         }
 
         if (mCurrent != z) {
-            mCurrent.title = mTitle.getText().toString();
-            mCurrent.color = mZikr.getColor();
-            mCurrent.count = mZikr.getCount();
-            mCurrent.max = mZikr.getMax();
-            mCurrent.count2 = mZikr.getCount2();
+            saveCurrent();
             mCurrent = z;
         }
-        mTitle.setText(z.title);
-        mZikr.setColor(z.color);
-        setNavBarColor(z.color);
-        mZikr.setCount(z.count);
-        mZikr.setCount2(z.count2);
-        mZikr.setMax(z.max);
+        if (z != null) {
+            mTitle.setText(z.title);
+            mZikr.setColor(z.color);
+            setNavBarColor(z.color);
+            mZikr.setCount(z.count);
+            mZikr.setCount2(z.count2);
+            mZikr.setMax(z.max);
+        }
 
         if (mZikrList.indexOf(z) == 0) {
             mTitle.setEnabled(false);
@@ -221,6 +228,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         switch (item.getItemId()) {
             case R.id.add:
                 Zikr z = new Zikr();
+                z.key = System.currentTimeMillis() + "";
                 z.title = getString(R.string.new_zikr);
                 mZikrList.add(z);
                 load(z);
@@ -302,6 +310,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         int count;
         int color;
         int count2;
+        String key;
     }
 
 }
