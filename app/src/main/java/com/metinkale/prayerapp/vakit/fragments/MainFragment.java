@@ -34,9 +34,13 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
 
-            if (mTimes.deleted() || ((Main) getActivity()).mPaneView.isOpen()) return;
-            if (mTimes != null) {
+            if (mTimes != null && !mTimes.deleted() && !((Main) getActivity()).mPaneView.isOpen()) {
                 if (!mHasTimes) {
+                    update();
+                }
+
+                if (mTimes.modified) {
+                    mTimes.modified = false;
                     update();
                 }
                 checkKerahat();
@@ -58,13 +62,10 @@ public class MainFragment extends Fragment {
                 mCountdown.setText(left);
 
             }
-
-            if ("gps".equals(mTitle.getText().toString())) {
-                mTitle.setText(mTimes.getName());
-            }
-
             mHandler.postDelayed(this, 1000);
+
         }
+
 
     };
 

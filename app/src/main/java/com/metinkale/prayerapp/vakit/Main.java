@@ -90,6 +90,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         });
 
+
         mPaneView.setOnBottomOpen(new Runnable() {
             @Override
             public void run() {

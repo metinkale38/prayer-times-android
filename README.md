@@ -105,3 +105,7 @@ Die Inhalte der Gebetszeit-Anwendungen:
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    Additional from the Developer: if you plan to publish your own Prayer
+    App, please do not to publish a too similiar Application. Please at least
+    make a Redesign of the Application.

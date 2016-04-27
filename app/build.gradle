@@ -35,12 +35,6 @@ android {
             keyPassword 'android'
             storePassword 'android'
         }
-        releaseKey {
-            keyAlias 'metinkale38'
-            keyPassword 'password'
-            storeFile file('D:/Dropbox/Dokumente/Sonstiges/metin.keystore')
-            storePassword 'password'
-        }
     }
 
     compileSdkVersion 23
@@ -69,7 +63,6 @@ android {
             debuggable false
             jniDebuggable false
             renderscriptDebuggable false
-            signingConfig signingConfigs.releaseKey
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true

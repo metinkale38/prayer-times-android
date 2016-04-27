@@ -4,9 +4,10 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
-import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
+import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
+import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
 
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class TimesBase {
     static {
         GsonBuilder b = new GsonBuilder();
         BooleanSerializer booleanSerializer = new BooleanSerializer();
-        IntegerSerializer integerSerializer = new IntegerSerializer();
 
 
         TypeAdapterFactory subTypeFactory = RuntimeTypeAdapterFactory
@@ -41,8 +41,6 @@ public class TimesBase {
         b.registerTypeAdapterFactory(subTypeFactory);
         b.registerTypeAdapter(Boolean.class, booleanSerializer);
         b.registerTypeAdapter(boolean.class, booleanSerializer);
-        b.registerTypeAdapter(Integer.class, integerSerializer);
-        b.registerTypeAdapter(int.class, integerSerializer);
 
         GSON = b.create();
     }
@@ -71,7 +69,7 @@ public class TimesBase {
         public void run() {
             synchronized (TimesBase.this) {
                 String json = GSON.toJson(TimesBase.this);
-                editor.putString("id" + id, json);
+                editor.putString("id" + ID, json);
                 editor.commit();
             }
         }
@@ -80,11 +78,13 @@ public class TimesBase {
     public TimesBase(long id) {
         this();
         ID = id;
+        source = getSource().name();
     }
 
     public TimesBase() {
         prefs = App.getContext().getSharedPreferences("cities", 0);
         editor = prefs.edit();
+        source = getSource().name();
     }
 
     public static Times from(long id) {
@@ -94,6 +94,7 @@ public class TimesBase {
             t.ID = id;
             return t;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

@@ -20,7 +20,7 @@ public class MyPaneView extends RelativeLayout {
     private Mode mMode = Mode.Click;
     private float mLastY;
     private boolean mSwipingUp;
-    private Runnable mTopOpen, mBottomOpen;
+    private Runnable mTopOpen, mBottomOpen, mTopClose;
 
     enum Mode {
         SlideTop,
@@ -34,9 +34,15 @@ public class MyPaneView extends RelativeLayout {
 
     public void close() {
         ViewCompat.animate(mMain).withLayer().translationY(0).setInterpolator(mInterpolator);
+        if (mTopClose != null) mTopClose.run();
     }
 
     public void setOnTopOpen(Runnable run) {
+        mTopOpen = run;
+    }
+
+
+    public void setOnTopClose(Runnable run) {
         mTopOpen = run;
     }
 

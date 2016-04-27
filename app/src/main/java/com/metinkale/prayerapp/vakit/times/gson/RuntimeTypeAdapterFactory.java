@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.gson.typeadapters;
+package com.metinkale.prayerapp.vakit.times.gson;
 
 import com.google.gson.*;
 import com.google.gson.internal.Streams;

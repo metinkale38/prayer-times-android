@@ -170,7 +170,7 @@ public class WebTimes extends Times {
                 t = new FaziletTimes(_id);
                 break;
             case NVC:
-                t = new FaziletTimes(_id);
+                t = new NVCTimes(_id);
                 break;
             case Semerkand:
                 t = new SemerkandTimes(_id);
@@ -208,7 +208,6 @@ public class WebTimes extends Times {
 
     void setLastSync(long lastSync) {
         this.lastSync = (int) (lastSync / 1000);
-        clearCache();
         save();
     }
 
@@ -216,11 +215,11 @@ public class WebTimes extends Times {
     public synchronized String _getTime(LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
         if (str == null) return "00:00";
-        return str;
+        return str.replace("*", "");
     }
 
     public synchronized void setTime(LocalDate date, int time, String value) {
-        times.put(date.toString("yyyy-MM-dd") + "-" + time, value);
+        times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
     }
 

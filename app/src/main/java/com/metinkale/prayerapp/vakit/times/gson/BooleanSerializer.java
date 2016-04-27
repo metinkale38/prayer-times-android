@@ -1,4 +1,4 @@
-package com.metinkale.prayerapp.vakit.times;
+package com.metinkale.prayerapp.vakit.times.gson;
 
 import com.google.gson.*;
 

@@ -17,6 +17,8 @@ import java.util.*;
 public abstract class Times extends TimesBase {
 
 
+    public transient boolean modified;//simple listener ;)
+
     Times(long id) {
         super(id);
         if (!sTimes.contains(this)) sTimes.add(this);
@@ -262,15 +264,9 @@ public abstract class Times extends TimesBase {
     }
 
 
-    transient AbstractMap<Long, DateTime> calCache = new HashMap<>();
-
     public DateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
-        }
-        long key = date.toDateTimeAtStartOfDay().getMillis() + time;
-        if (calCache.containsKey(key)) {
-            return calCache.get(key);
         }
         if (time < 0 || time > 5) {
             while (time >= 6) {
@@ -288,22 +284,13 @@ public abstract class Times extends TimesBase {
         DateTime timeCal = date.toDateTime(new LocalTime(getTime(date, time)));
         int h = timeCal.getHourOfDay();
         if (time >= 3 && h < 5) timeCal = timeCal.plusDays(1);
-        if (h != 0)
-            calCache.put(key, timeCal);
         return timeCal;
     }
 
 
-    transient AbstractMap<Long, String> strCache = new HashMap<>();
-
     public String getTime(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
-        }
-        long key = date.toDateTimeAtStartOfDay().getMillis() + time;
-        if (!date.equals(LocalDate.now())) key = 0;
-        if ((key != 0) && strCache.containsKey(key)) {
-            return strCache.get(key);
         }
         if (time < 0 || time > 5) {
             while (time >= 6) {
@@ -319,7 +306,6 @@ public abstract class Times extends TimesBase {
 
         }
         String ret = adj(_getTime(date, time), time);
-        if ((key != 0) && !"00:00".equals(ret)) strCache.put(key, ret);
         return ret;
     }
 
@@ -415,11 +401,6 @@ public abstract class Times extends TimesBase {
 
     public void refresh() {
 
-    }
-
-    protected void clearCache() {
-        strCache.clear();
-        calCache.clear();
     }
 
     @Override
