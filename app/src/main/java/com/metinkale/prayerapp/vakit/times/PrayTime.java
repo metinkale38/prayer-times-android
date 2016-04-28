@@ -25,6 +25,8 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class PrayTime {
 
@@ -216,7 +218,15 @@ public class PrayTime {
         return computeDayTimes();
     }
 
+    // return prayer times for a given date
+    List<String> getPrayerTimes(Calendar date, double latitude, double longitude) {
 
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DATE);
+
+        return getDatePrayerTimes(year, month + 1, day, latitude, longitude);
+    }
 
     // convert double hours to 24h format
     String floatToTime24(double time) {

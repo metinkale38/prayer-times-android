@@ -111,7 +111,7 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(LocalDate date, int time) {
-        List<String> times = getPrayTime().getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), getLat(), getLng());
+        List<String> times = getPrayTime().getDatePrayerTimes(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), getLat(), getLng());
         times.remove(4);
         return times.get(time);
     }
