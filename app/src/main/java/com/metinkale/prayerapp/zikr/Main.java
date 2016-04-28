@@ -119,17 +119,21 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             }
         }
 
+        createDefault();
+
+        load(mCurrent);
+
+    }
+
+    private void createDefault() {
         if (mZikrList.isEmpty()) {
             mZikrList = new ArrayList<>();
             mCurrent = new Zikr();
             mCurrent.title = getString(R.string.tesbih);
             mCurrent.max = 33;
-            mCurrent.key = System.currentTimeMillis() + "";
+            mCurrent.key = "default";
             mZikrList.add(mCurrent);
         }
-
-        load(mCurrent);
-
     }
 
     private void load(Zikr z) {
@@ -150,7 +154,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             mZikr.setMax(z.max);
         }
 
-        if (mZikrList.indexOf(z) == 0) {
+        if (z != null && "default".equals(z.key)) {
             mTitle.setEnabled(false);
             mTitle.setText(getString(R.string.tesbih));
         } else {
@@ -236,7 +240,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 return true;
 
             case R.id.del:
-                if (mZikrList.indexOf(mCurrent) == 0) {
+                if (mCurrent != null && mCurrent.key.equals("default")) {
                     return false;
                 }
                 AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -247,6 +251,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                     @Override
                     public void onClick(DialogInterface dialog, int buttonId) {
                         mZikrList.remove(mCurrent);
+                        mPrefs.edit().remove(mCurrent.key).apply();
+                        mCurrent = null;
+                        createDefault();
                         load(mZikrList.get(0));
                     }
                 });

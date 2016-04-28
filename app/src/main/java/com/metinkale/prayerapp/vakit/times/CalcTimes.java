@@ -31,20 +31,25 @@ public class CalcTimes extends Times {
 
     CalcTimes(long id) {
         super(id);
-        mPrayTime = new PrayTime();
-        try {
-            mPrayTime.setCalcMethod(getMethod());
-            mPrayTime.setAsrJuristic(getJuristic());
-            mPrayTime.setAdjustHighLats(getAdjMethod());
-        } catch (NullPointerException e) {
-            delete();
-        }
-        mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
     }
 
     CalcTimes(long id, boolean placeholder) {
         super(id);
         //this class is just used when creating a CalcTimes below
+    }
+
+    private PrayTime getPrayTime() {
+        if (mPrayTime == null) {
+            mPrayTime = new PrayTime();
+            try {
+                mPrayTime.setCalcMethod(getMethod());
+                mPrayTime.setAsrJuristic(getJuristic());
+                mPrayTime.setAdjustHighLats(getAdjMethod());
+            } catch (NullPointerException e) {
+            }
+            mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
+        }
+        return mPrayTime;
     }
 
     @SuppressLint("InflateParams")
@@ -106,7 +111,7 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(LocalDate date, int time) {
-        List<String> times = mPrayTime.getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), getLat(), getLng());
+        List<String> times = getPrayTime().getDatePrayerTimes(date.getDayOfMonth(), date.getMonthOfYear(), date.getYear(), getLat(), getLng());
         times.remove(4);
         return times.get(time);
     }

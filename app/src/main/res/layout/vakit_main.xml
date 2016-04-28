@@ -1,48 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.metinkale.prayerapp.vakit.MyPaneView xmlns:android="http://schemas.android.com/apk/res/android"
-                                          xmlns:tools="http://schemas.android.com/tools"
-                                          android:id="@+id/pane"
-                                          android:layout_width="match_parent"
-                                          android:layout_height="match_parent">
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <fragment
-            android:id="@+id/settings"
-            class="com.metinkale.prayerapp.vakit.fragments.SettingsFragment"
+    <TextView
+            android:id="@+id/holyday"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+
+    <com.metinkale.prayerapp.custom.LockableViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="settings"
-            tools:layout="@layout/vakit_settings"/>
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/holyday"></com.metinkale.prayerapp.custom.LockableViewPager>
 
-    <RelativeLayout
+
+    <FrameLayout
+            android:translationZ="2dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:baselineAligned="false"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/holyday"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
-                android:visibility="gone"/>
-
-        <com.metinkale.prayerapp.custom.LockableViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/holyday"></com.metinkale.prayerapp.custom.LockableViewPager>
+            android:id="@+id/fragContainer"></FrameLayout>
 
 
-        <FrameLayout
-                android:translationZ="2dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/fragContainer"></FrameLayout>
+    <View
+            android:layout_centerInParent="true"
+            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:id="@+id/center"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomSlider"
+            android:layout_alignParentTop="true"
+            android:id="@+id/bottomSliderCloseHandler"/>
+
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/topSlider"
+            android:id="@+id/topSliderCloseHandler"/>
+
+    <com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer
+            android:id="@+id/bottomSlider"
+            android:layout_alignTop="@+id/center"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:orientation="bottom"
+            app:handle="@+id/footerText"
+            app:content="@+id/content">
 
         <TextView
                 android:gravity="center"
@@ -56,15 +77,59 @@
                 android:textColor="#ffffff"
                 android:textSize="20sp"/>
 
+        <FrameLayout
+                android:id="@+id/content"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:translationZ="2dp"
+                android:layout_gravity="bottom"
+                android:layout_height="match_parent">
 
-    </RelativeLayout>
+            <fragment
+                    class="com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:tag="imsakiye"
+                    tools:layout="@layout/vakit_imsakiye"/>
 
-    <fragment
-            class="com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment"
+        </FrameLayout>
+    </com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer>
+
+    <com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer
+            android:id="@+id/topSlider"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:tag="imsakiye"
-            tools:layout="@layout/vakit_imsakiye"/>
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/center"
+            app:orientation="top"
+            app:handle="@+id/handle"
+            app:content="@+id/content">
 
-</com.metinkale.prayerapp.vakit.MyPaneView>
+        <View
+                android:gravity="center"
+                android:id="@+id/handle"
+                android:layout_width="match_parent"
+                android:layout_height="30dip"/>
+
+        <FrameLayout
+                android:id="@id/content"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:translationZ="2dp"
+                android:layout_height="match_parent">
+
+            <fragment
+                    android:id="@+id/settings"
+                    class="com.metinkale.prayerapp.vakit.fragments.SettingsFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="settings"
+                    tools:layout="@layout/vakit_settings"/>
+
+        </FrameLayout>
+    </com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer>
+
+
+</RelativeLayout>
+

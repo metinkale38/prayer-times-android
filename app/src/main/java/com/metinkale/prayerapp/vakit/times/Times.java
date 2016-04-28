@@ -65,7 +65,8 @@ public abstract class Times extends TimesBase {
         for (TimesListener list : sListeners) {
             try {
                 list.notifyDataSetChanged();
-            } catch (Exception ignore) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -332,7 +333,7 @@ public abstract class Times extends TimesBase {
 
             String[] s = time.split(":");
             LocalTime lt = new LocalTime(Integer.parseInt(s[0]), Integer.parseInt(s[1]), 0);
-
+            lt = lt.plusHours(h).plusMinutes(m).plusMinutes(adj[t]);
             time = lt.toString("HH:mm");
 
 

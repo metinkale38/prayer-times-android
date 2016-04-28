@@ -27,14 +27,14 @@ public class MainFragment extends Fragment {
     private View mView;
     private Times mTimes;
     private long mCity;
-    private TextView mCountdown, mKerahat, mTitle;
+    private TextView mCountdown, mKerahat, mTitle, mHicri, mDate;
     private boolean mHasTimes;
     private Runnable onSecond = new Runnable() {
 
         @Override
         public void run() {
 
-            if (mTimes != null && !mTimes.deleted() && !((Main) getActivity()).mPaneView.isOpen()) {
+            if (mTimes != null && !mTimes.deleted()) {
                 if (!mHasTimes) {
                     update();
                 }
@@ -85,6 +85,9 @@ public class MainFragment extends Fragment {
 
         mCountdown = (TextView) mView.findViewById(R.id.countdown);
         mTitle = (TextView) mView.findViewById(R.id.city);
+        mDate = (TextView) mView.findViewById(R.id.date);
+        mHicri = (TextView) mView.findViewById(R.id.hicri);
+
 
         mKerahat = (TextView) mView.findViewById(R.id.kerahat);
 
@@ -97,7 +100,6 @@ public class MainFragment extends Fragment {
             source1.setImageResource(mTimes.getSource().resId);
             source2.setImageResource(mTimes.getSource().resId);
         }
-        mTitle.setText(mTimes.getName());
 
         update();
 
@@ -111,20 +113,19 @@ public class MainFragment extends Fragment {
         return mView;
     }
 
-    private void update() {
+    public void update() {
         if (mTimes == null || mView == null) {
             return;
         }
 
+        mTitle.setText(mTimes.getName());
 
-        TextView datetv = (TextView) mView.findViewById(R.id.date);
-        TextView hicritv = (TextView) mView.findViewById(R.id.hicri);
 
         LocalDate greg = LocalDate.now();
         HicriDate hijr = new HicriDate(greg);
 
-        hicritv.setText(Utils.format(hijr));
-        datetv.setText(Utils.format(greg));
+        mHicri.setText(Utils.format(hijr));
+        mDate.setText(Utils.format(greg));
 
         String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
 

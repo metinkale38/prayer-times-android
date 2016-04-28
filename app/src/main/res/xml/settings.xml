@@ -88,8 +88,8 @@
 
         <ListPreference
                 android:dialogTitle="@string/hijri_fix"
-                android:entries="@array/hijri_fix_mins"
-                android:entryValues="@array/hijri_fix_mins"
+                android:entries="@array/hijri_fix_days"
+                android:entryValues="@array/hijri_fix_days"
                 android:key="hijri_fix"
                 android:title="@string/hijri_fix"/>
     </PreferenceCategory>

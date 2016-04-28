@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.vakit.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,10 +8,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -21,26 +20,72 @@ public class SettingsFragment extends Fragment {
     private View mView;
 
     private EditText mName;
-    private Spinner mTZSpinner;
     private EditText[] mMins = new EditText[6];
-    private Button[] mMinus = new Button[6];
-    private Button[] mPlus = new Button[6];
+    private ImageView[] mMinus = new ImageView[6];
+    private ImageView[] mPlus = new ImageView[6];
     private Times mTimes;
     private int[] mMinAdj;
+    private EditText mTimeZone;
 
+    @SuppressLint("WrongViewCast")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_settings, container, false);
         mName = (EditText) v.findViewById(R.id.name);
-        mTZSpinner = (Spinner) v.findViewById(R.id.timezone_fix);
+        ViewGroup tz = (ViewGroup) v.findViewById(R.id.tz);
+        mTimeZone = (EditText) tz.findViewById(R.id.timezonefix);
+        tz.findViewById(R.id.plus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    float h = Float.parseFloat(mTimeZone.getText().toString());
+                    h += 0.5;
+                    mTimeZone.setText(h + "");
+                } catch (Exception e) {
+                }
+            }
+        });
 
+        tz.findViewById(R.id.minus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    double h = Double.parseDouble(mTimeZone.getText().toString());
+                    h -= 0.5;
+                    mTimeZone.setText(h + "");
+                } catch (Exception e) {
+                }
+            }
+        });
+
+        mTimeZone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (mTimes == null) return;
+                try {
+                    mTimes.setTZFix(Double.parseDouble(editable.toString()));
+                } catch (Exception ignore) {
+                }
+
+            }
+        });
         ViewGroup vg = (ViewGroup) v.findViewById(R.id.minAdj);
         for (int i = 1; i < 7; i++) {
             final int ii = i - 1;
             ViewGroup time = (ViewGroup) vg.getChildAt(i);
             mMins[ii] = (EditText) time.findViewById(R.id.nr);
-            mPlus[ii] = (Button) time.findViewById(R.id.plus);
-            mMinus[ii] = (Button) time.findViewById(R.id.minus);
+            mPlus[ii] = (ImageView) time.findViewById(R.id.plus);
+            mMinus[ii] = (ImageView) time.findViewById(R.id.minus);
             mPlus[ii].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -89,19 +134,6 @@ public class SettingsFragment extends Fragment {
         }
 
 
-        mTZSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                if (mTimes != null) mTimes.setTZFix(Double.parseDouble((String) mTZSpinner.getItemAtPosition(pos)));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-
-        });
-
         mName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -132,7 +164,7 @@ public class SettingsFragment extends Fragment {
                 mMins[i].setText(mMinAdj[i] + "");
             }
             mName.setText(t.getName());
-            mTZSpinner.setSelection((int) (8 - t.getTZFix() * 2));
+            mTimeZone.setText(t.getTZFix() + "");
         }
         mTimes = t;
     }

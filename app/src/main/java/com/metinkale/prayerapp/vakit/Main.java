@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
@@ -20,6 +22,7 @@ import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.custom.FloatingActionButton;
 import com.metinkale.prayerapp.custom.LockableViewPager;
+import com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
@@ -34,8 +37,9 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private int mStartPos = 1;
     private SettingsFragment mSettingsFrag;
     private ImsakiyeFragment mImsakiyeFrag;
-    public MyPaneView mPaneView;
     private TextView mFooterText;
+    private MultipleOrientationSlidingDrawer mTopSlider;
+    private MultipleOrientationSlidingDrawer mBottomSlider;
 
     public static PendingIntent getPendingIntent(Times t) {
         if (t == null) return null;
@@ -60,10 +64,18 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
         mFooterText = (TextView) findViewById(R.id.footerText);
         mPager = (LockableViewPager) findViewById(R.id.pager);
-        mPaneView = (MyPaneView) findViewById(R.id.pane);
         mAdapter = new MyAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mAdapter);
 
+        mSettingsFrag = (SettingsFragment) getFragmentManager().findFragmentByTag("settings");
+        mImsakiyeFrag = (ImsakiyeFragment) getFragmentManager().findFragmentByTag("imsakiye");
+
+        mTopSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.topSlider);
+        mBottomSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.bottomSlider);
+
+        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.RIGHT).withMargins(0, 0, 16, 5).hide().create();
+        mAddCityFab.setOnClickListener(this);
+
+        mPager.setAdapter(mAdapter);
 
         int holyday = HicriDate.isHolyday();
         if (holyday != 0) {
@@ -73,37 +85,91 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
 
         mPager.setCurrentItem(mStartPos);
-        mPaneView.setEnabled(mStartPos != 0);
+        onPageScrolled(mStartPos, 0, 0);
+        onPageScrollStateChanged(ViewPager.SCROLL_STATE_IDLE);
         mPager.setOnPageChangeListener(this);
 
-        mSettingsFrag = (SettingsFragment) getFragmentManager().findFragmentByTag("settings");
-        mImsakiyeFrag = (ImsakiyeFragment) getFragmentManager().findFragmentByTag("imsakiye");
 
-        mPaneView.setOnTopOpen(new Runnable() {
+        mTopSlider.setOnDrawerScrollListener(new MultipleOrientationSlidingDrawer.OnDrawerScrollListener() {
             @Override
-            public void run() {
+            public void onScrollStarted() {
+            }
+
+            @Override
+            public void onScrolling(int pos) {
+                mPager.setTranslationY(pos);
+            }
+
+            @Override
+            public void onScrollEnded() {
+
+            }
+        });
+
+        mTopSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
                 int position = mPager.getCurrentItem();
                 if (position != 0) {
                     Times t = Times.getTimes(mAdapter.getItemId(position));
                     mSettingsFrag.setTimes(t);
                 }
+                mBottomSlider.lock();
             }
         });
 
-
-        mPaneView.setOnBottomOpen(new Runnable() {
+        mTopSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
             @Override
-            public void run() {
-                int position = mPager.getCurrentItem();
-                if (position != 0) {
-                    Times t = Times.getTimes(mAdapter.getItemId(position));
-                    mImsakiyeFrag.setTimes(t);
+            public void onDrawerClosed() {
+                mBottomSlider.unlock();
+
+                Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
+                if (page instanceof MainFragment) {
+                    ((MainFragment) page).update();
                 }
+
             }
         });
 
-        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.RIGHT).withMargins(0, 0, 16, 5).hide().create();
-        mAddCityFab.setOnClickListener(this);
+
+        mBottomSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
+
+                mTopSlider.lock();
+            }
+        });
+
+        mBottomSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
+            @Override
+            public void onDrawerClosed() {
+                mTopSlider.unlock();
+            }
+        });
+        findViewById(R.id.topSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && mTopSlider.isOpened()) {
+                    mTopSlider.animateClose();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && mBottomSlider.isOpened()) {
+                    mBottomSlider.animateClose();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
     }
 
     @Override
@@ -139,10 +205,15 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
                 setFooterText(getString(R.string.imsakiye), true);
                 getSupportFragmentManager().beginTransaction().remove(frag).commit();
                 return true;
-            } else if (mPaneView.isOpen()) {
-                mPaneView.close();
+            } else if (mBottomSlider.isOpened()) {
+                mBottomSlider.animateClose();
+                return true;
+            } else if (mTopSlider.isOpened()) {
+                mTopSlider.animateClose();
                 return true;
             }
+
+
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -154,11 +225,25 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    public void onPageScrollStateChanged(int arg0) {
+    public void onPageScrollStateChanged(int state) {
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            int pos = mPager.getCurrentItem();
+            if (pos != 0) {
+                Times t = Times.getTimes(mAdapter.getItemId(pos));
+                mImsakiyeFrag.setTimes(t);
+            }
+        }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (position == 0) {
+            mTopSlider.lock();
+            mBottomSlider.lock();
+        } else {
+            mTopSlider.unlock();
+            mBottomSlider.unlock();
+        }
         if (mAddCityFab != null) if (position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
         else mAddCityFab.hideFloatingActionButton();
 
@@ -168,14 +253,13 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void setFooterText(CharSequence txt, boolean enablePane) {
         mFooterText.setVisibility(txt.toString().isEmpty() ? View.GONE : View.VISIBLE);
         mFooterText.setText(txt);
-        mPaneView.setEnabled(enablePane);
         mPager.setSwipeLocked(!enablePane);
 
     }
 
     @Override
     public void onPageSelected(int pos) {
-        mPaneView.setEnabled(pos != 0);
+
         mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
     }
 

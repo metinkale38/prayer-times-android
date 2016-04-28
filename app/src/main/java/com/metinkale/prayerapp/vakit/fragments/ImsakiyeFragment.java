@@ -87,7 +87,6 @@ public class ImsakiyeFragment extends Fragment {
                 convertView = inflater.inflate(R.layout.vakit_imsakiye, parent, false);
             }
             ViewGroup v = (ViewGroup) convertView;
-            v = (ViewGroup) v.getChildAt(0);
             String[] a;
             if (position == 0) {
                 a = new String[]{getString(R.string.date), getString(R.string.imsak), getString(R.string.gunes), getString(R.string.ogle), getString(R.string.ikindi), getString(R.string.aksam), getString(R.string.yatsi)};
@@ -116,7 +115,7 @@ public class ImsakiyeFragment extends Fragment {
                 v.setBackgroundColor(Color.WHITE);
             }
 
-            return (View) v.getParent();
+            return v;
         }
 
         @Override

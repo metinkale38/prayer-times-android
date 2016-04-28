@@ -6,7 +6,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
-import android.os.Handler;
 import android.os.PowerManager;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
@@ -21,7 +20,6 @@ public class WebTimes extends Times {
 
     private transient Thread mThread;
 
-    private transient Handler mHandler = new Handler();
     private transient boolean mSyncing;
     protected Map<String, String> times = new HashMap<>();
     protected int lastSync;
@@ -38,7 +36,7 @@ public class WebTimes extends Times {
     @Override
     public void delete() {
         super.delete();
-        mHandler.removeCallbacks(mCheckSync);
+        App.aHandler.removeCallbacks(mCheckSync);
         if (mThread != null && mThread.isAlive()) mThread.interrupt();
     }
 
@@ -89,7 +87,7 @@ public class WebTimes extends Times {
 
     @Override
     public synchronized String getTime(LocalDate date, int time) {
-        mHandler.post(mCheckSync);
+        App.aHandler.post(mCheckSync);
 
         return super.getTime(date, time);
     }
@@ -102,7 +100,7 @@ public class WebTimes extends Times {
     private Runnable mCheckSync = new Runnable() {
         @Override
         public void run() {
-            mHandler.removeCallbacks(mCheckSync);
+            App.aHandler.removeCallbacks(mCheckSync);
             LocalDate ld = LocalDate.now();
             long lastSync = getLastSync();
 

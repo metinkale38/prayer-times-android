@@ -25,7 +25,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PrayTime {
 
@@ -59,7 +58,7 @@ public class PrayTime {
     // range reduce angle in degrees.
     private double fixangle(double a) {
 
-        a -= 360 * Math.floor(a / 360.0);
+        a = a - 360 * Math.floor(a / 360.0);
 
         a = a < 0 ? a + 360 : a;
 
@@ -68,7 +67,7 @@ public class PrayTime {
 
     // range reduce hours to 0..23
     private double fixhour(double a) {
-        a -= 24.0 * Math.floor(a / 24.0);
+        a = a - 24.0 * Math.floor(a / 24.0);
         a = a < 0 ? a + 24 : a;
         return a;
     }
@@ -122,7 +121,7 @@ public class PrayTime {
         return radiansToDegrees(val);
     }
 
-    // ---------------------- Julian com.metinkale.calendar.Date Functions -----------------------
+    // ---------------------- Julian Date Functions -----------------------
     // calculate julian date from a calendar date
     private double julianDate(int year, int month, int day) {
 
@@ -208,7 +207,7 @@ public class PrayTime {
 
     // -------------------- Interface Functions --------------------
     // return prayer times for a given date
-    List<String> getDatePrayerTimes(int year, int month, int day, double latitude, double longitude) {
+    public ArrayList<String> getDatePrayerTimes(int year, int month, int day, double latitude, double longitude) {
         setLat(latitude);
         setLng(longitude);
         setJDate(julianDate(year, month, day));
@@ -216,6 +215,7 @@ public class PrayTime {
         setJDate(getJDate() - lonDiff);
         return computeDayTimes();
     }
+
 
 
     // convert double hours to 24h format
@@ -318,7 +318,7 @@ public class PrayTime {
     }
 
     // compute prayer times at given julian date
-    private List<String> computeDayTimes() {
+    private ArrayList<String> computeDayTimes() {
         double[] times = {5, 6, 12, 13, 18, 18, 18}; // default times
 
         for (int i = 1; i <= getNumIterations(); i++) {
@@ -414,7 +414,7 @@ public class PrayTime {
 
     private double[] tuneTimes(double[] times) {
         for (int i = 0; i < times.length; i++) {
-            times[i] += getCalcMethod().offsets[i] / 60.0;
+            times[i] = times[i] + getCalcMethod().offsets[i] / 60.0;
         }
 
         return times;

@@ -50,7 +50,7 @@ public class SemerkandTimes extends WebTimes {
                 in.close();
 
                 for (Day d : resp) {
-                    ldate = ldate.withDayOfWeek(d.Day);
+                    ldate = ldate.withDayOfYear(d.Day);
                     setTimes(ldate, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
                     i++;
                 }

@@ -1,13 +1,7 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentTop="true"
-    android:background="#333333">
-
-    <LinearLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:background="#333333"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dip"
@@ -15,338 +9,358 @@
         android:paddingRight="10dip"
         android:paddingTop="10dip">
 
-        <EditText
-            android:id="@+id/name"
+    <EditText
+            android:id="@id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:ems="10"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
-        <LinearLayout
+
+    <LinearLayout
+            android:id="@+id/tz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/fixTimezone"
-                android:textColor="#ffffff" />
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
-            <Spinner
-                android:id="@+id/timezone_fix"
+        <TextView
+                android:id="@id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="#ffffff"
-                android:entries="@array/tz_correct"
-                android:prompt="@array/tz_correct" />
+                android:text="@string/fixTimezone"
+                android:textColor="#ffffff"/>
 
-        </LinearLayout>
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
-        <RelativeLayout
+
+        <ImageView
+                android:id="@id/minus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_remove_circle_white_48dp"/>
+
+        <EditText
+                android:id="@+id/timezonefix"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:textColor="#ffffff"/>
+
+        <ImageView
+                android:id="@id/plus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_add_circle_white_48dp"/>
+
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <RelativeLayout
             android:id="@+id/minAdj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
-            <View
-                android:id="@+id/center"
-                android:layout_width="0dp"
+        <View
+                android:id="@id/center"
+                android:layout_width="20dp"
                 android:layout_height="0dp"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"/>
 
-            <RelativeLayout
-                android:id="@+id/imsak"
+
+        <RelativeLayout
+                android:id="@id/imsak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/center">
+                android:layout_toLeftOf="@id/center">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/imsak"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/gunes"
+        <RelativeLayout
+                android:id="@id/gunes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/center"
+                android:layout_toRightOf="@id/center"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/gunes"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/ogle"
+        <RelativeLayout
+                android:id="@id/ogle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_alignRight="@+id/imsak"
-                android:layout_below="@+id/imsak">
+                android:layout_alignRight="@id/imsak"
+                android:layout_below="@id/imsak">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/ogle"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/ikindi"
+        <RelativeLayout
+                android:id="@id/ikindi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imsak"
-                android:layout_toRightOf="@+id/imsak">
+                android:layout_below="@id/imsak"
+                android:layout_toRightOf="@id/center">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/ikindi"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/aksam"
+        <RelativeLayout
+                android:id="@id/aksam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/ogle"
-                android:layout_toLeftOf="@+id/center">
+                android:layout_below="@id/ogle"
+                android:layout_toLeftOf="@id/center">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/aksam"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/yatsi"
+        <RelativeLayout
+                android:id="@id/yatsi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/aksam"
-                android:layout_alignBottom="@+id/aksam"
-                android:layout_alignLeft="@+id/center">
+                android:layout_alignBaseline="@id/aksam"
+                android:layout_alignBottom="@id/aksam"
+                android:layout_toRightOf="@id/center">
 
-                <Button
-                    android:id="@+id/plus"
+            <ImageView
+                    android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
+                    android:layout_alignBaseline="@id/minus"
+                    android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
-                    android:text="@string/plus" />
+                    android:src="@drawable/ic_add_circle_white_48dp"/>
 
-                <EditText
-                    android:id="@+id/nr"
+            <EditText
+                    android:id="@id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/minus"
-                    android:layout_alignBottom="@+id/minus"
-                    android:layout_toLeftOf="@+id/plus"
-                    android:layout_toRightOf="@+id/minus"
+                    android:layout_alignBaseline="@id/minus"
+                    android:layout_alignBottom="@id/minus"
+                    android:layout_toLeftOf="@id/plus"
+                    android:layout_toRightOf="@id/minus"
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                    android:id="@+id/text"
+            <TextView
+                    android:id="@id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/yatsi"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"/>
 
-                <Button
-                    android:id="@+id/minus"
+            <ImageView
+                    android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/text"
-                    android:text="@string/minus" />
-            </RelativeLayout>
+                    android:layout_below="@id/text"
+                    android:src="@drawable/ic_remove_circle_white_48dp"/>
         </RelativeLayout>
-    </LinearLayout>
-
-</ScrollView>
+    </RelativeLayout>
+</LinearLayout>

@@ -9,4 +9,19 @@
         <attr name="shadowLeft" format="boolean" />
         <attr name="shadowRight" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="MultipleOrientationSlidingDrawer">
+        <attr name="orientation">
+            <enum name="top" value="0" />
+            <enum name="left" value="1" />
+            <enum name="bottom" value="2" />
+            <enum name="right" value="3" />
+        </attr>
+        <attr name="handle" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="bottomOffset" format="dimension" />
+        <attr name="topOffset" format="dimension" />
+        <attr name="allowSingleTap" format="boolean" />
+        <attr name="animateOnClick" format="boolean|color" />
+    </declare-styleable>
 </resources>

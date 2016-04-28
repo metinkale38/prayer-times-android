@@ -1,6 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
@@ -11,8 +12,6 @@ import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
 
 import java.util.List;
 
-import static android.R.attr.data;
-import static android.R.attr.id;
 import static com.metinkale.prayerapp.vakit.times.Times.getIds;
 import static com.metinkale.prayerapp.vakit.times.Times.getTimes;
 
@@ -70,7 +69,7 @@ public class TimesBase {
             synchronized (TimesBase.this) {
                 String json = GSON.toJson(TimesBase.this);
                 editor.putString("id" + ID, json);
-                editor.commit();
+                editor.apply();
             }
         }
     };
@@ -116,7 +115,7 @@ public class TimesBase {
         deleted = true;
 
         editor.remove("id" + ID);
-        mApplyPrefs.run();
+        editor.apply();
 
         getTimes().remove(this);
     }
@@ -129,7 +128,7 @@ public class TimesBase {
     protected void save() {
         if (deleted) return;
         apply();
-        if (!prefs.contains("id" + id)) Times.clearTimes();
+        if (!prefs.contains("id" + ID)) Times.clearTimes();
 
     }
 
@@ -803,16 +802,18 @@ public class TimesBase {
 
     public void _set(String pref, String value) {
         try {
-            getClass().getField(value).set(data, value);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+            getClass().getField(value).set(this, value);
+        } catch (Exception e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
     }
 
     public boolean _is(String pref) {
         try {
-            return (boolean) getClass().getField(pref).get(data);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+            return (boolean) getClass().getField(pref).get(this);
+        } catch (Exception e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
         return false;
