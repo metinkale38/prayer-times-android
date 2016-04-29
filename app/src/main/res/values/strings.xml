@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="version_nr">3.5.3</string>
+    <string name="version_nr">3.5.4</string>
     <string name="vakit">Namaz Vakti</string>
     <string name="names">Esmaü\'l Hüsna</string>
     <string name="compass">Kıble Pusulası</string>

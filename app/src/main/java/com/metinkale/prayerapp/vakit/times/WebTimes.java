@@ -38,7 +38,7 @@ public class WebTimes extends Times {
 
     private transient boolean mSyncing;
     protected Map<String, String> times = new HashMap<>();
-    protected int lastSync;
+    protected int lastSyncTime;
     protected String id;
 
     WebTimes() {
@@ -96,7 +96,7 @@ public class WebTimes extends Times {
         mSyncing = false;
 
 
-        setLastSync(System.currentTimeMillis());
+        setLastSyncTime(System.currentTimeMillis());
 
     }
 
@@ -118,7 +118,7 @@ public class WebTimes extends Times {
         public void run() {
             App.aHandler.removeCallbacks(mCheckSync);
             LocalDate ld = LocalDate.now();
-            long lastSync = getLastSync();
+            long lastSync = getLastSyncTime();
 
             if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
                 // always if +15 days does not exist
@@ -217,12 +217,12 @@ public class WebTimes extends Times {
     }
 
 
-    long getLastSync() {
-        return lastSync * 1000L;
+    long getLastSyncTime() {
+        return lastSyncTime * 1000L;
     }
 
-    void setLastSync(long lastSync) {
-        this.lastSync = (int) (lastSync / 1000);
+    void setLastSyncTime(long lastSyncTime) {
+        this.lastSyncTime = (int) (lastSyncTime / 1000);
         save();
     }
 
