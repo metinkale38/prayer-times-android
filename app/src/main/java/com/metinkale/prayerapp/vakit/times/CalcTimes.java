@@ -93,6 +93,7 @@ public class CalcTimes extends Times {
                 t.setMethod(Method.values()[pos]);
                 t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
                 t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                t.setSortId(99);
                 dlg.cancel();
                 c.finish();
 

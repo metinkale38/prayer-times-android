@@ -296,9 +296,6 @@
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setNormal"/>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setVibrate"/>
 
-        <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="key"/>
     </application>
 
 </manifest>

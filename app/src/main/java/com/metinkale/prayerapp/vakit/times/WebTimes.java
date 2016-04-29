@@ -178,6 +178,7 @@ public class WebTimes extends Times {
         t.setLat(lat);
         t.setLng(lng);
         t.setId(id);
+        t.setSortId(99);
 
     }
 

@@ -45,7 +45,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (t == null) return null;
         Context context = App.getContext();
         Intent intent = new Intent(context, Main.class);
-        intent.putExtra("startCity", Times.getIds().indexOf(t.getID()));
+        intent.putExtra("startCity", Times.getTimes().indexOf(t));
         return PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
@@ -58,10 +58,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         setContentView(R.layout.vakit_main);
 
 
-        mStartPos = getIntent().getIntExtra("startCity", -1) + 1;
-        if (mStartPos <= 0) {
-            mStartPos = 1;
-        }
         mFooterText = (TextView) findViewById(R.id.footerText);
         mPager = (LockableViewPager) findViewById(R.id.pager);
         mAdapter = new MyAdapter(getSupportFragmentManager());
@@ -84,9 +80,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             tv.setText(Utils.getHolyday(holyday));
         }
 
-        mPager.setCurrentItem(mStartPos);
-        onPageScrolled(mStartPos, 0, 0);
-        onPageScrollStateChanged(ViewPager.SCROLL_STATE_IDLE);
+        onNewIntent(getIntent());
         mPager.setOnPageChangeListener(this);
 
 
@@ -170,6 +164,18 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         });
 
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mStartPos = getIntent().getIntExtra("startCity", -1) + 1;
+        if (mStartPos <= 0) {
+            mStartPos = 1;
+        }
+        mPager.setCurrentItem(mStartPos);
+        onPageScrolled(mStartPos, 0, 0);
+        onPageScrollStateChanged(ViewPager.SCROLL_STATE_IDLE);
     }
 
     @Override

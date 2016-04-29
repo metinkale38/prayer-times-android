@@ -131,6 +131,10 @@ public abstract class Times extends TimesBase {
                 }
             }
         });
+
+        for (Times t : sTimes) {
+            t.setSortId(sTimes.indexOf(t));
+        }
     }
 
     public static List<Long> getIds() {
