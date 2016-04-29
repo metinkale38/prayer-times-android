@@ -1,26 +1,20 @@
-//--------------------- Copyright Block ----------------------
 /*
-
- PrayTime.java: Prayer Times Calculator (ver 1.0)
- Copyright (C) 2007-2010 PrayTimes.org
-
- Java Code By: Hussain Ali Khan
- Original JS Code By: Hamid Zarrabi-Zadeh
-
- License: GNU LGPL v3.0
-
- TERMS OF USE:
- Permission is granted to use this code, with or
- without modification, in any website or application
- provided that credit is given to the original work
- with a link back to PrayTimes.org.
-
- This program is distributed in the hope that it will
- be useful, but WITHOUT ANY WARRANTY.
-
- PLEASE DO NOT REMOVE THIS COPYRIGHT BLOCK.
-
+ * Copyright (c) 2016 Metin Kale
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
+
 
 package com.metinkale.prayerapp.vakit.times;
 
