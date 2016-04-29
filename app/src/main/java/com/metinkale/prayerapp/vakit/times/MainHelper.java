@@ -5,13 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
-import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.AbstractMap;
 import java.util.HashMap;
-import java.util.Map;
 
 import static android.database.Cursor.*;
 
@@ -83,48 +81,17 @@ public class MainHelper extends SQLiteOpenHelper {
                 App.getContext().getSharedPreferences("cities", 0).edit().putString("id" + id, map.get(id).toString()).apply();
             }
             db.delete(CITIES_TABLE, null, null);
-            LocalDate ldate = LocalDate.now();
-            String date = ldate.toString("yy-MM-01");
-
-            c = db.query(TIMES_TABLE, null, _DATE + " >= '" + date + "'", null, null, null, null);
-            c.moveToFirst();
-
-            Map<Long, TimesBase> times = new HashMap<>();
-
-            c.moveToFirst();
-            if (!c.isAfterLast()) {
-                do {
-                    try {
-                        long id = c.getLong(c.getColumnIndex(_ID));
-                        TimesBase t;
-                        if (times.containsKey(id))
-                            t = times.get(id);
-                        else {
-                            t = new TimesBase(id);
-                            times.put(id, t);
-                        }
-                        if ((t == null) || !(t instanceof WebTimes)) continue;
-
-                        String d = c.getString(c.getColumnIndex(_DATE));
-                        for (int i = 0; i < _TIME.length; i++) {
-                            String[] s = d.split("-");
-                            int _y = Integer.parseInt(s[0]);
-                            int _m = Integer.parseInt(s[1]);
-                            int _d = Integer.parseInt(s[2]);
-                            ((WebTimes) t).setTime(new LocalDate(_y, _m, _d), i, c.getString(c.getColumnIndex(_TIME[i])));
-                        }
-                    } catch (Exception ignore) {
-                    }
-                } while (c.moveToNext());
-            }
             db.delete(TIMES_TABLE, null, null);
 
-            c.close();
             db.close();
             mainHelper.close();
 
             if (!dbFile.delete())
                 dbFile.deleteOnExit();
+        }
+
+        for (Times t : Times.getTimes()) {
+            t.refresh();
         }
         Prefs.setMigratedFromSqlite(true);
     }
