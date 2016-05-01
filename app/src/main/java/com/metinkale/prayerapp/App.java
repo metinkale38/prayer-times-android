@@ -33,6 +33,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
+import com.metinkale.prayerapp.vakit.times.Times;
 import io.fabric.sdk.android.BuildConfig;
 import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -90,11 +91,14 @@ public class App extends Application {
 
         MainHelper.copy();
 
+        Times.getTimes();
+
         Utils.init();
 
         startService(new Intent(this, WidgetService.class));
 
         MainIntentService.setAlarms(this);
+
 
     }
 

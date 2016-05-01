@@ -21,8 +21,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
@@ -36,8 +36,8 @@ public class Main extends BaseActivity {
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
 
-        int[] ids = {R.string.sabah, R.string.ogle, R.string.ikindi, R.string.aksam, R.string.yatsi, R.string.vitr};
-        for (int i = 0; i < 6; i++) {
+        int[] ids = {R.string.sabah, R.string.ogle, R.string.ikindi, R.string.aksam, R.string.yatsi, R.string.vitr, R.string.fasting};
+        for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
             TextView name = (TextView) v.findViewById(R.id.text);
             final EditText nr = (EditText) v.findViewById(R.id.nr);
@@ -86,7 +86,7 @@ public class Main extends BaseActivity {
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
         SharedPreferences prefs = getSharedPreferences("kaza", 0);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
             EditText nr = (EditText) v.findViewById(R.id.nr);
             nr.setText(prefs.getString("count" + i, "0"));
@@ -100,7 +100,7 @@ public class Main extends BaseActivity {
 
         ViewGroup vg = (ViewGroup) findViewById(R.id.main);
         SharedPreferences.Editor edit = getSharedPreferences("kaza", 0).edit();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
             EditText nr = (EditText) v.findViewById(R.id.nr);
             edit.putString("count" + i, nr.getText().toString());

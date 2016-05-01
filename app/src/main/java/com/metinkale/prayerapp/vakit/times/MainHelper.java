@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.json.JSONObject;
@@ -54,6 +55,7 @@ public class MainHelper extends SQLiteOpenHelper {
         if (Prefs.getMigratedFromSqlite()) return;
         File dbFile = App.getContext().getDatabasePath(DATABASE_NAME);
         if (dbFile.exists()) {
+            Crashlytics.logException(new Exception("migrated"));
             MainHelper mainHelper = new MainHelper();
 
             AbstractMap<Long, JSONObject> map = new HashMap<>();

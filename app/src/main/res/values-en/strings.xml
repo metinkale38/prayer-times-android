@@ -148,4 +148,5 @@
     <string name="vibration_description">Miliseconds - wait vibrate vibrate...</string>
     <string name="category">Category</string>
     <string name="cuma">Friday Prayer</string>
+    <string name="fasting">Fast</string>
 </resources>

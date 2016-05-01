@@ -148,4 +148,5 @@
     <string name="vibration_description">Milisekunden - warten vibration warten...</string>
     <string name="category">Kategorie</string>
     <string name="cuma">Freitagsgebet</string>
+    <string name="fasting">Fasten</string>
 </resources>

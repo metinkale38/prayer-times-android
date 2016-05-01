@@ -148,5 +148,6 @@
     <string name="vibration_description">Milisaniye - bekleme titresim bekleme....</string>
     <string name="category">Kategori</string>
     <string name="cuma">Cuma</string>
+    <string name="fasting">Oruç</string>
 
 </resources>
