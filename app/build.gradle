@@ -57,15 +57,16 @@ android {
             signingConfig signingConfigs.debugKey
             renderscriptDebuggable true
             minifyEnabled false
-            zipAlignEnabled true
+            zipAlignEnabled false
         }
         release {
             debuggable false
             jniDebuggable false
             renderscriptDebuggable false
-            minifyEnabled true
+            minifyEnabled false
             zipAlignEnabled true
-            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
         }
     }
     productFlavors {
