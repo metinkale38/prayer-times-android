@@ -133,7 +133,7 @@ public class MainIntentService extends IntentService {
                             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
                         }
 
-                        Times.setAlarms();
+                        Times.setNextAlarm();
                         break;
 
                     case ACTION_CALENDAR_INTEGRATION:
@@ -198,6 +198,7 @@ public class MainIntentService extends IntentService {
 
             fos.close();
         } catch (Exception e) {
+            e.printStackTrace();
             f.delete();
         }
 

@@ -93,7 +93,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (holyday != 0) {
             TextView tv = (TextView) findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
-            tv.setText(Utils.getHolyday(holyday));
+            tv.setText(Utils.getHolyday(holyday - 1));
         }
 
         onNewIntent(getIntent());

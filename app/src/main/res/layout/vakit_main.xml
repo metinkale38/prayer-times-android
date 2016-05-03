@@ -43,13 +43,6 @@
             android:layout_below="@+id/holyday"></com.metinkale.prayerapp.custom.LockableViewPager>
 
 
-    <FrameLayout
-            android:translationZ="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragContainer"></FrameLayout>
-
-
     <View
             android:layout_centerInParent="true"
             android:layout_height="100dp"
@@ -145,6 +138,12 @@
 
         </FrameLayout>
     </com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer>
+
+    <FrameLayout
+            android:translationZ="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragContainer"></FrameLayout>
 
 
 </RelativeLayout>

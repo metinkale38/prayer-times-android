@@ -213,7 +213,8 @@ public class Sounds {
                 return !MD5.checkMD5(md5, getFile());
             } else {
                 for (Times.Alarm alarm : alarms) {
-                    if (alarm.sound.startsWith(uri)) {
+                    String sound = Sounds.forAlarm(alarm);
+                    if (sound.startsWith(uri)) {
                         return true;
                     }
                 }
@@ -228,6 +229,19 @@ public class Sounds {
         }
 
 
+    }
+
+    private static String forAlarm(Times.Alarm alarm) {
+        Times t = Times.getTimes(alarm.time);
+        String sound;
+        if (alarm.cuma) {
+            sound = t.getCumaSound();
+        } else if (alarm.early) {
+            sound = t.getEarlySound(alarm.vakit);
+        } else {
+            sound = t.getSound(alarm.vakit);
+        }
+        return sound;
     }
 
 

@@ -17,7 +17,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
-import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
@@ -816,22 +815,4 @@ public class TimesBase {
         save();
     }
 
-    public void _set(String pref, String value) {
-        try {
-            getClass().getField(value).set(this, value);
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            e.printStackTrace();
-        }
-    }
-
-    public boolean _is(String pref) {
-        try {
-            return (boolean) getClass().getField(pref).get(this);
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            e.printStackTrace();
-        }
-        return false;
-    }
 }

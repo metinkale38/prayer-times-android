@@ -1,6 +1,7 @@
 package com.metinkale.prayerapp.custom;
 
 import android.R;
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
@@ -96,6 +97,27 @@ public class FloatingActionButton extends View {
             animSetXY.playTogether(scaleX, scaleY);
             animSetXY.setInterpolator(accelerateInterpolator);
             animSetXY.setDuration(100);
+            animSetXY.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
             animSetXY.start();
             mHidden = true;
         }
@@ -195,6 +217,7 @@ public class FloatingActionButton extends View {
             if (hidden) {
                 button.setScaleX(0);
                 button.setScaleY(0);
+                button.setVisibility(View.GONE);
                 button.mHidden = hidden;
             }
             button.setFloatingActionButtonColor(color);

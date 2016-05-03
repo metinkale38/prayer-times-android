@@ -58,7 +58,6 @@ public class NotificationPrefs extends Fragment {
         mView = inflater.inflate(R.layout.vakit_notprefs, container, false);
 
 
-
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
         SwitchCompat ongoing = (SwitchCompat) mView.findViewById(R.id.ongoing);
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
@@ -206,12 +205,8 @@ public class NotificationPrefs extends Fragment {
                 if (!BuildConfig.DEBUG) return false;
                 Times.Alarm a = new Times.Alarm();
                 a.time = System.currentTimeMillis() + 5 * 1000;
-                a.sound = mTimes.getSound(vakit);
-                a.dua = mTimes.getDua(vakit);
-                a.silenter = mTimes.getSilenterDuration(vakit);
-                a.vibrate = mTimes.hasVibration(vakit);
                 a.city = mTimes.getID();
-                a.pref = "TEST";
+                a.vakit = vakit;
                 AlarmReceiver.setAlarm(getActivity(), a);
                 Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                 return true;
@@ -297,6 +292,7 @@ public class NotificationPrefs extends Fragment {
         final RelativeLayout expand = (RelativeLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
+
         sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

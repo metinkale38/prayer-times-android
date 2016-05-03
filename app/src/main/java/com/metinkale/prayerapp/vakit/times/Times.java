@@ -17,8 +17,8 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -177,12 +177,17 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    public static void setAlarms() {
+    public static void setNextAlarm() {
         List<Alarm> alarms = getAllAlarms();
 
-        for (Alarm alarm : alarms) {
-            AlarmReceiver.setAlarm(App.getContext(), alarm);
+        Alarm alarm = null;
+        for (Alarm a : alarms) {
+            if (alarm == null || alarm.time > a.time) {
+                alarm = a;
+            }
         }
+
+        AlarmReceiver.setAlarm(App.getContext(), alarm);
     }
 
     Collection<Alarm> getAlarms() {
@@ -201,16 +206,10 @@ public abstract class Times extends TimesBase {
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
-                        a.dua = getDua(v);
-                        a.early = 0;
-                        a.name = getName();
-                        a.silenter = getSilenterDuration(v);
-                        a.sound = getSound(v);
+                        a.early = false;
+                        a.cuma = false;
                         a.time = mills;
                         a.vakit = v;
-                        a.vibrate = hasVibration(v);
-                        a.pref = v.name();
-
                         alarms.add(a);
                     }
                 } else {
@@ -220,15 +219,10 @@ public abstract class Times extends TimesBase {
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
-                        a.dua = getDua(v);
-                        a.early = 0;
-                        a.name = getName();
-                        a.silenter = getSilenterDuration(v);
-                        a.sound = getSound(v);
+                        a.cuma = false;
+                        a.early = false;
                         a.time = mills;
                         a.vakit = v;
-                        a.vibrate = hasVibration(v);
-                        a.pref = v.name();
                         alarms.add(a);
                     }
                 }
@@ -242,15 +236,10 @@ public abstract class Times extends TimesBase {
                     if (System.currentTimeMillis() < mills) {
                         Alarm a = new Alarm();
                         a.city = getID();
-                        a.dua = "silent";
-                        a.early = early;
-                        a.name = getName();
-                        a.silenter = getEarlySilenterDuration(v);
-                        a.sound = getEarlySound(v);
+                        a.early = true;
+                        a.cuma = false;
                         a.time = mills;
                         a.vakit = v;
-                        a.vibrate = hasEarlyVibration(v);
-                        a.pref = "pre_" + v.name();
                         alarms.add(a);
                     }
                 }
@@ -267,15 +256,10 @@ public abstract class Times extends TimesBase {
                 if (System.currentTimeMillis() < mills) {
                     Alarm a = new Alarm();
                     a.city = getID();
-                    a.dua = "silent";
-                    a.early = early;
-                    a.name = getName();
-                    a.silenter = getCumaSilenterDuration();
-                    a.sound = getCumaSound();
+                    a.cuma = true;
+                    a.early = false;
                     a.time = mills;
                     a.vakit = Vakit.OGLE;
-                    a.vibrate = hasCumaVibration();
-                    a.pref = "cuma";
                     alarms.add(a);
                 }
             }
@@ -432,45 +416,17 @@ public abstract class Times extends TimesBase {
 
     public static class Alarm {
         public long city;
-
-        public String dua;
-        public long early;
-        public String name;
-        public long silenter;
-        public String sound;
+        public boolean cuma;
+        public boolean early;
         public long time;
         public Vakit vakit;
-        public boolean vibrate;
-        public String pref;
 
-        public static Alarm fromBundle(Bundle bdl) {
-            Alarm a = new Alarm();
-            a.city = bdl.getLong("city");
-            if (bdl.getString("vakit") != null) a.vakit = Vakit.valueOf(bdl.getString("vakit"));
-            a.silenter = bdl.getLong("silenter");
-            a.vibrate = bdl.getBoolean("vibrate");
-            a.sound = bdl.getString("sound");
-            a.time = bdl.getLong("time");
-            a.early = bdl.getLong("early");
-            a.dua = bdl.getString("dua");
-            a.name = bdl.getString("name");
-            a.pref = bdl.getString("pref");
-            return a;
+        public static Alarm fromString(String json) {
+            return new Gson().fromJson(json, Alarm.class);
         }
 
-        public Bundle toBundle() {
-            Bundle bdl = new Bundle();
-            bdl.putLong("city", city);
-            if (vakit != null) bdl.putString("vakit", vakit.name());
-            bdl.putLong("silenter", silenter);
-            bdl.putBoolean("vibrate", vibrate);
-            bdl.putString("sound", sound);
-            bdl.putLong("time", time);
-            bdl.putLong("early", early);
-            bdl.putString("dua", dua);
-            bdl.putString("name", name);
-            bdl.putString("pref", pref);
-            return bdl;
+        public String toString() {
+            return new Gson().toJson(this);
         }
 
     }

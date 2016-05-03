@@ -23,28 +23,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.util.Log;
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.MainIntentService;
-import com.metinkale.prayerapp.custom.MD5;
 import com.metinkale.prayerapp.custom.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
-import java.io.File;
+import java.io.IOException;
+
 
 public class AlarmReceiver extends IntentService {
 
@@ -78,95 +73,30 @@ public class AlarmReceiver extends IntentService {
         }
     }
 
-    public static MediaPlayer play(Context c, Alarm alarm) {
+    public static MediaPlayer play(Context c, String sound) throws IOException {
         Uri uri = null;
-        try {
+        uri = Uri.parse(sound);
 
-            String path = null;
-            switch (alarm.sound) {
-                case "ezan":
-                    switch (alarm.vakit) {
+        MediaPlayer mp = new MediaPlayer();
+        mp.setLooping(false);
+        mp.setDataSource(c, uri);
+        mp.setAudioStreamType(getStreamType(c));
 
-                        case IMSAK:
-                        case SABAH:
-                            path = "ezan/asehitoglu/sabah.mp3";
-                            break;
-                        case GUNES:
-                            if (alarm.early <= 0)
-                                uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                            else path = "ezan/asehitoglu/sabah.mp3";
-                            break;
-                        case OGLE:
-                            path = "ezan/asehitoglu/ogle.mp3";
-                            break;
-                        case IKINDI:
-                            path = "ezan/asehitoglu/ikindi.mp3";
-                            break;
-                        case AKSAM:
-                            path = "ezan/asehitoglu/aksam.mp3";
-                            break;
-                        case YATSI:
-                            path = "ezan/asehitoglu/yatsi.mp3";
-                            break;
-
-                    }
-                    break;
-                case "sela":
-                    path = "ezan/asehitoglu/sala.mp3";
-                    break;
-                case "dua":
-                    path = "ezan/asehitoglu/ezanduasi.mp3";
-                    break;
-                default:
-                    uri = Uri.parse(alarm.sound);
-
-                    break;
-            }
-            if (path != null) {
-                Crashlytics.setString("sound", path);
-                Crashlytics.getInstance().answers.logCustom(new CustomEvent("oldsound"));
-                File file = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), path);
-                if (!file.exists()) return null;
-                uri = Uri.fromFile(file);
-            }
-
-            MediaPlayer mp = new MediaPlayer();
-            mp.setLooping(false);
-            mp.setDataSource(c, uri);
-            mp.setAudioStreamType(getStreamType(c));
-
-            mp.prepare();
-            mp.start();
-
-            return mp;
-        } catch (Exception e) {
-            if (alarm.city == 0 || "silent".equals(uri.toString())) return null;
-            File file = new File(uri.getPath());
-            Crashlytics.setString("data", uri.toString());
-            if (file.exists())
-                Crashlytics.setString("md5", MD5.calculateMD5(file));
-            else
-                try {
-                    Times.getTimes(alarm.city)._set(alarm.pref, "silent");
-                } catch (Exception ee) {
-                    //Crashlytics.logException(ee);
-                }
-
-            Crashlytics.setBool("exists", file.exists());
-            Crashlytics.logException(e);
-        }
-
-        return null;
+        mp.prepare();
+        mp.start();
+        return mp;
     }
 
     public static void setAlarm(Context c, Alarm alarm) {
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
         Intent i = new Intent(c, WakefulReceiver.class);
-        i.putExtra("bdl", alarm.toBundle());
-        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.vakit == null ? 0 : alarm.vakit.ordinal() + alarm.city * 10 + (alarm.time - alarm.time % (1000 * 60 * 60 * 24)) / 1000), i, PendingIntent.FLAG_UPDATE_CURRENT);
+        i.putExtra("json", alarm.toString());
+        PendingIntent service = PendingIntent.getBroadcast(c, 468466, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(service);
 
-        App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
+        if (alarm != null)
+            App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
 
     }
 
@@ -183,7 +113,7 @@ public class AlarmReceiver extends IntentService {
             Crashlytics.logException(e);
         }
 
-        Times.setAlarms();
+        Times.setNextAlarm();
     }
 
 
@@ -205,19 +135,46 @@ public class AlarmReceiver extends IntentService {
 
         Context c = App.getContext();
 
-        if (intent == null || !intent.hasExtra("bdl")) {
+        if (intent == null || !intent.hasExtra("json")) {
 
             return;
         }
-        Alarm next = Alarm.fromBundle(intent.getExtras().getBundle("bdl"));
-        intent.removeExtra("bdl");
+        Alarm next = Alarm.fromString(intent.getStringExtra("json"));
+        intent.removeExtra("json");
 
         if (next.city == 0) return;
 
         Times t = Times.getTimes(next.city);
-        if (!"TEST".equals(next.pref) && t != null && next.pref != null && !t._is(next.pref)) {
+        boolean active = false;
+        if (t != null)
+            if (next.cuma) active = t.isCumaActive();
+            else if (next.early) active = t.isEarlyNotificationActive(next.vakit);
+            else active = t.isNotificationActive(next.vakit);
+        if (!active) {
             return;
         }
+
+        boolean vibrate;
+        String sound;
+        String dua;
+        long silenter;
+        if (next.cuma) {
+            vibrate = t.hasCumaVibration();
+            sound = t.getCumaSound();
+            dua = "silent";
+            silenter = t.getCumaSilenterDuration();
+        } else if (next.early) {
+            vibrate = t.hasEarlyVibration(next.vakit);
+            sound = t.getEarlySound(next.vakit);
+            dua = "silent";
+            silenter=t.getEarlySilenterDuration(next.vakit);
+        } else {
+            vibrate = t.hasVibration(next.vakit);
+            sound = t.getSound(next.vakit);
+            dua = t.getDua(next.vakit);
+            silenter=t.getSilenterDuration(next.vakit);
+        }
+
 
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -228,22 +185,22 @@ public class AlarmReceiver extends IntentService {
             text = t.getName() + " (" + t.getSource() + ")";
         }
 
-        String txt;
-        if (next.early != 0) {
-
+        String txt = "";
+        if (next.early) {
             String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlytext, left_part[next.vakit.index], next.early);
+            txt = App.getContext().getString(R.string.earlytext, left_part[next.vakit.index], t.getEarlyTime(next.vakit));
+        } else if (next.cuma) {
+            String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
+            txt = App.getContext().getString(R.string.earlytext, left_part[next.vakit.index], t.getCumaTime());
         } else if (next.vakit != null) {
             txt = next.vakit.getString();
-        } else {
-            txt = next.name;
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c).setContentTitle(text).setContentText(txt).setContentIntent(Main.getPendingIntent(t)).setSmallIcon(R.drawable.ic_abicon);
         Notification not = builder.build();
 
-        if (next.vibrate) {
-            not.vibrate = VibrationPreference.getPattern(c,"vibration");
+        if (vibrate) {
+            not.vibrate = VibrationPreference.getPattern(c, "vibration");
         }
 
         AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
@@ -253,88 +210,105 @@ public class AlarmReceiver extends IntentService {
         class MPHolder {
             MediaPlayer mp;
         }
-        final MPHolder mp = new MPHolder();
-        if (next.sound != null && !next.sound.startsWith("silent") && !next.sound.startsWith("picker")) {
-
-            if (next.sound.contains("$volume")) {
-                volume = Integer.parseInt(next.sound.substring(next.sound.indexOf("$volume") + 7));
-                next.sound = next.sound.substring(0, next.sound.indexOf("$volume"));
-            }
-            if (volume != -2) {
-                int oldvalue = am.getStreamVolume(getStreamType(c));
-                am.setStreamVolume(getStreamType(c), volume, 0);
-                volume = oldvalue;
-            }
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            if (!pm.isScreenOn()) {
-                Intent i = new Intent(c, NotificationPopup.class);
-                i.putExtra("city", next.city);
-                i.putExtra("name", text);
-                i.putExtra("vakit", txt);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                c.startActivity(i);
-            }
-
-            mp.mp = play(c, next);
-
-            if (mp.mp != null) {
-
-                mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        mp.mp.stop();
-                        mp.mp.release();
-                        mp.mp = null;
-                    }
-                });
-
-                mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
-                    @Override
-                    public void onSeekComplete(MediaPlayer mediaPlayer) {
-                        mp.mp.stop();
-                        mp.mp.release();
-                        mp.mp = null;
-                        Log.e("", "scompleted");
-                    }
-                });
-
-                not.deleteIntent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
-            }
-        }
+        not.deleteIntent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         nm.notify(next.city + "", NotIds.ALARM, not);
+        final MPHolder mp = new MPHolder();
+        while (sound != null && !sInterrupt) {
 
-        sInterrupt = false;
-        while (mp.mp != null && mp.mp.isPlaying()) {
-            if (sInterrupt) {
-                mp.mp.stop();
-                mp.mp.release();
-                mp.mp = null;
+
+            if (sound != null && !sound.startsWith("silent") && !sound.startsWith("picker")) {
+
+                if (sound.contains("$volume")) {
+                    volume = Integer.parseInt(sound.substring(sound.indexOf("$volume") + 7));
+                    sound = sound.substring(0, sound.indexOf("$volume"));
+                }
+                if (volume != -2) {
+                    int oldvalue = am.getStreamVolume(getStreamType(c));
+                    am.setStreamVolume(getStreamType(c), volume, 0);
+                    volume = oldvalue;
+                }
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                if (!pm.isScreenOn()) {
+                    Intent i = new Intent(c, NotificationPopup.class);
+                    i.putExtra("city", next.city);
+                    i.putExtra("name", text);
+                    i.putExtra("vakit", txt);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    c.startActivity(i);
+                }
+
+                try {
+                    mp.mp = play(c, sound);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if (next.cuma) {
+                        t.setCumaSound("silent");
+                    } else if (next.early) {
+                        t.setEarlySound(next.vakit, "silent");
+                    } else {
+                        if (t.getSound(next.vakit).equals("sound"))
+                            t.setSound(next.vakit, "silent");
+                        else
+                            t.setDua(next.vakit, "silent");
+                    }
+                    mp.mp = null;
+                }
+
+                if (mp.mp != null) {
+
+                    mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mp.mp.stop();
+                            mp.mp.release();
+                            mp.mp = null;
+                        }
+                    });
+
+                    mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                        @Override
+                        public void onSeekComplete(MediaPlayer mediaPlayer) {
+                            mp.mp.stop();
+                            mp.mp.release();
+                            mp.mp = null;
+                        }
+                    });
+
+                }
+
+                sInterrupt = false;
+
+                while (mp.mp != null && mp.mp.isPlaying()) {
+                    if (sInterrupt) {
+                        mp.mp.stop();
+                        mp.mp.release();
+                        mp.mp = null;
+
+                        sound = null;
+                        dua = null;
+                    }
+                }
+                sInterrupt = false;
+
+
+                sound = dua;
+                dua = null;
             }
-        }
 
-        if (!sInterrupt && next.dua != null && !next.dua.startsWith("silent")) {
+            if (volume != -2) {
+                am.setStreamVolume(getStreamType(c), volume, 0);
 
-            next.sound = next.dua;
-            next.dua = "silent";
-            next.vibrate = false;
-            Intent i = new Intent(this, WakefulReceiver.class);
-            i.putExtra("bdl", next.toBundle());
-            sendBroadcast(i);
+            }
 
         }
-        sInterrupt = false;
+
 
         if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
 
-        if (volume != -2) {
-            am.setStreamVolume(getStreamType(c), volume, 0);
-
-        }
-
-        if (next.silenter != 0) {
-            silenter(c, next.silenter);
+        if (silenter != 0) {
+            silenter(c, silenter);
         }
 
 
@@ -373,10 +347,10 @@ public class AlarmReceiver extends IntentService {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle bdl = intent.getBundleExtra("bdl");
-            if (bdl != null) {
+            String json = intent.getStringExtra("json");
+            if (json != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);
-                service.putExtra("bdl", bdl);
+                service.putExtra("json", json);
                 startWakefulService(context, service);
             } else {
                 MainIntentService.setAlarms(context);

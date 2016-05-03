@@ -42,9 +42,9 @@ import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.PermissionUtils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.sounds.Sounds.Sound;
-import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SoundChooser extends DialogFragment implements OnItemClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
@@ -190,9 +190,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             }
         } else if (!"silent".equals(s.uri)) {
             if (Sounds.isDownloaded(s)) {
-                Alarm alarm = new Alarm();
-                alarm.sound = s.uri;
-                mMp = AlarmReceiver.play(App.getContext(), alarm);
+                try {
+                    mMp = AlarmReceiver.play(App.getContext(), s.uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 mList.setTag(s);
             } else {
                 AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
@@ -205,9 +207,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                         MainIntentService.downloadSound(App.getContext(), s, new Runnable() {
                             @Override
                             public void run() {
-                                Alarm alarm = new Alarm();
-                                alarm.sound = s.uri;
-                                mMp = AlarmReceiver.play(App.getContext(), alarm);
+                                try {
+                                    mMp = AlarmReceiver.play(App.getContext(), s.uri);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 mList.setTag(s);
                             }
                         });
@@ -225,9 +229,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
                     }
                 });
-               dialog.show();
+                dialog.show();
 
             }
+        } else {
+            mList.setTag(s);
         }
     }
 
@@ -307,11 +313,10 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
             if (!s.uri.startsWith("silent"))
                 try {
-                    Alarm alarm = new Alarm();
-                    alarm.sound = s.uri;
-                    if (alarm.sound.contains("$"))
-                        alarm.sound = alarm.sound.substring(0, alarm.sound.indexOf("$"));
-                    AlarmReceiver.play(App.getContext(), alarm).reset();
+                    String sound = s.uri;
+                    if (sound.contains("$"))
+                        sound = sound.substring(0, sound.indexOf("$"));
+                    AlarmReceiver.play(App.getContext(), sound).reset();
                 } catch (Exception e) {
                     mCb.setCurrent("silent");
                     s.uri = "silent";
