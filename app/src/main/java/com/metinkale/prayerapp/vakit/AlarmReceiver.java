@@ -91,7 +91,7 @@ public class AlarmReceiver extends IntentService {
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
         Intent i = new Intent(c, WakefulReceiver.class);
-        i.putExtra("json", alarm.toString());
+        if (alarm != null) i.putExtra("json", alarm.toString());
         PendingIntent service = PendingIntent.getBroadcast(c, 468466, i, PendingIntent.FLAG_UPDATE_CURRENT);
         am.cancel(service);
 
@@ -167,12 +167,12 @@ public class AlarmReceiver extends IntentService {
             vibrate = t.hasEarlyVibration(next.vakit);
             sound = t.getEarlySound(next.vakit);
             dua = "silent";
-            silenter=t.getEarlySilenterDuration(next.vakit);
+            silenter = t.getEarlySilenterDuration(next.vakit);
         } else {
             vibrate = t.hasVibration(next.vakit);
             sound = t.getSound(next.vakit);
             dua = t.getDua(next.vakit);
-            silenter=t.getSilenterDuration(next.vakit);
+            silenter = t.getSilenterDuration(next.vakit);
         }
 
 

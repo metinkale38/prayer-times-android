@@ -162,7 +162,8 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
-            Crashlytics.logException(e);
+            if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+                Crashlytics.logException(e);
         }
 
     }

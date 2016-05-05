@@ -48,6 +48,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
 
@@ -142,7 +143,8 @@ public class MainIntentService extends IntentService {
                 }
 
             } catch (Exception e) {
-                Crashlytics.logException(e);
+                if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+                    Crashlytics.logException(e);
             }
 
         }
@@ -267,8 +269,8 @@ public class MainIntentService extends IntentService {
                 long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;
 
-                event.put(CalendarContract.Events.DTSTART, dtstart);
-                event.put(CalendarContract.Events.DTEND, dtend);
+                event.put(CalendarContract.Events.DTSTART, dtstart + TimeZone.getDefault().getOffset(dtstart));
+                event.put(CalendarContract.Events.DTEND, dtend + TimeZone.getDefault().getOffset(dtend ));
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
                 event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
                 event.put(CalendarContract.Events.ALL_DAY, 1);
@@ -277,7 +279,7 @@ public class MainIntentService extends IntentService {
                 i++;
             }
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
-            Prefs.setLastCalIntegration(year);
+            Prefs.setlastCalSync(year);
         } catch (Exception e) {
             Prefs.setCalendar("-1");
         }

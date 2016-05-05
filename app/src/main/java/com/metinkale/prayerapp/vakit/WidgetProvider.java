@@ -120,7 +120,7 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
 
-        LocalDate date=LocalDate.now();
+        LocalDate date = LocalDate.now();
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
         int next = times.getNext();
@@ -199,7 +199,8 @@ public class WidgetProvider extends AppWidgetProvider {
         try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
-            Crashlytics.logException(e);
+            if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+                Crashlytics.logException(e);
         }
 
     }

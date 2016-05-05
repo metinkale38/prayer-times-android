@@ -34,7 +34,7 @@ public class Prefs {
     private final String mHDF;
     private final boolean mUseArabic;
     private final boolean mUse12H;
-    private final int mLastCalIntegration;
+    private final int mlastCalSync;
     private final String mCalendarIntegration;
     private final boolean mWidgetMinute;
     private final int mHijriFix;
@@ -62,7 +62,7 @@ public class Prefs {
         mHDF = prefs.getString("hdateformat", "DD MMM YYYY");
         mUseArabic = prefs.getBoolean("arabicNames", false);
         mUse12H = prefs.getBoolean("use12h", false);
-        mLastCalIntegration = prefs.getInt("lastCalIntegration", 0);
+        mlastCalSync = prefs.getInt("lastCalSync", 0);
         mWidgetMinute = "default".equals(prefs.getString("widget_countdown", "default"));
         mHijriFix = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString("hijri_fix", "0").replace("+", ""));
         mChangelogVersion = prefs.getInt("changelog_version", -1);
@@ -114,8 +114,8 @@ public class Prefs {
         return get().mUse12H;
     }
 
-    public static int getLastCalIntegration() {
-        return get().mLastCalIntegration;
+    public static int getlastCalSync() {
+        return get().mlastCalSync;
     }
 
     public static String getCalendar() {
@@ -185,8 +185,8 @@ public class Prefs {
     }
 
 
-    public static void setLastCalIntegration(int date) {
-        get().mEditor.putInt("lastCalIntegration", date);
+    public static void setlastCalSync(int date) {
+        get().mEditor.putInt("lastCalSync", date);
         commit();
     }
 

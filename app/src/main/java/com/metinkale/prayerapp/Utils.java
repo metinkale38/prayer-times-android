@@ -78,7 +78,7 @@ public class Utils {
 
         int year = LocalDate.now().getYear();
 
-        if (year != Prefs.getLastCalIntegration()) {
+        if (year != Prefs.getlastCalSync()) {
             MainIntentService.startCalendarIntegration(c);
         }
 
