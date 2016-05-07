@@ -198,34 +198,35 @@ public abstract class Times extends TimesBase {
 
         for (int ii = 0; ii <= 1/* next day */; ii++) {
             for (Vakit v : Vakit.values()) {
-                if (isNotificationActive(v)) if (v != Vakit.SABAH) {
-                    int vakit = v.ordinal();
-                    if (vakit != 0) vakit--;
+                if (isNotificationActive(v))
+                    if (v != Vakit.SABAH) {
+                        int vakit = v.ordinal();
+                        if (vakit != 0) vakit--;
 
-                    long mills = getTimeCal(cal, vakit).getMillis();
-                    if (System.currentTimeMillis() < mills) {
-                        Alarm a = new Alarm();
-                        a.city = getID();
-                        a.early = false;
-                        a.cuma = false;
-                        a.time = mills;
-                        a.vakit = v;
-                        alarms.add(a);
+                        long mills = getTimeCal(cal, vakit).getMillis();
+                        if (System.currentTimeMillis() < mills) {
+                            Alarm a = new Alarm();
+                            a.city = getID();
+                            a.early = false;
+                            a.cuma = false;
+                            a.time = mills;
+                            a.vakit = v;
+                            alarms.add(a);
+                        }
+                    } else {
+                        long mills;
+                        if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
+                        else mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
+                        if (System.currentTimeMillis() < mills) {
+                            Alarm a = new Alarm();
+                            a.city = getID();
+                            a.cuma = false;
+                            a.early = false;
+                            a.time = mills;
+                            a.vakit = v;
+                            alarms.add(a);
+                        }
                     }
-                } else {
-                    long mills;
-                    if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
-                    else mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
-                    if (System.currentTimeMillis() < mills) {
-                        Alarm a = new Alarm();
-                        a.city = getID();
-                        a.cuma = false;
-                        a.early = false;
-                        a.time = mills;
-                        a.vakit = v;
-                        alarms.add(a);
-                    }
-                }
 
                 if (isEarlyNotificationActive(v)) if (v != Vakit.SABAH) {
                     int vakit = v.ordinal();

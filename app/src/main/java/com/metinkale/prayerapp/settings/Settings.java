@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -35,9 +36,7 @@ import android.preference.PreferenceManager.OnActivityResultListener;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.vakit.WidgetService;
 
 
 public class Settings extends BaseActivity {
@@ -64,7 +63,6 @@ public class Settings extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-
     }
 
     @Override
@@ -80,10 +78,12 @@ public class Settings extends BaseActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener, OnPreferenceChangeListener {
+        private Handler mHandler;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            mHandler = new Handler();
 
             addPreferencesFromResource(R.xml.settings);
 
@@ -137,23 +137,20 @@ public class Settings extends BaseActivity {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            } else if ("ongoingIcon".equals(preference.getKey())) WidgetService.updateOngoing();
+            }
             return true;
 
         }
 
         @Override
-        public boolean onPreferenceChange(Preference pref, Object newValue) {
-            Prefs.reset();
-            if ("language".equals(pref.getKey())) {
+        public boolean onPreferenceChange(final Preference pref, Object newValue) {
 
+            if ("language".equals(pref.getKey())) {
                 Activity act = getActivity();
                 act.finish();
                 Intent i = new Intent(act, act.getClass());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 act.startActivity(i);
-            } else if ("calendarIntegration".equals(pref.getKey())) {
-                MainIntentService.startCalendarIntegration(getActivity());
             }
             return true;
         }

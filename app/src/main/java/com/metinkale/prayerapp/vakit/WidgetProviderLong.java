@@ -42,6 +42,8 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 import org.joda.time.LocalDate;
 
+import static android.R.attr.id;
+
 public class WidgetProviderLong extends AppWidgetProvider {
     private static float mDP;
 
@@ -99,9 +101,14 @@ public class WidgetProviderLong extends AppWidgetProvider {
         }
 
         Times times = null;
-        long id = widgets.getLong(widgetId + "", 0L);
+        long id = 0;
+        try {
+            id = widgets.getLong(widgetId + "", 0L);
+        } catch (ClassCastException e) {
+            widgets.edit().remove(widgetId + "").apply();
+        }
         if (id != 0)
-            times = Times.getTimes(widgets.getLong(widgetId + "", 0L));
+            times = Times.getTimes(id);
         if (times == null) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);

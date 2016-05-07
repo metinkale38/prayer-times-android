@@ -149,5 +149,6 @@
     <string name="category">Kategori</string>
     <string name="cuma">Cuma</string>
     <string name="fasting">Oruç</string>
+    <string name="alternative_ongoing">Alternatif Kalıcı Bildirim</string>
 
 </resources>

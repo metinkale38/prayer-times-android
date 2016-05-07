@@ -1,0 +1,226 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <TextView
+                android:textSize="14dp"
+                android:textColor="#ff000000"
+                android:layout_weight="1"
+                android:id="@+id/city"
+                android:text="Braunschweig"
+                android:layout_width="0dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:textSize="14dp"
+                android:textColor="#ff000000"
+                android:id="@+id/time"
+                android:text="00:00"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:id="@+id/vakit0"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time0"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/imsak"
+                    android:id="@+id/imsak"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/vakit1"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time1"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/gunes"
+                    android:id="@+id/gunes"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/vakit2"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time2"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/ogle"
+                    android:id="@+id/ogle"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:id="@+id/vakit3"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time3"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/ikindi"
+                    android:id="@+id/ikindi"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/vakit4"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time4"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/aksam"
+                    android:id="@+id/aksam"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/vakit5"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="14dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/time5"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:textSize="12dp"
+                    android:textColor="#ff000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/yatsi"
+                    android:id="@+id/yatsi"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

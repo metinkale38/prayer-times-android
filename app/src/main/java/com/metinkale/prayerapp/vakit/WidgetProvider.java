@@ -102,11 +102,14 @@ public class WidgetProvider extends AppWidgetProvider {
                 theme = Theme.Light;
         }
         Times times = null;
-        long id = widgets.getLong(widgetId + "", 0L);
+        long id = 0;
+        try {
+            id = widgets.getLong(widgetId + "", 0L);
+        } catch (ClassCastException e) {
+            widgets.edit().remove(widgetId + "").apply();
+        }
         if (id != 0)
-            times = Times.getTimes(widgets.getLong(widgetId + "", 0L));
-
-
+            times = Times.getTimes(id);
         if (times == null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);

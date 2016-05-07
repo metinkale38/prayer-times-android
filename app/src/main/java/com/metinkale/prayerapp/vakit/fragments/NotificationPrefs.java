@@ -276,12 +276,14 @@ public class NotificationPrefs extends Fragment {
             time.setPrefFunctions(new PrefsView.PrefsFunctions() {
                 @Override
                 public Object getValue() {
-                    return mTimes.getSabahTime();
+                    return mTimes.getSabahTime() * (mTimes.isAfterImsak() ? -1 : 1);
                 }
 
                 @Override
                 public void setValue(Object obj) {
-                    mTimes.setSabahTime((int) obj);
+                    int time = (int) obj;
+                    mTimes.setSabahTime(Math.abs(time));
+                    mTimes.setAfterImsak(time < 0);
                 }
             });
         }

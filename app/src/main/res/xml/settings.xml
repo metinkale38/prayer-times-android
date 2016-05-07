@@ -124,6 +124,12 @@
                 android:title="@string/ongoingIcon"
                 android:defaultValue="true"/>
 
+
+        <SwitchPreference
+                android:key="alternativeOngoing"
+                android:title="@string/alternative_ongoing"
+                android:defaultValue="false"/>
+
         <ListPreference
                 android:defaultValue="noti"
                 android:dialogTitle="@string/ezanvolume"

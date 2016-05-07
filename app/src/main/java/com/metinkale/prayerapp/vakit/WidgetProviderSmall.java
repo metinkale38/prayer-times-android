@@ -86,12 +86,14 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         }
 
         Times times = null;
+        long id = 0;
         try {
-            long id = widgets.getLong(widgetId + "", 0L);
-            if (id != 0)
-                times = Times.getTimes(widgets.getLong(widgetId + "", 0L));
-        } catch (Exception ignore) {
+            id = widgets.getLong(widgetId + "", 0L);
+        } catch (ClassCastException e) {
+            widgets.edit().remove(widgetId + "").apply();
         }
+        if (id != 0)
+            times = Times.getTimes(id);
         if (times == null) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);

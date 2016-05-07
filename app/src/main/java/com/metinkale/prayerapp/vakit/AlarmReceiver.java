@@ -103,15 +103,16 @@ public class AlarmReceiver extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AlarmReceiver");
+        wakeLock.acquire();
         try {
-            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AlarmReceiver");
-            wakeLock.acquire();
             fireAlarm(intent);
-            wakeLock.release();
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
+        wakeLock.release();
+        if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
         Times.setNextAlarm();
     }
@@ -205,7 +206,6 @@ public class AlarmReceiver extends IntentService {
 
         AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
 
-        int volume = -2;
 
         class MPHolder {
             MediaPlayer mp;
@@ -215,6 +215,7 @@ public class AlarmReceiver extends IntentService {
         nm.notify(next.city + "", NotIds.ALARM, not);
         final MPHolder mp = new MPHolder();
         while (sound != null && !sInterrupt) {
+            int volume = -2;
 
 
             if (sound != null && !sound.startsWith("silent") && !sound.startsWith("picker")) {
@@ -260,6 +261,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
+                            if (mp == null || mp.mp == null) return;
                             mp.mp.stop();
                             mp.mp.release();
                             mp.mp = null;
@@ -269,6 +271,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                         @Override
                         public void onSeekComplete(MediaPlayer mediaPlayer) {
+                            if (mp == null || mp.mp == null) return;
                             mp.mp.stop();
                             mp.mp.release();
                             mp.mp = null;
@@ -298,13 +301,9 @@ public class AlarmReceiver extends IntentService {
 
             if (volume != -2) {
                 am.setStreamVolume(getStreamType(c), volume, 0);
-
             }
 
         }
-
-
-        if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
 
         if (silenter != 0) {

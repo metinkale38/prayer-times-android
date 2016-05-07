@@ -149,4 +149,5 @@
     <string name="category">Category</string>
     <string name="cuma">Friday Prayer</string>
     <string name="fasting">Fast</string>
+    <string name="alternative_ongoing">Alternative Notification Widget</string>
 </resources>
