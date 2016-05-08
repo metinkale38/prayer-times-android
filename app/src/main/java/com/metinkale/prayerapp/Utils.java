@@ -78,9 +78,10 @@ public class Utils {
 
         int year = LocalDate.now().getYear();
 
-        if (year != Prefs.getlastCalSync()) {
+        if (year != Prefs.getLastCalSync()) {
             MainIntentService.startCalendarIntegration(c);
         }
+        Prefs.setLastCalSync(year);
 
         if (newLang == null) return;
         Locale locale = new Locale(newLang);
@@ -89,24 +90,28 @@ public class Utils {
         config.locale = locale;
         ((ContextWrapper) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((ContextWrapper) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
 
-        if (Prefs.getLanguage() != newLang) {
-            sGMonths = null;
-            sHMonths = null;
-            sHolydays = null;
-            sWeekdays = null;
-            sShortWeekdays = null;
-            Prefs.setLanguage(newLang);
-            PackageManager pm = c.getPackageManager();
+    }
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+    public static void changeLanguage(String language) {
+        String newLang = language;
+        Context c = App.getContext();
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), "en".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        Prefs.setLanguage(language);
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), "de".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        sGMonths = null;
+        sHMonths = null;
+        sHolydays = null;
+        sWeekdays = null;
+        sShortWeekdays = null;
+        PackageManager pm = c.getPackageManager();
 
-            pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDefault"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
-        }
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), "en".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), "de".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDefault"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
     }
 
@@ -158,7 +163,7 @@ public class Utils {
         builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Prefs.setLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
+                Utils.changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
                 init();
                 act.finish();
                 act.startActivity(new Intent(act, act.getClass()));

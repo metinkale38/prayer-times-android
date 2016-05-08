@@ -121,7 +121,7 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
         return get().mUse12H;
     }
 
-    public static int getlastCalSync() {
+    public static int getLastCalSync() {
         return get().mlastCalSync;
     }
 
@@ -193,7 +193,7 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
         commit();
     }
 
-    public static void setlastCalSync(int date) {
+    public static void setLastCalSync(int date) {
         get().mEditor.putInt("lastCalSync", date);
         commit();
     }

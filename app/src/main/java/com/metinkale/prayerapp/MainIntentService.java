@@ -270,7 +270,7 @@ public class MainIntentService extends IntentService {
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;
 
                 event.put(CalendarContract.Events.DTSTART, dtstart + TimeZone.getDefault().getOffset(dtstart));
-                event.put(CalendarContract.Events.DTEND, dtend + TimeZone.getDefault().getOffset(dtend ));
+                event.put(CalendarContract.Events.DTEND, dtend + TimeZone.getDefault().getOffset(dtend));
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
                 event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
                 event.put(CalendarContract.Events.ALL_DAY, 1);
@@ -279,7 +279,6 @@ public class MainIntentService extends IntentService {
                 i++;
             }
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
-            Prefs.setlastCalSync(year);
         } catch (Exception e) {
             Prefs.setCalendar("-1");
         }

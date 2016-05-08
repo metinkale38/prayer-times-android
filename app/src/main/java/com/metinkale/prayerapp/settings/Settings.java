@@ -146,6 +146,7 @@ public class Settings extends BaseActivity {
         public boolean onPreferenceChange(final Preference pref, Object newValue) {
 
             if ("language".equals(pref.getKey())) {
+                Utils.changeLanguage((String) newValue);
                 Activity act = getActivity();
                 act.finish();
                 Intent i = new Intent(act, act.getClass());
