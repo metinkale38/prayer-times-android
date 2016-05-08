@@ -214,7 +214,20 @@ public class AlarmReceiver extends IntentService {
 
         nm.notify(next.city + "", NotIds.ALARM, not);
         final MPHolder mp = new MPHolder();
-        while (sound != null && !sInterrupt) {
+
+
+        if (sound != null) {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!pm.isScreenOn()) {
+                Intent i = new Intent(c, NotificationPopup.class);
+                i.putExtra("city", next.city);
+                i.putExtra("name", text);
+                i.putExtra("vakit", txt);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                c.startActivity(i);
+            }
+        }
+        while (sound != null && !sound.startsWith("silent") && !sInterrupt) {
             int volume = -2;
 
 
@@ -229,15 +242,7 @@ public class AlarmReceiver extends IntentService {
                     am.setStreamVolume(getStreamType(c), volume, 0);
                     volume = oldvalue;
                 }
-                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                if (!pm.isScreenOn()) {
-                    Intent i = new Intent(c, NotificationPopup.class);
-                    i.putExtra("city", next.city);
-                    i.putExtra("name", text);
-                    i.putExtra("vakit", txt);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                    c.startActivity(i);
-                }
+
 
                 try {
                     mp.mp = play(c, sound);
@@ -290,19 +295,21 @@ public class AlarmReceiver extends IntentService {
 
                         sound = null;
                         dua = null;
+                    } else try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
                     }
                 }
                 sInterrupt = false;
 
 
-                sound = dua;
-                dua = null;
             }
 
             if (volume != -2) {
                 am.setStreamVolume(getStreamType(c), volume, 0);
             }
-
+            sound = dua;
+            dua = null;
         }
 
 

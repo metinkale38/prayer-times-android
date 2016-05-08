@@ -44,6 +44,7 @@ public class NotificationPrefs extends Fragment {
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
     private View mView;
+    private boolean mTestAlarm;
 
     public static NotificationPrefs create(Times t) {
         Bundle bdl = new Bundle();
@@ -203,6 +204,7 @@ public class NotificationPrefs extends Fragment {
             @Override
             public boolean onLongClick(View v) {
                 if (!BuildConfig.DEBUG) return false;
+                mTestAlarm = true;
                 Times.Alarm a = new Times.Alarm();
                 a.time = System.currentTimeMillis() + 5 * 1000;
                 a.city = mTimes.getID();
@@ -375,7 +377,9 @@ public class NotificationPrefs extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MainIntentService.setAlarms(getActivity());
+        if (!mTestAlarm) MainIntentService.setAlarms(getActivity());
+        mTestAlarm = false;
+
         getActivity().setTitle(getString(R.string.vakit));
     }
 

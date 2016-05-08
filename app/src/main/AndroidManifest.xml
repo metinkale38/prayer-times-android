@@ -50,6 +50,7 @@
         <activity
                 android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
                 android:showOnLockScreen="true"
+                android:launchMode="singleInstance"
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
                 android:name="com.metinkale.prayerapp.vakit.Main"
