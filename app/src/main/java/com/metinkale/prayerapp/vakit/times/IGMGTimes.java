@@ -53,27 +53,32 @@ public class IGMGTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            String url = "http://www.igmg.org/index.php?id=201&no_cache=1" + "&deutschland=" + (germany == -1 ? "nix" : germany) + "&welt=" + (world == -1 ? "nix" : world) + "&ganzermonat=" + M;
+            String url = "https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + (germany > 0 ? germany : world) + "&show_month=" + (M - 1);
 
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("GET");
 
-            String line;
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            while ((line = reader.readLine()) != null) if (line.contains("<td class=\"green\"")) {
-                line = extractLine(line);
-                int d = Integer.parseInt(line.substring(0, line.indexOf(".")));
-                String[] times = new String[6];
-                for (int i = 0; i < 6; i++) {
-                    line = extractLine(reader.readLine());
-                    line = line.replace("&nbsp;", "").replace(".", ":").replace(",", ":");
-                    if (line.length() == 4) line = "0" + line;
-                    times[i] = line;
-                }
+            String line = reader.readLine();
 
-                setTimes(new LocalDate(Y, M, d), times);
+            line = line.substring(line.indexOf("<div class='zeiten'>") + 20);
+            String zeiten[] = line.split("</div><div class='zeiten'>");
+            for (String zeit : zeiten) {
+                if (zeit.contains("turkish")) continue;
+                String tarih = extractLine(zeit.substring(zeit.indexOf("tarih")));
+                String imsak = extractLine(zeit.substring(zeit.indexOf("imsak")));
+                String gunes = extractLine(zeit.substring(zeit.indexOf("gunes")));
+                String ogle = extractLine(zeit.substring(zeit.indexOf("ogle")));
+                String ikindi = extractLine(zeit.substring(zeit.indexOf("ikindi")));
+                String aksam = extractLine(zeit.substring(zeit.indexOf("aksam")));
+                String yatsi = extractLine(zeit.substring(zeit.indexOf("yatsi")));
 
+                int _d = Integer.parseInt(tarih.substring(0, 2));
+                int _m = Integer.parseInt(tarih.substring(3, 5));
+                int _y = Integer.parseInt(tarih.substring(6, 10));
+
+                setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
             }
 
             reader.close();
