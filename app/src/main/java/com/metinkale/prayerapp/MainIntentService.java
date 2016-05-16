@@ -134,7 +134,7 @@ public class MainIntentService extends IntentService {
                             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
                         }
 
-                        Times.setNextAlarm();
+                        Times.setAlarms();
                         break;
 
                     case ACTION_CALENDAR_INTEGRATION:

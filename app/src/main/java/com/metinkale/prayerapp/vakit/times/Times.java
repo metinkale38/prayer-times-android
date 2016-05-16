@@ -177,17 +177,14 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    public static void setNextAlarm() {
+    public static void setAlarms() {
         List<Alarm> alarms = getAllAlarms();
 
-        Alarm alarm = null;
         for (Alarm a : alarms) {
-            if (alarm == null || alarm.time > a.time) {
-                alarm = a;
-            }
+            AlarmReceiver.setAlarm(App.getContext(), a);
+
         }
 
-        AlarmReceiver.setAlarm(App.getContext(), alarm);
     }
 
     Collection<Alarm> getAlarms() {
@@ -251,7 +248,7 @@ public abstract class Times extends TimesBase {
                 int early = getCumaTime();
 
                 DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
-                if (c.getMillis() < System.currentTimeMillis()) c = c.plusDays(1);
+                if (c.getMillis() + 1000 < System.currentTimeMillis()) c = c.plusWeeks(1);
                 long mills = getTimeCal(c.toLocalDate(), 2).getMillis();
                 mills -= early * 60 * 1000;
                 if (System.currentTimeMillis() < mills) {

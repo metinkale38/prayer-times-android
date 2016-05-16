@@ -55,7 +55,6 @@ public class MainHelper extends SQLiteOpenHelper {
         if (Prefs.getMigratedFromSqlite()) return;
         File dbFile = App.getContext().getDatabasePath(DATABASE_NAME);
         if (dbFile.exists()) {
-            Crashlytics.logException(new Exception("migrated"));
             MainHelper mainHelper = new MainHelper();
 
             AbstractMap<Long, JSONObject> map = new HashMap<>();

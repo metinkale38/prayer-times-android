@@ -38,7 +38,7 @@ android {
     }
 
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
 
 
     defaultConfig {
@@ -46,7 +46,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 124
+        versionCode 127
         versionName '3.5.4'
     }
 

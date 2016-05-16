@@ -49,10 +49,6 @@ public class CalcTimes extends Times {
         super(id);
     }
 
-    CalcTimes(long id, boolean placeholder) {
-        super(id);
-        //this class is just used when creating a CalcTimes below
-    }
 
     private PrayTime getPrayTime() {
         if (mPrayTime == null) {
@@ -101,7 +97,7 @@ public class CalcTimes extends Times {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
 
-                CalcTimes t = new CalcTimes(System.currentTimeMillis(), true);
+                CalcTimes t = new CalcTimes(System.currentTimeMillis());
                 t.setSource(Source.Calc);
                 t.setName(bdl.getString("city"));
                 t.setLat(bdl.getDouble("lat"));

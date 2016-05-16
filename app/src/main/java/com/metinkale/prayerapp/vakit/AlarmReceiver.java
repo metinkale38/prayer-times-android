@@ -92,7 +92,8 @@ public class AlarmReceiver extends IntentService {
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) i.putExtra("json", alarm.toString());
-        PendingIntent service = PendingIntent.getBroadcast(c, 468466, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.time / 1000 * 100 + alarm.vakit.ordinal() * 10 + (alarm.early ? alarm.cuma ? 3 : 2 : 1)), i, PendingIntent.
+                FLAG_UPDATE_CURRENT);
         am.cancel(service);
 
         if (alarm != null)
@@ -114,7 +115,7 @@ public class AlarmReceiver extends IntentService {
         wakeLock.release();
         if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
 
-        Times.setNextAlarm();
+        Times.setAlarms();
     }
 
 
@@ -131,7 +132,7 @@ public class AlarmReceiver extends IntentService {
         }
     }
 
-    public void fireAlarm(Intent intent) {
+    public void fireAlarm(Intent intent) throws InterruptedException {
 
 
         Context c = App.getContext();
@@ -216,7 +217,7 @@ public class AlarmReceiver extends IntentService {
         final MPHolder mp = new MPHolder();
 
 
-        if (sound != null) {
+        if (sound != null && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!pm.isScreenOn()) {
                 Intent i = new Intent(c, NotificationPopup.class);
@@ -225,11 +226,14 @@ public class AlarmReceiver extends IntentService {
                 i.putExtra("vakit", txt);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                 c.startActivity(i);
+
+                Thread.sleep(1000);
             }
         }
+
+        sInterrupt = false;
         while (sound != null && !sound.startsWith("silent") && !sInterrupt) {
             int volume = -2;
-
 
             if (sound != null && !sound.startsWith("silent") && !sound.startsWith("picker")) {
 

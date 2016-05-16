@@ -97,7 +97,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android SDK" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="sqliteassethelper-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />

@@ -237,7 +237,7 @@ public class Utils {
     }
 
     public static String getAssetForHolyday(int pos) {
-        return Prefs.getLanguage() + ASSETS[pos];
+        return Prefs.getLanguage() + ASSETS[pos-1];
     }
 
 
