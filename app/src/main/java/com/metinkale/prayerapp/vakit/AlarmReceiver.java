@@ -92,7 +92,7 @@ public class AlarmReceiver extends IntentService {
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) i.putExtra("json", alarm.toString());
-        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.time / 1000 * 100 + alarm.vakit.ordinal() * 10 + (alarm.early ? alarm.cuma ? 3 : 2 : 1)), i, PendingIntent.
+        PendingIntent service = PendingIntent.getBroadcast(c, (int) (alarm.city * 100 + alarm.vakit.ordinal() * 10 + (alarm.early ? alarm.cuma ? 3 : 2 : 1)), i, PendingIntent.
                 FLAG_UPDATE_CURRENT);
         am.cancel(service);
 
