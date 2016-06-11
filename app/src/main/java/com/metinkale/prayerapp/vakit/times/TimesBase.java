@@ -136,8 +136,8 @@ public class TimesBase {
     }
 
     private void apply() {
-        App.aHandler.removeCallbacks(mApplyPrefs);
-        App.aHandler.post(mApplyPrefs);
+        App.getHandler().removeCallbacks(mApplyPrefs);
+        App.getHandler().post(mApplyPrefs);
     }
 
     protected void save() {

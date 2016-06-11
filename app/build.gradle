@@ -8,7 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
 
@@ -46,7 +46,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 129
+        versionCode 130
         versionName '3.5.4'
     }
 
@@ -88,7 +88,7 @@ dependencies {
     compile 'com.google.code.gson:gson:+'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'net.danlew:android.joda:2.9.3'
+    compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
-    }
-}
+    }}

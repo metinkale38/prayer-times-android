@@ -30,30 +30,53 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
+import com.google.android.gms.analytics.Tracker;
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
-import io.fabric.sdk.android.BuildConfig;
 import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 
 public class App extends Application {
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
-    private static Context mContext;
-    public static Handler aHandler = new Handler();
+    private static Context sContext;
+    private static Handler sHandler = new Handler();
+    private static Tracker sTracker;
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sContext = this;
+
+        if (!BuildConfig.DEBUG)
+            Fabric.with(this, new Crashlytics());
+
+        JodaTimeAndroid.init(this);
+        MainHelper.copy();
+        Times.getTimes();
+        Utils.init();
+
+        startService(new Intent(this, WidgetService.class));
+        MainIntentService.setAlarms(this);
+    }
 
     public static void setContext(Context context) {
-        mContext = context;
+        sContext = context;
     }
 
     public static Context getContext() {
-        return mContext;
+        return sContext;
     }
 
-    public static boolean isOnline() {
 
+    public static boolean isOnline() {
         if (Sounds.needsCheck()) new Thread(new Runnable() {
             @Override
             public void run() {
@@ -62,7 +85,7 @@ public class App extends Application {
             }
         }).start();
 
-        ConnectivityManager conMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
@@ -80,32 +103,31 @@ public class App extends Application {
 
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mContext = this;
-        JodaTimeAndroid.init(this);
-        if (!BuildConfig.DEBUG)
-            Fabric.with(this, new Crashlytics());
-
-
-        MainHelper.copy();
-
-        Times.getTimes();
-
-        Utils.init();
-
-        startService(new Intent(this, WidgetService.class));
-
-        MainIntentService.setAlarms(this);
-
-
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     *
+     * @return tracker
+     */
+    synchronized public static Tracker getTracker() {
+        if (sTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(getContext());
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            sTracker = analytics.newTracker("UA-79170076-1");
+        }
+        return sTracker;
     }
 
-    public static Drawable getTintedDrawable(@DrawableRes int drawableResId, int color) {
-        Drawable drawable = App.getContext().getResources().getDrawable(drawableResId);
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        return drawable;
+    public static Handler getHandler() {
+        return sHandler;
+    }
+
+
+    @Override
+    public void onTerminate() {
+        sTracker = null;
+        sHandler = null;
+        sContext = null;
+        super.onTerminate();
     }
 
 

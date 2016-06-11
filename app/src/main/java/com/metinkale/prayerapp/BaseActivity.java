@@ -36,6 +36,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -51,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private View mNavBar;
+    private Tracker mTracker;
 
     public BaseActivity() {
         String clz = getClass().toString();
@@ -65,6 +68,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String title = getResources().getStringArray(R.array.dropdown)[mNavPos];
+
+
+        mTracker = App.getTracker();
+        mTracker.setScreenName("Act~" + title);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
 
         if (App.getContext() == null) App.setContext(this);
 
@@ -99,7 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             launchIntent.putExtra("duplicate", false);
 
             intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getResources().getStringArray(R.array.dropdown)[mNavPos]);
+            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
             intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
 
             setResult(RESULT_OK, intent);

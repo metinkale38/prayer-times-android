@@ -52,7 +52,7 @@ public class WebTimes extends Times {
     @Override
     public void delete() {
         super.delete();
-        App.aHandler.removeCallbacks(mCheckSync);
+        App.getHandler().removeCallbacks(mCheckSync);
         if (mThread != null && mThread.isAlive()) mThread.interrupt();
     }
 
@@ -103,7 +103,7 @@ public class WebTimes extends Times {
 
     @Override
     public synchronized String getTime(LocalDate date, int time) {
-        App.aHandler.post(mCheckSync);
+        App.getHandler().post(mCheckSync);
 
         return super.getTime(date, time);
     }
@@ -116,7 +116,7 @@ public class WebTimes extends Times {
     private Runnable mCheckSync = new Runnable() {
         @Override
         public void run() {
-            App.aHandler.removeCallbacks(mCheckSync);
+            App.getHandler().removeCallbacks(mCheckSync);
             LocalDate ld = LocalDate.now();
             long lastSync = getLastSyncTime();
 

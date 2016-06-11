@@ -11,3 +11,4 @@
 *.log
 */build
 fabric.properties
+google-services.json
