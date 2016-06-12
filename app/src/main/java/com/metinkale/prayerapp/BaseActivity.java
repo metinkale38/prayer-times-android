@@ -38,6 +38,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -46,7 +47,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import java.io.File;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
+    private static String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
     public static BaseActivity CurrectAct;
     private int mNavPos;
     private ListView mNav;
@@ -57,9 +58,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public BaseActivity() {
         String clz = getClass().toString();
-        String[] pos = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
-        for (int i = 0; i < pos.length; i++) {
-            if (clz.contains("prayerapp." + pos[i])) {
+        for (int i = 0; i < mActs.length; i++) {
+            if (clz.contains("prayerapp." + mActs[i])) {
                 mNavPos = i;
             }
         }
@@ -68,15 +68,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String title = getResources().getStringArray(R.array.dropdown)[mNavPos];
+        if (App.getContext() == null) App.setContext(this);
 
 
         mTracker = App.getTracker();
-        mTracker.setScreenName("Act~" + title);
+        mTracker.setScreenName("Act~" + mActs[mNavPos]);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
 
-        if (App.getContext() == null) App.setContext(this);
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
@@ -109,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             launchIntent.putExtra("duplicate", false);
 
             intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
+            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getResources().getStringArray(R.array.dropdown)[mNavPos]);
             intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
 
             setResult(RESULT_OK, intent);

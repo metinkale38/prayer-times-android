@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "848712751891",
+    "project_id": "namaz-vakti-2c382"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848712751891:android:bacc6d5fd0aeb5c4",
+        "android_client_info": {
+          "package_name": "com.metinkale.prayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848712751891-li5t3uts41jd9so75qep4v9upkofa4cj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metinkale.prayer",
+            "certificate_hash": "56556CDD5A7317D2B421BE5E36B932B0B77F8766"
+          }
+        },
+        {
+          "client_id": "848712751891-kjop1kv900hd43rquf0pporuu9mjbatg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE5DpNavJ-p8r2LFJUaIBxyJC08TNlPqE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

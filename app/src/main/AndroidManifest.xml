@@ -47,6 +47,10 @@
             android:label="@string/vakit"
             android:noHistory="true"
             android:theme="@style/AppTheme">
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="10b75ffdc8ba3189bd35ee6e9b2a58b2712bf3c1"/>
+
         <activity
                 android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
                 android:showOnLockScreen="true"
