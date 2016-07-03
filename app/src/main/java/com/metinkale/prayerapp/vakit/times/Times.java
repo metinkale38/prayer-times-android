@@ -192,7 +192,6 @@ public abstract class Times extends TimesBase {
 
 
         LocalDate cal = LocalDate.now();
-
         for (int ii = 0; ii <= 1/* next day */; ii++) {
             for (Vakit v : Vakit.values()) {
                 if (isNotificationActive(v))
@@ -208,6 +207,7 @@ public abstract class Times extends TimesBase {
                             a.cuma = false;
                             a.time = mills;
                             a.vakit = v;
+                            a.dayOffset = ii;
                             alarms.add(a);
                         }
                     } else {
@@ -221,6 +221,7 @@ public abstract class Times extends TimesBase {
                             a.early = false;
                             a.time = mills;
                             a.vakit = v;
+                            a.dayOffset = ii;
                             alarms.add(a);
                         }
                     }
@@ -238,6 +239,7 @@ public abstract class Times extends TimesBase {
                         a.cuma = false;
                         a.time = mills;
                         a.vakit = v;
+                        a.dayOffset = ii;
                         alarms.add(a);
                     }
                 }
@@ -258,6 +260,7 @@ public abstract class Times extends TimesBase {
                     a.early = false;
                     a.time = mills;
                     a.vakit = Vakit.OGLE;
+                    a.dayOffset = ii;
                     alarms.add(a);
                 }
             }
@@ -418,6 +421,7 @@ public abstract class Times extends TimesBase {
         public boolean early;
         public long time;
         public Vakit vakit;
+        public int dayOffset;
 
         public static Alarm fromString(String json) {
             return new Gson().fromJson(json, Alarm.class);
