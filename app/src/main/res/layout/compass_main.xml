@@ -31,7 +31,7 @@
         android:textSize="18sp" />
 
     <FrameLayout
-        android:id="@+id/frag3D"
+        android:id="@+id/frag"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/selcity">

@@ -13,8 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.metinkale.prayer"
           android:installLocation="internalOnly">
@@ -39,9 +38,9 @@
             android:required="false"/>
 
     <application
-            android:fullBackupContent="true"
             android:name="com.metinkale.prayerapp.App"
             android:allowBackup="true"
+            android:fullBackupContent="true"
             android:hardwareAccelerated="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/vakit"
@@ -53,8 +52,8 @@
 
         <activity
                 android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
-                android:showOnLockScreen="true"
                 android:launchMode="singleInstance"
+                android:showOnLockScreen="true"
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
                 android:name="com.metinkale.prayerapp.vakit.Main"
@@ -156,8 +155,8 @@
         </activity>
         <activity
                 android:name="com.metinkale.prayerapp.compass.Main"
-                android:label="@string/compass"
                 android:icon="@mipmap/ic_compass"
+                android:label="@string/compass"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
@@ -166,8 +165,8 @@
             </intent-filter>
         </activity>
         <activity
-                android:icon="@mipmap/ic_names"
                 android:name="com.metinkale.prayerapp.names.Main"
+                android:icon="@mipmap/ic_names"
                 android:label="@string/names">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
@@ -177,9 +176,9 @@
         </activity>
         <activity android:name="com.metinkale.prayerapp.settings.Settings"/>
         <activity
-                android:label="@string/calendar"
+                android:name="com.metinkale.prayerapp.calendar.Main"
                 android:icon="@mipmap/ic_calendar"
-                android:name="com.metinkale.prayerapp.calendar.Main">
+                android:label="@string/calendar">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -188,8 +187,8 @@
         </activity>
         <activity android:name="com.metinkale.prayerapp.calendar.WebViewActivity"/>
         <activity
-                android:icon="@mipmap/ic_tesbihat"
                 android:name="com.metinkale.prayerapp.tesbihat.Tesbihat"
+                android:icon="@mipmap/ic_tesbihat"
                 android:label="@string/tesbihat">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
@@ -214,9 +213,9 @@
                 android:name="com.metinkale.prayerapp.compass.LocationPicker"
                 android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
-                android:logo="@mipmap/ic_zikr"
-                android:label="@string/zikr"
                 android:name="com.metinkale.prayerapp.zikr.Main"
+                android:label="@string/zikr"
+                android:logo="@mipmap/ic_zikr"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
@@ -304,7 +303,6 @@
                 <action android:name="android.intent.action.DATE_CHANGED"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name="com.metinkale.prayerapp.UserPresentReceiver">
             <intent-filter
                     android:enabled="true"
@@ -312,10 +310,22 @@
                 <action android:name="android.intent.action.USER_PRESENT"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$Audio"/>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setNormal"/>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setVibrate"/>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
+
 
     </application>
 

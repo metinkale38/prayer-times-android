@@ -57,13 +57,21 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private SensorManager mSensorManager;
     private TextView mSelCity;
     private MenuItem mRefresh;
+    private MenuItem mSwitch;
     private boolean mOnlyNew;
     private MyCompassListener mList;
     private OrientationCalculator mOrientationCalculator = new OrientationCalculatorImpl();
     private float[] mDerivedDeviceOrientation = {0, 0, 0};
-    private boolean m3D;
     private Frag2D mFrag2D;
     private Frag3D mFrag3D;
+    private FragMap mFragMap;
+    private Mode mMode;
+
+    enum Mode {
+        TwoDim,
+        ThreeDim,
+        Map,
+    }
 
     public static float getDistance() {
         return mDist;
@@ -96,20 +104,25 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         fragmentTransaction.commit();
     }
 
-    private void updateFrag(boolean is3d) {
+    private void updateFrag(Mode mode) {
 
 
-        if (is3d != m3D) {
+        if (mMode != mode) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            if (is3d) {
+            if (mode == Mode.TwoDim && mFrag2D.mHidden) {
+                fragmentTransaction.remove((Fragment) mList);
+                mList = mFrag2D;
+                mFrag2D.show();
+            } else if (mode == Mode.ThreeDim) {
 
                 if (PermissionUtils.get(this).pCamera) {
 
                     if (mFrag3D == null) mFrag3D = new Frag3D();
+
                     if (mList != mFrag3D) {
-                        fragmentTransaction.add(R.id.frag3D, mFrag3D, "3d");
+                        fragmentTransaction.replace(R.id.frag, mFrag3D, "3d");
 
                         mList = mFrag3D;
                         mFrag2D.hide();
@@ -118,16 +131,23 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                     PermissionUtils.get(this).needCamera(this);
                 }
 
-            } else if (mFrag2D.mHidden) {
-                fragmentTransaction.remove((Fragment) mList);
-                mList = mFrag2D;
-                mFrag2D.show();
-            }
+            } else if (mode == Mode.Map) {
 
+
+                if (mFragMap == null) mFragMap = new FragMap();
+
+                if (mList != mFragMap) {
+                    fragmentTransaction.replace(R.id.frag, mFragMap, "map");
+
+                    mList = mFragMap;
+                    mFrag2D.hide();
+                }
+
+
+            }
             fragmentTransaction.commit();
         }
-
-        m3D = is3d;
+        mMode = mode;
     }
 
     @Override
@@ -143,6 +163,19 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                     locMan.requestLocationUpdates(provider, 0, 0, this);
                 }
             }
+        } else if (mSwitch == item) {
+            if (mMode != Mode.Map) {
+                mSensorManager.unregisterListener(mMagAccel);
+                updateFrag(Mode.Map);
+                mSwitch.setIcon(R.drawable.ic_action_compass);
+            } else {
+                mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+                mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
+
+                updateFrag(Mode.TwoDim);
+
+                mSwitch.setIcon(R.drawable.ic_action_maps_map);
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -152,7 +185,11 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         mRefresh = menu.add(Menu.NONE, Menu.NONE, 1, R.string.refresh);
+        mSwitch = menu.add(Menu.NONE, Menu.NONE, 0, R.string.switchCompass);
         MenuItemCompat.setShowAsAction(mRefresh, MenuItemCompat.SHOW_AS_ACTION_NEVER);
+        MenuItemCompat.setShowAsAction(mSwitch, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+
+        mSwitch.setIcon(R.drawable.ic_action_maps_map);
         return true;
     }
 
@@ -219,14 +256,14 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionUtils.get(this).pCamera) {
-            m3D = false;
+            mMode = Mode.TwoDim;
         }
     }
 
     // RotationUpdateDelegate methods
     @Override
     public void onRotationUpdate(float[] newMatrix) {
-
+        if (mMode == Mode.Map) return;
         // remap matrix values according to display rotation, as in
         // SensorManager documentation.
         switch (mDisplayRotation) {
@@ -245,7 +282,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         mRotationMatrix.set(newMatrix);
         mOrientationCalculator.getOrientation(mRotationMatrix, mDisplayRotation, mDerivedDeviceOrientation);
 
-        updateFrag(mDerivedDeviceOrientation[1] > -55f);
+        updateFrag(mDerivedDeviceOrientation[1] > -55f ? Mode.ThreeDim : Mode.TwoDim);
 
         mList.onUpdateSensors(mDerivedDeviceOrientation);
     }
@@ -263,7 +300,6 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
     @Override
     public void onLocationChanged(Location location) {
-        calcQiblaAngel(location);
         if (System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24)) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);

@@ -150,4 +150,6 @@
     <string name="cuma">Freitagsgebet</string>
     <string name="fasting">Fasten</string>
     <string name="alternative_ongoing">Alternatives Notification-Widget</string>
+    <string name="mypos">Ich</string>
+    <string name="switchCompass">Kompass/Karte</string>
 </resources>
