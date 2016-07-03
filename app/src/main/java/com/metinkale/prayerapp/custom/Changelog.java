@@ -29,7 +29,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.settings.Settings;
 
 public class Changelog {
-    private static final int CHANGELOG_VERSION = 12;
+    private static final int CHANGELOG_VERSION = 13;
     private static Context mContext;
 
     public static void start(Context c) {
