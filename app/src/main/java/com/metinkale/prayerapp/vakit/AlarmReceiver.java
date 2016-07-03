@@ -216,6 +216,7 @@ public class AlarmReceiver extends IntentService {
         not.deleteIntent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         nm.notify(next.city + "", NotIds.ALARM, not);
+
         final MPHolder mp = new MPHolder();
 
 

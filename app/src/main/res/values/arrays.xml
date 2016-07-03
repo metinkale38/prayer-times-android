@@ -17,10 +17,20 @@
 
 <resources>
 
+    <string-array name="soundPicker">
+        <item>Dosyalardan seç</item>
+        <item>Telefon Seslerinden seç</item>
+    </string-array>
+
+
+
+
     <string-array name="widget_countdown" translatable="false">
         <item>01:23:45 => 01:23</item>
         <item>01:23:45 => 01:24</item>
     </string-array>
+
+
 
     <string-array name="widget_countdown_" translatable="false">
         <item>default</item>

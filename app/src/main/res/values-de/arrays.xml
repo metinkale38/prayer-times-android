@@ -17,6 +17,12 @@
 
 <resources>
 
+    <string-array name="soundPicker">
+        <item>Wähle Datei</item>
+        <item>Wähle Töne</item>
+    </string-array>
+
+
     <string-array name="lefttext_part">
         <item>Fajr</item>
         <item>Sonne</item>

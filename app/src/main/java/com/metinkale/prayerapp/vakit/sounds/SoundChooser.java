@@ -40,10 +40,12 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.PermissionUtils;
+import com.metinkale.prayerapp.custom.FileChooser;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.sounds.Sounds.Sound;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -174,12 +176,31 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             onResume = new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-                    i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                    Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                    startActivityForResult(chooserIntent, 0);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.other)
+                            .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        FileChooser chooser = new FileChooser(getActivity());
+                                        chooser.showDialog();
+                                        chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                            @Override
+                                            public void fileSelected(File file) {
+                                                onSelect(Uri.fromFile(file));
+                                            }
+                                        });
+                                    } else {
+                                        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                                        Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
+                                        startActivityForResult(chooserIntent, 0);
+                                    }
+                                }
+                            });
+                    builder.show();
+
                 }
             };
             if (PermissionUtils.get(getActivity()).pStorage) {
@@ -253,20 +274,28 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
-            try {
-                MediaPlayer mp = new MediaPlayer();
-                mp.setDataSource(getActivity(), uri);
-                mp.release();
-            } catch (Exception e) {
-                Toast.makeText(getActivity(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (uri != null) {
-                mCb.setCurrent(uri.toString());
-                dismiss();
-                new SoundChooser().showExpanded(getFragmentManager(), mCb);
+            onSelect(uri);
+        }
+    }
 
-            }
+    private void onSelect(Uri uri) {
+        try {
+            MediaPlayer mp = new MediaPlayer();
+            mp.setDataSource(getActivity(), uri);
+            mp.prepare();
+            mp.start();
+            mp.reset();
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
+            dismiss();
+            new SoundChooser().showExpanded(getFragmentManager(), mCb);
+            return;
+        }
+        if (uri != null) {
+            mCb.setCurrent(uri.toString());
+            dismiss();
+            new SoundChooser().showExpanded(getFragmentManager(), mCb);
+
         }
     }
 

@@ -17,6 +17,13 @@
 
 <resources>
 
+    <string-array name="soundPicker">
+        <item>File Picker</item>
+        <item>Sound Picker</item>
+    </string-array>
+
+
+
     <string-array name="lefttext_part">
         <item>Fajr</item>
         <item>Sun</item>
