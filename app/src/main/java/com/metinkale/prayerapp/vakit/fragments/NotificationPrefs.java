@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
@@ -36,9 +36,6 @@ import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
-
-import static com.metinkale.prayer.R.id.vibration;
-
 
 public class NotificationPrefs extends Fragment {
     private Times mTimes;
@@ -93,7 +90,7 @@ public class NotificationPrefs extends Fragment {
 
     private void initCuma(int switchId, int textId, int expandId, final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final RelativeLayout expand = (RelativeLayout) mView.findViewById(expandId);
+        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
         sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -105,7 +102,25 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        ((View) mView.findViewById(textId).getParent()).setOnClickListener(new View.OnClickListener() {
+        View title = (View) mView.findViewById(textId).getParent();
+
+        title.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!BuildConfig.DEBUG) return false;
+                mTestAlarm = true;
+                Times.Alarm a = new Times.Alarm();
+                a.time = System.currentTimeMillis() + 5 * 1000;
+                a.city = mTimes.getID();
+                a.cuma=true;
+                a.vakit = vakit;
+                AlarmReceiver.setAlarm(getActivity(), a);
+                Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+      title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sw.isChecked())
@@ -131,7 +146,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(vibration);
+        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -176,7 +191,7 @@ public class NotificationPrefs extends Fragment {
 
     private void initMain(int switchId, int textId, final int expandId, final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final RelativeLayout expand = (RelativeLayout) mView.findViewById(expandId);
+        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isNotificationActive(vakit));
         sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -189,16 +204,6 @@ public class NotificationPrefs extends Fragment {
         });
 
         View title = (View) mView.findViewById(textId).getParent();
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sw.isChecked()) {
-                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                } else {
-                    Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         title.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -212,6 +217,16 @@ public class NotificationPrefs extends Fragment {
                 AlarmReceiver.setAlarm(getActivity(), a);
                 Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                 return true;
+            }
+        });
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sw.isChecked()) {
+                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+                } else {
+                    Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -230,7 +245,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(vibration);
+        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -293,7 +308,7 @@ public class NotificationPrefs extends Fragment {
 
     private void initEarly(int switchId, int textId, int expandId, final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final RelativeLayout expand = (RelativeLayout) mView.findViewById(expandId);
+        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
 
@@ -306,7 +321,25 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        ((View) mView.findViewById(textId).getParent()).setOnClickListener(new View.OnClickListener() {
+
+        View title = (View) mView.findViewById(textId).getParent();
+
+        title.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!BuildConfig.DEBUG) return false;
+                mTestAlarm = true;
+                Times.Alarm a = new Times.Alarm();
+                a.time = System.currentTimeMillis() + 5 * 1000;
+                a.city = mTimes.getID();
+                a.early=true;
+                a.vakit = vakit;
+                AlarmReceiver.setAlarm(getActivity(), a);
+                Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+      title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sw.isChecked())
@@ -331,7 +364,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(vibration);
+        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -372,6 +405,9 @@ public class NotificationPrefs extends Fragment {
                 mTimes.setEarlyTime(vakit, (int) obj);
             }
         });
+
+
+
     }
 
     @Override

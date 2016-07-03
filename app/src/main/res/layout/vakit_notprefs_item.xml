@@ -20,37 +20,29 @@
             android:id="@+id/sound"
             android:layout_width="60dp"
             android:layout_height="60dp"
-
             android:tag="Sound"/>
 
     <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/vibration"
-            android:layout_toRightOf="@+id/sound"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:tag="Vibration"/>
 
     <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/silenter"
-            android:layout_toRightOf="@+id/vibration"
             android:layout_width="60dp"
             android:layout_height="60dp"
-
             android:tag="Silenter"/>
 
     <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/dua"
-            android:layout_toRightOf="@+id/silenter"
             android:layout_width="60dp"
             android:layout_height="60dp"
-
             android:tag="Dua"/>
 
     <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/time"
-            android:layout_toRightOf="@+id/dua"
             android:layout_width="60dp"
             android:layout_height="60dp"
-
             android:tag="Time"/>
 </merge>

@@ -26,9 +26,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../../app/build/intermediates/classes/debug" />
-    <output-test url="file://$MODULE_DIR$/../../../app/build/intermediates/classes/androidTest/debug" />
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../app">
       <sourceFolder url="file://$MODULE_DIR$/../../../app/build/generated/source/r/debug" isTestSource="false" generated="true" />
@@ -108,7 +106,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="firebase-iid-9.0.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.7-SNAPSHOT" level="project" />
