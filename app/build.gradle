@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:+'
     }
 }
 apply plugin: 'com.android.application'
@@ -31,7 +31,7 @@ android {
 
     signingConfigs {
         debugKey {
-            storeFile file('D:/Dropbox/Dokumente/Sonstiges/debug.keystore')
+            storeFile file('/home/metin/Daten/Dropbox/Dokumente/Sonstiges/debug.keystore')
             keyAlias 'androiddebugkey'
             keyPassword 'android'
             storePassword 'android'
@@ -87,7 +87,7 @@ dependencies {
     }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
-    compile 'com.android.support:percent:23.1.1'
+    compile 'com.android.support:percent:23.4.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:appcompat-v7:23.4.0'

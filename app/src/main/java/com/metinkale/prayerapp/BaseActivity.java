@@ -38,7 +38,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -68,14 +67,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (App.getContext() == null) App.setContext(this);
+        if (App.getContext() == null) {
+            App.setContext(this);
+        }
 
 
         mTracker = App.getTracker();
         mTracker.setScreenName("Act~" + mActs[mNavPos]);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-
-
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
@@ -135,7 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mNavBar = findViewById(R.id.navbar);
         setNavBarColor(0xff000000);
-        if (setNavBar() && getBottomMargin() != 0) {
+        if (setNavBar() && (getBottomMargin() != 0)) {
             mNavBar.setVisibility(View.VISIBLE);
             mNavBar.getLayoutParams().height = getBottomMargin();
         } else {
@@ -157,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public View getView(int pos, View v, ViewGroup p) {
                 v = super.getView(pos, v, p);
-                if (pos == mNavPos && v instanceof TextView) {
+                if ((pos == mNavPos) && (v instanceof TextView)) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 }
                 return v;
@@ -167,7 +166,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mNav.setOnItemClickListener(new MyClickListener());
 
         String title = list.getItem(mNavPos);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.vakit, R.string.vakit) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.appName, R.string.appName) {
 
             @Override
             public void onDrawerClosed(View view) {
@@ -266,7 +265,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     } else {
                         f.delete();
                         AlertDialog dialog = new AlertDialog.Builder(BaseActivity.this).create();
-                        dialog.setTitle(R.string.hadis);
+                        dialog.setTitle(R.string.hadith);
                         dialog.setMessage(getString(R.string.dlHadith));
                         dialog.setCancelable(false);
                         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {

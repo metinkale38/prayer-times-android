@@ -60,7 +60,7 @@ public class WidgetService extends Service {
             long id = mOngoing.get(i);
             Times t = Times.getTimes(id);
 
-            if (t == null || !t.isOngoingNotificationActive()) {
+            if ((t == null) || !t.isOngoingNotificationActive()) {
                 nm.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
             }
@@ -70,13 +70,14 @@ public class WidgetService extends Service {
 
             Times t = Times.getTimes(id);
 
-            if (t != null && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
+            if ((t != null) && t.isOngoingNotificationActive() && !mOngoing.contains(id)) {
                 mOngoing.add(id);
             }
         }
 
-        if (mAbIcon == null)
+        if (mAbIcon == null) {
             mAbIcon = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ic_abicon);
+        }
 
         LocalDate cal = LocalDate.now();
         String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
@@ -88,35 +89,16 @@ public class WidgetService extends Service {
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
             Notification noti = null;
             boolean icon = PreferenceManager.getDefaultSharedPreferences(App.getContext()).getBoolean("ongoingIcon", true);
-            if (!Prefs.getAlternativeOngoing()) {
-                int n = t.getNext();
-                String sum = App.getContext().getString(R.string.lefttext, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
-                noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.getContext())
-                        .setContentTitle(t.getName() + " (" + t.getSource() + ")")
-                        .setContentText("")
-                        .setLargeIcon(mAbIcon)
-                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
-                        .setContentInfo(sum)
-                        .setContentIntent(Main.getPendingIntent(t))
-                        .setOngoing(true))
-                        .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
-                        .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
-                        .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
-                        .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
-                        .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
-                        .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
-                        .setSummaryText("")
-                        .build();
-            } else {
+            if (Prefs.getAlternativeOngoing()) {
                 RemoteViews views = new RemoteViews(App.getContext().getPackageName(), R.layout.notification_layout);
 
-                int[] timeIds = new int[]{R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
-                int[] vakitIds = new int[]{R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+                int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
+                int[] vakitIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
 
                 int next = t.getNext();
 
                 for (int i = 0; i < dt.length; i++) {
-                    if (next - 1 == i) {
+                    if ((next - 1) == i) {
                         views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + dt[i] + "</em></strong>"));
                     } else {
                         views.setTextViewText(timeIds[i], dt[i]);
@@ -124,7 +106,7 @@ public class WidgetService extends Service {
                 }
 
                 for (int i = 0; i < dt.length; i++) {
-                    if (next - 1 == i) {
+                    if ((next - 1) == i) {
                         views.setTextViewText(vakitIds[i], Html.fromHtml("<strong><em>" + Vakit.getByIndex(i).getString() + "</em></strong>"));
                     } else {
                         views.setTextViewText(vakitIds[i], Vakit.getByIndex(i).getString());
@@ -158,9 +140,30 @@ public class WidgetService extends Service {
                         .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
                         .setOngoing(true)
                         .build();
+            } else {
+                int n = t.getNext();
+                String sum = App.getContext().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
+                noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.getContext())
+                        .setContentTitle(t.getName() + " (" + t.getSource() + ")")
+                        .setContentText("")
+                        .setLargeIcon(mAbIcon)
+                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
+                        .setContentInfo(sum)
+                        .setContentIntent(Main.getPendingIntent(t))
+                        .setOngoing(true))
+                        .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
+                        .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
+                        .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
+                        .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
+                        .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
+                        .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
+                        .setSummaryText("")
+                        .build();
             }
 
-            if (Build.VERSION.SDK_INT >= 16) noti.priority = Notification.PRIORITY_LOW;
+            if (Build.VERSION.SDK_INT >= 16) {
+                noti.priority = Notification.PRIORITY_LOW;
+            }
             noti.when = icon ? System.currentTimeMillis() : 0;
             try {
                 nm.notify(id + "", NotIds.ONGOING, noti);
@@ -194,18 +197,18 @@ public class WidgetService extends Service {
     }
 
 
-    private static Integer COLOR_1ST = null;
-    private static Integer COLOR_2ND = null;
+    private static Integer COLOR_1ST;
+    private static Integer COLOR_2ND;
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
 
     private static boolean recurseGroup(ViewGroup gp) {
-        final int count = gp.getChildCount();
+        int count = gp.getChildCount();
         for (int i = 0; i < count; ++i) {
             View v = gp.getChildAt(i);
             if (v instanceof TextView) {
-                final TextView text = (TextView) v;
-                final String szText = text.getText().toString();
+                TextView text = (TextView) v;
+                String szText = text.getText().toString();
                 if (COLOR_SEARCH_1ST.equals(szText)) {
                     COLOR_1ST = text.getCurrentTextColor();
                 }
@@ -213,16 +216,22 @@ public class WidgetService extends Service {
                     COLOR_2ND = text.getCurrentTextColor();
                 }
 
-                if (COLOR_1ST != null && COLOR_2ND != null) return true;
-            } else if (gp.getChildAt(i) instanceof ViewGroup)
-                if (recurseGroup((ViewGroup) v)) return true;
+                if ((COLOR_1ST != null) && (COLOR_2ND != null)) {
+                    return true;
+                }
+            } else if (gp.getChildAt(i) instanceof ViewGroup) {
+                if (recurseGroup((ViewGroup) v)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     private static void extractColors() {
-        if (COLOR_1ST != null)
+        if (COLOR_1ST != null) {
             return;
+        }
 
 
         try {
@@ -238,9 +247,11 @@ public class WidgetService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (COLOR_1ST == null)
+        if (COLOR_1ST == null) {
             COLOR_1ST = Color.BLACK;
-        if (COLOR_2ND == null)
+        }
+        if (COLOR_2ND == null) {
             COLOR_2ND = Color.DKGRAY;
+        }
     }
 }

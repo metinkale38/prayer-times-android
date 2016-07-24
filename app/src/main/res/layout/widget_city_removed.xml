@@ -14,6 +14,9 @@
   ~ limitations under the License.
   -->
 
-<ImageView android:id="@+id/image" xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_height="wrap_content"
-    android:layout_width="wrap_content" android:src="@mipmap/ic_launcher"></ImageView>
+<ImageView android:contentDescription="@null"
+           android:id="@+id/image"
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+           android:src="@mipmap/ic_launcher"></ImageView>

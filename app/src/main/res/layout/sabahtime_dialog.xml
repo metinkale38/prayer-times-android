@@ -16,33 +16,33 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
 
     <NumberPicker
-        android:id="@+id/number_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:id="@+id/number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     <RadioGroup
-        android:id="@+id/rg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:id="@+id/rg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/beforeGunes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/beforeSun" />
+                android:id="@+id/beforeGunes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/beforeSun"/>
 
         <RadioButton
-            android:id="@+id/afterImsak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/afterImsak" />
+                android:id="@+id/afterImsak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/afterImsak"/>
     </RadioGroup>
 
 </LinearLayout>

@@ -19,7 +19,6 @@
         android:background="#ffffff"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/fragRoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -33,7 +32,7 @@
             android:background="@color/kerahat"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="@string/kerahat"
+            android:text="@string/kerahatTime"
             android:textColor="#ffffff"
             android:textSize="18sp"
             android:visibility="gone"/>
@@ -80,7 +79,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/imsak"/>
+            android:text="@string/fajr"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:layout_below="@id/hicri"
@@ -100,7 +99,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/gunes"/>
+            android:text="@string/sun"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:layout_below="@id/imsak"
@@ -120,7 +119,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/ogle"/>
+            android:text="@string/zuhr"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:layout_below="@id/gunes"
@@ -140,7 +139,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/ikindi"/>
+            android:text="@string/asr"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:layout_below="@id/ogle"
@@ -160,7 +159,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/aksam"/>
+            android:text="@string/maghrib"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:id="@+id/aksamtime"
@@ -180,7 +179,7 @@
             app:layout_heightPercent="8%"
             android:paddingLeft="50dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/yatsi"/>
+            android:text="@string/ishaa"/>
 
     <com.metinkale.prayerapp.custom.AutoResizeTextView
             android:layout_below="@id/aksam"
@@ -215,7 +214,7 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/vakit"/>
+            android:contentDescription="@string/appName"/>
 
     <ImageView
             android:adjustViewBounds="true"
@@ -228,7 +227,7 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/vakit"/>
+            android:contentDescription="@string/appName"/>
 
     <View
             android:layout_width="match_parent"

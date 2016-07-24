@@ -25,7 +25,7 @@ class Shuffled {
     public static Collection<Integer> getList() {
         if (list.isEmpty()) {
             int c = SqliteHelper.get().getCount();
-            for (int i = 1; i <= c + 1; i++) {
+            for (int i = 1; i <= (c + 1); i++) {
                 list.add(i);
             }
 

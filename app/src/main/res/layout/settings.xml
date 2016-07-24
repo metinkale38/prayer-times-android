@@ -15,13 +15,13 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
 
     <fragment
-        android:id="@+id/fragment"
-        android:name="com.metinkale.prayerapp.settings.Settings$SettingsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            android:id="@+id/setfrag"
+            android:name="com.metinkale.prayerapp.settings.Settings$SettingsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>

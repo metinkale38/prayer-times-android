@@ -37,7 +37,9 @@ public abstract class Times extends TimesBase {
 
     Times(long id) {
         super(id);
-        if (!sTimes.contains(this)) sTimes.add(this);
+        if (!sTimes.contains(this)) {
+            sTimes.add(this);
+        }
     }
 
 
@@ -45,11 +47,13 @@ public abstract class Times extends TimesBase {
     }
 
 
-    private static List<TimesListener> sListeners = new ArrayList<>();
+    private static Collection<TimesListener> sListeners = new ArrayList<>();
     private static List<Times> sTimes = new ArrayList<Times>() {
         @Override
         public boolean add(Times object) {
-            if (object == null) return false;
+            if (object == null) {
+                return false;
+            }
             boolean ret = super.add(object);
             notifyDataSetChanged();
             return ret;
@@ -97,7 +101,7 @@ public abstract class Times extends TimesBase {
     }
 
     public interface TimesListener {
-        public void notifyDataSetChanged();
+        void notifyDataSetChanged();
     }
 
 
@@ -107,8 +111,11 @@ public abstract class Times extends TimesBase {
 
     public static Times getTimes(long id) {
         for (Times t : sTimes) {
-            if (t != null)
-                if (t.getID() == id) return t;
+            if (t != null) {
+                if (t.getID() == id) {
+                    return t;
+                }
+            }
         }
         return null;
     }
@@ -157,7 +164,9 @@ public abstract class Times extends TimesBase {
         List<Long> ids = new ArrayList<>();
         List<Times> times = getTimes();
         for (Times t : times) {
-            if (t != null) ids.add(t.getID());
+            if (t != null) {
+                ids.add(t.getID());
+            }
         }
         return ids;
     }
@@ -168,10 +177,12 @@ public abstract class Times extends TimesBase {
 
     public static List<Alarm> getAllAlarms() {
         List<Alarm> alarms = new ArrayList<>();
-        List<Long> ids = Times.getIds();
+        List<Long> ids = getIds();
         for (long id : ids) {
-            Times t = Times.getTimes(id);
-            if (t == null) continue;
+            Times t = getTimes(id);
+            if (t == null) {
+                continue;
+            }
             alarms.addAll(t.getAlarms());
         }
         return alarms;
@@ -188,16 +199,18 @@ public abstract class Times extends TimesBase {
     }
 
     Collection<Alarm> getAlarms() {
-        List<Alarm> alarms = new ArrayList<>();
+        Collection<Alarm> alarms = new ArrayList<>();
 
 
         LocalDate cal = LocalDate.now();
         for (int ii = 0; ii <= 1/* next day */; ii++) {
             for (Vakit v : Vakit.values()) {
-                if (isNotificationActive(v))
+                if (isNotificationActive(v)) {
                     if (v != Vakit.SABAH) {
                         int vakit = v.ordinal();
-                        if (vakit != 0) vakit--;
+                        if (vakit != 0) {
+                            vakit--;
+                        }
 
                         long mills = getTimeCal(cal, vakit).getMillis();
                         if (System.currentTimeMillis() < mills) {
@@ -212,8 +225,11 @@ public abstract class Times extends TimesBase {
                         }
                     } else {
                         long mills;
-                        if (isAfterImsak()) mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
-                        else mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
+                        if (isAfterImsak()) {
+                            mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
+                        } else {
+                            mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
+                        }
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -225,22 +241,27 @@ public abstract class Times extends TimesBase {
                             alarms.add(a);
                         }
                     }
+                }
 
-                if (isEarlyNotificationActive(v)) if (v != Vakit.SABAH) {
-                    int vakit = v.ordinal();
-                    if (vakit != 0) vakit--;
+                if (isEarlyNotificationActive(v)) {
+                    if (v != Vakit.SABAH) {
+                        int vakit = v.ordinal();
+                        if (vakit != 0) {
+                            vakit--;
+                        }
 
-                    int early = getEarlyTime(v);
-                    long mills = getTimeCal(cal, vakit).getMillis() - early * 60 * 1000;
-                    if (System.currentTimeMillis() < mills) {
-                        Alarm a = new Alarm();
-                        a.city = getID();
-                        a.early = true;
-                        a.cuma = false;
-                        a.time = mills;
-                        a.vakit = v;
-                        a.dayOffset = ii;
-                        alarms.add(a);
+                        int early = getEarlyTime(v);
+                        long mills = getTimeCal(cal, vakit).getMillis() - early * 60 * 1000;
+                        if (System.currentTimeMillis() < mills) {
+                            Alarm a = new Alarm();
+                            a.city = getID();
+                            a.early = true;
+                            a.cuma = false;
+                            a.time = mills;
+                            a.vakit = v;
+                            a.dayOffset = ii;
+                            alarms.add(a);
+                        }
                     }
                 }
             }
@@ -250,7 +271,9 @@ public abstract class Times extends TimesBase {
                 int early = getCumaTime();
 
                 DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
-                if (c.getMillis() + 1000 < System.currentTimeMillis()) c = c.plusWeeks(1);
+                if ((c.getMillis() + 1000) < System.currentTimeMillis()) {
+                    c = c.plusWeeks(1);
+                }
                 long mills = getTimeCal(c.toLocalDate(), 2).getMillis();
                 mills -= early * 60 * 1000;
                 if (System.currentTimeMillis() < mills) {
@@ -274,7 +297,7 @@ public abstract class Times extends TimesBase {
         if (date == null) {
             date = LocalDate.now();
         }
-        if (time < 0 || time > 5) {
+        if ((time < 0) || (time > 5)) {
             while (time >= 6) {
                 date = date.plusDays(1);
                 time -= 6;
@@ -289,7 +312,9 @@ public abstract class Times extends TimesBase {
 
         DateTime timeCal = date.toDateTime(new LocalTime(getTime(date, time)));
         int h = timeCal.getHourOfDay();
-        if (time >= 3 && h < 5) timeCal = timeCal.plusDays(1);
+        if ((time >= 3) && (h < 5)) {
+            timeCal = timeCal.plusDays(1);
+        }
         return timeCal;
     }
 
@@ -298,7 +323,7 @@ public abstract class Times extends TimesBase {
         if (date == null) {
             date = LocalDate.now();
         }
-        if (time < 0 || time > 5) {
+        if ((time < 0) || (time > 5)) {
             while (time >= 6) {
                 date = date.plusDays(1);
                 time -= 6;
@@ -331,7 +356,9 @@ public abstract class Times extends TimesBase {
         try {
             double drift = getTZFix();
             int[] adj = getMinuteAdj();
-            if (drift == 0 && adj[t] == 0) return time;
+            if ((drift == 0) && (adj[t] == 0)) {
+                return time;
+            }
 
             int h = (int) Math.round(drift - 0.5);
             int m = (int) ((drift - h) * 60);
@@ -362,11 +389,13 @@ public abstract class Times extends TimesBase {
     public String getLeft(int next, boolean showsecs) {
         LocalTime left = new LocalTime(getLeftMills(next));
 
-        if (showsecs)
+        if (showsecs) {
             return left.toString("HH:mm:ss");
-        else if (Prefs.isDefaultWidgetMinuteType())
+        } else if (Prefs.isDefaultWidgetMinuteType()) {
             return left.toString("HH:mm");
-        else return Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1);
+        } else {
+            return Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1);
+        }
 
     }
 
@@ -382,7 +411,9 @@ public abstract class Times extends TimesBase {
     public int getNext() {
         long mills = System.currentTimeMillis();
         for (int i = 0; i < 6; i++) {
-            if (mills < getMills(i)) return i;
+            if (mills < getMills(i)) {
+                return i;
+            }
         }
         return 6;
     }
@@ -394,13 +425,17 @@ public abstract class Times extends TimesBase {
 
     public boolean isKerahat() {
         long m = getLeftMills(1) + getTZOffset();
-        if (m <= 0 && m > Prefs.getKerahatSunrise() * -60000) return true;
+        if ((m <= 0) && (m > (Prefs.getKerahatSunrise() * -60000))) {
+            return true;
+        }
 
         m = getLeftMills(2) + getTZOffset();
-        if (m >= 0 && m < Prefs.getKerahatIstiwa() * 60000) return true;
+        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa() * 60000))) {
+            return true;
+        }
 
         m = getLeftMills(4) + getTZOffset();
-        return m >= 0 && m < Prefs.getKerahatSunet() * 60000;
+        return (m >= 0) && (m < (Prefs.getKerahatSunet() * 60000));
 
     }
 

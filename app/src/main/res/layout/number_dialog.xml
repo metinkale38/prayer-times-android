@@ -15,137 +15,137 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/nr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:editable="false"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="number"
-            android:textColor="#000000"></EditText>
+                android:id="@+id/nr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:editable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="number"
+                android:textColor="#000000"></EditText>
 
         <TextView
-            android:id="@+id/max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="/7300" />
+                android:id="@+id/max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/7300"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <Button
 
-            android:id="@+id/k1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1" />
+                android:id="@+id/k1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1"/>
 
         <Button
-            android:id="@+id/k2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2" />
+                android:id="@+id/k2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2"/>
 
         <Button
-            android:id="@+id/k3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3" />
+                android:id="@+id/k3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3"/>
 
         <Button
-            android:id="@+id/back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="&lt;-" />
+                android:id="@+id/back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="&lt;-"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/k4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="4" />
+                android:id="@+id/k4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="4"/>
 
         <Button
-            android:id="@+id/k5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="5" />
+                android:id="@+id/k5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5"/>
 
         <Button
-            android:id="@+id/k6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="6" />
+                android:id="@+id/k6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="6"/>
 
         <Button
-            android:id="@+id/prev"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="&lt;&lt;" />
+                android:id="@+id/prev"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="&lt;&lt;"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/k7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="7" />
+                android:id="@+id/k7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7"/>
 
         <Button
-            android:id="@+id/k8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="8" />
+                android:id="@+id/k8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="8"/>
 
         <Button
-            android:id="@+id/k9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="9" />
+                android:id="@+id/k9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="9"/>
 
         <Button
-            android:id="@+id/next"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=">>" />
+                android:id="@+id/next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=">>"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/k0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0" />
+            android:id="@+id/k0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"/>
 
 </LinearLayout>

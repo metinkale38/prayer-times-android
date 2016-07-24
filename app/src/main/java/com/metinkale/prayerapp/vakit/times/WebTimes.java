@@ -53,12 +53,16 @@ public class WebTimes extends Times {
     public void delete() {
         super.delete();
         App.getHandler().removeCallbacks(mCheckSync);
-        if (mThread != null && mThread.isAlive()) mThread.interrupt();
+        if ((mThread != null) && mThread.isAlive()) {
+            mThread.interrupt();
+        }
     }
 
     @Override
     public void refresh() {
-        if (getId() == null || !App.isOnline() || mSyncing) return;
+        if ((getId() == null) || !App.isOnline() || mSyncing) {
+            return;
+        }
 
         if (Thread.currentThread() != mThread) {
             Thread t = new Thread() {
@@ -66,10 +70,14 @@ public class WebTimes extends Times {
                 public void run() {
                     refresh();
 
-                    if (mThread == this) mThread = null;
+                    if (mThread == this) {
+                        mThread = null;
+                    }
                 }
             };
-            if (t.getState() == Thread.State.NEW) t.start();
+            if (t.getState() == Thread.State.NEW) {
+                t.start();
+            }
 
             mThread = t;
             return;
@@ -120,7 +128,7 @@ public class WebTimes extends Times {
             LocalDate ld = LocalDate.now();
             long lastSync = getLastSyncTime();
 
-            if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24) {
+            if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24)) {
                 // always if +15 days does not exist
                 ld = ld.plusDays(15);
                 if ("00:00".equals(getTime(ld, 1))) {
@@ -133,20 +141,27 @@ public class WebTimes extends Times {
                 NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
                 int reasons = 0;
-                if (wifi.isConnected()) reasons++;
+                if (wifi.isConnected()) {
+                    reasons++;
+                }
 
                 try {
                     IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
                     Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL)
+                    if ((status == BatteryManager.BATTERY_STATUS_CHARGING) || (status == BatteryManager.BATTERY_STATUS_FULL)) {
                         reasons++;
+                    }
                 } catch (Exception ignore) {
                     Crashlytics.logException(ignore);
                 }
-                if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) reasons++;
+                if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
+                    reasons++;
+                }
 
-                if (Main.isRunning) reasons++;
+                if (Main.isRunning) {
+                    reasons++;
+                }
 
                 ld = ld.plusDays(reasons * 3);
                 // if +15+reasons*3 days does not exist
@@ -156,7 +171,7 @@ public class WebTimes extends Times {
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
-                if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * (60 - reasons * 5)) {
+                if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
                     refresh();
                     return;
                 }
@@ -207,13 +222,19 @@ public class WebTimes extends Times {
 
 
     protected String az(int i) {
-        if (i < 10) return "0" + i;
-        else return i + "";
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i + "";
+        }
     }
 
     protected String az(String i) {
-        if (i.length() == 1) return "0" + i;
-        else return i + "";
+        if (i.length() == 1) {
+            return "0" + i;
+        } else {
+            return i + "";
+        }
     }
 
 
@@ -229,7 +250,9 @@ public class WebTimes extends Times {
     @Override
     public synchronized String _getTime(LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
-        if (str == null) return "00:00";
+        if (str == null) {
+            return "00:00";
+        }
         return str.replace("*", "");
     }
 
@@ -239,8 +262,9 @@ public class WebTimes extends Times {
     }
 
     public void setTimes(LocalDate date, String[] value) {
-        for (int i = 0; i < value.length; i++)
+        for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
+        }
     }
 
     public synchronized String getId() {

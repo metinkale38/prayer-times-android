@@ -48,7 +48,7 @@ public class IGMGTimes extends WebTimes {
         int Y = rY;
         int m = ldate.getMonthOfYear();
 
-        for (int M = m; M <= m + 1 && rY == Y; M++) {
+        for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
             if (M == 13) {
                 M = 1;
                 Y++;
@@ -63,9 +63,11 @@ public class IGMGTimes extends WebTimes {
             String line = reader.readLine();
 
             line = line.substring(line.indexOf("<div class='zeiten'>") + 20);
-            String zeiten[] = line.split("</div><div class='zeiten'>");
+            String[] zeiten = line.split("</div><div class='zeiten'>");
             for (String zeit : zeiten) {
-                if (zeit.contains("turkish")) continue;
+                if (zeit.contains("turkish")) {
+                    continue;
+                }
                 String tarih = extractLine(zeit.substring(zeit.indexOf("tarih")));
                 String imsak = extractLine(zeit.substring(zeit.indexOf("imsak")));
                 String gunes = extractLine(zeit.substring(zeit.indexOf("gunes")));

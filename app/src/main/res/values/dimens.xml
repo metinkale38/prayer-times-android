@@ -16,8 +16,5 @@
   -->
 
 <resources>
-    <dimen name="dimen1dp">1dp</dimen>
-    <dimen name="dimen2dp">2dp</dimen>
     <dimen name="dimen4dp">4dp</dimen>
-    <dimen name="dimen8dp">8dp</dimen>
 </resources>

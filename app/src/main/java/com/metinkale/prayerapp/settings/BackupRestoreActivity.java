@@ -62,7 +62,9 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (!PermissionUtils.get(this).pStorage) finish();
+        if (!PermissionUtils.get(this).pStorage) {
+            finish();
+        }
     }
 
     @Override
@@ -110,7 +112,9 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
     public void backup(View v) {
 
-        if (!mFolder.exists()) mFolder.mkdirs();
+        if (!mFolder.exists()) {
+            mFolder.mkdirs();
+        }
 
         File zipFile = new File(mFolder, DateFormat.format("yyyy-MM-dd HH.mm.ss", new Date()) + ".zip");
 
@@ -118,7 +122,9 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             Zip zip = new Zip(zipFile.getAbsolutePath());
             File files = getFilesDir();
             for (String file : files.list()) {
-                if (file.contains(".Fabric")) continue;
+                if (file.contains(".Fabric")) {
+                    continue;
+                }
                 zip.addFile("files", files.getAbsolutePath() + "/" + file);
             }
             files = new File(files.getParentFile(), "databases");
@@ -218,7 +224,9 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
         @Override
         public int getCount() {
-            if (mFolder.listFiles() == null) return 0;
+            if (mFolder.listFiles() == null) {
+                return 0;
+            }
             return mFolder.listFiles().length;
         }
 

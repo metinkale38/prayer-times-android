@@ -92,8 +92,9 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         } catch (ClassCastException e) {
             widgets.edit().remove(widgetId + "").apply();
         }
-        if (id != 0)
+        if (id != 0) {
             times = Times.getTimes(id);
+        }
         if (times == null) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
@@ -135,23 +136,23 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         paint.setColor(theme.textcolor);
 
         float cs = s / 5;
-        float ts = s * 35 / 100;
+        float ts = (s * 35) / 100;
         int vs = s / 4;
         paint.setTextSize(cs);
-        cs = cs * s * 0.9f / paint.measureText(city);
-        cs = cs > vs ? vs : cs;
+        cs = (cs * s * 0.9f) / paint.measureText(city);
+        cs = (cs > vs) ? vs : cs;
 
         paint.setTextSize(vs);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(Vakit.getByIndex(next - 1).getString(), s / 2, s * 22 / 80, paint);
+        canvas.drawText(Vakit.getByIndex(next - 1).getString(), s / 2, (s * 22) / 80, paint);
 
         paint.setTextSize(ts);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(left, s / 2, s / 2 + ts * 1 / 3, paint);
+        canvas.drawText(left, s / 2, (s / 2) + ((ts * 1) / 3), paint);
 
         paint.setTextSize(cs);
         paint.setTextAlign(Align.CENTER);
-        canvas.drawText(city, s / 2, s * 3 / 4 + cs * 2 / 3, paint);
+        canvas.drawText(city, s / 2, ((s * 3) / 4) + ((cs * 2) / 3), paint);
 
         paint.setStyle(Style.STROKE);
         float stroke = mDP;
@@ -164,8 +165,9 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
-            if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+            if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
                 Crashlytics.logException(e);
+            }
         }
 
     }
@@ -197,7 +199,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if ((w * h) != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

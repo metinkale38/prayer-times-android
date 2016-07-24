@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import java.util.TimeZone;
 public class CalcTimes extends Times {
 
     private String method;
+    private double[] customMethodParams = new double[6];
     private String adjMethod;
     private String juristic;
     private transient PrayTime mPrayTime;
@@ -54,7 +56,10 @@ public class CalcTimes extends Times {
         if (mPrayTime == null) {
             mPrayTime = new PrayTime();
             try {
-                mPrayTime.setCalcMethod(getMethod());
+                if (getMethod() == Method.Custom)
+                    mPrayTime.setMethodParams(customMethodParams);
+                else
+                    mPrayTime.setMethodParams(getMethod().params);
                 mPrayTime.setAsrJuristic(getJuristic());
                 mPrayTime.setAdjustHighLats(getAdjMethod());
             } catch (NullPointerException e) {
@@ -67,7 +72,7 @@ public class CalcTimes extends Times {
     @SuppressLint("InflateParams")
     public static void add(final Activity c, final Bundle bdl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        LayoutInflater inflater = LayoutInflater.from(c);
+        final LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
         ListView lv = (ListView) view.findViewById(R.id.listView);
         final Spinner sp = (Spinner) view.findViewById(R.id.spinner);
@@ -96,19 +101,51 @@ public class CalcTimes extends Times {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
+                Method method = Method.values()[pos];
 
-                CalcTimes t = new CalcTimes(System.currentTimeMillis());
-                t.setSource(Source.Calc);
-                t.setName(bdl.getString("city"));
-                t.setLat(bdl.getDouble("lat"));
-                t.setLng(bdl.getDouble("lng"));
-                t.setMethod(Method.values()[pos]);
-                t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
-                t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
-                t.setSortId(99);
+                if (method == Method.Custom) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(c);
+                    final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
+
+                    builder.setView(custom);
+                    final Dialog dlg = builder.show();
+                    custom.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CalcTimes t = new CalcTimes(System.currentTimeMillis());
+                            t.setSource(Source.Calc);
+                            t.setName(bdl.getString("city"));
+                            t.setLat(bdl.getDouble("lat"));
+                            t.setLng(bdl.getDouble("lng"));
+                            t.setMethodParams(new double[]{
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
+                                    ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
+                                    ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
+                            });
+                            t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
+                            t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                            t.setSortId(99);
+                            c.finish();
+
+
+                            dlg.cancel();
+                        }
+                    });
+                } else {
+                    CalcTimes t = new CalcTimes(System.currentTimeMillis());
+                    t.setSource(Source.Calc);
+                    t.setName(bdl.getString("city"));
+                    t.setLat(bdl.getDouble("lat"));
+                    t.setLng(bdl.getDouble("lng"));
+                    t.setMethod(method);
+                    t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
+                    t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                    t.setSortId(99);
+                    c.finish();
+                }
                 dlg.cancel();
-                c.finish();
-
             }
 
         });
@@ -130,12 +167,22 @@ public class CalcTimes extends Times {
     }
 
 
-    public synchronized PrayTime.Method getMethod() {
-        return PrayTime.Method.valueOf(method);
+    public synchronized Method getMethod() {
+        return Method.valueOf(method);
     }
 
-    public synchronized void setMethod(PrayTime.Method value) {
+    public synchronized void setMethod(Method value) {
         method = value.name();
+        save();
+    }
+
+    public synchronized double[] getMethodParams() {
+        return customMethodParams;
+    }
+
+    public synchronized void setMethodParams(double[] params) {
+        method = Method.Custom.name();
+        customMethodParams = params;
         save();
     }
 

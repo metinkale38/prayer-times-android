@@ -15,7 +15,13 @@
   -->
 
 <resources>
-
-    <item name="viewholder" type="id"/>
-
+    <string-array name="lefttext_part">
+        <item>İmsak\'a</item>
+        <item>Güneş\'e</item>
+        <item>Öğle\'ye</item>
+        <item>İkindi\'ye</item>
+        <item>Akşam\'a</item>
+        <item>Yatsı\'ya</item>
+        <item>İmsak\'a</item>
+    </string-array>
 </resources>

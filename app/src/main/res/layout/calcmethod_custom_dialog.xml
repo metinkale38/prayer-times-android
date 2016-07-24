@@ -1,0 +1,139 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="5dp"
+              android:orientation="horizontal">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fajr"
+                android:gravity="center"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        <EditText
+                android:inputType="numberDecimal|numberSigned"
+                android:text="18"
+                android:layout_gravity="center"
+                android:id="@+id/sabahPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/zuhr"
+                android:gravity="center"/>
+
+        <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/angleBased"
+                    android:id="@+id/ogleAngleBased"/>
+
+            <RadioButton
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeBased"
+                    android:id="@+id/ogleTimeBased"/>
+        </RadioGroup>
+
+        <EditText
+                android:inputType="numberDecimal|numberSigned"
+                android:layout_gravity="center"
+                android:text="0"
+                android:id="@+id/oglePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ishaa"
+                android:gravity="center"/>
+
+        <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/angleBased"
+                    android:id="@+id/yatsiAngleBased"/>
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeBased"
+                    android:id="@+id/yatsiTimeBased"/>
+        </RadioGroup>
+
+        <EditText
+                android:inputType="numberDecimal|numberSigned"
+                android:layout_gravity="center"
+                android:text="17"
+                android:id="@+id/yatsiPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>,,
+
+        <Button
+                android:id="@+id/ok"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"/>
+    </LinearLayout>
+
+</LinearLayout>

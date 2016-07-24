@@ -27,8 +27,12 @@ import com.metinkale.prayer.R;
 
 public class ShadowContainer extends ViewGroup {
     private Drawable mShadow;
-    private float mShadowSize = 1f, mMaxShadowSize;
-    private boolean mTop, mLeft, mRight, mBottom;
+    private float mShadowSize = 1f;
+    private float mMaxShadowSize;
+    private boolean mTop;
+    private boolean mLeft;
+    private boolean mRight;
+    private boolean mBottom;
 
     @SuppressLint("NewApi")
     public ShadowContainer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

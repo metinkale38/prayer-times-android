@@ -56,8 +56,11 @@ public class WidgetConfigure extends Activity {
         String[] array = new String[Times.getCount()];
         for (int i = 0; i < array.length; i++) {
             Times t = Times.getTimes(Times.getIds().get(i));
-            if (t == null) array[i] = "DELETED";
-            else array[i] = t.getName() + " (" + t.getSource() + ")";
+            if (t == null) {
+                array[i] = "DELETED";
+            } else {
+                array[i] = t.getName() + " (" + t.getSource() + ")";
+            }
         }
         builder.setItems(array, new DialogInterface.OnClickListener() {
             @Override

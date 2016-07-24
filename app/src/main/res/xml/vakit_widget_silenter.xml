@@ -16,13 +16,13 @@
   -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
-    android:initialLayout="@layout/vakit_widget"
-    android:minHeight="40dp"
-    android:minWidth="40dp"
-    android:previewImage="@drawable/widget_silenter"
-    android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="0"
-    android:widgetCategory="keyguard|home_screen">
+                    android:configure="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
+                    android:initialLayout="@layout/vakit_widget"
+                    android:minHeight="40dp"
+                    android:minWidth="40dp"
+                    android:previewImage="@drawable/widget_silenter"
+                    android:resizeMode="horizontal|vertical"
+                    android:updatePeriodMillis="0"
+                    android:widgetCategory="keyguard|home_screen">
 
 </appwidget-provider>

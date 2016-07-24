@@ -31,7 +31,8 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 
 public class NumberDialog extends DialogFragment implements TextWatcher {
-    private int mMin, mMax;
+    private int mMin;
+    private int mMax;
     private int mNr;
     private EditText mEdit;
     private OnNumberChangeListener mList;

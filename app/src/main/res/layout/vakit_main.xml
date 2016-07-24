@@ -82,7 +82,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/imsakiye"
+                android:text="@string/monthly"
                 android:textColor="#ffffff"
                 android:textSize="20sp"/>
 
@@ -129,7 +129,6 @@
                 android:layout_height="match_parent">
 
             <fragment
-                    android:id="@+id/settings"
                     class="com.metinkale.prayerapp.vakit.fragments.SettingsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

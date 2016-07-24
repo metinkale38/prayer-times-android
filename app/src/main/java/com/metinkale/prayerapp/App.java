@@ -22,19 +22,13 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.DrawableRes;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
@@ -76,17 +70,19 @@ public class App extends Application {
 
 
     public static boolean isOnline() {
-        if (Sounds.needsCheck()) new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Sounds.checkIfNeeded();
+        if (Sounds.needsCheck()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Sounds.checkIfNeeded();
 
-            }
-        }).start();
+                }
+            }).start();
+        }
 
         ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
+        return (activeNetwork != null) && activeNetwork.isConnected();
     }
 
 

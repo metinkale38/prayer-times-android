@@ -36,7 +36,7 @@ public class Adapter extends ArrayAdapter<Item> {
 
     public Adapter(Context context, Item[] objects) {
         super(context, 0, objects);
-        lang = Language.valueOf(Prefs.getLanguage() == null ? "tr" : Prefs.getLanguage()).ordinal();
+        lang = Language.valueOf((Prefs.getLanguage() == null) ? "tr" : Prefs.getLanguage()).ordinal();
     }
 
     public static float convertDpToPixel(float dp, Context context) {
@@ -63,7 +63,7 @@ public class Adapter extends ArrayAdapter<Item> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        convertView.setPadding(0, 0, 0, pos == getCount() - 1 ? ((BaseActivity) getContext()).getBottomMargin() : 0);
+        convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) getContext()).getBottomMargin() : 0);
 
         Item i = getItem(pos);
         if (pos == 0) {
@@ -101,7 +101,9 @@ public class Adapter extends ArrayAdapter<Item> {
     }
 
     static class ViewHolder {
-        TextView name, meaning, arabic;
+        TextView name;
+        TextView meaning;
+        TextView arabic;
         ImageView arabicImg;
     }
 }

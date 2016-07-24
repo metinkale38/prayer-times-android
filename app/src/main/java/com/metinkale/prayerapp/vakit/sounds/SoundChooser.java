@@ -121,9 +121,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     mMp = null;
                 }
                 if (mList.getTag() != null) {
-                    if (mVolumeCB.isChecked())
+                    if (mVolumeCB.isChecked()) {
                         mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
-                    else mCb.setCurrent(((Sound) mList.getTag()).uri);
+                    } else {
+                        mCb.setCurrent(((Sound) mList.getTag()).uri);
+                    }
                 }
             }
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -141,7 +143,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         Sound s = new Sound();
         s.uri = mCb.getCurrent();
         mList.setTag(s);
-        if (s.uri != null && s.uri.contains("$volume")) {
+        if ((s.uri != null) && s.uri.contains("$volume")) {
             mVolumeCB.setChecked(true);
             mVolume.setEnabled(true);
             int progress = Integer.parseInt(s.uri.substring(s.uri.indexOf("$volume") + 7));
@@ -340,29 +342,34 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             Sound s = new Sound();
             s.uri = mCb.getCurrent();
 
-            if (!s.uri.startsWith("silent"))
+            if (!s.uri.startsWith("silent")) {
                 try {
                     String sound = s.uri;
-                    if (sound.contains("$"))
+                    if (sound.contains("$")) {
                         sound = sound.substring(0, sound.indexOf("$"));
+                    }
                     AlarmReceiver.play(App.getContext(), sound).reset();
                 } catch (Exception e) {
                     mCb.setCurrent("silent");
                     s.uri = "silent";
                 }
+            }
 
-            if (s.uri != null && s.uri.contains("$volume")) {
+            if ((s.uri != null) && s.uri.contains("$volume")) {
                 s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
             }
             if (!sounds.contains(s)) {
                 Ringtone r = RingtoneManager.getRingtone(getContext(), Uri.parse(s.uri));
-                if (r != null) s.name = r.getTitle(App.getContext());
-                else s.name = "Unknown";
+                if (r != null) {
+                    s.name = r.getTitle(App.getContext());
+                } else {
+                    s.name = "Unknown";
+                }
                 sounds.add(s);
             }
 
             Sound other = new Sound();
-            other.name = context.getString(R.string.selectother);
+            other.name = context.getString(R.string.selectOther);
             other.uri = "picker";
             sounds.add(other);
         }

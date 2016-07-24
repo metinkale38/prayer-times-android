@@ -54,7 +54,7 @@ public class Changelog {
             }
         });
 
-        builder.setNeutralButton(mContext.getResources().getString(R.string.sendemail), new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(mContext.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Settings.sendMail(mContext);

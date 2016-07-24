@@ -58,7 +58,9 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private MultipleOrientationSlidingDrawer mBottomSlider;
 
     public static PendingIntent getPendingIntent(Times t) {
-        if (t == null) return null;
+        if (t == null) {
+            return null;
+        }
         Context context = App.getContext();
         Intent intent = new Intent(context, Main.class);
         intent.putExtra("startCity", Times.getTimes().indexOf(t));
@@ -159,7 +161,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         findViewById(R.id.topSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && mTopSlider.isOpened()) {
+                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
                     mTopSlider.animateClose();
                     return true;
                 }
@@ -171,7 +173,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && mBottomSlider.isOpened()) {
+                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
                     mBottomSlider.animateClose();
                     return true;
                 }
@@ -224,7 +226,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Fragment frag = getSupportFragmentManager().findFragmentByTag("notPrefs");
             if (frag != null) {
-                setFooterText(getString(R.string.imsakiye), true);
+                setFooterText(getString(R.string.monthly), true);
                 getSupportFragmentManager().beginTransaction().remove(frag).commit();
                 return true;
             } else if (mBottomSlider.isOpened()) {
@@ -266,8 +268,11 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             mTopSlider.unlock();
             mBottomSlider.unlock();
         }
-        if (mAddCityFab != null) if (position == 0 && positionOffset == 0) mAddCityFab.showFloatingActionButton();
-        else mAddCityFab.hideFloatingActionButton();
+        if (mAddCityFab != null) if ((position == 0) && (positionOffset == 0)) {
+            mAddCityFab.showFloatingActionButton();
+        } else {
+            mAddCityFab.hideFloatingActionButton();
+        }
 
 
     }
@@ -282,7 +287,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     @Override
     public void onPageSelected(int pos) {
 
-        mFooterText.setText(pos == 0 ? R.string.cities : R.string.imsakiye);
+        mFooterText.setText((pos == 0) ? R.string.cities : R.string.monthly);
     }
 
     public class MyAdapter extends FragmentPagerAdapter implements Times.TimesListener {
@@ -300,7 +305,9 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
         @Override
         public long getItemId(int position) {
-            if (position == 0) return 0;
+            if (position == 0) {
+                return 0;
+            }
 
             return Times.getTimesAt(position - 1).getID();
         }
@@ -312,7 +319,9 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             } else {
                 MainFragment frag = (MainFragment) object;
                 int pos = Times.getTimes().indexOf(frag.getTimes());
-                if (pos >= 0) return pos + 1;
+                if (pos >= 0) {
+                    return pos + 1;
+                }
             }
             return POSITION_NONE;
         }

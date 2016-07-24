@@ -49,7 +49,7 @@ public class FaziletTimes extends WebTimes {
         if (a.length < 4) {
             List<Cities.Item> items = Cities.get().search(getName());
             for (Cities.Item i : items) {
-                if (i.source == getSource() && i.city.equals(getName())) {
+                if ((i.source == getSource()) && i.city.equals(getName())) {
                     setId(i.id);
                 }
             }
@@ -88,7 +88,9 @@ public class FaziletTimes extends WebTimes {
 
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String, Object> param : params.entrySet()) {
-            if (postData.length() != 0) postData.append('&');
+            if (postData.length() != 0) {
+                postData.append('&');
+            }
             postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
             postData.append('=');
             postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));

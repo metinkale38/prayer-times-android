@@ -60,21 +60,92 @@ public class TimesBase {
     }
 
     transient long ID;
-    private String name, source, cuma_sound;
-    private boolean deleted, cuma_vibration, sabah_afterImsak, cuma, ongoing;
-    private double timezone, lng, lat;
-    private int sortId, cuma_silenter, cuma_time, sabah_time;
+    private String name;
+    private String source;
+    private String cuma_sound;
+    private boolean deleted;
+    private boolean cuma_vibration;
+    private boolean sabah_afterImsak;
+    private boolean cuma;
+    private boolean ongoing;
+    private double timezone;
+    private double lng;
+    private double lat;
+    private int sortId;
+    private int cuma_silenter;
+    private int cuma_time;
+    private int sabah_time;
     private int[] minuteAdj = new int[6];
-    private String IMSAK_dua, SABAH_dua, GUNES_DUA, OGLE_dua, IKINDI_dua, AKSAM_dua, YATSI_dua;
-    private int IMSAK_silenter, SABAH_silenter, GUNES_silenter, OGLE_silenter, IKINDI_silenter, AKSAM_silenter, YATSI_silenter;
-    private String IMSAK_sound, SABAH_sound, GUNES_sound, OGLE_sound, IKINDI_sound, AKSAM_sound, YATSI_sound;
-    private String pre_IMSAK_sound, pre_SABAH_sound, pre_GUNES_sound, pre_OGLE_sound, pre_IKINDI_sound, pre_AKSAM_sound, pre_YATSI_sound;
-    private boolean pre_IMSAK_vibration, pre_SABAH_vibration, pre_GUNES_vibration, pre_OGLE_vibration, pre_IKINDI_vibration, pre_AKSAM_vibration, pre_YATSI_vibration;
-    private boolean IMSAK_vibration, SABAH_vibration, GUNES_vibration, OGLE_vibration, IKINDI_vibration, AKSAM_vibration, YATSI_vibration;
-    private boolean IMSAK, SABAH, GUNES, OGLE, IKINDI, AKSAM, YATSI;
-    private boolean pre_IMSAK, pre_SABAH, pre_GUNES, pre_OGLE, pre_IKINDI, pre_AKSAM, pre_YATSI;
-    private int pre_IMSAK_silenter, pre_SABAH_silenter, pre_GUNES_silenter, pre_OGLE_silenter, pre_IKINDI_silenter, pre_AKSAM_silenter, pre_YATSI_silenter;
-    private int pre_IMSAK_time, pre_SABAH_time, pre_GUNES_time, pre_OGLE_time, pre_IKINDI_time, pre_AKSAM_time, pre_YATSI_time;
+    private String IMSAK_dua;
+    private String SABAH_dua;
+    private String GUNES_DUA;
+    private String OGLE_dua;
+    private String IKINDI_dua;
+    private String AKSAM_dua;
+    private String YATSI_dua;
+    private int IMSAK_silenter;
+    private int SABAH_silenter;
+    private int GUNES_silenter;
+    private int OGLE_silenter;
+    private int IKINDI_silenter;
+    private int AKSAM_silenter;
+    private int YATSI_silenter;
+    private String IMSAK_sound;
+    private String SABAH_sound;
+    private String GUNES_sound;
+    private String OGLE_sound;
+    private String IKINDI_sound;
+    private String AKSAM_sound;
+    private String YATSI_sound;
+    private String pre_IMSAK_sound;
+    private String pre_SABAH_sound;
+    private String pre_GUNES_sound;
+    private String pre_OGLE_sound;
+    private String pre_IKINDI_sound;
+    private String pre_AKSAM_sound;
+    private String pre_YATSI_sound;
+    private boolean pre_IMSAK_vibration;
+    private boolean pre_SABAH_vibration;
+    private boolean pre_GUNES_vibration;
+    private boolean pre_OGLE_vibration;
+    private boolean pre_IKINDI_vibration;
+    private boolean pre_AKSAM_vibration;
+    private boolean pre_YATSI_vibration;
+    private boolean IMSAK_vibration;
+    private boolean SABAH_vibration;
+    private boolean GUNES_vibration;
+    private boolean OGLE_vibration;
+    private boolean IKINDI_vibration;
+    private boolean AKSAM_vibration;
+    private boolean YATSI_vibration;
+    private boolean IMSAK;
+    private boolean SABAH;
+    private boolean GUNES;
+    private boolean OGLE;
+    private boolean IKINDI;
+    private boolean AKSAM;
+    private boolean YATSI;
+    private boolean pre_IMSAK;
+    private boolean pre_SABAH;
+    private boolean pre_GUNES;
+    private boolean pre_OGLE;
+    private boolean pre_IKINDI;
+    private boolean pre_AKSAM;
+    private boolean pre_YATSI;
+    private int pre_IMSAK_silenter;
+    private int pre_SABAH_silenter;
+    private int pre_GUNES_silenter;
+    private int pre_OGLE_silenter;
+    private int pre_IKINDI_silenter;
+    private int pre_AKSAM_silenter;
+    private int pre_YATSI_silenter;
+    private int pre_IMSAK_time;
+    private int pre_SABAH_time;
+    private int pre_GUNES_time;
+    private int pre_OGLE_time;
+    private int pre_IKINDI_time;
+    private int pre_AKSAM_time;
+    private int pre_YATSI_time;
 
     private transient SharedPreferences prefs;
     private transient SharedPreferences.Editor editor;
@@ -141,9 +212,13 @@ public class TimesBase {
     }
 
     protected void save() {
-        if (deleted) return;
+        if (deleted) {
+            return;
+        }
         apply();
-        if (!prefs.contains("id" + ID)) Times.clearTimes();
+        if (!prefs.contains("id" + ID)) {
+            Times.clearTimes();
+        }
 
     }
 
@@ -199,8 +274,9 @@ public class TimesBase {
     }
 
     public synchronized void setMinuteAdj(int[] adj) {
-        if (adj.length != 6)
+        if (adj.length != 6) {
             throw new RuntimeException("setMinuteAdj(double[] adj) can only be called with adj of size 6");
+        }
         minuteAdj = adj;
         save();
     }
@@ -234,7 +310,9 @@ public class TimesBase {
 
     public synchronized String getCumaSound() {
         String s = cuma_sound;
-        if (s == null) return "silent";
+        if (s == null) {
+            return "silent";
+        }
         return s;
 
     }
@@ -246,7 +324,9 @@ public class TimesBase {
 
     public synchronized int getCumaTime() {
         int t = cuma_time;
-        if (t == 0) return 15;
+        if (t == 0) {
+            return 15;
+        }
         return t;
     }
 
@@ -282,7 +362,9 @@ public class TimesBase {
 
 
         }
-        if (dua == null) return "silent";
+        if (dua == null) {
+            return "silent";
+        }
         return dua;
     }
 
@@ -332,7 +414,9 @@ public class TimesBase {
                 sound = pre_YATSI_sound;
                 break;
         }
-        if (sound == null) return "silent";
+        if (sound == null) {
+            return "silent";
+        }
         return sound;
     }
 
@@ -361,13 +445,17 @@ public class TimesBase {
                 time = pre_YATSI_time;
                 break;
         }
-        if (time == 0) return 15;
+        if (time == 0) {
+            return 15;
+        }
         return time;
     }
 
     public synchronized int getSabahTime() {
         int t = sabah_time;
-        if (t == 0) return 30;
+        if (t == 0) {
+            return 30;
+        }
         return t;
     }
 
@@ -420,7 +508,9 @@ public class TimesBase {
                 sound = YATSI_sound;
                 break;
         }
-        if (sound == null) return "silent";
+        if (sound == null) {
+            return "silent";
+        }
         return sound;
     }
 

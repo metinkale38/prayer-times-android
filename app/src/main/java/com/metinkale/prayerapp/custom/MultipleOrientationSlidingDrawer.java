@@ -106,14 +106,16 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         super(context);
 
         // handle
-        if (handle == null)
+        if (handle == null) {
             throw new NullPointerException("Handle cannot be null.");
+        }
         addView(mHandle = handle);
         mHandle.setOnClickListener(new DrawerToggler());
 
         // content
-        if (content == null)
+        if (content == null) {
             throw new IllegalArgumentException("Content cannot be null.");
+        }
         addView(mContent = content);
         mContent.setVisibility(View.GONE);
 
@@ -121,13 +123,13 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         setOrientation(orientation);
 
-        final float density = getResources().getDisplayMetrics().density;
-        mTapThreshold = (int) (TAP_THRESHOLD * density + 0.5f);
-        mMaximumTapVelocity = (int) (MAXIMUM_TAP_VELOCITY * density + 0.5f);
-        mMaximumMinorVelocity = (int) (MAXIMUM_MINOR_VELOCITY * density + 0.5f);
-        mMaximumMajorVelocity = (int) (MAXIMUM_MAJOR_VELOCITY * density + 0.5f);
-        mMaximumAcceleration = (int) (MAXIMUM_ACCELERATION * density + 0.5f);
-        mVelocityUnits = (int) (VELOCITY_UNITS * density + 0.5f);
+        float density = getResources().getDisplayMetrics().density;
+        mTapThreshold = (int) ((TAP_THRESHOLD * density) + 0.5f);
+        mMaximumTapVelocity = (int) ((MAXIMUM_TAP_VELOCITY * density) + 0.5f);
+        mMaximumMinorVelocity = (int) ((MAXIMUM_MINOR_VELOCITY * density) + 0.5f);
+        mMaximumMajorVelocity = (int) ((MAXIMUM_MAJOR_VELOCITY * density) + 0.5f);
+        mMaximumAcceleration = (int) ((MAXIMUM_ACCELERATION * density) + 0.5f);
+        mVelocityUnits = (int) ((VELOCITY_UNITS * density) + 0.5f);
     }
 
     /**
@@ -180,13 +182,13 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         mHandleId = handleId;
         mContentId = contentId;
 
-        final float density = getResources().getDisplayMetrics().density;
-        mTapThreshold = (int) (TAP_THRESHOLD * density + 0.5f);
-        mMaximumTapVelocity = (int) (MAXIMUM_TAP_VELOCITY * density + 0.5f);
-        mMaximumMinorVelocity = (int) (MAXIMUM_MINOR_VELOCITY * density + 0.5f);
-        mMaximumMajorVelocity = (int) (MAXIMUM_MAJOR_VELOCITY * density + 0.5f);
-        mMaximumAcceleration = (int) (MAXIMUM_ACCELERATION * density + 0.5f);
-        mVelocityUnits = (int) (VELOCITY_UNITS * density + 0.5f);
+        float density = getResources().getDisplayMetrics().density;
+        mTapThreshold = (int) ((TAP_THRESHOLD * density) + 0.5f);
+        mMaximumTapVelocity = (int) ((MAXIMUM_TAP_VELOCITY * density) + 0.5f);
+        mMaximumMinorVelocity = (int) ((MAXIMUM_MINOR_VELOCITY * density) + 0.5f);
+        mMaximumMajorVelocity = (int) ((MAXIMUM_MAJOR_VELOCITY * density) + 0.5f);
+        mMaximumAcceleration = (int) ((MAXIMUM_ACCELERATION * density) + 0.5f);
+        mVelocityUnits = (int) ((VELOCITY_UNITS * density) + 0.5f);
 
 //        a.recycle();
 
@@ -210,8 +212,8 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     public void setOrientation(Orientation orientation) {
         mOrientation = orientation;
 
-        mVertical = mOrientation == Orientation.BOTTOM || mOrientation == Orientation.TOP;
-        mInvert = mOrientation == Orientation.LEFT || mOrientation == Orientation.TOP;
+        mVertical = (mOrientation == Orientation.BOTTOM) || (mOrientation == Orientation.TOP);
+        mInvert = (mOrientation == Orientation.LEFT) || (mOrientation == Orientation.TOP);
 
         requestLayout();
         invalidate();
@@ -282,11 +284,11 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (widthSpecMode == MeasureSpec.UNSPECIFIED || heightSpecMode == MeasureSpec.UNSPECIFIED) {
+        if ((widthSpecMode == MeasureSpec.UNSPECIFIED) || (heightSpecMode == MeasureSpec.UNSPECIFIED)) {
             throw new RuntimeException("SlidingDrawer cannot have UNSPECIFIED dimensions");
         }
 
-        final View handle = mHandle;
+        View handle = mHandle;
         measureChild(handle, widthMeasureSpec, heightMeasureSpec);
 
         if (mVertical) {
@@ -304,14 +306,14 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        final long drawingTime = getDrawingTime();
-        final View handle = mHandle;
-        final Orientation orientation = mOrientation;
+        long drawingTime = getDrawingTime();
+        View handle = mHandle;
+        Orientation orientation = mOrientation;
 
         drawChild(canvas, handle, drawingTime);
 
         if (mTracking || mAnimating) {
-            final Bitmap cache = mContent.getDrawingCache();
+            Bitmap cache = mContent.getDrawingCache();
             if (cache != null) {
                 // called when opening
 
@@ -360,10 +362,10 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             return;
         }
 
-        final int width = r - l;
-        final int height = b - t;
+        int width = r - l;
+        int height = b - t;
 
-        final View handle = mHandle;
+        View handle = mHandle;
 
         int childWidth = handle.getMeasuredWidth();
         int childHeight = handle.getMeasuredHeight();
@@ -371,7 +373,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         int childLeft = 0;
         int childTop = 0;
 
-        final View content = mContent;
+        View content = mContent;
 
 
         switch (mOrientation) {
@@ -388,7 +390,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                         childLeft = (width - childWidth) / 2;
                         break;
                 }
-                childTop = mExpanded ? height - childHeight - mTopOffset : -mBottomOffset;
+                childTop = mExpanded ? (height - childHeight - mTopOffset) : -mBottomOffset;
 
                 content.layout(0, height - childHeight - mTopOffset - content.getMeasuredHeight(),
                         content.getMeasuredWidth(), height - childHeight - mTopOffset);
@@ -406,14 +408,14 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                         childLeft = (width - childWidth) / 2;
                         break;
                 }
-                childTop = mExpanded ? mTopOffset : height - childHeight + mBottomOffset;
+                childTop = mExpanded ? mTopOffset : ((height - childHeight) + mBottomOffset);
 
                 content.layout(0, mTopOffset + childHeight, content.getMeasuredWidth(),
                         mTopOffset + childHeight + content.getMeasuredHeight());
                 break;
 
             case RIGHT:
-                childLeft = mExpanded ? mTopOffset : width - childWidth + mBottomOffset;
+                childLeft = mExpanded ? mTopOffset : ((width - childWidth) + mBottomOffset);
                 switch (mHandlePos) {
                     case TOP:
                         childTop = mHandlePad;
@@ -432,7 +434,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                 break;
 
             case LEFT:
-                childLeft = mExpanded ? width - childWidth - mTopOffset : -mBottomOffset;
+                childLeft = mExpanded ? (width - childWidth - mTopOffset) : -mBottomOffset;
                 switch (mHandlePos) {
                     case TOP:
                         childTop = mHandlePad;
@@ -461,13 +463,13 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             return false;
         }
 
-        final int action = event.getAction();
+        int action = event.getAction();
 
         float x = event.getX();
         float y = event.getY();
 
-        final Rect frame = mFrame;
-        final View handle = mHandle;
+        Rect frame = mFrame;
+        View handle = mHandle;
 
         handle.getHitRect(frame);
         if (!mTracking && !frame.contains((int) x, (int) y)) {
@@ -486,7 +488,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                 mOnDrawerScrollListener.onScrollStarted();
             }
 
-            final int pt = getSide();
+            int pt = getSide();
             mTouchDelta = (int) (y - pt);
             prepareTracking(pt);
             mVelocityTracker.addMovement(event);
@@ -526,21 +528,21 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         if (mTracking) {
             mVelocityTracker.addMovement(event);
-            final int action = event.getAction();
+            int action = event.getAction();
             switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     moveHandle((int) (mVertical ? event.getY() : event.getX()) - mTouchDelta);
                     break;
                 case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL: {
-                    final VelocityTracker velocityTracker = mVelocityTracker;
+                case MotionEvent.ACTION_CANCEL:
+                    VelocityTracker velocityTracker = mVelocityTracker;
                     velocityTracker.computeCurrentVelocity(mVelocityUnits);
 
                     float yVelocity = velocityTracker.getYVelocity();
                     float xVelocity = velocityTracker.getXVelocity();
                     boolean negative;
 
-                    final boolean vertical = mVertical;
+                    boolean vertical = mVertical;
                     if (vertical) {
                         negative = yVelocity < 0;
                         if (xVelocity < 0) {
@@ -564,8 +566,8 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                         velocity = -velocity;
                     }
 
-                    final int top = mHandle.getTop();
-                    final int left = mHandle.getLeft();
+                    int top = mHandle.getTop();
+                    int left = mHandle.getLeft();
 
                     if (Math.abs(velocity) < mMaximumTapVelocity) {
 
@@ -590,8 +592,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     } else {
                         performFling(vertical ? top : left, velocity, false);
                     }
-                }
-                break;
+                    break;
             }
         }
 
@@ -601,17 +602,13 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     private boolean inThreshold(int top, int left) {
         switch (mOrientation) {
             case TOP:
-                return (!mExpanded && top < mTapThreshold - mBottomOffset) ||
-                        (mExpanded && top > getBottom() - getTop() - mHandleHeight - mTopOffset - mTapThreshold);
+                return mExpanded ? top > getBottom() - getTop() - mHandleHeight - mTopOffset - mTapThreshold : top < (mTapThreshold - mBottomOffset);
             case LEFT:
-                return (!mExpanded && left < mTapThreshold - mBottomOffset) ||
-                        (mExpanded && left > getRight() - getLeft() - mHandleWidth - mTopOffset - mTapThreshold);
+                return mExpanded ? left > getRight() - getLeft() - mHandleWidth - mTopOffset - mTapThreshold : left < (mTapThreshold - mBottomOffset);
             case BOTTOM:
-                return (mExpanded && top < mTapThreshold + mTopOffset) ||
-                        (!mExpanded && top > mBottomOffset + getBottom() - getTop() - mHandleHeight - mTapThreshold);
+                return mExpanded ? top < (mTapThreshold + mTopOffset) : top > (mBottomOffset + getBottom()) - getTop() - mHandleHeight - mTapThreshold;
             case RIGHT:
-                return (mExpanded && left < mTapThreshold + mTopOffset) ||
-                        (!mExpanded && left > mBottomOffset + getRight() - getLeft() - mHandleWidth - mTapThreshold);
+                return mExpanded ? left < (mTapThreshold + mTopOffset) : left > (mBottomOffset + getRight()) - getLeft() - mHandleWidth - mTapThreshold;
         }
         return false;
     }
@@ -632,9 +629,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         if (mExpanded) {
             if (mInvert) {
-                if (always || (velocity < -mMaximumMajorVelocity ||
-                        (position < (mVertical ? getHeight() : getWidth()) / 2 &&
-                                velocity > -mMaximumMajorVelocity))) {
+                if (always || velocity < -mMaximumMajorVelocity ||
+                        position < (mVertical ? getHeight() : getWidth()) / 2 &&
+                                velocity > -mMaximumMajorVelocity) {
                     // We are expanded and are now going to animate away.
                     mAnimatedAcceleration = -mMaximumAcceleration;
                     if (velocity > 0) {
@@ -648,9 +645,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                         mAnimatedVelocity = 0;
                     }
                 }
-            } else if (always || (velocity > mMaximumMajorVelocity ||
-                    (position > mTopOffset + (mVertical ? mHandleHeight : mHandleWidth) &&
-                            velocity > -mMaximumMajorVelocity))) {
+            } else if (always || velocity > mMaximumMajorVelocity ||
+                    position > mTopOffset + (mVertical ? mHandleHeight : mHandleWidth) &&
+                            velocity > -mMaximumMajorVelocity) {
                 // We are expanded, but they didn't move sufficiently to cause
                 // us to retract.  Animate back to the collapsed position.
                 mAnimatedAcceleration = mMaximumAcceleration;
@@ -668,9 +665,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             //else if (!always && (velocity > mMaximumMajorVelocity ||
             //		(position > (mVertical ? getHeight() : getWidth()) / 2 &&
             //				velocity > -mMaximumMajorVelocity))) {
-            if ((velocity > mMaximumMajorVelocity ||
-                    (position > (mVertical ? getHeight() : getWidth()) / 2 &&
-                            velocity > -mMaximumMajorVelocity))) {
+            if (velocity > mMaximumMajorVelocity ||
+                    position > (mVertical ? getHeight() : getWidth()) / 2 &&
+                            velocity > -mMaximumMajorVelocity) {
                 // We are collapsed, and they moved enough to allow us to expand.
                 mAnimatedAcceleration = mMaximumAcceleration;
                 if (velocity < 0) {
@@ -710,10 +707,10 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     mAnimationPosition = mBottomOffset;
                     break;
                 case BOTTOM:
-                    mAnimationPosition = mBottomOffset + getHeight() - mHandleHeight;
+                    mAnimationPosition = (mBottomOffset + getHeight()) - mHandleHeight;
                     break;
                 case RIGHT:
-                    mAnimationPosition = mBottomOffset + getWidth() - mHandleWidth;
+                    mAnimationPosition = (mBottomOffset + getWidth()) - mHandleWidth;
                     break;
             }
 
@@ -734,7 +731,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     private void moveHandle(int position) {
-        final View handle = mHandle;
+        View handle = mHandle;
 
         switch (mOrientation) {
             case TOP:
@@ -745,29 +742,31 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     handle.offsetTopAndBottom(-mBottomOffset - handle.getTop());
                     invalidate();
                 } else {
-                    final int top = handle.getTop();
+                    int top = handle.getTop();
                     int deltaY = position - top;
                     if (position < -mBottomOffset) {
                         deltaY = -mBottomOffset - top;
-                    } else if (position > getBottom() - getTop() - mTopOffset - mHandleHeight) {
+                    } else if (position > (getBottom() - getTop() - mTopOffset - mHandleHeight)) {
                         deltaY = getBottom() - getTop() - mTopOffset - mHandleHeight - top;
                     }
                     handle.offsetTopAndBottom(deltaY);
 
-                    final Rect frame = mFrame;
-                    final Rect region = mInvalidate;
+                    Rect frame = mFrame;
+                    Rect region = mInvalidate;
 
                     handle.getHitRect(frame);
                     region.set(frame);
 
                     region.union(frame.left, frame.top - deltaY, frame.right, frame.bottom - deltaY);
-                    region.union(0, frame.bottom - deltaY, getWidth(), frame.bottom - deltaY + mContent.getHeight());
+                    region.union(0, frame.bottom - deltaY, getWidth(), (frame.bottom - deltaY) + mContent.getHeight());
 
                     // todo fix the region calc.
                     // invalidate( region );
                     invalidate();
                 }
-                if (mOnDrawerScrollListener != null) mOnDrawerScrollListener.onScrolling(handle.getTop());
+                if (mOnDrawerScrollListener != null) {
+                    mOnDrawerScrollListener.onScrolling(handle.getTop());
+                }
 
                 break;
 
@@ -776,30 +775,32 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     handle.offsetTopAndBottom(mTopOffset - handle.getTop());
                     invalidate();
                 } else if (position == COLLAPSED_FULL_CLOSED) {
-                    handle.offsetTopAndBottom(mBottomOffset + getBottom() - getTop() - mHandleHeight - handle.getTop());
+                    handle.offsetTopAndBottom((mBottomOffset + getBottom()) - getTop() - mHandleHeight - handle.getTop());
                     invalidate();
                 } else {
-                    final int top = handle.getTop();
+                    int top = handle.getTop();
                     int deltaY = position - top;
                     if (position < mTopOffset) {
                         deltaY = mTopOffset - top;
-                    } else if (deltaY > mBottomOffset + getBottom() - getTop() - mHandleHeight - top) {
-                        deltaY = mBottomOffset + getBottom() - getTop() - mHandleHeight - top;
+                    } else if (deltaY > ((mBottomOffset + getBottom()) - getTop() - mHandleHeight - top)) {
+                        deltaY = (mBottomOffset + getBottom()) - getTop() - mHandleHeight - top;
                     }
                     handle.offsetTopAndBottom(deltaY);
 
-                    final Rect frame = mFrame;
-                    final Rect region = mInvalidate;
+                    Rect frame = mFrame;
+                    Rect region = mInvalidate;
 
                     handle.getHitRect(frame);
                     region.set(frame);
 
                     region.union(frame.left, frame.top - deltaY, frame.right, frame.bottom - deltaY);
-                    region.union(0, frame.bottom - deltaY, getWidth(), frame.bottom - deltaY + mContent.getHeight());
+                    region.union(0, frame.bottom - deltaY, getWidth(), (frame.bottom - deltaY) + mContent.getHeight());
 
                     invalidate(region);
                 }
-                if (mOnDrawerScrollListener != null) mOnDrawerScrollListener.onScrolling(handle.getTop());
+                if (mOnDrawerScrollListener != null) {
+                    mOnDrawerScrollListener.onScrolling(handle.getTop());
+                }
 
                 break;
 
@@ -811,26 +812,28 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     handle.offsetLeftAndRight(-mBottomOffset);
                     invalidate();
                 } else {
-                    final int left = handle.getLeft();
+                    int left = handle.getLeft();
                     int deltaX = position - left;
                     if (position < mTopOffset) {
                         deltaX = mTopOffset - left;
-                    } else if (deltaX > mBottomOffset + getRight() - getLeft() - mHandleWidth - left) {
-                        deltaX = mBottomOffset + getRight() - getLeft() - mHandleWidth - left;
+                    } else if (deltaX > ((mBottomOffset + getRight()) - getLeft() - mHandleWidth - left)) {
+                        deltaX = (mBottomOffset + getRight()) - getLeft() - mHandleWidth - left;
                     }
                     handle.offsetLeftAndRight(deltaX);
-                    final Rect frame = mFrame;
-                    final Rect region = mInvalidate;
+                    Rect frame = mFrame;
+                    Rect region = mInvalidate;
 
                     handle.getHitRect(frame);
                     region.set(frame);
 
                     region.union(frame.left - deltaX, frame.top, frame.right - deltaX, frame.bottom);
-                    region.union(frame.right - deltaX, 0, frame.right - deltaX + mContent.getWidth(), getHeight());
+                    region.union(frame.right - deltaX, 0, (frame.right - deltaX) + mContent.getWidth(), getHeight());
 
                     invalidate(region);
                 }
-                if (mOnDrawerScrollListener != null) mOnDrawerScrollListener.onScrolling(handle.getLeft());
+                if (mOnDrawerScrollListener != null) {
+                    mOnDrawerScrollListener.onScrolling(handle.getLeft());
+                }
 
                 break;
 
@@ -842,27 +845,29 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     handle.offsetLeftAndRight(-mBottomOffset - handle.getLeft());
                     invalidate();
                 } else {
-                    final int left = handle.getLeft();
+                    int left = handle.getLeft();
                     int deltaX = position - left;
                     if (position < -mBottomOffset) {
                         deltaX = -mBottomOffset - left;
-                    } else if (position > getRight() - getLeft() - mTopOffset - mHandleWidth) {
+                    } else if (position > (getRight() - getLeft() - mTopOffset - mHandleWidth)) {
                         deltaX = getRight() - getLeft() - mTopOffset - mHandleWidth - left;
                     }
                     handle.offsetLeftAndRight(deltaX);
 
-                    final Rect frame = mFrame;
-                    final Rect region = mInvalidate;
+                    Rect frame = mFrame;
+                    Rect region = mInvalidate;
 
                     handle.getHitRect(frame);
                     region.set(frame);
 
                     region.union(frame.left - deltaX, frame.top, frame.right - deltaX, frame.bottom);
-                    region.union(frame.right - deltaX, 0, frame.right - deltaX + mContent.getWidth(), getHeight());
+                    region.union(frame.right - deltaX, 0, (frame.right - deltaX) + mContent.getWidth(), getHeight());
 
                     invalidate(region);
                 }
-                if (mOnDrawerScrollListener != null) mOnDrawerScrollListener.onScrolling(handle.getLeft());
+                if (mOnDrawerScrollListener != null) {
+                    mOnDrawerScrollListener.onScrolling(handle.getLeft());
+                }
 
                 break;
         }
@@ -876,7 +881,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         // Something changed in the content, we need to honor the layout request
         // before creating the cached bitmap
-        final View content = mContent;
+        View content = mContent;
         if (content.isLayoutRequested()) {
             measureContent();
         }
@@ -890,9 +895,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     public void measureContent() {
-        final View content = mContent;
+        View content = mContent;
         if (mVertical) {
-            final int childHeight = mHandle.getHeight();
+            int childHeight = mHandle.getHeight();
             int height = getBottom() - getTop() - childHeight - mTopOffset;
             content.measure(MeasureSpec.makeMeasureSpec(getRight() - getLeft(), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
@@ -904,7 +909,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             }
 
         } else {
-            final int childWidth = mHandle.getWidth();
+            int childWidth = mHandle.getWidth();
             int width = getRight() - getLeft() - childWidth - mTopOffset;
             content.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(getBottom() - getTop(), MeasureSpec.EXACTLY));
@@ -937,7 +942,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             incrementAnimation();
 
             if (mInvert) {
-                if (mAnimationPosition >= (mVertical ? getHeight() : getWidth()) - mTopOffset) {
+                if (mAnimationPosition >= ((mVertical ? getHeight() : getWidth()) - mTopOffset)) {
                     mAnimating = false;
                     openDrawer();
                 } else if (mAnimationPosition < -mBottomOffset) {
@@ -949,7 +954,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     mHandler.sendMessageAtTime(mHandler.obtainMessage(MSG_ANIMATE), mCurrentAnimationTime);
                 }
             } else {
-                if (mAnimationPosition >= mBottomOffset + (mVertical ? getHeight() : getWidth()) - 1) {
+                if (mAnimationPosition >= ((mBottomOffset + (mVertical ? getHeight() : getWidth())) - 1)) {
                     mAnimating = false;
                     closeDrawer();
                 } else if (mAnimationPosition < mTopOffset) {
@@ -967,11 +972,11 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     private void incrementAnimation() {
         long now = SystemClock.uptimeMillis();
         float t = (now - mAnimationLastTime) / 1000.0f;                   // ms -> s
-        final float position = mAnimationPosition;
-        final float v = mAnimatedVelocity;                                // px/s
-        final float a = mAnimatedAcceleration;                            // px/s/s
-        mAnimationPosition = position + (v * t) + (0.5f * a * t * t);     // px
-        mAnimatedVelocity = v + (a * t);                                  // px/s
+        float position = mAnimationPosition;
+        float v = mAnimatedVelocity;                                // px/s
+        float a = mAnimatedAcceleration;                            // px/s/s
+        mAnimationPosition = position + v * t + (0.5f * a * t * t);     // px
+        mAnimatedVelocity = v + a * t;                                  // px/s
         mAnimationLastTime = now;                                         // ms
     }
 
@@ -985,10 +990,10 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @see #animateToggle()
      */
     public void toggle() {
-        if (!mExpanded) {
-            openDrawer();
-        } else {
+        if (mExpanded) {
             closeDrawer();
+        } else {
+            openDrawer();
         }
         invalidate();
         requestLayout();
@@ -1004,10 +1009,10 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @see #toggle()
      */
     public void animateToggle() {
-        if (!mExpanded) {
-            animateOpen();
-        } else {
+        if (mExpanded) {
             animateClose();
+        } else {
+            animateOpen();
         }
     }
 
@@ -1050,7 +1055,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      */
     public void animateClose() {
         prepareContent();
-        final OnDrawerScrollListener scrollListener = mOnDrawerScrollListener;
+        OnDrawerScrollListener scrollListener = mOnDrawerScrollListener;
         if (scrollListener != null) {
             scrollListener.onScrollStarted();
         }
@@ -1072,7 +1077,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      */
     public void animateOpen() {
         prepareContent();
-        final OnDrawerScrollListener scrollListener = mOnDrawerScrollListener;
+        OnDrawerScrollListener scrollListener = mOnDrawerScrollListener;
         if (scrollListener != null) {
             scrollListener.onScrollStarted();
         }
@@ -1218,7 +1223,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     public void setBottomOffset(int offset) {
-        this.mBottomOffset = offset;
+        mBottomOffset = offset;
         invalidate();
     }
 
@@ -1227,7 +1232,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     public void setTopOffset(int offset) {
-        this.mTopOffset = offset;
+        mTopOffset = offset;
         invalidate();
     }
 
@@ -1280,41 +1285,41 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     /**
      * Callback invoked when the drawer is opened.
      */
-    public static interface OnDrawerOpenListener {
+    public interface OnDrawerOpenListener {
         /**
          * Invoked when the drawer becomes fully open.
          */
-        public void onDrawerOpened();
+        void onDrawerOpened();
     }
 
     /**
      * Callback invoked when the drawer is closed.
      */
-    public static interface OnDrawerCloseListener {
+    public interface OnDrawerCloseListener {
         /**
          * Invoked when the drawer becomes fully closed.
          */
-        public void onDrawerClosed();
+        void onDrawerClosed();
     }
 
     /**
      * Callback invoked when the drawer is scrolled.
      */
-    public static interface OnDrawerScrollListener {
+    public interface OnDrawerScrollListener {
         /**
          * Invoked when the user starts dragging/flinging the drawer's handle.
          */
-        public void onScrollStarted();
+        void onScrollStarted();
 
         /**
          * Invoked when the user scrolls the drawer's handle.
          */
-        public void onScrolling(int pos);
+        void onScrolling(int pos);
 
         /**
          * Invoked when the user stops dragging/flinging the drawer's handle.
          */
-        public void onScrollEnded();
+        void onScrollEnded();
     }
 
 
@@ -1323,7 +1328,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         public final int value;
 
-        private Side(int value) {
+        Side(int value) {
             this.value = value;
         }
 
@@ -1341,7 +1346,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         TOP(0), LEFT(1), BOTTOM(2), RIGHT(3);
         public final int value;
 
-        private Orientation(int value) {
+        Orientation(int value) {
             this.value = value;
         }
 

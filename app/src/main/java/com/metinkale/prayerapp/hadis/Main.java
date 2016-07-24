@@ -60,15 +60,19 @@ import java.util.List;
 
 public class Main extends BaseActivity implements OnClickListener, OnQueryTextListener {
 
-    private static final int STATE_SHUFFLED = 0, STATE_ORDER = 1, STATE_FAVORITE = 2;
+    private static final int STATE_SHUFFLED = 0;
+    private static final int STATE_ORDER = 1;
+    private static final int STATE_FAVORITE = 2;
 
     private int mState;
     private ViewPager mPager;
     private MyAdapter mAdapter;
     private TextView mNumber;
-    private ImageView mLeft, mRight;
+    private ImageView mLeft;
+    private ImageView mRight;
     private SharedPreferences mPrefs;
-    private MenuItem mSwitch, mFav;
+    private MenuItem mSwitch;
+    private MenuItem mFav;
     private List<Integer> mFavs = new ArrayList<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
@@ -156,7 +160,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     private String last() {
-        if (mState == STATE_FAVORITE || mState == STATE_SHUFFLED || mState == STATE_ORDER) {
+        if ((mState == STATE_FAVORITE) || (mState == STATE_SHUFFLED) || (mState == STATE_ORDER)) {
             return "last_nr" + (mState == STATE_FAVORITE) + (mState == STATE_SHUFFLED);
         } else {
             return "last_nr" + mState;
@@ -267,14 +271,18 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     void setCurrentPage(int i) {
-        if (i >= mAdapter.getCount()) i = mAdapter.getCount() - 1;
+        if (i >= mAdapter.getCount()) {
+            i = mAdapter.getCount() - 1;
+        }
 
 
         mNumber.setText(i + 1 + "/" + mAdapter.getCount());
         if (mFav == null) {
             return;
         }
-        if (mAdapter.getCount() == 0) return;
+        if (mAdapter.getCount() == 0) {
+            return;
+        }
 
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
             mFav.setIcon(R.drawable.ic_star_white_24dp);
@@ -282,7 +290,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             mFav.setIcon(R.drawable.ic_star_border_white_24dp);
         }
 
-        if (mRemFav != -1 && mFavs.contains(mRemFav)) {
+        if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
             mFavs.remove((Integer) mRemFav);
 
             mAdapter.notifyDataSetChanged();
@@ -322,7 +330,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (mTask != null && mTask.getStatus() == Status.RUNNING) {
+        if ((mTask != null) && (mTask.getStatus() == Status.RUNNING)) {
             return false;
         }
 
@@ -423,7 +431,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             }
 
             int s = mList.size();
-            Toast.makeText(Main.this, getString(R.string.foundXHadis, s == SqliteHelper.get().getCount() ? 0 : s), Toast.LENGTH_LONG).show();
+            Toast.makeText(Main.this, getString(R.string.foundXHadis, (s == SqliteHelper.get().getCount()) ? 0 : s), Toast.LENGTH_LONG).show();
 
         }
 

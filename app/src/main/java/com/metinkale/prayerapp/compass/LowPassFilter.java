@@ -37,7 +37,7 @@ public class LowPassFilter {
      * @return float array smoothed with a low-pass filter.
      */
     public static float[] filter(float[] input, float[] prev) {
-        if (input == null || prev == null) {
+        if ((input == null) || (prev == null)) {
             throw new NullPointerException("input and prev float arrays must be non-NULL");
         }
         if (input.length != prev.length) {

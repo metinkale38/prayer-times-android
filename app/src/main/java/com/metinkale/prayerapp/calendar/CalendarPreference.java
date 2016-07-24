@@ -44,25 +44,32 @@ public class CalendarPreference extends ListPreference {
 
     private Activity getActivity() {
         Context c = getContext();
-        while (c instanceof ContextWrapper && !(c instanceof Activity)) {
+        while ((c instanceof ContextWrapper) && !(c instanceof Activity)) {
             c = ((ContextWrapper) c).getBaseContext();
         }
-        if (c instanceof Activity) return (Activity) c;
+        if (c instanceof Activity) {
+            return (Activity) c;
+        }
         return null;
     }
 
     @Override
     protected void onClick() {
         init();
-        if (PermissionUtils.get(getActivity()).pCalendar) super.onClick();
-        else PermissionUtils.get(getActivity()).needCalendar(getActivity(), true);
+        if (PermissionUtils.get(getActivity()).pCalendar) {
+            super.onClick();
+        } else {
+            PermissionUtils.get(getActivity()).needCalendar(getActivity(), true);
+        }
     }
 
     private void init() {
         List<String> names = new ArrayList<>();
         List<String> ids = new ArrayList<>();
 
-        if (PermissionUtils.get(getActivity()).pCalendar) getCalendars(names, ids);
+        if (PermissionUtils.get(getActivity()).pCalendar) {
+            getCalendars(names, ids);
+        }
 
         names.add(0, getContext().getString(R.string.off));
         ids.add(0, "-1");

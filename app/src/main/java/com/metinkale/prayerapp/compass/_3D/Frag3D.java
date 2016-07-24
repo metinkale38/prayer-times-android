@@ -16,7 +16,6 @@
 
 package com.metinkale.prayerapp.compass._3D;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -53,8 +52,6 @@ public class Frag3D extends Fragment implements MyCompassListener {
             mCompassView.setAngle(rot[0], rot[1], rot[2]);
         }
     }
-
-
 
 
 }

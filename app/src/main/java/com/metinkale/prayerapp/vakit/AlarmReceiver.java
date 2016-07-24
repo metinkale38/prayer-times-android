@@ -54,7 +54,7 @@ public class AlarmReceiver extends IntentService {
         boolean silent = "silent".equals(prefs.getString("silenterType", "silent"));
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
-        if (ringermode != AudioManager.RINGER_MODE_SILENT && (ringermode != AudioManager.RINGER_MODE_VIBRATE || silent)) {
+        if ((ringermode != AudioManager.RINGER_MODE_SILENT) && ((ringermode != AudioManager.RINGER_MODE_VIBRATE) || silent)) {
             AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
             Intent i;
@@ -66,7 +66,7 @@ public class AlarmReceiver extends IntentService {
 
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * dur, service);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * dur), service);
 
             aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
 
@@ -91,15 +91,18 @@ public class AlarmReceiver extends IntentService {
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
         Intent i = new Intent(c, WakefulReceiver.class);
-        if (alarm != null) i.putExtra("json", alarm.toString());
-        int id=(int) ((alarm.city / 1000 / 1000) * 1000 + alarm.dayOffset * 100 + alarm.vakit.ordinal() * 10 + (alarm.early ? alarm.cuma ? 3 : 2 : 1));
+        if (alarm != null) {
+            i.putExtra("json", alarm.toString());
+        }
+        int id = (int) (((alarm.city / 1000 / 1000) * 1000) + (alarm.dayOffset * 100) + (alarm.vakit.ordinal() * 10) + (alarm.early ? (alarm.cuma ? 3 : 2) : 1));
         PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
                 FLAG_UPDATE_CURRENT);
 
         am.cancel(service);
 
-        if (alarm != null)
+        if (alarm != null) {
             App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
+        }
 
     }
 
@@ -115,7 +118,9 @@ public class AlarmReceiver extends IntentService {
             Crashlytics.logException(e);
         }
         wakeLock.release();
-        if (NotificationPopup.instance != null) NotificationPopup.instance.finish();
+        if (NotificationPopup.instance != null) {
+            NotificationPopup.instance.finish();
+        }
 
         Times.setAlarms();
     }
@@ -139,21 +144,28 @@ public class AlarmReceiver extends IntentService {
 
         Context c = App.getContext();
 
-        if (intent == null || !intent.hasExtra("json")) {
+        if ((intent == null) || !intent.hasExtra("json")) {
 
             return;
         }
         Alarm next = Alarm.fromString(intent.getStringExtra("json"));
         intent.removeExtra("json");
 
-        if (next.city == 0) return;
+        if (next.city == 0) {
+            return;
+        }
 
         Times t = Times.getTimes(next.city);
         boolean active = false;
-        if (t != null)
-            if (next.cuma) active = t.isCumaActive();
-            else if (next.early) active = t.isEarlyNotificationActive(next.vakit);
-            else active = t.isNotificationActive(next.vakit);
+        if (t != null) {
+            if (next.cuma) {
+                active = t.isCumaActive();
+            } else if (next.early) {
+                active = t.isEarlyNotificationActive(next.vakit);
+            } else {
+                active = t.isNotificationActive(next.vakit);
+            }
+        }
         if (!active) {
             return;
         }
@@ -192,10 +204,10 @@ public class AlarmReceiver extends IntentService {
         String txt = "";
         if (next.early) {
             String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlytext, left_part[next.vakit.index], t.getEarlyTime(next.vakit));
+            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], t.getEarlyTime(next.vakit));
         } else if (next.cuma) {
             String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlytext, left_part[next.vakit.index], t.getCumaTime());
+            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], t.getCumaTime());
         } else if (next.vakit != null) {
             txt = next.vakit.getString();
         }
@@ -220,7 +232,7 @@ public class AlarmReceiver extends IntentService {
         final MPHolder mp = new MPHolder();
 
 
-        if (sound != null && !sound.startsWith("silent")) {
+        if ((sound != null) && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!pm.isScreenOn()) {
                 Intent i = new Intent(c, NotificationPopup.class);
@@ -235,10 +247,10 @@ public class AlarmReceiver extends IntentService {
         }
 
         sInterrupt = false;
-        while (sound != null && !sound.startsWith("silent") && !sInterrupt) {
+        while ((sound != null) && !sound.startsWith("silent") && !sInterrupt) {
             int volume = -2;
 
-            if (sound != null && !sound.startsWith("silent") && !sound.startsWith("picker")) {
+            if ((sound != null) && !sound.startsWith("silent") && !sound.startsWith("picker")) {
 
                 if (sound.contains("$volume")) {
                     volume = Integer.parseInt(sound.substring(sound.indexOf("$volume") + 7));
@@ -260,10 +272,11 @@ public class AlarmReceiver extends IntentService {
                     } else if (next.early) {
                         t.setEarlySound(next.vakit, "silent");
                     } else {
-                        if (t.getSound(next.vakit).equals("sound"))
+                        if ("sound".equals(t.getSound(next.vakit))) {
                             t.setSound(next.vakit, "silent");
-                        else
+                        } else {
                             t.setDua(next.vakit, "silent");
+                        }
                     }
                     mp.mp = null;
                 }
@@ -273,7 +286,9 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            if (mp == null || mp.mp == null) return;
+                            if ((mp == null) || (mp.mp == null)) {
+                                return;
+                            }
                             mp.mp.stop();
                             mp.mp.release();
                             mp.mp = null;
@@ -283,7 +298,9 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                         @Override
                         public void onSeekComplete(MediaPlayer mediaPlayer) {
-                            if (mp == null || mp.mp == null) return;
+                            if ((mp == null) || (mp.mp == null)) {
+                                return;
+                            }
                             mp.mp.stop();
                             mp.mp.release();
                             mp.mp = null;
@@ -294,7 +311,7 @@ public class AlarmReceiver extends IntentService {
 
                 sInterrupt = false;
 
-                while (mp.mp != null && mp.mp.isPlaying()) {
+                while ((mp.mp != null) && mp.mp.isPlaying()) {
                     if (sInterrupt) {
                         mp.mp.stop();
                         mp.mp.release();
@@ -302,9 +319,11 @@ public class AlarmReceiver extends IntentService {
 
                         sound = null;
                         dua = null;
-                    } else try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
+                    } else {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
                 sInterrupt = false;

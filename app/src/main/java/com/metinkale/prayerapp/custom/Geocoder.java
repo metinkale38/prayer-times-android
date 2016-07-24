@@ -41,8 +41,9 @@ public class Geocoder {
                 } catch (NumberFormatException ignore) {
                     resp = geocoder.getFromLocationName(address, limit);
                 }
-            } else
+            } else {
                 resp = geocoder.getFromLocationName(address, limit);
+            }
             for (android.location.Address a : resp) {
                 Address g = new Address();
                 g.lat = a.getLatitude();
@@ -50,10 +51,12 @@ public class Geocoder {
                 g.country = a.getCountryName();
                 g.state = a.getAdminArea();
                 g.city = a.getLocality();
-                if (g.city == null)
+                if (g.city == null) {
                     g.city = a.getSubAdminArea();
-                if (g.city == null)
+                }
+                if (g.city == null) {
                     g.city = a.getFeatureName();
+                }
                 geo.add(g);
             }
         } catch (IOException e) {
@@ -64,8 +67,11 @@ public class Geocoder {
 
 
     public static class Address {
-        public String city, state, country;
-        public double lat, lng;
+        public String city;
+        public String state;
+        public String country;
+        public double lat;
+        public double lng;
     }
 
 }

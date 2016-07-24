@@ -16,7 +16,6 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/item"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,6 +42,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <ImageView
+            android:contentDescription="@null"
             android:id="@+id/handle"
             android:layout_width="?listPreferredItemHeight"
             android:layout_height="match_parent"

@@ -1,18 +1,18 @@
-    /*
- * Copyright (C) 2013 Andreas Stuetz <andreas.stuetz@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*
+* Copyright (C) 2013 Andreas Stuetz <andreas.stuetz@gmail.com>
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package com.metinkale.prayerapp.custom;
 
@@ -268,7 +268,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
 
-        if (position > 0 || offset > 0) {
+        if ((position > 0) || (offset > 0)) {
             newScrollX -= scrollOffset;
         }
 
@@ -283,7 +283,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (isInEditMode() || tabCount == 0) {
+        if (isInEditMode() || (tabCount == 0)) {
             return;
         }
 
@@ -300,14 +300,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         // if there is an offset, start interpolating left and right coordinates
         // between current and next tab
-        if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
+        if ((currentPositionOffset > 0f) && (currentPosition < (tabCount - 1))) {
 
             View nextTab = tabsContainer.getChildAt(currentPosition + 1);
             float nextTabLeft = nextTab.getLeft();
             float nextTabRight = nextTab.getRight();
 
-            lineLeft = currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft;
-            lineRight = currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight;
+            lineLeft = (currentPositionOffset * nextTabLeft) + ((1f - currentPositionOffset) * lineLeft);
+            lineRight = (currentPositionOffset * nextTabRight) + ((1f - currentPositionOffset) * lineRight);
         }
 
         canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
@@ -320,7 +320,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         // draw divider
 
         dividerPaint.setColor(dividerColor);
-        for (int i = 0; i < tabCount - 1; i++) {
+        for (int i = 0; i < (tabCount - 1); i++) {
             View tab = tabsContainer.getChildAt(i);
             canvas.drawLine(tab.getRight(), dividerPadding, tab.getRight(), height - dividerPadding, dividerPaint);
         }

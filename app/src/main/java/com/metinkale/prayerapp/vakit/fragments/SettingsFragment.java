@@ -24,8 +24,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -87,7 +87,9 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (mTimes == null) return;
+                if (mTimes == null) {
+                    return;
+                }
                 try {
                     mTimes.setTZFix(Double.parseDouble(editable.toString()));
                 } catch (Exception ignore) {
@@ -139,7 +141,9 @@ public class SettingsFragment extends Fragment {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (mTimes == null) return;
+                    if (mTimes == null) {
+                        return;
+                    }
                     try {
                         mMinAdj[ii] = Integer.parseInt(editable.toString());
                     } catch (Exception ignore) {
@@ -163,7 +167,9 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (mTimes != null) mTimes.setName(editable.toString());
+                if (mTimes != null) {
+                    mTimes.setName(editable.toString());
+                }
             }
         });
 
@@ -173,7 +179,7 @@ public class SettingsFragment extends Fragment {
 
 
     public void setTimes(Times t) {
-        if (mName != null && t != null) {
+        if ((mName != null) && (t != null)) {
             mTimes = null;
             mMinAdj = t.getMinuteAdj();
             for (int i = 0; i < mMins.length; i++) {

@@ -21,7 +21,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 
 public enum Vakit {
-    IMSAK(R.string.imsak, 0, "الإمساك"), SABAH(R.string.sabah, 0, "فجر"), GUNES(R.string.gunes, 1, "شروق"), OGLE(R.string.ogle, 2, "ظهر"), IKINDI(R.string.ikindi, 3, "عصر"), AKSAM(R.string.aksam, 4, "مغرب"), YATSI(R.string.yatsi, 5, "عشاء");
+    IMSAK(R.string.fajr, 0, "الإمساك"), SABAH(R.string.morningPrayer, 0, "فجر"), GUNES(R.string.sun, 1, "شروق"), OGLE(R.string.zuhr, 2, "ظهر"), IKINDI(R.string.asr, 3, "عصر"), AKSAM(R.string.maghrib, 4, "مغرب"), YATSI(R.string.ishaa, 5, "عشاء");
 
     public int index;
 
@@ -38,7 +38,9 @@ public enum Vakit {
     public static Vakit getByIndex(int index) {
         switch (index) {
             case 0:
-                if (Prefs.useArabic()) return SABAH;
+                if (Prefs.useArabic()) {
+                    return SABAH;
+                }
                 return IMSAK;
             case 1:
                 return GUNES;
@@ -55,8 +57,12 @@ public enum Vakit {
     }
 
     public String getString() {
-        if (Prefs.useArabic()) return arabic;
-        if (name == null) name = App.getContext().getString(resId);
+        if (Prefs.useArabic()) {
+            return arabic;
+        }
+        if (name == null) {
+            name = App.getContext().getString(resId);
+        }
 
         return name;
     }

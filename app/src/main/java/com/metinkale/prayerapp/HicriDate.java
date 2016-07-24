@@ -25,10 +25,18 @@ import java.util.List;
 
 public class HicriDate {
 
-    public static final int HD = 0, HM = 1, HY = 2, GD = 3, GM = 4, GY = 5, DAY = 6;
+    public static final int HD = 0;
+    public static final int HM = 1;
+    public static final int HY = 2;
+    public static final int GD = 3;
+    public static final int GM = 4;
+    public static final int GY = 5;
+    public static final int DAY = 6;
     private static final int[][] mDates;
 
-    public final int Year, Month, Day;
+    public final int Year;
+    public final int Month;
+    public final int Day;
 
     public HicriDate(int y, int m, int d) {
         Year = y;
@@ -52,9 +60,9 @@ public class HicriDate {
         for (int[] date : mDates) {
             if (date[GY] < y) {
                 last = date;
-            } else if (date[GY] == y && date[GM] < m) {
+            } else if ((date[GY] == y) && (date[GM] < m)) {
                 last = date;
-            } else if (date[GY] == y && date[GM] == m && date[GD] <= d) {
+            } else if ((date[GY] == y) && (date[GM] == m) && (date[GD] <= d)) {
                 last = date;
             } else {
                 break;
@@ -68,7 +76,7 @@ public class HicriDate {
         } else {
             int[] h = {last[HD], last[HM], last[HY]};
             h[0] += new LocalDate(y, m, d).getDayOfYear() - new LocalDate(last[GY], last[GM], last[GD]).getDayOfYear();
-            if (h[0] >= 30 || h[0] <= 0) {
+            if ((h[0] >= 30) || (h[0] <= 0)) {
                 LocalDate date = greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
                 Year = date.getYear();
                 Month = date.getMonthOfYear();
@@ -85,7 +93,7 @@ public class HicriDate {
     public static List<int[]> getHolydays(int year) {
         List<int[]> dates = new ArrayList<>();
         for (int[] d : mDates) {
-            if (d[GY] == year && d[DAY] != 0) {
+            if ((d[GY] == year) && (d[DAY] != 0)) {
                 dates.add(d);
             }
         }
@@ -93,8 +101,8 @@ public class HicriDate {
     }
 
 
-    public static int MIN_YEAR=2012;
-    public static int MAX_YEAR=2022;
+    public static int MIN_YEAR = 2012;
+    public static int MAX_YEAR = 2022;
 
     static {
         mDates = new int[][]{
@@ -394,8 +402,9 @@ public class HicriDate {
     public static int isHolyday() {
         LocalDate day = LocalDate.now();
         for (int[] date : mDates) {
-            if ((date[GD] == day.getDayOfMonth()) && (date[GM] == day.getMonthOfYear()) && (date[GY] == day.getYear()))
+            if (date[GD] == day.getDayOfMonth() && (date[GM] == day.getMonthOfYear()) && (date[GY] == day.getYear())) {
                 return date[DAY];
+            }
         }
         return 0;
     }

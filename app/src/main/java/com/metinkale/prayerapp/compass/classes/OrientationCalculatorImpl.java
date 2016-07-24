@@ -20,9 +20,17 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
     private static final int NUM_POINTS = POINTS_PER_SEGMENT * NUM_SEGMENTS;
     private List<Vector3> mVertices = new ArrayList<>(NUM_POINTS + 1);
     private static final int ORTHO_RESOLUTION = 1000;
-    private Vector3 mRollTopAbsolute = new Vector3(), mRollBottomAbsolute = new Vector3(), mOriginPoint = new Vector3(), mReticlePoint = new Vector3();
-    private Vector3 mSphereTop = new Vector3(), mSphereBottom = new Vector3(), mNorthReference = new Vector3();
-    private Vector3 mNorthAbsolute = new Vector3(), mSouthAbsolute = new Vector3(), mWestAbsolute = new Vector3(), mEastAbsolute = new Vector3();
+    private Vector3 mRollTopAbsolute = new Vector3();
+    private Vector3 mRollBottomAbsolute = new Vector3();
+    private Vector3 mOriginPoint = new Vector3();
+    private Vector3 mReticlePoint = new Vector3();
+    private Vector3 mSphereTop = new Vector3();
+    private Vector3 mSphereBottom = new Vector3();
+    private Vector3 mNorthReference = new Vector3();
+    private Vector3 mNorthAbsolute = new Vector3();
+    private Vector3 mSouthAbsolute = new Vector3();
+    private Vector3 mWestAbsolute = new Vector3();
+    private Vector3 mEastAbsolute = new Vector3();
 
     private Matrix4 mOrthographicProjectionMatrix = new Matrix4();
     private Matrix4 mModelViewMatrix = new Matrix4();
@@ -52,11 +60,18 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
         float closestPointDist = Float.MAX_VALUE;
         float distLR;
         float angle;
-        float neighborDist, distToR, distToL;
+        float neighborDist;
+        float distToR;
+        float distToL;
         float xScale = ORTHO_RESOLUTION;
         float yScale = ORTHO_RESOLUTION;
-        float distN, distS, distW, distE;
-        float deviceRoll, deviceAltitude, deviceBearing;
+        float distN;
+        float distS;
+        float distW;
+        float distE;
+        float deviceRoll;
+        float deviceAltitude;
+        float deviceBearing;
 
         // ALITTUDE
         // altitude - very simple, triangulate between top and bottom point
@@ -67,7 +82,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
         distToL = Util.calcDistance(mOriginPoint, mSphereBottom);
         distToR = Util.calcDistance(mOriginPoint, mReticlePoint);
         distLR = Util.calcDistance(mSphereBottom, mReticlePoint);
-        float altitude = RADIANS_TO_DEGREES * Util.calcAngle(distLR, Util.calcRadius(distToL, distToR, distLR)) - 90;
+        float altitude = (RADIANS_TO_DEGREES * Util.calcAngle(distLR, Util.calcRadius(distToL, distToR, distLR))) - 90;
 
         // flip quadrant if closer to top of globe
         if (dist > dist2) {
@@ -83,7 +98,11 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
         // another
         mReticlePoint.set(0.5f * xScale, 0.5f * yScale, -xScale);
         if (Math.abs(deviceAltitude) < 75) {
-            int closestPoint = 0, pot1, pot2, neighbor = 0, left = 0;
+            int closestPoint = 0;
+            int pot1;
+            int pot2;
+            int neighbor = 0;
+            int left = 0;
             int pointSize = NUM_POINTS;
             // find closest point
             for (int i = 0; i < pointSize; i++) {
@@ -98,10 +117,10 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
             }
 
             // potential neighbors for azimuth
-            if (closestPoint % POINTS_PER_SEGMENT == 0) {
+            if ((closestPoint % POINTS_PER_SEGMENT) == 0) {
                 pot1 = closestPoint + 1;
-                pot2 = closestPoint + POINTS_PER_SEGMENT - 1;
-            } else if ((closestPoint + 1) % POINTS_PER_SEGMENT == 0) {
+                pot2 = (closestPoint + POINTS_PER_SEGMENT) - 1;
+            } else if (((closestPoint + 1) % POINTS_PER_SEGMENT) == 0) {
                 pot1 = closestPoint - 1;
                 pot2 = closestPoint - POINTS_PER_SEGMENT - 1;
             } else {
@@ -110,7 +129,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
             }
 
             // bounds check
-            if (pot1 >= 0 && pot2 >= 0 && pot1 < pointSize && pot2 < pointSize) {
+            if ((pot1 >= 0) && (pot2 >= 0) && (pot1 < pointSize) && (pot2 < pointSize)) {
                 dist = Util.calcDistance(mReticlePoint, mVertices.get(pot1));
                 dist2 = Util.calcDistance(mReticlePoint, mVertices.get(pot2));
 
@@ -128,7 +147,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                     // if we're 345, and point to right is 0, left should be
                     // 345,
                     // not 0
-                    if ((closestPoint + 1) % POINTS_PER_SEGMENT == 0 && neighbor == pot2) {
+                    if ((((closestPoint + 1) % POINTS_PER_SEGMENT) == 0) && (neighbor == pot2)) {
                         left = closestPoint;
                         distToL = closestPointDist;
                         distToR = neighborDist;
@@ -138,7 +157,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                         distToR = closestPointDist;
                     }
                 } else {
-                    if (closestPoint % POINTS_PER_SEGMENT == 0 && neighbor == pot2) {
+                    if (((closestPoint % POINTS_PER_SEGMENT) == 0) && (neighbor == pot2)) {
                         left = neighbor;
                         distToL = neighborDist;
                         distToR = closestPointDist;
@@ -150,7 +169,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                 }
             }
 
-            if (neighbor <= NUM_POINTS - 1 && neighbor >= 0) {
+            if ((neighbor <= (NUM_POINTS - 1)) && (neighbor >= 0)) {
                 neighborPoint = mVertices.get(neighbor);
             } else {
                 if (neighbor < 0) {
@@ -164,11 +183,11 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
             angle = (left % POINTS_PER_SEGMENT) * angleIncrement;
             distLR = Util.calcDistance(mVertices.get(closestPoint), neighborPoint);
 
-            deviceBearing = Util.floatrev(angle + angleIncrement * Math.cos(Util.calcAngleClamp(distToR, Util.calcRadius(distToL, distToR, distLR))) * distToL / distLR - 180);
+            deviceBearing = Util.floatrev((angle + ((angleIncrement * Math.cos(Util.calcAngleClamp(distToR, Util.calcRadius(distToL, distToR, distLR))) * distToL) / distLR)) - 180);
         } else {
             // calc current N Point distance from original compass points
-            mNorthAbsolute.set(0.5f * xScale, 0.2f * xScale + (yScale - xScale) / 2, 0);
-            mSouthAbsolute.set(0.5f * xScale, 0.8f * xScale + (yScale - xScale) / 2, 0);
+            mNorthAbsolute.set(0.5f * xScale, (0.2f * xScale) + ((yScale - xScale) / 2), 0);
+            mSouthAbsolute.set(0.5f * xScale, (0.8f * xScale) + ((yScale - xScale) / 2), 0);
             mWestAbsolute.set(0.2f * xScale, 0.5f * yScale, 0);
             mEastAbsolute.set(0.8f * xScale, 0.5f * yScale, 0);
 
@@ -224,26 +243,26 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                 topBot = mSphereBottom;
             }
 
-            float adist = (float) Math.sqrt((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x) + (upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y));
-            float bdist = (float) Math.sqrt((upDown.x - topBot.x) * (upDown.x - topBot.x) + (upDown.y - topBot.y) * (upDown.y - topBot.y));
-            float cdist = (float) Math.sqrt((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x) + (mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y));
+            float adist = (float) Math.sqrt(((upDown.x - mOriginPoint.x) * (upDown.x - mOriginPoint.x)) + ((upDown.y - mOriginPoint.y) * (upDown.y - mOriginPoint.y)));
+            float bdist = (float) Math.sqrt(((upDown.x - topBot.x) * (upDown.x - topBot.x)) + ((upDown.y - topBot.y) * (upDown.y - topBot.y)));
+            float cdist = (float) Math.sqrt(((mOriginPoint.x - topBot.x) * (mOriginPoint.x - topBot.x)) + ((mOriginPoint.y - topBot.y) * (mOriginPoint.y - topBot.y)));
 
-            float val = (adist * adist + cdist * cdist - bdist * bdist) / (2 * adist * cdist);
+            float val = (((adist * adist) + (cdist * cdist)) - (bdist * bdist)) / (2 * adist * cdist);
             if (val < 1) {
-                float atheta = (float) Math.acos((adist * adist + cdist * cdist - bdist * bdist) / (2 * adist * cdist)) * RADIANS_TO_DEGREES;
+                float atheta = (float) Math.acos((((adist * adist) + (cdist * cdist)) - (bdist * bdist)) / (2 * adist * cdist)) * RADIANS_TO_DEGREES;
                 if (altAbove) {
-                    if (upDown.x - topBot.x < 0) {
+                    if ((upDown.x - topBot.x) < 0) {
                         atheta = -atheta;
                     }
                 } else {
-                    if (upDown.x - topBot.x > 0) {
+                    if ((upDown.x - topBot.x) > 0) {
                         atheta = -atheta;
                     }
                 }
                 atheta = Util.floatrev(atheta);
                 // restrict the roll to increments of 0.5 degrees - we don't
                 // need the precision here, also steady within 3 degrees
-                if (atheta <= 3 || atheta >= 357) {
+                if ((atheta <= 3) || (atheta >= 357)) {
                     atheta = 0;
                 } else {
                     atheta = 0.5f * Math.round(atheta / 0.5);
@@ -270,11 +289,11 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
         for (int j = 0; j < NUM_SEGMENTS; j++) {
             int idx = j - 5;
             float jCosVal = (float) Math.cos(DEGREES_TO_RADIANS * (idx * 15));
-            float jCosValInv = (float) Math.cos(DEGREES_TO_RADIANS * (90 - idx * 15));
+            float jCosValInv = (float) Math.cos(DEGREES_TO_RADIANS * (90 - (idx * 15)));
             for (int i = 0; i < POINTS_PER_SEGMENT; i++) {
                 float sinVal = (float) Math.sin(DEGREES_TO_RADIANS * (i * (360 / POINTS_PER_SEGMENT)));
                 float cosVal = (float) Math.cos(DEGREES_TO_RADIANS * (i * (360 / POINTS_PER_SEGMENT)));
-                mVertices.get(i + POINTS_PER_SEGMENT * j).set(sinVal * jCosVal * 1, -cosVal * jCosVal * 1, jCosValInv * 1);
+                mVertices.get(i + (POINTS_PER_SEGMENT * j)).set(sinVal * jCosVal * 1, -cosVal * jCosVal * 1, jCosValInv * 1);
             }
         }
 
@@ -300,8 +319,8 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                 for (Vector3 v : mOrthographicVertexBatch) {
                     vTemp.set(v.x, -v.y, -v.z, 0);
                     vTemp.mul(mModelViewMatrix);
-                    v.x = vTemp.x * 0.5f * width * orthoScale + width / 2;
-                    v.y = vTemp.y * 0.5f * width * orthoScale + width / 2 + (height - width) / 2;
+                    v.x = (vTemp.x * 0.5f * width * orthoScale) + (width / 2);
+                    v.y = (vTemp.y * 0.5f * width * orthoScale) + (width / 2) + ((height - width) / 2);
                     v.z = vTemp.z * 0.5f * width * orthoScale;
                 }
                 break;
@@ -311,8 +330,8 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
                     vTemp.set(v.x, -v.y, -v.z, 0);
                     vTemp.mul(mModelViewMatrix);
                     // reflect x and y axes...
-                    v.x = -vTemp.x * 0.5f * width + width / 2;
-                    v.y = -vTemp.y * 0.5f * width + width / 2 + (height - width) / 2;
+                    v.x = (-vTemp.x * 0.5f * width) + (width / 2);
+                    v.y = (-vTemp.y * 0.5f * width) + (width / 2) + ((height - width) / 2);
                     v.z = vTemp.z * 0.5f * width;
                 }
                 break;

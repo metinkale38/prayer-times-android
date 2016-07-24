@@ -94,7 +94,7 @@ public class Frag extends Fragment {
     }
 
     public void setQuery(String query) {
-        if (query == null || mText == null) {
+        if ((query == null) || (mText == null)) {
             mQuery = query;
             return;
         }

@@ -115,7 +115,6 @@
       <option name="onlyWarnOnBaseMethods" value="true" />
       <option name="questionString" value="add,are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would" />
     </inspection_tool>
-    <inspection_tool class="BooleanParameter" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="BooleanVariableAlwaysNegated" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="BreakStatement" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="BreakStatementWithLabel" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -152,9 +151,6 @@
     </inspection_tool>
     <inspection_tool class="CheckedExceptionClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClashingGetters" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="ClassComplexity" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_limit" value="80" />
-    </inspection_tool>
     <inspection_tool class="ClassCoupling" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_includeJavaClasses" value="false" />
       <option name="m_includeLibraryClasses" value="false" />
@@ -248,7 +244,6 @@
       <option name="m_minLength" value="5" />
       <option name="m_maxLength" value="32" />
     </inspection_tool>
-    <inspection_tool class="ConstantOnRHSOfComparison" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConstantValueVariableUse" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConstructorCount" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreDeprecatedConstructors" value="false" />
@@ -269,7 +264,6 @@
     <inspection_tool class="CyclomaticComplexity" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_limit" value="10" />
     </inspection_tool>
-    <inspection_tool class="DanglingJavadoc" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="DateToString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="DeclareCollectionAsInterface" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreLocalVariables" value="false" />
@@ -350,9 +344,6 @@
     <inspection_tool class="ExtendsUtilityClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ExternalizableWithSerializationMethods" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FallthruInSwitchStatement" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="FeatureEnvy" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignoreTestCases" value="false" />
-    </inspection_tool>
     <inspection_tool class="FieldAccessNotGuarded" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FieldAccessedSynchronizedAndUnsynchronized" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="countGettersAndSetters" value="false" />
@@ -367,7 +358,6 @@
     <inspection_tool class="FieldHidesSuperclassField" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_ignoreInvisibleFields" value="true" />
     </inspection_tool>
-    <inspection_tool class="FieldMayBeFinal" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FieldMayBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FieldNotUsedInToString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FieldRepeatedlyAccessed" enabled="true" level="WARNING" enabled_by_default="true">
@@ -583,9 +573,6 @@
       <option name="m_minLength" value="4" />
       <option name="m_maxLength" value="32" />
     </inspection_tool>
-    <inspection_tool class="InstanceVariableInitialization" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_ignorePrimitives" value="false" />
-    </inspection_tool>
     <inspection_tool class="InstanceVariableNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_regex" value="m_[a-z][A-Za-z\d]*" />
       <option name="m_minLength" value="5" />
@@ -597,11 +584,7 @@
       <option name="annotationNamesString" value="" />
     </inspection_tool>
     <inspection_tool class="InstanceofCatchParameter" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="InstanceofChain" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignoreInstanceofOnLibraryClasses" value="false" />
-    </inspection_tool>
     <inspection_tool class="InstanceofIncompatibleInterface" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="InstanceofInterfaces" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="InstanceofThis" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="InstantiationOfUtilityClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="IntLiteralMayBeLongLiteral" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -690,11 +673,6 @@
     <inspection_tool class="MarkerInterface" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodCallInLoopCondition" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodCanBeVariableArityMethod" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="MethodCount" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_limit" value="20" />
-      <option name="ignoreGettersAndSetters" value="false" />
-      <option name="ignoreOverridingMethods" value="false" />
-    </inspection_tool>
     <inspection_tool class="MethodCoupling" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_includeJavaClasses" value="false" />
       <option name="m_includeLibraryClasses" value="false" />
@@ -707,17 +685,11 @@
     <inspection_tool class="MethodMayBeSynchronized" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodNameSameAsParentName" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodNamesDifferOnlyByCase" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="MethodOnlyUsedFromInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignoreMethodsAccessedFromAnonymousClass" value="false" />
-      <option name="ignoreStaticMethodsFromNonStaticInnerClass" value="false" />
-      <option name="onlyReportStaticMethods" value="false" />
-    </inspection_tool>
     <inspection_tool class="MethodOverloadsParentMethod" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodOverridesPackageLocalMethod" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodOverridesPrivateMethod" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodOverridesStaticMethod" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodReturnAlwaysConstant" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="MethodReturnOfConcreteClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodWithMultipleLoops" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MisorderedAssertEqualsArgumentsTestNG" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MisorderedAssertEqualsParameters" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -890,7 +862,6 @@
       <option name="m_minLength" value="1" />
       <option name="m_maxLength" value="20" />
     </inspection_tool>
-    <inspection_tool class="ParameterOfConcreteClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ParameterTypePreventsOverriding" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ParameterizedParametersStaticCollection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ParametersPerConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -901,7 +872,6 @@
     <inspection_tool class="PointlessNullCheck" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="PrivateMemberAccessBetweenOuterAndInnerClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ProblematicVarargsMethodOverride" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="ProblematicWhitespace" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="PropertyValueSetToItself" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ProtectedField" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ProtectedInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
@@ -921,12 +891,6 @@
     <inspection_tool class="PublicInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreEnums" value="false" />
       <option name="ignoreInterfaces" value="false" />
-    </inspection_tool>
-    <inspection_tool class="PublicMethodNotExposedInInterface" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignorableAnnotations">
-        <value />
-      </option>
-      <option name="onlyWarnIfContainingClassImplementsAnInterface" value="false" />
     </inspection_tool>
     <inspection_tool class="PublicStaticArrayField" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="PublicStaticCollectionField" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1165,6 +1129,7 @@
       <option name="m_minLength" value="1" />
       <option name="m_maxLength" value="1" />
     </inspection_tool>
+    <inspection_tool class="UNCHECKED_WARNING" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnaryPlus" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UncheckedExceptionClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnclearBinaryExpression" enabled="true" level="WARNING" enabled_by_default="true" />

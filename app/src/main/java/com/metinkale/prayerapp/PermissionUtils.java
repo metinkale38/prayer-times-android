@@ -35,7 +35,10 @@ public class PermissionUtils {
     private static final int REQUEST_CAMERA = 2;
     private static final int REQUEST_STORAGE = 3;
     private static final int REQUEST_LOCATION = 4;
-    public boolean pCalendar, pCamera, pStorage, pLocation;
+    public boolean pCalendar;
+    public boolean pCamera;
+    public boolean pStorage;
+    public boolean pLocation;
     private static PermissionUtils mInstance;
 
     public static PermissionUtils get(Activity act) {
@@ -69,7 +72,7 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_camera_title).setMessage(R.string.permission_camera_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
@@ -87,7 +90,7 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_location_title).setMessage(R.string.permission_location_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
@@ -106,7 +109,7 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_calendar_title).setMessage(R.string.permission_calendar_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CALENDAR);
@@ -125,7 +128,7 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permission_storage_title).setMessage(R.string.permission_storage_text).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
@@ -142,7 +145,7 @@ public class PermissionUtils {
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pCamera = true;
                 } else {
                     pCamera = false;
@@ -150,7 +153,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_CALENDAR:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pCalendar = true;
                 } else {
                     pCalendar = false;
@@ -158,7 +161,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pLocation = true;
                 } else {
                     pLocation = false;
@@ -167,7 +170,7 @@ public class PermissionUtils {
                 return;
 
             case REQUEST_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     pStorage = true;
                 } else {
                     pStorage = false;

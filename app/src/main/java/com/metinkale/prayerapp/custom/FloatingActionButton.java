@@ -13,7 +13,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
@@ -143,7 +146,9 @@ public class FloatingActionButton extends View {
 
     @Override
     public boolean performClick() {
-        if (!mHidden) return super.performClick();
+        if (!mHidden) {
+            return super.performClick();
+        }
         return false;
     }
 
@@ -223,7 +228,7 @@ public class FloatingActionButton extends View {
             button.setFloatingActionButtonColor(color);
             button.setFloatingActionButtonDrawable(drawable);
             params.gravity = gravity;
-            ViewManager root = (ViewGroup) activity.findViewById(R.id.content);
+            ViewManager root = (ViewManager) activity.findViewById(R.id.content);
             root.addView(button, params);
             return button;
         }
@@ -233,7 +238,7 @@ public class FloatingActionButton extends View {
         // based on density scale
         // see developer.android.com (Supporting Multiple Screen Sizes)
         private int convertToPixels(int dp, float scale) {
-            return (int) (dp * scale + 0.5f);
+            return (int) ((dp * scale) + 0.5f);
         }
     }
 }

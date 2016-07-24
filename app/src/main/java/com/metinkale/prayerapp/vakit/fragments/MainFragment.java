@@ -43,14 +43,18 @@ public class MainFragment extends Fragment {
     private View mView;
     private Times mTimes;
     private long mCity;
-    private TextView mCountdown, mKerahat, mTitle, mHicri, mDate;
+    private TextView mCountdown;
+    private TextView mKerahat;
+    private TextView mTitle;
+    private TextView mHicri;
+    private TextView mDate;
     private boolean mHasTimes;
     private Runnable onSecond = new Runnable() {
 
         @Override
         public void run() {
 
-            if (mTimes != null && !mTimes.deleted()) {
+            if ((mTimes != null) && !mTimes.deleted()) {
                 if (!mHasTimes) {
                     update();
                 }
@@ -65,7 +69,7 @@ public class MainFragment extends Fragment {
                 for (int i = 0; i < 6; i++) {
                     TextView time = (TextView) mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == next - 1) {
+                    if (i == (next - 1)) {
                         time.setBackgroundResource(R.color.indicator);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.indicator);
                     } else {
@@ -109,7 +113,9 @@ public class MainFragment extends Fragment {
 
         mTimes = Times.getTimes(mCity);
 
-        if (mTimes == null) return new View(getActivity());
+        if (mTimes == null) {
+            return new View(getActivity());
+        }
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
         ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
         if (mTimes.getSource().resId != 0) {
@@ -130,7 +136,7 @@ public class MainFragment extends Fragment {
     }
 
     public void update() {
-        if (mTimes == null || mView == null) {
+        if ((mTimes == null) || (mView == null)) {
             return;
         }
 
@@ -149,10 +155,15 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < 6; i++) {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
-            if (!Prefs.use12H()) time.setText(daytimes[i]);
-            else time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            if (Prefs.use12H()) {
+                time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            } else {
+                time.setText(daytimes[i]);
+            }
 
-            if ("00:00".equals(daytimes[i])) mHasTimes = false;
+            if ("00:00".equals(daytimes[i])) {
+                mHasTimes = false;
+            }
         }
 
         mHandler.removeCallbacks(onSecond);
@@ -177,13 +188,15 @@ public class MainFragment extends Fragment {
                     ((Main) getActivity()).setFooterText("", false);
                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commit();
                 } else {
-                    ((Main) getActivity()).setFooterText(getString(R.string.imsakiye), true);
+                    ((Main) getActivity()).setFooterText(getString(R.string.monthly), true);
                     getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
 
                 }
 
             case R.id.refresh:
-                if (mTimes != null) mTimes.refresh();
+                if (mTimes != null) {
+                    mTimes.refresh();
+                }
                 break;
 
             case R.id.share:
@@ -196,7 +209,7 @@ public class MainFragment extends Fragment {
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.vakit));
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
                 startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
 

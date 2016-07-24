@@ -80,7 +80,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (PermissionUtils.get(this).pLocation) checkLocation();
+        if (PermissionUtils.get(this).pLocation) {
+            checkLocation();
+        }
     }
 
     public void checkLocation() {
@@ -92,12 +94,14 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             for (String provider : providers) {
                 Location last = lm.getLastKnownLocation(provider);
                 // one hour==1meter in accuracy
-                if (last != null && (loc == null || last.getAccuracy() - last.getTime() / (1000 * 60 * 60) < loc.getAccuracy() - loc.getTime() / (1000 * 60 * 60))) {
+                if ((last != null) && ((loc == null) || ((last.getAccuracy() - (last.getTime() / (1000 * 60 * 60))) < (loc.getAccuracy() - (loc.getTime() / (1000 * 60 * 60)))))) {
                     loc = last;
                 }
             }
 
-            if (loc != null) onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
+            if (loc != null) {
+                onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
+            }
 
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
@@ -106,7 +110,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             criteria.setCostAllowed(false);
             criteria.setSpeedRequired(false);
             String provider = lm.getBestProvider(criteria, true);
-            if (provider != null) lm.requestSingleUpdate(provider, this, null);
+            if (provider != null) {
+                lm.requestSingleUpdate(provider, this, null);
+            }
 
         } else {
             PermissionUtils.get(this).needLocation(this);
@@ -151,7 +157,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.contains(";") && mAdapter.getCount() <= 1) {
+        if (query.contains(";") && (mAdapter.getCount() <= 1)) {
             mAdapter.clear();
             Item item = new Item();
             item.city = "GPS";
@@ -168,7 +174,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             @Override
             public void onResult(List result) {
                 List<Item> items = result;
-                if (items != null && !items.isEmpty()) {
+                if ((items != null) && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
                 }
@@ -250,23 +256,29 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 vh = (ViewHolder) convertView.getTag();
             }
             Cities.Item i = getItem(position);
-            if (i.city.startsWith("BRUNSWICK")) i.city = "Braunschweig"; //;)
+            if (i.city.startsWith("BRUNSWICK")) {
+                i.city = "Braunschweig"; //;)
+            }
             vh.city.setText(i.city);
             vh.country.setText(i.country);
 
             vh.sourcetxt.setText(i.source.text);
-            if (i.source.resId != 0) {
+            if (i.source.resId == 0) {
+                vh.source.setVisibility(View.GONE);
+            } else {
                 vh.source.setImageResource(i.source.resId);
                 vh.source.setVisibility(View.VISIBLE);
-            } else {
-                vh.source.setVisibility(View.GONE);
             }
             return convertView;
         }
 
         class ViewHolder {
-            TextView country, city, sourcetxt, internetdsc;
-            ImageView source, internet;
+            TextView country;
+            TextView city;
+            TextView sourcetxt;
+            TextView internetdsc;
+            ImageView source;
+            ImageView internet;
         }
 
     }

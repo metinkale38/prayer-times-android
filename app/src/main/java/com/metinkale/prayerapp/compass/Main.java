@@ -111,7 +111,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            if (mode == Mode.TwoDim && mFrag2D.mHidden) {
+            if ((mode == Mode.TwoDim) && mFrag2D.mHidden) {
                 fragmentTransaction.remove((Fragment) mList);
                 mList = mFrag2D;
                 mFrag2D.show();
@@ -119,7 +119,9 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
                 if (PermissionUtils.get(this).pCamera) {
 
-                    if (mFrag3D == null) mFrag3D = new Frag3D();
+                    if (mFrag3D == null) {
+                        mFrag3D = new Frag3D();
+                    }
 
                     if (mList != mFrag3D) {
                         fragmentTransaction.replace(R.id.frag, mFrag3D, "3d");
@@ -134,7 +136,9 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
             } else if (mode == Mode.Map) {
 
 
-                if (mFragMap == null) mFragMap = new FragMap();
+                if (mFragMap == null) {
+                    mFragMap = new FragMap();
+                }
 
                 if (mList != mFragMap) {
                     fragmentTransaction.replace(R.id.frag, mFragMap, "map");
@@ -164,17 +168,17 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                 }
             }
         } else if (mSwitch == item) {
-            if (mMode != Mode.Map) {
-                mSensorManager.unregisterListener(mMagAccel);
-                updateFrag(Mode.Map);
-                mSwitch.setIcon(R.drawable.ic_action_compass);
-            } else {
+            if (mMode == Mode.Map) {
                 mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
                 mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
 
                 updateFrag(Mode.TwoDim);
 
                 mSwitch.setIcon(R.drawable.ic_action_maps_map);
+            } else {
+                mSensorManager.unregisterListener(mMagAccel);
+                updateFrag(Mode.Map);
+                mSwitch.setIcon(R.drawable.ic_action_compass);
             }
         }
 
@@ -263,7 +267,9 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     // RotationUpdateDelegate methods
     @Override
     public void onRotationUpdate(float[] newMatrix) {
-        if (mMode == Mode.Map) return;
+        if (mMode == Mode.Map) {
+            return;
+        }
         // remap matrix values according to display rotation, as in
         // SensorManager documentation.
         switch (mDisplayRotation) {
@@ -282,7 +288,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         mRotationMatrix.set(newMatrix);
         mOrientationCalculator.getOrientation(mRotationMatrix, mDisplayRotation, mDerivedDeviceOrientation);
 
-        updateFrag(mDerivedDeviceOrientation[1] > -55f ? Mode.ThreeDim : Mode.TwoDim);
+        updateFrag((mDerivedDeviceOrientation[1] > -55f) ? Mode.ThreeDim : Mode.TwoDim);
 
         mList.onUpdateSensors(mDerivedDeviceOrientation);
     }
@@ -300,7 +306,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
     @Override
     public void onLocationChanged(Location location) {
-        if (System.currentTimeMillis() - location.getTime() < (mOnlyNew ? 1000 * 60 : 1000 * 60 * 60 * 24)) {
+        if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
@@ -334,7 +340,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     private double getDirectionRad(double lat1, double lat2, double dLng) {
-        return Math.atan2(Math.sin(dLng), Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng));
+        return Math.atan2(Math.sin(dLng), (Math.cos(lat1) * Math.tan(lat2)) - (Math.sin(lat1) * Math.cos(dLng)));
     }
 
     @Override

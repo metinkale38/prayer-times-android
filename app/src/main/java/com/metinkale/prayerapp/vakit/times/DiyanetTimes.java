@@ -40,21 +40,25 @@ public class DiyanetTimes extends WebTimes {
     @Override
     protected boolean syncTimes() throws Exception {
         String path = getId();
-        if ("D_13_1008_0".equals(path)) path = "D_13_10080_9206";
+        if ("D_13_1008_0".equals(path)) {
+            path = "D_13_10080_9206";
+        }
         String[] a = path.split("_");
 
 
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = 0;
-        if (a.length == 4) city = Integer.parseInt(a[3]);
+        if (a.length == 4) {
+            city = Integer.parseInt(a[3]);
+        }
 
         URL url = new URL("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc");
 
         String postData = "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                 "<v:Header /><v:Body>" +
                 "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
-                "<IlceID i:type=\"d:int\">" + (city != 0 ? city : state) + "</IlceID>" +
+                "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
                 "<username i:type=\"d:string\">namazuser</username>" +
                 "<password i:type=\"d:string\">NamVak!14</password>" +
                 "</AylikNamazVakti></v:Body></v:Envelope>";
@@ -71,7 +75,7 @@ public class DiyanetTimes extends WebTimes {
 
         int code = conn.getResponseCode();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(code >= 200 && code < 400 ? conn.getInputStream() : conn.getErrorStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(((code >= 200) && (code < 400)) ? conn.getInputStream() : conn.getErrorStream()));
         StringBuilder total = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {

@@ -98,7 +98,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     private void saveCurrent() {
-        if (mCurrent == null) return;
+        if (mCurrent == null) {
+            return;
+        }
         mCurrent.title = mTitle.getText().toString();
         mCurrent.color = mZikr.getColor();
         mCurrent.count = mZikr.getCount();
@@ -116,9 +118,13 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         Set<String> keys = map.keySet();
         mZikrList = new ArrayList<Zikr>();
         for (String key : keys) {
-            if (key == null) continue;
+            if (key == null) {
+                continue;
+            }
             Set set = map.get(key);
-            if (set == null) continue;
+            if (set == null) {
+                continue;
+            }
             try {
                 List<String> list = new ArrayList<>(set);
                 Collections.sort(list);
@@ -145,7 +151,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         if (mZikrList.isEmpty()) {
             mZikrList = new ArrayList<>();
             mCurrent = new Zikr();
-            mCurrent.title = getString(R.string.tesbih);
+            mCurrent.title = getString(R.string.tasbih);
             mCurrent.max = 33;
             mCurrent.key = "default";
             mZikrList.add(mCurrent);
@@ -153,7 +159,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     private void load(Zikr z) {
-        if (!mZikrList.contains(z) && z != null) {
+        if (!mZikrList.contains(z) && (z != null)) {
             mZikrList.add(z);
         }
 
@@ -170,9 +176,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             mZikr.setMax(z.max);
         }
 
-        if (z != null && "default".equals(z.key)) {
+        if ((z != null) && "default".equals(z.key)) {
             mTitle.setEnabled(false);
-            mTitle.setText(getString(R.string.tesbih));
+            mTitle.setText(getString(R.string.tasbih));
         } else {
             mTitle.setEnabled(true);
         }
@@ -200,7 +206,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
             if (mZikr.getCount() == mZikr.getMax()) {
                 mZikr.counter();
-                if (mVibrate != -1) mVibrator.vibrate(new long[]{0, 100, 100, 100, 100, 100}, -1);
+                if (mVibrate != -1) {
+                    mVibrator.vibrate(new long[]{0, 100, 100, 100, 100, 100}, -1);
+                }
                 mZikr.setCount(0);
             } else if (mVibrate == 0) {
                 mVibrator.vibrate(10);
@@ -208,8 +216,8 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
         } else if (v == mReset) {
             AlertDialog dialog = new AlertDialog.Builder(this).create();
-            dialog.setTitle(R.string.zikr);
-            dialog.setMessage(getString(R.string.resetConfirmZikr, mCurrent.title));
+            dialog.setTitle(R.string.dhikr);
+            dialog.setMessage(getString(R.string.resetConfirmDhikr, mCurrent.title));
             dialog.setCancelable(false);
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
@@ -249,19 +257,19 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             case R.id.add:
                 Zikr z = new Zikr();
                 z.key = System.currentTimeMillis() + "";
-                z.title = getString(R.string.new_zikr);
+                z.title = getString(R.string.newDhikr);
                 mZikrList.add(z);
                 load(z);
                 onLongClick(null);
                 return true;
 
             case R.id.del:
-                if (mCurrent != null && mCurrent.key.equals("default")) {
+                if ("default".equals(mCurrent.key)) {
                     return false;
                 }
                 AlertDialog dialog = new AlertDialog.Builder(this).create();
                 dialog.setTitle(R.string.delete);
-                dialog.setMessage(getString(R.string.delConfirmZikr, mCurrent.title));
+                dialog.setMessage(getString(R.string.delConfirmDhikr, mCurrent.title));
                 dialog.setCancelable(false);
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
@@ -291,7 +299,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             return false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.zikr_count);
+        builder.setTitle(R.string.dhikrCount);
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);

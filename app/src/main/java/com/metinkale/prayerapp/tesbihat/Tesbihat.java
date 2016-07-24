@@ -60,7 +60,7 @@ public class Tesbihat extends BaseActivity {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if (Times.getCount() != 0 && "tr".equals(mLang)) {
+        if ((Times.getCount() != 0) && "tr".equals(mLang)) {
             int next = Times.getTimes(Times.getIds().get(0)).getNext();
 
             switch (next) {
@@ -191,15 +191,15 @@ public class Tesbihat extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.sabah);
+                    return getString(R.string.morningPrayer);
                 case 1:
-                    return getString(R.string.ogle);
+                    return getString(R.string.zuhr);
                 case 2:
-                    return getString(R.string.ikindi);
+                    return getString(R.string.asr);
                 case 3:
-                    return getString(R.string.aksam);
+                    return getString(R.string.maghrib);
                 case 4:
-                    return getString(R.string.yatsi);
+                    return getString(R.string.ishaa);
             }
             return null;
         }

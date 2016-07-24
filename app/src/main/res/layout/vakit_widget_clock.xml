@@ -16,32 +16,34 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+                android:id="@+id/main"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <ImageView
-        android:id="@+id/widget"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@mipmap/ic_launcher" />
+            android:contentDescription="@null"
+            android:id="@+id/widget"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@mipmap/ic_launcher"/>
 
     <TextView
-        android:id="@+id/center"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerInParent="true" />
+            android:id="@+id/center"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"/>
 
 
     <TextView
-        android:id="@+id/abovePart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/center" />
+            android:id="@+id/abovePart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/center"/>
 
-    <TextView android:id="@+id/belowPart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/center"
-        android:layout_centerInParent="true" />
+    <TextView
+            android:id="@+id/belowPart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/center"
+            android:layout_centerInParent="true"/>
 </RelativeLayout>

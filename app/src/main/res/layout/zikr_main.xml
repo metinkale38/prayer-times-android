@@ -27,8 +27,8 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="#00000000"
-            android:hint="@string/new_zikr"
-            android:text="@string/new_zikr"
+            android:hint="@string/newDhikr"
+            android:text="@string/newDhikr"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <RelativeLayout
@@ -45,6 +45,7 @@
                 android:layout_height="match_parent"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:id="@+id/reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +90,6 @@
                     android:tag="#00bcd4"/>
 
             <View
-                    android:id="@+id/button2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -98,7 +98,6 @@
                     android:tag="#ffc107"/>
 
             <View
-                    android:id="@+id/button3"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -107,7 +106,6 @@
                     android:tag="#e51c23"/>
 
             <View
-                    android:id="@+id/button4"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -130,7 +128,6 @@
                     android:tag="#795548"/>
 
             <View
-                    android:id="@+id/button6"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -139,7 +136,6 @@
                     android:tag="#903AE8"/>
 
             <View
-                    android:id="@+id/button7"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -148,7 +144,6 @@
                     android:tag="#e91e63"/>
 
             <View
-                    android:id="@+id/button8"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"

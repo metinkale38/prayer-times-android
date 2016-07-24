@@ -42,7 +42,9 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
     private final int mTesbihatTextSize;
     private final float mCompassLat;
     private final float mCompassLng;
-    private final int mKerahatSunrise, mKerahatIstiwa, mKerahatSunset;
+    private final int mKerahatSunrise;
+    private final int mKerahatIstiwa;
+    private final int mKerahatSunset;
     private final boolean mMigratedFromSqlite;
     private final boolean mAlternativeOngoing;
     private SharedPreferences.Editor mEditor;
@@ -91,7 +93,9 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
 
     private static Prefs get() {
         synchronized (LOCK) {
-            if (ourInstance == null) ourInstance = new Prefs();
+            if (ourInstance == null) {
+                ourInstance = new Prefs();
+            }
         }
         return ourInstance;
     }

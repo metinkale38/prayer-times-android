@@ -68,7 +68,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return ret;
     }
 
-    public List<Integer> search(String query) {
+    public List<Integer> search(CharSequence query) {
         openDatabase();
         List<Integer> list = new ArrayList<>();
         try {
@@ -96,7 +96,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     public Collection<Integer> get(String cat) {
         openDatabase();
-        List<Integer> list = new ArrayList<>();
+        Collection<Integer> list = new ArrayList<>();
         try {
             Cursor c = mDB.query("HADIS", new String[]{"ID"}, "KONU = \"" + cat + "\"", null, null, null, null);
             c.moveToFirst();
@@ -187,7 +187,10 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     static class Hadis {
         int id;
-        String konu, detay, hadis, kaynak;
+        String konu;
+        String detay;
+        String hadis;
+        String kaynak;
     }
 
 }

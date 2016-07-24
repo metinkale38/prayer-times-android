@@ -56,7 +56,7 @@ public class Settings extends BaseActivity {
             Crashlytics.logException(e);
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
-        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendemail)));
+        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendMail)));
     }
 
     @Override
@@ -119,8 +119,11 @@ public class Settings extends BaseActivity {
 
                         String lang = Prefs.getLanguage();
                         String url = DONATE_LINK_EN;
-                        if ("tr".equals(lang)) url = DONATE_LINK_TR;
-                        else if ("de".equals(lang)) url = DONATE_LINK_DE;
+                        if ("tr".equals(lang)) {
+                            url = DONATE_LINK_TR;
+                        } else if ("de".equals(lang)) {
+                            url = DONATE_LINK_DE;
+                        }
 
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
@@ -143,7 +146,7 @@ public class Settings extends BaseActivity {
         }
 
         @Override
-        public boolean onPreferenceChange(final Preference pref, Object newValue) {
+        public boolean onPreferenceChange(Preference pref, Object newValue) {
 
             if ("language".equals(pref.getKey())) {
                 Utils.changeLanguage((String) newValue);

@@ -40,6 +40,6 @@ public class AutoResizeTextView extends TextView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, h * 7 / 10);
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, (h * 7) / 10);
     }
 }

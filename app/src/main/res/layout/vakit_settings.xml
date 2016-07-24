@@ -66,6 +66,7 @@
 
 
             <ImageView
+                    android:contentDescription="@null"
                     android:id="@id/minus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -82,6 +83,7 @@
                     android:textColor="#ffffff"/>
 
             <ImageView
+                    android:contentDescription="@null"
                     android:id="@id/plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -116,6 +118,7 @@
                     android:layout_toLeftOf="@id/center">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -141,10 +144,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/imsak"
+                        android:text="@string/fajr"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -162,6 +166,7 @@
                     android:layout_alignParentTop="true">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -187,10 +192,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/gunes"
+                        android:text="@string/sun"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -208,6 +214,7 @@
                     android:layout_below="@id/imsak">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -233,10 +240,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/ogle"
+                        android:text="@string/zuhr"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -253,6 +261,7 @@
                     android:layout_toRightOf="@id/center">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -278,10 +287,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/ikindi"
+                        android:text="@string/asr"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -299,6 +309,7 @@
                     android:layout_toLeftOf="@id/center">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -324,10 +335,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/aksam"
+                        android:text="@string/maghrib"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -345,6 +357,7 @@
                     android:layout_toRightOf="@id/center">
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -372,10 +385,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/yatsi"
+                        android:text="@string/ishaa"
                         android:textColor="#ffffff"/>
 
                 <ImageView
+                        android:contentDescription="@null"
                         android:id="@id/minus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"

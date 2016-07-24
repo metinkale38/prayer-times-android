@@ -24,7 +24,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -39,9 +39,9 @@ import java.util.List;
  */
 public class VibrationPreference extends EditTextPreference {
     //Layout Fields
-    private final RelativeLayout layout = new RelativeLayout(this.getContext());
-    private final EditText editText = new EditText(this.getContext());
-    private final Button button = new Button(this.getContext());
+    private final RelativeLayout layout = new RelativeLayout(getContext());
+    private final EditText editText = new EditText(getContext());
+    private final Button button = new Button(getContext());
 
     public static long[] getPattern(Context c, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -57,17 +57,18 @@ public class VibrationPreference extends EditTextPreference {
             }
         }
         long[] pattern = new long[mills.size()];
-        for (int i = 0; i < pattern.length; i++)
+        for (int i = 0; i < pattern.length; i++) {
             pattern[i] = mills.get(i);
+        }
         return pattern;
 
     }
 
     //Called when addPreferencesFromResource() is called. Initializes basic paramaters
-    public VibrationPreference(final Context context, AttributeSet attrs) {
+    public VibrationPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPersistent(true);
-        button.setText(R.string.tryvibration);
+        button.setText(R.string.tryVibration);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,8 +86,9 @@ public class VibrationPreference extends EditTextPreference {
 
                 Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 long[] pattern = new long[mills.size()];
-                for (int i = 0; i < pattern.length; i++)
+                for (int i = 0; i < pattern.length; i++) {
                     pattern[i] = mills.get(i);
+                }
                 vib.vibrate(pattern, -1);
             }
         });
@@ -121,18 +123,19 @@ public class VibrationPreference extends EditTextPreference {
         super.onDialogClosed(positiveresult);
         if (positiveresult && shouldPersist()) {
             String value = editText.getText().toString();
-            if (callChangeListener(value))
+            if (callChangeListener(value)) {
                 persistString(value);
+            }
         }
 
-        ((ViewGroup) editText.getParent()).removeView(editText);
-        ((ViewGroup) button.getParent()).removeView(button);
-        ((ViewGroup) layout.getParent()).removeView(layout);
+        ((ViewManager) editText.getParent()).removeView(editText);
+        ((ViewManager) button.getParent()).removeView(button);
+        ((ViewManager) layout.getParent()).removeView(layout);
 
         notifyChanged();
     }
 
-    public void setValue(String value) {
+    public void setValue(CharSequence value) {
         editText.setText(value);
     }
 }

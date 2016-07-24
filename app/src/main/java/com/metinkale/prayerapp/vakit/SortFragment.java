@@ -89,7 +89,9 @@ public class SortFragment extends Fragment implements Times.TimesListener {
 
     @Override
     public void notifyDataSetChanged() {
-        if (mAdapter.getItemCount() != Times.getCount()) mAdapter.dataChanged();
+        if (mAdapter.getItemCount() != Times.getCount()) {
+            mAdapter.dataChanged();
+        }
     }
 
     public void onItemMove(int fromPosition, int toPosition) {
@@ -134,7 +136,6 @@ public class SortFragment extends Fragment implements Times.TimesListener {
     static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView city;
         public TextView source;
-        public int pos;
         public View handler;
 
         public ViewHolder(View v) {
@@ -162,11 +163,12 @@ public class SortFragment extends Fragment implements Times.TimesListener {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder vh, final int position) {
-            vh.pos = position;
+        public void onBindViewHolder(final ViewHolder vh, int position) {
 
             Times c = getItem(position);
-            if (c == null) return;
+            if (c == null) {
+                return;
+            }
             vh.city.setText(c.getName());
             vh.source.setText(c.getSource().text);
 
@@ -185,7 +187,7 @@ public class SortFragment extends Fragment implements Times.TimesListener {
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    act.onItemClick(position);
+                    act.onItemClick(vh.getAdapterPosition());
                 }
             });
         }

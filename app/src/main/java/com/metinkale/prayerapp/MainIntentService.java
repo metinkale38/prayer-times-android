@@ -42,12 +42,13 @@ import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.ReadableInstant;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
@@ -96,7 +97,9 @@ public class MainIntentService extends IntentService {
     }
 
     public static void rescheduleAlarms(Context context) {
-        if (!"samsung".equalsIgnoreCase(Build.MANUFACTURER)) return;
+        if (!"samsung".equalsIgnoreCase(Build.MANUFACTURER)) {
+            return;
+        }
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_RESCHEDULE_ALARMS);
         context.startService(intent);
@@ -119,8 +122,9 @@ public class MainIntentService extends IntentService {
                         handleDownloadSound(sound, callback);
                         break;
                     case ACTION_RESCHEDULE_ALARMS:
-                        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false))
+                        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false)) {
                             break;
+                        }
                     case ACTION_SET_ALARMS:
                         if ("samsung".equalsIgnoreCase(Build.MANUFACTURER)) {
                             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -143,8 +147,9 @@ public class MainIntentService extends IntentService {
                 }
 
             } catch (Exception e) {
-                if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+                if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
                     Crashlytics.logException(e);
+                }
             }
 
         }
@@ -167,18 +172,20 @@ public class MainIntentService extends IntentService {
             ProgressDialog dlg;
         }
         final Holder holder = new Holder();
-        if (act != null) act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                holder.dlg = new ProgressDialog(act);
-                holder.dlg.setTitle("Downloading");
-                holder.dlg.setMessage(notificationText);
-                holder.dlg.setIndeterminate(true);
-                holder.dlg.setCancelable(false);
-                holder.dlg.setCanceledOnTouchOutside(false);
-                holder.dlg.show();
-            }
-        });
+        if (act != null) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    holder.dlg = new ProgressDialog(act);
+                    holder.dlg.setTitle("Downloading");
+                    holder.dlg.setMessage(notificationText);
+                    holder.dlg.setIndeterminate(true);
+                    holder.dlg.setCancelable(false);
+                    holder.dlg.setCanceledOnTouchOutside(false);
+                    holder.dlg.show();
+                }
+            });
+        }
         try {
             URL url = new URL(Url);
             f.getParentFile().mkdirs();
@@ -204,33 +211,41 @@ public class MainIntentService extends IntentService {
             f.delete();
         }
 
-        if (act != null) act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                holder.dlg.dismiss();
-            }
-        });
+        if (act != null) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    holder.dlg.dismiss();
+                }
+            });
+        }
         nm.cancel(1111);
 
     }
 
 
     private void handleDownloadHadis(Runnable callback) {
-        if (Prefs.getLanguage() == null) return;
+        if (Prefs.getLanguage() == null) {
+            return;
+        }
 
 
         String file = Prefs.getLanguage() + "/hadis.db";
         File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
         String url = App.API_URL + "/hadis." + Prefs.getLanguage() + ".db";
-        downloadFile(url, f, getString(R.string.hadis));
-        if (callback != null) callback.run();
+        downloadFile(url, f, getString(R.string.hadith));
+        if (callback != null) {
+            callback.run();
+        }
     }
 
 
     private void handleDownloadSound(Sounds.Sound sound, Runnable callback) {
         downloadFile(sound.url, sound.getFile(), sound.name);
-        if (callback != null) callback.run();
+        if (callback != null) {
+            callback.run();
+        }
     }
 
 
@@ -249,9 +264,11 @@ public class MainIntentService extends IntentService {
 
             String id = Prefs.getCalendar();
 
-            if ("-1".equals(id) || Prefs.getLanguage() == null) return;
+            if ("-1".equals(id) || (Prefs.getLanguage() == null)) {
+                return;
+            }
             int year = LocalDate.now().getYear();
-            List<int[]> days = new ArrayList<>();
+            Collection<int[]> days = new ArrayList<>();
             days.addAll(HicriDate.getHolydays(year));
             days.addAll(HicriDate.getHolydays(year + 1));
 
@@ -264,7 +281,7 @@ public class MainIntentService extends IntentService {
                 event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date[HicriDate.DAY] - 1));
                 event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
 
-                DateTime cal = new DateTime(date[HicriDate.GY], date[HicriDate.GM], date[HicriDate.GD], 0, 0, 0);
+                ReadableInstant cal = new DateTime(date[HicriDate.GY], date[HicriDate.GM], date[HicriDate.GD], 0, 0, 0);
 
                 long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;

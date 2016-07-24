@@ -57,12 +57,14 @@ public class NVCTimes extends WebTimes {
 
 
             int y = LocalDate.now().getYear();
-            while ((line = reader.readLine()) != null) if (line.contains("cityNameTR")) {
-                line = line.substring(line.indexOf("cityNameTR"));
-                line = line.substring(line.indexOf("\"") + 1);
-                line = line.substring(0, line.indexOf("\""));
-                return line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("cityNameTR")) {
+                    line = line.substring(line.indexOf("cityNameTR"));
+                    line = line.substring(line.indexOf("\"") + 1);
+                    line = line.substring(0, line.indexOf("\""));
+                    return line;
 
+                }
             }
         } catch (Exception ignore) {
         }
@@ -84,44 +86,57 @@ public class NVCTimes extends WebTimes {
         String line;
 
         int y = LocalDate.now().getYear();
-        while ((line = reader.readLine()) != null) try {
-            if (line.contains("<prayertimes")) {
-                String doy = line.substring(line.indexOf("dayofyear=") + 11);
-                String day = line.substring(line.indexOf("day=") + 5);
-                String month = line.substring(line.indexOf("month=") + 7);
-                doy = doy.substring(0, doy.indexOf("\""));
-                day = day.substring(0, day.indexOf("\""));
-                month = month.substring(0, month.indexOf("\""));
-                if (day.length() == 1) day = "0" + day;
-                if (month.length() == 1) month = "0" + month;
-                String date;
-                if ("0".equals(doy)) date = day + "." + month + "." + (y - 1);
-                else if ("366".equals(doy) || "367".equals(doy) && "01".equals(month))
-                    date = day + "." + month + "." + (y + 1);
-                else date = day + "." + month + "." + y;
-                String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
-                data = data.replace("*", "").replace("\t", " ");
-                List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
-                d.remove(15);
-                d.remove(14);
-                d.remove(13);
-                d.remove(12);
-                d.remove(10);
-                d.remove(8);
-                d.remove(7);
-                d.remove(4);
-                d.remove(3);
-                d.remove(1);
+        while ((line = reader.readLine()) != null) {
+            try {
+                if (line.contains("<prayertimes")) {
+                    String doy = line.substring(line.indexOf("dayofyear=") + 11);
+                    String day = line.substring(line.indexOf("day=") + 5);
+                    String month = line.substring(line.indexOf("month=") + 7);
+                    doy = doy.substring(0, doy.indexOf("\""));
+                    day = day.substring(0, day.indexOf("\""));
+                    month = month.substring(0, month.indexOf("\""));
+                    if (day.length() == 1) {
+                        day = "0" + day;
+                    }
+                    if (month.length() == 1) {
+                        month = "0" + month;
+                    }
+                    String date;
+                    if ("0".equals(doy)) {
+                        date = day + "." + month + "." + (y - 1);
+                    } else if ("366".equals(doy) || "367".equals(doy) && "01".equals(month)) {
+                        date = day + "." + month + "." + (y + 1);
+                    } else {
+                        date = day + "." + month + "." + y;
+                    }
+                    String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
+                    data = data.replace("*", "").replace("\t", " ");
+                    List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
+                    d.remove(15);
+                    d.remove(14);
+                    d.remove(13);
+                    d.remove(12);
+                    d.remove(10);
+                    d.remove(8);
+                    d.remove(7);
+                    d.remove(4);
+                    d.remove(3);
+                    d.remove(1);
 
-                data = "";
-                for (String s : d)
-                    if (s.length() == 4) data += " 0" + s;
-                    else data += " " + s;
-                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+                    data = "";
+                    for (String s : d) {
+                        if (s.length() == 4) {
+                            data += " 0" + s;
+                        } else {
+                            data += " " + s;
+                        }
+                    }
+                    setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
 
+                }
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
-        } catch (Exception e) {
-            Crashlytics.logException(e);
         }
 
         return true;

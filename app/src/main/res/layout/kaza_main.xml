@@ -38,6 +38,7 @@
             android:paddingRight="50dp">
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@+id/minus"
                 android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@+id/plus"
                 android:layout_width="wrap_content"
@@ -93,6 +95,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -103,6 +106,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"
@@ -148,6 +152,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -158,6 +163,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"
@@ -203,6 +209,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -213,6 +220,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"
@@ -258,6 +266,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -268,6 +277,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"
@@ -313,6 +323,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -323,6 +334,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"
@@ -368,6 +380,7 @@
 
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/minus"
                 android:layout_width="wrap_content"
@@ -378,6 +391,7 @@
                 android:src="@drawable/ic_remove_circle_white_48dp"/>
 
         <ImageView
+                android:contentDescription="@null"
                 android:tint="@color/colorPrimaryDark"
                 android:id="@id/plus"
                 android:layout_width="wrap_content"

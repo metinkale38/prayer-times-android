@@ -74,7 +74,7 @@ public class WidgetProvider extends AppWidgetProvider {
         h = (int) (16 * scale);
 
 
-        if (w <= 0 || h <= 0) {
+        if ((w <= 0) || (h <= 0)) {
             SharedPreferences.Editor edit = widgets.edit();
             edit.remove(widgetId + "_width");
             edit.remove(widgetId + "_height");
@@ -108,8 +108,9 @@ public class WidgetProvider extends AppWidgetProvider {
         } catch (ClassCastException e) {
             widgets.edit().remove(widgetId + "").apply();
         }
-        if (id != 0)
+        if (id != 0) {
             times = Times.getTimes(id);
+        }
         if (times == null) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
             Intent i = new Intent(context, WidgetConfigure.class);
@@ -155,7 +156,7 @@ public class WidgetProvider extends AppWidgetProvider {
         paint.setTextAlign(Align.CENTER);
         canvas.drawText(times.getName(), w / 2, (int) (l * 1.8), paint);
 
-        paint.setTextSize((int) (l * 8 / 10));
+        paint.setTextSize((int) ((l * 8) / 10));
 
         if (next != 0) {
             paint.setColor(theme.hovercolor);
@@ -172,19 +173,19 @@ public class WidgetProvider extends AppWidgetProvider {
         canvas.drawText(Vakit.YATSI.getString(), w / 6, (int) (l * 8.2), paint);
 
         paint.setTextAlign(Align.RIGHT);
-        if (!Prefs.use12H()) {
-            for (int i = 0; i < daytimes.length; i++) {
-                canvas.drawText(daytimes[i], w * 5 / 6, (int) (l * 3.2 + i * l), paint);
-            }
-        } else {
+        if (Prefs.use12H()) {
             for (int i = 0; i < daytimes.length; i++) {
                 String time = Utils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
-                paint.setTextSize((int) (l * 8 / 10));
-                canvas.drawText(time, w * 5 / 6 - paint.measureText("A"), (int) (l * 3.2 + i * l), paint);
-                paint.setTextSize((int) (l * 4 / 10));
-                canvas.drawText(suffix, w * 5 / 6 + paint.measureText(time) / 4, (int) (l * 3 + i * l), paint);
+                paint.setTextSize((int) ((l * 8) / 10));
+                canvas.drawText(time, ((w * 5) / 6) - paint.measureText("A"), (int) (l * 3.2 + i * l), paint);
+                paint.setTextSize((int) ((l * 4) / 10));
+                canvas.drawText(suffix, ((w * 5) / 6) + (paint.measureText(time) / 4), (int) (l * 3 + i * l), paint);
+            }
+        } else {
+            for (int i = 0; i < daytimes.length; i++) {
+                canvas.drawText(daytimes[i], (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
             }
         }
         paint.setTextSize((int) l);
@@ -202,8 +203,9 @@ public class WidgetProvider extends AppWidgetProvider {
         try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
-            if (!e.getMessage().contains("exceeds maximum bitmap memory usage"))
+            if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
                 Crashlytics.logException(e);
+            }
         }
 
     }
@@ -216,7 +218,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
             ComponentName thisWidget = new ComponentName(c, WidgetProvider.class);
             for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProvider.updateAppWidget(c, manager, i);
+                updateAppWidget(c, manager, i);
             }
 
             thisWidget = new ComponentName(c, WidgetProviderSmall.class);
@@ -247,7 +249,7 @@ public class WidgetProvider extends AppWidgetProvider {
             //backward compatibility
             thisWidget = new ComponentName(c, WidgetProvider.class);
             for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProvider.updateAppWidget(c, manager, i);
+                updateAppWidget(c, manager, i);
             }
 
             thisWidget = new ComponentName(c, WidgetProviderSmall.class);
@@ -306,7 +308,7 @@ public class WidgetProvider extends AppWidgetProvider {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
-        if (w * h != 0) {
+        if ((w * h) != 0) {
             SharedPreferences widgets = context.getSharedPreferences("widgets", 0);
             SharedPreferences.Editor edit = widgets.edit();
             edit.putInt(appWidgetId + "_width", w);

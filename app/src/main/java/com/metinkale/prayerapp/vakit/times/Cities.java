@@ -52,15 +52,20 @@ public class Cities extends SQLiteAssetHelper {
     private Executor mExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>()) {
         @Override
         public void execute(Runnable command) {
-            if (Looper.myLooper() == Looper.getMainLooper()) super.execute(command);
-            else command.run();
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                super.execute(command);
+            } else {
+                command.run();
+            }
         }
     };
 
     private Handler mHandler = new Handler();
 
     static synchronized Cities get() {
-        if (mInstance == null) mInstance = new Cities(App.getContext());
+        if (mInstance == null) {
+            mInstance = new Cities(App.getContext());
+        }
 
         return mInstance;
     }
@@ -132,8 +137,8 @@ public class Cities extends SQLiteAssetHelper {
     }
 
     private Cities(Context context) {
-        super(context, Cities.DATABASE_NAME, null, Cities.DATABASE_VERSION);
-        setForcedUpgrade(Cities.DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, Cities.DATABASE_VERSION);
+        setForcedUpgrade(DATABASE_VERSION);
     }
 
     private synchronized SQLiteDatabase openDatabase() {
@@ -157,11 +162,21 @@ public class Cities extends SQLiteAssetHelper {
             SQLiteDatabase db = openDatabase();
 
 
-            if ("".equals(source)) source = null;
-            if ("".equals(country)) country = null;
-            if ("".equals(state)) state = null;
-            if ("".equals(city)) city = null;
-            if (source != null) source = source.toUpperCase(Locale.GERMAN);
+            if ("".equals(source)) {
+                source = null;
+            }
+            if ("".equals(country)) {
+                country = null;
+            }
+            if ("".equals(state)) {
+                state = null;
+            }
+            if ("".equals(city)) {
+                city = null;
+            }
+            if (source != null) {
+                source = source.toUpperCase(Locale.GERMAN);
+            }
 
             if (source == null) {
                 resp.add("Diyanet");
@@ -172,9 +187,11 @@ public class Cities extends SQLiteAssetHelper {
             } else if (country == null) {
                 Cursor c = db.query(source, new String[]{"COUNTRY"}, null, null, "COUNTRY", null, "COUNTRY");
                 c.moveToFirst();
-                if (!c.isAfterLast()) do {
-                    resp.add(c.getString(0));
-                } while (c.moveToNext());
+                if (!c.isAfterLast()) {
+                    do {
+                        resp.add(c.getString(0));
+                    } while (c.moveToNext());
+                }
                 c.close();
                 return resp;
             } else if (state == null) {
@@ -183,30 +200,34 @@ public class Cities extends SQLiteAssetHelper {
                 c = db.query(source, new String[]{"STATE"}, "COUNTRY = '" + country + "'", null, "STATE", null, "STATE");
 
                 c.moveToFirst();
-                if (!c.isAfterLast()) do {
-                    String _state = c.getString(c.getColumnIndex("state"));
-                    resp.add(_state);
-                } while (c.moveToNext());
+                if (!c.isAfterLast()) {
+                    do {
+                        String _state = c.getString(c.getColumnIndex("state"));
+                        resp.add(_state);
+                    } while (c.moveToNext());
+                }
                 c.close();
                 return resp;
             } else {
                 Cursor c = db.query(source, null, "COUNTRY = '" + country + "' AND STATE = '" + state + "'", null, null, null, "city");
 
                 c.moveToFirst();
-                if (!c.isAfterLast()) do {
-                    String _country = c.getString(c.getColumnIndex("country"));
-                    String _state = c.getString(c.getColumnIndex("state"));
-                    String _city = c.getString(c.getColumnIndex("city"));
-                    String _countryId = c.getString(c.getColumnIndex("countryId"));
-                    String _stateId = c.getString(c.getColumnIndex("stateId"));
-                    String _cityId = c.getString(c.getColumnIndex("cityId"));
-                    double _lat = c.getDouble(c.getColumnIndex("lat"));
-                    double _lng = c.getDouble(c.getColumnIndex("lng"));
+                if (!c.isAfterLast()) {
+                    do {
+                        String _country = c.getString(c.getColumnIndex("country"));
+                        String _state = c.getString(c.getColumnIndex("state"));
+                        String _city = c.getString(c.getColumnIndex("city"));
+                        String _countryId = c.getString(c.getColumnIndex("countryId"));
+                        String _stateId = c.getString(c.getColumnIndex("stateId"));
+                        String _cityId = c.getString(c.getColumnIndex("cityId"));
+                        double _lat = c.getDouble(c.getColumnIndex("lat"));
+                        double _lng = c.getDouble(c.getColumnIndex("lng"));
 
-                    String name = _city == null || "".equals(_city) ? _state : _city;
-                    String id = source.substring(0, 1) + "_" + _countryId + "_" + _stateId + "_" + _cityId;
-                    resp.add(name + ";" + id + ";" + _lat + ";" + _lng);
-                } while (c.moveToNext());
+                        String name = _city == null || "".equals(_city) ? _state : _city;
+                        String id = source.substring(0, 1) + "_" + _countryId + "_" + _stateId + "_" + _cityId;
+                        resp.add(name + ";" + id + ";" + _lat + ";" + _lng);
+                    } while (c.moveToNext());
+                }
                 c.close();
 
                 return resp;
@@ -318,7 +339,7 @@ public class Cities extends SQLiteAssetHelper {
                     item.city = c.getString(c.getColumnIndex("name"));
                     item.id = c.getString(c.getColumnIndex("id"));
 
-                    if (item.city == null || "".equals(item.city)) {
+                    if ((item.city == null) || "".equals(item.city)) {
                         item.city = NVCTimes.getName(item.id);
                     }
 
@@ -362,7 +383,9 @@ public class Cities extends SQLiteAssetHelper {
                 item.lng = c.getDouble(c.getColumnIndex("lng"));
                 c.close();
 
-                if (lat != 0 || lng != 0 || item.lat != 0 || item.lng != 0) items.add(item);
+                if ((lat != 0) || (lng != 0) || (item.lat != 0) || (item.lng != 0)) {
+                    items.add(item);
+                }
 
             }
 

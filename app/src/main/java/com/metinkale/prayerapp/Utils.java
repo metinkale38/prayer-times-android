@@ -34,10 +34,16 @@ import java.util.Locale;
 
 public class Utils {
     private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
-    private static String[] sGMonths, sHMonths, sHolydays, sWeekdays, sShortWeekdays;
+    private static String[] sGMonths;
+    private static String[] sHMonths;
+    private static String[] sHolydays;
+    private static String[] sWeekdays;
+    private static String[] sShortWeekdays;
 
     public static CharSequence fixTimeForHTML(String time) {
-        if (!Prefs.use12H()) return new SpannableString(time);
+        if (!Prefs.use12H()) {
+            return new SpannableString(time);
+        }
         time = fixTime(time);
         int d = time.indexOf(" ");
         time = time.replace(" ", "");
@@ -51,20 +57,26 @@ public class Utils {
 
 
     public static String fixTime(String time) {
-        if (Prefs.use12H()) try {
-            String fix = time.substring(0, time.indexOf(":"));
-            String suffix = time.substring(time.indexOf(":"));
+        if (Prefs.use12H()) {
+            try {
+                String fix = time.substring(0, time.indexOf(":"));
+                String suffix = time.substring(time.indexOf(":"));
 
 
-            int hour = Integer.parseInt(fix);
-            if (hour == 0) return "00" + suffix + " AM";
-            else if (hour < 12) return az(hour) + suffix + " AM";
-            else if (hour == 12) {
-                return "12" + suffix + " PM";
-            } else return az(hour - 12) + suffix + " PM";
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            return time;
+                int hour = Integer.parseInt(fix);
+                if (hour == 0) {
+                    return "00" + suffix + " AM";
+                } else if (hour < 12) {
+                    return az(hour) + suffix + " AM";
+                } else if (hour == 12) {
+                    return "12" + suffix + " PM";
+                } else {
+                    return az(hour - 12) + suffix + " PM";
+                }
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+                return time;
+            }
         }
         return time;
 
@@ -83,7 +95,9 @@ public class Utils {
         }
         Prefs.setLastCalSync(year);
 
-        if (newLang == null) return;
+        if (newLang == null) {
+            return;
+        }
         Locale locale = new Locale(newLang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -163,7 +177,7 @@ public class Utils {
         builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Utils.changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
+                changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
                 init();
                 act.finish();
                 act.startActivity(new Intent(act, act.getClass()));
@@ -190,7 +204,7 @@ public class Utils {
         format = format.replace("DD", az(date.Day, 2));
 
         try {
-            format = format.replace("MMM", Utils.getHijriMonth(date.Month - 1));
+            format = format.replace("MMM", getHijriMonth(date.Month - 1));
 
         } catch (ArrayIndexOutOfBoundsException ex) {
             Crashlytics.logException(ex);
@@ -209,7 +223,7 @@ public class Utils {
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
         try {
-            format = format.replace("MMM", Utils.getGregMonth(date.getMonthOfYear() - 1));
+            format = format.replace("MMM", getGregMonth(date.getMonthOfYear() - 1));
 
 
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -237,7 +251,7 @@ public class Utils {
     }
 
     public static String getAssetForHolyday(int pos) {
-        return Prefs.getLanguage() + ASSETS[pos-1];
+        return Prefs.getLanguage() + ASSETS[pos - 1];
     }
 
 

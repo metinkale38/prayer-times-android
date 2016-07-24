@@ -55,9 +55,9 @@ public class MagAccelListener implements SensorEventListener {
 
     private void smooth(float[] inv, float[] prevv, float[] outv) {
         float filterFactorInv = 1.0f - mFilterFactor;
-        outv[0] = inv[0] * mFilterFactor + prevv[0] * filterFactorInv;
-        outv[1] = inv[1] * mFilterFactor + prevv[1] * filterFactorInv;
-        outv[2] = inv[2] * mFilterFactor + prevv[2] * filterFactorInv;
+        outv[0] = (inv[0] * mFilterFactor) + (prevv[0] * filterFactorInv);
+        outv[1] = (inv[1] * mFilterFactor) + (prevv[1] * filterFactorInv);
+        outv[2] = (inv[2] * mFilterFactor) + (prevv[2] * filterFactorInv);
     }
 
     @Override

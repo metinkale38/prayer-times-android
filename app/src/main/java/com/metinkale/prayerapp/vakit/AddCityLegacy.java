@@ -38,7 +38,10 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     private ListView mListView;
     private MyAdapter mAdapter;
-    private String mSource, mCountry, mState, mCity;
+    private String mSource;
+    private String mCountry;
+    private String mState;
+    private String mCity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,7 +167,9 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         @Override
         public String getItem(int pos) {
             String s = super.getItem(pos);
-            if (s.contains(";")) s = s.substring(0, s.indexOf(";"));
+            if (s.contains(";")) {
+                s = s.substring(0, s.indexOf(";"));
+            }
 
             return s;
         }

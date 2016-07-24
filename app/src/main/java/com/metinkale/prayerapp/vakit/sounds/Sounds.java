@@ -39,11 +39,11 @@ public class Sounds {
     private static AbstractMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
 
     public static boolean isDownloaded(Sound sound) {
-        return sound.url == null || sound.getFile().exists();
+        return (sound.url == null) || sound.getFile().exists();
 
     }
 
-    public static AbstractMap<String, List<Sound>> getSounds() {
+    public static Map<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
             List<Sound> sabah = new ArrayList<>();
@@ -134,16 +134,25 @@ public class Sounds {
     }
 
     public static List<Sound> getSounds(Vakit vakit) {
-        if (vakit == Vakit.IMSAK) vakit = Vakit.SABAH;
-        if (vakit == Vakit.GUNES) vakit = Vakit.SABAH;
-        if (vakit == null) return getSounds("extra");
+        if (vakit == Vakit.IMSAK) {
+            vakit = Vakit.SABAH;
+        }
+        if (vakit == Vakit.GUNES) {
+            vakit = Vakit.SABAH;
+        }
+        if (vakit == null) {
+            return getSounds("extra");
+        }
         return getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra");
     }
 
     public static List<Sound> getSounds(String... categories) {
         List<Sound> sounds = new ArrayList<>();
-        for (String cat : categories)
-            if (getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
+        for (String cat : categories) {
+            if (getSounds().containsKey(cat)) {
+                sounds.addAll(getSounds().get(cat));
+            }
+        }
 
 
         return sounds;
@@ -152,8 +161,11 @@ public class Sounds {
     public static List<Sound> getAllSounds() {
         List<Sound> sounds = new ArrayList<>();
         Set<String> set = getSounds().keySet();
-        for (String cat : set)
-            if (getSounds().containsKey(cat)) sounds.addAll(getSounds().get(cat));
+        for (String cat : set) {
+            if (getSounds().containsKey(cat)) {
+                sounds.addAll(getSounds().get(cat));
+            }
+        }
 
 
         return sounds;
@@ -177,13 +189,19 @@ public class Sounds {
 
         public File getFile() {
             File old = new File(url.replace(App.API_URL + "/sounds/", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if (old.exists()) return old;
+            if (old.exists()) {
+                return old;
+            }
 
             File def = new File(url.replace(App.API_URL + "/sounds", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if (def.exists()) return def;
+            if (def.exists()) {
+                return def;
+            }
 
             File nosd = new File(url.replace(App.API_URL + "/sounds", App.getContext().getFilesDir().getAbsolutePath()));
-            if (nosd.exists()) return nosd;
+            if (nosd.exists()) {
+                return nosd;
+            }
 
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 return def;
@@ -220,7 +238,7 @@ public class Sounds {
                 return !MD5.checkMD5(md5, getFile());
             } else {
                 for (Times.Alarm alarm : alarms) {
-                    String sound = Sounds.forAlarm(alarm);
+                    String sound = forAlarm(alarm);
                     if (sound.startsWith(uri)) {
                         return true;
                     }
@@ -232,7 +250,9 @@ public class Sounds {
         public boolean equals(Object o) {
             if (o instanceof Sound) {
                 return uri.equals(((Sound) o).uri);
-            } else return uri.equals(o.toString());
+            } else {
+                return uri.equals(o.toString());
+            }
         }
 
 
@@ -255,9 +275,13 @@ public class Sounds {
     private static boolean checking;
 
     public static void checkIfNeeded() {
-        if (checking) return;
+        if (checking) {
+            return;
+        }
         checking = true;
-        if (!needsCheck()) return;
+        if (!needsCheck()) {
+            return;
+        }
         List<Sound> sounds = getAllSounds();
         List<Times.Alarm> alarms = Times.getAllAlarms();
         for (Sound sound : sounds) {
@@ -273,18 +297,24 @@ public class Sounds {
 
     @SuppressWarnings("deprecation")
     public static boolean needsCheck() {
-        if (checking) return false;
+        if (checking) {
+            return false;
+        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         long lastSync = prefs.getLong("lastMD5Check", 0);
-        if (System.currentTimeMillis() - lastSync > 1000 * 60 * 60 * 24 * 7 || lastSync == 0) {
+        if (((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * 7)) || (lastSync == 0)) {
 
 
             ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            if (!wifi.isConnected()) return false;
+            if (!wifi.isConnected()) {
+                return false;
+            }
 
-            if (!((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) return false;
+            if (!((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
+                return false;
+            }
 
 
             return true;

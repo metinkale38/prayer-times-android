@@ -19,14 +19,13 @@ package com.metinkale.prayerapp.vakit.times;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Map;
 
 import static android.database.Cursor.*;
 
@@ -52,12 +51,14 @@ public class MainHelper extends SQLiteOpenHelper {
 
 
     public static void copy() {
-        if (Prefs.getMigratedFromSqlite()) return;
+        if (Prefs.getMigratedFromSqlite()) {
+            return;
+        }
         File dbFile = App.getContext().getDatabasePath(DATABASE_NAME);
         if (dbFile.exists()) {
             MainHelper mainHelper = new MainHelper();
 
-            AbstractMap<Long, JSONObject> map = new HashMap<>();
+            Map<Long, JSONObject> map = new HashMap<>();
             SQLiteDatabase db = mainHelper.getWritableDatabase();
             Cursor c = db.query(CITIES_TABLE, null, null, null, null, null, null);
             c.moveToFirst();
@@ -68,9 +69,9 @@ public class MainHelper extends SQLiteOpenHelper {
                     int column = c.getColumnIndex(_VALUE);
                     int type = c.getType(column);
                     JSONObject times;
-                    if (map.containsKey(id))
+                    if (map.containsKey(id)) {
                         times = map.get(id);
-                    else {
+                    } else {
                         times = new JSONObject();
                         map.put(id, times);
                     }
@@ -103,8 +104,9 @@ public class MainHelper extends SQLiteOpenHelper {
             db.close();
             mainHelper.close();
 
-            if (!dbFile.delete())
+            if (!dbFile.delete()) {
                 dbFile.deleteOnExit();
+            }
         }
 
         for (Times t : Times.getTimes()) {

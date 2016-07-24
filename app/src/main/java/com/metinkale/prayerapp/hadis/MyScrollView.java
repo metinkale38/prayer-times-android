@@ -283,7 +283,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         View child = getChildAt(0);
         if (child != null) {
             int childHeight = child.getHeight();
-            return getHeight() < childHeight + getPaddingTop() + getPaddingBottom();
+            return getHeight() < (childHeight + getPaddingTop() + getPaddingBottom());
         }
         return false;
     }
@@ -381,13 +381,13 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         mTempRect.setEmpty();
 
         if (!canScroll()) {
-            if (isFocused() && event.getKeyCode() != KeyEvent.KEYCODE_BACK) {
+            if (isFocused() && (event.getKeyCode() != KeyEvent.KEYCODE_BACK)) {
                 View currentFocused = findFocus();
                 if (currentFocused == this) {
                     currentFocused = null;
                 }
                 View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused, View.FOCUS_DOWN);
-                return nextFocused != null && nextFocused != this && nextFocused.requestFocus(View.FOCUS_DOWN);
+                return (nextFocused != null) && (nextFocused != this) && nextFocused.requestFocus(View.FOCUS_DOWN);
             }
             return false;
         }
@@ -396,17 +396,17 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_DPAD_UP:
-                    if (!event.isAltPressed()) {
-                        handled = arrowScroll(View.FOCUS_UP);
-                    } else {
+                    if (event.isAltPressed()) {
                         handled = fullScroll(View.FOCUS_UP);
+                    } else {
+                        handled = arrowScroll(View.FOCUS_UP);
                     }
                     break;
                 case KeyEvent.KEYCODE_DPAD_DOWN:
-                    if (!event.isAltPressed()) {
-                        handled = arrowScroll(View.FOCUS_DOWN);
-                    } else {
+                    if (event.isAltPressed()) {
                         handled = fullScroll(View.FOCUS_DOWN);
+                    } else {
+                        handled = arrowScroll(View.FOCUS_DOWN);
                     }
                     break;
                 case KeyEvent.KEYCODE_SPACE:
@@ -422,7 +422,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         if (getChildCount() > 0) {
             int scrollY = getScrollY();
             View child = getChildAt(0);
-            return !(y < child.getTop() - scrollY || y >= child.getBottom() - scrollY || x < child.getLeft() || x >= child.getRight());
+            return !((y < (child.getTop() - scrollY)) || (y >= (child.getBottom() - scrollY)) || (x < child.getLeft()) || (x >= child.getRight()));
         }
         return false;
     }
@@ -440,7 +440,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 		 * and he is moving his finger. We want to intercept this motion.
 		 */
         int action = ev.getAction();
-        if (action == MotionEvent.ACTION_MOVE && mIsBeingDragged) {
+        if ((action == MotionEvent.ACTION_MOVE) && mIsBeingDragged) {
             return true;
         }
 
@@ -516,7 +516,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        if (ev.getAction() == MotionEvent.ACTION_DOWN && ev.getEdgeFlags() != 0) {
+        if ((ev.getAction() == MotionEvent.ACTION_DOWN) && (ev.getEdgeFlags() != 0)) {
             // Don't handle edge touches immediately -- they may actually belong
             // to one of our
             // descendants.
@@ -573,7 +573,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                     velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                     int initialVelocity = (int) velocityTracker.getYVelocity(mActivePointerId);
 
-                    if (getChildCount() > 0 && Math.abs(initialVelocity) > mMinimumVelocity) {
+                    if ((getChildCount() > 0) && (Math.abs(initialVelocity) > mMinimumVelocity)) {
                         fling(-initialVelocity);
                     }
 
@@ -587,7 +587,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
-                if (mIsBeingDragged && getChildCount() > 0) {
+                if (mIsBeingDragged && (getChildCount() > 0)) {
                     mActivePointerId = INVALID_POINTER;
                     mIsBeingDragged = false;
                     if (mVelocityTracker != null) {
@@ -604,14 +604,14 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     boolean isOverScrolled() {
-        return getScrollY() < child.getPaddingTop() || getScrollY() > child.getBottom() - child.getPaddingBottom() - getHeight();
+        return (getScrollY() < child.getPaddingTop()) || (getScrollY() > (child.getBottom() - child.getPaddingBottom() - getHeight()));
     }
 
     private void onSecondaryPointerUp(MotionEvent ev) {
         int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
         int pointerId = ev.getPointerId(pointerIndex);
         if (pointerId == mActivePointerId) {
-            int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+            int newPointerIndex = (pointerIndex == 0) ? 1 : 0;
             mLastMotionY = ev.getY(newPointerIndex);
             mActivePointerId = ev.getPointerId(newPointerIndex);
             if (mVelocityTracker != null) {
@@ -645,9 +645,9 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 		 */
         int fadingEdgeLength = getVerticalFadingEdgeLength() / 2;
         int topWithoutFadingEdge = top + fadingEdgeLength;
-        int bottomWithoutFadingEdge = top + getHeight() - fadingEdgeLength;
+        int bottomWithoutFadingEdge = (top + getHeight()) - fadingEdgeLength;
 
-        if (preferredFocusable != null && preferredFocusable.getTop() < bottomWithoutFadingEdge && preferredFocusable.getBottom() > topWithoutFadingEdge) {
+        if ((preferredFocusable != null) && (preferredFocusable.getTop() < bottomWithoutFadingEdge) && (preferredFocusable.getBottom() > topWithoutFadingEdge)) {
             return preferredFocusable;
         }
 
@@ -688,24 +688,24 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             int viewTop = view.getTop();
             int viewBottom = view.getBottom();
 
-            if (top < viewBottom && viewTop < bottom) {
+            if ((top < viewBottom) && (viewTop < bottom)) {
                 /*
-				 * the focusable is in the target area, it is a candidate for
+                 * the focusable is in the target area, it is a candidate for
 				 * focusing
 				 */
 
-                boolean viewIsFullyContained = top < viewTop && viewBottom < bottom;
+                boolean viewIsFullyContained = (top < viewTop) && (viewBottom < bottom);
 
                 if (focusCandidate == null) {
-					/* No candidate, take this one */
+                    /* No candidate, take this one */
                     focusCandidate = view;
                     foundFullyContainedFocusable = viewIsFullyContained;
                 } else {
-                    boolean viewIsCloserToBoundary = topFocus && viewTop < focusCandidate.getTop() || !topFocus && viewBottom > focusCandidate.getBottom();
+                    boolean viewIsCloserToBoundary = topFocus ? viewTop < focusCandidate.getTop() : viewBottom > focusCandidate.getBottom();
 
                     if (foundFullyContainedFocusable) {
                         if (viewIsFullyContained && viewIsCloserToBoundary) {
-									/*
+                                    /*
 									 * We're dealing with only fully contained views, so
 									 * it has to be closer to the boundary to beat our
 									 * candidate
@@ -757,7 +757,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             int count = getChildCount();
             if (count > 0) {
                 View view = getChildAt(count - 1);
-                if (mTempRect.top + height > view.getBottom()) {
+                if ((mTempRect.top + height) > view.getBottom()) {
                     mTempRect.top = view.getBottom() - height;
                 }
             }
@@ -831,14 +831,14 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             newFocused = this;
         }
 
-        if (top >= containerTop && bottom <= containerBottom) {
+        if ((top >= containerTop) && (bottom <= containerBottom)) {
             handled = false;
         } else {
-            int delta = up ? top - containerTop : bottom - containerBottom;
+            int delta = up ? (top - containerTop) : (bottom - containerBottom);
             doScrollY(delta);
         }
 
-        if (newFocused != findFocus() && newFocused.requestFocus(direction)) {
+        if ((newFocused != findFocus()) && newFocused.requestFocus(direction)) {
             mScrollViewMovedFocus = true;
             mScrollViewMovedFocus = false;
         }
@@ -863,7 +863,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
         int maxJump = getMaxScrollAmount();
 
-        if (nextFocused != null && isWithinDeltaOfScreen(nextFocused, maxJump, getHeight())) {
+        if ((nextFocused != null) && isWithinDeltaOfScreen(nextFocused, maxJump, getHeight())) {
             nextFocused.getDrawingRect(mTempRect);
             offsetDescendantRectToMyCoords(nextFocused, mTempRect);
             int scrollDelta = computeScrollDeltaToGetChildRectOnScreen(mTempRect);
@@ -873,7 +873,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             // no new focus
             int scrollDelta = maxJump;
 
-            if (direction == View.FOCUS_UP && getScrollY() < scrollDelta) {
+            if ((direction == View.FOCUS_UP) && (getScrollY() < scrollDelta)) {
                 scrollDelta = getScrollY();
             } else if (direction == View.FOCUS_DOWN) {
                 if (getChildCount() > 0) {
@@ -881,7 +881,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
                     int screenBottom = getScrollY() + getHeight();
 
-                    if (daBottom - screenBottom < maxJump) {
+                    if ((daBottom - screenBottom) < maxJump) {
                         scrollDelta = daBottom - screenBottom;
                     }
                 }
@@ -889,10 +889,10 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             if (scrollDelta == 0) {
                 return false;
             }
-            doScrollY(direction == View.FOCUS_DOWN ? scrollDelta : -scrollDelta);
+            doScrollY((direction == View.FOCUS_DOWN) ? scrollDelta : -scrollDelta);
         }
 
-        if (currentFocused != null && currentFocused.isFocused() && isOffScreen(currentFocused)) {
+        if ((currentFocused != null) && currentFocused.isFocused() && isOffScreen(currentFocused)) {
             // previously focused item still has focus and is off screen, give
             // it up (take it back to ourselves)
             // (also, need to temporarily force FOCUS_BEFORE_DESCENDANTS so we
@@ -923,7 +923,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         descendant.getDrawingRect(mTempRect);
         offsetDescendantRectToMyCoords(descendant, mTempRect);
 
-        return mTempRect.bottom + delta >= getScrollY() && mTempRect.top - delta <= getScrollY() + height;
+        return ((mTempRect.bottom + delta) >= getScrollY()) && ((mTempRect.top - delta) <= (getScrollY() + height));
     }
 
     /**
@@ -1075,7 +1075,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                 View child = getChildAt(0);
                 x = clamp(x, getWidth() - getPaddingRight() - getPaddingLeft(), child.getWidth());
                 y = clamp(y, getHeight() - getPaddingBottom() - getPaddingTop(), child.getHeight());
-                if (x != oldX || y != oldY) {
+                if ((x != oldX) || (y != oldY)) {
                     SetScrollX(x);
                     // mScrollX = x;
                     SetScrollY(y);
@@ -1161,7 +1161,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
         int scrollYDelta = 0;
 
-        if (rect.bottom > screenBottom && rect.top > screenTop) {
+        if ((rect.bottom > screenBottom) && (rect.top > screenTop)) {
             // need to move down to get it in view: move down just enough so
             // that the entire rectangle is in view (or at least the first
             // screen size chunk).
@@ -1179,7 +1179,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             int distanceToBottom = bottom - screenBottom;
             scrollYDelta = Math.min(scrollYDelta, distanceToBottom);
 
-        } else if (rect.top < screenTop && rect.bottom < screenBottom) {
+        } else if ((rect.top < screenTop) && (rect.bottom < screenBottom)) {
             // need to move up to get it in view: move up just enough so that
             // entire rectangle is in view (or at least the first screen
             // size chunk of it).
@@ -1202,12 +1202,12 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     @Override
     public void requestChildFocus(View child, View focused) {
         if (!mScrollViewMovedFocus) {
-            if (!mIsLayoutDirty) {
-                scrollToChild(focused);
-            } else {
+            if (mIsLayoutDirty) {
                 // The child may not be laid out yet, we can't compute the
                 // scroll yet
                 mChildToScrollTo = focused;
+            } else {
+                scrollToChild(focused);
             }
         }
         super.requestChildFocus(child, focused);
@@ -1231,7 +1231,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             direction = View.FOCUS_UP;
         }
 
-        View nextFocus = previouslyFocusedRect == null ? FocusFinder.getInstance().findNextFocus(this, null, direction) : FocusFinder.getInstance().findNextFocusFromRect(this, previouslyFocusedRect, direction);
+        View nextFocus = (previouslyFocusedRect == null) ? FocusFinder.getInstance().findNextFocus(this, null, direction) : FocusFinder.getInstance().findNextFocusFromRect(this, previouslyFocusedRect, direction);
 
         if (nextFocus == null) {
             return false;
@@ -1260,7 +1260,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         super.onLayout(changed, l, t, r, b);
         mIsLayoutDirty = false;
         // Give a child focus if it needs it
-        if (mChildToScrollTo != null && isViewDescendantOf(mChildToScrollTo, this)) {
+        if ((mChildToScrollTo != null) && isViewDescendantOf(mChildToScrollTo, this)) {
             scrollToChild(mChildToScrollTo);
         }
         mChildToScrollTo = null;
@@ -1274,7 +1274,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         super.onSizeChanged(w, h, oldw, oldh);
 
         View currentFocused = findFocus();
-        if (currentFocused == null || this == currentFocused) {
+        if ((currentFocused == null) || (this == currentFocused)) {
             return;
         }
 
@@ -1297,10 +1297,10 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
         if (isInFlingMode) {
 
-            if (topOfVisibleView < paddingTop || topOfVisibleView > contentBottom - displayHeight) {
+            if ((topOfVisibleView < paddingTop) || (topOfVisibleView > (contentBottom - displayHeight))) {
                 if (topOfVisibleView < paddingTop) {
                     mScroller.startScroll(0, topOfVisibleView, 0, paddingTop - topOfVisibleView, 1000);
-                } else if (topOfVisibleView > contentBottom - displayHeight) {
+                } else if (topOfVisibleView > (contentBottom - displayHeight)) {
                     mScroller.startScroll(0, topOfVisibleView, 0, contentBottom - displayHeight - topOfVisibleView, 1000);
                 }
 
@@ -1324,7 +1324,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         }
 
         ViewParent theParent = child.getParent();
-        return theParent instanceof ViewGroup && isViewDescendantOf((View) theParent, parent);
+        return (theParent instanceof ViewGroup) && isViewDescendantOf((View) theParent, parent);
     }
 
     /**
@@ -1348,7 +1348,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                 newFocused = this;
             }
 
-            if (newFocused != findFocus() && newFocused.requestFocus(movingDown ? View.FOCUS_DOWN : View.FOCUS_UP)) {
+            if ((newFocused != findFocus()) && newFocused.requestFocus(movingDown ? View.FOCUS_DOWN : View.FOCUS_UP)) {
                 mScrollViewMovedFocus = true;
                 mScrollViewMovedFocus = false;
             }
@@ -1370,14 +1370,14 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             View child = getChildAt(0);
             x = clamp(x, getWidth() - getPaddingRight() - getPaddingLeft(), child.getWidth());
             y = clamp(y, getHeight() - getPaddingBottom() - getPaddingTop(), child.getHeight());
-            if (x != getScrollX() || y != getScrollY()) {
+            if ((x != getScrollX()) || (y != getScrollY())) {
                 super.scrollTo(x, y);
             }
         }
     }
 
     private int clamp(int n, int my, int child) {
-        if (my >= child || n < 0) {
+        if ((my >= child) || (n < 0)) {
 			/*
 			 * my >= child is this case: |--------------- me ---------------|
 			 * |------ child ------| or |--------------- me ---------------|
@@ -1389,7 +1389,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 			 */
             return 0;
         }
-        if (my + n > child) {
+        if ((my + n) > child) {
 			/*
 			 * this case: |------ me ------| |------ child ------| |--
 			 * getScrollX() --|
@@ -1433,9 +1433,9 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
             onOverScroll(currScrollY);
             scrollBy = contentTop - currScrollY;
-        } else if (currScrollY + displayHeight > contentBottom) {
+        } else if ((currScrollY + displayHeight) > contentBottom) {
             // Scroll to content top
-            if (child.getHeight() - child.getPaddingTop() - child.getPaddingBottom() < displayHeight) {
+            if ((child.getHeight() - child.getPaddingTop() - child.getPaddingBottom()) < displayHeight) {
 
                 scrollBy = contentTop - currScrollY;
             }

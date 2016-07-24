@@ -38,15 +38,15 @@
                 android:translationZ="2dp"
                 android:padding="15dp"
                 android:background="#ffffff"
-                android:text="@string/ongoingnoti"/>
+                android:text="@string/ongoingNotification"/>
 
         <TextView
                 android:textColor="@color/colorPrimary"
-                android:text="@string/ezanNotification"
+                android:text="@string/prayerNotification"
                 android:layout_marginLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -66,7 +66,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/imsak"/>
+                    android:text="@string/fajr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -76,7 +76,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -107,7 +108,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/sabah"/>
+                    android:text="@string/morningPrayer"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -117,7 +118,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
                 android:background="#ffffff"
                 android:id="@+id/sabahExpanded"
@@ -146,7 +148,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/gunes"/>
+                    android:text="@string/sun"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -156,7 +158,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -186,7 +189,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ogle"/>
+                    android:text="@string/zuhr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -196,7 +199,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -226,7 +230,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ikindi"/>
+                    android:text="@string/asr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -236,7 +240,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -266,7 +271,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/aksam"/>
+                    android:text="@string/maghrib"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -275,7 +280,8 @@
                     android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -305,7 +311,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/yatsi"/>
+                    android:text="@string/ishaa"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -314,7 +320,8 @@
                     android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -331,11 +338,11 @@
 
         <TextView
                 android:textColor="@color/colorPrimary"
-                android:text="@string/earlynotification"
+                android:text="@string/earlyNotification"
                 android:layout_marginLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -355,7 +362,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/imsak"/>
+                    android:text="@string/fajr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -365,7 +372,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -396,7 +404,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/gunes"/>
+                    android:text="@string/sun"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -406,7 +414,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -436,7 +445,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ogle"/>
+                    android:text="@string/zuhr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -446,7 +455,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -472,11 +482,10 @@
                 android:background="#ffffff">
 
             <TextView
-                    android:id="@+id/ecumaText"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/cuma"/>
+                    android:text="@string/djuma"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -486,7 +495,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -517,7 +527,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ikindi"/>
+                    android:text="@string/asr"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -527,7 +537,8 @@
         </LinearLayout>
 
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
 
                 android:background="#ffffff"
@@ -557,7 +568,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/aksam"/>
+                    android:text="@string/maghrib"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -566,7 +577,8 @@
                     android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
                 android:background="#ffffff"
                 android:id="@+id/eaksamExpanded"
@@ -578,11 +590,6 @@
 
             <include layout="@layout/vakit_notprefs_item"/>
         </LinearLayout>
-
-
-
-
-
 
 
         <LinearLayout
@@ -601,7 +608,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/yatsi"/>
+                    android:text="@string/ishaa"/>
 
             <android.support.v7.widget.SwitchCompat
                     android:theme="@style/MySwitch"
@@ -610,7 +617,8 @@
                     android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:visibility="gone"
                 android:background="#ffffff"
                 android:id="@+id/eyatsiExpanded"

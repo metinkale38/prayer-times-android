@@ -20,7 +20,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -39,7 +38,8 @@ public class Frag2D extends Fragment implements MyCompassListener {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
     private static final TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
     private CompassView mCompassView;
-    private TextView mAngle, mDist;
+    private TextView mAngle;
+    private TextView mDist;
     private View mInfo;
     private float[] mGravity = new float[3];
     private float[] mGeo = new float[3];
@@ -76,7 +76,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
 
-            if (mGravity != null && mGeo != null) {
+            if ((mGravity != null) && (mGeo != null)) {
                 float[] R = new float[9];
                 float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeo);
