@@ -260,7 +260,7 @@ public class Utils {
 
 
     public static String toArabicNrs(String str) {
-        if (!Prefs.getLanguage().equals("ar")) return str;
+        if (!"ar".equals(Prefs.getLanguage())) return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
