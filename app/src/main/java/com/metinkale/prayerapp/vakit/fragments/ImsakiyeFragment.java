@@ -29,7 +29,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import org.joda.time.LocalDate;
 
@@ -118,11 +117,8 @@ public class ImsakiyeFragment extends Fragment {
 
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                if ((i == 0) || !Prefs.use12H() || (position == 0)) {
-                    tv.setText(a[i]);
-                } else {
-                    tv.setText(Utils.fixTimeForHTML(a[i]));
-                }
+                tv.setText(Utils.fixTimeForHTML(a[i]));
+
             }
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);

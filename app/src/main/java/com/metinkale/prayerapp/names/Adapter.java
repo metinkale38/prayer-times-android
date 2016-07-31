@@ -17,8 +17,6 @@
 package com.metinkale.prayerapp.names;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +35,9 @@ public class Adapter extends ArrayAdapter<Item> {
     public Adapter(Context context, Item[] objects) {
         super(context, 0, objects);
         lang = Language.valueOf((Prefs.getLanguage() == null) ? "tr" : Prefs.getLanguage()).ordinal();
-    }
-
-    public static float convertDpToPixel(float dp, Context context) {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        return dp * (metrics.densityDpi / 160f);
 
     }
+
 
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
@@ -75,18 +68,28 @@ public class Adapter extends ArrayAdapter<Item> {
             vh.arabicImg.setImageDrawable(null);
             vh.arabicImg.setVisibility(View.GONE);
             vh.arabic.setText(i.arabic);
-            vh.name.setText(i.name[lang]);
-            vh.name.setVisibility(View.VISIBLE);
+            if (lang == Language.ar.ordinal()) {
+                vh.name.setVisibility(View.GONE);
+            }
+            else {
+                vh.name.setText(i.name[lang]);
+                vh.name.setVisibility(View.VISIBLE);
+            }
             vh.arabic.setVisibility(View.VISIBLE);
         }
 
-        vh.meaning.setText(i.meaning[lang]);
+        if (lang == Language.ar.ordinal()) {
+            vh.meaning.setVisibility(View.GONE);
+        }
+        else {
+            vh.meaning.setText(i.meaning[lang]);
+        }
 
         return convertView;
     }
 
     enum Language {
-        tr, de, en
+        tr, de, en, ar
     }
 
     static class Item {

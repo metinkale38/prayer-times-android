@@ -48,9 +48,10 @@
     </string-array>
 
     <string-array name="language">
-        <item>@string/langTr</item>
-        <item>@string/langGe</item>
-        <item>@string/langEn</item>
+        <item>Türkçe</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>عربي</item>
     </string-array>
 
 
@@ -58,6 +59,7 @@
         <item>tr</item>
         <item>de</item>
         <item>en</item>
+        <item>ar</item>
     </string-array>
     <string-array name="lefttext_part">
         <item>@string/fajr</item>

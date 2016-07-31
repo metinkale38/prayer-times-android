@@ -162,7 +162,9 @@ public class SqliteHelper extends SQLiteOpenHelper {
     private void openDatabase() throws SQLException {
         mOpenCounter++;
         if (mOpenCounter == 1) {
-            mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + Prefs.getLanguage() + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
+            String lang = Prefs.getLanguage();
+            if (lang.equals("ar")) lang = "en";
+            mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
         }
 
     }

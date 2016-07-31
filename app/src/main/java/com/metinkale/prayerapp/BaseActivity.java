@@ -24,12 +24,16 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -141,7 +145,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             mNavBar.setVisibility(View.GONE);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
@@ -165,26 +169,33 @@ public abstract class BaseActivity extends AppCompatActivity {
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(new MyClickListener());
 
-        String title = list.getItem(mNavPos);
+        final String title = list.getItem(mNavPos);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.appName, R.string.appName) {
 
             @Override
             public void onDrawerClosed(View view) {
-
+                toolbar.setTitle(title);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-
+                toolbar.setTitle(title);
             }
         };
+
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle(title);
+            }
+        });
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (getIntent().getBooleanExtra("anim", false)) {
 
-            mDrawerLayout.openDrawer(Gravity.LEFT);
+            mDrawerLayout.openDrawer(GravityCompat.START);
             mDrawerLayout.post(new Runnable() {
 
                 @Override
@@ -247,7 +258,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.tesbihat.Tesbihat.class);
                     break;
                 case 5:
-                    String file = Prefs.getLanguage() + "/hadis.db";
+
+                    String lang = Prefs.getLanguage();
+                    if (lang.equals("ar")) lang = "en";
+                    String file = lang + "/hadis.db";
                     File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 

@@ -25,11 +25,12 @@ import android.net.Uri;
 import android.webkit.WebView;
 import android.widget.Toast;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.settings.Settings;
 
 public class Changelog {
-    private static final int CHANGELOG_VERSION = 13;
+    private static final int CHANGELOG_VERSION = 14;
     private static Context mContext;
 
     public static void start(Context c) {
@@ -42,7 +43,9 @@ public class Changelog {
 
     private static AlertDialog getDialog() {
         WebView wv = new WebView(mContext);
-        wv.loadUrl("file:///android_asset/" + Prefs.getLanguage() + "/changelog.htm");
+        String lang = Prefs.getLanguage();
+        if (lang.equals("ar")) lang = "en";
+        wv.loadUrl("file:///android_asset/" + lang + "/changelog.htm");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(mContext.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);

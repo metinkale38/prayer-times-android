@@ -109,8 +109,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="3dip"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
+                android:layout_marginStart="5dip"
+                android:layout_marginEnd="5dip"
                 android:layout_marginTop="5dip"
                 android:background="#33b5e5"
                 android:layout_above="@+id/angle"/>

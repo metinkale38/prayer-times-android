@@ -24,7 +24,7 @@
         <attr name="pstsIndicatorHeight" format="dimension"/>
         <attr name="pstsUnderlineHeight" format="dimension"/>
         <attr name="pstsDividerPadding" format="dimension"/>
-        <attr name="pstsTabPaddingLeftRight" format="dimension"/>
+        <attr name="pstsTabpaddingStartRight" format="dimension"/>
         <attr name="pstsScrollOffset" format="dimension"/>
         <attr name="pstsTabBackground" format="reference"/>
         <attr name="pstsShouldExpand" format="boolean"/>

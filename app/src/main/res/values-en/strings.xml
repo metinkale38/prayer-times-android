@@ -219,5 +219,7 @@
     <string name="zoomIn">Zoom In</string>
     <string name="zoomOut">Zoom out</string>
     <string name="zuhr">Zuhr</string>
+    <string name="langAr">Arabic</string>
+    <string name="calculated">Calculated</string>
 
 </resources>

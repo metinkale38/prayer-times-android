@@ -137,7 +137,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             paint.setTextSize(h * 0.275f);
             canvas.drawText(suffix, (w / 2) + paint.measureText(time), h * 0.2f, paint);
         } else {
-            canvas.drawText(time, w / 2, h * 0.4f, paint);
+            canvas.drawText(Utils.toArabicNrs(time), w / 2, h * 0.4f, paint);
         }
 
 
@@ -183,7 +183,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             canvas.drawText(s, (w * 0.1f) + (2 * paint.measureText(l)), h * 0.72f, paint);
 
         } else {
-            canvas.drawText(times.getTime(last), w * 0.1f, h * 0.82f, paint);
+            canvas.drawText(Utils.fixTime(times.getTime(last)), w * 0.1f, h * 0.82f, paint);
 
         }
         paint.setTextSize(h * 0.12f);
@@ -201,7 +201,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             canvas.drawText(s, w * 0.9f, h * 0.72f, paint);
 
         } else {
-            canvas.drawText(times.getTime(next), w * 0.9f, h * 0.82f, paint);
+            canvas.drawText(Utils.fixTime(times.getTime(next)), w * 0.9f, h * 0.82f, paint);
         }
         paint.setTextSize(h * 0.12f);
         canvas.drawText(Vakit.getByIndex(next).getString(), w * 0.9f, h * 0.95f, paint);

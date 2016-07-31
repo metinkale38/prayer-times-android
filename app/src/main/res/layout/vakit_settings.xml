@@ -24,8 +24,8 @@
     <LinearLayout
             android:orientation="vertical"
             android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
+            android:paddingStart="10dip"
+            android:paddingEnd="10dip"
             android:paddingTop="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

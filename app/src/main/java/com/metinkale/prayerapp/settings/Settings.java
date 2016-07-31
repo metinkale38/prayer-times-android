@@ -99,6 +99,7 @@ public class Settings extends BaseActivity {
 
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
 
+            findPreference("arabicNames").setEnabled(false);
         }
 
         @Override

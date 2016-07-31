@@ -347,7 +347,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
             if (child.getMeasuredHeight() < height) {
                 FrameLayout.LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
-                int childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec, getPaddingLeft() + getPaddingRight(), lp.width);
+                int childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec, getPaddingStart() + getPaddingEnd(), lp.width);
 
                 if (height < getMeasuredHeight()) {
                     height = getMeasuredHeight();
@@ -1018,7 +1018,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         int childWidthMeasureSpec;
         int childHeightMeasureSpec;
 
-        childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight(), lp.width);
+        childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingStart() + getPaddingEnd(), lp.width);
 
         childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
@@ -1029,7 +1029,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     protected void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
         MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
 
-        int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin + widthUsed, lp.width);
+        int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingStart() + getPaddingEnd() + lp.leftMargin + lp.rightMargin + widthUsed, lp.width);
         int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(lp.topMargin + lp.bottomMargin, MeasureSpec.UNSPECIFIED);
 
         child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
@@ -1073,7 +1073,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
             if (getChildCount() > 0) {
                 View child = getChildAt(0);
-                x = clamp(x, getWidth() - getPaddingRight() - getPaddingLeft(), child.getWidth());
+                x = clamp(x, getWidth() - getPaddingEnd() - getPaddingStart(), child.getWidth());
                 y = clamp(y, getHeight() - getPaddingBottom() - getPaddingTop(), child.getHeight());
                 if ((x != oldX) || (y != oldY)) {
                     SetScrollX(x);
@@ -1368,7 +1368,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         // we rely on the fact the View.scrollBy calls scrollTo.
         if (getChildCount() > 0) {
             View child = getChildAt(0);
-            x = clamp(x, getWidth() - getPaddingRight() - getPaddingLeft(), child.getWidth());
+            x = clamp(x, getWidth() - getPaddingEnd() - getPaddingStart(), child.getWidth());
             y = clamp(y, getHeight() - getPaddingBottom() - getPaddingTop(), child.getHeight());
             if ((x != getScrollX()) || (y != getScrollY())) {
                 super.scrollTo(x, y);

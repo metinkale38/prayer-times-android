@@ -118,10 +118,11 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
     }
 
     public static boolean useArabic() {
-        return get().mUseArabic;
+        return !"ar".equals(getLanguage()) && get().mUseArabic;
     }
 
     public static boolean use12H() {
+        if (get().mLanguage != null && get().mLanguage.equals("ar")) return false;
         return get().mUse12H;
     }
 

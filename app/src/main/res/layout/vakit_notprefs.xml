@@ -43,7 +43,7 @@
         <TextView
                 android:textColor="@color/colorPrimary"
                 android:text="@string/prayerNotification"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
                 android:textSize="18sp"
@@ -55,8 +55,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -84,8 +84,8 @@
                 android:id="@+id/imsakExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -97,8 +97,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -125,8 +125,8 @@
                 android:id="@+id/sabahExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -137,8 +137,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -166,8 +166,8 @@
                 android:id="@+id/gunesExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -178,8 +178,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -207,8 +207,8 @@
                 android:id="@+id/ogleExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -219,8 +219,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -248,8 +248,8 @@
                 android:id="@+id/ikindiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -260,8 +260,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -288,8 +288,8 @@
                 android:id="@+id/aksamExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -300,8 +300,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -328,8 +328,8 @@
                 android:id="@+id/yatsiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -339,7 +339,7 @@
         <TextView
                 android:textColor="@color/colorPrimary"
                 android:text="@string/earlyNotification"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
                 android:textSize="18sp"
@@ -351,8 +351,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -380,8 +380,8 @@
                 android:id="@+id/eimsakExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -393,8 +393,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -422,8 +422,8 @@
                 android:id="@+id/egunesExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -434,8 +434,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -463,8 +463,8 @@
                 android:id="@+id/eogleExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -475,8 +475,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -503,8 +503,8 @@
                 android:id="@+id/ecumaExpand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp"
                 >
 
@@ -516,8 +516,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -545,8 +545,8 @@
                 android:id="@+id/eikindiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -557,8 +557,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -584,8 +584,8 @@
                 android:id="@+id/eaksamExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>
@@ -597,8 +597,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
                 android:background="#ffffff">
@@ -624,8 +624,8 @@
                 android:id="@+id/eyatsiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:padding="10dp">
 
             <include layout="@layout/vakit_notprefs_item"/>

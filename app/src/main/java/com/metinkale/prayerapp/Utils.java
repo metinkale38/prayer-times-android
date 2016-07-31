@@ -41,10 +41,10 @@ public class Utils {
     private static String[] sShortWeekdays;
 
     public static CharSequence fixTimeForHTML(String time) {
-        if (!Prefs.use12H()) {
-            return new SpannableString(time);
-        }
         time = fixTime(time);
+        if (!Prefs.use12H()) {
+            return time;
+        }
         int d = time.indexOf(" ");
         time = time.replace(" ", "");
 
@@ -78,7 +78,9 @@ public class Utils {
                 return time;
             }
         }
-        return time;
+
+
+        return toArabicNrs(time);
 
     }
 
@@ -121,6 +123,8 @@ public class Utils {
 
         pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasAR"), "ar".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
         pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), "en".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
         pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), "de".equals(newLang) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
@@ -136,28 +140,28 @@ public class Utils {
         return sHolydays[which];
     }
 
-    public static CharSequence getGregMonth(int which) {
+    public static String getGregMonth(int which) {
         if (sGMonths == null) {
             sGMonths = App.getContext().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }
 
-    public static CharSequence getHijriMonth(int which) {
+    public static String getHijriMonth(int which) {
         if (sHMonths == null) {
             sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
     }
 
-    public static CharSequence getWeekday(int which) {
+    public static String getWeekday(int which) {
         if (sWeekdays == null) {
             sWeekdays = App.getContext().getResources().getStringArray(R.array.week_days);
         }
         return sWeekdays[which];
     }
 
-    public static CharSequence getShortWeekday(int which) {
+    public static String getShortWeekday(int which) {
         if (sShortWeekdays == null) {
             sShortWeekdays = App.getContext().getResources().getStringArray(R.array.week_days_short);
         }
@@ -214,7 +218,7 @@ public class Utils {
         format = format.replace("MM", az(date.Month, 2));
         format = format.replace("YYYY", az(date.Year, 4));
         format = format.replace("YY", az(date.Year, 2));
-        return format;
+        return toArabicNrs(format);
     }
 
 
@@ -234,10 +238,10 @@ public class Utils {
         format = format.replace("MM", az(date.getMonthOfYear(), 2));
         format = format.replace("YYYY", az(date.getYear(), 4));
         format = format.replace("YY", az(date.getYear(), 2));
-        return format;
+        return toArabicNrs(format);
     }
 
-    private static CharSequence az(int Int, int num) {
+    private static String az(int Int, int num) {
         String ret = Int + "";
         if (ret.length() < num) {
             for (int i = ret.length(); i < num; i++) {
@@ -255,4 +259,21 @@ public class Utils {
     }
 
 
+    public static String toArabicNrs(String str) {
+        if (!Prefs.getLanguage().equals("ar")) return str;
+        char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isDigit(str.charAt(i))) {
+                builder.append(arabicChars[(int) (str.charAt(i)) - 48]);
+            } else {
+                builder.append(str.charAt(i));
+            }
+        }
+        return builder.toString();
+    }
+
+    public static String toArabicNrs(int nr) {
+        return toArabicNrs(nr + "");
+    }
 }

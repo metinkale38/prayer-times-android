@@ -228,12 +228,13 @@ public class MainIntentService extends IntentService {
         if (Prefs.getLanguage() == null) {
             return;
         }
+        String lang = Prefs.getLanguage();
+        if (lang.equals("ar")) lang = "en";
 
-
-        String file = Prefs.getLanguage() + "/hadis.db";
+        String file = lang + "/hadis.db";
         File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
-        String url = App.API_URL + "/hadis." + Prefs.getLanguage() + ".db";
+        String url = App.API_URL + "/hadis." + lang + ".db";
         downloadFile(url, f, getString(R.string.hadith));
         if (callback != null) {
             callback.run();

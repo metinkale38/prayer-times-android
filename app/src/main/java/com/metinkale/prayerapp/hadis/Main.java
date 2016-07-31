@@ -103,7 +103,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
             finish();
-            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Prefs.getLanguage() + "/hadis.db").delete();
+            String lang=Prefs.getLanguage();
+            if(lang.equals("ar"))lang="en";
+            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang+ "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
     }

@@ -155,11 +155,8 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < 6; i++) {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
-            if (Prefs.use12H()) {
-                time.setText(Utils.fixTimeForHTML(daytimes[i]));
-            } else {
-                time.setText(daytimes[i]);
-            }
+            time.setText(Utils.fixTimeForHTML(daytimes[i]));
+
 
             if ("00:00".equals(daytimes[i])) {
                 mHasTimes = false;

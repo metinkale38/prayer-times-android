@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.Utils;
 
 public class CompassView extends View {
     private float mX;
@@ -98,14 +99,14 @@ public class CompassView extends View {
         mPaint.setColor(0xFF000000);
         mPaint.setTextSize(w / 10);
         mPaint.setTextAlign(Align.CENTER);
-        canvas.drawText(Math.round(mX) + "°", w / 2, h * 0.9f, mPaint);
+        canvas.drawText(Utils.toArabicNrs(Math.round(mX)) + "°", w / 2, h * 0.9f, mPaint);
 
         mPaint.setTextSize(w / 12);
         mPaint.setTextAlign(Align.RIGHT);
-        canvas.drawText(Math.round(mqDist) + "km", w * 0.45f, h * 0.98f, mPaint);
+        canvas.drawText(Utils.toArabicNrs(Math.round(mqDist)) + "km", w * 0.45f, h * 0.98f, mPaint);
 
         mPaint.setTextAlign(Align.LEFT);
-        canvas.drawText(Math.round(mqAngle) + "°", w * 0.55f, h * 0.98f, mPaint);
+        canvas.drawText(Utils.toArabicNrs((int)Math.round(mqAngle)) + "°", w * 0.55f, h * 0.98f, mPaint);
 
         if (mX > 180) {
             mX -= 360;

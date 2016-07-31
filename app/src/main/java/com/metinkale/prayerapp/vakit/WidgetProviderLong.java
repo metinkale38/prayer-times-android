@@ -206,7 +206,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
             }
         } else {
             for (int i = 0; i < daytimes.length; i++) {
-                canvas.drawText(daytimes[i], (w * (1 + (2 * i))) / 12, h * 3 / 5, paint);
+                canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * (1 + (2 * i))) / 12, h * 3 / 5, paint);
             }
         }
 

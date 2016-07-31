@@ -390,11 +390,11 @@ public abstract class Times extends TimesBase {
         LocalTime left = new LocalTime(getLeftMills(next));
 
         if (showsecs) {
-            return left.toString("HH:mm:ss");
+            return Utils.toArabicNrs(left.toString("HH:mm:ss"));
         } else if (Prefs.isDefaultWidgetMinuteType()) {
-            return left.toString("HH:mm");
+            return Utils.toArabicNrs(left.toString("HH:mm"));
         } else {
-            return Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1);
+            return Utils.toArabicNrs(Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1));
         }
 
     }

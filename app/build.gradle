@@ -44,11 +44,11 @@ android {
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 133
-        versionName '3.5.4'
+        versionCode 134
+        versionName '3.6'
     }
 
     buildTypes {

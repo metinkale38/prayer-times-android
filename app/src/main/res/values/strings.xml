@@ -197,7 +197,7 @@
     <string name="useArabicNames">Arapça Vakitleri kullan</string>
     <string name="useSilenter">Sessiz Modu\'na al</string>
     <string name="useVibration">Titreşim Modu\'na al</string>
-    <string name="versionNr">3.5.5</string>
+    <string name="versionNr">3.6</string>
     <string name="version">Versiyon</string>
     <string name="vibrationDesc">Milisaniye - bekleme titresim bekleme....</string>
     <string name="vibrationPattern">Titreşim deseni</string>
@@ -219,4 +219,6 @@
     <string name="zoomOut">Küçült</string>
     <string name="zuhr">Öğle</string>
     <string name="juristicHanafi">Asr-ı Sânî</string>
+    <string name="langAr">Arapça</string>
+    <string name="calculated">Hesaplanmış</string>
 </resources>

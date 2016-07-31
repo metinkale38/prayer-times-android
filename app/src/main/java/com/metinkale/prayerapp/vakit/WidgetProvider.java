@@ -185,7 +185,7 @@ public class WidgetProvider extends AppWidgetProvider {
             }
         } else {
             for (int i = 0; i < daytimes.length; i++) {
-                canvas.drawText(daytimes[i], (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
+                canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
             }
         }
         paint.setTextSize((int) l);

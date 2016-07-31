@@ -29,9 +29,9 @@
     <declare-styleable name="MultipleOrientationSlidingDrawer">
         <attr name="orientation">
             <enum name="top" value="0"/>
-            <enum name="left" value="1"/>
+            <enum name="start" value="1"/>
             <enum name="bottom" value="2"/>
-            <enum name="right" value="3"/>
+            <enum name="end" value="3"/>
         </attr>
         <attr name="handle" format="reference"/>
         <attr name="content" format="reference"/>

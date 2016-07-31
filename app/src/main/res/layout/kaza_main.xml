@@ -29,13 +29,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
         <ImageView
                 android:contentDescription="@null"
@@ -85,13 +85,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView
@@ -142,13 +142,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView
@@ -199,13 +199,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView
@@ -256,13 +256,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView
@@ -313,13 +313,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView
@@ -370,13 +370,13 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp">
 
 
         <ImageView

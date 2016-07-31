@@ -30,6 +30,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.compass.LowPassFilter;
 import com.metinkale.prayerapp.compass.Main;
 import com.metinkale.prayerapp.compass.Main.MyCompassListener;
@@ -63,8 +64,8 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public void onUpdateDirection() {
         if (mCompassView != null) {
             mCompassView.setQiblaAngle((int) Main.getQiblaAngle());
-            mAngle.setText(Math.round(mCompassView.getQiblaAngle()) + "°");
-            mDist.setText(Math.round(Main.getDistance()) + "km");
+            mAngle.setText(Utils.toArabicNrs(Math.round(mCompassView.getQiblaAngle()) + "°"));
+            mDist.setText(Utils.toArabicNrs(Math.round(Main.getDistance()) + "km"));
         }
 
     }

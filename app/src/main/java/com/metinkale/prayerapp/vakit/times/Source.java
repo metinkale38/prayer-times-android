@@ -17,12 +17,16 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.settings.Prefs;
+
+import java.util.Locale;
 
 /**
  * Created by metin on 03.04.2016.
  */
 public enum Source {
-    Calc("Hesaplanmis", 0), Diyanet("Diyanet", R.drawable.ic_ditib), Fazilet("Fazilet Takvimi", R.drawable.ic_fazilet), IGMG("IGMG", R.drawable.ic_igmg), Semerkand("Semerkand", R.drawable.ic_semerkand), NVC("NamazVakti.com", R.drawable.ic_namazvakticom);
+    Calc(R.string.calculated, 0), Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib), Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet), IGMG("IGMG.org", R.drawable.ic_igmg), Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand), NVC("NamazVakti.com", R.drawable.ic_namazvakticom);
 
     public int resId;
     public String text;
@@ -30,5 +34,11 @@ public enum Source {
     Source(String text, int resId) {
         this.text = text;
         this.resId = resId;
+    }
+
+    Source(int resTxt, int resIcon) {
+        Locale.setDefault(new Locale(Prefs.getLanguage()));
+        this.text = App.getContext().getString(resTxt);
+        this.resId = resIcon;
     }
 }

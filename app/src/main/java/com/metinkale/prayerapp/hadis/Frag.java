@@ -76,7 +76,7 @@ public class Frag extends Fragment {
         String detay = bdl.getString("detay");
         View v = inflater.inflate(R.layout.hadis_frag, container, false);
         mTv = (TextView) v.findViewById(R.id.hadis);
-        mTv.setPadding(mTv.getPaddingLeft(), mTv.getPaddingTop(), mTv.getPaddingRight(), mTv.getPaddingBottom() + ((BaseActivity) getActivity()).getBottomMargin());
+        mTv.setPadding(mTv.getPaddingStart(), mTv.getPaddingTop(), mTv.getPaddingEnd(), mTv.getPaddingBottom() + ((BaseActivity) getActivity()).getBottomMargin());
 
         if (hadis.startsWith("Narrated")) {
             hadis = "<b>" + hadis.substring(0, hadis.indexOf("\n")) + "</b><br/>" + hadis.substring(hadis.indexOf("\n"));

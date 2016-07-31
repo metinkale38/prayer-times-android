@@ -42,7 +42,8 @@ public class Adapter extends ArrayAdapter<int[]> {
         this.context = context;
         days = HicriDate.getHolydays(year);
 
-        hasInfo = !"en".equals(Prefs.getLanguage());
+        String lang = Prefs.getLanguage();
+        hasInfo = !("en".equals(lang) || "ar".equals(lang));
     }
 
     @Override

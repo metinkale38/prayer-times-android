@@ -38,6 +38,7 @@
             android:required="false"/>
 
     <application
+            android:supportsRtl="true"
             android:name="com.metinkale.prayerapp.App"
             android:allowBackup="true"
             android:fullBackupContent="true"
@@ -84,6 +85,18 @@
                 android:name=".aliasTR"
                 android:enabled="false"
                 android:label="Namaz Vakti"
+                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+                android:name=".aliasAR"
+                android:enabled="false"
+                android:label="أوقات الصلاة"
                 android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

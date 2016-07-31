@@ -59,8 +59,8 @@
                     android:background="#ffffff"
                     android:lineSpacingMultiplier="1.25"
                     android:paddingBottom="60dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:paddingTop="20dp"
                     android:textSize="18sp"/>
         </RelativeLayout>

@@ -99,9 +99,9 @@ public class WidgetService extends Service {
 
                 for (int i = 0; i < dt.length; i++) {
                     if ((next - 1) == i) {
-                        views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + dt[i] + "</em></strong>"));
+                        views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTime(dt[i]) + "</em></strong>"));
                     } else {
-                        views.setTextViewText(timeIds[i], dt[i]);
+                        views.setTextViewText(timeIds[i], Utils.fixTime(dt[i]));
                     }
                 }
 
