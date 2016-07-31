@@ -245,36 +245,13 @@ public class WidgetProvider extends AppWidgetProvider {
                 WidgetProviderClock.updateAppWidget(c, manager, i);
             }
 
-
-            //backward compatibility
-            thisWidget = new ComponentName(c, WidgetProvider.class);
-            for (int i : manager.getAppWidgetIds(thisWidget)) {
-                updateAppWidget(c, manager, i);
-            }
-
-            thisWidget = new ComponentName(c, WidgetProviderSmall.class);
+            thisWidget = new ComponentName(c, WidgetProviderClock2.class);
 
             for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProviderSmall.updateAppWidget(c, manager, i);
+                WidgetProviderClock2
+                        .updateAppWidget(c, manager, i);
             }
 
-            thisWidget = new ComponentName(c, WidgetProviderLong.class);
-
-            for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProviderLong.updateAppWidget(c, manager, i);
-            }
-
-            thisWidget = new ComponentName(c, WidgetProviderSilenter.class);
-
-            for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProviderSilenter.updateAppWidget(c, manager, i);
-            }
-
-            thisWidget = new ComponentName(c, WidgetProviderClock.class);
-
-            for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProviderClock.updateAppWidget(c, manager, i);
-            }
 
         } catch (Exception e) {
             Crashlytics.logException(e);

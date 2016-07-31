@@ -261,16 +261,29 @@
                     android:resource="@xml/vakit_widget"/>
         </receiver>
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetClock">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetClock">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_clock"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_clock"/>
+        </receiver>
+
+        <receiver
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetClock2">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_clock2"/>
         </receiver>
         <receiver
                 android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"

@@ -46,6 +46,7 @@ public class Utils {
             return time;
         }
         int d = time.indexOf(" ");
+        if (d < 0) return time;
         time = time.replace(" ", "");
 
         int s = time.length();

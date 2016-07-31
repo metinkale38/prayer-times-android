@@ -208,6 +208,7 @@
     <string name="vote">Bewerten</string>
     <string name="whiteWidget">Weißes Widget</string>
     <string name="widgetClock">Gebetszeiten - 4*2 Uhr</string>
+    <string name="widgetClock2">Gebetszeiten - 2*2 Uhr</string>
     <string name="widgetCountdownType">Widget - Countdown Minuten</string>
     <string name="widgetDesign">Theme</string>
     <string name="widget">Gebetszeiten - 2*2 Widget</string>
