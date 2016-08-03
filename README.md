@@ -3,6 +3,8 @@ A useful Application with a set of tools needed by any muslim.
 
 Play Store: https://play.google.com/store/apps/details?id=com.metinkale.prayer
 
+If you want to help me translating this Application into other languages contact me under metinkale38[at]gmail.com
+
 ##DESCRIPTION
 ###English
 يسروا ولا تعسروا, وبشروا ولا تنفروا
@@ -12,7 +14,7 @@ According to this hadith this application will Insha Allah make you some things 
 
 Features
 
-- Different prayer times calendar (Diyanet, IGMG Fazilet Takvimi, NamazVakti.com, and some calculation methods)
+- Different prayer times calendar (Diyanet.gov.tr, IGMG.org, FaziletTakvimi.com, NamazVakti.com, Semerkandtakvimi.com and calculation methods)
 - Automatic location
 - Worldwide Prayer Times
 - Reads Adhan for the prayer times
@@ -20,14 +22,15 @@ Features
 - Early Notification for prayer times
 - Indicator for Makruh prayer time
 - Widget / Notification
-- Qibla Compass (2D/3D)
+- Qibla Compass (2D/3D/Map)
 - 99 Names of Allah
 - Religious holidays with descriptions
 - Dhikr after prayer
 - Hadith collection of Sahih al Bukhaari
 - Dhikr counter
 - Counter for missed prayers
-- Turkish, German and English language support
+- Arabic, Turkish, German and English language support
+- Large set of downloadable Sounds (Adhan, Du'a etc.)
 
 ##Turkish
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
@@ -37,7 +40,7 @@ Bu Hadisten yola çıkarak bu Uygulama Allahın izniyle sizin hayatınızı kola
 
 Namaz Vakti Uygulamasının içerikleri:
 
-- Diyanet, İGMG, Fazilet Takvimi, NamazVakti.com ve Hesaplanmış Vakitleri ile uyumlu Namaz Vakitleri
+- Diyanet.gov.tr, IGMG.org, FaziletTakvimi.com, NamazVakti.com, SemerkandTakvimi.com ve Hesaplanmış Vakitleri ile uyumlu Namaz Vakitleri
 - Otomatik Şehir bulma
 - Bütün Dünyadaki Namaz Vakitlerini kapsamaktadır
 - Namaz Vakitlerinde Ezan okuma özelliği (kapatmak için Notification'u silin)
@@ -45,7 +48,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - Namaz Vakti girmeden erken uyarı
 - Kerahat Vakti bildirisi
 - Widget/Notification
-- Kıble Pusulası (2D/3D)
+- Kıble Pusulası (2D/3D/Harita)
 - Esmau'l Hüsna / Allahın 99 İsimleri
 - Dini Günler ve Açıklamaları
 - Namaz Tesbihatı
@@ -53,15 +56,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - Zikir/Tesbih çekme
 - Kaza Takibi
 - Türkçe, Almanca ve İngilizce seçenekli
-
-Bu uygulama şu izinlere erişime sahip:
--Konumunuz: Kıble Pusulası: yerinizi Tesbit edip, Kıble acısını hesaplamak için
--Ağ iletişimi: İnternetten Vakitleri indirebilmek için
--Sistem araçları: İnternet bağlantısını kontrol etmebilmek için
--Kamera: 3 Boyutlu Kıble Pusulası için
--titreşimi denetleme: Ezan Uyarısında Titesim için
--başlangıçta çalıştırma: Telefonu açınca direk Uyarı Servisini başlatmak için
--Takvim: Dini Günleri Telefonun Takvimine yazabilmek için
+- Çok seçenekli Ses ayarlari
 
 ##German
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
@@ -71,7 +66,7 @@ Mit dem Ziel dieser Hadith Gerecht zu werden wird diese Anwendung Ihnen InshaAll
 
 Die Inhalte der Gebetszeit-Anwendungen:
 
-- Verschiedene Gebetszeiten-Kalender (Diyanet, IGMG, Fazilet Takvimi, NamazVakti.com, sowie einige Berechnete Methoden)
+- Verschiedene Gebetszeiten-Kalender (Diyanet.gov.tr, IGMG.org, FaziletTakvimi.com, NamazVakti.com, SemerkandTakvimi.com sowie Berechnete Methoden)
 - Automatischer Standort
 - Alle Weltgebetszeiten
 - Liest Adhan zu den Gebetszeiten
@@ -79,14 +74,15 @@ Die Inhalte der Gebetszeit-Anwendungen:
 - Frühwarnung für Gebetszeiten
 - Anzeige für Makruh Gebetszeit
 - Widget / Mitteilung
-- Qibla Compass (2D/3D)
+- Qibla Compass (2D/3D/Karte)
 - 99 Namen von Allah
 - Religiöse Feiertage mit Beschreibungen
 - Dhikr für nachdem Gebet
 - Hadith Sammlung aus Sahih al Bucharyy
 - Dhikr Zähler
 - Zähler für verpasste Gebete
-- Türkisch, Deutsch und Englisch-Sprachauswahl
+- Arabisch, Türkisch, Deutsch und Englisch-Sprachauswahl
+- Große anzahl an Tönen (Adhan, Du'a usw.)
 
 
 #LICENSE
@@ -107,5 +103,5 @@ Die Inhalte der Gebetszeit-Anwendungen:
     limitations under the License.
 
     Additional from the Developer: if you plan to publish your own Prayer
-    App, please do not to publish a too similiar Application. Please at least
-    make a Redesign of the Application.
+    App, please do not to publish a too similiar Application. At least
+    make a Redesign of the Application!
