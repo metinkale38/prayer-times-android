@@ -139,9 +139,11 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
         paint.setColor(Color.WHITE);
 
 
-        paint.setTextAlign(Align.LEFT);
         if (time.length == 3) {
-            canvas.drawText(time[0], w * 0.05f, h * 0.65f, paint);
+            paint.setTextAlign(Align.RIGHT);
+            canvas.drawText(time[0], w * 0.59f, h * 0.65f, paint);
+
+            paint.setTextAlign(Align.LEFT);
             paint.setColor(Theme.Light.strokecolor);
 
             paint.setTextSize(h * 0.18f);
@@ -156,11 +158,15 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
             canvas.drawText(Utils.toArabicNrs(ltime.toString("d'.' MMM'.'")), w * 0.60f, h * 0.55f, paint);
             canvas.drawText(Vakit.getByIndex(last).getString(), w * 0.60f, h * 0.65f, paint);
         } else {
-            canvas.drawText(time[0], w * 0.10f, h * 0.65f, paint);
+
+            paint.setTextAlign(Align.RIGHT);
+            canvas.drawText(time[0], w * 0.62f, h * 0.65f, paint);
+
+            paint.setTextAlign(Align.LEFT);
             paint.setColor(Theme.Light.strokecolor);
             paint.setTextSize(h * 0.22f);
             canvas.drawText(time[1], w * 0.63f, h * 0.45f, paint);
-    
+
             paint.setColor(0xFFFFFFFF);
             paint.setTextSize(h * 0.07f);
 
