@@ -36,6 +36,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
@@ -109,6 +111,7 @@ public class MainIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             try {
+                long mills = System.currentTimeMillis();
                 String action = intent.getAction();
                 Runnable callback = mCallback;
                 switch (action) {
@@ -146,6 +149,20 @@ public class MainIntentService extends IntentService {
                         break;
                 }
 
+                mills -= System.currentTimeMillis();
+                Tracker t = App.getTracker();
+                t.send(new HitBuilders.TimingBuilder()
+                        .setCategory("MainIntentService")
+                        .setValue(mills)
+                        .setVariable(action)
+                        .setLabel(action.substring(action.lastIndexOf(".") + 1))
+                        .build());
+
+                t.send(new HitBuilders.EventBuilder()
+                        .setCategory("MainIntentService")
+                        .setValue(mills)
+                        .setLabel(action.substring(action.lastIndexOf(".") + 1))
+                        .build());
             } catch (Exception e) {
                 if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
                     Crashlytics.logException(e);
