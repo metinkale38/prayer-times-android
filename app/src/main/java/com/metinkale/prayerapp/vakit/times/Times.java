@@ -440,9 +440,6 @@ public abstract class Times extends TimesBase {
     }
 
 
-    public void refresh() {
-
-    }
 
     @Override
     public String toString() {

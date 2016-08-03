@@ -25,6 +25,7 @@ import android.os.BatteryManager;
 import android.os.PowerManager;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.vakit.Main;
 import org.joda.time.LocalDate;
 
@@ -34,9 +35,7 @@ import java.util.Map;
 
 public class WebTimes extends Times {
 
-    private transient Thread mThread;
-
-    private transient boolean mSyncing;
+    private transient volatile boolean mSyncing;
     protected Map<String, String> times = new HashMap<>();
     protected int lastSyncTime;
     protected String id;
@@ -53,61 +52,7 @@ public class WebTimes extends Times {
     public void delete() {
         super.delete();
         App.getHandler().removeCallbacks(mCheckSync);
-        if ((mThread != null) && mThread.isAlive()) {
-            mThread.interrupt();
-        }
     }
-
-    @Override
-    public void refresh() {
-        if ((getId() == null) || !App.isOnline() || mSyncing) {
-            return;
-        }
-
-        if (Thread.currentThread() != mThread) {
-            Thread t = new Thread() {
-                @Override
-                public void run() {
-                    refresh();
-
-                    if (mThread == this) {
-                        mThread = null;
-                    }
-                }
-            };
-            if (t.getState() == Thread.State.NEW) {
-                t.start();
-            }
-
-            mThread = t;
-            return;
-        }
-
-
-        boolean ret;
-        mSyncing = true;
-        try {
-            ret = syncTimes();
-        } catch (Exception e) {
-            if (e instanceof ArrayIndexOutOfBoundsException) {
-                try {
-                    Crashlytics.setString("city", getName());
-                    Crashlytics.setString("path", getId());
-                    Crashlytics.setString("source", getSource().toString());
-                } catch (Exception ee) {
-                    Crashlytics.logException(ee);
-                }
-                Crashlytics.logException(e);
-            }
-            ret = false;
-        }
-        mSyncing = false;
-
-
-        setLastSyncTime(System.currentTimeMillis());
-
-    }
-
 
     @Override
     public synchronized String getTime(LocalDate date, int time) {
@@ -116,7 +61,7 @@ public class WebTimes extends Times {
         return super.getTime(date, time);
     }
 
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
         return false;
     }
 
@@ -132,7 +77,7 @@ public class WebTimes extends Times {
                 // always if +15 days does not exist
                 ld = ld.plusDays(15);
                 if ("00:00".equals(getTime(ld, 1))) {
-                    refresh();
+                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
                     return;
                 }
 
@@ -153,7 +98,6 @@ public class WebTimes extends Times {
                         reasons++;
                     }
                 } catch (Exception ignore) {
-                    Crashlytics.logException(ignore);
                 }
                 if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
                     reasons++;
@@ -166,13 +110,13 @@ public class WebTimes extends Times {
                 ld = ld.plusDays(reasons * 3);
                 // if +15+reasons*3 days does not exist
                 if ("00:00".equals(getTime(ld, 1))) {
-                    refresh();
+                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
                     return;
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
                 if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
-                    refresh();
+                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
                     return;
                 }
             }
@@ -238,11 +182,11 @@ public class WebTimes extends Times {
     }
 
 
-    long getLastSyncTime() {
+    public long getLastSyncTime() {
         return lastSyncTime * 1000L;
     }
 
-    void setLastSyncTime(long lastSyncTime) {
+    public void setLastSyncTime(long lastSyncTime) {
         this.lastSyncTime = (int) (lastSyncTime / 1000);
         save();
     }
@@ -257,11 +201,13 @@ public class WebTimes extends Times {
     }
 
     public synchronized void setTime(LocalDate date, int time, String value) {
+        if (deleted()) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
     }
 
     public void setTimes(LocalDate date, String[] value) {
+        if (deleted()) return;
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
         }

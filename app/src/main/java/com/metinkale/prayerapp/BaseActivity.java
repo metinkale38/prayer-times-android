@@ -40,8 +40,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.custom.Changelog;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -57,7 +55,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private View mNavBar;
-    private Tracker mTracker;
 
     public BaseActivity() {
         String clz = getClass().toString();
@@ -74,11 +71,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (App.getContext() == null) {
             App.setContext(this);
         }
-
-
-        mTracker = App.getTracker();
-        mTracker.setScreenName("Act~" + mActs[mNavPos]);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {

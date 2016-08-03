@@ -155,9 +155,13 @@
                 android:key="backupRestore"
                 android:title="@string/backupRestore"/>
         <Preference
-                android:key="donate"
-                android:summary="@string/donateDesc"
-                android:title="@string/donate"/>
+            android:key="donate"
+            android:summary="@string/donateDesc"
+            android:title="@string/donate"/>
+
+        <Preference
+            android:key="beta_tester"
+            android:title="@string/beta_tester"/>
 
         <Preference
                 android:key="mail"

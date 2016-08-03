@@ -41,7 +41,7 @@ public class SemerkandTimes extends WebTimes {
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
         LocalDate ldate = LocalDate.now();
         int Y = ldate.getYear();
         int i = 0;
@@ -59,6 +59,9 @@ public class SemerkandTimes extends WebTimes {
                 }
                 URL url = new URL(Url);
                 URLConnection connection = url.openConnection();
+                connection.setConnectTimeout(3000);
+                connection.setReadTimeout(3000);
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
 
                 List<Day> resp = gson.fromJson(in, new TypeToken<List<Day>>() {

@@ -216,4 +216,6 @@
     <string name="zuhr">الظهر</string>
     <string name="langAr">عربي</string>
     <string name="calculated">محسوب</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="paypal">Paypal</string>
 </resources>

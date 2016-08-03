@@ -222,5 +222,8 @@
     <string name="zuhr">Zuhr</string>
     <string name="langAr">Arabisch</string>
     <string name="calculated">Berechnet</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="paypal">Paypal</string>
+    <string name="beta_tester">Tester werden</string>
 
 </resources>

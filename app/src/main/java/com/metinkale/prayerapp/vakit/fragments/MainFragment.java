@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
+import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
@@ -192,7 +193,7 @@ public class MainFragment extends Fragment {
 
             case R.id.refresh:
                 if (mTimes != null) {
-                    mTimes.refresh();
+                    MainIntentService.forceRefreshTimes(getActivity(), mTimes);
                 }
                 break;
 

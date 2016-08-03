@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.json.JSONObject;
 
@@ -110,7 +111,7 @@ public class MainHelper extends SQLiteOpenHelper {
         }
 
         for (Times t : Times.getTimes()) {
-            t.refresh();
+            MainIntentService.forceRefreshTimes(App.getContext(), t);
         }
         Prefs.setMigratedFromSqlite(true);
     }

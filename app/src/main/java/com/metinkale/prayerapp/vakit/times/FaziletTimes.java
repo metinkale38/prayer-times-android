@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FaziletTimes extends WebTimes {
-    FaziletTimes() {
-    }
 
     FaziletTimes(long id) {
         super(id);
@@ -43,7 +41,7 @@ public class FaziletTimes extends WebTimes {
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
         String[] a = getId().split("_");
 
         if (a.length < 4) {
@@ -103,6 +101,8 @@ public class FaziletTimes extends WebTimes {
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
+        conn.setConnectTimeout(3000);
+        conn.setReadTimeout(3000);
         OutputStream writer = conn.getOutputStream();
         writer.write(postDataBytes);
 

@@ -117,8 +117,10 @@ public class ImsakiyeFragment extends Fragment {
 
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                tv.setText(Utils.fixTimeForHTML(a[i]));
-
+                if (i != 0)
+                    tv.setText(Utils.fixTimeForHTML(a[i]));
+                else
+                    tv.setText(Utils.toArabicNrs(a[i]));
             }
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);

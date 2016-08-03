@@ -100,6 +100,8 @@ public class Settings extends BaseActivity {
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
 
             findPreference("arabicNames").setEnabled(false);
+
+            findPreference("beta_tester").setOnPreferenceClickListener(this);
         }
 
         @Override
@@ -108,11 +110,16 @@ public class Settings extends BaseActivity {
                 sendMail(getActivity());
             } else if ("backupRestore".equals(preference.getKey())) {
                 startActivity(new Intent(getActivity(), BackupRestoreActivity.class));
+            } else if ("beta_tester".equals(preference.getKey())) {
+                String url = "https://play.google.com/apps/testing/com.metinkale.prayer";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             } else if ("donate".equals(preference.getKey())) {
                 Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.donateDlg);
                 builder.setCancelable(true);
-                builder.setPositiveButton(R.string.ok, new OnClickListener() {
+                builder.setPositiveButton(R.string.paypal, new OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -131,7 +138,20 @@ public class Settings extends BaseActivity {
                         startActivity(i);
                     }
                 });
-                builder.setNegativeButton(R.string.cancel, new OnClickListener() {
+                builder.setNegativeButton(R.string.bitcoin, new OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        arg0.cancel();
+                        String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
+
+
+                builder.setNeutralButton(R.string.cancel, new OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

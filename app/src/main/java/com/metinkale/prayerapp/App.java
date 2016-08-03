@@ -27,8 +27,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
@@ -41,7 +39,6 @@ public class App extends Application {
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
     private static Context sContext;
     private static Handler sHandler = new Handler();
-    private static Tracker sTracker;
 
 
     @Override
@@ -70,16 +67,6 @@ public class App extends Application {
 
 
     public static boolean isOnline() {
-        if (Sounds.needsCheck()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Sounds.checkIfNeeded();
-
-                }
-            }).start();
-        }
-
         ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
         return (activeNetwork != null) && activeNetwork.isConnected();
@@ -98,19 +85,6 @@ public class App extends Application {
 
     }
 
-    /**
-     * Gets the default {@link Tracker} for this {@link Application}.
-     *
-     * @return tracker
-     */
-    synchronized public static Tracker getTracker() {
-        if (sTracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(getContext());
-            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            sTracker = analytics.newTracker("UA-79170076-1");
-        }
-        return sTracker;
-    }
 
     public static Handler getHandler() {
         return sHandler;
@@ -119,7 +93,6 @@ public class App extends Application {
 
     @Override
     public void onTerminate() {
-        sTracker = null;
         sHandler = null;
         sContext = null;
         super.onTerminate();

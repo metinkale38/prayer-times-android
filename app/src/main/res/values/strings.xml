@@ -221,4 +221,7 @@
     <string name="juristicHanafi">Asr-ı Sânî</string>
     <string name="langAr">Arapça</string>
     <string name="calculated">Hesaplanmış</string>
+    <string name="paypal">Paypal</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="beta_tester">Test sürümünü kullan</string>
 </resources>

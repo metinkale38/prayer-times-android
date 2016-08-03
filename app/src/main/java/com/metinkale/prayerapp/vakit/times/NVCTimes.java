@@ -46,6 +46,8 @@ public class NVCTimes extends WebTimes {
         try {
             URL url = new URL("http://namazvakti.com/XML.php?cityID=" + id);
             URLConnection ucon = url.openConnection();
+            ucon.setConnectTimeout(3000);
+            ucon.setReadTimeout(3000);
 
             InputStream is = ucon.getInputStream();
             BufferedInputStream bis = new BufferedInputStream(is);
@@ -72,10 +74,12 @@ public class NVCTimes extends WebTimes {
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
 
         URL url = new URL("http://namazvakti.com/XML.php?cityID=" + getId());
         URLConnection ucon = url.openConnection();
+        ucon.setConnectTimeout(3000);
+        ucon.setReadTimeout(3000);
 
         InputStream is = ucon.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(is);

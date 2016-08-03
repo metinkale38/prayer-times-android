@@ -38,8 +38,13 @@ public class DiyanetTimes extends WebTimes {
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
         String path = getId();
+
+        if (!path.startsWith("D_")) {
+            delete();
+            return false;
+        }
         if ("D_13_1008_0".equals(path)) {
             path = "D_13_10080_9206";
         }
@@ -70,6 +75,8 @@ public class DiyanetTimes extends WebTimes {
         conn.setRequestProperty("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti");
         conn.setRequestProperty("Content-Size", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
+        conn.setConnectTimeout(3000);
+        conn.setReadTimeout(3000);
         OutputStream writer = conn.getOutputStream();
         writer.write(postDataBytes);
 

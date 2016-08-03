@@ -37,7 +37,7 @@ public class IGMGTimes extends WebTimes {
     }
 
     @Override
-    protected boolean syncTimes() throws Exception {
+    public boolean syncTimes() throws Exception {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");
         int world = Integer.parseInt(a[1]);

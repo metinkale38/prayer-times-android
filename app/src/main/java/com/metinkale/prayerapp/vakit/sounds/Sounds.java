@@ -218,7 +218,8 @@ public class Sounds {
                     try {
                         URL url = new URL(this.url + ".md5");
                         URLConnection ucon = url.openConnection();
-
+                        ucon.setConnectTimeout(3000);
+                        ucon.setReadTimeout(3000);
                         InputStream is = ucon.getInputStream();
                         BufferedReader in = new BufferedReader(new InputStreamReader(is));
 

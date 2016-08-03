@@ -47,7 +47,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 135
+        versionCode 137
         versionName '3.6'
     }
 
@@ -92,6 +92,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'net.danlew:android.joda:2.9.3'
-    compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile 'com.google.android.gms:play-services-maps:9.0.0'
 }
