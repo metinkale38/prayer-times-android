@@ -1,221 +1,547 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="activateForMorePrefs">للمزيد من الإعدادات الرجاء التفعيل</string>
-    <string name="adhanVolume">حدة صوت الأذان</string>
-    <string name="adjAngle">إستناداً إلى درجة الميلان ( الدرجة \ ٦٠ من الليل)</string>
-    <string name="adjMidnight">منتصف الليل</string>
-    <string name="adjTime">إستناداً إلى الوقت ( ١\٧ الليل)</string>
-    <string name="afterImsak">بعد الفجر</string>
-    <string name="alternativeOngoing">ودجيت تنبيه بديل</string>
-    <string name="angle">الزاوية</string>
-    <string name="angleBased">الزاوية</string>
-    <string name="appName">أوقات الصلاة</string>
-    <string name="asr">العصر</string>
-    <string name="backup">حفظ</string>
-    <string name="backupRestore">إستعادة المحفوظ</string>
-    <string name="beforeSun">قبل الشروق</string>
-    <string name="blackWidget">ودجيت أسود</string>
-    <string name="calcMethod">طريقة الحساب</string>
-    <string name="calendar">مناسبات إسلامية</string>
-    <string name="calendarIntegration">إدراج التقويم</string>
-    <string name="cancel">إلغاء</string>
-    <string name="category">الفئة</string>
-    <string name="changelog">ما الجديد؟</string>
-    <string name="cities">المُدن</string>
-    <string name="compass">البوصلة</string>
-    <string name="corruptAudio">ملف صوتي معطوب</string>
-    <string name="customVolume">حدة صوت مخصصة</string>
-    <string name="dateAndTime">التاريخ والوقت</string>
-    <string name="date">التاريخ</string>
-    <string name="dateFormat1">٣١ ديسمبر ٢٠١٣</string>
-    <string name="dateFormat2">٣١ ديسمبر ١٣</string>
-    <string name="dateFormat">صيغة كتابة التاريخ</string>
-    <string name="dayFr">الجمعة</string>
-    <string name="dayMo">الإثنين</string>
-    <string name="daySa">السبت</string>
-    <string name="dayShortFr">ج</string>
-    <string name="dayShortMo">ن</string>
-    <string name="dayShortSa">س</string>
-    <string name="dayShortSu">ح</string>
-    <string name="dayShortTh">خ</string>
-    <string name="dayShortTu">ث</string>
-    <string name="dayShortWe">ر</string>
-    <string name="daySu">الأحد</string>
-    <string name="dayTh">الخميس</string>
-    <string name="dayTu">الثلاثاء</string>
-    <string name="dayWe">الأربعاء</string>
-    <string name="delConfirmDhikr">هل تريد حذف \“%1$s\” ؟</string>
-    <string name="delConfirm">هل تريد حذف %1$s ؟</string>
-    <string name="delete">حذف</string>
-    <string name="dhikrCount">عدد الأذكار</string>
-    <string name="dhikr">الذكر</string>
-    <string name="distance">المسافة</string>
-    <string name="djuma">صلاة الجمعة</string>
-    <string name="dlHadith">تحميل الأحاديث</string>
-    <string name="dlSound">تحميل “%1$s” (%2$s) ؟</string>
-    <string name="donateDesc">لدعم المنتج أنقر هنا</string>
-    <string name="donateDlg">هذا فقظ دعم للمنتج :)
-        الحمد لله لست بحاجة للمال، ولكن إن أردت دعمي فشكراً جزيلاً</string>
-    <string name="donate">الدعم</string>
-    <string name="earlyNotification">الإشعار المبكر</string>
-    <string name="earlyText">%2$s دقيقة حتى %1$s</string>
-    <string name="error">طرأ خطأ</string>
-    <string name="fajr">الفجر</string>
-    <string name="fajrIshaaCalculation">حساب الفجر/ العشاء</string>
-    <string name="fasting">الصوم</string>
-    <string name="favorite">المفضلة</string>
-    <string name="filePicker">إختر ملفاُ</string>
-    <string name="fixTimezone">المنطقة الزمنية +/-:</string>
-    <string name="foundXHadis">عدد الأحاديث التي عثر عليها %1$s</string>
-    <string name="gmonth1">كانون ثاني</string>
-    <string name="gmonth2">شباط</string>
-    <string name="gmonth3">آذار</string>
-    <string name="gmonth4">نيسان</string>
-    <string name="gmonth5">أيار</string>
-    <string name="gmonth6">حزيران</string>
-    <string name="gmonth7">تموز</string>
-    <string name="gmonth8">آب</string>
-    <string name="gmonth9">أيلول</string>
-    <string name="gmonth10">تشرين أول</string>
-    <string name="gmonth11">تشرين ثاني</string>
-    <string name="gmonth12">كانون أول</string>
-    <string name="hadith">صحيح البخاري</string>
-    <string name="hDateFormat1">٣٠ محرم ١٤٣٤</string>
-    <string name="hDateFormat2">٣٠ محرم ٣٤</string>
-    <string name="hdateFormat">صيغة كتابة التاريخ الهجري</string>
-    <string name="hijriFix">تعديل التاريخ الهجري</string>
-    <string name="hmonth1">محرم</string>
-    <string name="hmonth2">صفر</string>
-    <string name="hmonth3">ربيع الأول</string>
-    <string name="hmonth4">ربيع الثاني</string>
-    <string name="hmonth5">جمادى الأولى</string>
-    <string name="hmonth6">جمادى الثانية</string>
-    <string name="hmonth7">رجب</string>
-    <string name="hmonth8">شعبان</string>
-    <string name="hmonth9">رمضان</string>
-    <string name="hmonth10">شول</string>
-    <string name="hmonth11">ذو القعدة</string>
-    <string name="hmonth12">ذو الحجة</string>
-    <string name="holyday1">السنة الإسلامية الجديدة</string>
-    <string name="holyday2">عاشوراء</string>
-    <string name="holyday3">المولد النبوي</string>
-    <string name="holyday4">بداية الأشهرالحُرم المباركة</string>
-    <string name="holyday5">ليلة رجب</string>
-    <string name="holyday6">ليلة الإسراء والمعراج</string>
-    <string name="holyday7">ليلة منتصف شعبان</string>
-    <string name="holyday8">بداية رمضان</string>
-    <string name="holyday9">ليلة القدر</string>
-    <string name="holyday10">يوم عرفة</string>
-    <string name="holyday11">عيد الفطر</string>
-    <string name="holyday12">اليوم التالي لعيد الفطر</string>
-    <string name="holyday13">اليوم الثاني بعد عيد الفطر</string>
-    <string name="holyday14">يوم عرفة</string>
-    <string name="holyday15">عيد الأضحى، اليوم الأول</string>
-    <string name="holyday16">عيد ألضحى، اليوم الثاني</string>
-    <string name="holyday17">عيد الأضحى، اليوم الثالث</string>
-    <string name="holyday18">عيد الأضحى، اليوم الرابع</string>
-    <string name="ishaa">العِشاء</string>
-    <string name="juristicShafi">الشافعي (الإعداد الافتراضي)</string>
-    <string name="juristicHanafi">الحنفي</string>
-    <string name="kerahatDuration">مدة الفترة التي تحرم فيها صلاة النافلة</string>
-    <string name="kerahatIstiwa">إستواء الشمس( قبل وقت الظهر)</string>
-    <string name="kerahatMaghrib">غروب الشمس ( قبل وقت المغرب)</string>
-    <string name="kerahatSun">شروق الشمس ( بعد وقت الفجر)</string>
-    <string name="kerahatTime">وقت تَحرم فيها صلاة النافلة</string>
-    <string name="langEn">English</string>
-    <string name="langGe">Deutsch</string>
-    <string name="langTr">Türk</string>
-    <string name="language">اللغة</string>
-    <string name="leftText">%1$s | بقي %3$s bis %2$s</string>
-    <string name="maghrib">المغرب</string>
-    <string name="missedPrayers">العبادات الفائتة</string>
-    <string name="mixed">مختلط</string>
-    <string name="monthly">أوقات الصلاة لكل الشهر</string>
-    <string name="morningPrayer">صلاة الفجر</string>
-    <string name="names">أسماء الله الحسنى </string>
-    <string name="newAddCity">إختيار مدينة جديدة</string>
-    <string name="newDhikr">ذِكر جديد</string>
-    <string name="noConnection">الإتصال معطل</string>
-    <string name="noFavs">لا توجد مفضلة</string>
-    <string name="no">كلا</string>
-    <string name="notification">تنبيه</string>
-    <string name="off">مغلق</string>
-    <string name="ok">نعم</string>
-    <string name="oldAddCity">إستخدام خيار المدينة السابق</string>
-    <string name="ongoingIcon">صورة التنبيه</string>
-    <string name="ongoingNotification">ويدجيت التنبيه</string>
-    <string name="other">أخرى</string>
-    <string name="permissionCalendarText">إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
+
+<!-- Fuzzy -->
+<string name="activateForMorePrefs">"للمزيد من الإعدادات الرجاء التفعيل"</string>
+
+<!-- Fuzzy -->
+<string name="adhanVolume">"حدة صوت الأذان"</string>
+
+<!-- Fuzzy -->
+<string name="adjAngle">"إستناداً إلى درجة الميلان ( الدرجة \ ٦٠ من الليل)"</string>
+<string name="adjMidnight">"منتصف الليل"</string>
+
+<!-- Fuzzy -->
+<string name="adjTime">"إستناداً إلى الوقت ( ١\٧ الليل)"</string>
+<string name="afterImsak">"بعد الفجر"</string>
+<string name="alternativeOngoing">"ودجيت تنبيه بديل"</string>
+<string name="angle">"الزاوية"</string>
+<string name="angleBased">"الزاوية"</string>
+<string name="appName">"أوقات الصلاة"</string>
+<string name="asr">"العصر"</string>
+<string name="backup">"حفظ"</string>
+<string name="backupRestore">"إستعادة المحفوظ"</string>
+<string name="beforeSun">"قبل الشروق"</string>
+<string name="blackWidget">"ودجيت أسود"</string>
+<string name="calcMethod">"طريقة الحساب"</string>
+<string name="calendar">"مناسبات إسلامية"</string>
+<string name="calendarIntegration">"إدراج التقويم"</string>
+<string name="cancel">"إلغاء"</string>
+<string name="category">"الفئة"</string>
+<string name="changelog">"ما الجديد؟"</string>
+<string name="cities">"المُدن"</string>
+<string name="compass">"البوصلة"</string>
+<string name="corruptAudio">"ملف صوتي معطوب"</string>
+<string name="customVolume">"حدة صوت مخصصة"</string>
+<string name="dateAndTime">"التاريخ والوقت"</string>
+<string name="date">"التاريخ"</string>
+
+<!-- Fuzzy -->
+<string name="dateFormat1">"٣١ ديسمبر ٢٠١٣"</string>
+
+<!-- Fuzzy -->
+<string name="dateFormat2">"٣١ ديسمبر ١٣"</string>
+<string name="dateFormat">"صيغة كتابة التاريخ"</string>
+<string name="dayFr">"الجمعة"</string>
+<string name="dayMo">"الإثنين"</string>
+<string name="daySa">"السبت"</string>
+<string name="dayShortFr">"ج"</string>
+<string name="dayShortMo">"ن"</string>
+<string name="dayShortSa">"س"</string>
+<string name="dayShortSu">"ح"</string>
+<string name="dayShortTh">"خ"</string>
+<string name="dayShortTu">"ث"</string>
+<string name="dayShortWe">"ر"</string>
+
+<!-- Fuzzy -->
+<string name="daySu">"الأحد"</string>
+
+<!-- Fuzzy -->
+<string name="dayTh">"الخميس"</string>
+
+<!-- Fuzzy -->
+<string name="dayTu">"الثلاثاء"</string>
+
+<!-- Fuzzy -->
+<string name="dayWe">"الأربعاء"</string>
+
+<!-- Fuzzy -->
+<string name="delConfirmDhikr">"هل تريد حذف \“%1$s\” ؟"</string>
+
+<!-- Fuzzy -->
+<string name="delConfirm">"هل تريد حذف %1$s ؟"</string>
+
+<!-- Fuzzy -->
+<string name="delete">"حذف"</string>
+
+<!-- Fuzzy -->
+<string name="dhikrCount">"عدد الأذكار"</string>
+
+<!-- Fuzzy -->
+<string name="dhikr">"الذكر"</string>
+
+<!-- Fuzzy -->
+<string name="distance">"المسافة"</string>
+
+<!-- Fuzzy -->
+<string name="djuma">"صلاة الجمعة"</string>
+
+<!-- Fuzzy -->
+<string name="dlHadith">"تحميل الأحاديث"</string>
+
+<!-- Fuzzy -->
+<string name="dlSound">"تحميل “%1$s” (%2$s) ؟"</string>
+
+<!-- Fuzzy -->
+<string name="donateDesc">"لدعم المنتج أنقر هنا"</string>
+
+<!-- Fuzzy -->
+<string name="donateDlg">"هذا فقظ دعم للمنتج :)
+        الحمد لله لست بحاجة للمال، ولكن إن أردت دعمي فشكراً جزيلاً"</string>
+
+<!-- Fuzzy -->
+<string name="donate">"الدعم"</string>
+
+<!-- Fuzzy -->
+<string name="earlyNotification">"الإشعار المبكر"</string>
+
+<!-- Fuzzy -->
+<string name="earlyText">"%2$s دقيقة حتى %1$s"</string>
+
+<!-- Fuzzy -->
+<string name="error">"طرأ خطأ"</string>
+
+<!-- Fuzzy -->
+<string name="fajr">"الفجر"</string>
+
+<!-- Fuzzy -->
+<string name="fajrIshaaCalculation">"حساب الفجر/ العشاء"</string>
+
+<!-- Fuzzy -->
+<string name="fasting">"الصوم"</string>
+
+<!-- Fuzzy -->
+<string name="favorite">"المفضلة"</string>
+
+<!-- Fuzzy -->
+<string name="filePicker">"إختر ملفاُ"</string>
+
+<!-- Fuzzy -->
+<string name="fixTimezone">"المنطقة الزمنية +/-:"</string>
+
+<!-- Fuzzy -->
+<string name="foundXHadis">"عدد الأحاديث التي عثر عليها %1$s"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth1">"كانون ثاني / يناير"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth2">"شباط / فبراير"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth3">"آذار/ مارس"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth4">"نيسان / أبريل"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth5">"أيار/ مايو"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth6">"حزيران / يونيو"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth7">"تموز / يوليو"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth8">"آب / أغسطس"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth9">"أيلول / سبتمبر"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth10">"تشرين أول / أكتوبر"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth11">"تشرين ثاني / نوفمبر"</string>
+
+<!-- Fuzzy -->
+<string name="gmonth12">"كانون أول / ديسمبر"</string>
+
+<!-- Fuzzy -->
+<string name="hadith">"صحيح البخاري"</string>
+
+<!-- Fuzzy -->
+<string name="hDateFormat1">"٣٠ محرم ١٤٣٤"</string>
+
+<!-- Fuzzy -->
+<string name="hDateFormat2">"٣٠ محرم ٣٤"</string>
+
+<!-- Fuzzy -->
+<string name="hdateFormat">"صيغة كتابة التاريخ الهجري"</string>
+
+<!-- Fuzzy -->
+<string name="hijriFix">"تعديل التاريخ الهجري"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth1">"محرم"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth2">"صفر"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth3">"ربيع الأول"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth4">"ربيع الثاني"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth5">"جمادى الأولى"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth6">"جمادى الثانية"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth7">"رجب"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth8">"شعبان"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth9">"رمضان"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth10">"شول"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth11">"ذو القعدة"</string>
+
+<!-- Fuzzy -->
+<string name="hmonth12">"ذو الحجة"</string>
+
+<!-- Fuzzy -->
+<string name="holyday1">"بداية السنة الهجرية"</string>
+
+<!-- Fuzzy -->
+<string name="holyday2">"عاشوراء"</string>
+
+<!-- Fuzzy -->
+<string name="holyday3">"المولد النبوي"</string>
+
+<!-- Fuzzy -->
+<string name="holyday4">"بداية الأشهرالحُرم المباركة"</string>
+
+<!-- Fuzzy -->
+<string name="holyday5">"ليلة رجب"</string>
+<string name="holyday6">"ليلة الإسراء والمعراج"</string>
+<string name="holyday7">"ليلة منتصف شعبان"</string>
+<string name="holyday8">"بداية رمضان"</string>
+<string name="holyday9">"ليلة القدر"</string>
+
+<!-- Fuzzy -->
+<string name="holyday10">"آخر أيام شهر رمضان المبارك"</string>
+
+<!-- Fuzzy -->
+<string name="holyday11">"عيد الفطر"</string>
+
+<!-- Fuzzy -->
+<string name="holyday12">"اليوم التالي لعيد الفطر"</string>
+
+<!-- Fuzzy -->
+<string name="holyday13">"اليوم الثاني بعد عيد الفطر"</string>
+
+<!-- Fuzzy -->
+<string name="holyday14">"يوم عرفة"</string>
+
+<!-- Fuzzy -->
+<string name="holyday15">"عيد الأضحى، اليوم الأول"</string>
+
+<!-- Fuzzy -->
+<string name="holyday16">"عيد ألأضحى، اليوم الثاني"</string>
+
+<!-- Fuzzy -->
+<string name="holyday17">"عيد الأضحى، اليوم الثالث"</string>
+
+<!-- Fuzzy -->
+<string name="holyday18">"عيد الأضحى، اليوم الرابع"</string>
+
+<!-- Fuzzy -->
+<string name="ishaa">"العِشاء"</string>
+
+<!-- Fuzzy -->
+<string name="juristicHanafi">"الحنفي"</string>
+
+<!-- Fuzzy -->
+<string name="juristicShafi">"الشافعي (الإعداد الافتراضي)"</string>
+
+<!-- Fuzzy -->
+<string name="kerahatDuration">"مدة الفترة التي تحرم فيها صلاة النافلة"</string>
+
+<!-- Fuzzy -->
+<string name="kerahatIstiwa">"إستواء الشمس( قبل وقت الظهر)"</string>
+
+<!-- Fuzzy -->
+<string name="kerahatMaghrib">"غروب الشمس ( قبل وقت المغرب)"</string>
+
+<!-- Fuzzy -->
+<string name="kerahatSun">"شروق الشمس ( بعد وقت الفجر)"</string>
+
+<!-- Fuzzy -->
+<string name="kerahatTime">"وقت تَحرم فيها صلاة النافلة"</string>
+
+<!-- Fuzzy -->
+<string name="langEn">"English"</string>
+
+<!-- Fuzzy -->
+<string name="langGe">"Deutsch"</string>
+
+<!-- Fuzzy -->
+<string name="langTr">"Türk"</string>
+
+<!-- Fuzzy -->
+<string name="language">"اللغة"</string>
+
+<!-- Fuzzy -->
+<string name="leftText">"%1$s | بقي %3$s bis %2$s"</string>
+
+<!-- Fuzzy -->
+<string name="maghrib">"المغرب"</string>
+
+<!-- Fuzzy -->
+<string name="missedPrayers">"العبادات الفائتة"</string>
+
+<!-- Fuzzy -->
+<string name="mixed">"عرض الأحاديث عشوائياً"</string>
+
+<!-- Fuzzy -->
+<string name="monthly">"أوقات الصلاة لكل الشهر"</string>
+
+<!-- Fuzzy -->
+<string name="morningPrayer">"صلاة الفجر"</string>
+
+<!-- Fuzzy -->
+<string name="names">"أسماء الله الحسنى "</string>
+
+<!-- Fuzzy -->
+<string name="newAddCity">"إختيار مدينة جديدة"</string>
+
+<!-- Fuzzy -->
+<string name="newDhikr">"ذِكر جديد"</string>
+
+<!-- Fuzzy -->
+<string name="noConnection">"الإتصال معطل"</string>
+
+<!-- Fuzzy -->
+<string name="noFavs">"لا توجد مفضلة"</string>
+
+<!-- Fuzzy -->
+<string name="no">"كلا"</string>
+
+<!-- Fuzzy -->
+<string name="notification">"تنبيه"</string>
+
+<!-- Fuzzy -->
+<string name="off">"مغلق"</string>
+
+<!-- Fuzzy -->
+<string name="ok">"نعم"</string>
+
+<!-- Fuzzy -->
+<string name="oldAddCity">"إستخدام خيار المدينة السابق"</string>
+
+<!-- Fuzzy -->
+<string name="ongoingIcon">"صورة التنبيه"</string>
+
+<!-- Fuzzy -->
+<string name="ongoingNotification">"ويدجيت التنبيه"</string>
+
+<!-- Fuzzy -->
+<string name="other">"أخرى"</string>
+
+<!-- Fuzzy -->
+<string name="permissionCalendarText">"إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
         الصلاحية لذلك!
         وإذا لم ترد ذلك فلا تعط الصلاحية!
-    </string>
-    <string name="permissionCalendarTitle">صلاحية التقويم</string>
-    <string name="permissionCameraText">لاستخدام البوصلة ثلاثية الأبعاد يجب إعطاء التطبيق الصلاحية لاستخدام الكاميرا.
+    "</string>
+
+<!-- Fuzzy -->
+<string name="permissionCalendarTitle">"صلاحية التقويم"</string>
+
+<!-- Fuzzy -->
+<string name="permissionCameraText">"لاستخدام البوصلة ثلاثية الأبعاد يجب إعطاء التطبيق الصلاحية لاستخدام الكاميرا.
         إذا لم تفعل فيمكنك ذلك استخدام البوصلة بالشكل ثنائي الأبعاد.
-    </string>
-    <string name="permissionCameraTitle">صلاحية الكاميرا</string>
-    <string name="permissionLocationText">إعطاء الصلاحية لخدمات تحديد الموقع ضرورية لتحديد مكان تواجدك آلياً.
+    "</string>
+
+<!-- Fuzzy -->
+<string name="permissionCameraTitle">"صلاحية الكاميرا"</string>
+
+<!-- Fuzzy -->
+<string name="permissionLocationText">"إعطاء الصلاحية لخدمات تحديد الموقع ضرورية لتحديد مكان تواجدك آلياً.
         إذا لم تعط الصلاحية لذلك فيمكنك رغم ذلك اختيار مدينتك يدوياً
-    </string>
-    <string name="permissionLocationTitle">صلاحية تحديد الموقع</string>
-    <string name="permissionStorageText">إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
+    "</string>
+
+<!-- Fuzzy -->
+<string name="permissionLocationTitle">"صلاحية تحديد الموقع"</string>
+
+<!-- Fuzzy -->
+<string name="permissionStorageText">"إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
         التطبيق بشكل مامل
-    </string>
-    <string name="permissionStorageTitle">صلاحية الحافظة</string>
-    <string name="prayerNotification">تنبيه وقت الصلاة</string>
-    <string name="refresh">المزامنة</string>
-    <string name="resetConfirmDhikr">هل تريد فعلاً إلغاء \“%1$s\” ؟</string>
-    <string name="restore">إسترجاع</string>
-    <string name="search">بحث</string>
-    <string name="selectOther">أخرى …</string>
-    <string name="sendMail">كتابة رسالة إلكترونية …</string>
-    <string name="settings">إعدادات</string>
-    <string name="share">مشاركة</string>
-    <string name="shareTimes">أرسل أقوات الصلاة لهذا اليوم لـ %1$s</string>
-    <string name="showMore">إظهار المزيد</string>
-    <string name="silenterDuration">مدة تفعيل حالة الصامت</string>
-    <string name="silenterType">خيارات وضعية حالة الصامت</string>
-    <string name="silent">صامت</string>
-    <string name="sorted">مفروز</string>
-    <string name="soundPicker">اختر الصوت</string>
-    <string name="sound">الصوت</string>
-    <string name="sun">الشمس</string>
-    <string name="switchCompass">البوصلة / الخارطة</string>
-    <string name="tasbih">التسبيح</string>
-    <string name="tesbihat">تسابيح</string>
-    <string name="timeBased">دقائق</string>
-    <string name="time">الوقت</string>
-    <string name="touchToSelectCity">أنقر هنا لاختيار المدينة</string>
-    <string name="transWhiteWidget">ودجيت أبيض شفاف</string>
-    <string name="transWidget">ودجيت شفاف</string>
-    <string name="tryVibration">تجريب</string>
-    <string name="use12h">إظهار صيغة الوقت بنظام 12 ساعة</string>
-    <string name="useArabicNames">إستخدام السماء العربية</string>
-    <string name="useSilenter">الصامت</string>
-    <string name="useVibration">الاهتزاز</string>
-    <string name="versionNr">3.5.1</string>
-    <string name="version">رقم أصدار</string>
-    <string name="vibrationDesc">ميلي ثانية - انتظر اهتزاز انتظر …</string>
-    <string name="vibrationPattern">نماذج الإهتزاز</string>
-    <string name="volumeAlarm">حدة صوت المنبه</string>
-    <string name="volumeMedia">حدة صوت التسجيلات</string>
-    <string name="volumeRingtone">حدة صوت الرنين</string>
-    <string name="vote">تقييم</string>
-    <string name="whiteWidget">ودجيت أبيض</string>
-    <string name="widgetClock">أوقات الصلاة الساعة - 4*2</string>
-    <string name="widgetCountdownType">ودجيت العد التنازلي</string>
-    <string name="widgetDesign">تصاميم</string>
-    <string name="widgetLong">ودجيت أوقات الصلاة 4*1</string>
-    <string name="widget">ودجيت أوقات الصلاة 2*2</string>
-    <string name="widgetSilenter">أوقات الصلاة - ودجيت الصامت</string>
-    <string name="widgetSmall">ودجيت أوقات الصلاة 1*1</string>
-    <string name="witr">الوتر</string>
-    <string name="yes">نعم</string>
-    <string name="zoomIn">تكبيرالصورة</string>
-    <string name="zoomOut">تغير الصورة</string>
-    <string name="zuhr">الظهر</string>
-    <string name="langAr">عربي</string>
-    <string name="calculated">محسوب</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="paypal">Paypal</string>
+    "</string>
+
+<!-- Fuzzy -->
+<string name="permissionStorageTitle">"صلاحية الحافظة"</string>
+
+<!-- Fuzzy -->
+<string name="prayerNotification">"تنبيه وقت الصلاة"</string>
+
+<!-- Fuzzy -->
+<string name="refresh">"المزامنة"</string>
+
+<!-- Fuzzy -->
+<string name="resetConfirmDhikr">"هل تريد فعلاً إلغاء \“%1$s\” ؟"</string>
+
+<!-- Fuzzy -->
+<string name="restore">"إسترجاع"</string>
+
+<!-- Fuzzy -->
+<string name="search">"بحث"</string>
+
+<!-- Fuzzy -->
+<string name="selectOther">"أخرى …"</string>
+
+<!-- Fuzzy -->
+<string name="sendMail">"كتابة رسالة إلكترونية …"</string>
+
+<!-- Fuzzy -->
+<string name="settings">"إعدادات"</string>
+
+<!-- Fuzzy -->
+<string name="share">"مشاركة"</string>
+
+<!-- Fuzzy -->
+<string name="shareTimes">"أرسل أقوات الصلاة لهذا اليوم لـ %1$s"</string>
+
+<!-- Fuzzy -->
+<string name="showMore">"إظهار المزيد"</string>
+
+<!-- Fuzzy -->
+<string name="silenterDuration">"مدة تفعيل حالة الصامت"</string>
+
+<!-- Fuzzy -->
+<string name="silenterType">"خيارات وضعية حالة الصامت"</string>
+
+<!-- Fuzzy -->
+<string name="silent">"صامت"</string>
+
+<!-- Fuzzy -->
+<string name="sorted">"فرز الأحاديث موضوعياً"</string>
+
+<!-- Fuzzy -->
+<string name="soundPicker">"اختر الصوت"</string>
+
+<!-- Fuzzy -->
+<string name="sound">"الصوت"</string>
+
+<!-- Fuzzy -->
+<string name="sun">"الشروق"</string>
+
+<!-- Fuzzy -->
+<string name="switchCompass">"البوصلة / الخارطة"</string>
+
+<!-- Fuzzy -->
+<string name="tasbih">"التسبيح"</string>
+
+<!-- Fuzzy -->
+<string name="tesbihat">"الأذكار"</string>
+
+<!-- Fuzzy -->
+<string name="timeBased">"دقائق"</string>
+
+<!-- Fuzzy -->
+<string name="time">"الوقت"</string>
+
+<!-- Fuzzy -->
+<string name="touchToSelectCity">"أنقر هنا لاختيار المدينة"</string>
+
+<!-- Fuzzy -->
+<string name="transWhiteWidget">"ودجيت أبيض شفاف"</string>
+
+<!-- Fuzzy -->
+<string name="transWidget">"ودجيت شفاف"</string>
+
+<!-- Fuzzy -->
+<string name="tryVibration">"تجريب"</string>
+
+<!-- Fuzzy -->
+<string name="use12h">"إظهار صيغة الوقت بنظام 12 ساعة"</string>
+<string name="useArabicNames">"إستخدام الأسماء العربية"</string>
+
+<!-- Fuzzy -->
+<string name="useSilenter">"الصامت"</string>
+
+<!-- Fuzzy -->
+<string name="useVibration">"الاهتزاز"</string>
+
+<!-- Fuzzy -->
+<string name="versionNr">"3.5.1"</string>
+
+<!-- Fuzzy -->
+<string name="version">"رقم أصدار"</string>
+
+<!-- Fuzzy -->
+<string name="vibrationDesc">"ملي ثانية - انتظر اهتزاز انتظر …"</string>
+
+<!-- Fuzzy -->
+<string name="vibrationPattern">"نماذج الإهتزاز"</string>
+
+<!-- Fuzzy -->
+<string name="volumeAlarm">"حدة صوت المنبه"</string>
+
+<!-- Fuzzy -->
+<string name="volumeMedia">"حدة صوت التسجيلات"</string>
+
+<!-- Fuzzy -->
+<string name="volumeRingtone">"حدة صوت الرنين"</string>
+
+<!-- Fuzzy -->
+<string name="vote">"تقييم"</string>
+
+<!-- Fuzzy -->
+<string name="whiteWidget">"ودجيت أبيض"</string>
+
+<!-- Fuzzy -->
+<string name="widgetClock">"أوقات الصلاة الساعة - 4*2"</string>
+
+<!-- Fuzzy -->
+<string name="widgetCountdownType">"ودجيت العد التنازلي"</string>
+
+<!-- Fuzzy -->
+<string name="widgetDesign">"تصاميم"</string>
+
+<!-- Fuzzy -->
+<string name="widgetLong">"ودجيت أوقات الصلاة 4*1"</string>
+
+<!-- Fuzzy -->
+<string name="widget">"ودجيت أوقات الصلاة 2*2"</string>
+
+<!-- Fuzzy -->
+<string name="widgetSilenter">"أوقات الصلاة - ودجيت الصامت"</string>
+
+<!-- Fuzzy -->
+<string name="widgetSmall">"ودجيت أوقات الصلاة 1*1"</string>
+
+<!-- Fuzzy -->
+<string name="witr">"الوتر"</string>
+
+<!-- Fuzzy -->
+<string name="yes">"نعم"</string>
+
+<!-- Fuzzy -->
+<string name="zoomIn">"تكبيرالصورة"</string>
+
+<!-- Fuzzy -->
+<string name="zoomOut">"تغير الصورة"</string>
+
+<!-- Fuzzy -->
+<string name="zuhr">"الظهر"</string>
 </resources>
