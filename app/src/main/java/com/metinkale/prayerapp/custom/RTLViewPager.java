@@ -90,6 +90,11 @@ public class RTLViewPager extends ViewPager {
         super.setCurrentItem(isRTL() ? getAdapter().getCount() - 1 - item : item, smoothScroll);
     }
 
+    @Override
+    public int getCurrentItem() {
+        return getAdapter().getCount() - 1 - super.getCurrentItem();
+    }
+
     private boolean isRTL() {
         return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL;
     }
@@ -130,6 +135,7 @@ public class RTLViewPager extends ViewPager {
         public long getItemId(int position) {
             return adapter.getItemId(getCount() - 1 - position);
         }
+
 
         @Override
         public int getItemPosition(Object object) {
