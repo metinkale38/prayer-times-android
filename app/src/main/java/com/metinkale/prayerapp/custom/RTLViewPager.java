@@ -66,12 +66,12 @@ public class RTLViewPager extends ViewPager {
 
     @Override
     public void setOnPageChangeListener(OnPageChangeListener listener) {
-        super.setOnPageChangeListener(isRTL()?new RTLOnPageChangeListener(listener):listener);
+        super.setOnPageChangeListener(isRTL() ? new RTLOnPageChangeListener(listener) : listener);
     }
 
     @Override
     public void addOnPageChangeListener(OnPageChangeListener listener) {
-        super.addOnPageChangeListener(isRTL()?new RTLOnPageChangeListener(listener):listener);
+        super.addOnPageChangeListener(isRTL() ? new RTLOnPageChangeListener(listener) : listener);
     }
 
     @Override
@@ -97,9 +97,22 @@ public class RTLViewPager extends ViewPager {
     private class RTLAdapterWrapper extends FragmentPagerAdapter {
         private FragmentPagerAdapter adapter;
 
+        private DataSetObserver observer = new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onInvalidated() {
+                notifyDataSetChanged();
+            }
+        };
+
         private RTLAdapterWrapper(FragmentManager fm, FragmentPagerAdapter adapter) {
             super(fm);
             this.adapter = adapter;
+            adapter.registerDataSetObserver(observer);
         }
 
         @Override
@@ -132,17 +145,6 @@ public class RTLViewPager extends ViewPager {
         }
 
 
-        @Override
-        public void registerDataSetObserver(DataSetObserver observer) {
-            super.registerDataSetObserver(observer);
-            adapter.registerDataSetObserver(observer);
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer) {
-            super.unregisterDataSetObserver(observer);
-            adapter.unregisterDataSetObserver(observer);
-        }
     }
 
     private class RTLOnPageChangeListener implements OnPageChangeListener {
