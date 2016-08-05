@@ -17,6 +17,19 @@
 
 <resources translatable="false">
 
+    <string-array name="numbers">
+        <item>0123456789</item>
+        <item>٠١٢٣٤٥٦٧٨٩</item>
+        <item>۰۱۲۳۴۵۶۷۸۹</item>
+    </string-array>
+
+    <string-array name="numbers_keys">
+        <item>normal</item>
+        <item>arabic</item>
+        <item>farsi</item>
+    </string-array>
+
+
     <string-array name="soundPicker">
         <item>@string/filePicker</item>
         <item>@string/soundPicker</item>
@@ -165,7 +178,7 @@
         <item>@string/holyday17</item>
         <item>@string/holyday18</item>
     </string-array>
-    <string-array name="greg_df">
+    <string-array name="df">
         <item>DD MMM YYYY</item>
         <item>DD MMM YY</item>
         <item>DD.MM.YYYY</item>
@@ -174,8 +187,10 @@
         <item>DD/MM/YY</item>
         <item>DD MM YYYY</item>
         <item>DD MM YY</item>
-        <item>DD.MM.YYYY</item>
-        <item>DD.MM.YY</item>
+        <item>DD MMM</item>
+        <item>DD.MM</item>
+        <item>DD/MM</item>
+        <item>DD MM</item>
     </string-array>
     <string-array name="greg_text">
         <item>@string/dateFormat1</item>
@@ -186,9 +201,10 @@
         <item>31/12/13</item>
         <item>31 12 2013</item>
         <item>31 12 13</item>
-        <item>31.12.2013</item>
-        <item>31.12.13</item>
-
+        <item>@string/dateFormat3</item>
+        <item>31.12</item>
+        <item>31/12</item>
+        <item>31 12</item>
     </string-array>
     <string-array name="hicri_text">
         <item>@string/hDateFormat1</item>
@@ -199,21 +215,12 @@
         <item>30/01/34</item>
         <item>30 01 1434</item>
         <item>30 01 34</item>
-        <item>30.01.1434</item>
-        <item>30.01.34</item>
+        <item>@string/hDateFormat3</item>
+        <item>30.01</item>
+        <item>30/01</item>
+        <item>30 01</item>
     </string-array>
-    <string-array name="hicri_df">
-        <item>DD MMM YYYY</item>
-        <item>DD MMM YY</item>
-        <item>DD.MM.YYYY</item>
-        <item>DD.MM.YY</item>
-        <item>DD/MM/YYYY</item>
-        <item>DD/MM/YY</item>
-        <item>DD MM YYYY</item>
-        <item>DD MM YY</item>
-        <item>DD.MM.YYYY</item>
-        <item>DD.MM.YY</item>
-    </string-array>
+
 
     <string-array name="adjMethod">
         <item>@string/adjAngle</item>

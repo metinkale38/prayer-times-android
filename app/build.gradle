@@ -8,7 +8,6 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 android {
@@ -77,6 +76,8 @@ android {
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://maven.fabric.io/public' }
+
+
 }
 
 
@@ -85,6 +86,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar'){
+        transitive=true
+    }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
     compile 'com.android.support:percent:23.4.0'
@@ -92,5 +96,4 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'net.danlew:android.joda:2.9.3'
-    compile 'com.google.android.gms:play-services-maps:9.0.0'
 }

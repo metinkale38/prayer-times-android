@@ -47,6 +47,8 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
     private final int mKerahatSunset;
     private final boolean mMigratedFromSqlite;
     private final boolean mAlternativeOngoing;
+    private final String mNumbers;
+    private final boolean mOngoingIcon;
     private SharedPreferences.Editor mEditor;
 
     private Prefs() {
@@ -67,10 +69,12 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
         mTesbihatTextSize = prefs.getInt("tesbihatTextSize", 0);
         mCompassLat = prefs.getFloat("compassLat", 0);
         mCompassLng = prefs.getFloat("compassLong", 0);
-        mAlternativeOngoing = prefs.getBoolean("alternativeOngoing", false);
+        mAlternativeOngoing = prefs.getBoolean("alternativeOngoing", true);
         mKerahatSunrise = prefs.getInt("kerahat_sunrise", 45);
         mKerahatIstiwa = prefs.getInt("kerahat_istiva", 45);
         mKerahatSunset = prefs.getInt("kerahat_sunset", 45);
+        mNumbers = prefs.getString("numbers", "normal");
+        mOngoingIcon = prefs.getBoolean("ongoingIcon", true);
 
         mMigratedFromSqlite = prefs.getBoolean("migratedFromSqlite", false);
 
@@ -106,6 +110,15 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
 
     public static void setLanguage(String language) {
         get().mEditor.putString("language", language);
+        commit();
+    }
+
+    public static String getDigits() {
+        return get().mNumbers;
+    }
+
+    public static void setDigits(String numbers) {
+        get().mEditor.putString("numbers", numbers);
         commit();
     }
 
@@ -193,6 +206,10 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
         return get().mMigratedFromSqlite;
     }
 
+    public static boolean showOngoingIcon() {
+        return get().mOngoingIcon;
+    }
+
     public static void setMigratedFromSqlite(boolean b) {
         get().mEditor.putBoolean("migratedFromSqlite", b);
         commit();
@@ -223,13 +240,19 @@ public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener
         commit();
     }
 
+    public static void setShowOngoingIcon(boolean show) {
+        get().mEditor.putBoolean("ongoingIcon", show);
+        commit();
+    }
+
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         ourInstance = null;
 
         if ("calendarIntegration".equals(key)) {
             MainIntentService.startCalendarIntegration(App.getContext());
-        } else if ("ongoingIcon".equals(key)) {
+        } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
             WidgetService.updateOngoing();
         } else if ("alternativeOngoing".equals(key)) {
             WidgetService.updateOngoing();

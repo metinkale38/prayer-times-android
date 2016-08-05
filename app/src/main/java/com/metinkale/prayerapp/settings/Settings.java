@@ -90,6 +90,7 @@ public class Settings extends BaseActivity {
             findPreference("mail").setOnPreferenceClickListener(this);
 
             findPreference("language").setOnPreferenceChangeListener(this);
+            findPreference("numbers").setOnPreferenceChangeListener(this);
 
             findPreference("backupRestore").setOnPreferenceClickListener(this);
 
@@ -169,7 +170,7 @@ public class Settings extends BaseActivity {
         @Override
         public boolean onPreferenceChange(Preference pref, Object newValue) {
 
-            if ("language".equals(pref.getKey())) {
+            if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
                 Utils.changeLanguage((String) newValue);
                 Activity act = getActivity();
                 act.finish();

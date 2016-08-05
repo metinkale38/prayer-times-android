@@ -68,7 +68,7 @@ public class VibrationPreference extends EditTextPreference {
     public VibrationPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPersistent(true);
-        button.setText(R.string.tryVibration);
+        button.setText(R.string.test);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

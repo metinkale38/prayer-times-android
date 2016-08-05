@@ -18,6 +18,35 @@
 <resources
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
 
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupMenuStyle">@style/ToolbarTheme.Popup</item>
+        <item name="android:popupMenuStyle">@style/ToolbarTheme.Popup</item>
+        <item name="android:textColor">#ff000000</item>
+        <item name="actionOverflowMenuStyle">@style/ToolbarTheme.Popup</item>
+
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="actionDropDownStyle">@style/ToolbarTheme.DropDown</item>
+    </style>
+
+    <style name="ToolbarTheme.DropDown" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:popupBackground">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ToolbarTheme.Popup" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/overflow_menu</item>
+    </style>
 
     <style name="MySwitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/colorPrimary</item>

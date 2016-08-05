@@ -37,7 +37,7 @@ import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.custom.FloatingActionButton;
-import com.metinkale.prayerapp.custom.LockableViewPager;
+import com.metinkale.prayerapp.custom.RTLViewPager;
 import com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
@@ -49,7 +49,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public static boolean isRunning;
     public MyAdapter mAdapter;
     public FloatingActionButton mAddCityFab;
-    private LockableViewPager mPager;
+    private RTLViewPager mPager;
     private int mStartPos = 1;
     private SettingsFragment mSettingsFrag;
     private ImsakiyeFragment mImsakiyeFrag;
@@ -77,7 +77,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
         mFooterText = (TextView) findViewById(R.id.footerText);
-        mPager = (LockableViewPager) findViewById(R.id.pager);
+        mPager = (RTLViewPager) findViewById(R.id.pager);
         mAdapter = new MyAdapter(getSupportFragmentManager());
 
         mSettingsFrag = (SettingsFragment) getFragmentManager().findFragmentByTag("settings");
@@ -86,10 +86,10 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mTopSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.topSlider);
         mBottomSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.bottomSlider);
 
-        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.RIGHT).withMargins(0, 0, 16, 5).hide().create();
+        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.END).withMargins(16, 0, 16, 5).hide().create();
         mAddCityFab.setOnClickListener(this);
 
-        mPager.setAdapter(mAdapter);
+        mPager.setRTLSupportAdapter(getSupportFragmentManager(), mAdapter);
 
         int holyday = HicriDate.isHolyday();
         if (holyday != 0) {
@@ -99,7 +99,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
 
         onNewIntent(getIntent());
-        mPager.setOnPageChangeListener(this);
+        mPager.addOnPageChangeListener(this);
 
 
         mTopSlider.setOnDrawerScrollListener(new MultipleOrientationSlidingDrawer.OnDrawerScrollListener() {

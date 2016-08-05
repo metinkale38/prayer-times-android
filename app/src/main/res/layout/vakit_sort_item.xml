@@ -16,40 +16,42 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#ffffff"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="10dp"
-                android:foreground="?selectableItemBackground">
+                android:foreground="?selectableItemBackground"
+                android:padding="10dp">
 
 
     <TextView
-            android:id="@+id/city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/source"
-            android:layout_marginStart="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/source"
+        android:layout_marginStart="10dp"
+        android:layout_toStartOf="@+id/handle"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 
     <TextView
-            android:id="@+id/source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:id="@+id/source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toStartOf="@+id/handle"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <ImageView
-            android:contentDescription="@null"
-            android:id="@+id/handle"
-            android:layout_width="?listPreferredItemHeight"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:scaleType="center"
-            android:tint="#aaaaaa"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_reorder_white_24dp"/>
+        android:id="@+id/handle"
+        android:layout_width="?listPreferredItemHeight"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"
+        android:scaleType="center"
+        android:src="@drawable/ic_reorder_white_24dp"
+        android:tint="#aaaaaa"/>
 
 </RelativeLayout>

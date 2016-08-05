@@ -30,8 +30,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
@@ -105,6 +107,15 @@ public class WidgetProviderClock extends AppWidgetProvider {
 
         remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
         remoteViews.setOnClickPendingIntent(R.id.belowPart, Main.getPendingIntent(times));
+
+
+        Uri.Builder builder =
+                CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        builder.appendPath(Long.toString(System.currentTimeMillis()));
+        Intent intent =
+                new Intent(Intent.ACTION_VIEW, builder.build());
+        remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 
         int next = times.getNext();

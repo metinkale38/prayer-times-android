@@ -140,7 +140,7 @@
     <string name="langTr">Türkçe</string>
     <string name="language">Dil</string>
     <string name="leftText">%1$s | %2$s %3$s kaldı</string>
-    <string name="maghrib" translatable="false">Akşam</string>
+    <string name="maghrib">Akşam</string>
     <string name="missedPrayers">Kaza Takibi</string>
     <string name="mixed">Karışık</string>
     <string name="monthly">İmsakiye</string>
@@ -192,7 +192,7 @@
     <string name="touchToSelectCity">Şehir seçmek için buraya başınız</string>
     <string name="transWhiteWidget">Beyaz şeffaf Widget</string>
     <string name="transWidget">Şeffaf Widget</string>
-    <string name="tryVibration">Dene</string>
+    <string name="test">Dene</string>
     <string name="use12h">12 Saat Format\'ı kullan</string>
     <string name="useArabicNames">Arapça Vakitleri kullan</string>
     <string name="useSilenter">Sessiz Modu\'na al</string>
@@ -206,7 +206,7 @@
     <string name="volumeRingtone">Zil Sesine göre</string>
     <string name="vote">Yorum Yaz</string>
     <string name="whiteWidget">Beyaz Widget</string>
-    <string name="widgetClock">Namaz Vakti - Saat</string>
+    <string name="widgetClock">Namaz Vakti - Saat 4*2</string>
     <string name="widgetCountdownType">Widget - Geri sayım Dakikaları</string>
     <string name="widgetDesign">Theme</string>
     <string name="widgetLong">Namaz Vakti - 4*1</string>
@@ -224,4 +224,9 @@
     <string name="paypal">Paypal</string>
     <string name="bitcoin">Bitcoin</string>
     <string name="beta_tester">Test sürümünü kullan</string>
+    <string name="widgetClock2">Namaz Vakti - Saat 2*2</string>
+    <string name="numbers">Rakamlar</string>
+    <string name="dateFormat3">31 Aralık</string>
+    <string name="hDateFormat3">30 Muharrem</string>
+    <string name="test_in_5secs">5 Saniye sonra bildirim gelecek</string>
 </resources>

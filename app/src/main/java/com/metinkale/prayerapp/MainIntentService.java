@@ -146,12 +146,12 @@ public class MainIntentService extends IntentService {
                 Runnable callback = mCallback;
                 switch (action) {
                     case ACTION_REFRESH_TIMES:
-                        WebTimes t = (WebTimes) Times.getTimes(intent.getIntExtra(EXTRA_ID, 0));
+                        WebTimes t = (WebTimes) Times.getTimes(intent.getLongExtra(EXTRA_ID, 0));
                         if ((System.currentTimeMillis() - t.getLastSyncTime()) > (1000 * 60 * 60))
                             handleRefreshTimes(t);
                         break;
                     case ACTION_FORCEREFRESH_TIMES:
-                        handleRefreshTimes((WebTimes) Times.getTimes(intent.getIntExtra(EXTRA_ID, 0)));
+                        handleRefreshTimes((WebTimes) Times.getTimes(intent.getLongExtra(EXTRA_ID, 0)));
                         break;
                     case ACTION_DOWNLOAD_HADIS:
                         mCallback = null;
@@ -193,7 +193,7 @@ public class MainIntentService extends IntentService {
                 mills -= System.currentTimeMillis();
                 if (mills > 1000) {
                     Crashlytics.logException(
-                            new Exception(action.substring(action.lastIndexOf(".")+1)+" took "+mills+" ms"));
+                            new Exception(action.substring(action.lastIndexOf(".") + 1) + " took " + mills + " ms"));
                 }
             } catch (Exception e) {
                 if (e.getMessage() != null && !e.getMessage().contains("exceeds maximum bitmap memory usage")) {

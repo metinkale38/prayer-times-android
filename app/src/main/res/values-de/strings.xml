@@ -193,7 +193,7 @@
     <string name="touchToSelectCity">Hier klicken um eine Stadt zu wählen</string>
     <string name="transWhiteWidget">Transparent-Weißes Widget</string>
     <string name="transWidget">Transparentes Widget</string>
-    <string name="tryVibration">Play</string>
+    <string name="test">Play</string>
     <string name="use12h">Benutze 12 Stunden format</string>
     <string name="useArabicNames">Benutze Arabische Gebetszeiten</string>
     <string name="useSilenter">Lautlos</string>
@@ -225,5 +225,8 @@
     <string name="bitcoin">Bitcoin</string>
     <string name="paypal">Paypal</string>
     <string name="beta_tester">Tester werden</string>
-
+    <string name="numbers">Ziffern</string>
+    <string name="dateFormat3">31 Dezember </string>
+    <string name="hDateFormat3">30 Muharram </string>
+    <string name="test_in_5secs">In 5 Sekunden kommt die Benachrichtigung</string>
 </resources>

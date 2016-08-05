@@ -35,12 +35,12 @@
             android:textSize="18sp"
             android:visibility="gone"/>
 
-    <com.metinkale.prayerapp.custom.LockableViewPager
+    <com.metinkale.prayerapp.custom.RTLViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/holyday"></com.metinkale.prayerapp.custom.LockableViewPager>
+            android:layout_below="@+id/holyday"/>
 
 
     <View

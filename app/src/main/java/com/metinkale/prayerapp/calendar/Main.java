@@ -79,7 +79,7 @@ public class Main extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
             String asset = Utils.getAssetForHolyday((Integer) v.getTag());
-            if ((asset != null) && !"en".equals(Prefs.getLanguage())&& !"ar ".equals(Prefs.getLanguage())) {
+            if ((asset != null) && !"en".equals(Prefs.getLanguage()) && !"ar".equals(Prefs.getLanguage())) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);
@@ -97,6 +97,7 @@ public class Main extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
+            if ("ar".equals(Prefs.getLanguage())) position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
             args.putInt(YearFragment.YEAR, position + HicriDate.MIN_YEAR);
@@ -111,7 +112,8 @@ public class Main extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return (position + HicriDate.MIN_YEAR) + "";
+            if ("ar".equals(Prefs.getLanguage())) position = getCount() - position - 1;
+            return Utils.toArabicNrs(position + HicriDate.MIN_YEAR);
         }
     }
 

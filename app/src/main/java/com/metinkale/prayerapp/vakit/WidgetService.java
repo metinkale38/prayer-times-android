@@ -88,7 +88,7 @@ public class WidgetService extends Service {
 
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
             Notification noti = null;
-            boolean icon = PreferenceManager.getDefaultSharedPreferences(App.getContext()).getBoolean("ongoingIcon", true);
+            boolean icon = Prefs.showOngoingIcon();
             if (Prefs.getAlternativeOngoing()) {
                 RemoteViews views = new RemoteViews(App.getContext().getPackageName(), R.layout.notification_layout);
 

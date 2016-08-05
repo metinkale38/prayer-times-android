@@ -262,8 +262,13 @@ public class Utils {
 
     public static String toArabicNrs(String str) {
         if (str == null) return null;
-        if (!"ar".equals(Prefs.getLanguage())) return str;
+        if (Prefs.getDigits().equals("normal")) return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
+        if (Prefs.getDigits().equals("farsi")) {
+            arabicChars[4] = '۴';
+            arabicChars[5] = '۵';
+            arabicChars[6] = '۶';
+        }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             if (Character.isDigit(str.charAt(i))) {
