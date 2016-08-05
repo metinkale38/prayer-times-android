@@ -222,11 +222,8 @@
     <string name="zuhr">Zuhr</string>
     <string name="langAr">Arabisch</string>
     <string name="calculated">Berechnet</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="paypal">Paypal</string>
     <string name="beta_tester">Tester werden</string>
     <string name="numbers">Ziffern</string>
     <string name="dateFormat3">31 Dezember </string>
     <string name="hDateFormat3">30 Muharram </string>
-    <string name="test_in_5secs">In 5 Sekunden kommt die Benachrichtigung</string>
 </resources>

@@ -547,4 +547,5 @@
     <string name="widgetClock2">أوقات الصلاة الساعة - 2*2</string>
     <string name="dateFormat3">٣١ ديسمبر </string>
     <string name="hDateFormat3">٣٠ محرم </string>
+    <string name="langAr">عربي</string>
 </resources>

@@ -221,12 +221,11 @@
     <string name="juristicHanafi">Asr-ı Sânî</string>
     <string name="langAr">Arapça</string>
     <string name="calculated">Hesaplanmış</string>
-    <string name="paypal">Paypal</string>
-    <string name="bitcoin">Bitcoin</string>
+    <string name="paypal" translatable="false">Paypal</string>
+    <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="beta_tester">Test sürümünü kullan</string>
     <string name="widgetClock2">Namaz Vakti - Saat 2*2</string>
     <string name="numbers">Rakamlar</string>
     <string name="dateFormat3">31 Aralık</string>
     <string name="hDateFormat3">30 Muharrem</string>
-    <string name="test_in_5secs">5 Saniye sonra bildirim gelecek</string>
 </resources>

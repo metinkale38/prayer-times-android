@@ -221,13 +221,10 @@
     <string name="zuhr">Zuhr</string>
     <string name="langAr">Arabic</string>
     <string name="calculated">Calculated</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="paypal">Paypal</string>
     <string name="beta_tester">Become a tester</string>
     <string name="widgetClock2">Prayer Times - 2*2 Clock</string>
     <string name="numbers">Digits</string>
     <string name="dateFormat3">31 December </string>
     <string name="hDateFormat3">30 Muharram </string>
-    <string name="test_in_5secs">You will get the Notification in 5 seconds</string>
 
 </resources>
