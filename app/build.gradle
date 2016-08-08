@@ -7,8 +7,9 @@ buildscript {
         classpath 'io.fabric.tools:gradle:+'
     }
 }
+
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+
 
 android {
 
@@ -37,16 +38,16 @@ android {
         }
     }
 
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.1'
 
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
         minSdkVersion 17
-        targetSdkVersion 23
+        targetSdkVersion 24
         signingConfig signingConfigs.debugKey
-        versionCode 138
+        versionCode 139
         versionName '3.6'
     }
 
@@ -69,21 +70,28 @@ android {
                     'proguard-rules.pro'
         }
     }
+
     productFlavors {
+        fdroid{
+            versionName = android.defaultConfig.versionName + " F-Droid"
+        }
+        play{
+            versionName = android.defaultConfig.versionName + " Play Store"
+            apply plugin: 'io.fabric'
+            repositories {
+                maven { url 'https://maven.fabric.io/public' }
+            }
+        }
     }
-}
-
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url 'https://maven.fabric.io/public' }
-
 
 }
+
+
 
 
 
 dependencies {
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    playCompile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
     compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar'){
@@ -91,9 +99,9 @@ dependencies {
     }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
-    compile 'com.android.support:percent:23.4.0'
+    compile 'com.android.support:percent:24.+'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:24+'
+    compile 'com.android.support:appcompat-v7:24+'
     compile 'net.danlew:android.joda:2.9.3'
 }
