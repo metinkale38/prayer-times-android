@@ -1,27 +1,16 @@
-def isFdroid = project.gradle.startParameter.taskNames.get(0).contains("Fdroid")
-
-if(isFdroid)
-    println "Building for F-Droid"
-else
-    println "Building for Play Store"
-
 buildscript {
-    if(!/*isFdroid*/project.gradle.startParameter.taskNames.get(0).contains("Fdroid")){
-        repositories {
-            maven { url 'https://maven.fabric.io/public' }
-        }
+    repositories {
+        maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
+    }
 
-        dependencies {
-            classpath 'io.fabric.tools:gradle:+'
-        }
+    dependencies {
+        classpath 'io.fabric.tools:gradle:+' //excludeInFDroid
     }
 }
 
+
 apply plugin: 'com.android.application'
-if(!isFdroid)
-    apply plugin: 'io.fabric'
-
-
+apply plugin: 'io.fabric' //excludeInFDroid
 
 android {
 
