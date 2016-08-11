@@ -1,16 +1,16 @@
 buildscript {
     repositories {
-//        maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
+        maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
     }
 
     dependencies {
-//        classpath 'io.fabric.tools:gradle:+' //excludeInFDroid
+        classpath 'io.fabric.tools:gradle:+' //excludeInFDroid
     }
 }
 
 
 apply plugin: 'com.android.application'
-//apply plugin: 'io.fabric' //excludeInFDroid
+apply plugin: 'io.fabric' //excludeInFDroid
 
 android {
 
@@ -47,7 +47,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 24
         signingConfig signingConfigs.debugKey
-        versionCode 139
+        versionCode 140
         versionName '3.6'
     }
 
@@ -78,7 +78,7 @@ android {
         play{
             versionName = android.defaultConfig.versionName + " Play Store"
             repositories {
-//                maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
+                maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
             }
         }
     }
@@ -90,9 +90,9 @@ android {
 
 
 dependencies {
-//    playCompile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {//excludeInFDroid
-//        transitive = true;//excludeInFDroid
-//    }//excludeInFDroid
+    playCompile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {//excludeInFDroid
+        transitive = true;//excludeInFDroid
+    }//excludeInFDroid
     compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar'){
         transitive=true
     }

@@ -22,10 +22,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.text.TextUtilsCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.Locale;
 
@@ -65,6 +67,11 @@ public class RTLViewPager extends ViewPager {
     }
 
     @Override
+    public void setAdapter(PagerAdapter adapter) {
+        throw new RuntimeException("not supported, please use setRTLSupportAdapter");
+    }
+
+    @Override
     public void setOnPageChangeListener(OnPageChangeListener listener) {
         super.setOnPageChangeListener(isRTL() ? new RTLOnPageChangeListener(listener) : listener);
     }
@@ -92,7 +99,7 @@ public class RTLViewPager extends ViewPager {
 
     @Override
     public int getCurrentItem() {
-        return getAdapter().getCount() - 1 - super.getCurrentItem();
+        return isRTL()?( getAdapter().getCount() - 1 - super.getCurrentItem()):super.getCurrentItem();
     }
 
     private boolean isRTL() {

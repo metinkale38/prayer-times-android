@@ -104,7 +104,7 @@ public class Utils {
         Locale locale = new Locale(newLang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.setLocale(locale);
         ((ContextWrapper) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((ContextWrapper) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
 
     }
