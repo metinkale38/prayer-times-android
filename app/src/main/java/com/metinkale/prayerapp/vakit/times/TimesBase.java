@@ -147,9 +147,9 @@ public class TimesBase {
     private int pre_AKSAM_time;
     private int pre_YATSI_time;
 
-    private transient SharedPreferences prefs;
-    private transient SharedPreferences.Editor editor;
-    private transient Runnable mApplyPrefs = new Runnable() {
+    private transient final SharedPreferences prefs;
+    private transient final SharedPreferences.Editor editor;
+    private transient final Runnable mApplyPrefs = new Runnable() {
         @Override
         public void run() {
             synchronized (TimesBase.this) {
@@ -216,7 +216,7 @@ public class TimesBase {
             return;
         }
         apply();
-        if (!prefs.contains("id" + ID)) {
+        if (prefs != null && !prefs.contains("id" + ID)) {
             Times.clearTimes();
         }
 

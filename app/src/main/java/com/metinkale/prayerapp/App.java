@@ -50,7 +50,13 @@ public class App extends Application {
 
         JodaTimeAndroid.init(this);
         MainHelper.copy();
-        Times.getTimes();
+
+        try {
+            Times.getTimes();
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
+
         Utils.init();
 
         startService(new Intent(this, WidgetService.class));
@@ -88,14 +94,6 @@ public class App extends Application {
 
     public static Handler getHandler() {
         return sHandler;
-    }
-
-
-    @Override
-    public void onTerminate() {
-        sHandler = null;
-        sContext = null;
-        super.onTerminate();
     }
 
 

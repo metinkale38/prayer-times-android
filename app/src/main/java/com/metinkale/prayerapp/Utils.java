@@ -88,6 +88,11 @@ public class Utils {
 
     public static void init() {
         String newLang = Prefs.getLanguage();
+
+
+        Crashlytics.setString("lang", newLang);
+        Crashlytics.setString("digits", Prefs.getDigits());
+
         Context c = App.getContext();
 
 
