@@ -155,7 +155,7 @@
     <string name="notification">Notification</string>
     <string name="off">Off</string>
     <string name="ok">OK</string>
-    <string name="oldAddCity">Use old City Chooser</string>
+    <string name="oldAddCity">Use manuel City Chooser</string>
     <string name="ongoingIcon">Notification-Icon</string>
     <string name="ongoingNotification">Notification-Widget</string>
     <string name="other">Other</string>
@@ -226,5 +226,9 @@
     <string name="numbers">Digits</string>
     <string name="dateFormat3">31 December </string>
     <string name="hDateFormat3">30 Muharram </string>
+    <string name="useAlarm">Use Alarm for Notification</string>
+    <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
+        alarm clock icon will be added to the Status bar!
+    </string>
 
 </resources>

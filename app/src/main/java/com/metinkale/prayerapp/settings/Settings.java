@@ -27,12 +27,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager.OnActivityResultListener;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
@@ -40,11 +38,6 @@ import com.metinkale.prayerapp.Utils;
 
 
 public class Settings extends BaseActivity {
-
-    private static final String DONATE_LINK_EN = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ADFQEQS8A6ZK6";
-    private static final String DONATE_LINK_DE = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GV6N4NZ6RELTU";
-    private static final String DONATE_LINK_TR = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HPW6ZNL8GK77Y";
-    private OnActivityResultListener mList;
 
     public static void sendMail(Context ctx) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
@@ -68,7 +61,6 @@ public class Settings extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Prefs.reset();
         Utils.init();
     }
 
@@ -78,12 +70,10 @@ public class Settings extends BaseActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener, OnPreferenceChangeListener {
-        private Handler mHandler;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mHandler = new Handler();
 
             addPreferencesFromResource(R.xml.settings);
 
@@ -125,15 +115,7 @@ public class Settings extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         arg0.cancel();
-
-                        String lang = Prefs.getLanguage();
-                        String url = DONATE_LINK_EN;
-                        if ("tr".equals(lang)) {
-                            url = DONATE_LINK_TR;
-                        } else if ("de".equals(lang)) {
-                            url = DONATE_LINK_DE;
-                        }
-
+                        String url = "http://www.paypal.me/metinkale38";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);

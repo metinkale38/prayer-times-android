@@ -22,24 +22,59 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import com.crashlytics.android.Crashlytics;
+import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
-import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 
-public class App extends Application {
+public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
     private static Context sContext;
     private static Handler sHandler = new Handler();
 
+    public static Context getContext() {
+        return sContext;
+    }
+
+    public static void setContext(Context context) {
+        sContext = context;
+    }
+
+    public static boolean isOnline() {
+        ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        return (activeNetwork != null) && activeNetwork.isConnected();
+    }
+
+    @SuppressLint("NewApi")
+    public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
+        if (type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
+            AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time, PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
+            am.setAlarmClock(info, service);
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            am.setExactAndAllowWhileIdle(type, time, service);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            am.setExact(type, time, service);
+        } else {
+            am.set(type, time, service);
+        }
+
+    }
+
+    public static Handler getHandler() {
+        return sHandler;
+    }
 
     @Override
     public void onCreate() {
@@ -61,46 +96,25 @@ public class App extends Application {
 
         startService(new Intent(this, WidgetService.class));
         MainIntentService.setAlarms(this);
+
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
-    public static void setContext(Context context) {
-        sContext = context;
-    }
-
-    public static Context getContext() {
-        return sContext;
-    }
-
-
-    public static boolean isOnline() {
-        ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-        return (activeNetwork != null) && activeNetwork.isConnected();
-    }
-
-
-    @SuppressLint("NewApi")
-    public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            am.setExactAndAllowWhileIdle(type, time, service);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            am.setExact(type, time, service);
-        } else {
-            am.set(type, time, service);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if ("calendarIntegration".equals(key)) {
+            MainIntentService.startCalendarIntegration(App.getContext());
+        } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
+            WidgetService.updateOngoing();
+        } else if ("alternativeOngoing".equals(key)) {
+            WidgetService.updateOngoing();
+        } else if ("useAlarm".equals(key)) {
+            Times.setAlarms();
         }
-
     }
-
-
-    public static Handler getHandler() {
-        return sHandler;
-    }
-
 
     public static final class NotIds {
         public static final int ALARM = 1;
         public static final int ONGOING = 2;
     }
-
-
 }

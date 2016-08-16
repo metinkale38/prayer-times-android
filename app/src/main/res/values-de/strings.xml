@@ -155,7 +155,7 @@
     <string name="notification">Benachrichtigung</string>
     <string name="off">Aus</string>
     <string name="ok">Ok</string>
-    <string name="oldAddCity">Benutze alte Stadtauswahl</string>
+    <string name="oldAddCity">Benutze manuelle Stadtauswahl</string>
     <string name="ongoingIcon">Notification-Icon</string>
     <string name="ongoingNotification">Notification-Widget</string>
     <string name="other">Andere</string>
@@ -226,4 +226,8 @@
     <string name="numbers">Ziffern</string>
     <string name="dateFormat3">31 Dezember </string>
     <string name="hDateFormat3">30 Muharram </string>
+    <string name="useAlarm">Benutze Wecker-Alarm für Benachrichtigungen</string>
+    <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
+        diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
+    </string>
 </resources>

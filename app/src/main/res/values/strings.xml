@@ -154,7 +154,6 @@
     <string name="notification">Notification</string>
     <string name="off">Kapalı</string>
     <string name="ok">Tamam</string>
-    <string name="oldAddCity">Eski Şehir seçmesini kullan</string>
     <string name="ongoingIcon">Kalici Notification Resim göster</string>
     <string name="ongoingNotification">Kalici Notification</string>
     <string name="other">Diğer</string>
@@ -228,4 +227,9 @@
     <string name="numbers">Rakamlar</string>
     <string name="dateFormat3">31 Aralık</string>
     <string name="hDateFormat3">30 Muharrem</string>
+    <string name="useAlarm">Bildirimler için Alarm kullan</string>
+    <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim
+        Merkezine Saat Resmi ekleyecektir!
+    </string>
+    <string name="oldAddCity">Şehri elle seç</string>
 </resources>

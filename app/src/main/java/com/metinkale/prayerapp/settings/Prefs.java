@@ -18,244 +18,130 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.MainIntentService;
-import com.metinkale.prayerapp.vakit.WidgetService;
 
-/**
- * Created by Metin on 14.06.2015.
- */
-public class Prefs implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final Object LOCK = new Object();
-    private static Prefs ourInstance;
-    private final String mLanguage;
-    private final String mDF;
-    private final String mHDF;
-    private final boolean mUseArabic;
-    private final boolean mUse12H;
-    private final int mlastCalSync;
-    private final String mCalendarIntegration;
-    private final boolean mWidgetMinute;
-    private final int mHijriFix;
-    private final int mChangelogVersion;
-    private final int mTesbihatTextSize;
-    private final float mCompassLat;
-    private final float mCompassLng;
-    private final int mKerahatSunrise;
-    private final int mKerahatIstiwa;
-    private final int mKerahatSunset;
-    private final boolean mMigratedFromSqlite;
-    private final boolean mAlternativeOngoing;
-    private final String mNumbers;
-    private final boolean mOngoingIcon;
-    private SharedPreferences.Editor mEditor;
-
-    private Prefs() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
-        prefs.registerOnSharedPreferenceChangeListener(this);
-        mEditor = prefs.edit();
-
-        mLanguage = prefs.getString("language", null);
-
-        mDF = prefs.getString("dateformat", "DD MMM YYYY");
-        mHDF = prefs.getString("hdateformat", "DD MMM YYYY");
-        mUseArabic = prefs.getBoolean("arabicNames", false);
-        mUse12H = prefs.getBoolean("use12h", false);
-        mlastCalSync = prefs.getInt("lastCalSync", 0);
-        mWidgetMinute = "default".equals(prefs.getString("widget_countdown", "default"));
-        mHijriFix = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString("hijri_fix", "0").replace("+", ""));
-        mChangelogVersion = prefs.getInt("changelog_version", -1);
-        mTesbihatTextSize = prefs.getInt("tesbihatTextSize", 0);
-        mCompassLat = prefs.getFloat("compassLat", 0);
-        mCompassLng = prefs.getFloat("compassLong", 0);
-        mAlternativeOngoing = prefs.getBoolean("alternativeOngoing", true);
-        mKerahatSunrise = prefs.getInt("kerahat_sunrise", 45);
-        mKerahatIstiwa = prefs.getInt("kerahat_istiva", 45);
-        mKerahatSunset = prefs.getInt("kerahat_sunset", 45);
-        mNumbers = prefs.getString("numbers", "normal");
-        mOngoingIcon = prefs.getBoolean("ongoingIcon", true);
-
-        mMigratedFromSqlite = prefs.getBoolean("migratedFromSqlite", false);
+public class Prefs {
 
 
-        String calIntegration = "-1";
-        try {
-            calIntegration = prefs.getString("calendarIntegration", "-1");
-            "-1".equals(calIntegration);
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-
-            //catch Exception if calendarIntegration is an INT
-            mEditor.remove("calendarIntegration").apply();//revert
-            mEditor = prefs.edit();
-
-            calIntegration = "-1";
-        }
-        mCalendarIntegration = calIntegration;
+    private static SharedPreferences getPrefs() {
+        return PreferenceManager.getDefaultSharedPreferences(App.getContext());
     }
 
-    private static Prefs get() {
-        synchronized (LOCK) {
-            if (ourInstance == null) {
-                ourInstance = new Prefs();
-            }
-        }
-        return ourInstance;
+
+    public static boolean useAlarm() {
+        return getPrefs().getBoolean("useAlarm", false);
     }
 
     public static String getLanguage() {
-        return get().mLanguage;
+        return getPrefs().getString("language", null);
     }
 
     public static void setLanguage(String language) {
-        get().mEditor.putString("language", language);
-        commit();
+        getPrefs().edit().putString("language", language).apply();
     }
 
     public static String getDigits() {
-        return get().mNumbers;
-    }
-
-    public static void setDigits(String numbers) {
-        get().mEditor.putString("numbers", numbers);
-        commit();
+        return getPrefs().getString("numbers", "normal");
     }
 
     public static String getDF() {
-        return get().mDF;
+        return getPrefs().getString("dateformat", "DD MMM YYYY");
     }
 
     public static String getHDF() {
-        return get().mHDF;
+        return getPrefs().getString("hdateformat", "DD MMM YYYY");
     }
 
     public static boolean useArabic() {
-        return !"ar".equals(getLanguage()) && get().mUseArabic;
+        return !"ar".equals(getLanguage()) && getPrefs().getBoolean("arabicNames", false);
     }
 
     public static boolean use12H() {
-        if (get().mLanguage != null && get().mLanguage.equals("ar")) return false;
-        return get().mUse12H;
+        return !(getPrefs().getString("language", null) != null
+                && "ar".equals(getPrefs().getString("language", null)))
+                && getPrefs().getBoolean("use12h", false);
     }
 
     public static int getLastCalSync() {
-        return get().mlastCalSync;
-    }
-
-    public static String getCalendar() {
-        return get().mCalendarIntegration;
-    }
-
-    public static boolean getAlternativeOngoing() {
-        return get().mAlternativeOngoing;
-    }
-
-    public static void setCalendar(String cal) {
-        get().mEditor.putString("calendarIntegration", cal);
-        commit();
-    }
-
-    public static boolean isDefaultWidgetMinuteType() {
-        return get().mWidgetMinute;
-    }
-
-    public static int getHijriFix() {
-        return get().mHijriFix;
-    }
-
-    public static int getChangelogVersion() {
-        return get().mChangelogVersion;
-    }
-
-    public static void setChangelogVersion(int clv) {
-        get().mEditor.putInt("changelog_version", clv);
-        commit();
-    }
-
-    public static float getCompassLng() {
-        return get().mCompassLng;
-    }
-
-    public static float getCompassLat() {
-        return get().mCompassLat;
-    }
-
-    public static int getTesbihatTextSize() {
-        return get().mTesbihatTextSize;
-    }
-
-    public static void setTesbihatTextSize(int size) {
-        get().mEditor.putInt("tesbihatTextSize", size);
-        commit();
-    }
-
-    public static float getKerahatSunrise() {
-        return get().mKerahatSunrise;
-    }
-
-    public static float getKerahatIstiwa() {
-        return get().mKerahatIstiwa;
-    }
-
-    public static int getKerahatSunet() {
-        return get().mKerahatSunset;
-    }
-
-    public static boolean getMigratedFromSqlite() {
-        return get().mMigratedFromSqlite;
-    }
-
-    public static boolean showOngoingIcon() {
-        return get().mOngoingIcon;
-    }
-
-    public static void setMigratedFromSqlite(boolean b) {
-        get().mEditor.putBoolean("migratedFromSqlite", b);
-        commit();
+        return getPrefs().getInt("lastCalSync", 0);
     }
 
     public static void setLastCalSync(int date) {
-        get().mEditor.putInt("lastCalSync", date);
-        commit();
+        getPrefs().edit().putInt("lastCalSync", date).apply();
     }
 
-    private static void commit() {
-        get().mEditor.commit();
-        ourInstance = null;
+    public static String getCalendar() {
+        return getPrefs().getString("calendarIntegration", "-1");
     }
 
-    public static void reset() {
-        ourInstance = null;
+    public static void setCalendar(String cal) {
+        getPrefs().edit().putString("calendarIntegration", cal).apply();
     }
+
+    public static boolean getAlternativeOngoing() {
+        return getPrefs().getBoolean("alternativeOngoing", true);
+    }
+
+    public static boolean isDefaultWidgetMinuteType() {
+        return "default".equals(getPrefs().getString("widget_countdown", "default"));
+    }
+
+    public static int getHijriFix() {
+        return Integer.parseInt(getPrefs().getString("hijri_fix", "0").replace("+", ""));
+    }
+
+    public static int getChangelogVersion() {
+        return getPrefs().getInt("changelog_version", -1);
+    }
+
+    public static void setChangelogVersion(int clv) {
+        getPrefs().edit().putInt("changelog_version", clv).apply();
+    }
+
+    public static float getCompassLng() {
+        return getPrefs().getFloat("compassLong", 0);
+    }
+
+    public static float getCompassLat() {
+        return getPrefs().getFloat("compassLat", 0);
+    }
+
+    public static int getTesbihatTextSize() {
+        return getPrefs().getInt("tesbihatTextSize", 0);
+    }
+
+    public static void setTesbihatTextSize(int size) {
+        getPrefs().edit().putInt("tesbihatTextSize", size).apply();
+    }
+
+    public static float getKerahatSunrise() {
+        return getPrefs().getInt("kerahat_sunrise", 45);
+    }
+
+    public static float getKerahatIstiwa() {
+        return getPrefs().getInt("kerahat_istiva", 45);
+    }
+
+    public static int getKerahatSunet() {
+        return getPrefs().getInt("kerahat_sunset", 45);
+    }
+
+    public static boolean getMigratedFromSqlite() {
+        return getPrefs().getBoolean("migratedFromSqlite", false);
+    }
+
+    public static void setMigratedFromSqlite(boolean b) {
+        getPrefs().edit().putBoolean("migratedFromSqlite", b).apply();
+    }
+
+    public static boolean showOngoingIcon() {
+        return getPrefs().getBoolean("ongoingIcon", true);
+    }
+
 
     public static void setCompassPos(float lat, float lon) {
-        get().mEditor.putFloat("compassLat", lat).putFloat("compassLong", lon);
-        commit();
+        getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
 
-    public static void setAlternativeOngoing(boolean Alternative) {
-        get().mEditor.putBoolean("alternativeOngoing", Alternative);
-        commit();
-    }
-
-    public static void setShowOngoingIcon(boolean show) {
-        get().mEditor.putBoolean("ongoingIcon", show);
-        commit();
-    }
-
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        ourInstance = null;
-
-        if ("calendarIntegration".equals(key)) {
-            MainIntentService.startCalendarIntegration(App.getContext());
-        } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
-            WidgetService.updateOngoing();
-        } else if ("alternativeOngoing".equals(key)) {
-            WidgetService.updateOngoing();
-        }
-    }
 }
