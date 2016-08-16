@@ -118,7 +118,7 @@
 
     <PreferenceCategory
             android:title="@string/notification">
-        <com.metinkale.prayerapp.custom.VibrationPreference
+        <com.metinkale.prayerapp.utils.VibrationPreference
                 android:defaultValue="0 300 150 300 150 500"
                 android:dialogTitle="@string/vibrationDesc"
                 android:key="vibration"

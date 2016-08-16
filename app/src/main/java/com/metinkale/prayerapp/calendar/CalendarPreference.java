@@ -26,7 +26,7 @@ import android.preference.ListPreference;
 import android.provider.CalendarContract;
 import android.util.AttributeSet;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.PermissionUtils;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

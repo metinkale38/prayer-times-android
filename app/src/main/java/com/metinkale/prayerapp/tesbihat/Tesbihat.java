@@ -26,7 +26,7 @@ import android.view.*;
 import android.webkit.WebView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.custom.PagerSlidingTabStrip;
+import com.metinkale.prayerapp.utils.PagerSlidingTabStrip;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 

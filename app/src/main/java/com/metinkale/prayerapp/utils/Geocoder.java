@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.custom;
+package com.metinkale.prayerapp.utils;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;

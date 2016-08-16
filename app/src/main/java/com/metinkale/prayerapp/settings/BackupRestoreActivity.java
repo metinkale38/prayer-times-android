@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.PermissionUtils;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.Main;
 
 import java.io.*;

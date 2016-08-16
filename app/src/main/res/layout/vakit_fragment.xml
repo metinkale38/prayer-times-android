@@ -38,7 +38,7 @@
             android:visibility="gone"/>
 
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:id="@+id/date"
             android:layout_alignParentTop="true"
             app:layout_widthPercent="100%"
@@ -50,7 +50,7 @@
             android:textStyle="italic"/>
 
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:id="@+id/city"
             android:layout_below="@id/date"
             app:layout_widthPercent="100%"
@@ -60,7 +60,7 @@
             android:lines="1"/>
 
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/city"
             android:id="@+id/hicri"
             app:layout_widthPercent="100%"
@@ -72,7 +72,7 @@
             android:textStyle="italic"/>
 
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/hicri"
             android:id="@+id/imsak"
             app:layout_widthPercent="50%"
@@ -81,7 +81,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/fajr"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/hicri"
             android:id="@+id/imsaktime"
             app:layout_widthPercent="50%"
@@ -92,7 +92,7 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/imsak"
             android:id="@+id/gunes"
             app:layout_widthPercent="50%"
@@ -101,7 +101,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/sun"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/imsak"
             android:id="@+id/gunestime"
             app:layout_widthPercent="50%"
@@ -112,7 +112,7 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/gunes"
             android:id="@+id/ogle"
             app:layout_widthPercent="50%"
@@ -121,7 +121,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/zuhr"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/gunes"
             android:id="@+id/ogletime"
             app:layout_widthPercent="50%"
@@ -132,7 +132,7 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/ogle"
             android:id="@+id/ikindi"
             app:layout_widthPercent="50%"
@@ -141,7 +141,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/asr"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/ogle"
             android:id="@+id/ikinditime"
             app:layout_widthPercent="50%"
@@ -152,7 +152,7 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/ikindi"
             android:id="@+id/aksam"
             app:layout_widthPercent="50%"
@@ -161,7 +161,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/maghrib"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:id="@+id/aksamtime"
             android:layout_below="@id/ikindi"
             app:layout_widthPercent="50%"
@@ -172,7 +172,7 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/aksam"
             android:id="@+id/yatsi"
             app:layout_widthPercent="50%"
@@ -181,7 +181,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/ishaa"/>
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/aksam"
             android:id="@+id/yatsitime"
             app:layout_widthPercent="50%"
@@ -193,7 +193,7 @@
             android:fontFamily="sans-serif-thin"/>
 
 
-    <com.metinkale.prayerapp.custom.AutoResizeTextView
+    <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:layout_below="@id/yatsi"
             android:id="@+id/countdown"
             app:layout_widthPercent="100%"

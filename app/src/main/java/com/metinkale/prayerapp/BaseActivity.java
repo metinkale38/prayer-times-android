@@ -41,7 +41,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.custom.Changelog;
+import com.metinkale.prayerapp.utils.Changelog;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
 

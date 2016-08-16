@@ -35,7 +35,7 @@ import android.widget.Toast;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.PermissionUtils;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.compass._2D.Frag2D;
 import com.metinkale.prayerapp.compass._3D.Frag3D;
 import com.metinkale.prayerapp.compass.classes.OrientationCalculator;

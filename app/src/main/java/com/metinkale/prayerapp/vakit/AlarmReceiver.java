@@ -33,7 +33,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.MainIntentService;
-import com.metinkale.prayerapp.custom.VibrationPreference;
+import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;

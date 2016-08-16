@@ -34,7 +34,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.PermissionUtils;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
 import com.metinkale.prayerapp.vakit.times.Cities.Item;

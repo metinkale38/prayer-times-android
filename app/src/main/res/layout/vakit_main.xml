@@ -35,7 +35,7 @@
             android:textSize="18sp"
             android:visibility="gone"/>
 
-    <com.metinkale.prayerapp.custom.RTLViewPager
+    <com.metinkale.prayerapp.utils.RTLViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:layout_below="@+id/topSlider"
             android:id="@+id/topSliderCloseHandler"/>
 
-    <com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer
+    <com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer
             android:id="@+id/bottomSlider"
             android:layout_alignTop="@+id/center"
             android:layout_alignParentBottom="true"
@@ -103,9 +103,9 @@
                     tools:layout="@layout/vakit_imsakiye"/>
 
         </FrameLayout>
-    </com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer>
+    </com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer>
 
-    <com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer
+    <com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer
             android:id="@+id/topSlider"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                     tools:layout="@layout/vakit_settings"/>
 
         </FrameLayout>
-    </com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer>
+    </com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer>
 
     <FrameLayout
             android:translationZ="2dp"

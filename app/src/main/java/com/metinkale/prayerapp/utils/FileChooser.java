@@ -1,4 +1,4 @@
-package com.metinkale.prayerapp.custom;
+package com.metinkale.prayerapp.utils;
 
 import android.app.Activity;
 import android.app.Dialog;

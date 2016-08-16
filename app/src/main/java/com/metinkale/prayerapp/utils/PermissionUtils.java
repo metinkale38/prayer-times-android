@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp;
+package com.metinkale.prayerapp.utils;
 
 import android.Manifest;
 import android.app.Activity;

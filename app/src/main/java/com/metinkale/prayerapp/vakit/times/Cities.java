@@ -25,7 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.custom.Geocoder;
+import com.metinkale.prayerapp.utils.Geocoder;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 

@@ -20,7 +20,7 @@
               android:layout_height="fill_parent"
               android:orientation="vertical">
 
-    <com.metinkale.prayerapp.custom.PagerSlidingTabStrip
+    <com.metinkale.prayerapp.utils.PagerSlidingTabStrip
             android:id="@+id/indicator"
             android:layout_width="fill_parent"
             android:layout_height="48dp"

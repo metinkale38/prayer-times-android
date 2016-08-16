@@ -36,9 +36,9 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.custom.FloatingActionButton;
-import com.metinkale.prayerapp.custom.RTLViewPager;
-import com.metinkale.prayerapp.custom.MultipleOrientationSlidingDrawer;
+import com.metinkale.prayerapp.utils.FloatingActionButton;
+import com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer;
+import com.metinkale.prayerapp.utils.RTLViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
@@ -74,7 +74,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.vakit_main);
-
 
         mFooterText = (TextView) findViewById(R.id.footerText);
         mPager = (RTLViewPager) findViewById(R.id.pager);
@@ -290,6 +289,11 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mFooterText.setText((pos == 0) ? R.string.cities : R.string.monthly);
     }
 
+    public void onItemClick(int pos) {
+        mPager.setCurrentItem(pos + 1, true);
+
+    }
+
     public class MyAdapter extends FragmentPagerAdapter implements Times.TimesListener {
 
         public MyAdapter(FragmentManager fm) {
@@ -344,12 +348,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         }
 
-
-    }
-
-
-    public void onItemClick(int pos) {
-        mPager.setCurrentItem(pos + 1, true);
 
     }
 }

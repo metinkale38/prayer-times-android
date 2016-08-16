@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.custom;
+package com.metinkale.prayerapp.utils;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.webkit.WebView;
 import android.widget.Toast;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.settings.Settings;
 

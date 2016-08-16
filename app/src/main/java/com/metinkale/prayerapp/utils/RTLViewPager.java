@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.custom;
+package com.metinkale.prayerapp.utils;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -27,7 +27,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.Locale;
 

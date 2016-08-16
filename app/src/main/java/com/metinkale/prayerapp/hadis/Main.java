@@ -48,8 +48,8 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.custom.NumberDialog;
-import com.metinkale.prayerapp.custom.NumberDialog.OnNumberChangeListener;
+import com.metinkale.prayerapp.utils.NumberDialog;
+import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import java.io.File;

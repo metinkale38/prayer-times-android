@@ -16,10 +16,18 @@
 
 package com.metinkale.prayerapp.vakit.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +40,7 @@ import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -86,6 +95,43 @@ public class NotificationPrefs extends Fragment {
         initCuma(R.id.ecuma, R.id.ecuma, R.id.ecumaExpand, Vakit.OGLE);
 
         return mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (Prefs.shouldAskBatteryWhitelist()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(getActivity().getPackageName())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle(R.string.battery_whitelist_title).setMessage(R.string.battery_whitelist_desc);
+
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+                        startActivity(intent);
+                    }
+                });
+
+                builder.setNeutralButton(R.string.dontshowagain, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Prefs.setShouldAskBatteryWhitelist(false);
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+                        startActivity(intent);
+                    }
+                });
+
+                builder.show();
+
+            }
+        }
     }
 
     private void initCuma(int switchId, int textId, int expandId, final Vakit vakit) {

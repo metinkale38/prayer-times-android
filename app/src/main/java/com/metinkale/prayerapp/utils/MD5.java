@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.custom;
+package com.metinkale.prayerapp.utils;
 
 import android.text.TextUtils;
 import android.util.Log;

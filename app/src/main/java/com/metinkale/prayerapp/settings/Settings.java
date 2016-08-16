@@ -93,6 +93,7 @@ public class Settings extends BaseActivity {
             findPreference("arabicNames").setEnabled(false);
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);
+
         }
 
         @Override

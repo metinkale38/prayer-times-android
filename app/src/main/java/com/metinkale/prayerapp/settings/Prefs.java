@@ -144,4 +144,13 @@ public class Prefs {
     }
 
 
+    public static boolean shouldAskBatteryWhitelist() {
+        return getPrefs().getBoolean("askBatWhiteList", true);
+    }
+
+    public static void setShouldAskBatteryWhitelist(boolean askBatteryWhitelist){
+        getPrefs().edit().putBoolean("askBatWhiteList", askBatteryWhitelist).apply();
+    }
+
+
 }

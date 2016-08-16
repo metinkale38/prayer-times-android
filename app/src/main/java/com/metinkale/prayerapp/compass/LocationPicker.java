@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.custom.Geocoder;
+import com.metinkale.prayerapp.utils.Geocoder;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import java.util.List;

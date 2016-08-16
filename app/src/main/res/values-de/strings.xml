@@ -230,4 +230,10 @@
     <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
     </string>
+    <string name="battery_whitelist_title">Akku optimierung</string>
+    <string name="battery_whitelist_desc">Die Akku Optimierung ihres Gerätes kann dazu führen, dass die
+        Benachrichtigungen nicht zur richtigen Zeit ausgeführt werden.\nSie können das verhindern, indem Sie diese App
+        als Ausnahme hinzufügen.
+    </string>
+    <string name="dontshowagain">Nicht nochmal zeigen</string>
 </resources>

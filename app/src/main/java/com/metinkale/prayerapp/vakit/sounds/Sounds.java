@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainIntentService;
-import com.metinkale.prayerapp.custom.MD5;
+import com.metinkale.prayerapp.utils.MD5;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 

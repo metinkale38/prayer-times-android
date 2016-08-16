@@ -230,5 +230,12 @@
     <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
+    <string name="battery_whitelist_title">Battery Optimization</string>
+    <string name="battery_whitelist_desc">The Battery Optimization of your device may prevents the notifications from
+        being triggered in time.\nYou can prevent that, by whitelistening this app.
+    </string>
+    <string name="dontshowagain">Don\'t show again</string>
+    <string name="paypal" translatable="false">Paypal</string>
+    <string name="bitcoin" translatable="false">Bitcoin</string>
 
 </resources>
