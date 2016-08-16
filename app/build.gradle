@@ -47,7 +47,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 24
         signingConfig signingConfigs.debugKey
-        versionCode 141
+        versionCode 142
         versionName '3.6'
     }
 
