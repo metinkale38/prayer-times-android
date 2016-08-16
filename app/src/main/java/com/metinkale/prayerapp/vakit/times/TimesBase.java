@@ -59,7 +59,19 @@ public class TimesBase {
         GSON = b.create();
     }
 
+    private transient final SharedPreferences prefs;
+    private transient final SharedPreferences.Editor editor;
     transient long ID;
+    private transient final Runnable mApplyPrefs = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (TimesBase.this) {
+                String json = GSON.toJson(TimesBase.this);
+                editor.putString("id" + ID, json);
+                editor.apply();
+            }
+        }
+    };
     private String name;
     private String source;
     private String cuma_sound;
@@ -146,19 +158,6 @@ public class TimesBase {
     private int pre_IKINDI_time;
     private int pre_AKSAM_time;
     private int pre_YATSI_time;
-
-    private transient final SharedPreferences prefs;
-    private transient final SharedPreferences.Editor editor;
-    private transient final Runnable mApplyPrefs = new Runnable() {
-        @Override
-        public void run() {
-            synchronized (TimesBase.this) {
-                String json = GSON.toJson(TimesBase.this);
-                editor.putString("id" + ID, json);
-                editor.apply();
-            }
-        }
-    };
 
     public TimesBase(long id) {
         this();

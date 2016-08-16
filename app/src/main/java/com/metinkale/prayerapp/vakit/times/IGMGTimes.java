@@ -25,6 +25,7 @@ import java.net.URL;
 
 public class IGMGTimes extends WebTimes {
     IGMGTimes() {
+        super();
     }
 
     IGMGTimes(long id) {

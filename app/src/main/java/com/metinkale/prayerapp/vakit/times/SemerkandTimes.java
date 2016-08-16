@@ -29,6 +29,7 @@ import java.util.List;
 
 public class SemerkandTimes extends WebTimes {
     SemerkandTimes() {
+        super();
     }
 
     SemerkandTimes(long id) {

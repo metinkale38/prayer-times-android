@@ -44,6 +44,7 @@ public abstract class Times extends TimesBase {
 
 
     Times() {
+        super();
     }
 
 

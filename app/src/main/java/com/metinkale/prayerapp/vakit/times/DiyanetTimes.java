@@ -25,7 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class DiyanetTimes extends WebTimes {
-    DiyanetTimes() {
+    DiyanetTimes() { super();
     }
 
     DiyanetTimes(long id) {

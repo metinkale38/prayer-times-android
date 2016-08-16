@@ -31,15 +31,11 @@ import java.util.List;
 
 public class NVCTimes extends WebTimes {
     NVCTimes() {
+        super();
     }
 
     NVCTimes(long id) {
         super(id);
-    }
-
-    @Override
-    public Source getSource() {
-        return Source.NVC;
     }
 
     public static String getName(String id) {
@@ -71,6 +67,11 @@ public class NVCTimes extends WebTimes {
         } catch (Exception ignore) {
         }
         return null;
+    }
+
+    @Override
+    public Source getSource() {
+        return Source.NVC;
     }
 
     @Override

@@ -35,6 +35,10 @@ public class FaziletTimes extends WebTimes {
         super(id);
     }
 
+    FaziletTimes() {
+        super();
+    }
+
     @Override
     public Source getSource() {
         return Source.Fazilet;
