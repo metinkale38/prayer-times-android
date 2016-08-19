@@ -39,7 +39,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static final String API_URL = "http://metinkale38.github.io/namaz-vakti-android/files";
+    public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
     private static Context sContext;
     private static Handler sHandler = new Handler();
 

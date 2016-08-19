@@ -97,43 +97,6 @@ public class NotificationPrefs extends Fragment {
         return mView;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (Prefs.shouldAskBatteryWhitelist()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(getActivity().getPackageName())) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle(R.string.battery_whitelist_title).setMessage(R.string.battery_whitelist_desc);
-
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
-                        startActivity(intent);
-                    }
-                });
-
-                builder.setNeutralButton(R.string.dontshowagain, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Prefs.setShouldAskBatteryWhitelist(false);
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
-                        startActivity(intent);
-                    }
-                });
-
-                builder.show();
-
-            }
-        }
-    }
-
     private void initCuma(int switchId, int textId, int expandId, final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);

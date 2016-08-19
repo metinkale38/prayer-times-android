@@ -58,7 +58,7 @@ public class Utils {
 
 
     public static String fixTime(String time) {
-        if (Prefs.use12H()) {
+        if (Prefs.use12H() && time.contains(":")) {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
                 String suffix = time.substring(time.indexOf(":"));

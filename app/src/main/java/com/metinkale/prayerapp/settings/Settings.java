@@ -94,6 +94,11 @@ public class Settings extends BaseActivity {
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);
 
+            try {
+                findPreference("version").setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
+            } catch (PackageManager.NameNotFoundException e) {
+                Crashlytics.logException(e);
+            }
         }
 
         @Override

@@ -185,7 +185,7 @@
                 android:title="Metin Kale"/>
 
         <Preference
-                android:summary="@string/versionNr"
+                android:key="version"
                 android:title="@string/version"/>
     </PreferenceCategory>
 </PreferenceScreen>

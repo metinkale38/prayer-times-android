@@ -196,7 +196,6 @@
     <string name="useArabicNames">Arapça Vakitleri kullan</string>
     <string name="useSilenter">Sessiz Modu\'na al</string>
     <string name="useVibration">Titreşim Modu\'na al</string>
-    <string name="versionNr">3.6</string>
     <string name="version">Versiyon</string>
     <string name="vibrationDesc">Milisaniye - bekleme titresim bekleme....</string>
     <string name="vibrationPattern">Titreşim deseni</string>
@@ -229,7 +228,5 @@
     <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
     </string>
     <string name="oldAddCity">Şehri elle seç</string>
-    <string name="battery_whitelist_title">Uygulama güç tasarrufu</string>
-    <string name="battery_whitelist_desc">Uygulama güç tasarrufu ayarı bildirilerin Zamanında okunmasını engelliyebiliyor.\nNamaz Vakti uygulamasını istisna olarak ayarlayarak Bildirilerin Zamanında okunmasını sağlayabilirsiniz.</string>
     <string name="dontshowagain">Birdaha gösterme</string>
 </resources>

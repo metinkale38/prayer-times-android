@@ -40,6 +40,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;

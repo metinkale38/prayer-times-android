@@ -69,7 +69,8 @@
     <string name="dlHadith">Hadithe runterladen?</string>
     <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
     <string name="donateDesc">Um den Entwickler zu unterstützen, klicke hier</string>
-    <string name="donateDlg">Dies ist nur eine Unterstützung für den Entwickler :)\n Alhamdulillah, ich brauche kein Geld, aber wenn Du mich Unterstützen willst, vielen dank&#8230;</string>
+    <string name="donateDlg">Dies ist nur eine Unterstützung für den Entwickler :)\n Alhamdulillah, ich brauche kein
+        Geld, aber wenn Du mich Unterstützen willst, vielen dank&#8230;</string>
     <string name="donate">Unterstützen</string>
     <string name="earlyNotification">frühzeitige Benachrichtigung</string>
     <string name="earlyText">%2$s Minuten bis %1$s</string>
@@ -159,13 +160,23 @@
     <string name="ongoingIcon">Notification-Icon</string>
     <string name="ongoingNotification">Notification-Widget</string>
     <string name="other">Andere</string>
-    <string name="permissionCalendarText">Falls Sie wollen, dass die Islamischen Feiertage in den Kalender eingetragen werden, musst du dieser App Kalender Berechtigungen erteilen. Erteile keine Berechtigung, falls du dies nicht möchtest.</string>
+    <string name="permissionCalendarText">Falls Sie wollen, dass die Islamischen Feiertage in den Kalender eingetragen
+        werden, musst du dieser App Kalender Berechtigungen erteilen. Erteile keine Berechtigung, falls du dies nicht
+        möchtest.
+    </string>
     <string name="permissionCalendarTitle">Kalendar Berechtigung</string>
-    <string name="permissionCameraText">Damit du den 3D-Kompass nutzen kannst, musst du der Gebetszeiten-App eine Kamera-Berechtigung geben. Falls du dies nicht möchtest, kannst du den Gebetskompass immer noch im 2D-Modus benutzen.</string>
+    <string name="permissionCameraText">Damit du den 3D-Kompass nutzen kannst, musst du der Gebetszeiten-App eine
+        Kamera-Berechtigung geben. Falls du dies nicht möchtest, kannst du den Gebetskompass immer noch im 2D-Modus
+        benutzen.
+    </string>
     <string name="permissionCameraTitle">Kamera Berechtigung</string>
-    <string name="permissionLocationText">Die Standort Dienste sind nötig, um ihre Stadt automatisch zu ermitteln. Falls du diese Berechtigung nicht erteilst, musst du manuell nach ihrer Stadt suchen.</string>
+    <string name="permissionLocationText">Die Standort Dienste sind nötig, um ihre Stadt automatisch zu ermitteln. Falls
+        du diese Berechtigung nicht erteilst, musst du manuell nach ihrer Stadt suchen.
+    </string>
     <string name="permissionLocationTitle">Standort Berechtigung</string>
-    <string name="permissionStorageText">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Sachen nicht funktionieren…</string>
+    <string name="permissionStorageText">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Sachen
+        nicht funktionieren…
+    </string>
     <string name="permissionStorageTitle">Speicher Berechtigung</string>
     <string name="prayerNotification">Gebetszeit Meldung</string>
     <string name="refresh">Synchronisieren</string>
@@ -198,7 +209,6 @@
     <string name="useArabicNames">Benutze Arabische Gebetszeiten</string>
     <string name="useSilenter">Lautlos</string>
     <string name="useVibration">Vibration</string>
-    <string name="versionNr">3.5.1</string>
     <string name="version">Version</string>
     <string name="vibrationDesc">Milisekunden - warten vibration warten…</string>
     <string name="vibrationPattern">Vibrationsmuster</string>
@@ -224,16 +234,11 @@
     <string name="calculated">Berechnet</string>
     <string name="beta_tester">Tester werden</string>
     <string name="numbers">Ziffern</string>
-    <string name="dateFormat3">31 Dezember </string>
-    <string name="hDateFormat3">30 Muharram </string>
+    <string name="dateFormat3">31 Dezember</string>
+    <string name="hDateFormat3">30 Muharram</string>
     <string name="useAlarm">Benutze Wecker-Alarm für Benachrichtigungen</string>
     <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
-    </string>
-    <string name="battery_whitelist_title">Akku optimierung</string>
-    <string name="battery_whitelist_desc">Die Akku Optimierung ihres Gerätes kann dazu führen, dass die
-        Benachrichtigungen nicht zur richtigen Zeit ausgeführt werden.\nSie können das verhindern, indem Sie diese App
-        als Ausnahme hinzufügen.
     </string>
     <string name="dontshowagain">Nicht nochmal zeigen</string>
 </resources>

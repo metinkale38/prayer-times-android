@@ -216,8 +216,8 @@ public class MainIntentService extends IntentService {
                 } catch (Exception ee) {
                     Crashlytics.logException(ee);
                 }
-                Crashlytics.logException(e);
             }
+            Crashlytics.logException(e);
         }
 
         times.setLastSyncTime(System.currentTimeMillis());
@@ -277,7 +277,7 @@ public class MainIntentService extends IntentService {
 
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Crashlytics.logException(e);
             f.delete();
         }
 
@@ -369,6 +369,7 @@ public class MainIntentService extends IntentService {
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
         } catch (Exception e) {
             Prefs.setCalendar("-1");
+            Crashlytics.logException(e);
         }
     }
 }

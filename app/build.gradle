@@ -38,16 +38,16 @@ android {
         }
     }
 
-    compileSdkVersion 24
-    buildToolsVersion '24.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
 
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 23
         signingConfig signingConfigs.debugKey
-        versionCode 142
+        versionCode 144
         versionName '3.6'
     }
 
@@ -98,9 +98,9 @@ dependencies {
     }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
-    compile 'com.android.support:percent:24.+'
+    compile 'com.android.support:percent:23.+'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.android.support:recyclerview-v7:24+'
-    compile 'com.android.support:appcompat-v7:24+'
+    compile 'com.android.support:recyclerview-v7:23.+'
+    compile 'com.android.support:appcompat-v7:23.+'
     compile 'net.danlew:android.joda:2.9.3'
 }

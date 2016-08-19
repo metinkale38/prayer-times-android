@@ -198,7 +198,6 @@
     <string name="useArabicNames">Use Arabic Prayertimes</string>
     <string name="useSilenter">Silent</string>
     <string name="useVibration">Vibration</string>
-    <string name="versionNr">3.5.1</string>
     <string name="version">Version</string>
     <string name="vibrationDesc">Miliseconds - wait vibrate wait…</string>
     <string name="vibrationPattern">Vibration pattern</string>
@@ -229,10 +228,6 @@
     <string name="useAlarm">Use Alarm for Notification</string>
     <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
-    </string>
-    <string name="battery_whitelist_title">Battery Optimization</string>
-    <string name="battery_whitelist_desc">The Battery Optimization of your device may prevents the notifications from
-        being triggered in time.\nYou can prevent that, by whitelistening this app.
     </string>
     <string name="dontshowagain">Don\'t show again</string>
     <string name="paypal" translatable="false">Paypal</string>
