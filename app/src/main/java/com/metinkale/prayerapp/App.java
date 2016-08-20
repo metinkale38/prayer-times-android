@@ -16,7 +16,6 @@
 
 package com.metinkale.prayerapp;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -57,12 +56,12 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         return (activeNetwork != null) && activeNetwork.isConnected();
     }
 
-    @SuppressLint("NewApi")
     public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
-        if (type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
             AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time, PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
             am.setAlarmClock(info, service);
-        } else if (Build.VERSION.SDK_INT >= 23) {
+        } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);
         } else if (Build.VERSION.SDK_INT >= 19) {
             am.setExact(type, time, service);
