@@ -32,7 +32,6 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -106,6 +105,18 @@ public class AlarmReceiver extends IntentService {
 
     }
 
+    public static int getStreamType(Context c) {
+        String ezanvolume = PreferenceManager.getDefaultSharedPreferences(c).getString("ezanvolume", "noti");
+        switch (ezanvolume) {
+            case "alarm":
+                return AudioManager.STREAM_ALARM;
+            case "media":
+                return AudioManager.STREAM_MUSIC;
+            default:
+                return AudioManager.STREAM_RING;
+
+        }
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -123,20 +134,6 @@ public class AlarmReceiver extends IntentService {
         }
 
         Times.setAlarms();
-    }
-
-
-    public static int getStreamType(Context c) {
-        String ezanvolume = PreferenceManager.getDefaultSharedPreferences(c).getString("ezanvolume", "noti");
-        switch (ezanvolume) {
-            case "alarm":
-                return AudioManager.STREAM_ALARM;
-            case "media":
-                return AudioManager.STREAM_MUSIC;
-            default:
-                return AudioManager.STREAM_RING;
-
-        }
     }
 
     public void fireAlarm(Intent intent) throws InterruptedException {
@@ -385,7 +382,7 @@ public class AlarmReceiver extends IntentService {
                 service.putExtra("json", json);
                 startWakefulService(context, service);
             } else {
-                MainIntentService.setAlarms(context);
+                Times.setAlarms();
             }
         }
     }

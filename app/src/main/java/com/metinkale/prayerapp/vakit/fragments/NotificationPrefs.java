@@ -31,7 +31,6 @@ import android.widget.Toast;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -425,7 +424,7 @@ public class NotificationPrefs extends Fragment {
     public void onPause() {
         super.onPause();
         if (!mTestAlarm) {
-            MainIntentService.setAlarms(getActivity());
+            Times.setAlarms();
         }
         mTestAlarm = false;
 

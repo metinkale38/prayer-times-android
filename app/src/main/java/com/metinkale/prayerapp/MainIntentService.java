@@ -18,42 +18,29 @@ package com.metinkale.prayerapp;
 
 import android.Manifest;
 import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Environment;
-import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.times.Times;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
 
-    private static final String ACTION_SET_ALARMS = "com.metinkale.prayer.action.SET_ALARMS";
-    private static final String ACTION_RESCHEDULE_ALARMS = "com.metinkale.prayer.action.RESCHEDULE_ALARMS";
     private static final String ACTION_CALENDAR_INTEGRATION = "com.metinkale.prayer.action.CALENDAR_INTEGRATION";
 
-
-    private static Runnable mCallback;
 
     public MainIntentService() {
         super("MainIntentService");
@@ -67,48 +54,13 @@ public class MainIntentService extends IntentService {
     }
 
 
-    public static void setAlarms(Context context) {
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_SET_ALARMS);
-        context.startService(intent);
-    }
-
-    public static void rescheduleAlarms(Context context) {
-        if (!"samsung".equalsIgnoreCase(Build.MANUFACTURER)) {
-            return;
-        }
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_RESCHEDULE_ALARMS);
-        context.startService(intent);
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             try {
                 long mills = System.currentTimeMillis();
                 String action = intent.getAction();
-                Runnable callback = mCallback;
                 switch (action) {
-                    case ACTION_RESCHEDULE_ALARMS:
-                        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false)) {
-                            break;
-                        }
-                    case ACTION_SET_ALARMS:
-                        if ("samsung".equalsIgnoreCase(Build.MANUFACTURER)) {
-                            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                            boolean isScreenOn;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                                isScreenOn = pm.isInteractive();
-                            } else {
-                                isScreenOn = pm.isScreenOn();
-                            }
-
-                            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("alarmsNeedReschedule", !isScreenOn).apply();
-                        }
-
-                        Times.setAlarms();
-                        break;
 
                     case ACTION_CALENDAR_INTEGRATION:
                         handleCalendarIntegration();
@@ -128,8 +80,6 @@ public class MainIntentService extends IntentService {
 
         }
     }
-
-
 
 
     private void handleCalendarIntegration() {

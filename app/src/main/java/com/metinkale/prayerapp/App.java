@@ -92,7 +92,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         Utils.init();
 
         startService(new Intent(this, WidgetService.class));
-        MainIntentService.setAlarms(this);
+        Times.setAlarms();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }

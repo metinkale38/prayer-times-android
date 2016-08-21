@@ -28,6 +28,5 @@ public class UserPresentReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         context.startService(new Intent(context, WidgetService.class));
-        MainIntentService.rescheduleAlarms(context);
     }
 }
