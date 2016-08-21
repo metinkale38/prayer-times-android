@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times;
+package com.metinkale.prayerapp.vakit.times.other;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;

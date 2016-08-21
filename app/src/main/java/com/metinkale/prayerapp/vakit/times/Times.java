@@ -23,6 +23,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
@@ -33,22 +34,7 @@ import java.util.*;
 public abstract class Times extends TimesBase {
 
 
-    public transient boolean modified;//simple listener ;)
-
-    Times(long id) {
-        super(id);
-        if (!sTimes.contains(this)) {
-            sTimes.add(this);
-        }
-    }
-
-
-    Times() {
-        super();
-    }
-
-
-    private static Collection<TimesListener> sListeners = new ArrayList<>();
+    private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
     private static List<Times> sTimes = new ArrayList<Times>() {
         @Override
         public boolean add(Times object) {
@@ -80,10 +66,22 @@ public abstract class Times extends TimesBase {
             notifyDataSetChanged();
         }
     };
+    private transient Collection<OnTimesUpdatedListener> mListeners;
 
+    Times(long id) {
+        super(id);
+        if (!sTimes.contains(this)) {
+            sTimes.add(this);
+        }
+    }
 
-    public static void notifyDataSetChanged() {
-        for (TimesListener list : sListeners) {
+    Times() {
+        super();
+    }
+
+    private static void notifyDataSetChanged() {
+        if (sListeners == null) return;
+        for (OnTimesListChangeListener list : sListeners) {
             try {
                 list.notifyDataSetChanged();
             } catch (Exception e) {
@@ -92,19 +90,16 @@ public abstract class Times extends TimesBase {
         }
     }
 
-    public static void addListener(TimesListener list) {
+    public static void addOnTimesListChangeListener(OnTimesListChangeListener list) {
+        if (sListeners == null) sListeners = new ArrayList<>();
         sListeners.add(list);
         list.notifyDataSetChanged();
     }
 
-    public static void removeListener(TimesListener list) {
+    public static void removeOnTimesListChangeListener(OnTimesListChangeListener list) {
+        if (sListeners == null) return;
         sListeners.remove(list);
     }
-
-    public interface TimesListener {
-        void notifyDataSetChanged();
-    }
-
 
     public static Times getTimesAt(int index) {
         return getTimes().get(index);
@@ -141,7 +136,6 @@ public abstract class Times extends TimesBase {
         return sTimes;
 
     }
-
 
     public static void sort() {
         Collections.sort(sTimes, new Comparator<Times>() {
@@ -197,6 +191,23 @@ public abstract class Times extends TimesBase {
 
         }
 
+    }
+
+    public void addOnTimesUpdatedListener(OnTimesUpdatedListener list) {
+        if (mListeners == null) mListeners = new ArrayList<>();
+        mListeners.add(list);
+        list.onTimesUpdated(this);
+    }
+
+    public void removeOnTimesUpdatedListener(OnTimesUpdatedListener list) {
+        if (mListeners == null) return;
+        mListeners.remove(list);
+    }
+
+    protected void notifyOnUpdated() {
+        if (mListeners != null)
+            for (OnTimesUpdatedListener list : mListeners)
+                list.onTimesUpdated(this);
     }
 
     Collection<Alarm> getAlarms() {
@@ -293,7 +304,6 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-
     public DateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
@@ -318,7 +328,6 @@ public abstract class Times extends TimesBase {
         }
         return timeCal;
     }
-
 
     public String getTime(LocalDate date, int time) {
         if (date == null) {
@@ -377,7 +386,6 @@ public abstract class Times extends TimesBase {
         }
     }
 
-
     public String getLeft() {
         return getLeft(getNext(), true);
 
@@ -400,7 +408,6 @@ public abstract class Times extends TimesBase {
 
     }
 
-
     long getLeftMills(int which) {
         return getMills(which) - (System.currentTimeMillis() + getTZOffset());
     }
@@ -418,7 +425,6 @@ public abstract class Times extends TimesBase {
         }
         return 6;
     }
-
 
     private long getTZOffset() {
         return TimeZone.getDefault().getRawOffset();
@@ -440,11 +446,18 @@ public abstract class Times extends TimesBase {
 
     }
 
-
-
     @Override
     public String toString() {
         return "times_id_" + getID();
+    }
+
+
+    public interface OnTimesListChangeListener {
+        void notifyDataSetChanged();
+    }
+
+    public interface OnTimesUpdatedListener {
+        void onTimesUpdated(Times t);
     }
 
 

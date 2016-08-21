@@ -24,6 +24,8 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
 import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
+import com.metinkale.prayerapp.vakit.times.other.Source;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.util.List;
 
@@ -60,15 +62,13 @@ public class TimesBase {
     }
 
     private transient final SharedPreferences prefs;
-    private transient final SharedPreferences.Editor editor;
     transient long ID;
     private transient final Runnable mApplyPrefs = new Runnable() {
         @Override
         public void run() {
             synchronized (TimesBase.this) {
                 String json = GSON.toJson(TimesBase.this);
-                editor.putString("id" + ID, json);
-                editor.apply();
+                prefs.edit().putString("id" + ID, json).apply();
             }
         }
     };
@@ -159,15 +159,14 @@ public class TimesBase {
     private int pre_AKSAM_time;
     private int pre_YATSI_time;
 
-    public TimesBase(long id) {
+    TimesBase(long id) {
         this();
         ID = id;
         source = getSource().name();
     }
 
-    public TimesBase() {
+    TimesBase() {
         prefs = App.getContext().getSharedPreferences("cities", 0);
-        editor = prefs.edit();
         source = getSource().name();
     }
 
@@ -199,8 +198,7 @@ public class TimesBase {
     public void delete() {
         deleted = true;
 
-        editor.remove("id" + ID);
-        editor.apply();
+        prefs.edit().remove("id" + ID).apply();
 
         getTimes().remove(this);
     }

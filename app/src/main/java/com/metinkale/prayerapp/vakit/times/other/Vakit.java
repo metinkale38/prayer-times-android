@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times;
+package com.metinkale.prayerapp.vakit.times.other;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -51,6 +51,8 @@ public enum Vakit {
             case 4:
                 return AKSAM;
             case 5:
+            case -1:
+
                 return YATSI;
         }
         return IMSAK;

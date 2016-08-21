@@ -23,10 +23,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.PowerManager;
-import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
 
 import java.util.HashMap;
@@ -35,41 +34,22 @@ import java.util.Map;
 
 public class WebTimes extends Times {
 
-    private transient volatile boolean mSyncing;
+
+    public Runnable mNotify = new Runnable() {
+        @Override
+        public void run() {
+            notifyOnUpdated();
+            App.getHandler().removeCallbacks(this);
+        }
+    };
     protected Map<String, String> times = new HashMap<>();
-    protected int lastSyncTime;
-    protected String id;
-
-    WebTimes() {
-    }
-
-    WebTimes(long id) {
-        super(id);
-
-    }
-
-    @Override
-    public void delete() {
-        super.delete();
-        App.getHandler().removeCallbacks(mCheckSync);
-    }
-
-    @Override
-    public synchronized String getTime(LocalDate date, int time) {
-        App.getHandler().post(mCheckSync);
-
-        return super.getTime(date, time);
-    }
-
-    public boolean syncTimes() throws Exception {
-        return false;
-    }
-
-
+    private int lastSyncTime;
+    private String id;
     private Runnable mCheckSync = new Runnable() {
         @Override
         public void run() {
             App.getHandler().removeCallbacks(mCheckSync);
+
             LocalDate ld = LocalDate.now();
             long lastSync = getLastSyncTime();
 
@@ -77,7 +57,7 @@ public class WebTimes extends Times {
                 // always if +15 days does not exist
                 ld = ld.plusDays(15);
                 if ("00:00".equals(getTime(ld, 1))) {
-                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
+                    syncTimes();
                     return;
                 }
 
@@ -110,24 +90,30 @@ public class WebTimes extends Times {
                 ld = ld.plusDays(reasons * 3);
                 // if +15+reasons*3 days does not exist
                 if ("00:00".equals(getTime(ld, 1))) {
-                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
+                    syncTimes();
                     return;
                 }
 
                 // always if last sync was earlier than before (60-reasons*5) days
                 if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
-                    MainIntentService.refreshTimes(App.getContext(), WebTimes.this);
+                    syncTimes();
+                    //noinspection UnnecessaryReturnStatement
                     return;
                 }
             }
-
-            //otherwise we dont need to sync
-            return;
-
-
         }
     };
 
+    WebTimes(long id) {
+        super(id);
+
+    }
+
+    WebTimes() {
+        super();
+    }
+
+    ;
 
     public static void add(Source source, String city, String id, double lat, double lng) {
         long _id = System.currentTimeMillis();
@@ -157,13 +143,28 @@ public class WebTimes extends Times {
 
     }
 
+    @Override
+    public void delete() {
+        super.delete();
+        App.getHandler().removeCallbacks(mCheckSync);
+    }
+
+    @Override
+    public synchronized String getTime(LocalDate date, int time) {
+        App.getHandler().post(mCheckSync);
+
+        return super.getTime(date, time);
+    }
+
+    public void syncTimes() {
+
+    }
 
     protected String extractLine(String str) {
         str = str.substring(str.indexOf(">") + 1);
         str = str.substring(0, str.indexOf("</"));
         return str;
     }
-
 
     protected String az(int i) {
         if (i < 10) {
@@ -180,7 +181,6 @@ public class WebTimes extends Times {
             return i + "";
         }
     }
-
 
     public long getLastSyncTime() {
         return lastSyncTime * 1000L;
@@ -204,6 +204,8 @@ public class WebTimes extends Times {
         if (deleted()) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
+
+        App.getHandler().post(mNotify);
     }
 
     public void setTimes(LocalDate date, String[] value) {

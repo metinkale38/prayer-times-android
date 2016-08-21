@@ -230,7 +230,5 @@
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="dontshowagain">Don\'t show again</string>
-    <string name="paypal" translatable="false">Paypal</string>
-    <string name="bitcoin" translatable="false">Bitcoin</string>
 
 </resources>

@@ -17,9 +17,7 @@
 package com.metinkale.prayerapp;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -32,37 +30,27 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.R;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.WebTimes;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
 
-    private static final String ACTION_DOWNLOAD_HADIS = "com.metinkale.prayer.action.DOWNLOAD_HADIS";
-    private static final String ACTION_DOWNLOAD_SOUND = "com.metinkale.prayer.action.DOWNLOAD_SOUND";
     private static final String ACTION_SET_ALARMS = "com.metinkale.prayer.action.SET_ALARMS";
     private static final String ACTION_RESCHEDULE_ALARMS = "com.metinkale.prayer.action.RESCHEDULE_ALARMS";
     private static final String ACTION_CALENDAR_INTEGRATION = "com.metinkale.prayer.action.CALENDAR_INTEGRATION";
-    private static final String ACTION_REFRESH_TIMES = "com.metinkale.prayer.action.REFRESH_TIMES";
-    private static final String ACTION_FORCEREFRESH_TIMES = "com.metinkale.prayer.action.FORCE_REFRESH_TIMES";
-    private static final String EXTRA_SOUND = "com.metinkale.prayer.extra.SOUND";
-    private static final String EXTRA_ID = "com.metinkale.prayer.extra.ID";
 
 
     private static Runnable mCallback;
@@ -72,55 +60,12 @@ public class MainIntentService extends IntentService {
     }
 
 
-    public static void refreshTimes(Context context, Times times) {
-        if (!App.isOnline() || !(times instanceof WebTimes)) {
-            return;
-        }
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_REFRESH_TIMES);
-        intent.putExtra(EXTRA_ID, times.getID());
-        context.startService(intent);
-    }
-
-    public static void forceRefreshTimes(Context context, Times times) {
-        if (!App.isOnline() || !(times instanceof WebTimes)) {
-            return;
-        }
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_FORCEREFRESH_TIMES);
-        intent.putExtra(EXTRA_ID, times.getID());
-        context.startService(intent);
-    }
-
     public static void startCalendarIntegration(Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_CALENDAR_INTEGRATION);
         context.startService(intent);
     }
 
-
-    public static void downloadHadis(Context context, Runnable callback) {
-        if (!App.isOnline()) {
-            callback.run();
-            return;
-        }
-        mCallback = callback;
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_DOWNLOAD_HADIS);
-        context.startService(intent);
-    }
-
-    public static void downloadSound(Context context, Serializable sound, Runnable callback) {
-        if (!App.isOnline()) {
-            callback.run();
-            return;
-        }
-        mCallback = callback;
-        Intent intent = new Intent(context, MainIntentService.class);
-        intent.setAction(ACTION_DOWNLOAD_SOUND);
-        intent.putExtra(EXTRA_SOUND, sound);
-        context.startService(intent);
-    }
 
     public static void setAlarms(Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
@@ -145,26 +90,6 @@ public class MainIntentService extends IntentService {
                 String action = intent.getAction();
                 Runnable callback = mCallback;
                 switch (action) {
-                    case ACTION_REFRESH_TIMES:
-                        WebTimes t = (WebTimes) Times.getTimes(intent.getLongExtra(EXTRA_ID, 0));
-                        if ((System.currentTimeMillis() - t.getLastSyncTime()) > (1000 * 60 * 60))
-                            handleRefreshTimes(t);
-                        break;
-                    case ACTION_FORCEREFRESH_TIMES:
-                        handleRefreshTimes((WebTimes) Times.getTimes(intent.getLongExtra(EXTRA_ID, 0)));
-                        break;
-                    case ACTION_DOWNLOAD_HADIS:
-                        mCallback = null;
-                        handleDownloadHadis(callback);
-                        break;
-                    case ACTION_DOWNLOAD_SOUND:
-                        Sounds.Sound sound = (Sounds.Sound) intent.getSerializableExtra(EXTRA_SOUND);
-                        mCallback = null;
-                        handleDownloadSound(sound, callback);
-                        if (Sounds.needsCheck()) {
-                            Sounds.checkIfNeeded();
-                        }
-                        break;
                     case ACTION_RESCHEDULE_ALARMS:
                         if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarmsNeedReschedule", false)) {
                             break;
@@ -204,120 +129,7 @@ public class MainIntentService extends IntentService {
         }
     }
 
-    private void handleRefreshTimes(WebTimes times) {
-        try {
-            times.syncTimes();
-        } catch (Exception e) {
-            if (e instanceof ArrayIndexOutOfBoundsException) {
-                try {
-                    Crashlytics.setString("city", times.getName());
-                    Crashlytics.setString("path", times.getId());
-                    Crashlytics.setString("source", times.getSource().toString());
-                } catch (Exception ee) {
-                    Crashlytics.logException(ee);
-                }
-            }
-            Crashlytics.logException(e);
-        }
 
-        times.setLastSyncTime(System.currentTimeMillis());
-
-    }
-
-
-    private void downloadFile(String Url, File to, final CharSequence notificationText) {
-        final Activity act = BaseActivity.CurrectAct;
-
-
-        NotificationManager nm = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        File f = to;
-
-        if (f.exists()) {
-            f.delete();
-        }
-        nm.notify(1111, new NotificationCompat.Builder(App.getContext()).setSmallIcon(R.drawable.ic_abicon).setContentTitle("Downloading").setContentText(notificationText).build());
-
-        class Holder {
-            ProgressDialog dlg;
-        }
-        final Holder holder = new Holder();
-        if (act != null) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    holder.dlg = new ProgressDialog(act);
-                    holder.dlg.setTitle("Downloading");
-                    holder.dlg.setMessage(notificationText);
-                    holder.dlg.setIndeterminate(true);
-                    holder.dlg.setCancelable(false);
-                    holder.dlg.setCanceledOnTouchOutside(false);
-                    holder.dlg.show();
-                }
-            });
-        }
-        try {
-            URL url = new URL(Url);
-            f.getParentFile().mkdirs();
-            URLConnection ucon = url.openConnection();
-            ucon.setConnectTimeout(3000);
-            ucon.setReadTimeout(3000);
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-
-            FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
-
-            byte[] data = new byte[4096];
-            long total = 0;
-            int count;
-            while ((count = bis.read(data)) != -1) {
-                total += count;
-                fos.write(data, 0, count);
-            }
-
-
-            fos.close();
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            f.delete();
-        }
-
-        if (act != null) {
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    holder.dlg.dismiss();
-                }
-            });
-        }
-        nm.cancel(1111);
-
-    }
-
-
-    private void handleDownloadHadis(Runnable callback) {
-        if (Prefs.getLanguage() == null) {
-            return;
-        }
-        String lang = Prefs.getLanguage();
-        if (lang.equals("ar")) lang = "en";
-
-        String file = lang + "/hadis.db";
-        File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
-
-        String url = App.API_URL + "/hadis." + lang + ".db";
-        downloadFile(url, f, getString(R.string.hadith));
-        if (callback != null) {
-            callback.run();
-        }
-    }
-
-
-    private void handleDownloadSound(Sounds.Sound sound, Runnable callback) {
-        downloadFile(sound.url, sound.getFile(), sound.name);
-        if (callback != null) {
-            callback.run();
-        }
-    }
 
 
     private void handleCalendarIntegration() {

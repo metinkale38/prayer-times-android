@@ -38,7 +38,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.LocalDate;
 
 public class WidgetProvider extends AppWidgetProvider {

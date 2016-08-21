@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SortFragment extends Fragment implements Times.TimesListener {
+public class SortFragment extends Fragment implements Times.OnTimesListChangeListener {
 
     private LinearLayoutManager mLinLayMan;
     private RecyclerView mRecyclerView;
@@ -67,14 +67,14 @@ public class SortFragment extends Fragment implements Times.TimesListener {
     @Override
     public void onResume() {
         super.onResume();
-        Times.addListener(this);
+        Times.addOnTimesListChangeListener(this);
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Times.removeListener(this);
+        Times.removeOnTimesListChangeListener(this);
     }
 
     @Override

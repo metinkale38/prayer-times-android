@@ -34,7 +34,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.LocalDateTime;
 
 public class WidgetProviderClock2 extends AppWidgetProvider {

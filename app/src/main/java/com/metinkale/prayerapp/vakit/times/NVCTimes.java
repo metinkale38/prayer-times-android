@@ -17,6 +17,10 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
 
 import java.io.BufferedInputStream;
@@ -30,6 +34,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NVCTimes extends WebTimes {
+
+
+    @SuppressWarnings("unused")
     NVCTimes() {
         super();
     }
@@ -75,76 +82,66 @@ public class NVCTimes extends WebTimes {
     }
 
     @Override
-    public boolean syncTimes() throws Exception {
-
-        URL url = new URL("http://namazvakti.com/XML.php?cityID=" + getId());
-        URLConnection ucon = url.openConnection();
-        ucon.setConnectTimeout(3000);
-        ucon.setReadTimeout(3000);
-
-        InputStream is = ucon.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(bis, "UTF-8"));
-
-        String line;
-
-        int y = LocalDate.now().getYear();
-        while ((line = reader.readLine()) != null) {
-            try {
-                if (line.contains("<prayertimes")) {
-                    String doy = line.substring(line.indexOf("dayofyear=") + 11);
-                    String day = line.substring(line.indexOf("day=") + 5);
-                    String month = line.substring(line.indexOf("month=") + 7);
-                    doy = doy.substring(0, doy.indexOf("\""));
-                    day = day.substring(0, day.indexOf("\""));
-                    month = month.substring(0, month.indexOf("\""));
-                    if (day.length() == 1) {
-                        day = "0" + day;
-                    }
-                    if (month.length() == 1) {
-                        month = "0" + month;
-                    }
-                    String date;
-                    if ("0".equals(doy)) {
-                        date = day + "." + month + "." + (y - 1);
-                    } else if ("366".equals(doy) || "367".equals(doy) && "01".equals(month)) {
-                        date = day + "." + month + "." + (y + 1);
-                    } else {
-                        date = day + "." + month + "." + y;
-                    }
-                    String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
-                    data = data.replace("*", "").replace("\t", " ");
-                    List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
-                    d.remove(15);
-                    d.remove(14);
-                    d.remove(13);
-                    d.remove(12);
-                    d.remove(10);
-                    d.remove(8);
-                    d.remove(7);
-                    d.remove(4);
-                    d.remove(3);
-                    d.remove(1);
-
-                    data = "";
-                    for (String s : d) {
-                        if (s.length() == 4) {
-                            data += " 0" + s;
-                        } else {
-                            data += " " + s;
+    public void syncTimes() {
+        setLastSyncTime(System.currentTimeMillis());
+        Ion.with(App.getContext())
+                .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                .setTimeout(3000)
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                         if (e != null) {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                            return;
                         }
+                        String[] lines = result.split("\n");
+
+                        int y = LocalDate.now().getYear();
+                        for (String line : lines) {
+                            if (line.contains("<prayertimes")) {
+                                String day = line.substring(line.indexOf("day=") + 5);
+                                String month = line.substring(line.indexOf("month=") + 7);
+                                day = day.substring(0, day.indexOf("\""));
+                                month = month.substring(0, month.indexOf("\""));
+                                if (day.length() == 1) {
+                                    day = "0" + day;
+                                }
+                                if (month.length() == 1) {
+                                    month = "0" + month;
+                                }
+                                String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
+                                data = data.replace("*", "").replace("\t", " ");
+                                List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
+                                d.remove(15);
+                                d.remove(14);
+                                d.remove(13);
+                                d.remove(12);
+                                d.remove(10);
+                                d.remove(8);
+                                d.remove(7);
+                                d.remove(4);
+                                d.remove(3);
+                                d.remove(1);
+
+                                data = "";
+                                for (String s : d) {
+                                    if (s.length() == 4) {
+                                        data += " 0" + s;
+                                    } else {
+                                        data += " " + s;
+                                    }
+                                }
+                                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+
+                            }
+
+                        }
+
                     }
-                    setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+                });
 
-                }
-            } catch (Exception e) {
-                Crashlytics.logException(e);
-            }
-        }
-
-        return true;
 
     }
 

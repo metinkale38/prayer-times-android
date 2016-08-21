@@ -16,16 +16,18 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+class DiyanetTimes extends WebTimes {
 
-public class DiyanetTimes extends WebTimes {
-    DiyanetTimes() { super();
+    @SuppressWarnings("unused")
+    DiyanetTimes() {
+        super();
     }
 
     DiyanetTimes(long id) {
@@ -38,12 +40,13 @@ public class DiyanetTimes extends WebTimes {
     }
 
     @Override
-    public boolean syncTimes() throws Exception {
+    public void syncTimes() {
+        setLastSyncTime(System.currentTimeMillis());
         String path = getId();
 
         if (!path.startsWith("D_")) {
             delete();
-            return false;
+            return;
         }
         if ("D_13_1008_0".equals(path)) {
             path = "D_13_10080_9206";
@@ -51,83 +54,70 @@ public class DiyanetTimes extends WebTimes {
         String[] a = path.split("_");
 
 
-        int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = 0;
         if (a.length == 4) {
             city = Integer.parseInt(a[3]);
         }
 
-        URL url = new URL("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc");
+        Ion.with(App.getContext()).load("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc")
+                .setHeader("Content-Type", "text/xml; charset=utf-8")
+                .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
+                .setTimeout(3000)
+                .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                        "<v:Header /><v:Body>" +
+                        "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
+                        "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
+                        "<username i:type=\"d:string\">namazuser</username>" +
+                        "<password i:type=\"d:string\">NamVak!14</password>" +
+                        "</AylikNamazVakti></v:Body></v:Envelope>")
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
 
-        String postData = "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                "<v:Header /><v:Body>" +
-                "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
-                "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
-                "<username i:type=\"d:string\">namazuser</username>" +
-                "<password i:type=\"d:string\">NamVak!14</password>" +
-                "</AylikNamazVakti></v:Body></v:Envelope>";
-        byte[] postDataBytes = postData.getBytes("UTF-8");
+                        if (e != null) {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                            return;
+                        }
+                        result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
+                        result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
+                        String[] days = result.split("</a:NamazVakti><a:NamazVakti>");
+                        for (String day : days) {
+                            String[] parts = day.split("><a:");
 
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
-        conn.setRequestProperty("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti");
-        conn.setRequestProperty("Content-Size", String.valueOf(postDataBytes.length));
-        conn.setDoOutput(true);
-        conn.setConnectTimeout(3000);
-        conn.setReadTimeout(3000);
-        OutputStream writer = conn.getOutputStream();
-        writer.write(postDataBytes);
+                            String[] times = new String[6];
+                            String date = null;
+                            for (String part : parts) {
+                                String name = part.substring(0, part.indexOf(">"));
+                                name = name.substring(name.indexOf(":") + 1);
+                                String content = part.substring(part.indexOf(">") + 1);
+                                content = content.substring(0, content.indexOf("<"));
+                                if ("Imsak".equals(name)) {
+                                    times[0] = content;
+                                } else if ("Gunes".equals(name)) {
+                                    times[1] = content;
+                                } else if ("Ogle".equals(name)) {
+                                    times[2] = content;
+                                } else if ("Ikindi".equals(name)) {
+                                    times[3] = content;
+                                } else if ("Aksam".equals(name)) {
+                                    times[4] = content;
+                                } else if ("Yatsi".equals(name)) {
+                                    times[5] = content;
+                                } else if ("MiladiTarihKisa".equals(name)) {
+                                    date = content;
+                                }
+                            }
+                            String[] d = date.split("\\.");
+                            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
+                        }
 
-        int code = conn.getResponseCode();
+                    }
+                });
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(((code >= 200) && (code < 400)) ? conn.getInputStream() : conn.getErrorStream()));
-        StringBuilder total = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            total.append(line);
-        }
 
-        line = total.toString();
-
-        line = line.substring(line.indexOf("<a:NamazVakti>") + 14);
-        line = line.substring(0, line.indexOf("</AylikNamazVaktiResult>"));
-        String[] days = line.split("</a:NamazVakti><a:NamazVakti>");
-        for (String day : days) {
-            String[] parts = day.split("><a:");
-
-            String[] times = new String[6];
-            String date = null;
-            for (String part : parts) {
-                String name = part.substring(0, part.indexOf(">"));
-                name = name.substring(name.indexOf(":") + 1);
-                String content = part.substring(part.indexOf(">") + 1);
-                content = content.substring(0, content.indexOf("<"));
-                if ("Imsak".equals(name)) {
-                    times[0] = content;
-                } else if ("Gunes".equals(name)) {
-                    times[1] = content;
-                } else if ("Ogle".equals(name)) {
-                    times[2] = content;
-                } else if ("Ikindi".equals(name)) {
-                    times[3] = content;
-                } else if ("Aksam".equals(name)) {
-                    times[4] = content;
-                } else if ("Yatsi".equals(name)) {
-                    times[5] = content;
-                } else if ("MiladiTarihKisa".equals(name)) {
-                    date = content;
-                }
-            }
-            String[] d = date.split("\\.");
-            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
-        }
-
-        reader.close();
-        writer.close();
-
-        return true;
     }
 
 

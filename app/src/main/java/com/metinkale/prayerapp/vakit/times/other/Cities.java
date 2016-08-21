@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times;
+package com.metinkale.prayerapp.vakit.times.other;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -27,6 +27,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.Geocoder;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.times.NVCTimes;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class Cities extends SQLiteAssetHelper {
 
     private Handler mHandler = new Handler();
 
-    static synchronized Cities get() {
+    public static synchronized Cities get() {
         if (mInstance == null) {
             mInstance = new Cities(App.getContext());
         }

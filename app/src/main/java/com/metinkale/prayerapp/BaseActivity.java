@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -35,12 +36,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
@@ -279,12 +279,38 @@ public abstract class BaseActivity extends AppCompatActivity {
                         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int buttonId) {
-                                MainIntentService.downloadHadis(App.getContext(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        onItemClick(null, null, 5, 0);
-                                    }
-                                });
+                                if (Prefs.getLanguage() == null) {
+                                    return;
+                                }
+                                String lang = Prefs.getLanguage();
+                                if (lang.equals("ar")) lang = "en";
+
+                                String file = lang + "/hadis.db";
+                                File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
+
+                                String url = App.API_URL + "/hadis." + lang + ".db";
+
+                                f.getParentFile().mkdirs();
+                                final ProgressDialog dlg = new ProgressDialog(BaseActivity.this);
+                                dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                dlg.show();
+                                Ion.with(BaseActivity.this)
+                                        .load(url)
+                                        .progressDialog(dlg)
+                                        .write(f)
+                                        .setCallback(new FutureCallback<File>() {
+                                            @Override
+                                            public void onCompleted(Exception e, File result) {
+                                                dlg.cancel();
+                                                if(e!=null){
+                                                    e.printStackTrace();
+                                                    Crashlytics.logException(e);
+                                                    Toast.makeText(BaseActivity.this,R.string.error,Toast.LENGTH_LONG).show();
+                                                }else if(result.exists()){
+                                                    onItemClick(null, null, 5, 0);
+                                                }
+                                            }
+                                        });
 
                             }
                         });

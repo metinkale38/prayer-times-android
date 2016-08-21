@@ -16,23 +16,18 @@
 
 package com.metinkale.prayerapp.vakit.sounds;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
-import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.utils.MD5;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 
 public class Sounds {
@@ -171,6 +166,20 @@ public class Sounds {
         return sounds;
     }
 
+    private static String forAlarm(Times.Alarm alarm) {
+        Times t = Times.getTimes(alarm.time);
+        String sound;
+        if (alarm.cuma) {
+            sound = t.getCumaSound();
+        } else if (alarm.early) {
+            sound = t.getEarlySound(alarm.vakit);
+        } else {
+            sound = t.getSound(alarm.vakit);
+        }
+        return sound;
+    }
+
+
     public static class Sound implements Serializable {
         public String name;
         public String uri;
@@ -210,43 +219,18 @@ public class Sounds {
             }
         }
 
-        public boolean needsRedownload(Iterable<Times.Alarm> alarms) {
-            if (getFile().exists()) {
+        public void checkMD5() {
+            File file = getFile();
+            if (file.exists()) {
                 SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
                 String md5 = preferences.getString(name, null);
-                if (md5 == null) {
-                    try {
-                        URL url = new URL(this.url + ".md5");
-                        URLConnection ucon = url.openConnection();
-                        ucon.setConnectTimeout(3000);
-                        ucon.setReadTimeout(3000);
-                        InputStream is = ucon.getInputStream();
-                        BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
-                        md5 = in.readLine();
-                        if ("failed".equals(md5) || !"done".equals(in.readLine())) {
-                            return false;
-                        }
-
-                        preferences.edit().putString(name, md5).apply();
-
-
-                    } catch (Exception e) {
-                        Crashlytics.logException(e);
-                    }
-                }
-
-                return !MD5.checkMD5(md5, getFile());
-            } else {
-                for (Times.Alarm alarm : alarms) {
-                    String sound = forAlarm(alarm);
-                    if (sound.startsWith(uri)) {
-                        return true;
-                    }
+                if (md5 != null && !MD5.checkMD5(md5, file)) {
+                    file.delete();
                 }
             }
-            return false;
         }
+
 
         public boolean equals(Object o) {
             if (o instanceof Sound) {
@@ -255,72 +239,7 @@ public class Sounds {
                 return uri.equals(o.toString());
             }
         }
-
-
-    }
-
-    private static String forAlarm(Times.Alarm alarm) {
-        Times t = Times.getTimes(alarm.time);
-        String sound;
-        if (alarm.cuma) {
-            sound = t.getCumaSound();
-        } else if (alarm.early) {
-            sound = t.getEarlySound(alarm.vakit);
-        } else {
-            sound = t.getSound(alarm.vakit);
-        }
-        return sound;
     }
 
 
-    private static boolean checking;
-
-    public static void checkIfNeeded() {
-        if (checking) {
-            return;
-        }
-        checking = true;
-        if (!needsCheck()) {
-            return;
-        }
-        List<Sound> sounds = getAllSounds();
-        List<Times.Alarm> alarms = Times.getAllAlarms();
-        for (Sound sound : sounds) {
-            if (sound.needsRedownload(alarms)) {
-                sound.getFile().delete();
-                MainIntentService.downloadSound(App.getContext(), sound, null);
-            }
-        }
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
-        prefs.edit().putLong("lastMD5Check", System.currentTimeMillis()).apply();
-        checking = false;
-    }
-
-    @SuppressWarnings("deprecation")
-    public static boolean needsCheck() {
-        if (checking) {
-            return false;
-        }
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
-        long lastSync = prefs.getLong("lastMD5Check", 0);
-        if (((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * 7)) || (lastSync == 0)) {
-
-
-            ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            if (!wifi.isConnected()) {
-                return false;
-            }
-
-            if (!((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
-                return false;
-            }
-
-
-            return true;
-        }
-
-        return false;
-    }
 }

@@ -31,7 +31,6 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
-import com.metinkale.prayerapp.vakit.times.MainHelper;
 import com.metinkale.prayerapp.vakit.times.Times;
 import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -83,7 +82,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         Fabric.with(this, new Crashlytics());
 
         JodaTimeAndroid.init(this);
-        MainHelper.copy();
 
         try {
             Times.getTimes();

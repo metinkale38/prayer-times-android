@@ -27,9 +27,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.times.PrayTime.AdjMethod;
-import com.metinkale.prayerapp.vakit.times.PrayTime.Juristic;
-import com.metinkale.prayerapp.vakit.times.PrayTime.Method;
+import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
+import com.metinkale.prayerapp.vakit.times.other.Juristic;
+import com.metinkale.prayerapp.vakit.times.other.Method;
+import com.metinkale.prayerapp.vakit.times.other.PrayTime;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -44,7 +46,9 @@ public class CalcTimes extends Times {
     private transient PrayTime mPrayTime;
 
 
+    @SuppressWarnings("unused")
     CalcTimes() {
+        super();
     }
 
     CalcTimes(long id) {
@@ -186,20 +190,20 @@ public class CalcTimes extends Times {
         save();
     }
 
-    public synchronized PrayTime.Juristic getJuristic() {
-        return PrayTime.Juristic.valueOf(juristic);
+    public synchronized Juristic getJuristic() {
+        return Juristic.valueOf(juristic);
     }
 
-    public synchronized void setJuristic(PrayTime.Juristic value) {
+    public synchronized void setJuristic(Juristic value) {
         juristic = value.name();
         save();
     }
 
-    public synchronized PrayTime.AdjMethod getAdjMethod() {
-        return PrayTime.AdjMethod.valueOf(adjMethod);
+    public synchronized AdjMethod getAdjMethod() {
+        return AdjMethod.valueOf(adjMethod);
     }
 
-    public synchronized void setAdjMethod(PrayTime.AdjMethod value) {
+    public synchronized void setAdjMethod(AdjMethod value) {
         adjMethod = value.name();
         save();
     }

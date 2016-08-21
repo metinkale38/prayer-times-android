@@ -16,18 +16,19 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.reflect.TypeToken;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
-public class SemerkandTimes extends WebTimes {
+class SemerkandTimes extends WebTimes {
+
+    @SuppressWarnings("unused")
     SemerkandTimes() {
         super();
     }
@@ -42,47 +43,59 @@ public class SemerkandTimes extends WebTimes {
     }
 
     @Override
-    public boolean syncTimes() throws Exception {
-        LocalDate ldate = LocalDate.now();
-        int Y = ldate.getYear();
-        int i = 0;
-        for (int y = Y; y <= (Y + 1); y++) {
-            ldate = ldate.withYear(y);
-            Gson gson = new GsonBuilder().create();
-            try {
+    public void syncTimes() {
+        setLastSyncTime(System.currentTimeMillis());
+        final int year = LocalDate.now().getYear();
+        final String[] id = getId().split("_");
 
-                String Url = "http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + y + "&";
-                String[] id = getId().split("_");
-                if ("0".equals(id[3])) {
-                    Url += "cityID=" + id[2];
-                } else {
-                    Url += "countyID=" + id[3];
-                }
-                URL url = new URL(Url);
-                URLConnection connection = url.openConnection();
-                connection.setConnectTimeout(3000);
-                connection.setReadTimeout(3000);
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+        Ion.with(App.getContext())
+                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + ("0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))
+                .setTimeout(3000)
+                .as(new TypeToken<List<Day>>() {
+                })
+                .setCallback(new FutureCallback<List<Day>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Day> result) {
 
-                List<Day> resp = gson.fromJson(in, new TypeToken<List<Day>>() {
-                }.getType());
-                in.close();
+                        if (e != null) {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                            return;
+                        }
+                        LocalDate date = LocalDate.now();
+                        for (Day d : result) {
+                            date = date.withDayOfYear(d.Day);
+                            setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
+                        }
 
-                for (Day d : resp) {
-                    ldate = ldate.withDayOfYear(d.Day);
-                    setTimes(ldate, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
-                    i++;
-                }
 
-            } catch (Exception e) {
-            }
-        }
-        return i > 0;
+                        Ion.with(App.getContext())
+                                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + (year + 1) + "&" + ("0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))
+                                .setTimeout(3000)
+                                .as(new TypeToken<List<Day>>() {
+                                }).setCallback(new FutureCallback<List<Day>>() {
+                            @Override
+                            public void onCompleted(Exception e, List<Day> result) {
+                                if (e != null) {
+                                    e.printStackTrace();
+                                    Crashlytics.logException(e);
+                                    return;
+                                }
+                                LocalDate date = LocalDate.now().withYear(year + 1);
+                                for (Day d : result) {
+                                    date = date.withDayOfYear(d.Day);
+                                    setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
+                                }
+                            }
+                        });
+                    }
+                });
+
+
     }
 
-
-    static class Day {
+    private static class Day {
         int Day;
         String Fajr;
         String Tulu;
@@ -91,4 +104,5 @@ public class SemerkandTimes extends WebTimes {
         String Maghrib;
         String Isha;
     }
+
 }

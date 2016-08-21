@@ -36,9 +36,9 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
-import com.metinkale.prayerapp.vakit.times.Cities;
-import com.metinkale.prayerapp.vakit.times.Cities.Item;
-import com.metinkale.prayerapp.vakit.times.Source;
+import com.metinkale.prayerapp.vakit.times.other.Cities;
+import com.metinkale.prayerapp.vakit.times.other.Cities.Item;
+import com.metinkale.prayerapp.vakit.times.other.Source;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.Collection;

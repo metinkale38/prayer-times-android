@@ -207,7 +207,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void onResume() {
         super.onResume();
         isRunning = true;
-        Times.addListener(mAdapter);
+        Times.addOnTimesListChangeListener(mAdapter);
 
 
     }
@@ -216,7 +216,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     public void onPause() {
         super.onPause();
         isRunning = false;
-        Times.removeListener(mAdapter);
+        Times.removeOnTimesListChangeListener(mAdapter);
 
     }
 
@@ -294,7 +294,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     }
 
-    public class MyAdapter extends FragmentPagerAdapter implements Times.TimesListener {
+    public class MyAdapter extends FragmentPagerAdapter implements Times.OnTimesListChangeListener {
 
         public MyAdapter(FragmentManager fm) {
             super(fm);

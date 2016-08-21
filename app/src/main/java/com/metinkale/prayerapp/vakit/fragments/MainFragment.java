@@ -27,16 +27,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.times.WebTimes;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.LocalDate;
 
 @SuppressLint("ClickableViewAccessibility")
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements Times.OnTimesUpdatedListener {
 
     private static final int[] ids = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
     private static final int[] idsNames = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
@@ -49,21 +49,12 @@ public class MainFragment extends Fragment {
     private TextView mTitle;
     private TextView mHicri;
     private TextView mDate;
-    private boolean mHasTimes;
     private Runnable onSecond = new Runnable() {
 
         @Override
         public void run() {
 
             if ((mTimes != null) && !mTimes.deleted()) {
-                if (!mHasTimes) {
-                    update();
-                }
-
-                if (mTimes.modified) {
-                    mTimes.modified = false;
-                    update();
-                }
                 checkKerahat();
 
                 int next = mTimes.getNext();
@@ -124,7 +115,6 @@ public class MainFragment extends Fragment {
             source2.setImageResource(mTimes.getSource().resId);
         }
 
-        update();
 
         if (Prefs.useArabic()) {
             for (int i = 0; i < idsNames.length; i++) {
@@ -133,6 +123,7 @@ public class MainFragment extends Fragment {
                 tv.setText(Vakit.getByIndex(i).getString());
             }
         }
+
         return mView;
     }
 
@@ -143,7 +134,6 @@ public class MainFragment extends Fragment {
 
         mTitle.setText(mTimes.getName());
 
-
         LocalDate greg = LocalDate.now();
         HicriDate hijr = new HicriDate(greg);
 
@@ -152,21 +142,11 @@ public class MainFragment extends Fragment {
 
         String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
 
-        mHasTimes = true;
         for (int i = 0; i < 6; i++) {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
             time.setText(Utils.fixTimeForHTML(daytimes[i]));
-
-
-            if ("00:00".equals(daytimes[i])) {
-                mHasTimes = false;
-            }
         }
-
-        mHandler.removeCallbacks(onSecond);
-        mHandler.post(onSecond);
-
     }
 
 
@@ -192,8 +172,8 @@ public class MainFragment extends Fragment {
                 }
 
             case R.id.refresh:
-                if (mTimes != null) {
-                    MainIntentService.forceRefreshTimes(getActivity(), mTimes);
+                if (mTimes instanceof WebTimes) {
+                    ((WebTimes) mTimes).syncTimes();
                 }
                 break;
 
@@ -224,12 +204,15 @@ public class MainFragment extends Fragment {
         super.onResume();
         mHandler.removeCallbacks(onSecond);
         mHandler.post(onSecond);
+
+        mTimes.addOnTimesUpdatedListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mHandler.removeCallbacks(onSecond);
+        mTimes.removeOnTimesUpdatedListener(this);
     }
 
     void checkKerahat() {
@@ -237,4 +220,8 @@ public class MainFragment extends Fragment {
         mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void onTimesUpdated(Times t) {
+        update();
+    }
 }

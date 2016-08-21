@@ -35,7 +35,7 @@ import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 public class WidgetProviderSmall extends AppWidgetProvider {
     private static float mDP;

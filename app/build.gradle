@@ -103,4 +103,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.+'
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'net.danlew:android.joda:2.9.3'
+    compile 'com.koushikdutta.ion:ion:2.+'
 }
