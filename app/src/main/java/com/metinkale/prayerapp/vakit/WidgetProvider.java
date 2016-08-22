@@ -24,19 +24,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.LocalDate;
@@ -61,6 +56,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
         w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, w, r.getDisplayMetrics());
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
+
+        int ow = w;
+        int oh = h;
 
 
         float scaleX = (float) w / (float) 13;
@@ -101,6 +99,8 @@ public class WidgetProvider extends AppWidgetProvider {
             default:
                 theme = Theme.Light;
         }
+
+
         Times times = null;
         long id = 0;
         try {
@@ -120,10 +120,6 @@ public class WidgetProvider extends AppWidgetProvider {
             return;
         }
 
-
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
-
-
         LocalDate date = LocalDate.now();
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
@@ -131,82 +127,52 @@ public class WidgetProvider extends AppWidgetProvider {
         String left = times.getLeft(next, false);
 
 
-        remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget22);
+        remoteViews.setInt(R.id.top, "setBackgroundColor", theme.strokecolor);
+        remoteViews.setInt(R.id.left, "setBackgroundColor", theme.strokecolor);
+        remoteViews.setInt(R.id.right, "setBackgroundColor", theme.strokecolor);
+        remoteViews.setInt(R.id.bottom, "setBackgroundColor", theme.strokecolor);
+        remoteViews.setInt(R.id.main, "setBackgroundColor", theme.bgcolor);
 
-        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(bmp);
-        canvas.scale(0.99f, 0.99f, w / 2, h / 2);
+        h *= 0.99;
+        w *= 0.99;
+        int vp = oh / 2 - h / 2;
+        int hp = ow / 2 - w / 2;
+        remoteViews.setViewPadding(R.id.frame, hp, vp, hp, vp);
+        int[] nameIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+        int[] timeIds = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
+        int[] hoverIds = {R.id.hover0, R.id.hover1, R.id.hover2, R.id.hover3, R.id.hover4, R.id.hover5, R.id.hover6};
 
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        paint.setFilterBitmap(true);
+        remoteViews.setTextViewText(R.id.city, times.getName());
+        remoteViews.setTextViewText(R.id.countdown, left);
+        remoteViews.setInt(R.id.city, "setTextColor", theme.textcolor);
+        remoteViews.setInt(R.id.countdown, "setTextColor", theme.textcolor);
+        remoteViews.setTextViewText(R.id.city, times.getName());
+        remoteViews.setViewPadding(R.id.city, 0, h / 20, 0, h / 40);
 
-        paint.setStyle(Style.FILL);
-        paint.setColor(theme.bgcolor);
-        canvas.drawRect(0, 0, w, h, paint);
+        remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, h / 9);
+        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, h / 9);
+        for (int i = 0; i < nameIds.length; i++) {
+            remoteViews.setInt(nameIds[i], "setTextColor", theme.textcolor);
+            remoteViews.setInt(timeIds[i], "setTextColor", theme.textcolor);
+            remoteViews.setTextViewText(nameIds[i], Vakit.getByIndex(i).getString());
+            remoteViews.setTextViewText(timeIds[i], Utils.fixTimeForHTML(daytimes[i]));
+            remoteViews.setTextViewTextSize(nameIds[i], TypedValue.COMPLEX_UNIT_PX, h / 12);
+            remoteViews.setTextViewTextSize(timeIds[i], TypedValue.COMPLEX_UNIT_PX, h / 12);
 
-        paint.setColor(theme.textcolor);
-        paint.setStyle(Style.FILL_AND_STROKE);
-        paint.setAntiAlias(true);
-        paint.setSubpixelText(true);
+            remoteViews.setViewPadding(nameIds[i], w / 6, 0, 0, 0);
+            remoteViews.setViewPadding(timeIds[i], 0, 0, w / 6, 0);
 
-        double l = h / 10;
-        paint.setTextSize((int) l);
-        paint.setTextAlign(Align.CENTER);
-        canvas.drawText(times.getName(), w / 2, (int) (l * 1.8), paint);
-
-        paint.setTextSize((int) ((l * 8) / 10));
-
-        if (next != 0) {
-            paint.setColor(theme.hovercolor);
-            canvas.drawRect(0, (int) (l * (next + 1.42)), w, (int) (l * (next + 2.42)), paint);
-        }
-        paint.setColor(theme.textcolor);
-
-        paint.setTextAlign(Align.LEFT);
-        canvas.drawText(Vakit.getByIndex(0).getString(), w / 6, (int) (l * 3.2), paint);
-        canvas.drawText(Vakit.GUNES.getString(), w / 6, (int) (l * 4.2), paint);
-        canvas.drawText(Vakit.OGLE.getString(), w / 6, (int) (l * 5.2), paint);
-        canvas.drawText(Vakit.IKINDI.getString(), w / 6, (int) (l * 6.2), paint);
-        canvas.drawText(Vakit.AKSAM.getString(), w / 6, (int) (l * 7.2), paint);
-        canvas.drawText(Vakit.YATSI.getString(), w / 6, (int) (l * 8.2), paint);
-
-        paint.setTextAlign(Align.RIGHT);
-        if (Prefs.use12H()) {
-            for (int i = 0; i < daytimes.length; i++) {
-                String time = Utils.fixTime(daytimes[i]);
-                String suffix = time.substring(time.indexOf(" ") + 1);
-                time = time.substring(0, time.indexOf(" "));
-                paint.setTextSize((int) ((l * 8) / 10));
-                canvas.drawText(time, ((w * 5) / 6) - paint.measureText("A"), (int) (l * 3.2 + i * l), paint);
-                paint.setTextSize((int) ((l * 4) / 10));
-                canvas.drawText(suffix, ((w * 5) / 6) + (paint.measureText(time) / 4), (int) (l * 3 + i * l), paint);
-            }
-        } else {
-            for (int i = 0; i < daytimes.length; i++) {
-                canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
+            if (i + 1 == next) {
+                remoteViews.setInt(hoverIds[i], "setBackgroundColor", theme.hovercolor);
+                remoteViews.setViewVisibility(hoverIds[i], View.VISIBLE);
+            } else {
+                remoteViews.setViewVisibility(hoverIds[i], View.GONE);
             }
         }
-        paint.setTextSize((int) l);
-        paint.setTextAlign(Align.CENTER);
-        canvas.drawText(left, w / 2, (int) (l * 9.5), paint);
 
-        paint.setStyle(Style.STROKE);
-        float stroke = mDP;
-        paint.setStrokeWidth(stroke);
-        paint.setColor(theme.strokecolor);
-        canvas.drawRect(0, 0, w, h, paint);
 
-        remoteViews.setImageViewBitmap(R.id.widget, bmp);
-
-        try {
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        } catch (RuntimeException e) {
-            if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
-            }
-        }
+        appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
     }
 
