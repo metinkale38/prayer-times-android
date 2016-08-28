@@ -301,343 +301,141 @@
 
 <!-- Fuzzy -->
 <string name="holyday5">"ليلة رجب"</string>
-
-<!-- Fuzzy -->
 <string name="holyday6">"ليلة الإسراء والمعراج"</string>
-
-<!-- Fuzzy -->
 <string name="holyday7">"ليلة منتصف شعبان"</string>
-
-<!-- Fuzzy -->
 <string name="holyday8">"بداية رمضان"</string>
-
-<!-- Fuzzy -->
 <string name="holyday9">"ليلة القدر"</string>
-
-<!-- Fuzzy -->
 <string name="holyday10">"آخر أيام شهر رمضان المبارك"</string>
-
-<!-- Fuzzy -->
 <string name="holyday11">"عيد الفطر"</string>
-
-<!-- Fuzzy -->
 <string name="holyday12">"اليوم التالي لعيد الفطر"</string>
-
-<!-- Fuzzy -->
 <string name="holyday13">"اليوم الثاني بعد عيد الفطر"</string>
-
-<!-- Fuzzy -->
 <string name="holyday14">"يوم عرفة"</string>
-
-<!-- Fuzzy -->
 <string name="holyday15">"عيد الأضحى، اليوم الأول"</string>
-
-<!-- Fuzzy -->
 <string name="holyday16">"عيد ألأضحى، اليوم الثاني"</string>
-
-<!-- Fuzzy -->
 <string name="holyday17">"عيد الأضحى، اليوم الثالث"</string>
-
-<!-- Fuzzy -->
 <string name="holyday18">"عيد الأضحى، اليوم الرابع"</string>
-
-<!-- Fuzzy -->
 <string name="ishaa">"العِشاء"</string>
-
-<!-- Fuzzy -->
 <string name="juristicHanafi">"الحنفي"</string>
-
-<!-- Fuzzy -->
 <string name="juristicShafi">"الشافعي (الإعداد الافتراضي)"</string>
-
-<!-- Fuzzy -->
 <string name="kerahatDuration">"مدة الفترة التي تحرم فيها صلاة النافلة"</string>
-
-<!-- Fuzzy -->
 <string name="kerahatIstiwa">"إستواء الشمس( قبل وقت الظهر)"</string>
-
-<!-- Fuzzy -->
 <string name="kerahatMaghrib">"غروب الشمس ( قبل وقت المغرب)"</string>
-
-<!-- Fuzzy -->
 <string name="kerahatSun">"شروق الشمس ( بعد وقت الفجر)"</string>
-
-<!-- Fuzzy -->
 <string name="kerahatTime">"وقت تَحرم فيها صلاة النافلة"</string>
-
-<!-- Fuzzy -->
 <string name="langEn">"English"</string>
-
-<!-- Fuzzy -->
 <string name="langGe">"Deutsch"</string>
-
-<!-- Fuzzy -->
 <string name="langTr">"Türk"</string>
-
-<!-- Fuzzy -->
 <string name="language">"اللغة"</string>
-
-<!-- Fuzzy -->
 <string name="leftText">"%1$s | بقي %3$s bis %2$s"</string>
-
-<!-- Fuzzy -->
 <string name="maghrib">"المغرب"</string>
-
-<!-- Fuzzy -->
 <string name="missedPrayers">"العبادات الفائتة"</string>
-
-<!-- Fuzzy -->
 <string name="mixed">"عرض الأحاديث عشوائياً"</string>
-
-<!-- Fuzzy -->
 <string name="monthly">"أوقات الصلاة لكل الشهر"</string>
-
-<!-- Fuzzy -->
 <string name="morningPrayer">"صلاة الفجر"</string>
-
-<!-- Fuzzy -->
 <string name="names">"أسماء الله الحسنى "</string>
-
-<!-- Fuzzy -->
 <string name="newAddCity">"إختيار مدينة جديدة"</string>
-
-<!-- Fuzzy -->
 <string name="newDhikr">"ذِكر جديد"</string>
-
-<!-- Fuzzy -->
 <string name="noConnection">"الإتصال معطل"</string>
-
-<!-- Fuzzy -->
 <string name="noFavs">"لا توجد مفضلة"</string>
-
-<!-- Fuzzy -->
 <string name="no">"كلا"</string>
-
-<!-- Fuzzy -->
 <string name="notification">"تنبيه"</string>
-
-<!-- Fuzzy -->
 <string name="off">"مغلق"</string>
-
-<!-- Fuzzy -->
 <string name="ok">"نعم"</string>
-
-<!-- Fuzzy -->
-<string name="oldAddCity">"إختيار مدينة من القائمة"</string>
-
-<!-- Fuzzy -->
+<string name="oldAddCity">"إختيارأحد الحسابات المسجلة من القائمة أعلاه"</string>
 <string name="ongoingIcon">"صورة التنبيه"</string>
-
-<!-- Fuzzy -->
 <string name="ongoingNotification">"ويدجيت التنبيه"</string>
-
-<!-- Fuzzy -->
 <string name="other">"أخرى"</string>
-
-<!-- Fuzzy -->
 <string name="permissionCalendarText">"إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
         الصلاحية لذلك!
         وإذا لم ترد ذلك فلا تعط الصلاحية!
     "</string>
-
-<!-- Fuzzy -->
 <string name="permissionCalendarTitle">"صلاحية التقويم"</string>
-
-<!-- Fuzzy -->
 <string name="permissionCameraText">"لاستخدام البوصلة ثلاثية الأبعاد يجب إعطاء التطبيق الصلاحية لاستخدام الكاميرا.
         إذا لم تفعل فيمكنك ذلك استخدام البوصلة بالشكل ثنائي الأبعاد.
     "</string>
-
-<!-- Fuzzy -->
 <string name="permissionCameraTitle">"صلاحية الكاميرا"</string>
-
-<!-- Fuzzy -->
 <string name="permissionLocationText">"إعطاء الصلاحية لخدمات تحديد الموقع ضرورية لتحديد مكان تواجدك آلياً.
         إذا لم تعط الصلاحية لذلك فيمكنك رغم ذلك اختيار مدينتك يدوياً
     "</string>
-
-<!-- Fuzzy -->
 <string name="permissionLocationTitle">"صلاحية تحديد الموقع"</string>
-
-<!-- Fuzzy -->
 <string name="permissionStorageText">"إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
         التطبيق بشكل مامل
     "</string>
-
-<!-- Fuzzy -->
 <string name="permissionStorageTitle">"صلاحية الحافظة"</string>
-
-<!-- Fuzzy -->
 <string name="prayerNotification">"تنبيه وقت الصلاة"</string>
-
-<!-- Fuzzy -->
 <string name="refresh">"المزامنة"</string>
-
-<!-- Fuzzy -->
 <string name="resetConfirmDhikr">"هل تريد فعلاً إلغاء \“%1$s\” ؟"</string>
-
-<!-- Fuzzy -->
 <string name="restore">"إسترجاع"</string>
-
-<!-- Fuzzy -->
 <string name="search">"بحث"</string>
-
-<!-- Fuzzy -->
 <string name="selectOther">"أخرى …"</string>
-
-<!-- Fuzzy -->
 <string name="sendMail">"كتابة رسالة إلكترونية …"</string>
-
-<!-- Fuzzy -->
 <string name="settings">"إعدادات"</string>
-
-<!-- Fuzzy -->
 <string name="share">"مشاركة"</string>
-
-<!-- Fuzzy -->
 <string name="shareTimes">"أرسل أقوات الصلاة لهذا اليوم لـ %1$s"</string>
-
-<!-- Fuzzy -->
 <string name="showMore">"إظهار المزيد"</string>
-
-<!-- Fuzzy -->
 <string name="silenterDuration">"مدة تفعيل حالة الصامت"</string>
-
-<!-- Fuzzy -->
 <string name="silenterType">"خيارات وضعية حالة الصامت"</string>
-
-<!-- Fuzzy -->
 <string name="silent">"صامت"</string>
-
-<!-- Fuzzy -->
 <string name="sorted">"فرز الأحاديث موضوعياً"</string>
-
-<!-- Fuzzy -->
 <string name="soundPicker">"اختر الصوت"</string>
-
-<!-- Fuzzy -->
 <string name="sound">"الصوت"</string>
-
-<!-- Fuzzy -->
 <string name="sun">"الشروق"</string>
-
-<!-- Fuzzy -->
 <string name="switchCompass">"البوصلة / الخارطة"</string>
-
-<!-- Fuzzy -->
 <string name="tasbih">"التسبيح"</string>
-
-<!-- Fuzzy -->
 <string name="tesbihat">"الأذكار"</string>
-
-<!-- Fuzzy -->
 <string name="timeBased">"دقائق"</string>
-
-<!-- Fuzzy -->
 <string name="time">"الوقت"</string>
-
-<!-- Fuzzy -->
 <string name="touchToSelectCity">"أنقر هنا لاختيار المدينة"</string>
-
-<!-- Fuzzy -->
 <string name="transWhiteWidget">"ودجيت أبيض شفاف"</string>
-
-<!-- Fuzzy -->
 <string name="transWidget">"ودجيت شفاف"</string>
-
-<!-- Fuzzy -->
 <string name="test">"تجريب"</string>
-
-<!-- Fuzzy -->
 <string name="use12h">"إظهار صيغة الوقت بنظام 12 ساعة"</string>
-
-<!-- Fuzzy -->
 <string name="useArabicNames">"إستخدام الأسماء العربية"</string>
-
-<!-- Fuzzy -->
 <string name="useSilenter">"الصامت"</string>
-
-<!-- Fuzzy -->
 <string name="useVibration">"الاهتزاز"</string>
-
-<!-- Fuzzy -->
+<string name="versionNr">"3.5.1"</string>
 <string name="version">"رقم أصدار"</string>
-
-<!-- Fuzzy -->
 <string name="vibrationDesc">"ملي ثانية - انتظر اهتزاز انتظر …"</string>
-
-<!-- Fuzzy -->
 <string name="vibrationPattern">"نماذج الإهتزاز"</string>
-
-<!-- Fuzzy -->
 <string name="volumeAlarm">"حدة صوت المنبه"</string>
-
-<!-- Fuzzy -->
 <string name="volumeMedia">"حدة صوت التسجيلات"</string>
-
-<!-- Fuzzy -->
 <string name="volumeRingtone">"حدة صوت الرنين"</string>
-
-<!-- Fuzzy -->
 <string name="vote">"تقييم"</string>
-
-<!-- Fuzzy -->
 <string name="whiteWidget">"ودجيت أبيض"</string>
-
-<!-- Fuzzy -->
 <string name="widgetClock">"أوقات الصلاة الساعة - 4*2"</string>
-
-<!-- Fuzzy -->
 <string name="widgetClock2">"أوقات الصلاة الساعة - 2*2"</string>
-
-<!-- Fuzzy -->
 <string name="widgetCountdownType">"ودجيت العد التنازلي"</string>
-
-<!-- Fuzzy -->
 <string name="widgetDesign">"تصاميم"</string>
-
-<!-- Fuzzy -->
 <string name="widget">"ودجيت أوقات الصلاة 2*2"</string>
-
-<!-- Fuzzy -->
 <string name="widgetLong">"ودجيت أوقات الصلاة 4*1"</string>
-
-<!-- Fuzzy -->
 <string name="widgetSilenter">"أوقات الصلاة - ودجيت الصامت"</string>
-
-<!-- Fuzzy -->
 <string name="widgetSmall">"ودجيت أوقات الصلاة 1*1"</string>
-
-<!-- Fuzzy -->
 <string name="witr">"الوتر"</string>
-
-<!-- Fuzzy -->
 <string name="yes">"نعم"</string>
-
-<!-- Fuzzy -->
 <string name="zoomIn">"تكبيرالصورة"</string>
-
-<!-- Fuzzy -->
 <string name="zoomOut">"تغير الصورة"</string>
-
-<!-- Fuzzy -->
 <string name="zuhr">"الظهر"</string>
-
-<!-- Fuzzy -->
 <string name="langAr">"عربي"</string>
-
-<!-- Fuzzy -->
 <string name="calculated">"حسابياً"</string>
-
-<!-- Fuzzy -->
 <string name="beta_tester">"جرب الإصدارات  التجريبية من التطبيق"</string>
-
-<!-- Fuzzy -->
 <string name="numbers">"خيارات إظهار الأرقام"</string>
-
-<!-- Fuzzy -->
 <string name="dateFormat3">"٣١ ديسمبر "</string>
+<string name="hDateFormat3">"٣٠ محرم"</string>
 
 <!-- Fuzzy -->
-<string name="hDateFormat3">"٣٠ محرم"</string>
+<string name="useAlarm">"استخدام منبه الجهاز لتفعيل التنبيهات"</string>
+
+<!-- Fuzzy -->
+<string name="useAlarmDesc">"تجريبي:
+في حالة ملاحظة التأخير في تفعيل التنبيهات عن الوقت المحدد، اختر استخدام منبه الجهاز لحل هذه المشكلة.
+مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات "</string>
+
+<!-- Fuzzy -->
+<string name="dontshowagain">"لا تظهره مرة أخرى"</string>
+
+<!-- Fuzzy -->
+<string name="paypal">"Paypal"</string>
+
+<!-- Fuzzy -->
+<string name="bitcoin">"Bitcoin"</string>
 </resources>
