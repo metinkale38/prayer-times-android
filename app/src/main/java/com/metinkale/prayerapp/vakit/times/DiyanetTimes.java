@@ -78,7 +78,6 @@ class DiyanetTimes extends WebTimes {
 
                         if (e != null) {
                             e.printStackTrace();
-                            Crashlytics.logException(e);
                             return;
                         }
                         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);

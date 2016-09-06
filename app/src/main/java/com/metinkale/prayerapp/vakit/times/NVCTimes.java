@@ -16,7 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
@@ -91,9 +90,8 @@ public class NVCTimes extends WebTimes {
                 .setCallback(new FutureCallback<String>() {
                     @Override
                     public void onCompleted(Exception e, String result) {
-                         if (e != null) {
+                        if (e != null) {
                             e.printStackTrace();
-                            Crashlytics.logException(e);
                             return;
                         }
                         String[] lines = result.split("\n");

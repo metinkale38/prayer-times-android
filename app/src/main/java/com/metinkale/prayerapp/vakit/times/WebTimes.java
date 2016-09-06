@@ -113,7 +113,6 @@ public class WebTimes extends Times {
         super();
     }
 
-    ;
 
     public static void add(Source source, String city, String id, double lat, double lng) {
         long _id = System.currentTimeMillis();

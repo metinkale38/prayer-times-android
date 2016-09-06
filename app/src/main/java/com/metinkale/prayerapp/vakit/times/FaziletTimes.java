@@ -72,8 +72,7 @@ class FaziletTimes extends WebTimes {
                     public void onCompleted(Exception e, String result) {
                         if (e != null) {
                             e.printStackTrace();
-                            Crashlytics.logException(e);
-                            return;
+                             return;
                         }
                         List<String> ay = new ArrayList<>();
                         ay.add("Ocak");

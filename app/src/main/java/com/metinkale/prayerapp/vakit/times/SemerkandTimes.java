@@ -60,7 +60,6 @@ class SemerkandTimes extends WebTimes {
 
                         if (e != null) {
                             e.printStackTrace();
-                            Crashlytics.logException(e);
                             return;
                         }
                         LocalDate date = LocalDate.now();

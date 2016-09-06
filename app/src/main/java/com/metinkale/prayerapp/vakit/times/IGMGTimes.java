@@ -75,8 +75,7 @@ class IGMGTimes extends WebTimes {
                 if (!queue.isEmpty()) queue.get(0).setCallback(this);
                 if (e != null) {
                     e.printStackTrace();
-                    Crashlytics.logException(e);
-                    return;
+                     return;
                 }
 
                 result = result.substring(result.indexOf("<div class='zeiten'>") + 20);

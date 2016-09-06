@@ -358,10 +358,6 @@ public abstract class Times extends TimesBase {
         return getTime(null, time);
     }
 
-    public DateTime getTimeCal(int time) {
-        return getTimeCal(null, time);
-    }
-
     private String adj(String time, int t) {
         try {
             double drift = getTZFix();
