@@ -229,4 +229,5 @@
     </string>
     <string name="oldAddCity">Şehri elle seç</string>
     <string name="dontshowagain">Birdaha gösterme</string>
+    <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
 </resources>

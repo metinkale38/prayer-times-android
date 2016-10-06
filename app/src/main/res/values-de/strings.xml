@@ -241,4 +241,5 @@
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
     </string>
     <string name="dontshowagain">Nicht nochmal zeigen</string>
+    <string name="ongoingNumber">Zeige Minuten in Notification-Icon</string>
 </resources>

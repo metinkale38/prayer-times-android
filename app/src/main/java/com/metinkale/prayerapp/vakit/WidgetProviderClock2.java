@@ -123,12 +123,8 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
         int next = times.getNext();
         int last = next - 1;
 
-        long mills1 = times.getMills(last);
-        long mills2 = times.getMills(next);
-        long passed = System.currentTimeMillis() - mills1;
-        float percent = passed / (float) (mills2 - mills1);
 
-        canvas.drawArc(new RectF(w / 100, w / 100, w - w / 100, h - w / 100), -90, percent * 360, false, paint);
+        canvas.drawArc(new RectF(w / 100, w / 100, w - w / 100, h - w / 100), -90, times.getPassedPart() * 360, false, paint);
 
         paint.setStrokeWidth(1);
         LocalDateTime ltime = LocalDateTime.now();

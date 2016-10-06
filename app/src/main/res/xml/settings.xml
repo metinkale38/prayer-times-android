@@ -134,7 +134,7 @@
                 android:defaultValue="true"
                 android:key="ongoingNumber"
                 android:dependency="ongoingIcon"
-                android:title="@string/ongoingIcon"/>
+                android:title="@string/ongoingNumber"/>
 
         <SwitchPreference
                 android:defaultValue="true"

@@ -176,11 +176,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
         } else {
             paint.setColor(Theme.Light.strokecolor);
         }
-        long mills1 = times.getMills(last);
-        long mills2 = times.getMills(next);
-        long passed = System.currentTimeMillis() - mills1;
-        float percent = passed / (float) (mills2 - mills1);
-        canvas.drawRect(w * 0.1f, h * 0.6f, (w * 0.1f) + (w * 0.8f * percent), h * 0.63f, paint);
+        canvas.drawRect(w * 0.1f, h * 0.6f, (w * 0.1f) + (w * 0.8f * times.getPassedPart()), h * 0.63f, paint);
 
         paint.setColor(Color.WHITE);
         paint.setTextSize(h * 0.2f);

@@ -230,5 +230,6 @@
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="dontshowagain">Don\'t show again</string>
+    <string name="ongoingNumber">Show minutes in Notification-Icon</string>
 
 </resources>

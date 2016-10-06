@@ -24,15 +24,33 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.*;
 
 public abstract class Times extends TimesBase {
 
+
+    private static final PeriodFormatter PERIOD_FORMATTER_HMS = new PeriodFormatterBuilder()
+            .printZeroIfSupported()
+            .minimumPrintedDigits(2)
+            .appendHours()
+            .appendLiteral(":")
+            .minimumPrintedDigits(2)
+            .appendMinutes()
+            .appendLiteral(":")
+            .appendSeconds()
+            .toFormatter();
+    private static final PeriodFormatter PERIOD_FORMATTER_HM = new PeriodFormatterBuilder()
+            .printZeroIfSupported()
+            .minimumPrintedDigits(2)
+            .appendHours()
+            .appendLiteral(":")
+            .minimumPrintedDigits(2)
+            .appendMinutes()
+            .toFormatter();
 
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
     private static List<Times> sTimes = new ArrayList<Times>() {
@@ -224,7 +242,7 @@ public abstract class Times extends TimesBase {
                             vakit--;
                         }
 
-                        long mills = getTimeCal(cal, vakit).getMillis();
+                        long mills = getTimeCal(cal, vakit).toDateTime().getMillis();
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -238,9 +256,9 @@ public abstract class Times extends TimesBase {
                     } else {
                         long mills;
                         if (isAfterImsak()) {
-                            mills = getTimeCal(cal, 0).getMillis() + getSabahTime() * 60 * 1000;
+                            mills = getTimeCal(cal, 0).toDateTime().getMillis() + getSabahTime() * 60 * 1000;
                         } else {
-                            mills = getTimeCal(cal, 1).getMillis() - getSabahTime() * 60 * 1000;
+                            mills = getTimeCal(cal, 1).toDateTime().getMillis() - getSabahTime() * 60 * 1000;
                         }
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
@@ -263,7 +281,7 @@ public abstract class Times extends TimesBase {
                         }
 
                         int early = getEarlyTime(v);
-                        long mills = getTimeCal(cal, vakit).getMillis() - early * 60 * 1000;
+                        long mills = getTimeCal(cal, vakit).toDateTime().getMillis() - early * 60 * 1000;
                         if (System.currentTimeMillis() < mills) {
                             Alarm a = new Alarm();
                             a.city = getID();
@@ -286,7 +304,7 @@ public abstract class Times extends TimesBase {
                 if ((c.getMillis() + 1000) < System.currentTimeMillis()) {
                     c = c.plusWeeks(1);
                 }
-                long mills = getTimeCal(c.toLocalDate(), 2).getMillis();
+                long mills = getTimeCal(c.toLocalDate(), 2).toDateTime().getMillis();
                 mills -= early * 60 * 1000;
                 if (System.currentTimeMillis() < mills) {
                     Alarm a = new Alarm();
@@ -304,7 +322,7 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    public DateTime getTimeCal(LocalDate date, int time) {
+    public LocalDateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -321,7 +339,7 @@ public abstract class Times extends TimesBase {
         }
 
 
-        DateTime timeCal = date.toDateTime(new LocalTime(getTime(date, time)));
+        LocalDateTime timeCal = date.toLocalDateTime(new LocalTime(getTime(date, time)));
         int h = timeCal.getHourOfDay();
         if ((time >= 3) && (h < 5)) {
             timeCal = timeCal.plusDays(1);
@@ -392,53 +410,62 @@ public abstract class Times extends TimesBase {
     }
 
     public String getLeft(int next, boolean showsecs) {
-        LocalTime left = new LocalTime(getLeftMills(next));
+        LocalDateTime date = getTimeCal(null, next);
+        Period period = new Period(LocalDateTime.now(), date, PeriodType.dayTime());
 
         if (showsecs) {
-            return Utils.toArabicNrs(left.toString("HH:mm:ss"));
+            return Utils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
         } else if (Prefs.isDefaultWidgetMinuteType()) {
-            return Utils.toArabicNrs(left.toString("HH:mm"));
+            return Utils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
         } else {
-            return Utils.toArabicNrs(Utils.az(left.getHourOfDay()) + ":" + Utils.az(left.getMinuteOfHour() + 1));
+            period = period.withFieldAdded(DurationFieldType.minutes(), 1);
+            return Utils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
         }
 
     }
 
-    long getLeftMills(int which) {
-        return getMills(which) - (System.currentTimeMillis() + getTZOffset());
+    public int getLeftMinutes(int which) {
+        LocalDateTime date = getTimeCal(null, which);
+        Period period = new Period(LocalDateTime.now(), date, PeriodType.minutes());
+        return period.getMinutes();
     }
 
-    public long getMills(int which) {
-        return getTimeCal(null, which).getMillis();
+
+    public float getPassedPart() {
+        int i = getNext();
+        LocalDateTime date1 = getTimeCal(null, i - 1);
+        LocalDateTime date2 = getTimeCal(null, i);
+        Period period = new Period(date1, date2, PeriodType.minutes());
+        float total = period.getMinutes();
+        float passed = total - getLeftMinutes(i);
+        return passed / total;
     }
+
 
     public int getNext() {
-        long mills = System.currentTimeMillis();
+        LocalDate today = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         for (int i = 0; i < 6; i++) {
-            if (mills < getMills(i)) {
+            if (getTimeCal(today, i).isAfter(now)) {
                 return i;
             }
         }
         return 6;
     }
 
-    private long getTZOffset() {
-        return TimeZone.getDefault().getRawOffset();
-    }
-
     public boolean isKerahat() {
-        long m = getLeftMills(1) + getTZOffset();
-        if ((m <= 0) && (m > (Prefs.getKerahatSunrise() * -60000))) {
+        long m = getLeftMinutes(1);
+        if ((m <= 0) && (m > (-Prefs.getKerahatSunrise()))) {
             return true;
         }
 
-        m = getLeftMills(2) + getTZOffset();
-        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa() * 60000))) {
+        m = getLeftMinutes(2);
+        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa()))) {
             return true;
         }
 
-        m = getLeftMills(4) + getTZOffset();
-        return (m >= 0) && (m < (Prefs.getKerahatSunet() * 60000));
+        m = getLeftMinutes(4);
+        return (m >= 0) && (m < (Prefs.getKerahatSunet()));
 
     }
 

@@ -19,13 +19,14 @@ package com.metinkale.prayerapp.vakit;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.*;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -47,9 +48,12 @@ import java.util.List;
 
 public class WidgetService extends Service {
 
+    private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
+    private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
     private static List<Long> mOngoing = new ArrayList<>();
     private static Bitmap mAbIcon;
-
+    private static Integer COLOR_1ST;
+    private static Integer COLOR_2ND;
 
     public static void updateOngoing() {
         extractColors();
@@ -134,11 +138,20 @@ public class WidgetService extends Service {
                 views.setTextColor(R.id.time, COLOR_1ST);
                 views.setTextColor(R.id.city, COLOR_1ST);
 
-                noti = new NotificationCompat.Builder(App.getContext())
-                        .setContent(views)
-                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
-                        .setOngoing(true)
-                        .build();
+                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    long left = t.getLeftMinutes(t.getNext());
+                    noti = new Notification.Builder(App.getContext())
+                            .setContent(views)
+                            .setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(left)))
+                            .setOngoing(true)
+                            .build();
+                } else {
+                    noti = new NotificationCompat.Builder(App.getContext())
+                            .setContent(views)
+                            .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
+                            .setOngoing(true)
+                            .build();
+                }
             } else {
                 int n = t.getNext();
                 String sum = App.getContext().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
@@ -174,32 +187,26 @@ public class WidgetService extends Service {
 
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        WidgetProvider.updateWidgets(this);
-        updateOngoing();
-
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent service = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        App.setExact(am, AlarmManager.RTC, DateTime.now().withMillisOfSecond(0).withSecondOfMinute(0).plusMinutes(1).getMillis(), service);
-
-        stopSelf();
-        return super.onStartCommand(intent, flags, startId);
+    private static Bitmap getIconFromMinutes(long left) {
+        String text = left + "";
+        Resources r = App.getContext().getResources();
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r.getDisplayMetrics());
+        Bitmap b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_4444);
+        Canvas c = new Canvas(b);
+        Paint paint = new Paint();
+        final float testTextSize = 48f;
+        paint.setTextSize(testTextSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        float desiredTextSize = testTextSize * px / bounds.width();
+        paint.setTextSize(desiredTextSize);
+        paint.setColor(0xFFFFFFFF);
+        paint.setTextAlign(Paint.Align.CENTER);
+        int yPos = (int) ((c.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+        c.drawText(text, px / 2, yPos, paint);
+        return b;
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-
-    private static Integer COLOR_1ST;
-    private static Integer COLOR_2ND;
-    private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
-    private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
 
     private static boolean recurseGroup(ViewGroup gp) {
         int count = gp.getChildCount();
@@ -235,9 +242,9 @@ public class WidgetService extends Service {
 
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(App.getContext())
-                            .setContentTitle(COLOR_SEARCH_1ST)
-                            .setContentText(COLOR_SEARCH_2ND);
+                    new NotificationCompat.Builder(App.getContext());
+            mBuilder.setContentTitle(COLOR_SEARCH_1ST)
+                    .setContentText(COLOR_SEARCH_2ND);
             Notification ntf = mBuilder.build();
             LinearLayout group = new LinearLayout(App.getContext());
             ViewGroup event = (ViewGroup) ntf.contentView.apply(App.getContext(), group);
@@ -252,5 +259,26 @@ public class WidgetService extends Service {
         if (COLOR_2ND == null) {
             COLOR_2ND = Color.DKGRAY;
         }
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        WidgetProvider.updateWidgets(this);
+        updateOngoing();
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        PendingIntent service = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        App.setExact(am, AlarmManager.RTC, DateTime.now().withMillisOfSecond(0).withSecondOfMinute(0).plusMinutes(1).getMillis(), service);
+
+        stopSelf();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

@@ -126,31 +126,19 @@ public class Prefs {
         return getPrefs().getInt("kerahat_sunset", 45);
     }
 
-    public static boolean getMigratedFromSqlite() {
-        return getPrefs().getBoolean("migratedFromSqlite", false);
-    }
-
-    public static void setMigratedFromSqlite(boolean b) {
-        getPrefs().edit().putBoolean("migratedFromSqlite", b).apply();
-    }
-
     public static boolean showOngoingIcon() {
         return getPrefs().getBoolean("ongoingIcon", true);
     }
 
+    public static boolean showOngoingNumber() {
+        return getPrefs().getBoolean("ongoingNumber", true);
+    }
 
     public static void setCompassPos(float lat, float lon) {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
 
-    public static boolean shouldAskBatteryWhitelist() {
-        return getPrefs().getBoolean("askBatWhiteList", true);
-    }
-
-    public static void setShouldAskBatteryWhitelist(boolean askBatteryWhitelist){
-        getPrefs().edit().putBoolean("askBatWhiteList", askBatteryWhitelist).apply();
-    }
 
 
 }
