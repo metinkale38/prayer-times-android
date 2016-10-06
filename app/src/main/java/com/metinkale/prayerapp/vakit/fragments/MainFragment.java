@@ -58,6 +58,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                 checkKerahat();
 
                 int next = mTimes.getNext();
+                if (Prefs.getVakitIndicator().equals("next")) next++;
                 for (int i = 0; i < 6; i++) {
                     TextView time = (TextView) mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();

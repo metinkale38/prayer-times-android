@@ -33,6 +33,7 @@ import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import org.joda.time.LocalDateTime;
@@ -122,6 +123,7 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
 
         int next = times.getNext();
         int last = next - 1;
+        if (Prefs.getVakitIndicator().equals("next")) last++;
 
 
         canvas.drawArc(new RectF(w / 100, w / 100, w - w / 100, h - w / 100), -90, times.getPassedPart() * 360, false, paint);
@@ -174,6 +176,7 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
         paint.setTextAlign(Align.CENTER);
 
         paint.setTextSize(h * 0.15f);
+
         canvas.drawText(times.getLeft(next, false), w / 2, h * 0.85f, paint);
 
         paint.setTextSize(h * 0.12f);

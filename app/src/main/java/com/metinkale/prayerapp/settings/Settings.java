@@ -90,6 +90,11 @@ public class Settings extends BaseActivity {
 
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
 
+            findPreference("ongoingNumber").setOnPreferenceClickListener(this);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                findPreference("ongoingNumber").setEnabled(false);
+            }
             findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);

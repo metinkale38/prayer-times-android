@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
@@ -295,29 +296,32 @@ public abstract class Times extends TimesBase {
                     }
                 }
             }
-
-            if (isCumaActive()) {
-
-                int early = getCumaTime();
-
-                DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
-                if ((c.getMillis() + 1000) < System.currentTimeMillis()) {
-                    c = c.plusWeeks(1);
-                }
-                long mills = getTimeCal(c.toLocalDate(), 2).toDateTime().getMillis();
-                mills -= early * 60 * 1000;
-                if (System.currentTimeMillis() < mills) {
-                    Alarm a = new Alarm();
-                    a.city = getID();
-                    a.cuma = true;
-                    a.early = false;
-                    a.time = mills;
-                    a.vakit = Vakit.OGLE;
-                    a.dayOffset = ii;
-                    alarms.add(a);
-                }
-            }
             cal = cal.plusDays(1);
+        }
+        if (isCumaActive()) {
+
+            int early = getCumaTime();
+
+            DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
+            if ((c.getMillis() + 1000) < System.currentTimeMillis()) {
+                c = c.plusWeeks(1);
+            }
+            long mills = getTimeCal(c.toLocalDate(), 2).toDateTime().getMillis();
+            mills -= early * 60 * 1000;
+            if (System.currentTimeMillis() < mills) {
+                Alarm a = new Alarm();
+                a.city = getID();
+                a.cuma = true;
+                a.early = false;
+                a.time = mills;
+                a.vakit = Vakit.OGLE;
+                a.dayOffset = 0;
+                alarms.add(a);
+            }
+        }
+
+        for (Alarm a : alarms) {
+            Log.e("ALARM", a.toString());
         }
         return alarms;
     }
@@ -500,6 +504,16 @@ public abstract class Times extends TimesBase {
             return new Gson().toJson(this);
         }
 
+        @Override
+        public int hashCode() {
+            int result = 571;
+            result = 37 * result + (int) (city ^ (city >>> 32));
+            result = 37 * result + (cuma ? 1 : 0);
+            result = 37 * result + (early ? 1 : 0);
+            result = 37 * result + vakit.ordinal();
+            result = 37 * result + dayOffset;
+            return result;
+        }
     }
 
 }

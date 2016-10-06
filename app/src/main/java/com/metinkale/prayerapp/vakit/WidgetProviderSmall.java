@@ -34,6 +34,7 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
@@ -109,6 +110,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
 
         int next = times.getNext();
         String left = times.getLeft(next, false);
+        if (Prefs.getVakitIndicator().equals("next")) next++;
 
         remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
 

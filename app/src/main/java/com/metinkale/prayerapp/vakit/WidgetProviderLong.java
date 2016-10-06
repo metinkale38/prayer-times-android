@@ -128,6 +128,8 @@ public class WidgetProviderLong extends AppWidgetProvider {
 
         int next = times.getNext();
         String left = times.getLeft(next, false);
+        if (Prefs.getVakitIndicator().equals("next")) next++;
+
 
         remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
 

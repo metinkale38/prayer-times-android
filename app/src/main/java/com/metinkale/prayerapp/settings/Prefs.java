@@ -126,6 +126,10 @@ public class Prefs {
         return getPrefs().getInt("kerahat_sunset", 45);
     }
 
+    public static String getVakitIndicator() {
+        return getPrefs().getString("vakit_indicator", "current");
+    }
+
     public static boolean showOngoingIcon() {
         return getPrefs().getBoolean("ongoingIcon", true);
     }

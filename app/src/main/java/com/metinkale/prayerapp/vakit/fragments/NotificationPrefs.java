@@ -91,7 +91,7 @@ public class NotificationPrefs extends Fragment {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
-        sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
+        sw.setChecked(mTimes.isCumaActive());
         sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

@@ -18,174 +18,181 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-            android:title="@string/appName">
+        android:title="@string/appName">
 
 
         <ListPreference
-                android:dialogTitle="@string/language"
-                android:entries="@array/language"
-                android:entryValues="@array/language_val"
-                android:key="language"
-                android:title="@string/language"/>
+            android:dialogTitle="@string/language"
+            android:entries="@array/language"
+            android:entryValues="@array/language_val"
+            android:key="language"
+            android:title="@string/language"/>
         <SwitchPreference
-                android:key="arabicNames"
-                android:title="@string/useArabicNames"/>
+            android:key="arabicNames"
+            android:title="@string/useArabicNames"/>
 
         <ListPreference
-                android:entries="@array/numbers"
-                android:entryValues="@array/numbers_keys"
-                android:key="numbers"
-                android:title="@string/numbers"/>
+            android:entries="@array/numbers"
+            android:entryValues="@array/numbers_keys"
+            android:key="numbers"
+            android:title="@string/numbers"/>
 
 
         <ListPreference
-                android:defaultValue="default"
-                android:dialogTitle="@string/widgetCountdownType"
-                android:entries="@array/widget_countdown"
-                android:entryValues="@array/widget_countdown_"
-                android:key="widget_countdown"
-                android:title="@string/widgetCountdownType"/>
+            android:defaultValue="default"
+            android:dialogTitle="@string/widgetCountdownType"
+            android:entries="@array/widget_countdown"
+            android:entryValues="@array/widget_countdown_"
+            android:key="widget_countdown"
+            android:title="@string/widgetCountdownType"/>
 
         <com.metinkale.prayerapp.calendar.CalendarPreference
-                android:defaultValue="1"
-                android:key="calendarIntegration"
-                android:title="@string/calendarIntegration"/>
+            android:defaultValue="1"
+            android:key="calendarIntegration"
+            android:title="@string/calendarIntegration"/>
 
         <PreferenceScreen
-                android:title="@string/kerahatDuration">
+            android:title="@string/kerahatDuration">
             <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-                    xmlns:vnt="http://schemas.android.com/apk/res-auto"
-                    android:defaultValue="45"
-                    android:key="kerahat_sunrise"
-                    android:title="@string/kerahatSun"
-                    vnt:vnt_maxValue="120"
-                    vnt:vnt_minValue="0"
-                    vnt:vnt_setWrapSelectorWheel="false"/>
+                xmlns:vnt="http://schemas.android.com/apk/res-auto"
+                android:defaultValue="45"
+                android:key="kerahat_sunrise"
+                android:title="@string/kerahatSun"
+                vnt:vnt_maxValue="120"
+                vnt:vnt_minValue="0"
+                vnt:vnt_setWrapSelectorWheel="false"/>
 
             <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-                    xmlns:vnt="http://schemas.android.com/apk/res-auto"
-                    android:defaultValue="45"
-                    android:key="kerahat_istiva"
-                    android:title="@string/kerahatIstiwa"
-                    vnt:vnt_maxValue="120"
-                    vnt:vnt_minValue="0"
-                    vnt:vnt_setWrapSelectorWheel="false"/>
+                xmlns:vnt="http://schemas.android.com/apk/res-auto"
+                android:defaultValue="45"
+                android:key="kerahat_istiva"
+                android:title="@string/kerahatIstiwa"
+                vnt:vnt_maxValue="120"
+                vnt:vnt_minValue="0"
+                vnt:vnt_setWrapSelectorWheel="false"/>
 
 
             <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-                    xmlns:vnt="http://schemas.android.com/apk/res-auto"
-                    android:defaultValue="45"
-                    android:key="kerahat_sunset"
-                    android:title="@string/kerahatMaghrib"
-                    vnt:vnt_maxValue="120"
-                    vnt:vnt_minValue="0"
-                    vnt:vnt_setWrapSelectorWheel="false"/>
+                xmlns:vnt="http://schemas.android.com/apk/res-auto"
+                android:defaultValue="45"
+                android:key="kerahat_sunset"
+                android:title="@string/kerahatMaghrib"
+                vnt:vnt_maxValue="120"
+                vnt:vnt_minValue="0"
+                vnt:vnt_setWrapSelectorWheel="false"/>
 
 
         </PreferenceScreen>
 
+        <ListPreference
+            android:defaultValue="current"
+            android:key="vakit_indicator"
+            android:title="@string/vakit_indicator"
+            android:dialogTitle="@string/vakit_indicator"
+            android:entryValues="@array/vakit_indicator_values"
+            android:entries="@array/vakit_indicator"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/dateAndTime">
+        android:title="@string/dateAndTime">
 
 
         <SwitchPreference
-                android:key="use12h"
-                android:title="@string/use12h"/>
+            android:key="use12h"
+            android:title="@string/use12h"/>
         <ListPreference
-                android:dialogTitle="@string/dateFormat"
-                android:entries="@array/greg_text"
-                android:entryValues="@array/df"
-                android:key="dateformat"
-                android:title="@string/dateFormat"/>
+            android:dialogTitle="@string/dateFormat"
+            android:entries="@array/greg_text"
+            android:entryValues="@array/df"
+            android:key="dateformat"
+            android:title="@string/dateFormat"/>
 
         <ListPreference
-                android:dialogTitle="@string/hdateFormat"
-                android:entries="@array/hicri_text"
-                android:entryValues="@array/df"
-                android:key="hdateformat"
-                android:title="@string/hdateFormat"/>
+            android:dialogTitle="@string/hdateFormat"
+            android:entries="@array/hicri_text"
+            android:entryValues="@array/df"
+            android:key="hdateformat"
+            android:title="@string/hdateFormat"/>
 
 
         <ListPreference
-                android:dialogTitle="@string/hijriFix"
-                android:entries="@array/hijri_fix_days"
-                android:entryValues="@array/hijri_fix_days"
-                android:key="hijri_fix"
-                android:title="@string/hijriFix"/>
+            android:dialogTitle="@string/hijriFix"
+            android:entries="@array/hijri_fix_days"
+            android:entryValues="@array/hijri_fix_days"
+            android:key="hijri_fix"
+            android:title="@string/hijriFix"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/notification">
+        android:title="@string/notification">
         <com.metinkale.prayerapp.utils.VibrationPreference
-                android:defaultValue="0 300 150 300 150 500"
-                android:dialogTitle="@string/vibrationDesc"
-                android:key="vibration"
-                android:title="@string/vibrationPattern"/>
+            android:defaultValue="0 300 150 300 150 500"
+            android:dialogTitle="@string/vibrationDesc"
+            android:key="vibration"
+            android:title="@string/vibrationPattern"/>
 
 
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="ongoingIcon"
-                android:title="@string/ongoingIcon"/>
+            android:defaultValue="true"
+            android:key="ongoingIcon"
+            android:title="@string/ongoingIcon"/>
 
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="ongoingNumber"
-                android:dependency="ongoingIcon"
-                android:title="@string/ongoingNumber"/>
+            android:defaultValue="true"
+            android:key="ongoingNumber"
+            android:dependency="ongoingIcon"
+            android:title="@string/ongoingNumber"/>
 
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="alternativeOngoing"
-                android:title="@string/alternativeOngoing"/>
+            android:defaultValue="true"
+            android:key="alternativeOngoing"
+            android:title="@string/alternativeOngoing"/>
 
         <ListPreference
-                android:defaultValue="noti"
-                android:dialogTitle="@string/adhanVolume"
-                android:entries="@array/ezan_volume"
-                android:entryValues="@array/ezan_volume_val"
-                android:key="ezanvolume"
-                android:title="@string/adhanVolume"/>
+            android:defaultValue="noti"
+            android:dialogTitle="@string/adhanVolume"
+            android:entries="@array/ezan_volume"
+            android:entryValues="@array/ezan_volume_val"
+            android:key="ezanvolume"
+            android:title="@string/adhanVolume"/>
         <ListPreference
-                android:defaultValue="silent"
-                android:dialogTitle="@string/silenterType"
-                android:entries="@array/silenterType"
-                android:entryValues="@array/silenterType_val"
-                android:key="silenterType"
-                android:title="@string/silenterType"/>
+            android:defaultValue="silent"
+            android:dialogTitle="@string/silenterType"
+            android:entries="@array/silenterType"
+            android:entryValues="@array/silenterType_val"
+            android:key="silenterType"
+            android:title="@string/silenterType"/>
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="useAlarm"
-                android:title="@string/useAlarm"
-                android:summary="@string/useAlarmDesc"/>
+            android:defaultValue="false"
+            android:key="useAlarm"
+            android:title="@string/useAlarm"
+            android:summary="@string/useAlarmDesc"/>
 
     </PreferenceCategory>
 
 
     <PreferenceCategory
-            android:title="@string/other">
+        android:title="@string/other">
 
         <Preference
-                android:key="backupRestore"
-                android:title="@string/backupRestore"/>
+            android:key="backupRestore"
+            android:title="@string/backupRestore"/>
         <Preference
-                android:key="donate"
-                android:summary="@string/donateDesc"
-                android:title="@string/donate"/>
+            android:key="donate"
+            android:summary="@string/donateDesc"
+            android:title="@string/donate"/>
 
         <Preference
-                android:key="beta_tester"
-                android:title="@string/beta_tester"/>
+            android:key="beta_tester"
+            android:title="@string/beta_tester"/>
 
         <Preference
-                android:key="mail"
-                android:summary="metinkale38@gmail.com"
-                android:title="Metin Kale"/>
+            android:key="mail"
+            android:summary="metinkale38@gmail.com"
+            android:title="Metin Kale"/>
 
         <Preference
-                android:key="version"
-                android:title="@string/version"/>
+            android:key="version"
+            android:title="@string/version"/>
     </PreferenceCategory>
 </PreferenceScreen>

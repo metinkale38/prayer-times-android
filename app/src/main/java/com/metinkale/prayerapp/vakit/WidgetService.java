@@ -99,7 +99,7 @@ public class WidgetService extends Service {
                 int[] vakitIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
 
                 int next = t.getNext();
-
+                if (Prefs.getVakitIndicator().equals("next")) next++;
                 for (int i = 0; i < dt.length; i++) {
                     if ((next - 1) == i) {
                         views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTime(dt[i]) + "</em></strong>"));
@@ -107,6 +107,7 @@ public class WidgetService extends Service {
                         views.setTextViewText(timeIds[i], Utils.fixTime(dt[i]));
                     }
                 }
+
 
                 for (int i = 0; i < dt.length; i++) {
                     if ((next - 1) == i) {
@@ -138,7 +139,8 @@ public class WidgetService extends Service {
                 views.setTextColor(R.id.time, COLOR_1ST);
                 views.setTextColor(R.id.city, COLOR_1ST);
 
-                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon()
+                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.Builder(App.getContext())
                             .setContent(views)
@@ -197,12 +199,13 @@ public class WidgetService extends Service {
         final float testTextSize = 48f;
         paint.setTextSize(testTextSize);
         Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
+        paint.getTextBounds(text.length() == 1 ? "0" + text : text, 0, text.length() == 1 ? 2 : text.length(), bounds);
         float desiredTextSize = testTextSize * (px * 0.9f) / bounds.width();
         paint.setTextSize(desiredTextSize);
         paint.setColor(0xFFFFFFFF);
         paint.setTextAlign(Paint.Align.CENTER);
         int yPos = (int) ((c.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+        c.drawText(text, px / 2, yPos, paint);
         c.drawText(text, px / 2, yPos, paint);
         return b;
     }

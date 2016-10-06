@@ -93,7 +93,7 @@ public class AlarmReceiver extends IntentService {
         if (alarm != null) {
             i.putExtra("json", alarm.toString());
         }
-        int id = (int) (((alarm.city / 1000 / 1000) * 1000) + (alarm.dayOffset * 100) + (alarm.vakit.ordinal() * 10) + (alarm.early ? (alarm.cuma ? 3 : 2) : 1));
+        int id = alarm.hashCode();
         PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
                 FLAG_UPDATE_CURRENT);
 

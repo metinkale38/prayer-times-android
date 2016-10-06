@@ -17,6 +17,16 @@
 
 <resources translatable="false">
 
+    <string-array name="vakit_indicator">
+        <item>@string/vakit_indicator_current</item>
+        <item>@string/vakit_indicator_next</item>
+    </string-array>
+    <string-array name="vakit_indicator_values">
+        <item>current</item>
+        <item>next</item>
+    </string-array>
+
+
     <string-array name="numbers">
         <item>0123456789</item>
         <item>٠١٢٣٤٥٦٧٨٩</item>

@@ -230,4 +230,7 @@
     <string name="oldAddCity">Şehri elle seç</string>
     <string name="dontshowagain">Birdaha gösterme</string>
     <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
+    <string name="vakit_indicator">Vakit göstergesi</string>
+    <string name="vakit_indicator_current">Şu anki Vakit</string>
+    <string name="vakit_indicator_next">Gelecek Vakit</string>
 </resources>
