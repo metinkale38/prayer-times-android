@@ -198,7 +198,7 @@ public class WidgetService extends Service {
         paint.setTextSize(testTextSize);
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
-        float desiredTextSize = testTextSize * px / bounds.width();
+        float desiredTextSize = testTextSize * (px * 0.9f) / bounds.width();
         paint.setTextSize(desiredTextSize);
         paint.setColor(0xFFFFFFFF);
         paint.setTextAlign(Paint.Align.CENTER);

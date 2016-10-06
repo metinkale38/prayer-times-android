@@ -68,8 +68,8 @@
     <string name="djuma">Friday Prayer</string>
     <string name="dlHadith">Download Hadith Database?</string>
     <string name="dlSound">Download “%1$s” (%2$s)?</string>
-    <string name="donateDesc">If you feel like to support the Developer some money, click here</string>
-    <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you feel like to support me, thank you&#8230;</string>
+    <string name="donateDesc">If you would like to support the Developer, click here</string>
+    <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you would like to support me, thank you&#8230;</string>
     <string name="donate">Support</string>
     <string name="earlyNotification">early Notification</string>
     <string name="earlyText">%2$s minutes to %1$s</string>
@@ -179,7 +179,7 @@
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
     <string name="showMore">Show more</string>
     <string name="silenterDuration">Silenter duration</string>
-    <string name="silenterType">Silenter-Mode</string>
+    <string name="silenterType">Silent Mode</string>
     <string name="silent">Silent</string>
     <string name="sorted">Sorted</string>
     <string name="soundPicker">Sound Picker</string>
@@ -190,7 +190,7 @@
     <string name="tesbihat">Tasbeehat</string>
     <string name="timeBased">Minutes</string>
     <string name="time">Time</string>
-    <string name="touchToSelectCity">Toouch hier to select City</string>
+    <string name="touchToSelectCity">Touch here to select City</string>
     <string name="transWhiteWidget">Transparent White Widget</string>
     <string name="transWidget">Transparent Widget</string>
     <string name="test">Try</string>
