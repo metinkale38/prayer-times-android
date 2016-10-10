@@ -13,17 +13,18 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+ , AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
 
+<!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
 <android.support.percent.PercentRelativeLayout
-        android:background="#ffffff"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentRight="true">
 
     <TextView
             android:id="@+id/kerahat"
@@ -73,124 +74,142 @@
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/hicri"
-            android:id="@+id/imsak"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/fajr"/>
+        android:layout_below="@id/hicri"
+        android:id="@+id/imsak"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/fajr"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/hicri"
-            android:id="@+id/imsaktime"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:layout_below="@id/hicri"
+        android:id="@+id/imsaktime"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/imsak"
-            android:id="@+id/gunes"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/sun"/>
+        android:layout_below="@id/imsak"
+        android:id="@+id/gunes"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/sun"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/imsak"
-            android:id="@+id/gunestime"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:layout_below="@id/imsak"
+        android:id="@+id/gunestime"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/gunes"
-            android:id="@+id/ogle"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/zuhr"/>
+        android:layout_below="@id/gunes"
+        android:id="@+id/ogle"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/zuhr"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/gunes"
-            android:id="@+id/ogletime"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:layout_below="@id/gunes"
+        android:id="@+id/ogletime"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/ogle"
-            android:id="@+id/ikindi"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/asr"/>
+        android:layout_below="@id/ogle"
+        android:id="@+id/ikindi"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/asr"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/ogle"
-            android:id="@+id/ikinditime"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:layout_below="@id/ogle"
+        android:id="@+id/ikinditime"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/ikindi"
-            android:id="@+id/aksam"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/maghrib"/>
+        android:layout_below="@id/ikindi"
+        android:id="@+id/aksam"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/maghrib"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:id="@+id/aksamtime"
-            android:layout_below="@id/ikindi"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:id="@+id/aksamtime"
+        android:layout_below="@id/ikindi"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/aksam"
-            android:id="@+id/yatsi"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingStart="50dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/ishaa"/>
+        android:layout_below="@id/aksam"
+        android:id="@+id/yatsi"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingStart="50dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/ishaa"
+        android:paddingLeft="50dp"/>
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/aksam"
-            android:id="@+id/yatsitime"
-            app:layout_widthPercent="50%"
-            app:layout_heightPercent="8%"
-            android:paddingEnd="50dp"
-            android:text="00:00"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-thin"/>
+        android:layout_below="@id/aksam"
+        android:id="@+id/yatsitime"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="8%"
+        android:paddingEnd="50dp"
+        android:text="00:00"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-thin"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"/>
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
@@ -204,30 +223,32 @@
 
 
     <ImageView
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:id="@+id/source2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/kerahat"
-            android:layout_marginStart="5dip"
-            android:layout_marginEnd="5dip"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/appName"/>
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:id="@+id/source2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/kerahat"
+        android:layout_marginStart="5dip"
+        android:layout_marginEnd="5dip"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/appName"
+        android:layout_alignParentRight="true"/>
 
     <ImageView
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:id="@+id/source1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/kerahat"
-            android:layout_marginStart="5dip"
-            android:layout_marginEnd="5dip"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/appName"/>
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:id="@+id/source1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/kerahat"
+        android:layout_marginStart="5dip"
+        android:layout_marginEnd="5dip"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/appName"
+        android:layout_alignParentLeft="true"/>
 
     <View
             android:layout_width="match_parent"

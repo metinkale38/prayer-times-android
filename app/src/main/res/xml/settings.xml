@@ -91,6 +91,11 @@
             android:dialogTitle="@string/vakit_indicator"
             android:entryValues="@array/vakit_indicator_values"
             android:entries="@array/vakit_indicator"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="nightMode"
+            android:title="@string/night_mode"/>
     </PreferenceCategory>
 
     <PreferenceCategory

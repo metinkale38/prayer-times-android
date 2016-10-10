@@ -38,5 +38,7 @@
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"
-        app:pressedTranslationZ="12dp"/>
+        app:pressedTranslationZ="12dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>

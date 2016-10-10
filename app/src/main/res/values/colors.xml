@@ -22,5 +22,5 @@
     <color name="colorNavBar">#ff000000</color>
     <color name="indicator">#4fc3f7</color>
     <color name="kerahat">#e51c23</color>
-
+    <color name="background">#ffffff</color>
 </resources>

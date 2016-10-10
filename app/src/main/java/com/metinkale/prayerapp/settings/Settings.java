@@ -35,6 +35,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
+import io.fabric.sdk.android.BuildConfig;
 
 
 public class Settings extends BaseActivity {
@@ -99,6 +100,8 @@ public class Settings extends BaseActivity {
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);
 
+
+            findPreference("nightMode").setEnabled(BuildConfig.DEBUG);
             try {
                 findPreference("version").setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
             } catch (PackageManager.NameNotFoundException e) {

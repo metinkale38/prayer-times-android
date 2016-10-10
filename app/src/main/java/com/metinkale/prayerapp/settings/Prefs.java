@@ -36,6 +36,10 @@ public class Prefs {
         return getPrefs().getString("language", null);
     }
 
+    public static boolean isNightMode() {
+        return getPrefs().getBoolean("nightMode", false);
+    }
+
     public static void setLanguage(String language) {
         getPrefs().edit().putString("language", language).apply();
     }
@@ -141,8 +145,6 @@ public class Prefs {
     public static void setCompassPos(float lat, float lon) {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
-
-
 
 
 }

@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.hadis;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.*;
@@ -42,13 +43,13 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * {@link #mActivePointerId}.
      */
     private static final int INVALID_POINTER = -1;
+    private final Rect mTempRect = new Rect();
+    LayoutInflater inflater;
     /**
      * ID of the active pointer. This is used to retain consistency during
      * drags/flings if multiple pointers are used.
      */
     private int mActivePointerId = INVALID_POINTER;
-    private final Rect mTempRect = new Rect();
-    LayoutInflater inflater;
     private long mLastScroll;
     private Scroller mScroller;
     private Context mContext;
@@ -361,6 +362,20 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                 child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             }
         }
+    }
+
+    @Override
+    public int getPaddingStart() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            return super.getPaddingStart();
+        else return super.getPaddingLeft();
+    }
+
+    @Override
+    public int getPaddingEnd() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            return super.getPaddingEnd();
+        else return super.getPaddingRight();
     }
 
     @Override
@@ -706,7 +721,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                     if (foundFullyContainedFocusable) {
                         if (viewIsFullyContained && viewIsCloserToBoundary) {
                                     /*
-									 * We're dealing with only fully contained views, so
+                                     * We're dealing with only fully contained views, so
 									 * it has to be closer to the boundary to beat our
 									 * candidate
 									 */
@@ -714,15 +729,15 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                         }
                     } else {
                         if (viewIsFullyContained) {
-									/*
-									 * Any fully contained view beats a partially
+                                    /*
+                                     * Any fully contained view beats a partially
 									 * contained view
 									 */
                             focusCandidate = view;
                             foundFullyContainedFocusable = true;
                         } else if (viewIsCloserToBoundary) {
-									/*
-									 * Partially contained view beats another partially
+                                    /*
+                                     * Partially contained view beats another partially
 									 * contained view if it's closer
 									 */
                             focusCandidate = view;

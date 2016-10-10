@@ -29,6 +29,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -42,16 +43,16 @@ import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.utils.Changelog;
-import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Changelog;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 
 import java.io.File;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private static String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
     public static BaseActivity CurrectAct;
+    private static String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
     private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
@@ -70,6 +71,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(Prefs.isNightMode() ?
+                AppCompatDelegate.MODE_NIGHT_YES :
+                AppCompatDelegate.MODE_NIGHT_NO);
         if (App.getContext() == null) {
             App.setContext(this);
         }
@@ -225,6 +229,63 @@ public abstract class BaseActivity extends AppCompatActivity {
         CurrectAct = null;
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    int getTopMargin() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            return getStatusBarHeight();
+        }
+        return 0;
+    }
+
+    public int getBottomMargin() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            return getNavBarHeight();
+        }
+        return 0;
+    }
+
+    int getNavBarHeight() {
+        return 0;
+    }
+
+    public int getSupportActionBarHeight() {
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+        return 0;
+    }
+
+    int getStatusBarHeight() {
+
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        PermissionUtils.get(this).onRequestPermissionResult(requestCode, permissions, grantResults);
+    }
+
     private class MyClickListener implements OnItemClickListener {
 
         @Override
@@ -302,11 +363,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                                             @Override
                                             public void onCompleted(Exception e, File result) {
                                                 dlg.cancel();
-                                                if(e!=null){
+                                                if (e != null) {
                                                     e.printStackTrace();
                                                     Crashlytics.logException(e);
-                                                    Toast.makeText(BaseActivity.this,R.string.error,Toast.LENGTH_LONG).show();
-                                                }else if(result.exists()){
+                                                    Toast.makeText(BaseActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                                                } else if (result.exists()) {
                                                     onItemClick(null, null, 5, 0);
                                                 }
                                             }
@@ -355,62 +416,5 @@ public abstract class BaseActivity extends AppCompatActivity {
             }, 500);
 
         }
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    int getTopMargin() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return getStatusBarHeight();
-        }
-        return 0;
-    }
-
-    public int getBottomMargin() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return getNavBarHeight();
-        }
-        return 0;
-    }
-
-    int getNavBarHeight() {
-        return 0;
-    }
-
-    public int getSupportActionBarHeight() {
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-        return 0;
-    }
-
-    int getStatusBarHeight() {
-
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return getResources().getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        PermissionUtils.get(this).onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 }

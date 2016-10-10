@@ -144,6 +144,7 @@ public class WidgetService extends Service {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.Builder(App.getContext())
                             .setContent(views)
+                            .setSmallIcon(R.drawable.ic_abicon)
                             .setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(left)))
                             .setOngoing(true)
                             .build();
@@ -157,22 +158,47 @@ public class WidgetService extends Service {
             } else {
                 int n = t.getNext();
                 String sum = App.getContext().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
-                noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.getContext())
-                        .setContentTitle(t.getName() + " (" + t.getSource() + ")")
-                        .setContentText("")
-                        .setLargeIcon(mAbIcon)
-                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
-                        .setContentInfo(sum)
-                        .setContentIntent(Main.getPendingIntent(t))
-                        .setOngoing(true))
-                        .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
-                        .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
-                        .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
-                        .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
-                        .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
-                        .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
-                        .setSummaryText("")
-                        .build();
+
+                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon()
+                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    long left = t.getLeftMinutes(t.getNext());
+
+                    noti = new Notification.InboxStyle(new Notification.Builder(App.getContext())
+                            .setContentTitle(t.getName() + " (" + t.getSource() + ")")
+                            .setContentText("")
+                            .setLargeIcon(mAbIcon)
+                            .setSmallIcon(R.drawable.ic_abicon)
+                            .setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(left)))
+                            .setContentInfo(sum)
+                            .setContentIntent(Main.getPendingIntent(t))
+                            .setOngoing(true))
+                            .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
+                            .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
+                            .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
+                            .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
+                            .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
+                            .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
+                            .setSummaryText("")
+                            .build();
+                } else {
+                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.getContext())
+                            .setContentTitle(t.getName() + " (" + t.getSource() + ")")
+                            .setContentText("")
+                            .setLargeIcon(mAbIcon)
+                            .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
+                            .setContentInfo(sum)
+                            .setContentIntent(Main.getPendingIntent(t))
+                            .setOngoing(true))
+                            .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
+                            .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
+                            .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
+                            .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
+                            .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
+                            .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
+                            .setSummaryText("")
+                            .build();
+                }
+
             }
 
             if (Build.VERSION.SDK_INT >= 16) {

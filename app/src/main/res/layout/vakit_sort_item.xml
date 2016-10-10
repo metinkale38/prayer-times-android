@@ -32,7 +32,9 @@
         android:layout_below="@id/source"
         android:layout_marginStart="10dp"
         android:layout_toStartOf="@+id/handle"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_toLeftOf="@+id/handle"
+        android:layout_marginLeft="10dp"/>
 
 
     <TextView
@@ -41,7 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_toStartOf="@+id/handle"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_toLeftOf="@+id/handle"
+        android:layout_marginLeft="10dp"/>
 
     <ImageView
         android:id="@+id/handle"
@@ -52,6 +56,7 @@
         android:contentDescription="@null"
         android:scaleType="center"
         android:src="@drawable/ic_reorder_white_24dp"
-        android:tint="#aaaaaa"/>
+        android:tint="#aaaaaa"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

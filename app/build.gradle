@@ -39,15 +39,15 @@ android {
     }
 
     compileSdkVersion 24
-    buildToolsVersion '24.0.1'
+    buildToolsVersion '24.0.3'
 
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 24
         signingConfig signingConfigs.debugKey
-        versionCode 144
+        versionCode 146
         versionName '3.6'
     }
 

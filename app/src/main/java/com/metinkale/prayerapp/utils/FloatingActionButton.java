@@ -228,7 +228,7 @@ public class FloatingActionButton extends View {
             button.setFloatingActionButtonColor(color);
             button.setFloatingActionButtonDrawable(drawable);
             params.gravity = gravity;
-            ViewManager root = (ViewManager) activity.findViewById(R.id.content);
+            FrameLayout root = (FrameLayout) activity.findViewById(R.id.content);
             root.addView(button, params);
             return button;
         }

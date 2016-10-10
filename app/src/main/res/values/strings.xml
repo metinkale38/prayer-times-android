@@ -237,5 +237,6 @@
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>
     <string name="vakit_indicator_current">Current prayertime</string>
+    <string name="night_mode">Night Mode</string>
 
 </resources>

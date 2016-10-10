@@ -131,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/yatsi"
-            android:layout_alignBottom="@+id/yatsi"/>sudo
+            android:layout_alignBottom="@+id/yatsi"/>
 
         <TextView
             android:id="@+id/city"
@@ -164,7 +164,8 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@id/city"
             android:gravity="end"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -184,7 +185,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:gravity="end"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -204,7 +206,8 @@
             android:layout_width="match_parent"
             android:layout_alignLeft="@+id/center"
             android:layout_height="wrap_content"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -225,7 +228,8 @@
             android:layout_below="@id/ogle"
             android:fontFamily="sans-serif-thin"
             android:gravity="end"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -248,7 +252,8 @@
             android:layout_below="@id/ikindi"
             android:fontFamily="sans-serif-thin"
             android:gravity="end"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -268,7 +273,8 @@
             android:layout_below="@id/aksam"
             android:fontFamily="sans-serif-thin"
             android:gravity="end"
-            android:text="00:00"/>
+            android:text="00:00"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:layout_width="wrap_content"

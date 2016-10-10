@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -107,10 +108,13 @@ public class Utils {
             return;
         }
         Locale locale = new Locale(newLang);
-        Locale.setDefault(locale);
         Configuration config = new Configuration();
-        config.setLocale(locale);
+        Locale.setDefault(locale);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            config.setLocale(locale);
+        }
         ((ContextWrapper) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((ContextWrapper) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
+
 
     }
 
