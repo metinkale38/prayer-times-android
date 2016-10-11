@@ -320,9 +320,7 @@ public abstract class Times extends TimesBase {
             }
         }
 
-        for (Alarm a : alarms) {
-            Log.e("ALARM", a.toString());
-        }
+
         return alarms;
     }
 

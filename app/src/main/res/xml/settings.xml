@@ -168,6 +168,11 @@
             android:key="silenterType"
             android:title="@string/silenterType"/>
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="notificationScreen"
+            android:title="@string/show_notification_screen"/>
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="useAlarm"
             android:title="@string/useAlarm"

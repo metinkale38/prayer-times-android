@@ -47,7 +47,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 24
         signingConfig signingConfigs.debugKey
-        versionCode 146
+        versionCode 148
         versionName '3.6'
     }
 
@@ -102,6 +102,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
     compile 'net.danlew:android.joda:2.9.3'
     compile 'com.koushikdutta.ion:ion:2.1.9'
 }

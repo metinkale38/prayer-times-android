@@ -246,4 +246,5 @@
     <string name="vakit_indicator_current">Aktuelle Gebetszeit</string>
     <string name="vakit_indicator_next">Nächste Gebetszeit</string>
     <string name="night_mode">Nachmodus </string>
+    <string name="show_notification_screen">Zeige Benachrichtigungsbildschirm</string>
 </resources>

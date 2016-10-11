@@ -32,6 +32,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -129,7 +130,7 @@ public class AlarmReceiver extends IntentService {
             Crashlytics.logException(e);
         }
         wakeLock.release();
-        if (NotificationPopup.instance != null) {
+        if (NotificationPopup.instance != null && Prefs.showNotificationScreen()) {
             NotificationPopup.instance.finish();
         }
 
@@ -229,7 +230,7 @@ public class AlarmReceiver extends IntentService {
         final MPHolder mp = new MPHolder();
 
 
-        if ((sound != null) && !sound.startsWith("silent")) {
+        if ( Prefs.showNotificationScreen()&& (sound != null) && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!pm.isScreenOn()) {
                 Intent i = new Intent(c, NotificationPopup.class);
