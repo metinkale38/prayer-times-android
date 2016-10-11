@@ -24,7 +24,7 @@ import android.graphics.*;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
