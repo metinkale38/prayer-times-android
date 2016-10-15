@@ -282,7 +282,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                                                             mMp = AlarmReceiver.play(App.getContext(), s.uri);
                                                         } catch (IOException ee) {
                                                             ee.printStackTrace();
-                                                            Toast.makeText(getActivity(),R.string.error,Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
                                                         }
                                                         mList.setTag(s);
                                                     }
@@ -317,7 +317,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
+            try {
+                uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             onSelect(uri);
         }
     }

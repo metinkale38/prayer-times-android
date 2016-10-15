@@ -95,7 +95,8 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
         }
 
 
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
+        remoteViews.setOnClickPendingIntent(R.id.main, Main.getPendingIntent(times));
 
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
@@ -119,7 +120,12 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
 
         canvas.drawArc(new RectF(w / 100, w / 100, w - w / 100, h - w / 100), 0, 360, false, paint);
 
-        paint.setColor(Theme.Light.strokecolor);
+        boolean isKerahat = times.isKerahat();
+        if (isKerahat) {
+            paint.setColor(0xffbf3f5b);
+        } else {
+            paint.setColor(Theme.Light.strokecolor);
+        }
 
         int next = times.getNext();
         int last = next - 1;
@@ -142,8 +148,11 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
             canvas.drawText(time[0], w * 0.59f, h * 0.65f, paint);
 
             paint.setTextAlign(Align.LEFT);
-            paint.setColor(Theme.Light.strokecolor);
-
+            if (isKerahat) {
+                paint.setColor(0xffbf3f5b);
+            } else {
+                paint.setColor(Theme.Light.strokecolor);
+            }
             paint.setTextSize(h * 0.18f);
             canvas.drawText(time[1], w * 0.60f, h * 0.45f, paint);
             paint.setTextSize(h * 0.1f);
@@ -161,7 +170,11 @@ public class WidgetProviderClock2 extends AppWidgetProvider {
             canvas.drawText(time[0], w * 0.62f, h * 0.65f, paint);
 
             paint.setTextAlign(Align.LEFT);
-            paint.setColor(Theme.Light.strokecolor);
+            if (isKerahat) {
+                paint.setColor(0xffbf3f5b);
+            } else {
+                paint.setColor(Theme.Light.strokecolor);
+            }
             paint.setTextSize(h * 0.22f);
             canvas.drawText(time[1], w * 0.63f, h * 0.45f, paint);
 

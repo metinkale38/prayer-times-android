@@ -16,8 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.future.ResponseFuture;
 import com.metinkale.prayerapp.App;
@@ -68,15 +66,11 @@ class IGMGTimes extends WebTimes {
                     .asString()
             );
         }
-        if (!queue.isEmpty()) queue.get(0).setCallback(new FutureCallback<String>() {
+        if (!queue.isEmpty()) queue.get(0).setCallback(new CatchedFutureCallback<String>() {
             @Override
-            public void onCompleted(Exception e, String result) {
+            public void onCompleted(String result) {
                 if (!queue.isEmpty()) queue.remove(0);
                 if (!queue.isEmpty()) queue.get(0).setCallback(this);
-                if (e != null) {
-                    e.printStackTrace();
-                     return;
-                }
 
                 result = result.substring(result.indexOf("<div class='zeiten'>") + 20);
                 String[] zeiten = result.split("</div><div class='zeiten'>");

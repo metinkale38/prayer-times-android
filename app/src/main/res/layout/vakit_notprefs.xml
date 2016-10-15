@@ -19,7 +19,7 @@
             tools:context="com.metinkale.prayerapp.vakit.fragments.NotificationPrefs"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background="#e0e0e0"
+            android:background="@color/background2"
             android:fillViewport="true">
 
 
@@ -37,7 +37,7 @@
                 android:layout_margin="10dp"
                 android:translationZ="2dp"
                 android:padding="15dp"
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:text="@string/ongoingNotification"/>
 
         <TextView
@@ -60,7 +60,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/imsakText"
@@ -81,7 +81,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/imsakExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/sabahText"
@@ -122,7 +122,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/sabahExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -142,7 +142,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/gunesText"
@@ -163,7 +163,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/gunesExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -183,7 +183,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/ogleText"
@@ -204,7 +204,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/ogleExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -224,7 +224,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/ikindiText"
@@ -245,7 +245,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/ikindiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -265,7 +265,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/aksamText"
@@ -285,7 +285,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/aksamExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -305,7 +305,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/yatsiText"
@@ -325,7 +325,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/yatsiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -357,7 +357,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/eimsakText"
@@ -378,7 +378,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/eimsakExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -399,7 +399,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/egunesText"
@@ -420,7 +420,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/egunesExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -440,7 +440,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/eogleText"
@@ -461,7 +461,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/eogleExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -481,7 +481,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:layout_weight="1"
@@ -501,7 +501,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/ecumaExpand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -522,7 +522,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/eikindiText"
@@ -543,7 +543,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
 
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/eikindiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -563,7 +563,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/eaksamText"
@@ -582,7 +582,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/eaksamExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -603,7 +603,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="1dp"
                 android:padding="15dp"
-                android:background="#ffffff">
+                android:background="@color/background">
 
             <TextView
                     android:id="@+id/eyatsiText"
@@ -622,7 +622,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:id="@+id/eyatsiExpanded"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

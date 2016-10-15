@@ -16,8 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
@@ -67,13 +65,9 @@ class FaziletTimes extends WebTimes {
                 .setBodyParameter("baslangic_tarihi", Y + "-" + az(M) + "-01")
                 .setBodyParameter("bitis_tarihi", (Y + 5) + "-12-31")
                 .asString()
-                .setCallback(new FutureCallback<String>() {
+                .setCallback(new CatchedFutureCallback<String>() {
                     @Override
-                    public void onCompleted(Exception e, String result) {
-                        if (e != null) {
-                            e.printStackTrace();
-                             return;
-                        }
+                    public void onCompleted(String result) {
                         List<String> ay = new ArrayList<>();
                         ay.add("Ocak");
                         ay.add("Şubat");

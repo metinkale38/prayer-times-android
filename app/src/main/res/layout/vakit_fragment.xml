@@ -27,50 +27,50 @@
     android:layout_alignParentRight="true">
 
     <TextView
-            android:id="@+id/kerahat"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:background="@color/kerahat"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="@string/kerahatTime"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:visibility="gone"/>
+        android:id="@+id/kerahat"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/kerahat"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/kerahatTime"
+        android:textColor="@color/background"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:id="@+id/date"
-            android:layout_alignParentTop="true"
-            app:layout_widthPercent="100%"
-            app:layout_heightPercent="7%"
-            android:layout_marginTop="30dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:lines="1"
-            android:textStyle="italic"/>
+        android:id="@+id/date"
+        android:layout_alignParentTop="true"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="7%"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:lines="1"
+        android:textStyle="italic"/>
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:id="@+id/city"
-            android:layout_below="@id/date"
-            app:layout_widthPercent="100%"
-            app:layout_heightPercent="10%"
-            android:gravity="center"
-            android:fontFamily="sans-serif-light"
-            android:lines="1"/>
+        android:id="@+id/city"
+        android:layout_below="@id/date"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="10%"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:lines="1"/>
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/city"
-            android:id="@+id/hicri"
-            app:layout_widthPercent="100%"
-            app:layout_heightPercent="7%"
-            android:lines="1"
-            app:layout_marginBottomPercent="4%"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:textStyle="italic"/>
+        android:layout_below="@id/city"
+        android:id="@+id/hicri"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="7%"
+        android:lines="1"
+        app:layout_marginBottomPercent="4%"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:textStyle="italic"/>
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
@@ -213,13 +213,13 @@
 
 
     <com.metinkale.prayerapp.utils.AutoResizeTextView
-            android:layout_below="@id/yatsi"
-            android:id="@+id/countdown"
-            app:layout_widthPercent="100%"
-            app:layout_heightPercent="8%"
-            app:layout_marginTopPercent="4%"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"/>
+        android:layout_below="@id/yatsi"
+        android:id="@+id/countdown"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="8%"
+        app:layout_marginTopPercent="4%"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"/>
 
 
     <ImageView
@@ -251,12 +251,12 @@
         android:layout_alignParentLeft="true"/>
 
     <View
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            android:fontFamily="sans-serif-light"
-            android:textColor="#ffffff"/>
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#ffffff"/>
 
 </android.support.percent.PercentRelativeLayout>
 

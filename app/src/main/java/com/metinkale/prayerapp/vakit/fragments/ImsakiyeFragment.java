@@ -56,6 +56,7 @@ public class ImsakiyeFragment extends Fragment {
             }
         });
         lv.addFooterView(addMore);
+        lv.setBackgroundResource(R.color.background);
         return lv;
     }
 
@@ -129,7 +130,7 @@ public class ImsakiyeFragment extends Fragment {
             } else if ((position % 2) == 0) {
                 v.setBackgroundResource(R.color.colorPrimaryLight);
             } else {
-                v.setBackgroundColor(Color.WHITE);
+                v.setBackgroundResource(R.color.background);
             }
 
             return v;

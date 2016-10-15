@@ -17,9 +17,9 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -512,6 +512,24 @@ public abstract class Times extends TimesBase {
             result = 37 * result + dayOffset;
             return result;
         }
+    }
+
+    abstract class CatchedFutureCallback<T> implements FutureCallback<T> {
+        @Override
+        public void onCompleted(Exception e, T result) {
+            if (e != null) {
+                e.printStackTrace();
+                return;
+            }
+
+            try {
+                onCompleted(result);
+            } catch (Exception ee) {
+                Crashlytics.logException(ee);
+            }
+        }
+
+        abstract void onCompleted(T result);
     }
 
 }

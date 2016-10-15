@@ -48,9 +48,9 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
 import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
-import com.metinkale.prayerapp.settings.Prefs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -103,18 +103,16 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
             finish();
-            String lang=Prefs.getLanguage();
-            if(lang.equals("ar"))lang="en";
-            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang+ "/hadis.db").delete();
+            String lang = Prefs.getLanguage();
+            if (lang.equals("ar")) lang = "en";
+            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
     }
 
     private boolean setState(int state) {
         mList.clear();
-        if (mQuery == null) {
-            mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
-        }
+
         mQuery = null;
 
         switch (state) {
@@ -337,6 +335,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         mQuery = query;
+
+
+
         mTask = new SearchTask(this);
         mTask.execute(query);
         return false;
@@ -353,9 +354,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         return true;
     }
 
-    public class MyAdapter extends FragmentPagerAdapter {
+    private class MyAdapter extends FragmentPagerAdapter {
 
-        public MyAdapter(FragmentManager fm) {
+        MyAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -399,10 +400,10 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
     }
 
-    public class SearchTask extends AsyncTask<String, String, Boolean> {
+    private class SearchTask extends AsyncTask<String, String, Boolean> {
         private ProgressDialog dialog;
 
-        public SearchTask(Context c) {
+        SearchTask(Context c) {
             dialog = new ProgressDialog(c);
         }
 

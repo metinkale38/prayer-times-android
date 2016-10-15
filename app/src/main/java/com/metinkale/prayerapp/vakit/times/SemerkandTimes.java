@@ -54,14 +54,9 @@ class SemerkandTimes extends WebTimes {
                 .setTimeout(3000)
                 .as(new TypeToken<List<Day>>() {
                 })
-                .setCallback(new FutureCallback<List<Day>>() {
+                .setCallback(new CatchedFutureCallback<List<Day>>() {
                     @Override
-                    public void onCompleted(Exception e, List<Day> result) {
-
-                        if (e != null) {
-                            e.printStackTrace();
-                            return;
-                        }
+                    public void onCompleted(List<Day> result) {
                         LocalDate date = LocalDate.now();
                         for (Day d : result) {
                             date = date.withDayOfYear(d.Day);

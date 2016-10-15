@@ -58,7 +58,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
                 && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
-            AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time, PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
+            AlarmManager.AlarmClockInfo info =
+                    new AlarmManager.AlarmClockInfo(time,
+                            PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
             am.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);
@@ -80,6 +82,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         sContext = this;
 
         Fabric.with(this, new Crashlytics());
+
 
         JodaTimeAndroid.init(this);
 

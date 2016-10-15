@@ -32,10 +32,10 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import com.crashlytics.android.Crashlytics;
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
-import io.fabric.sdk.android.BuildConfig;
 
 
 public class Settings extends BaseActivity {
@@ -100,7 +100,7 @@ public class Settings extends BaseActivity {
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);
 
-
+            findPreference("nightMode").setOnPreferenceChangeListener(this);
             findPreference("nightMode").setEnabled(BuildConfig.DEBUG);
             try {
                 findPreference("version").setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
@@ -166,8 +166,8 @@ public class Settings extends BaseActivity {
         @Override
         public boolean onPreferenceChange(Preference pref, Object newValue) {
 
-            if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
-                Utils.changeLanguage((String) newValue);
+            if ("language".equals(pref.getKey()) || "nightMode".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
+               if("language".equals(pref.getKey())) Utils.changeLanguage((String) newValue);
                 Activity act = getActivity();
                 act.finish();
                 Intent i = new Intent(act, act.getClass());

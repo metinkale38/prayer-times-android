@@ -92,6 +92,10 @@ public class WidgetService extends Service {
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
             Notification noti = null;
             boolean icon = Prefs.showOngoingIcon();
+            boolean number = Prefs.showOngoingNumber();
+            Crashlytics.setBool("showIcon", icon);
+            Crashlytics.setBool("showNumber", number);
+
             if (Prefs.getAlternativeOngoing()) {
                 RemoteViews views = new RemoteViews(App.getContext().getPackageName(), R.layout.notification_layout);
 
@@ -139,13 +143,14 @@ public class WidgetService extends Service {
                 views.setTextColor(R.id.time, COLOR_1ST);
                 views.setTextColor(R.id.city, COLOR_1ST);
 
-                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon()
-                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.Builder(App.getContext())
                             .setContent(views)
-                            .setSmallIcon(R.drawable.ic_abicon)
-                            .setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(left)))
+                            .setSmallIcon(icon ? (number ?
+                                    Icon.createWithBitmap(getIconFromMinutes(left)) :
+                                    Icon.createWithResource(App.getContext(), R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(App.getContext(), R.drawable.ic_placeholder))
                             .setOngoing(true)
                             .build();
                 } else {
@@ -159,16 +164,16 @@ public class WidgetService extends Service {
                 int n = t.getNext();
                 String sum = App.getContext().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
 
-                if (Prefs.showOngoingNumber() && Prefs.showOngoingIcon()
-                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
-
                     noti = new Notification.InboxStyle(new Notification.Builder(App.getContext())
                             .setContentTitle(t.getName() + " (" + t.getSource() + ")")
                             .setContentText("")
                             .setLargeIcon(mAbIcon)
-                            .setSmallIcon(R.drawable.ic_abicon)
-                            .setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(left)))
+                            .setSmallIcon(icon ? (number ?
+                                    Icon.createWithBitmap(getIconFromMinutes(left)) :
+                                    Icon.createWithResource(App.getContext(), R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(App.getContext(), R.drawable.ic_placeholder))
                             .setContentInfo(sum)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setOngoing(true))

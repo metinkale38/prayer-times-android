@@ -139,7 +139,7 @@ public class Prefs {
     }
 
     public static boolean showOngoingNumber() {
-        return getPrefs().getBoolean("ongoingNumber", true);
+        return getPrefs().getBoolean("ongoingNumber", false);
     }
 
     public static boolean showNotificationScreen() {

@@ -16,8 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
@@ -72,14 +70,9 @@ class DiyanetTimes extends WebTimes {
                         "<password i:type=\"d:string\">NamVak!14</password>" +
                         "</AylikNamazVakti></v:Body></v:Envelope>")
                 .asString()
-                .setCallback(new FutureCallback<String>() {
+                .setCallback(new CatchedFutureCallback<String>() {
                     @Override
-                    public void onCompleted(Exception e, String result) {
-
-                        if (e != null) {
-                            e.printStackTrace();
-                            return;
-                        }
+                    public void onCompleted(String result) {
                         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
                         result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
                         String[] days = result.split("</a:NamazVakti><a:NamazVakti>");

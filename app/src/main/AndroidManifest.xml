@@ -34,49 +34,51 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <uses-feature
-            android:name="android.hardware.camera"
-            android:required="false"/>
+        android:name="android.hardware.camera"
+        android:required="false"/>
 
     <application
-            android:name="com.metinkale.prayerapp.App"
-            android:allowBackup="true"
-            android:fullBackupContent="true"
-            android:hardwareAccelerated="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/appName"
-            android:noHistory="true"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:name="com.metinkale.prayerapp.App"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/appName"
+        android:noHistory="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="10b75ffdc8ba3189bd35ee6e9b2a58b2712bf3c1"/>
+            android:name="io.fabric.ApiKey"
+            android:value="10b75ffdc8ba3189bd35ee6e9b2a58b2712bf3c1"/>
 
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService"/>
 
         <activity
-                android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
-                android:launchMode="singleInstance"
-                android:showOnLockScreen="true"
-                android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
+            android:launchMode="singleInstance"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.Main"
-                android:label="@string/appName"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="stateHidden"/>
+            android:name="com.metinkale.prayerapp.vakit.Main"
+            android:label="@string/appName"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
-                android:name="com.metinkale.prayerapp.settings.BackupRestoreActivity"
-                android:label="@string/backupRestore"
-                android:screenOrientation="portrait"/>
+            android:name="com.metinkale.prayerapp.settings.BackupRestoreActivity"
+            android:label="@string/backupRestore"
+            android:screenOrientation="portrait"/>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.MainStart"
-                android:label="@string/appName"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="stateHidden"/>
+            android:name="com.metinkale.prayerapp.vakit.MainStart"
+            android:label="@string/appName"
+            android:supportsPictureInPicture="true"
+            android:resizeableActivity="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity-alias
-                android:name=".aliasDefault"
-                android:label="@string/appName"
-                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:name=".aliasDefault"
+            android:label="@string/appName"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -85,10 +87,10 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-                android:name=".aliasTR"
-                android:enabled="false"
-                android:label="Namaz Vakti"
-                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:name=".aliasTR"
+            android:enabled="false"
+            android:label="Namaz Vakti"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -98,10 +100,10 @@
         </activity-alias>
 
         <activity-alias
-                android:name=".aliasAR"
-                android:enabled="false"
-                android:label="أوقات الصلاة"
-                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:name=".aliasAR"
+            android:enabled="false"
+            android:label="أوقات الصلاة"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -110,10 +112,10 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-                android:name=".aliasDE"
-                android:enabled="false"
-                android:label="Gebetszeiten"
-                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:name=".aliasDE"
+            android:enabled="false"
+            android:label="Gebetszeiten"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -122,10 +124,10 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-                android:name=".aliasEN"
-                android:enabled="false"
-                android:label="Prayer Times"
-                android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:name=".aliasEN"
+            android:enabled="false"
+            android:label="Prayer Times"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -135,38 +137,38 @@
         </activity-alias>
 
         <activity
-                android:name="com.metinkale.prayerapp.vakit.AddCity"
-                android:screenOrientation="portrait"/>
+            android:name="com.metinkale.prayerapp.vakit.AddCity"
+            android:screenOrientation="portrait"/>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.AddCityLegacy"
-                android:screenOrientation="portrait"/>
+            android:name="com.metinkale.prayerapp.vakit.AddCityLegacy"
+            android:screenOrientation="portrait"/>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
-                android:label="Configure Widget"
-                android:theme="@style/Theme.AppCompat.Dialog">
+            android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
+            android:label="Configure Widget"
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
-                android:label="Configure Widget"
-                android:theme="@style/Theme.AppCompat.Dialog">
+            android:name="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
+            android:label="Configure Widget"
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
-                android:label="Configure Widget"
-                android:theme="@style/Theme.AppCompat.Dialog">
+            android:name="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
+            android:label="Configure Widget"
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.hadis.Main"
-                android:label="@string/hadith">
+            android:name="com.metinkale.prayerapp.hadis.Main"
+            android:label="@string/hadith">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -174,10 +176,10 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.compass.Main"
-                android:icon="@mipmap/ic_compass"
-                android:label="@string/compass"
-                android:screenOrientation="portrait">
+            android:name="com.metinkale.prayerapp.compass.Main"
+            android:icon="@mipmap/ic_compass"
+            android:label="@string/compass"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -185,9 +187,9 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.names.Main"
-                android:icon="@mipmap/ic_names"
-                android:label="@string/names">
+            android:name="com.metinkale.prayerapp.names.Main"
+            android:icon="@mipmap/ic_names"
+            android:label="@string/names">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -196,9 +198,9 @@
         </activity>
         <activity android:name="com.metinkale.prayerapp.settings.Settings"/>
         <activity
-                android:name="com.metinkale.prayerapp.calendar.Main"
-                android:icon="@mipmap/ic_calendar"
-                android:label="@string/calendar">
+            android:name="com.metinkale.prayerapp.calendar.Main"
+            android:icon="@mipmap/ic_calendar"
+            android:label="@string/calendar">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -207,9 +209,9 @@
         </activity>
         <activity android:name="com.metinkale.prayerapp.calendar.WebViewActivity"/>
         <activity
-                android:name="com.metinkale.prayerapp.tesbihat.Tesbihat"
-                android:icon="@mipmap/ic_tesbihat"
-                android:label="@string/tesbihat">
+            android:name="com.metinkale.prayerapp.tesbihat.Tesbihat"
+            android:icon="@mipmap/ic_tesbihat"
+            android:label="@string/tesbihat">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -217,8 +219,8 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.kaza.Main"
-                android:label="@string/missedPrayers">
+            android:name="com.metinkale.prayerapp.kaza.Main"
+            android:label="@string/missedPrayers">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -226,17 +228,17 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
-                android:screenOrientation="portrait"
-                android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity
-                android:name="com.metinkale.prayerapp.compass.LocationPicker"
-                android:theme="@style/Theme.AppCompat.Dialog"/>
+            android:name="com.metinkale.prayerapp.compass.LocationPicker"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
-                android:name="com.metinkale.prayerapp.zikr.Main"
-                android:label="@string/dhikr"
-                android:logo="@mipmap/ic_zikr"
-                android:screenOrientation="portrait">
+            android:name="com.metinkale.prayerapp.zikr.Main"
+            android:label="@string/dhikr"
+            android:logo="@mipmap/ic_zikr"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
@@ -247,8 +249,8 @@
         <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver"/>
         <service android:name="com.metinkale.prayerapp.MainIntentService"/>
         <service
-                android:name="com.metinkale.prayerapp.vakit.WidgetService"
-                android:exported="false">
+            android:name="com.metinkale.prayerapp.vakit.WidgetService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT"/>
                 <action android:name="android.intent.action.USER_UNLOCKED"/>
@@ -256,77 +258,77 @@
         </service>
 
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widget">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget"/>
         </receiver>
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetClock">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetClock">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_clock"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_clock"/>
         </receiver>
 
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetClock2">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetClock2">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_clock2"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_clock2"/>
         </receiver>
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetLong">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetLong">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_long"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_long"/>
         </receiver>
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetSmall">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetSmall">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_small"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_small"/>
         </receiver>
         <receiver
-                android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/widgetSilenter">
+            android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/widgetSilenter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/vakit_widget_silenter"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vakit_widget_silenter"/>
         </receiver>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$WakefulReceiver">
             <intent-filter>
@@ -338,8 +340,8 @@
         </receiver>
         <receiver android:name="com.metinkale.prayerapp.UserPresentReceiver">
             <intent-filter
-                    android:enabled="true"
-                    android:exported="false">
+                android:enabled="true"
+                android:exported="false">
                 <action android:name="android.intent.action.USER_PRESENT"/>
                 <action android:name="android.intent.action.USER_UNLOCKED"/>
             </intent-filter>
@@ -357,20 +359,29 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
 
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow"></uses-library>
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
+        <uses-library
+            android:required="false"
+            android:name="com.sec.android.app.multiwindow"></uses-library>
 
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-                   android:resource="@dimen/app_defaultsize_w"/>
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true"/>
 
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-                   android:resource="@dimen/app_defaultsize_h"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:resource="@dimen/app_defaultsize_w"/>
 
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-                   android:resource="@dimen/app_minimumsize_w"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:resource="@dimen/app_defaultsize_h"/>
 
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-                   android:resource="@dimen/app_minimumsize_h"/>[/code]
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:resource="@dimen/app_minimumsize_w"/>
+
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:resource="@dimen/app_minimumsize_h"/>[/code]
 
     </application>
 

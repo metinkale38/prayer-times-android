@@ -16,7 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
@@ -87,13 +86,9 @@ public class NVCTimes extends WebTimes {
                 .load("http://namazvakti.com/XML.php?cityID=" + getId())
                 .setTimeout(3000)
                 .asString()
-                .setCallback(new FutureCallback<String>() {
+                .setCallback(new CatchedFutureCallback<String>() {
                     @Override
-                    public void onCompleted(Exception e, String result) {
-                        if (e != null) {
-                            e.printStackTrace();
-                            return;
-                        }
+                    public void onCompleted(String result) {
                         String[] lines = result.split("\n");
 
                         int y = LocalDate.now().getYear();
