@@ -167,6 +167,13 @@
             android:entryValues="@array/silenterType_val"
             android:key="silenterType"
             android:title="@string/silenterType"/>
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="autoRemoveNotification"
+            android:title="@string/autoremove_notification"/>
+
         <SwitchPreference
             android:defaultValue="true"
             android:key="notificationScreen"

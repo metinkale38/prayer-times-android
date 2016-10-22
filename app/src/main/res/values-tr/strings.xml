@@ -235,4 +235,5 @@
     <string name="vakit_indicator_next">Gelecek Vakit</string>
     <string name="night_mode">Gece Modu kullan</string>
     <string name="show_notification_screen">Bildiri ekranı göster</string>
+    <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
 </resources>

@@ -27,7 +27,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
@@ -40,6 +42,24 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
     private static Context sContext;
     private static Handler sHandler = new Handler();
+
+    private static Thread.UncaughtExceptionHandler mDefaultUEH;
+    private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            // Custom logic goes here
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ex.getClass().getName().equals("RemoteServiceException")) {
+                if (ex.getMessage().contains("Couldn't update icon")) {
+                    Prefs.setShowOngoingNumber(false);
+                    Toast.makeText(App.getContext(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
+                    Crashlytics.setBool("WORKAROUND#1", true);
+                }
+            }
+            // This will make Crashlytics do its job
+            mDefaultUEH.uncaughtException(thread, ex);
+        }
+    };
+
 
     public static Context getContext() {
         return sContext;
@@ -81,8 +101,13 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         super.onCreate();
         sContext = this;
 
-        Fabric.with(this, new Crashlytics());
 
+        Fabric.with(this, new Crashlytics());
+        if (BuildConfig.DEBUG)
+            Crashlytics.setBool("isDebug", true);
+
+        mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
         JodaTimeAndroid.init(this);
 

@@ -138,8 +138,17 @@ public class Prefs {
         return getPrefs().getBoolean("ongoingIcon", true);
     }
 
+    public static boolean autoRemoveNotification() {
+        return getPrefs().getBoolean("autoRemoveNotification", false);
+    }
+
+
     public static boolean showOngoingNumber() {
         return getPrefs().getBoolean("ongoingNumber", false);
+    }
+
+    public static void setShowOngoingNumber(boolean show) {
+        getPrefs().edit().putBoolean("ongoingNumber", show).apply();
     }
 
     public static boolean showNotificationScreen() {

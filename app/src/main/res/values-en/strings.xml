@@ -236,5 +236,6 @@
     <string name="vakit_indicator_current">Current prayertime</string>
     <string name="night_mode">Force Night Mode</string>
     <string name="show_notification_screen">Show Notification Screen</string>
+    <string name="autoremove_notification">Remove Notification after Adhan</string>
 
 </resources>

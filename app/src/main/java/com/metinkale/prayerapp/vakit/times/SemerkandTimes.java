@@ -47,7 +47,12 @@ class SemerkandTimes extends WebTimes {
         setLastSyncTime(System.currentTimeMillis());
         final int year = LocalDate.now().getYear();
         final String[] id = getId().split("_");
-
+        if (id.length <= 3) {
+            Crashlytics.setString("id", getId());
+            Crashlytics.setString("name", getName());
+            Crashlytics.logException(new Exception("SEMERKANDISSUE"));
+            return; 
+        }
 
         Ion.with(App.getContext())
                 .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + ("0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))

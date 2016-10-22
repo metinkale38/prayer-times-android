@@ -78,9 +78,7 @@ public class WidgetService extends Service {
             }
         }
 
-        if (mAbIcon == null) {
-            mAbIcon = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ic_abicon);
-        }
+
 
         LocalDate cal = LocalDate.now();
         String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
@@ -147,6 +145,7 @@ public class WidgetService extends Service {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.Builder(App.getContext())
                             .setContent(views)
+                            .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
                                     Icon.createWithResource(App.getContext(), R.drawable.ic_abicon)) :
@@ -156,6 +155,7 @@ public class WidgetService extends Service {
                 } else {
                     noti = new NotificationCompat.Builder(App.getContext())
                             .setContent(views)
+                            .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
                             .setOngoing(true)
                             .build();

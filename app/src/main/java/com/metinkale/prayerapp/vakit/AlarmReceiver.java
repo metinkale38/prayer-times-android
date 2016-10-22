@@ -230,7 +230,7 @@ public class AlarmReceiver extends IntentService {
         final MPHolder mp = new MPHolder();
 
 
-        if ( Prefs.showNotificationScreen()&& (sound != null) && !sound.startsWith("silent")) {
+        if (Prefs.showNotificationScreen() && (sound != null) && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!pm.isScreenOn()) {
                 Intent i = new Intent(c, NotificationPopup.class);
@@ -245,8 +245,10 @@ public class AlarmReceiver extends IntentService {
         }
 
         sInterrupt = false;
+        boolean hasSound = false;
         while ((sound != null) && !sound.startsWith("silent") && !sInterrupt) {
             int volume = -2;
+            hasSound = true;
 
             if ((sound != null) && !sound.startsWith("silent") && !sound.startsWith("picker")) {
 
@@ -336,7 +338,9 @@ public class AlarmReceiver extends IntentService {
             dua = null;
         }
 
-
+        if (hasSound && Prefs.autoRemoveNotification()) {
+            nm.cancel(next.city + "", NotIds.ALARM);
+        }
         if (silenter != 0) {
             silenter(c, silenter);
         }
