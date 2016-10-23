@@ -48,7 +48,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             // Custom logic goes here
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ex.getClass().getName().equals("RemoteServiceException")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Prefs.setShowOngoingNumber(false);
                     Toast.makeText(App.getContext(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
