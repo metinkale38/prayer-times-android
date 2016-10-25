@@ -17,79 +17,61 @@
 package com.metinkale.prayerapp.compass;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
+import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.utils.Geocoder;
 import com.metinkale.prayerapp.settings.Prefs;
-
-import java.util.List;
+import com.metinkale.prayerapp.utils.Geocoder;
 
 public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener {
-    private EditText mCity;
-    private ArrayAdapter<String> mAdapter;
-    private Thread mThread;
-    private List<Geocoder.Address> mAddresses;
-    private Runnable mSearch = new Runnable() {
-
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                //expected to happen sometimes
-            }
-
-            String query = mCity.getText().toString();
-
-            mAddresses = Geocoder.from(query, 5);
-
-            if (mAddresses != null) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.clear();
-                        for (Geocoder.Address a : mAddresses) {
-
-                            mAdapter.add(a.city + " - " + a.country + " - " + a.state);
-                        }
-                    }
-                });
-            }
-        }
-    };
+    private ArrayAdapter<Geocoder.Result> mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_location);
 
-        mCity = (EditText) findViewById(R.id.location);
-
         ListView list = (ListView) findViewById(R.id.listView);
         list.setOnItemClickListener(this);
 
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        mAdapter = new ArrayAdapter<Geocoder.Result>(this, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (v instanceof TextView) ((TextView) v).setTextColor(Color.BLACK);
+                return v;
+            }
+        };
 
         list.setAdapter(mAdapter);
 
-        mCity.addTextChangedListener(this);
+        EditText city = (EditText) findViewById(R.id.location);
+        city.addTextChangedListener(this);
     }
 
     @Override
-    public void afterTextChanged(Editable arg0) {
-        if ((mThread != null) && mThread.isAlive()) {
-            mThread.interrupt();
-        }
-        mThread = new Thread(mSearch);
-        mThread.start();
+    public void afterTextChanged(Editable txt) {
+        Geocoder.from(txt.toString()).setCallback(new FutureCallback<Geocoder.Response>() {
+            @Override
+            public void onCompleted(Exception e, Geocoder.Response result) {
+                if (e != null) {
+                    Crashlytics.logException(e);
+                    return;
+                }
+                if (result == null || !"OK".equals(result.status)) return;
+
+                mAdapter.clear();
+                mAdapter.addAll(result.results);
+            }
+        });
     }
 
     @Override
@@ -104,11 +86,8 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-        if (mAddresses == null) {
-            return;
-        }
-        Geocoder.Address a = mAddresses.get(pos);
-        Prefs.setCompassPos((float) a.lat, (float) a.lng);
+        Geocoder.Result a = mAdapter.getItem(pos);
+        Prefs.setCompassPos((float) a.geometry.location.lat, (float) a.geometry.location.lng);
 
         finish();
 

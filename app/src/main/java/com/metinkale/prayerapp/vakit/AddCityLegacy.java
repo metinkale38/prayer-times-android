@@ -28,9 +28,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Cities;
 import com.metinkale.prayerapp.vakit.times.other.Source;
-import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.List;
 
@@ -47,6 +47,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vakit_addcity);
+        findViewById(R.id.search).setVisibility(View.GONE);
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);

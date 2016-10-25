@@ -315,9 +315,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 case 5:
 
                     String lang = Prefs.getLanguage();
+
                     if (lang.equals("ar")) lang = "en";
                     String file = lang + "/hadis.db";
-                    File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
+                        File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 
                     if (f.exists()) {

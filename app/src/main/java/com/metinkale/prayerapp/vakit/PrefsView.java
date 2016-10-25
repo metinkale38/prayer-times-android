@@ -35,6 +35,7 @@ import android.widget.RadioGroup;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.NumberPickerDialog;
 import com.metinkale.prayerapp.utils.NumberPickerDialog.OnNumberSetListener;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser.Callback;
 import com.metinkale.prayerapp.vakit.sounds.Sounds;
@@ -277,6 +278,8 @@ public class PrefsView extends View implements OnClickListener {
             int titleId = 0;
             switch (mPref) {
                 case Silenter:
+                    PermissionUtils.get((Activity) getContext())
+                            .needNotificationPolicy((Activity) getContext());
                     titleId = R.string.silenterDuration;
                     break;
                 case Time:

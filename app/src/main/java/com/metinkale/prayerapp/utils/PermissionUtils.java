@@ -20,6 +20,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -35,11 +36,18 @@ public class PermissionUtils {
     private static final int REQUEST_CAMERA = 2;
     private static final int REQUEST_STORAGE = 3;
     private static final int REQUEST_LOCATION = 4;
+    private static final int REQUEST_NOT_POLICY = 5;
+
+    private static PermissionUtils mInstance;
     public boolean pCalendar;
     public boolean pCamera;
     public boolean pStorage;
     public boolean pLocation;
-    private static PermissionUtils mInstance;
+    public boolean pNotPolicy;
+
+    private PermissionUtils(Activity act) {
+        checkPermissions(act);
+    }
 
     public static PermissionUtils get(Activity act) {
         if (mInstance == null) {
@@ -48,16 +56,16 @@ public class PermissionUtils {
         return mInstance;
     }
 
-    private PermissionUtils(Activity act) {
-        checkPermissions(act);
-    }
-
-
     private void checkPermissions(Activity act) {
         pCalendar = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pCamera = ContextCompat.checkSelfPermission(act, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pNotPolicy = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED;
+            Crashlytics.setBool("pNotPolicy", pLocation);
+        } else
+            pNotPolicy = true;
 
         Crashlytics.setBool("pCalendar", pCalendar);
         Crashlytics.setBool("pCamera", pCamera);
@@ -65,6 +73,15 @@ public class PermissionUtils {
         Crashlytics.setBool("pLocation", pLocation);
 
     }
+
+    public void needNotificationPolicy(final Activity act) {
+        if (!pNotPolicy && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, REQUEST_NOT_POLICY);
+        } else {
+            pNotPolicy = true;
+        }
+    }
+
 
     public void needCamera(final Activity act) {
         if (!pCamera) {
@@ -157,6 +174,14 @@ public class PermissionUtils {
                     pCalendar = true;
                 } else {
                     pCalendar = false;
+                }
+                return;
+
+            case REQUEST_NOT_POLICY:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    pNotPolicy = true;
+                } else {
+                    pNotPolicy = false;
                 }
                 return;
 

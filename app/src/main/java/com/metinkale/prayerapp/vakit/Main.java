@@ -19,14 +19,13 @@ package com.metinkale.prayerapp.vakit;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +35,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.utils.FloatingActionButton;
 import com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayerapp.utils.RTLViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
@@ -85,7 +83,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         mTopSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.topSlider);
         mBottomSlider = (MultipleOrientationSlidingDrawer) findViewById(R.id.bottomSlider);
 
-        mAddCityFab = new FloatingActionButton.Builder(this).withDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp)).withButtonColor(Color.RED).withGravity(Gravity.BOTTOM | Gravity.END).withMargins(16, 0, 16, 5).hide().create();
+        mAddCityFab = (FloatingActionButton) findViewById(R.id.addCity);
         mAddCityFab.setOnClickListener(this);
 
         mPager.setRTLSupportAdapter(getSupportFragmentManager(), mAdapter);
@@ -268,9 +266,9 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             mBottomSlider.unlock();
         }
         if (mAddCityFab != null) if ((position == 0) && (positionOffset == 0)) {
-            mAddCityFab.showFloatingActionButton();
+            mAddCityFab.show();
         } else {
-            mAddCityFab.hideFloatingActionButton();
+            mAddCityFab.hide();
         }
 
 

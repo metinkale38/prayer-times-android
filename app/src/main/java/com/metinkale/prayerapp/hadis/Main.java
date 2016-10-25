@@ -337,7 +337,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         mQuery = query;
 
 
-
         mTask = new SearchTask(this);
         mTask.execute(query);
         return false;
@@ -434,7 +433,8 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             }
 
             int s = mList.size();
-            Toast.makeText(Main.this, getString(R.string.foundXHadis, (s == SqliteHelper.get().getCount()) ? 0 : s), Toast.LENGTH_LONG).show();
+            if (!mQuery.equals(""))
+                Toast.makeText(Main.this, getString(R.string.foundXHadis, (s == SqliteHelper.get().getCount()) ? 0 : s), Toast.LENGTH_LONG).show();
 
         }
 

@@ -16,62 +16,63 @@
 
 package com.metinkale.prayerapp.utils;
 
-import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.future.ResponseFuture;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Geocoder {
 
-    public static List<Address> from(String address, int limit) {
-        List<Address> geo = new ArrayList<>();
-        Locale locale = new Locale(Prefs.getLanguage());
-        android.location.Geocoder geocoder = new android.location.Geocoder(App.getContext(), locale);
-        try {
-            List<android.location.Address> resp;
-            if (address.contains(";")) {
-                try {
-                    double lat = Double.parseDouble(address.substring(0, address.indexOf(";")));
-                    double lng = Double.parseDouble(address.substring(address.indexOf(";") + 1));
-                    resp = geocoder.getFromLocation(lat, lng, limit);
-                } catch (NumberFormatException ignore) {
-                    resp = geocoder.getFromLocationName(address, limit);
-                }
-            } else {
-                resp = geocoder.getFromLocationName(address, limit);
-            }
-            for (android.location.Address a : resp) {
-                Address g = new Address();
-                g.lat = a.getLatitude();
-                g.lng = a.getLongitude();
-                g.country = a.getCountryName();
-                g.state = a.getAdminArea();
-                g.city = a.getLocality();
-                if (g.city == null) {
-                    g.city = a.getSubAdminArea();
-                }
-                if (g.city == null) {
-                    g.city = a.getFeatureName();
-                }
-                geo.add(g);
-            }
-        } catch (IOException e) {
-            Crashlytics.logException(e);
+    public static ResponseFuture<Response> from(String address) {
+        return Ion.with(App.getContext())
+                .load("http://maps.google.com/maps/api/geocode/json?address=" + address + "&language=" + Prefs.getLanguage())
+                .as(Response.class);
+    }
+
+
+    public static class Response {
+        public String status;
+        public List<Result> results;
+    }
+
+
+    public static class Result {
+        public List<String> types;
+        public List<Address> address_components;
+        public String formatted_address;
+        public String place_id;
+        public Geometry geometry;
+
+        @Override
+        public String toString() {
+            return formatted_address;
         }
-        return geo;
     }
 
 
     public static class Address {
-        public String city;
-        public String state;
-        public String country;
+        public String long_name;
+        public String short_name;
+        public List<String> types;
+    }
+
+
+    public static class Geometry {
+        public LatLng location;
+        public Bounds bounds;
+        public String location_type;
+        public Bounds viewport;
+    }
+
+    public static class LatLng {
         public double lat;
         public double lng;
     }
 
+    public static class Bounds {
+        public LatLng northeast;
+        public LatLng southwest;
+    }
 }

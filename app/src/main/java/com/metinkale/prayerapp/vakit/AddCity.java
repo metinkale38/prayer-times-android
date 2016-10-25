@@ -23,10 +23,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -36,23 +38,28 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
+import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Cities;
 import com.metinkale.prayerapp.vakit.times.other.Cities.Item;
 import com.metinkale.prayerapp.vakit.times.other.Source;
-import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener {
+public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
     private MyAdapter mAdapter;
+    private FloatingActionButton mFab;
+    private SearchView mSearchView;
+    private MenuItem mSearchItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vakit_addcity);
 
+        mFab = (FloatingActionButton) findViewById(R.id.search);
+        mFab.setOnClickListener(this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
         listView.setOnItemClickListener(this);
@@ -99,9 +106,8 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 }
             }
 
-            if (loc != null) {
-                onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
-            }
+            if (loc != null)
+                onLocationChanged(loc);
 
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
@@ -121,13 +127,21 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
 
     @Override
+    public void onClick(View view) {
+        if (view == mFab) {
+            MenuItemCompat.collapseActionView(mSearchItem);
+            MenuItemCompat.expandActionView(mSearchItem);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.search, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-
-        searchView.performClick();
-        searchView.setOnQueryTextListener(this);
+        mSearchItem = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        mSearchView.performClick();
+        mSearchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -157,18 +171,6 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.contains(";") && (mAdapter.getCount() <= 1)) {
-            mAdapter.clear();
-            Item item = new Item();
-            item.city = "GPS";
-            item.country = query;
-            item.source = Source.Calc;
-            item.lat = Double.parseDouble(query.substring(0, query.indexOf(";")));
-            item.lng = Double.parseDouble(query.substring(1 + query.indexOf(";")));
-            mAdapter.add(item);
-            mAdapter.notifyDataSetChanged();
-        }
-
 
         Cities.search(query, new Cities.Callback() {
             @Override
@@ -200,7 +202,31 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public void onLocationChanged(Location loc) {
-        onQueryTextSubmit(loc.getLatitude() + ";" + loc.getLongitude());
+        if ((mAdapter.getCount() <= 1)) {
+            mAdapter.clear();
+            Item item = new Item();
+            item.city = "GPS";
+            item.country = "GPS";
+            item.source = Source.Calc;
+            item.lat = loc.getLatitude();
+            item.lng = loc.getLongitude();
+            mAdapter.add(item);
+            mAdapter.notifyDataSetChanged();
+
+            Cities.search(item.lat + "," + item.lng, new Cities.Callback() {
+                @Override
+                public void onResult(List result) {
+                    List<Item> items = result;
+                    if ((items != null) && !items.isEmpty()) {
+                        mAdapter.clear();
+                        mAdapter.addAll(items);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -217,6 +243,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     public void onProviderDisabled(String provider) {
 
     }
+
 
     static class MyAdapter extends ArrayAdapter<Cities.Item> {
 
@@ -248,8 +275,6 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 vh.country = (TextView) convertView.findViewById(R.id.country);
                 vh.sourcetxt = (TextView) convertView.findViewById(R.id.sourcetext);
                 vh.source = (ImageView) convertView.findViewById(R.id.source);
-                // vh.internetdsc = (TextView) convertView
-                // .findViewById(R.id.internet_dsc);
 
                 convertView.setTag(vh);
             } else {
@@ -276,9 +301,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             TextView country;
             TextView city;
             TextView sourcetxt;
-            TextView internetdsc;
             ImageView source;
-            ImageView internet;
         }
 
     }
