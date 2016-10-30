@@ -167,6 +167,7 @@
         <item>@string/missedPrayers</item>
         <item>@string/dhikr</item>
         <item>@string/settings</item>
+        <item>@string/about</item>
     </string-array>
     <string-array name="holydays">
         <item>@string/holyday1</item>

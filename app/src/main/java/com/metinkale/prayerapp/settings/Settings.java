@@ -65,10 +65,6 @@ public class Settings extends BaseActivity {
         Utils.init();
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
     public static class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener, OnPreferenceChangeListener {
 
@@ -99,9 +95,6 @@ public class Settings extends BaseActivity {
             findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
 
             findPreference("beta_tester").setOnPreferenceClickListener(this);
-
-            findPreference("nightMode").setOnPreferenceChangeListener(this);
-            findPreference("nightMode").setEnabled(BuildConfig.DEBUG);
             try {
                 findPreference("version").setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
             } catch (PackageManager.NameNotFoundException e) {
@@ -166,8 +159,8 @@ public class Settings extends BaseActivity {
         @Override
         public boolean onPreferenceChange(Preference pref, Object newValue) {
 
-            if ("language".equals(pref.getKey()) || "nightMode".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
-               if("language".equals(pref.getKey())) Utils.changeLanguage((String) newValue);
+            if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
+                if ("language".equals(pref.getKey())) Utils.changeLanguage((String) newValue);
                 Activity act = getActivity();
                 act.finish();
                 Intent i = new Intent(act, act.getClass());

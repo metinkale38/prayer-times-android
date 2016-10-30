@@ -113,7 +113,15 @@ public class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             config.setLocale(locale);
         }
-        ((ContextWrapper) App.getContext()).getBaseContext().getResources().updateConfiguration(config, ((ContextWrapper) App.getContext()).getBaseContext().getResources().getDisplayMetrics());
+
+        ((ContextWrapper) App.getContext())
+                .getBaseContext()
+                .getResources()
+                .updateConfiguration(config,
+                        ((ContextWrapper) App.getContext())
+                                .getBaseContext()
+                                .getResources()
+                                .getDisplayMetrics());
 
 
     }

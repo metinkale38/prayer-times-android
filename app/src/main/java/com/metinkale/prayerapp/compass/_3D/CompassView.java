@@ -82,8 +82,6 @@ public class CompassView extends View {
         float cx = w / 2;
         float cy = h + (w / 2.5f);
         float cp = (w * 2) / 3;
-        cy -= ((BaseActivity) getContext()).getBottomMargin();
-        h -= ((BaseActivity) getContext()).getBottomMargin();
 
         mPaint.setStyle(Style.FILL);
         mPaint.setColor(0xAAFFFFFF);

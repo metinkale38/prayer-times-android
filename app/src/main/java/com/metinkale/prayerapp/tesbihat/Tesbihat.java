@@ -125,10 +125,6 @@ public class Tesbihat extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
     public static class TesbihatFragment extends Fragment {
 

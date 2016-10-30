@@ -56,7 +56,6 @@ public class Adapter extends ArrayAdapter<Item> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) getContext()).getBottomMargin() : 0);
 
         Item i = getItem(pos);
         if (pos == 0) {

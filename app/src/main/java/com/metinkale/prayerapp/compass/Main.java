@@ -355,10 +355,6 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     public void onProviderDisabled(String provider) {
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
     public interface MyCompassListener {
         void onUpdateDirection();

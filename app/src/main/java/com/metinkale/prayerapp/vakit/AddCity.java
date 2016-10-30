@@ -194,11 +194,6 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         return false;
     }
 
-    @Override
-    public boolean setNavBar() {
-        setNavBarColor(0xffeeeeee);
-        return true;
-    }
 
     @Override
     public void onLocationChanged(Location loc) {

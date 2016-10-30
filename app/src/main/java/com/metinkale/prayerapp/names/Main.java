@@ -113,9 +113,5 @@ public class Main extends BaseActivity implements OnQueryTextListener {
         return false;
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
 }

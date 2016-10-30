@@ -236,4 +236,5 @@
     <string name="night_mode">Gece Modu kullan</string>
     <string name="show_notification_screen">Bildiri ekranı göster</string>
     <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
+    <string name="about">Hakkında</string>
 </resources>

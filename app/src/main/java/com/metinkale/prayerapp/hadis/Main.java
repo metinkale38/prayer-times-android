@@ -347,12 +347,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         return false;
     }
 
-    @Override
-    public boolean setNavBar() {
-        setNavBarColor(0xaa333333);
-        return true;
-    }
-
     private class MyAdapter extends FragmentPagerAdapter {
 
         MyAdapter(FragmentManager fm) {

@@ -1,0 +1,354 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) $year Metin Kale
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  *     http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/frag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background2">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            style="@style/MyCard"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="@string/appName"/>
+
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:text="@string/version"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/MyCard">
+
+            <TextView
+                android:text="@string/support_development"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="reportBug"
+                android:paddingLeft="5dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="bug"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@+id/icon"/>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/report_bug"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/report_bug_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="translate"
+                android:paddingLeft="5dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="flag"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/translate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/translate_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="rate"
+                android:paddingLeft="5dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="star"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="Leave us positive rating if you like Prayer times."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="github"
+                android:paddingLeft="5dp"
+                android:layout_gravity="bottom">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="github_circle"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/github"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/github_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="donate"
+                android:paddingLeft="5dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="gift"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/donate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/donate_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/MyCard">
+
+            <TextView
+                android:text="@string/license"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="licenses"
+                android:paddingLeft="5dp"
+                android:layout_gravity="bottom">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="file"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/license"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/license_sum"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="LibLicences"
+                android:paddingLeft="5dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="file"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/library_licenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/library_licenses_sum"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12dp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

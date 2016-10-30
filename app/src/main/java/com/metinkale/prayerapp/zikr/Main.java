@@ -170,7 +170,6 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         if (z != null) {
             mTitle.setText(z.title);
             mZikr.setColor(z.color);
-            setNavBarColor(z.color);
             mZikr.setCount(z.count);
             mZikr.setCount2(z.count2);
             mZikr.setMax(z.max);
@@ -195,8 +194,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     public void changeColor(View v) {
         int c = Color.parseColor((String) v.getTag());
-        setNavBarColor(c);
-        mZikr.setColor(c);
+         mZikr.setColor(c);
     }
 
     @Override
@@ -330,10 +328,6 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         return false;
     }
 
-    @Override
-    public boolean setNavBar() {
-        return true;
-    }
 
     private static class Zikr {
         String title;

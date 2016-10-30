@@ -237,5 +237,7 @@
     <string name="night_mode">Force Night Mode</string>
     <string name="show_notification_screen">Show Notification Screen</string>
     <string name="autoremove_notification">Remove Notification after Adhan</string>
+    <string name="about">About</string>
+    <string name="support_development">Support Development</string>
 
 </resources>

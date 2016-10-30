@@ -42,6 +42,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -51,13 +52,14 @@ import com.metinkale.prayerapp.utils.PermissionUtils;
 import java.io.File;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    public static BaseActivity CurrectAct;
-    private static String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings"};
+    private static final String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings", "about"};
+    private static final int[] ICONS = {R.drawable.ic_menu_times, R.drawable.ic_menu_compass, R.drawable.ic_menu_names,
+            R.drawable.ic_menu_calendar, R.drawable.ic_menu_tesbihat, R.drawable.ic_menu_hadith, R.drawable.ic_menu_missed,
+            R.drawable.ic_menu_dhikr, R.drawable.ic_menu_settings, R.drawable.ic_menu_about};
     private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private View mNavBar;
 
     public BaseActivity() {
         String clz = getClass().toString();
@@ -126,22 +128,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void setContentView(int res) {
-        super.setContentView(R.layout.drawer);
+        super.setContentView(R.layout.activity_base);
 
-        View sb = findViewById(R.id.statusbar);
-        sb.getLayoutParams().height = getTopMargin();
-        if (getTopMargin() != 0) {
-            sb.setBackgroundResource(R.color.colorPrimaryDark);
-        }
-
-        mNavBar = findViewById(R.id.navbar);
-        setNavBarColor(0xff000000);
-        if (setNavBar() && (getBottomMargin() != 0)) {
-            mNavBar.setVisibility(View.VISIBLE);
-            mNavBar.getLayoutParams().height = getBottomMargin();
-        } else {
-            mNavBar.setVisibility(View.GONE);
-        }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -150,18 +138,29 @@ public abstract class BaseActivity extends AppCompatActivity {
         //toolbar.setNavigationIcon(R.drawable.ic_abicon);
         toolbar.setBackgroundResource(R.color.colorPrimary);
 
+        ViewGroup content = (ViewGroup) findViewById(R.id.content);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        View v = LayoutInflater.from(this).inflate(res, mDrawerLayout, false);
-        mDrawerLayout.addView(v, 0, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mNav = (ListView) mDrawerLayout.getChildAt(1);
+        View v = LayoutInflater.from(this).inflate(res, content, false);
+        content.addView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        mNav = (ListView) mDrawerLayout.findViewById(R.id.base_nav);
         ArrayAdapter<String> list = new ArrayAdapter<String>(this, R.layout.drawer_list_item, getResources().getStringArray(R.array.dropdown)) {
             @Override
             public View getView(int pos, View v, ViewGroup p) {
                 v = super.getView(pos, v, p);
-                if ((pos == mNavPos) && (v instanceof TextView)) {
+                if (pos == mNavPos) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 }
+                ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(ICONS[pos], 0, 0, 0);
+
+
                 return v;
+            }
+
+            @Override
+            public int getCount() {
+                if (BuildConfig.DEBUG)
+                    return super.getCount();
+                return super.getCount() - 1;
             }
         };
         mNav.setAdapter(list);
@@ -188,7 +187,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
 
-        // Set the drawer toggle as the DrawerListener
+        // Set the activity_base toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (getIntent().getBooleanExtra("anim", false)) {
@@ -206,27 +205,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setNavBarResource(int res) {
-        mNavBar.setBackgroundResource(res);
-    }
-
-    protected void setNavBarColor(int color) {
-        mNavBar.setBackgroundColor(color);
-    }
-
-    protected abstract boolean setNavBar();
 
     @Override
     protected void onResume() {
         super.onResume();
         mNav.setSelection(mNavPos);
-        CurrectAct = this;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        CurrectAct = null;
     }
 
     @Override
@@ -244,41 +232,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    int getTopMargin() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return getStatusBarHeight();
-        }
-        return 0;
-    }
-
-    public int getBottomMargin() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            return getNavBarHeight();
-        }
-        return 0;
-    }
-
-    int getNavBarHeight() {
-        return 0;
-    }
-
-    public int getSupportActionBarHeight() {
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-        return 0;
-    }
-
-    int getStatusBarHeight() {
-
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return getResources().getDimensionPixelSize(resourceId);
-        }
-        return 0;
     }
 
     @Override
@@ -318,7 +271,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     if (lang.equals("ar")) lang = "en";
                     String file = lang + "/hadis.db";
-                        File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
+                    File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 
                     if (f.exists()) {
@@ -395,6 +348,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                     break;
                 case 8:
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.settings.Settings.class);
+                    break;
+                case 9:
+                    i = new Intent(BaseActivity.this, com.metinkale.prayerapp.about.AboutAct.class);
                     break;
                 default:
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);

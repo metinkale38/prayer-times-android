@@ -50,10 +50,6 @@ public class Main extends BaseActivity {
         viewPager.setCurrentItem(LocalDate.now().getYear() - HicriDate.MIN_YEAR);
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
     public static class YearFragment extends Fragment implements OnItemClickListener {
 

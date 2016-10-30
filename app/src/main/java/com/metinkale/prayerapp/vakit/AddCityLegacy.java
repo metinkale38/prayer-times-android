@@ -148,11 +148,6 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         }
     }
 
-    @Override
-    public boolean setNavBar() {
-        setNavBarColor(0xffeeeeee);
-        return true;
-    }
 
     static class MyAdapter extends ArrayAdapter<String> {
 

@@ -122,7 +122,8 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             Zip zip = new Zip(zipFile.getAbsolutePath());
             File files = getFilesDir();
             for (String file : files.list()) {
-                if (file.contains(".Fabric")) {
+                if (new File(file).isDirectory() || file.contains(".Fabric")
+                        || file.contains("ion")) {
                     continue;
                 }
                 zip.addFile("files", files.getAbsolutePath() + "/" + file);
@@ -144,10 +145,6 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
 
     public static class Zip {
         static final int BUFFER = 2048;
@@ -235,7 +232,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             return mFolder.listFiles()[pos].getName();
         }
 
-        public File getFile(int pos) {
+        File getFile(int pos) {
             return mFolder.listFiles()[pos];
         }
 

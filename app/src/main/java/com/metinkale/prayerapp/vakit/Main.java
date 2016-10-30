@@ -239,11 +239,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         return super.onKeyUp(keyCode, event);
     }
 
-    @Override
-    public boolean setNavBar() {
-        setNavBarResource(R.color.colorPrimary);
-        return true;
-    }
 
     @Override
     public void onPageScrollStateChanged(int state) {

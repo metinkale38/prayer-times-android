@@ -1142,7 +1142,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     /**
      * Sets the listener that receives a notification when the drawer starts or ends
      * a scroll. A fling is considered as a scroll. A fling will also trigger a
-     * drawer opened or drawer closed event.
+     * activity_base opened or activity_base closed event.
      *
      * @param onDrawerScrollListener The listener to be notified when scrolling
      *                               starts or stops.

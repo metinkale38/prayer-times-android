@@ -110,9 +110,4 @@ public class Main extends BaseActivity {
         edit.apply();
     }
 
-    @Override
-    public boolean setNavBar() {
-        setNavBarColor(0xffffffff);
-        return true;
-    }
 }

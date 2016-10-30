@@ -20,7 +20,7 @@
           android:layout_height="wrap_content"
           android:gravity="center_vertical"
           android:minHeight="50sp"
-          android:paddingStart="14.5sp"
-          android:paddingEnd="14.5sp"
+          android:padding="10dp"
+          android:drawablePadding="20dp"
           android:textColor="#000"
-          android:textSize="20sp"/>
+          android:textSize="16sp"/>

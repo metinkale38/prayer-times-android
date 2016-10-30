@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +14,9 @@
   ~ limitations under the License.
   -->
 
-<resources
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -60,8 +58,24 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyCard">
+        <item name="android:background">#ffffff</item>
+        <item name="android:translationZ">2dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

@@ -66,8 +66,7 @@ public class Adapter extends ArrayAdapter<int[]> {
             vh = (ViewHolder) convertView.getTag(R.id.viewholder);
         }
 
-        convertView.setPadding(0, 0, 0, (pos == (getCount() - 1)) ? ((BaseActivity) context).getBottomMargin() : 0);
-        int[] h = days.get(pos);
+         int[] h = days.get(pos);
 
         vh.hicri.setText(Utils.format(new HicriDate(h[HicriDate.HY], h[HicriDate.HM], h[HicriDate.HD])));
         vh.date.setText(Utils.format(new LocalDate(h[HicriDate.GY], h[HicriDate.GM], h[HicriDate.GD])));

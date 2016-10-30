@@ -48,8 +48,5 @@ public class WebViewActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    public boolean setNavBar() {
-        return false;
-    }
+
 }
