@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 <resources>
-  <string name="activateForMorePrefs">Für mehr Einstellungen bitte aktivieren.</string>
+  <string name="activateForMorePrefs">Für mehr Einstellungen bitte aktivieren&#8230;</string>
   <string name="adhanVolume">Adhan Lautstärke</string>
   <string name="adjAngle">Winkel basierend (angle/60th of night)</string>
   <string name="adjMidnight">Mitternacht</string>
