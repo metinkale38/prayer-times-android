@@ -342,7 +342,7 @@
 <string name="off">"مغلق"</string>
 <string name="ok">"نعم"</string>
 <string name="oldAddCity">"إختيارأحد الحسابات المسجلة من القائمة أعلاه"</string>
-<string name="ongoingIcon">"صورة التنبيه"</string>
+<string name="ongoingIcon">"أيقونة المنبه"</string>
 <string name="ongoingNotification">"ويدجيت التنبيه"</string>
 <string name="other">"أخرى"</string>
 <string name="permissionCalendarText">"إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
@@ -410,32 +410,65 @@
 <string name="widgetLong">"ودجيت أوقات الصلاة 4*1"</string>
 <string name="widgetSilenter">"أوقات الصلاة - ودجيت الصامت"</string>
 <string name="widgetSmall">"ودجيت أوقات الصلاة 1*1"</string>
+
+<!-- Fuzzy -->
 <string name="witr">"الوتر"</string>
+
+<!-- Fuzzy -->
 <string name="yes">"نعم"</string>
+
+<!-- Fuzzy -->
 <string name="zoomIn">"تكبيرالصورة"</string>
+
+<!-- Fuzzy -->
 <string name="zoomOut">"تغير الصورة"</string>
+
+<!-- Fuzzy -->
 <string name="zuhr">"الظهر"</string>
+
+<!-- Fuzzy -->
 <string name="langAr">"عربي"</string>
+
+<!-- Fuzzy -->
 <string name="calculated">"حسابياً"</string>
+
+<!-- Fuzzy -->
 <string name="beta_tester">"جرب الإصدارات  التجريبية من التطبيق"</string>
+
+<!-- Fuzzy -->
 <string name="numbers">"خيارات إظهار الأرقام"</string>
+
+<!-- Fuzzy -->
 <string name="dateFormat3">"٣١ ديسمبر "</string>
+
+<!-- Fuzzy -->
 <string name="hDateFormat3">"٣٠ محرم"</string>
-
-<!-- Fuzzy -->
 <string name="useAlarm">"استخدام منبه الجهاز لتفعيل التنبيهات"</string>
-
-<!-- Fuzzy -->
 <string name="useAlarmDesc">"تجريبي:
 في حالة ملاحظة التأخير في تفعيل التنبيهات عن الوقت المحدد، اختر استخدام منبه الجهاز لحل هذه المشكلة.
 مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات "</string>
-
-<!-- Fuzzy -->
 <string name="dontshowagain">"لا تظهره مرة أخرى"</string>
-
-<!-- Fuzzy -->
 <string name="paypal">"Paypal"</string>
+<string name="bitcoin">"Bitcoin"</string>
 
 <!-- Fuzzy -->
-<string name="bitcoin">"Bitcoin"</string>
+<string name="ongoingNumber">"أظهر الدقائق مع المنبه"</string>
+
+<!-- Fuzzy -->
+<string name="vakit_indicator">"تمييز وقت الصلاة"</string>
+
+<!-- Fuzzy -->
+<string name="vakit_indicator_current">"وقت الصلاة الحالي"</string>
+
+<!-- Fuzzy -->
+<string name="vakit_indicator_next">"وقت الصلاة التالي"</string>
+
+<!-- Fuzzy -->
+<string name="night_mode">"الشاشة الليلة"</string>
+
+<!-- Fuzzy -->
+<string name="show_notification_screen">"إظهار شاشة التنبيه"</string>
+
+<!-- Fuzzy -->
+<string name="autoremove_notification">"إزالة تنبيه الأذان تلقائياً"</string>
 </resources>
