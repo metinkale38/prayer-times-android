@@ -10,7 +10,7 @@ If you want to help me translating this Application into other languages contact
 يسروا ولا تعسروا, وبشروا ولا تنفروا
 “Make things easy for the people, and do not make it difficult for them, and make them calm and do not repel them. (Hadith)
 
-According to this hadith this application will Insha Allah make you some things easier. With this app you have some useful tools needed by any Muslim everywhere in their pocket.
+According to this hadith this application will Insha Allah make you some things easier. With this app you have some useful tools needed by any Muslim everywhere in your pocket.
 
 Features
 
