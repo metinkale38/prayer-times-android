@@ -249,4 +249,21 @@
   <string name="night_mode">الشاشة الليلة</string>
   <string name="show_notification_screen">إظهار شاشة التنبيه</string>
   <string name="autoremove_notification">إزالة تنبيه الأذان تلقائياً</string>
+  <string name="about">About</string>
+  <string name="support_development">Support Development</string>
+  <string name="report_bug">Report bug</string>
+  <string name="report_bug_sum">Report bug or request new features.</string>
+  <string name="translate">Translate</string>
+  <string name="translate_sum">Help us to translate this App in more Languages</string>
+  <string name="github">GitHub</string>
+  <string name="github_sum">Fork the repo and push changes or submit new issues.</string>
+  <string name="license">License</string>
+  <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
+  <string name="library_licenses">Library Licenses</string>
+  <string name="library_licenses_sum">Check third-party libs used in Prayer times</string>
+  <string name="donate_sum">Consider donating us something to support development.</string>
+  <string name="rate">Rate</string>
+  <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
+  <string name="sendMail_sum">Send me an E-Mail!</string>
+  <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
 </resources>
