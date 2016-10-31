@@ -69,8 +69,8 @@
   <string name="djuma">Friday Prayer</string>
   <string name="dlHadith">Download Hadith Database?</string>
   <string name="dlSound">Download “%1$s” (%2$s)?</string>
-  <string name="donateDesc">If you would like to support the Developer, click here</string>
-  <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you would like to support me, thank you&#8230;</string>
+  <string name="donateDesc">If you feel like to support the Developer some money, click here</string>
+  <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you feel like to support me, thank you&#8230;</string>
   <string name="donate">Support</string>
   <string name="earlyNotification">early Notification</string>
   <string name="earlyText">%2$s minutes to %1$s</string>
@@ -180,7 +180,7 @@
   <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
   <string name="showMore">Show more</string>
   <string name="silenterDuration">Silenter duration</string>
-  <string name="silenterType">Silent Mode</string>
+  <string name="silenterType">Silenter-Mode</string>
   <string name="silent">Silent</string>
   <string name="sorted">Sorted</string>
   <string name="soundPicker">Sound Picker</string>
@@ -191,7 +191,7 @@
   <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Minutes</string>
   <string name="time">Time</string>
-  <string name="touchToSelectCity">Touch here to select City</string>
+  <string name="touchToSelectCity">Touch hier to select City</string>
   <string name="transWhiteWidget">Transparent White Widget</string>
   <string name="transWidget">Transparent Widget</string>
   <string name="test">Try</string>
@@ -230,19 +230,6 @@
   <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
-<<<<<<< 3d3e2da8edf21a8503f854192ccfd81f73785aec
-    <string name="dontshowagain">Don\'t show again</string>
-    <string name="ongoingNumber">Show minutes in Notification-Icon</string>
-    <string name="vakit_indicator">Prayertime indicator</string>
-    <string name="vakit_indicator_next">Next prayertime</string>
-    <string name="vakit_indicator_current">Current prayertime</string>
-    <string name="night_mode">Force Night Mode</string>
-    <string name="show_notification_screen">Show Notification Screen</string>
-    <string name="autoremove_notification">Remove Notification after Adhan</string>
-    <string name="about">About</string>
-    <string name="support_development">Support Development</string>
-
-=======
   <string name="dontshowagain">Don\'t show again</string>
   <string name="ongoingNumber">Show minutes in Notification-Icon</string>
   <string name="versionNr">3.5.1</string>
@@ -251,6 +238,5 @@
   <string name="vakit_indicator_current">Current prayertime</string>
   <string name="night_mode">Force Night Mode</string>
   <string name="show_notification_screen">Show Notification Screen</string>
-  <string name="autoremove_notification">Remove Notification after Adhan</string>
->>>>>>> 9bff9464774fdf6be26cdb8cc373c0b98208f35b
+  <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
 </resources>
