@@ -22,12 +22,17 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -42,6 +47,14 @@ public class AboutAct extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_main);
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            ((TextView) findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -147,5 +160,26 @@ public class AboutAct extends BaseActivity {
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withActivityTitle(getString(R.string.library_licenses))
                 .start(this);
+    }
+
+    public void mail(View view) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
+        String versionCode = "Undefined";
+        try {
+            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode + "";
+        } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.logException(e);
+        }
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.sendMail)));
+
+    }
+
+    public void beta(View view) {
+        String url = "https://play.google.com/apps/testing/com.metinkale.prayer";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

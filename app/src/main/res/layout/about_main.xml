@@ -21,7 +21,8 @@
             android:id="@+id/frag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background2">
+            android:background="@color/background2"
+            android:fillViewport="false">
 
     <LinearLayout
         android:orientation="vertical"
@@ -33,15 +34,17 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="148dp"
+                android:layout_height="148dp"
                 android:layout_margin="5dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/launcher_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content"
                 android:text="@string/appName"/>
 
@@ -49,9 +52,11 @@
             <TextView
                 android:id="@+id/version"
                 android:layout_width="wrap_content"
+                android:textColor="#555555"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
                 android:text="@string/version"/>
+
         </LinearLayout>
 
         <LinearLayout style="@style/MyCard">
@@ -65,10 +70,11 @@
 
             <RelativeLayout
                 android:clickable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="reportBug"
-                android:paddingLeft="5dp">
+                android:onClick="reportBug">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:layout_width="32dp"
@@ -93,11 +99,51 @@
                 <TextView
                     android:id="@+id/summary"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
                     android:text="@string/report_bug_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:onClick="mail">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="email"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/sendMail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12sp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/sendMail_sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
@@ -107,8 +153,9 @@
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:onClick="translate"
-                android:paddingLeft="5dp">
+                android:background="?android:attr/selectableItemBackground">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:layout_width="32dp"
@@ -133,7 +180,7 @@
                 <TextView
                     android:id="@id/summary"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
@@ -147,7 +194,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="rate"
-                android:paddingLeft="5dp">
+                android:padding="5dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:layout_width="32dp"
@@ -172,11 +220,51 @@
                 <TextView
                     android:id="@id/summary"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
-                    android:text="Leave us positive rating if you like Prayer times."
+                    android:text="@string/rate_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="beta"
+                android:padding="5dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="test_tube"
+                    app:materialIconColor="#555555"
+                    app:materialIconSize="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:id="@id/icon"/>
+
+                <TextView
+                    android:id="@id/title"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="@string/beta_tester"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@id/summary"
+                    android:layout_toRightOf="@+id/icon"
+                    android:textSize="12sp"
+                    android:layout_toEndOf="@+id/icon"
+                    android:textColor="#555555"
+                    android:layout_below="@+id/title"
+                    android:text="@string/beta_tester_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
@@ -186,7 +274,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="github"
-                android:paddingLeft="5dp"
+                android:padding="5dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_gravity="bottom">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
@@ -210,9 +299,9 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/summary"
+                    android:id="@id/summary"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
@@ -226,7 +315,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="donate"
-                android:paddingLeft="5dp">
+                android:padding="5dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:layout_width="32dp"
@@ -251,7 +341,7 @@
                 <TextView
                     android:id="@id/summary"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
@@ -275,8 +365,9 @@
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:onClick="licenses"
-                android:paddingLeft="5dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_gravity="bottom">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
@@ -302,7 +393,7 @@
                 <TextView
                     android:text="@string/license_sum"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
@@ -315,7 +406,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="LibLicences"
-                android:paddingLeft="5dp">
+                android:padding="5dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:layout_width="32dp"
@@ -340,7 +432,7 @@
                 <TextView
                     android:text="@string/library_licenses_sum"
                     android:layout_toRightOf="@+id/icon"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:layout_toEndOf="@+id/icon"
                     android:textColor="#555555"
                     android:layout_below="@+id/title"

@@ -253,5 +253,8 @@
     <string name="library_licenses_sum">Check third-party libs used in Prayer times</string>
     <string name="donate_sum">Consider donating us something to support development.</string>
     <string name="rate">Rate</string>
+    <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
+    <string name="sendMail_sum">Send me an E-Mail!</string>
+    <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
 
 </resources>

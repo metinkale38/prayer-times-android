@@ -74,16 +74,12 @@ public class Settings extends BaseActivity {
 
             addPreferencesFromResource(R.xml.settings);
 
-            findPreference("mail").setOnPreferenceClickListener(this);
-
             findPreference("language").setOnPreferenceChangeListener(this);
             findPreference("numbers").setOnPreferenceChangeListener(this);
 
             findPreference("backupRestore").setOnPreferenceClickListener(this);
 
             findPreference("calendarIntegration").setOnPreferenceChangeListener(this);
-
-            findPreference("donate").setOnPreferenceClickListener(this);
 
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
 
@@ -94,63 +90,12 @@ public class Settings extends BaseActivity {
             }
             findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
 
-            findPreference("beta_tester").setOnPreferenceClickListener(this);
-            try {
-                findPreference("version").setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
-            } catch (PackageManager.NameNotFoundException e) {
-                Crashlytics.logException(e);
-            }
         }
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if ("mail".equals(preference.getKey())) {
-                sendMail(getActivity());
-            } else if ("backupRestore".equals(preference.getKey())) {
+            if ("backupRestore".equals(preference.getKey())) {
                 startActivity(new Intent(getActivity(), BackupRestoreActivity.class));
-            } else if ("beta_tester".equals(preference.getKey())) {
-                String url = "https://play.google.com/apps/testing/com.metinkale.prayer";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            } else if ("donate".equals(preference.getKey())) {
-                Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(R.string.donateDlg);
-                builder.setCancelable(true);
-                builder.setPositiveButton(R.string.paypal, new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        arg0.cancel();
-                        String url = "http://www.paypal.me/metinkale38";
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                    }
-                });
-                builder.setNegativeButton(R.string.bitcoin, new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        arg0.cancel();
-                        String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                    }
-                });
-
-
-                builder.setNeutralButton(R.string.cancel, new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
             }
             return true;
 
