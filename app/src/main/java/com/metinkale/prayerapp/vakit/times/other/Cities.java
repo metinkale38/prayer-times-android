@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Cities extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "cities.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static Cities mInstance;
     private static AtomicInteger mOpenCounter = new AtomicInteger();
     private SQLiteDatabase mDatabase;

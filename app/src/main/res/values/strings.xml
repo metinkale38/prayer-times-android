@@ -233,7 +233,6 @@
     <string name="paypal" translatable="false">Paypal</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
-    <string name="versionNr">3.5.1</string>
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>
     <string name="vakit_indicator_current">Current prayertime</string>
