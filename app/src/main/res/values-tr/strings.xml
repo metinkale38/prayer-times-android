@@ -174,7 +174,7 @@
   <string name="restore">Geri getir</string>
   <string name="search">Ara</string>
   <string name="selectOther">Başka seç&#8230;</string>
-  <string name="sendMail">E-Mail yaz…</string>
+  <string name="sendMail">E-Mail yaz</string>
   <string name="settings">Ayarlar</string>
   <string name="share">Paylaş</string>
   <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>
@@ -231,7 +231,6 @@
     </string>
   <string name="dontshowagain">Birdaha gösterme</string>
   <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
-  <string name="versionNr">3.5.1</string>
   <string name="vakit_indicator">Vakit göstergesi</string>
   <string name="vakit_indicator_next">Gelecek Vakit</string>
   <string name="vakit_indicator_current">Şu anki Vakit</string>
