@@ -118,7 +118,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             Crashlytics.logException(e);
         }
 
-        Utils.init();
+        Utils.init(this);
 
         startService(new Intent(this, WidgetService.class));
         Times.setAlarms();

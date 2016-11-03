@@ -16,6 +16,7 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
@@ -46,6 +47,11 @@ class FaziletTimes extends WebTimes {
 
         String[] a = getId().split("_");
 
+        if (a.length < 4) {
+            Crashlytics.setString("FAZILET_ID", getId());
+            Crashlytics.logException(new Exception("INVALID ID IN FAZILET"));
+            return;
+        }
         int country = Integer.parseInt(a[1]);
         int state = Integer.parseInt(a[2]);
         int city = Integer.parseInt(a[3]);

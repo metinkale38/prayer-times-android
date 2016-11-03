@@ -24,6 +24,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import com.crashlytics.android.Crashlytics;
 
 @SuppressWarnings("deprecation")
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
@@ -86,7 +87,12 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             parameters.setPreviewSize(size.width, size.height);
         }
         mCamera.setParameters(parameters);
-        mCamera.startPreview();
+
+        try {
+            mCamera.startPreview();
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
     }
 
     private Camera.Size getBestPreviewSize(int width, int height, Camera.Parameters parameters) {

@@ -276,7 +276,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 vh = (ViewHolder) convertView.getTag();
             }
             Cities.Item i = getItem(position);
-            if (i.city.startsWith("BRUNSWICK")) {
+            if (i.city != null && i.city.startsWith("BRUNSWICK")) {
                 i.city = "Braunschweig"; //;)
             }
             vh.city.setText(i.city);

@@ -101,6 +101,9 @@ public class FileChooser {
                 }
             });
 
+            if(files==null)files=new File[0];
+            if(dirs==null)dirs  =new File[0];
+
             // convert to an array
             int i = 0;
             String[] fileList;

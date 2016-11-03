@@ -135,7 +135,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<String> getCategories() {
+    List<String> getCategories() {
         if (!categories.isEmpty()) {
             return categories;
         }
@@ -159,9 +159,9 @@ public class SqliteHelper extends SQLiteOpenHelper {
     }
 
 
-    private void openDatabase() throws SQLException {
+    private synchronized void openDatabase() throws SQLException {
         mOpenCounter++;
-        if (mOpenCounter == 1) {
+        if (mDB == null) {
             String lang = Prefs.getLanguage();
             if (lang.equals("ar")) lang = "en";
             mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
@@ -169,11 +169,11 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     }
 
-    synchronized void closeDatabase() throws SQLException {
+    private synchronized void closeDatabase() throws SQLException {
         mOpenCounter--;
-        if (mOpenCounter == 0) {
+        if (mOpenCounter == 0 && mDB != null) {
             mDB.close();
-
+            mDB = null;
         }
     }
 

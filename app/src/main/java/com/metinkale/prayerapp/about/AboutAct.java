@@ -139,7 +139,7 @@ public class AboutAct extends BaseActivity {
     public void licenses(View view) {
         WebView wv = new WebView(this);
         String lang = Prefs.getLanguage();
-        wv.loadUrl("file:///android_asset/license.txt");
+        wv.loadUrl("file:///android_asset/license.html");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getResources().getString(R.string.license)).setView(wv).setCancelable(false);

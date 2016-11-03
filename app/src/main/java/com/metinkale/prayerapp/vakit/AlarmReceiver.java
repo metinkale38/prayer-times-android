@@ -69,7 +69,7 @@ public class AlarmReceiver extends IntentService {
 
             am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * dur), service);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
                 if (nm.isNotificationPolicyAccessGranted()) {
                     aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
@@ -147,7 +147,7 @@ public class AlarmReceiver extends IntentService {
     }
 
     public void fireAlarm(Intent intent) throws InterruptedException {
-
+    
 
         Context c = App.getContext();
 

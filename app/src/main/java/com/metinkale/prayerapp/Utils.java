@@ -31,6 +31,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
 
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 public class Utils {
@@ -87,15 +88,12 @@ public class Utils {
     }
 
 
-    public static void init() {
+    public static void init(Context c) {
         String newLang = Prefs.getLanguage();
 
 
         Crashlytics.setString("lang", newLang);
         Crashlytics.setString("digits", Prefs.getDigits());
-
-        Context c = App.getContext();
-
 
         int year = LocalDate.now().getYear();
 
@@ -110,18 +108,16 @@ public class Utils {
         Locale locale = new Locale(newLang);
         Configuration config = new Configuration();
         Locale.setDefault(locale);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             config.setLocale(locale);
+        } else {
+            config.locale = locale;
         }
 
-        ((ContextWrapper) App.getContext())
-                .getBaseContext()
-                .getResources()
+        c.getResources()
                 .updateConfiguration(config,
-                        ((ContextWrapper) App.getContext())
-                                .getBaseContext()
-                                .getResources()
-                                .getDisplayMetrics());
+                        c.getResources().getDisplayMetrics());
 
 
     }
@@ -200,7 +196,7 @@ public class Utils {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
-                init();
+                init(act);
                 act.finish();
                 act.startActivity(new Intent(act, act.getClass()));
             }

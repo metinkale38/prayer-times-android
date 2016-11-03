@@ -256,7 +256,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                                                 Crashlytics.logException(e);
                                             }
                                             dlg.cancel();
-                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(App.getContext(), R.string.error, Toast.LENGTH_LONG).show();
                                             return;
                                         }
 

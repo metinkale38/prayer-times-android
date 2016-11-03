@@ -62,7 +62,7 @@ public class Settings extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Utils.init();
+        Utils.init(this);
     }
 
 

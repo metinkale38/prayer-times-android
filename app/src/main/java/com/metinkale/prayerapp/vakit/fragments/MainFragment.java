@@ -205,18 +205,19 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         super.onResume();
         mHandler.removeCallbacks(onSecond);
         mHandler.post(onSecond);
-
-        mTimes.addOnTimesUpdatedListener(this);
+        if (mTimes != null)
+            mTimes.addOnTimesUpdatedListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mHandler.removeCallbacks(onSecond);
-        mTimes.removeOnTimesUpdatedListener(this);
+        if (mTimes != null) mTimes.removeOnTimesUpdatedListener(this);
     }
 
     void checkKerahat() {
+        if (mTimes == null) return;
         boolean k = mTimes.isKerahat();
         mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
     }
