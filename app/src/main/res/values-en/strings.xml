@@ -148,7 +148,7 @@
   <string name="monthly">Month View</string>
   <string name="morningPrayer">Morning Prayer</string>
   <string name="names">99 Names of Allah</string>
-  <string name="newAddCity">99 Names of Allah</string>
+  <string name="newAddCity">Use new City Chooser</string>
   <string name="newDhikr">New Dhikr</string>
   <string name="noConnection">No Connection&#8230;</string>
   <string name="noFavs">No favorites</string>
@@ -159,7 +159,7 @@
   <string name="oldAddCity">Use manuel City Chooser</string>
   <string name="ongoingIcon">Notification-Icon</string>
   <string name="ongoingNotification">Notification-Widget</string>
-  <string name="other">Notification-Widget</string>
+  <string name="other">Other</string>
   <string name="permissionCalendarText">If you want, that the Holy Days appear in your Phone Calendar, you have to allow Calendar Access. Otherwise do not.</string>
   <string name="permissionCalendarTitle">Calendar Berechtigung</string>
   <string name="permissionCameraText">To use 3D-Compass, you need to allow Camera access. Otherwise you will only be able to use the 2D-Compass.</string>
@@ -235,14 +235,14 @@
   <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Show minutes in Notification-Icon</string>
   <string name="vakit_indicator">Prayertime indicator</string>
-  <string name="vakit_indicator_next">Current prayertime</string>
-  <string name="vakit_indicator_current">Next prayertime</string>
+  <string name="vakit_indicator_next">Next prayertime</string>
+  <string name="vakit_indicator_current">Current prayertime</string>
   <string name="night_mode">Force Night Mode</string>
-  <string name="show_notification_screen">Show Notification Icon</string>
+  <string name="show_notification_screen">Show Notification Screen</string>
   <string name="autoremove_notification">Remove Notification after Adhan</string>
   <string name="about">About</string>
   <string name="support_development">Support Development</string>
-  <string name="report_bug">Report a bug</string>
+  <string name="report_bug">Report bug</string>
   <string name="report_bug_sum">Report bug or request new features.</string>
   <string name="translate">Translate</string>
   <string name="translate_sum">Help us to translate this App in more Languages</string>
