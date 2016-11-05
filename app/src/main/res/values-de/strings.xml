@@ -242,13 +242,15 @@
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
     </string>
   <string name="dontshowagain">Nicht nochmal zeigen</string>
+  <string name="paypal">PayPal</string>
+  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Zeige Minuten in Notification-Icon</string>
   <string name="vakit_indicator">Gebetszeit Anzeige</string>
   <string name="vakit_indicator_next">Nächste Gebetszeit</string>
   <string name="vakit_indicator_current">Aktuelle Gebetszeit</string>
   <string name="night_mode">Erzwinge Nachmodus</string>
   <string name="show_notification_screen">Zeige Benachrichtigungsbildschirm</string>
-  <string name="autoremove_notification">Benachrichtigung nach Adhan löschen</string>
+  <string name="autoremove_notification">Remove Notification after Adhan</string>
   <string name="about">Über</string>
   <string name="support_development">Unterstütze die Entwicklung</string>
   <string name="report_bug">Fehler melden</string>
