@@ -231,6 +231,8 @@
         alarm clock icon will be added to the Status bar!
     </string>
   <string name="dontshowagain">Don\'t show again</string>
+  <string name="paypal">Paypal</string>
+  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Show minutes in Notification-Icon</string>
   <string name="vakit_indicator">Prayertime indicator</string>
   <string name="vakit_indicator_next">Current prayertime</string>
