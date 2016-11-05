@@ -155,13 +155,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                 return v;
             }
-
-            @Override
-            public int getCount() {
-                if (BuildConfig.DEBUG)
-                    return super.getCount();
-                return super.getCount() - 1;
-            }
         };
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(new MyClickListener());
@@ -269,7 +262,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     String lang = Prefs.getLanguage();
 
-                    if (lang.equals("ar") ) lang = "en";
+                    if (lang.equals("ar")) lang = "en";
                     String file = lang + "/hadis.db";
                     File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 

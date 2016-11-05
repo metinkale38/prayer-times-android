@@ -230,15 +230,15 @@
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="dontshowagain">Don\'t show again</string>
-    <string name="paypal" translatable="false">Paypal</string>
-    <string name="bitcoin" translatable="false">Bitcoin</string>
+    <string name="paypal">Paypal</string>
+    <string name="bitcoin">Bitcoin</string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>
     <string name="vakit_indicator_current">Current prayertime</string>
     <string name="night_mode">Force Night Mode</string>
     <string name="show_notification_screen">Show Notification Screen</string>
-    <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
+    <string name="autoremove_notification">Remove Notification after Adhan</string>
     <string name="about">About</string>
     <string name="support_development">Support Development</string>
     <string name="report_bug">Report bug</string>
