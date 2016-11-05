@@ -230,13 +230,15 @@
   <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
     </string>
   <string name="dontshowagain">Birdaha gösterme</string>
+  <string name="paypal">Paypal</string>
+  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
   <string name="vakit_indicator">Vakit göstergesi</string>
   <string name="vakit_indicator_next">Gelecek Vakit</string>
   <string name="vakit_indicator_current">Şu anki Vakit</string>
   <string name="night_mode">Gece Modu kullan</string>
   <string name="show_notification_screen">Bildiri ekranı göster</string>
-  <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
+  <string name="autoremove_notification">Remove Notification after Adhan</string>
   <string name="about">Hakkında</string>
   <string name="support_development">Geliştirmeyi destekle</string>
   <string name="report_bug">Hata bildir</string>
