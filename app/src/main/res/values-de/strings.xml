@@ -250,7 +250,7 @@
   <string name="vakit_indicator_current">Aktuelle Gebetszeit</string>
   <string name="night_mode">Erzwinge Nachmodus</string>
   <string name="show_notification_screen">Zeige Benachrichtigungsbildschirm</string>
-  <string name="autoremove_notification">Remove Notification after Adhan</string>
+  <string name="autoremove_notification">Benachrichtigung nach Adhan löschen</string>
   <string name="about">Über</string>
   <string name="support_development">Unterstütze die Entwicklung</string>
   <string name="report_bug">Fehler melden</string>
