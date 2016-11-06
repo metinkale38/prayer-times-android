@@ -185,7 +185,7 @@ public class WidgetProviderClock extends AppWidgetProvider {
             String l = Utils.fixTime(times.getTime(last));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
-            canvas.drawText(times.getTime(last), w * 0.1f, h * 0.82f, paint);
+            canvas.drawText(l, w * 0.1f, h * 0.82f, paint);
             paint.setTextSize(h * 0.1f);
             canvas.drawText(s, (w * 0.1f) + (2 * paint.measureText(l)), h * 0.72f, paint);
 

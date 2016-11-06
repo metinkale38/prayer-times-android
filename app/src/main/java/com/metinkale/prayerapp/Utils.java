@@ -68,21 +68,19 @@ public class Utils {
 
                 int hour = Integer.parseInt(fix);
                 if (hour == 0) {
-                    return "00" + suffix + " AM";
+                    time = "00" + suffix + " AM";
                 } else if (hour < 12) {
-                    return az(hour) + suffix + " AM";
+                    time = az(hour) + suffix + " AM";
                 } else if (hour == 12) {
-                    return "12" + suffix + " PM";
+                    time = "12" + suffix + " PM";
                 } else {
-                    return az(hour - 12) + suffix + " PM";
+                    time = az(hour - 12) + suffix + " PM";
                 }
             } catch (Exception e) {
                 Crashlytics.logException(e);
                 return time;
             }
         }
-
-
         return toArabicNrs(time);
 
     }

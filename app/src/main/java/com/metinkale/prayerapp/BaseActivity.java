@@ -150,40 +150,60 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (pos == mNavPos) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 }
-                ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(ICONS[pos], 0, 0, 0);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
+                        && getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, ICONS[pos], 0);
+                } else {
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(ICONS[pos], 0, 0, 0);
+                }
 
 
                 return v;
             }
         };
         mNav.setAdapter(list);
-        mNav.setOnItemClickListener(new MyClickListener());
+        mNav.setOnItemClickListener(new
+
+                MyClickListener());
 
         final String title = list.getItem(mNavPos);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.appName, R.string.appName) {
+        mDrawerToggle = new
 
-            @Override
-            public void onDrawerClosed(View view) {
-                toolbar.setTitle(title);
-            }
+                ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.appName, R.string.appName) {
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                toolbar.setTitle(title);
-            }
-        };
+                    @Override
+                    public void onDrawerClosed(View view) {
+                        toolbar.setTitle(title);
+                    }
 
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                toolbar.setTitle(title);
-            }
-        });
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        toolbar.setTitle(title);
+                    }
+                }
+
+        ;
+
+        mDrawerLayout.post(new
+
+                                   Runnable() {
+                                       @Override
+                                       public void run() {
+                                           toolbar.setTitle(title);
+                                       }
+                                   });
 
         // Set the activity_base toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (getIntent().getBooleanExtra("anim", false)) {
+        if (
+
+                getIntent().
+
+                        getBooleanExtra("anim", false))
+
+        {
 
             mDrawerLayout.openDrawer(GravityCompat.START);
             mDrawerLayout.post(new Runnable() {
