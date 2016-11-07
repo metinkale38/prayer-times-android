@@ -110,7 +110,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
-        JodaTimeAndroid.init(this);
+         JodaTimeAndroid.init(this);
 
         try {
             Times.getTimes();

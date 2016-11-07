@@ -188,8 +188,11 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (mStartPos <= 0) {
             mStartPos = 1;
         }
+        mStartPos = Math.min(mStartPos, mAdapter.getCount() - 1);
+
         mPager.setCurrentItem(mStartPos);
         onPageScrolled(mStartPos, 0, 0);
+        onPageSelected(mStartPos);
         onPageScrollStateChanged(ViewPager.SCROLL_STATE_IDLE);
     }
 
@@ -278,7 +281,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     @Override
     public void onPageSelected(int pos) {
-
         mFooterText.setText((pos == 0) ? R.string.cities : R.string.monthly);
     }
 

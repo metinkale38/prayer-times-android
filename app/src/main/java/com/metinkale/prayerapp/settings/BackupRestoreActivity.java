@@ -120,22 +120,28 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
         try {
             Zip zip = new Zip(zipFile.getAbsolutePath());
+
             File files = getFilesDir();
-            for (String file : files.list()) {
-                if (new File(file).isDirectory() || file.contains(".Fabric")
-                        || file.contains("ion")) {
-                    continue;
+            if (files.isDirectory())
+                for (String file : files.list()) {
+                    if (new File(file).isDirectory() || file.contains(".Fabric")
+                            || file.contains("ion")) {
+                        continue;
+                    }
+                    zip.addFile("files", files.getAbsolutePath() + "/" + file);
                 }
-                zip.addFile("files", files.getAbsolutePath() + "/" + file);
-            }
+
             files = new File(files.getParentFile(), "databases");
-            for (String file : files.list()) {
-                zip.addFile("databases", files.getAbsolutePath() + "/" + file);
-            }
+            if (files.isDirectory())
+                for (String file : files.list()) {
+                    zip.addFile("databases", files.getAbsolutePath() + "/" + file);
+                }
+
             files = new File(files.getParentFile(), "shared_prefs");
-            for (String file : files.list()) {
-                zip.addFile("shared_prefs", files.getAbsolutePath() + "/" + file);
-            }
+            if (files.isDirectory())
+                for (String file : files.list()) {
+                    zip.addFile("shared_prefs", files.getAbsolutePath() + "/" + file);
+                }
             zip.closeZip();
         } catch (IOException e) {
             Crashlytics.logException(e);
