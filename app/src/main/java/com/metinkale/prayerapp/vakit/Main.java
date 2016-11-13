@@ -40,6 +40,7 @@ import com.metinkale.prayerapp.utils.RTLViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;
 import com.metinkale.prayerapp.vakit.fragments.MainFragment;
 import com.metinkale.prayerapp.vakit.fragments.SettingsFragment;
+import com.metinkale.prayerapp.vakit.fragments.SortFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {

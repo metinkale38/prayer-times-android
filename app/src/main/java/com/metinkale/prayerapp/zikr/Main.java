@@ -42,6 +42,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.*;
 
@@ -194,7 +195,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     public void changeColor(View v) {
         int c = Color.parseColor((String) v.getTag());
-         mZikr.setColor(c);
+        mZikr.setColor(c);
     }
 
     @Override
@@ -243,9 +244,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.zikr, menu);
-
+        MaterialMenuInflater.with(this)
+                .setDefaultColor(0xFFFFFFFF)
+                .inflate(R.menu.zikr, menu);
         return true;
     }
 

@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class NotificationPopup extends Activity {
     public static NotificationPopup instance;
@@ -111,8 +113,17 @@ public class NotificationPopup extends Activity {
         public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             icon = context.getResources().getDrawable(R.drawable.ic_abicon);
-            silent = context.getResources().getDrawable(R.drawable.ic_volume_off_white_24dp);
-            close = context.getResources().getDrawable(R.drawable.ic_close_white_24dp);
+            silent = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF)
+                    .setColor(Color.WHITE)
+                    .setSizeDp(24)
+                    .build();
+            close = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.CLOSE)
+                    .setColor(Color.WHITE)
+                    .setSizeDp(24)
+                    .build();
+            ;
             setOnTouchListener(this);
         }
 

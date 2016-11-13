@@ -33,6 +33,7 @@ import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 import org.joda.time.LocalDate;
 
 @SuppressLint("ClickableViewAccessibility")
@@ -153,7 +154,10 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.vakit, menu);
+        MaterialMenuInflater
+                .with(getActivity())
+                .setDefaultColor(Color.WHITE)
+                .inflate(R.menu.vakit, menu);
     }
 
     @Override

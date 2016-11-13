@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
 import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -198,11 +201,19 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             int i = (int) mAdapter.getItemId(mPager.getCurrentItem());
             if (mState == STATE_FAVORITE) {
                 if (mRemFav == -1) {
-                    mFav.setIcon(R.drawable.ic_star_border_white_24dp);
+                    mFav.setIcon(MaterialDrawableBuilder.with(this)
+                            .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
+                            .setColor(Color.WHITE)
+                            .setToActionbarSize()
+                            .build());
                     mRemFav = i;
                     mNumber.setText(mPager.getCurrentItem() + 1 + "/" + (mAdapter.getCount() - 1));
                 } else {
-                    mFav.setIcon(R.drawable.ic_star_white_24dp);
+                    mFav.setIcon(MaterialDrawableBuilder.with(this)
+                            .setIcon(MaterialDrawableBuilder.IconValue.STAR)
+                            .setColor(Color.WHITE)
+                            .setToActionbarSize()
+                            .build());
                     mRemFav = -1;
                     mNumber.setText(mPager.getCurrentItem() + 1 + "/" + mAdapter.getCount());
 
@@ -248,7 +259,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.hadis, menu);
+        MaterialMenuInflater.with(this)
+                .setDefaultColor(0xFFFFFFFF)
+                .inflate(R.menu.hadis, menu);
 
         mSwitch = menu.findItem(R.id.favswitch);
         mFav = menu.findItem(R.id.fav);
@@ -285,9 +298,17 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
-            mFav.setIcon(R.drawable.ic_star_white_24dp);
+            mFav.setIcon(MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.STAR)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build());
         } else {
-            mFav.setIcon(R.drawable.ic_star_border_white_24dp);
+            mFav.setIcon(MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build());
         }
 
         if ((mRemFav != -1) && mFavs.contains(mRemFav)) {

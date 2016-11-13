@@ -18,14 +18,14 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/add"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="@string/newDhikr"
-            app:showAsAction="ifRoom"></item>
+        android:id="@+id/add"
+        app:materialIcon="plus"
+        android:title="@string/newDhikr"
+        app:showAsAction="ifRoom"></item>
     <item
-            android:id="@+id/del"
-            android:icon="@drawable/ic_close_white_24dp"
-            android:title="@string/delete"
-            app:showAsAction="ifRoom"></item>
+        android:id="@+id/del"
+        app:materialIcon="close"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom"></item>
 
 </menu>

@@ -18,6 +18,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:background="@color/background"
                 android:clickable="true"
                 android:focusable="true"
@@ -47,7 +48,7 @@
         android:layout_toLeftOf="@+id/handle"
         android:layout_marginLeft="10dp"/>
 
-    <ImageView
+    <net.steamcrafted.materialiconlib.MaterialIconView
         android:id="@+id/handle"
         android:layout_width="?listPreferredItemHeight"
         android:layout_height="match_parent"
@@ -55,8 +56,9 @@
         android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:scaleType="center"
-        android:src="@drawable/ic_reorder_white_24dp"
-        android:tint="#aaaaaa"
+        app:materialIconSize="24dp"
+        app:materialIconColor="#aaaaaa"
+        app:materialIcon="reorder_horizontal"
         android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

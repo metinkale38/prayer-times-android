@@ -42,6 +42,7 @@ import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Cities;
 import com.metinkale.prayerapp.vakit.times.other.Cities.Item;
 import com.metinkale.prayerapp.vakit.times.other.Source;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -137,7 +138,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.search, menu);
+        MaterialMenuInflater.with(this)
+                .setDefaultColor(0xFFFFFFFF)
+                .inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         mSearchView.performClick();

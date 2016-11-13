@@ -15,8 +15,9 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -61,15 +62,16 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
 
-        <ImageView
+        <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/end"
             android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_white_24dp"
-            android:tint="#aaaaaa"
+            app:materialIconColor="#aaaaaa"
+            app:materialIconSize="24dp"
+            app:materialIcon="chevron_right"
             android:layout_toLeftOf="@id/end"/>
     </RelativeLayout>
 

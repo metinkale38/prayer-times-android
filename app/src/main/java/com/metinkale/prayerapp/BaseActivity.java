@@ -20,7 +20,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,23 +31,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.io.File;
 
@@ -59,7 +55,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     public BaseActivity() {
         String clz = getClass().toString();
@@ -134,11 +129,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setBackgroundResource(R.color.colorPrimary);
+            toolbar.setNavigationIcon(MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.VIEW_HEADLINE)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build());
         }
-        //toolbar.setNavigationIcon(R.drawable.ic_abicon);
-        toolbar.setBackgroundResource(R.color.colorPrimary);
 
-        ViewGroup content = (ViewGroup) findViewById(R.id.content);
+        ViewGroup content = (ViewGroup) findViewById(R.id.basecontent);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         View v = LayoutInflater.from(this).inflate(res, content, false);
         content.addView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -163,47 +162,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         };
         mNav.setAdapter(list);
-        mNav.setOnItemClickListener(new
-
-                MyClickListener());
+        mNav.setOnItemClickListener(new MyClickListener());
 
         final String title = list.getItem(mNavPos);
-        mDrawerToggle = new
 
-                ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.appName, R.string.appName) {
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle(title);
+            }
+        });
 
-                    @Override
-                    public void onDrawerClosed(View view) {
-                        toolbar.setTitle(title);
-                    }
 
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        toolbar.setTitle(title);
-                    }
-                }
-
-        ;
-
-        mDrawerLayout.post(new
-
-                                   Runnable() {
-                                       @Override
-                                       public void run() {
-                                           toolbar.setTitle(title);
-                                       }
-                                   });
-
-        // Set the activity_base toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        if (
-
-                getIntent().
-
-                        getBooleanExtra("anim", false))
-
-        {
+        if (getIntent().getBooleanExtra("anim", false)) {
 
             mDrawerLayout.openDrawer(GravityCompat.START);
             mDrawerLayout.post(new Runnable() {
@@ -231,20 +202,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -261,7 +226,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent i = null;
+            Intent i;
             switch (pos) {
                 case 0:
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);

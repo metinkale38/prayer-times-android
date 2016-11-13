@@ -28,6 +28,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -86,8 +87,9 @@ public class Main extends BaseActivity implements OnQueryTextListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.search, menu);
+        MaterialMenuInflater.with(this)
+                .setDefaultColor(0xFFFFFFFF)
+                .inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
 

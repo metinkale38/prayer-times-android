@@ -19,26 +19,26 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/favswitch"
-            android:icon="@drawable/ic_format_list_bulleted_white_24dp"
-            android:title="@string/category"
-            app:showAsAction="always"/>
+        android:id="@+id/favswitch"
+        app:materialIcon="format_list_bulleted"
+        android:title="@string/category"
+        app:showAsAction="always"/>
     <item
-            android:id="@+id/fav"
-            android:icon="@drawable/ic_star_border_white_24dp"
-            android:title="@string/favorite"
-            app:showAsAction="always"/>
+        android:id="@+id/fav"
+        app:materialIcon="star_outline"
+        android:title="@string/favorite"
+        app:showAsAction="always"/>
     <item
-            android:id="@+id/menu_item_share"
-            android:icon="@drawable/ic_share_white_24dp"
-            android:title="@string/share"
-            app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/menu_item_share"
+        app:materialIcon="share_variant"
+        android:title="@string/share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:showAsAction="ifRoom"/>
     <item
-            android:id="@+id/menu_search"
-            android:icon="@drawable/ic_search_white_24dp"
-            android:title="@string/search"
-            app:actionViewClass="android.support.v7.widget.SearchView"
-            app:showAsAction="ifRoom|collapseActionView"/>
+        android:id="@+id/menu_search"
+        app:materialIcon="magnify"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
 
 </menu>

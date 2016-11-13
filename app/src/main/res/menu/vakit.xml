@@ -19,17 +19,18 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/notification"
-            android:icon="@drawable/ic_alarm_white_24dp"
-            android:title="@string/notification"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/notification"
+        app:materialIcon="alarm"
+        app:materialIconColor="#FFFFFF"
+        android:title="@string/notification"
+        app:showAsAction="ifRoom"/>
     <item
-            android:id="@+id/refresh"
-            android:title="@string/refresh"
-            app:showAsAction="never"/>
+        android:id="@+id/refresh"
+        android:title="@string/refresh"
+        app:showAsAction="never"/>
     <item
-            android:id="@+id/share"
-            android:title="@string/share"
-            app:showAsAction="never"/>
+        android:id="@+id/share"
+        android:title="@string/share"
+        app:showAsAction="never"/>
 
 </menu>

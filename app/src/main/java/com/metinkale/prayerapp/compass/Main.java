@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.compass;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -44,6 +45,7 @@ import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.rotation.MagAccelListener;
 import com.metinkale.prayerapp.compass.classes.rotation.RotationUpdateDelegate;
 import com.metinkale.prayerapp.settings.Prefs;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
@@ -174,11 +176,19 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
                 updateFrag(Mode.TwoDim);
 
-                mSwitch.setIcon(R.drawable.ic_action_maps_map);
+                mSwitch.setIcon(MaterialDrawableBuilder.with(this)
+                        .setIcon(MaterialDrawableBuilder.IconValue.MAP)
+                        .setColor(Color.WHITE)
+                        .setToActionbarSize()
+                        .build());
             } else {
                 mSensorManager.unregisterListener(mMagAccel);
                 updateFrag(Mode.Map);
-                mSwitch.setIcon(R.drawable.ic_action_compass);
+                mSwitch.setIcon(MaterialDrawableBuilder.with(this)
+                        .setIcon(MaterialDrawableBuilder.IconValue.COMPASS_OUTLINE)
+                        .setColor(Color.WHITE)
+                        .setToActionbarSize()
+                        .build());
             }
         }
 
@@ -193,7 +203,11 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         MenuItemCompat.setShowAsAction(mRefresh, MenuItemCompat.SHOW_AS_ACTION_NEVER);
         MenuItemCompat.setShowAsAction(mSwitch, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
-        mSwitch.setIcon(R.drawable.ic_action_maps_map);
+        mSwitch.setIcon(MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.MAP)
+                .setColor(Color.WHITE)
+                .setToActionbarSize()
+                .build());
         return true;
     }
 

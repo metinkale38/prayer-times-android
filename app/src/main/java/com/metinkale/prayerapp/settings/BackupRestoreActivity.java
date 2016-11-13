@@ -122,7 +122,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             Zip zip = new Zip(zipFile.getAbsolutePath());
 
             File files = getFilesDir();
-            if (files.isDirectory())
+            if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
                     if (new File(file).isDirectory() || file.contains(".Fabric")
                             || file.contains("ion")) {
@@ -132,13 +132,13 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
                 }
 
             files = new File(files.getParentFile(), "databases");
-            if (files.isDirectory())
+            if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
                     zip.addFile("databases", files.getAbsolutePath() + "/" + file);
                 }
 
             files = new File(files.getParentFile(), "shared_prefs");
-            if (files.isDirectory())
+            if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
                     zip.addFile("shared_prefs", files.getAbsolutePath() + "/" + file);
                 }
