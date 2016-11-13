@@ -36,6 +36,9 @@ import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
+import org.joda.time.DateTimeZone;
+
+import java.util.TimeZone;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -110,7 +113,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
-         JodaTimeAndroid.init(this);
+        JodaTimeAndroid.init(this);
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(TimeZone.getDefault()));
+
 
         try {
             Times.getTimes();
