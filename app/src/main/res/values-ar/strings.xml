@@ -242,7 +242,7 @@
 مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات \"</string>
   <string name="dontshowagain">لا تظهره مرة أخرى</string>
   <string name="ongoingNumber">أظهر الدقائق مع المنبه</string>
-  <string name="versionNr">3.5.1</string>
+
   <string name="vakit_indicator">تمييز وقت الصلاة</string>
   <string name="vakit_indicator_next">وقت الصلاة التالي</string>
   <string name="vakit_indicator_current">وقت الصلاة الحالي</string>

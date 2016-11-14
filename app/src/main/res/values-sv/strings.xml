@@ -232,7 +232,7 @@
     </string>
   <string name="dontshowagain">Don\'t show again</string>
   <string name="ongoingNumber">Show minutes in Notification-Icon</string>
-  <string name="versionNr">3.5.1</string>
+
   <string name="vakit_indicator">Prayertime indicator</string>
   <string name="vakit_indicator_next">Next prayertime</string>
   <string name="vakit_indicator_current">Current prayertime</string>
