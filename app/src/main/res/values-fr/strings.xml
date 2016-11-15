@@ -201,7 +201,7 @@
   <string name="useVibration">Vibreure</string>
   <string name="version">Version</string>
   <string name="vibrationDesc">Miliseconds - attendre vibrer attendre&#8230;</string>
-  <string name="vibrationPattern">schema de vibrations</string>
+  <string name="vibrationPattern">Modèle de vibration</string>
   <string name="volumeAlarm">Alarme-Volume</string>
   <string name="volumeMedia">Volume multimédia</string>
   <string name="volumeRingtone">Sonnerie-Volume</string>
@@ -243,4 +243,14 @@
   <string name="translate">Traduction</string>
   <string name="translate_sum">Aidez-nous à traduire cette aplication dans d’autres langues</string>
   <string name="github">GitHub</string>
+  <string name="github_sum">Suggérer des modifications ou signaler des bugs.</string>
+  <string name="license">Licence</string>
+  <string name="license_sum">Verifier Apache License, Version 2.0 license terms used on Prayer times</string>
+  <string name="library_licenses">Bibliothèque de Licenses</string>
+  <string name="library_licenses_sum">Vérifier les libs tiers utilisés dans les temps de prière</string>
+  <string name="donate_sum">Faites un dont pour soutenir le développement.</string>
+  <string name="rate">Évaluer</string>
+  <string name="rate_desc">Laissez-nous un avis positif si vous aimez les temps de prière.</string>
+  <string name="sendMail_sum">Envoyez-moi un E-Mail !</string>
+  <string name="beta_tester_desc">S’inscrire comme Beta testeur en cliquant ici</string>
 </resources>
