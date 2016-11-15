@@ -18,7 +18,7 @@
 <resources>
   <string name="activateForMorePrefs">Activer pour plus Préférences&#8230;</string>
   <string name="adhanVolume">Volume Adhan</string>
-  <string name="adjAngle">basé sur angle  (angle / 60e de la nuit)</string>
+  <string name="adjAngle">basé sur angle (angle / 60e de la nuit)</string>
   <string name="adjMidnight">Minuit</string>
   <string name="adjTime">Basé sur temps (1 / 7ème de la nuit)</string>
   <string name="afterImsak">Après Fajr</string>
@@ -91,7 +91,7 @@
   <string name="gmonth12">décembre</string>
   <string name="hadith">Sahih al-Bukhari</string>
   <string name="hdateFormat">Date au format Hijri</string>
-  <string name="hijriFix">ajuster la date Hijri </string>
+  <string name="hijriFix">ajuster la date Hijri</string>
   <string name="hmonth4">Rabi al-Achir</string>
   <string name="hmonth5">Joumada al-awwal</string>
   <string name="hmonth6">Joumada l-akhira</string>
@@ -120,7 +120,7 @@
   <string name="langGe">allemand</string>
   <string name="langTr">turc</string>
   <string name="language">Langue</string>
-  <string name="leftText">Rèste %1$s |%2$s  %3$s </string>
+  <string name="leftText">Rèste %1$s |%2$s  %3$s</string>
   <string name="missedPrayers">Suivie des prières manquées</string>
   <string name="mixed">Mélange</string>
   <string name="monthly">Vue du mois</string>
@@ -174,7 +174,7 @@
   <string name="useArabicNames">Utilisez les noms de prières en arabe</string>
   <string name="useSilenter">Silencieux</string>
   <string name="useVibration">Vibreure</string>
-  <string name="vibrationDesc">Miliseconds - attendre vibrer attendre ...</string>
+  <string name="vibrationDesc">Miliseconds - attendre vibrer attendre&#8230;</string>
   <string name="vibrationPattern">schema de vibrations</string>
   <string name="volumeAlarm">Alarme-Volume</string>
   <string name="volumeRingtone">Sonnerie-Volume</string>
