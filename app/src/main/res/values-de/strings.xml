@@ -131,8 +131,8 @@
   <string name="holyday17">Opferfest 3.Tag</string>
   <string name="holyday18">Opferfest 4.Tag</string>
   <string name="ishaa">Ischa</string>
-  <string name="juristicHanafi">Shafi (Standard)</string>
-  <string name="juristicShafi">Hanafi</string>
+  <string name="juristicHanafi">Hanafi</string>
+  <string name="juristicShafi">Shafi (Standard)</string>
   <string name="kerahatDuration">Makruh Gebetszeit - Dauer</string>
   <string name="kerahatIstiwa">Istiwa Zeitpunkt (Vor dem Zuhr Gebet)</string>
   <string name="kerahatMaghrib">Sonnenuntergang (vor dem Maghrib Gebet)</string>
