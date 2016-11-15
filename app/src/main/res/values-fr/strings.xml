@@ -221,4 +221,8 @@
   <string name="useAlarm">Utilisez l\'alarme pour les notifications</string>
   <string name="useAlarmDesc">EXPERIMENTAL - Si les notifications ne sont pas déclenchés à temps, vous pouvez essayer ce paramètre. Une icône d\'alarme sera ajouté à la barre d\'état!</string>
   <string name="dontshowagain">Ne plus afficher</string>
+  <string name="vakit_indicator_next">Prochaine prière</string>
+  <string name="vakit_indicator_current">Temps de prière actuelle</string>
+  <string name="night_mode">Forcer le mode nuit</string>
+  <string name="show_notification_screen">Afficher les notifications</string>
 </resources>
