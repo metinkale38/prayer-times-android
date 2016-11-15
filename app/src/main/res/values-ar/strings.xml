@@ -138,7 +138,6 @@
   <string name="kerahatMaghrib">غروب الشمس ( قبل وقت المغرب)</string>
   <string name="kerahatSun">شروق الشمس ( بعد وقت الفجر)</string>
   <string name="kerahatTime">وقت تَحرم فيها صلاة النافلة</string>
-  <string name="langEn">English</string>
   <string name="langGe">Deutsch</string>
   <string name="langTr">Türk</string>
   <string name="language">اللغة</string>
@@ -241,30 +240,10 @@
 في حالة ملاحظة التأخير في تفعيل التنبيهات عن الوقت المحدد، اختر استخدام منبه الجهاز لحل هذه المشكلة.
 مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات \"</string>
   <string name="dontshowagain">لا تظهره مرة أخرى</string>
-  <string name="paypal">Paypal</string>
-  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">أظهر الدقائق مع المنبه</string>
   <string name="vakit_indicator">تمييز وقت الصلاة</string>
   <string name="vakit_indicator_next">وقت الصلاة التالي</string>
   <string name="vakit_indicator_current">وقت الصلاة الحالي</string>
   <string name="night_mode">الشاشة الليلة</string>
   <string name="show_notification_screen">إظهار شاشة التنبيه</string>
-  <string name="autoremove_notification">Remove Notification after Adhan</string>
-  <string name="about">About</string>
-  <string name="support_development">Support Development</string>
-  <string name="report_bug">Report bug</string>
-  <string name="report_bug_sum">Report bug or request new features.</string>
-  <string name="translate">Translate</string>
-  <string name="translate_sum">Help us to translate this App in more Languages</string>
-  <string name="github">GitHub</string>
-  <string name="github_sum">Fork the repo and push changes or submit new issues.</string>
-  <string name="license">License</string>
-  <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
-  <string name="library_licenses">Library Licenses</string>
-  <string name="library_licenses_sum">Check third-party libs used in Prayer times</string>
-  <string name="donate_sum">Consider donating us something to support development.</string>
-  <string name="rate">Rate</string>
-  <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
-  <string name="sendMail_sum">Send me an E-Mail!</string>
-  <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
 </resources>
