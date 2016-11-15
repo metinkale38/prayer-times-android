@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -165,7 +164,7 @@
     <string name="permissionCameraTitle">Camera Permission</string>
     <string name="permissionLocationText">Location Permission is needed, to find your City. If you don\'t allow this App, to access your Location, you have to search for your City manually.</string>
     <string name="permissionLocationTitle">Location Permission</string>
-    <string name="permissionStorageText">Storage Permission is needed… Without that Permission some things will not work</string>
+    <string name="permissionStorageText">Storage Permission is needed&#8230; Without that Permission some things will not work</string>
     <string name="permissionStorageTitle">Storage Permission</string>
     <string name="prayerNotification">Prayer Notification</string>
     <string name="refresh">Synchronize</string>
@@ -179,7 +178,7 @@
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
     <string name="showMore">Show more</string>
     <string name="silenterDuration">Silenter duration</string>
-    <string name="silenterType">Silenter-Mode</string>
+    <string name="silenterType">Silent Mode</string>
     <string name="silent">Silent</string>
     <string name="sorted">Sorted</string>
     <string name="soundPicker">Sound Picker</string>
@@ -190,7 +189,7 @@
     <string name="tesbihat">Tasbeehat</string>
     <string name="timeBased">Minutes</string>
     <string name="time">Time</string>
-    <string name="touchToSelectCity">Touch hier to select City</string>
+    <string name="touchToSelectCity">Touch here to select City</string>
     <string name="transWhiteWidget">Transparent White Widget</string>
     <string name="transWidget">Transparent Widget</string>
     <string name="test">Try</string>
@@ -199,7 +198,7 @@
     <string name="useSilenter">Silent</string>
     <string name="useVibration">Vibration</string>
     <string name="version">Version</string>
-    <string name="vibrationDesc">Miliseconds - wait vibrate wait…</string>
+    <string name="vibrationDesc">Miliseconds - wait vibrate wait&#8230;</string>
     <string name="vibrationPattern">Vibration pattern</string>
     <string name="volumeAlarm">Alarm-Volume</string>
     <string name="volumeMedia">Media-Volume</string>
@@ -226,7 +225,7 @@
     <string name="dateFormat3">31 December </string>
     <string name="hDateFormat3">30 Muharram </string>
     <string name="useAlarm">Use Alarm for Notification</string>
-    <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
+  <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="dontshowagain">Don\'t show again</string>
@@ -256,5 +255,4 @@
     <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
     <string name="sendMail_sum">Send me an E-Mail!</string>
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
-
 </resources>

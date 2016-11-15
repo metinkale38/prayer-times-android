@@ -128,8 +128,8 @@
     <string name="holyday17">Eid al-Adha  3rd day</string>
     <string name="holyday18">Eid al-Adha  4th day</string>
     <string name="ishaa">Ishaa</string>
-    <string name="juristicHanafi">Shafi (Default)</string>
-    <string name="juristicShafi">Hanafi</string>
+    <string name="juristicHanafi">Hanafi</string>
+    <string name="juristicShafi">Shafi (Default)</string>
     <string name="kerahatDuration">Makruh Time - Duration</string>
     <string name="kerahatIstiwa">Istiwa Time (before Zuhr Prayer) </string>
     <string name="kerahatMaghrib">Sunset (before Maghrib Prayer)</string>
@@ -164,7 +164,7 @@
     <string name="permissionCameraTitle">Camera Permission</string>
     <string name="permissionLocationText">Location Permission is needed, to find your City. If you don\'t allow this App, to access your Location, you have to search for your City manually.</string>
     <string name="permissionLocationTitle">Location Permission</string>
-    <string name="permissionStorageText">Storage Permission is needed… Without that Permission some things will not work</string>
+    <string name="permissionStorageText">Storage Permission is needed&#8230; Without that Permission some things will not work</string>
     <string name="permissionStorageTitle">Storage Permission</string>
     <string name="prayerNotification">Prayer Notification</string>
     <string name="refresh">Synchronize</string>
@@ -178,7 +178,7 @@
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
     <string name="showMore">Show more</string>
     <string name="silenterDuration">Silenter duration</string>
-    <string name="silenterType">Silenter-Mode</string>
+    <string name="silenterType">Silent Mode</string>
     <string name="silent">Silent</string>
     <string name="sorted">Sorted</string>
     <string name="soundPicker">Sound Picker</string>
@@ -189,7 +189,7 @@
     <string name="tesbihat">Tasbeehat</string>
     <string name="timeBased">Minutes</string>
     <string name="time">Time</string>
-    <string name="touchToSelectCity">Touch hier to select City</string>
+    <string name="touchToSelectCity">Touch here to select City</string>
     <string name="transWhiteWidget">Transparent White Widget</string>
     <string name="transWidget">Transparent Widget</string>
     <string name="test">Try</string>
@@ -198,7 +198,7 @@
     <string name="useSilenter">Silent</string>
     <string name="useVibration">Vibration</string>
     <string name="version">Version</string>
-    <string name="vibrationDesc">Miliseconds - wait vibrate wait…</string>
+    <string name="vibrationDesc">Miliseconds - wait vibrate wait&#8230;</string>
     <string name="vibrationPattern">Vibration pattern</string>
     <string name="volumeAlarm">Alarm-Volume</string>
     <string name="volumeMedia">Media-Volume</string>
@@ -255,5 +255,4 @@
     <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
     <string name="sendMail_sum">Send me an E-Mail!</string>
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
-
 </resources>
