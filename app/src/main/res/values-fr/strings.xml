@@ -131,6 +131,7 @@
   <string name="holyday18">Eid al-Adha 4ème jour</string>
   <string name="ishaa">Ishaa</string>
   <string name="juristicHanafi">Hanafi</string>
+  <string name="juristicShafi">Shafi (par défaut)</string>
   <string name="kerahatDuration">Temps Makruh - Durée</string>
   <string name="kerahatIstiwa">Temps Istiwa (avant la prière du Zuhr)</string>
   <string name="kerahatMaghrib">Coucher du soleil (avant la prière du maghrib)</string>
@@ -152,6 +153,7 @@
   <string name="noConnection">Pas de connection internet &#8230;</string>
   <string name="noFavs">Aucun favori</string>
   <string name="no">Non</string>
+  <string name="notification">Notifications</string>
   <string name="off">off</string>
   <string name="ok">D\'accord</string>
   <string name="oldAddCity">Choisire la ville manuellement</string>
@@ -185,6 +187,8 @@
   <string name="sound">voix</string>
   <string name="sun">Soleil</string>
   <string name="switchCompass">Boussole / Carte</string>
+  <string name="tasbih">Tasbih</string>
+  <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Temps</string>
   <string name="time">Temps</string>
   <string name="touchToSelectCity">Touchez ici pour sélectionner la ville</string>
@@ -195,9 +199,11 @@
   <string name="useArabicNames">Utilisez les noms de prières en arabe</string>
   <string name="useSilenter">Silencieux</string>
   <string name="useVibration">Vibreure</string>
+  <string name="version">Version</string>
   <string name="vibrationDesc">Miliseconds - attendre vibrer attendre&#8230;</string>
   <string name="vibrationPattern">schema de vibrations</string>
   <string name="volumeAlarm">Alarme-Volume</string>
+  <string name="volumeMedia">Volume multimédia</string>
   <string name="volumeRingtone">Sonnerie-Volume</string>
   <string name="vote">Suggestions</string>
   <string name="whiteWidget">Widget Blanc</string>
@@ -212,17 +218,29 @@
   <string name="yes">Oui</string>
   <string name="zoomIn">Agrandir</string>
   <string name="zoomOut">Diminuer</string>
+  <string name="zuhr">Dhohr</string>
   <string name="langAr">Arabe</string>
   <string name="calculated">Calculé</string>
   <string name="beta_tester">Devenir un beta_testeur</string>
   <string name="widgetClock2">Horaires des prières - Horloge 2 * 2</string>
   <string name="numbers">Nombres</string>
   <string name="dateFormat3">31 Décembre </string>
+  <string name="hDateFormat3">30 Muharram </string>
   <string name="useAlarm">Utilisez l\'alarme pour les notifications</string>
   <string name="useAlarmDesc">EXPERIMENTAL - Si les notifications ne sont pas déclenchés à temps, vous pouvez essayer ce paramètre. Une icône d\'alarme sera ajouté à la barre d\'état!</string>
   <string name="dontshowagain">Ne plus afficher</string>
+  <string name="ongoingNumber">Afficher les minutes dans l’icône de Notification</string>
+  <string name="vakit_indicator">Indicateur des temps de prières</string>
   <string name="vakit_indicator_next">Prochaine prière</string>
   <string name="vakit_indicator_current">Temps de prière actuelle</string>
   <string name="night_mode">Forcer le mode nuit</string>
-  <string name="show_notification_screen">Afficher les notifications</string>
+  <string name="show_notification_screen">Afficher l\'écan des notifications</string>
+  <string name="autoremove_notification">Supprimer la Notification après l’Adhan</string>
+  <string name="about">À Propos</string>
+  <string name="support_development">Soutenir le dévelopeur</string>
+  <string name="report_bug">Signaler un bug</string>
+  <string name="report_bug_sum">Signaler un bug ou proposer de nouvelles fonctionnalités.</string>
+  <string name="translate">Traduction</string>
+  <string name="translate_sum">Aidez-nous à traduire cette aplication dans d’autres langues</string>
+  <string name="github">GitHub</string>
 </resources>
