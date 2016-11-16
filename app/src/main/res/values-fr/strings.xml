@@ -153,7 +153,7 @@
   <string name="noConnection">Pas de connection internet &#8230;</string>
   <string name="noFavs">Aucun favori</string>
   <string name="no">Non</string>
-  <string name="notification">Notifications</string>
+  <string name="notification">Notification</string>
   <string name="off">off</string>
   <string name="ok">D\'accord</string>
   <string name="oldAddCity">Choisire la ville manuellement</string>
@@ -225,7 +225,7 @@
   <string name="widgetClock2">Horaires des prières - Horloge 2 * 2</string>
   <string name="numbers">Nombres</string>
   <string name="dateFormat3">31 Décembre </string>
-  <string name="hDateFormat3">30 Muharram </string>
+  <string name="hDateFormat3">30 Mouharram </string>
   <string name="useAlarm">Utilisez l\'alarme pour les notifications</string>
   <string name="useAlarmDesc">EXPERIMENTAL - Si les notifications ne sont pas déclenchés à temps, vous pouvez essayer ce paramètre. Une icône d\'alarme sera ajouté à la barre d\'état!</string>
   <string name="dontshowagain">Ne plus afficher</string>
@@ -237,7 +237,7 @@
   <string name="show_notification_screen">Afficher l\'écan des notifications</string>
   <string name="autoremove_notification">Supprimer la Notification après l’Adhan</string>
   <string name="about">À Propos</string>
-  <string name="support_development">Soutenir le dévelopeur</string>
+  <string name="support_development">Soutenir le développement</string>
   <string name="report_bug">Signaler un bug</string>
   <string name="report_bug_sum">Signaler un bug ou proposer de nouvelles fonctionnalités.</string>
   <string name="translate">Traduction</string>
@@ -251,6 +251,6 @@
   <string name="donate_sum">Faites un dont pour soutenir le développement.</string>
   <string name="rate">Évaluer</string>
   <string name="rate_desc">Laissez-nous un avis positif si vous aimez les temps de prière.</string>
-  <string name="sendMail_sum">Envoyez-moi un E-Mail !</string>
+  <string name="sendMail_sum">Envoyez-moi un E-Mail!</string>
   <string name="beta_tester_desc">S’inscrire comme Beta testeur en cliquant ici</string>
 </resources>
