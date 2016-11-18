@@ -131,13 +131,14 @@
   <string name="holyday17">عيد الأضحى، اليوم الثالث</string>
   <string name="holyday18">عيد الأضحى، اليوم الرابع</string>
   <string name="ishaa">العِشاء</string>
-  <string name="juristicHanafi">الحنفي</string>
+  <string name="juristicHanafi">حنيفة</string>
   <string name="juristicShafi">الشافعي (الإعداد الافتراضي)</string>
   <string name="kerahatDuration">مدة الفترة التي تحرم فيها صلاة النافلة</string>
   <string name="kerahatIstiwa">إستواء الشمس( قبل وقت الظهر)</string>
   <string name="kerahatMaghrib">غروب الشمس ( قبل وقت المغرب)</string>
   <string name="kerahatSun">شروق الشمس ( بعد وقت الفجر)</string>
   <string name="kerahatTime">وقت تَحرم فيها صلاة النافلة</string>
+  <string name="langEn">الإنجليزية</string>
   <string name="langGe">Deutsch</string>
   <string name="langTr">Türk</string>
   <string name="language">اللغة</string>
@@ -246,4 +247,6 @@
   <string name="vakit_indicator_current">وقت الصلاة الحالي</string>
   <string name="night_mode">الشاشة الليلة</string>
   <string name="show_notification_screen">إظهار شاشة التنبيه</string>
+  <string name="translate">ترجمة</string>
+  <string name="github">GitHub</string>
 </resources>
