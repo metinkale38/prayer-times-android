@@ -130,8 +130,8 @@
   <string name="holyday17">Eid al-Adha  3rd day</string>
   <string name="holyday18">Eid al-Adha  4th day</string>
   <string name="ishaa">Ishaa</string>
-  <string name="juristicHanafi">Shafi (Default)</string>
-  <string name="juristicShafi">Hanafi</string>
+  <string name="juristicHanafi">Hanafi</string>
+  <string name="juristicShafi">Shafi (Default)</string>
   <string name="kerahatDuration">Makruh Time - Duration</string>
   <string name="kerahatIstiwa">Istiwa Time (before Zuhr Prayer) </string>
   <string name="kerahatMaghrib">Sunset (before Maghrib Prayer)</string>
