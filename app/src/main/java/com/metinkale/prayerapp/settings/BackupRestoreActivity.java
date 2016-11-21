@@ -134,12 +134,14 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             files = new File(files.getParentFile(), "databases");
             if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
+                    if (file.contains("evernote")) continue;
                     zip.addFile("databases", files.getAbsolutePath() + "/" + file);
                 }
 
             files = new File(files.getParentFile(), "shared_prefs");
             if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
+                    if (file.contains("evernote")) continue;
                     zip.addFile("shared_prefs", files.getAbsolutePath() + "/" + file);
                 }
             zip.closeZip();

@@ -514,22 +514,5 @@ public abstract class Times extends TimesBase {
         }
     }
 
-    abstract class CatchedFutureCallback<T> implements FutureCallback<T> {
-        @Override
-        public void onCompleted(Exception e, T result) {
-            if (e != null) {
-                e.printStackTrace();
-                return;
-            }
-
-            try {
-                onCompleted(result);
-            } catch (Exception ee) {
-                Crashlytics.logException(ee);
-            }
-        }
-
-        abstract void onCompleted(T result);
-    }
 
 }

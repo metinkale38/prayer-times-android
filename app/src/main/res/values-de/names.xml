@@ -1,0 +1,222 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string-array name="names_name">
+        <item>Allah</item>
+        <item>Ar-Rahman</item>
+        <item>Ar-Rahiem</item>
+        <item>Al-Malik</item>
+        <item>Al-Qudduus</item>
+        <item>As-Salaam</item>
+        <item>Al-Mu\'min</item>
+        <item>Al-Muhaimin</item>
+        <item>Al-A\'sies</item>
+        <item>Al-Dschabbaar</item>
+        <item>Al-Mutakabbir</item>
+        <item>Al-Chaliq</item>
+        <item>Al-Bary</item>
+        <item>Al-Musawwir</item>
+        <item>Al-Ghaffar</item>
+        <item>Al-Qahhaar</item>
+        <item>Al-Wahhab</item>
+        <item>Ar-Rassaq</item>
+        <item>Al-Fattah</item>
+        <item>Al-A\'liem</item>
+        <item>Al-Qabid</item>
+        <item>Al-Baaßit</item>
+        <item>Al-Chaafid</item>
+        <item>Ar-Raafi\'</item>
+        <item>Al-Muis</item>
+        <item>Al-Musill</item>
+        <item>As-Sami\'</item>
+        <item>Al-Basir</item>
+        <item>Al-Hakam</item>
+        <item>Al-Adl</item>
+        <item>Al-Latief</item>
+        <item>Al-Chabier</item>
+        <item>Al-Haliem</item>
+        <item>Al-A\'siem</item>
+        <item>Al-Ghafur</item>
+        <item>Asch-Schakur</item>
+        <item>Al-Aliy</item>
+        <item>Al-Kabir</item>
+        <item>Al-Hafieth</item>
+        <item>Al-Muqiet</item>
+        <item>Al-Hasieb</item>
+        <item>Al-Dschalil</item>
+        <item>Al-Kariem</item>
+        <item>Al-Raqieb</item>
+        <item>Al-Mudschieb</item>
+        <item>Al-Wasi\'</item>
+        <item>Al-Hakiem</item>
+        <item>Al-Wadud</item>
+        <item>Al-Madschied</item>
+        <item>Al-Ba`ith</item>
+        <item>Asch-Schahied</item>
+        <item>Al-Haq</item>
+        <item>Al-Wakiel</item>
+        <item>Al-Qawi</item>
+        <item>Al-Matien</item>
+        <item>Al-Waliy</item>
+        <item>Al-Hamied</item>
+        <item>Al-Muhsy</item>
+        <item>Al-Mubdi</item>
+        <item>Al-Mu\'ied</item>
+        <item>Al-Muhjie</item>
+        <item>Al-Mumiet</item>
+        <item>Al-Haiy</item>
+        <item>Al-Qayum</item>
+        <item>Al-Waadschid</item>
+        <item>Al-Maadschid</item>
+        <item>Al-Waahid</item>
+        <item>As-Samad</item>
+        <item>Al-Quadir</item>
+        <item>Al-Muqtadir</item>
+        <item>Al-Muqaddim</item>
+        <item>Al-Mu\'achir</item>
+        <item>Al-Awwal</item>
+        <item>Al-Aachir</item>
+        <item>As-Saahir</item>
+        <item>Al-Baatin</item>
+        <item>Al-Waali</item>
+        <item>Al-Muta\'aali</item>
+        <item>Al-Barr</item>
+        <item>Al-Tawwab</item>
+        <item>Al-Muntaqim</item>
+        <item>Al-Afwu</item>
+        <item>Ar-Ra\'uf</item>
+        <item>Malik-ul-Mulk</item>
+        <item>Sul-Dschalali-wal-Ikram</item>
+        <item>Al-Muqsit</item>
+        <item>Al-Dschaami\'</item>
+        <item>Al-Ghany</item>
+        <item>Al-Mughni</item>
+        <item>Al-Mani\'</item>
+        <item>Ad-Dhar</item>
+        <item>An-Naafi\'</item>
+        <item>An-Nur</item>
+        <item>Al-Hadi</item>
+        <item>Al-Badi\'</item>
+        <item>Al-Baaqi</item>
+        <item>Al-Waarith</item>
+        <item>Ar-Raschied</item>
+        <item>As-Sabur</item>
+    </string-array>
+
+    <string-array name="names_desc">
+        <item>Er ist Allah, außer Dem es keinen Herrn gibt.</item>
+        <item>der Gnädige</item>
+        <item>der Barmherzige</item>
+        <item>der Herrscher und König</item>
+        <item>der Heilige, der Reine, frei allen Makels</item>
+        <item>der Retter, der Verleiher des Friedens</item>
+        <item>der Wahrer der Sicherheit</item>
+        <item>der Beschützer und Bewacher</item>
+        <item>der Erhabene, der Ehrwürdige</item>
+        <item>der Gewaltige, der Unterwerfer</item>
+        <item>der Vornehme, der Stolze</item>
+        <item>der Schöpfer</item>
+        <item>der Erschaffer, der alles aus dem Nichts erschuf</item>
+        <item>der Former, der jedem Ding seine Form und Gestalt gibt</item>
+        <item>der große Verzeiher</item>
+        <item>der Alles-Bezwinger, niemand kann sich Seinem Willen widersetzen</item>
+        <item>der Geber und Verleiher</item>
+        <item>der Versorger</item>
+        <item>der Öffnende, der Öffner der Türen</item>
+        <item>der Allwissende</item>
+        <item>der die Gaben nach Seinem Ermessen zurückhält</item>
+        <item>der diese Gaben aber auch ausreichend und großzügig gewährt</item>
+        <item>der Erniedriger der Hochmütigen und zu Unrecht Stolzen</item>
+        <item>der Erhörer der Demütigen und Bescheidenen</item>
+        <item>der Verleiher von wirklicher Ehre</item>
+        <item>der Demütiger der Unterdrücker ihrer Mitmenschen</item>
+        <item>der Hörende</item>
+        <item>der Sehende</item>
+        <item>der weise Richter</item>
+        <item>der Gerechte</item>
+        <item>der das Feinste in allen Dimensionen erfasst, der Feinfühlige, der Gütige</item>
+        <item>der Kundige, der um die kleinsten Rechnungen des Herzens Wissende</item>
+        <item>der Nachsichtige, der Mitfühlende</item>
+        <item>der Grossartige, der Erhabene</item>
+        <item>der immer wieder Verzeihende</item>
+        <item>der Dankbare, der seinen Diener auch für die kleinste Tat belohnt</item>
+        <item>der Höchste</item>
+        <item>der unvergleichlich Große</item>
+        <item>der Bewahrer, der Erhalter, der die Taten seiner Diener bis zum jüngsten Tag erhält</item>
+        <item>der alle Ernährende (sowohl mit materieller als geistiger Nahrung)</item>
+        <item>der genau Berechnende, der Garant</item>
+        <item>der Majestätische</item>
+        <item>der Ehrenvolle, der Großzügige</item>
+        <item>der Wachsame</item>
+        <item>der Erhörer der Gebete</item>
+        <item>der Weite, der mit Seiner Wohltätigkeit und Seinem Wissen alles Umfassende</item>
+        <item>der Allweise</item>
+        <item>der Liebevolle, der alles mit seiner Liebe Umfassende</item>
+        <item>der Glorreiche</item>
+        <item>der die Menschen am jüngsten Tag wieder zum Leben erwecken wird</item>
+        <item>der Zeuge</item>
+        <item>der Wahre, der Wahrhaftige</item>
+        <item>der Vertrauenswürdige, der Helfer und Bewacher</item>
+        <item>der Starke</item>
+        <item>der Feste, der Dauerhafte, der einzig wirklich Starke</item>
+        <item>der Schutzherr eines jeden, der seinen Schutz und seine Leitung braucht</item>
+        <item>der Preiswürdige, dem aller Dank gehört</item>
+        <item>der alles Aufzeichnende</item>
+        <item>der Beginnende, der Urheber alles Geschaffenen aus dem Nichts</item>
+        <item>der Wiederholdende, alles wieder zum Leben erwecken wird</item>
+        <item>der Lebensspendende</item>
+        <item>der, in dessen Hand der Tod ist</item>
+        <item>der aus sich selbst Lebende</item>
+        <item>der allein Stehende, der Ewige</item>
+        <item>der alles Bekommende und Findende</item>
+        <item>der Ruhmvolle</item>
+        <item>der Eine, der niemanden neben sich hat</item>
+        <item>der von allem und jedem Unabhängige</item>
+        <item>der zu allem Fähige, der Besitzer aller Macht und Autorität</item>
+        <item>der alles Bestimmende</item>
+        <item>der Voranstellende</item>
+        <item>der Aufschiebende</item>
+        <item>der Erste ohne Beginn</item>
+        <item>der Letzte ohne Ende</item>
+        <item>der Offenbare, auf dessen Existenz alles Geschaffene klar hinweist</item>
+        <item>der Verborgene, den niemand wirklich begreifen kann</item>
+        <item>der einzige und absolute Herrscher</item>
+        <item>der Reine, der Hohe</item>
+        <item>der Gute</item>
+        <item>der die Reue seiner Diener Annehmende</item>
+        <item>der gerechte Vergelter</item>
+        <item>der Vergeber der Sünden</item>
+        <item>der Mitleidige</item>
+        <item>Inhaber aller Reichtümer</item>
+        <item>derjenige, dem Majestät und Ehre gebühren</item>
+        <item>der unparteiisch Richtende</item>
+        <item>der Versammelnde, der alle Menschen am jüngsten Tag versammeln wird</item>
+        <item>der Reiche, der niemanden braucht</item>
+        <item>der Verleiher der Reichtümer</item>
+        <item>der Zurückweisende</item>
+        <item>der Schaden zufügende</item>
+        <item>der Vorteil gebende</item>
+        <item>das Licht</item>
+        <item>der Leitung gebende</item>
+        <item>der Schöpfer des Neuen</item>
+        <item>der ewig Bleibende</item>
+        <item>der einzige Erbe, denn außer ihm ist nichts beständig</item>
+        <item>der Führung gebende</item>
+        <item>der Geduldige.</item>
+    </string-array>
+</resources>

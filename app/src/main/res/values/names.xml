@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string-array name="names_ar">
+        <item>اللَّه</item>
+        <item>الرَّحْمَنُ</item>
+        <item>الرَّحِيمُ</item>
+        <item>الْمَلِكُ</item>
+        <item>الْقُدُّوسُ</item>
+        <item>السَّلاَمُ</item>
+        <item>الْمُؤْمِنُ</item>
+        <item>الْمُهَيْمِنُ</item>
+        <item>الْعَزِيزُ</item>
+        <item>الْجَبَّارُ</item>
+        <item>الْمُتَكَبِّرُ</item>
+        <item>الْخَالِقُ</item>
+        <item>الْبَارِئُ</item>
+        <item>الْمُصَوِّرُ</item>
+        <item>الْغَفَّارُ</item>
+        <item>الْقَهَّارُ</item>
+        <item>الْوَهَّابُ</item>
+        <item>الرَّزَّاقُ</item>
+        <item>الْفَتَّاحُ</item>
+        <item>العَلِيمُ</item>
+        <item>الْقَابِضُ</item>
+        <item>الْبَاسِطُ</item>
+        <item>الْخَافِضُ</item>
+        <item>الرَّافِعُ</item>
+        <item>الْمُعِزُّ</item>
+        <item>المُذِلُّ</item>
+        <item>السَّمِيعُ</item>
+        <item>الْبَصِيرُ</item>
+        <item>الْحَكَمُ</item>
+        <item>الْعَدْلُ</item>
+        <item>اللَّطِيفُ</item>
+        <item>الْخَبِيرُ</item>
+        <item>الْحَلِيمُ</item>
+        <item>الْعَظِيمُ</item>
+        <item>الْغَفُورُ</item>
+        <item>الشَّكُورُ</item>
+        <item>الْعَلِيُّ</item>
+        <item>الْكَبِيرُ</item>
+        <item>الْحَفِيظُ</item>
+        <item>المُقيِت</item>
+        <item>الْحسِيبُ</item>
+        <item>الْجَلِيلُ</item>
+        <item>الْكَرِيمُ</item>
+        <item>الرَّقِيبُ</item>
+        <item>الْمُجِيبُ</item>
+        <item>الْوَاسِعُ</item>
+        <item>الْحَكِيمُ</item>
+        <item>الْوَدُودُ</item>
+        <item>الْمَجِيدُ</item>
+        <item>الْبَاعِثُ</item>
+        <item>الشَّهِيدُ</item>
+        <item>الْحَقُّ</item>
+        <item>الْوَكِيلُ</item>
+        <item>الْقَوِيُّ</item>
+        <item>الْمَتِينُ</item>
+        <item>الْوَلِيُّ</item>
+        <item>الْحَمِيدُ</item>
+        <item>الْمُحْصِي</item>
+        <item>الْمُبْدِئُ</item>
+        <item>الْمُعِيدُ</item>
+        <item>الْمُحْيِي</item>
+        <item>الْمُِميتُ</item>
+        <item>الْحَيُّ</item>
+        <item>الْقَيُّومُ</item>
+        <item>الْوَاجِدُ</item>
+        <item>الْمَاجِدُ</item>
+        <item>الْواحِدُ</item>
+        <item>الصَّمَدُ</item>
+        <item>الْقَادِرُ</item>
+        <item>الْمُقْتَدِرُ</item>
+        <item>الْمُقَدِّمُ</item>
+        <item>الْمُؤَخِّرُ</item>
+        <item>الأوَّلُ</item>
+        <item>الآخِرُ</item>
+        <item>الظَّاهِرُ</item>
+        <item>الْبَاطِنُ</item>
+        <item>الْوَالِي</item>
+        <item>الْمُتَعَالِي</item>
+        <item>الْبَرُّ</item>
+        <item>التَّوابُ</item>
+        <item>الْمُنْتَقِمُ</item>
+        <item>العَفُوُّ</item>
+        <item>الرَّؤُوفُ</item>
+        <item>مَالِكُ الْمُلْكِ</item>
+        <item>ذُوالْجَلاَلِ وَالإكْرَامِ</item>
+        <item>الْمُقْسِطُ</item>
+        <item>الْجَامِعُ</item>
+        <item>الْغَنِيُّ</item>
+        <item>الْمُغْنِي</item>
+        <item>ُالمَانِعُ</item>
+        <item>الضَّارَّ</item>
+        <item>النَّافِعُ</item>
+        <item>النُّورُ</item>
+        <item>الْهَادِي</item>
+        <item>الْبَدِيعُ</item>
+        <item>الْبَاقِِي</item>
+        <item>الْوَارِثُ</item>
+        <item>الرَّشِيدُ</item>
+        <item>الصَّبُورُ</item>
+    </string-array>
+
+    <string-array name="names_name">
+        <item>Allah</item>
+        <item>Ar-Rahman</item>
+        <item>Ar-Rahim</item>
+        <item>Al-Malik</item>
+        <item>Al-Quddus</item>
+        <item>As-Salam</item>
+        <item>Al-Mu’min</item>
+        <item>Al-Muhaymin</item>
+        <item>Al-’Aziz</item>
+        <item>Al-Jabbar</item>
+        <item>Al-Mutakabbir</item>
+        <item>Al-Khaliq</item>
+        <item>Al-Bari’</item>
+        <item>Al-Musawwir</item>
+        <item>Al-Ghaffar</item>
+        <item>Al-Qahhar</item>
+        <item>Al-Wahhab</item>
+        <item>Ar-Razzaq</item>
+        <item>Al-Fattah</item>
+        <item>Al-’Alim</item>
+        <item>Al-Qabid</item>
+        <item>Al-Basit</item>
+        <item>Al-Khafid</item>
+        <item>Ar-Rafi’</item>
+        <item>Al-Mu’izz</item>
+        <item>Al-Mudhill</item>
+        <item>As-Sami</item>
+        <item>Al-Basir</item>
+        <item>Al-Hakam</item>
+        <item>Al-’Adl</item>
+        <item>Al-Latif</item>
+        <item>Al-Khabir</item>
+        <item>Al-Halim</item>
+        <item>Al-’Azim</item>
+        <item>Al-Ghafur</item>
+        <item>Ash-Shakur</item>
+        <item>Al-’Ali</item>
+        <item>Al-Kabir</item>
+        <item>Al-Hafiz</item>
+        <item>Al-Muqit</item>
+        <item>Al-Hasib</item>
+        <item>Al-Jalil</item>
+        <item>Al-Karim</item>
+        <item>Ar-Raqib</item>
+        <item>Al-Mujib</item>
+        <item>Al-Wasi’</item>
+        <item>Al-Hakim</item>
+        <item>Al-Wadud</item>
+        <item>Al-Majíd</item>
+        <item>Al-Ba’ith</item>
+        <item>Ash-Shahid</item>
+        <item>Al-Haqq</item>
+        <item>Al-Wakil</item>
+        <item>Al-Qawi</item>
+        <item>Al-Matin</item>
+        <item>Al-Wáli</item>
+        <item>Al-Hamid</item>
+        <item>Al-Muhsi</item>
+        <item>Al-Mubdi</item>
+        <item>Al-Mu’id</item>
+        <item>Al-Muhyi</item>
+        <item>Al-Mumit</item>
+        <item>Al-Hayy</item>
+        <item>Al-Qayyum</item>
+        <item>Al-Wajid</item>
+        <item>Al-Májid</item>
+        <item>Al-Wahid</item>
+        <item>As-Samad</item>
+        <item>Al-Qadir</item>
+        <item>Al-Muqtadir</item>
+        <item>Al-Muqaddim</item>
+        <item>Al-Mu’akhkhir</item>
+        <item>Al-Awwal</item>
+        <item>Al-Akhir</item>
+        <item>Az-Zahir</item>
+        <item>Al-Batin</item>
+        <item>Al-Walí</item>
+        <item>Al-Muta’ali</item>
+        <item>Al-Barr</item>
+        <item>At-Tawwab</item>
+        <item>Al-Muntaqim</item>
+        <item>Al-Afu</item>
+        <item>Ar-Ra’uf</item>
+        <item>Malik al-Mulk</item>
+        <item>Dhul-Jalali Wal-Ikram</item>
+        <item>Al-Muqsit</item>
+        <item>Al-Jami</item>
+        <item>Al-Ghani</item>
+        <item>Al-Mughni</item>
+        <item>Al-Mani’</item>
+        <item>Ad-Darr</item>
+        <item>An-Nafi</item>
+        <item>An-Nur</item>
+        <item>Al-Hadi</item>
+        <item>Al-Badi</item>
+        <item>Al-Baqi</item>
+        <item>Al-Warith</item>
+        <item>Ar-Rashid</item>
+        <item>As-Sabur</item>
+    </string-array>
+
+    <string-array name="names_desc">
+        <item>He is Allah besides Whom there is no god</item>
+        <item>The All-Merciful</item>
+        <item>The All-Beneficient</item>
+        <item>The Absolute Ruler</item>
+        <item>The Pure One</item>
+        <item>The Source of Peace</item>
+        <item>The Inspirer of Faith</item>
+        <item>The Guardian</item>
+        <item>The Victorious</item>
+        <item>The Compeller</item>
+        <item>The Greatest</item>
+        <item>The Creator</item>
+        <item>The Maker of Order</item>
+        <item>The Shaper of Beauty</item>
+        <item>The Forgiving</item>
+        <item>The Subduer</item>
+        <item>The Giver of All</item>
+        <item>The Sustainer</item>
+        <item>The Opener</item>
+        <item>The Knower of All</item>
+        <item>The Constrictor</item>
+        <item>The Reliever</item>
+        <item>The Abaser</item>
+        <item>The Exalter</item>
+        <item>The Bestower of Honors</item>
+        <item>The Humiliator</item>
+        <item>The Hearer of All</item>
+        <item>The Seer of All</item>
+        <item>The Judge</item>
+        <item>The Just</item>
+        <item>The Subtle One</item>
+        <item>The All-Aware</item>
+        <item>The Forebearing</item>
+        <item>The Magnificent</item>
+        <item>The Forgiver and Hider of Faults</item>
+        <item>The Rewarder of Thankfulness</item>
+        <item>The Highest</item>
+        <item>The Greatest</item>
+        <item>The Preserver</item>
+        <item>The Nourisher</item>
+        <item>The Accounter</item>
+        <item>The Mighty</item>
+        <item>The Generous</item>
+        <item>The Watchful One</item>
+        <item>The Responder to Prayer</item>
+        <item>The All-Comprehending</item>
+        <item>The Perfectly Wise</item>
+        <item>The Loving One</item>
+        <item>The Majestic One</item>
+        <item>The Resurrector</item>
+        <item>The Witness</item>
+        <item>The Truth</item>
+        <item>The Trustee</item>
+        <item>The Possessor of All Strength</item>
+        <item>The Forceful One</item>
+        <item>The Governor</item>
+        <item>The Praised One</item>
+        <item>The Appraiser</item>
+        <item>The Originator</item>
+        <item>The Restorer</item>
+        <item>The Giver of Life</item>
+        <item>The Taker of Life</item>
+        <item>The Ever Living One</item>
+        <item>The Self-Existing One</item>
+        <item>The Finder</item>
+        <item>The Glorious</item>
+        <item>The Only One</item>
+        <item>The Satisfier of All Needs</item>
+        <item>The All Powerful</item>
+        <item>The Creator of All Power</item>
+        <item>The Expediter</item>
+        <item>The Delayer</item>
+        <item>The First</item>
+        <item>The Last</item>
+        <item>The Manifest One</item>
+        <item>The Hidden One</item>
+        <item>The Protecting Friend</item>
+        <item>The Supreme One</item>
+        <item>The Doer of Good</item>
+        <item>The Guide to Repentance</item>
+        <item>The Avenger</item>
+        <item>The Forgiver</item>
+        <item>The Clement</item>
+        <item>The Owner of All</item>
+        <item>The Lord of Majesty and Bounty</item>
+        <item>The Equitable One</item>
+        <item>The Gatherer</item>
+        <item>The Rich One</item>
+        <item>The Enricher</item>
+        <item>The Preventer of Harm</item>
+        <item>The Creator of The Harmful</item>
+        <item>The Creator of Good</item>
+        <item>The Light</item>
+        <item>The Guide</item>
+        <item>The Originator</item>
+        <item>The Everlasting One</item>
+        <item>The Inheritor of All</item>
+        <item>The Righteous Teacher</item>
+        <item>The Patient One</item>
+    </string-array>
+</resources>

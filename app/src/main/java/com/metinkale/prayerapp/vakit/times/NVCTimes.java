@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
@@ -79,63 +80,58 @@ public class NVCTimes extends WebTimes {
         return Source.NVC;
     }
 
-    @Override
-    public void syncTimes() {
-        setLastSyncTime(System.currentTimeMillis());
-        Ion.with(App.getContext())
-                .load("http://namazvakti.com/XML.php?cityID=" + getId())
-                .setTimeout(3000)
-                .asString()
-                .setCallback(new CatchedFutureCallback<String>() {
-                    @Override
-                    public void onCompleted(String result) {
-                        String[] lines = result.split("\n");
+    protected Builders.Any.F[] createIonBuilder() {
+        return new Builders.Any.F[]{
+                Ion.with(App.getContext())
+                        .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                        .setTimeout(3000)};
+    }
 
-                        int y = LocalDate.now().getYear();
-                        for (String line : lines) {
-                            if (line.contains("<prayertimes")) {
-                                String day = line.substring(line.indexOf("day=") + 5);
-                                String month = line.substring(line.indexOf("month=") + 7);
-                                day = day.substring(0, day.indexOf("\""));
-                                month = month.substring(0, month.indexOf("\""));
-                                if (day.length() == 1) {
-                                    day = "0" + day;
-                                }
-                                if (month.length() == 1) {
-                                    month = "0" + month;
-                                }
-                                String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
-                                data = data.replace("*", "").replace("\t", " ");
-                                List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
-                                d.remove(15);
-                                d.remove(14);
-                                d.remove(13);
-                                d.remove(12);
-                                d.remove(10);
-                                d.remove(8);
-                                d.remove(7);
-                                d.remove(4);
-                                d.remove(3);
-                                d.remove(1);
+    protected boolean parseResult(String result) {
+        int i = 0;
+        String[] lines = result.split("\n");
 
-                                data = "";
-                                for (String s : d) {
-                                    if (s.length() == 4) {
-                                        data += " 0" + s;
-                                    } else {
-                                        data += " " + s;
-                                    }
-                                }
-                                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+        int y = LocalDate.now().getYear();
+        for (String line : lines) {
+            if (line.contains("<prayertimes")) {
+                String day = line.substring(line.indexOf("day=") + 5);
+                String month = line.substring(line.indexOf("month=") + 7);
+                day = day.substring(0, day.indexOf("\""));
+                month = month.substring(0, month.indexOf("\""));
+                if (day.length() == 1) {
+                    day = "0" + day;
+                }
+                if (month.length() == 1) {
+                    month = "0" + month;
+                }
+                String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
+                data = data.replace("*", "").replace("\t", " ");
+                List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
+                d.remove(15);
+                d.remove(14);
+                d.remove(13);
+                d.remove(12);
+                d.remove(10);
+                d.remove(8);
+                d.remove(7);
+                d.remove(4);
+                d.remove(3);
+                d.remove(1);
 
-                            }
-
-                        }
-
+                data = "";
+                for (String s : d) {
+                    if (s.length() == 4) {
+                        data += " 0" + s;
+                    } else {
+                        data += " " + s;
                     }
-                });
+                }
+                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+                i++;
+            }
 
-
+        }
+        return i > 0;
     }
 
 

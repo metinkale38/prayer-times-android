@@ -24,17 +24,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
-import com.metinkale.prayerapp.settings.Prefs;
 
-public class Adapter extends ArrayAdapter<Item> {
+class Adapter extends ArrayAdapter<Item> {
 
-    private int lang;
-
-    public Adapter(Context context, Item[] objects) {
+    Adapter(Context context, Item[] objects) {
         super(context, 0, objects);
-        lang = Language.valueOf((Prefs.getLanguage() == null) ? "tr" : Prefs.getLanguage()).ordinal();
+
 
     }
 
@@ -67,42 +63,36 @@ public class Adapter extends ArrayAdapter<Item> {
             vh.arabicImg.setImageDrawable(null);
             vh.arabicImg.setVisibility(View.GONE);
             vh.arabic.setText(i.arabic);
-            if (lang == Language.ar.ordinal()) {
+            if (i.name == null) {
                 vh.name.setVisibility(View.GONE);
-            }
-            else {
-                vh.name.setText(i.name[lang]);
+            } else {
+                vh.name.setText(i.name);
                 vh.name.setVisibility(View.VISIBLE);
             }
             vh.arabic.setVisibility(View.VISIBLE);
         }
 
-        if (lang == Language.ar.ordinal()) {
+        if (i.desc == null) {
             vh.meaning.setVisibility(View.GONE);
-        }
-        else {
-            vh.meaning.setText(i.meaning[lang]);
+        } else {
+            vh.meaning.setText(i.desc);
         }
 
         return convertView;
     }
 
-    enum Language {
-        tr, de, en, ar
-    }
-
     static class Item {
         String arabic;
-        String[] name = new String[3];
-        String[] meaning = new String[3];
+        String name;
+        String desc;
 
         @Override
         public String toString() {
-            return arabic + " " + name[0] + " " + name[1] + " " + name[2] + " " + meaning[0] + " " + meaning[1] + " " + meaning[2];
+            return arabic + " " + name + " " + desc;
         }
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView name;
         TextView meaning;
         TextView arabic;

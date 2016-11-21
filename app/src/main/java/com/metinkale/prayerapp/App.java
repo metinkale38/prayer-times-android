@@ -16,6 +16,7 @@
 
 package com.metinkale.prayerapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -28,21 +29,31 @@ import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobCreator;
+import com.evernote.android.job.JobManager;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
+import com.metinkale.prayerapp.vakit.times.WebTimes;
+
 import io.fabric.sdk.android.Fabric;
+
 import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.joda.time.DateTimeZone;
 
+import java.io.IOException;
 import java.util.TimeZone;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
+    @SuppressLint("StaticFieldLeak")
     private static Context sContext;
     private static Handler sHandler = new Handler();
 
@@ -74,9 +85,15 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     }
 
     public static boolean isOnline() {
-        ConnectivityManager conMgr = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-        return (activeNetwork != null) && activeNetwork.isConnected();
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
@@ -109,6 +126,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         Fabric.with(this, new Crashlytics());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
+
+        JobManager.create(this).addJobCreator(new MyJobCreator());
 
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
@@ -147,5 +166,21 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public static final class NotIds {
         public static final int ALARM = 1;
         public static final int ONGOING = 2;
+    }
+
+    private class MyJobCreator implements JobCreator {
+        @Override
+        public Job create(String tag) {
+            try {
+                if (tag.startsWith(WebTimes.SyncJob.TAG)) {
+                    Times t = Times.getTimes(Long.parseLong(tag.substring(WebTimes.SyncJob.TAG.length())));
+                    if (t instanceof WebTimes)
+                        return ((WebTimes) t).new SyncJob();
+                }
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+            }
+            return null;
+        }
     }
 }

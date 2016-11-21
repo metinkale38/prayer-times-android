@@ -178,7 +178,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
             case R.id.refresh:
                 if (mTimes instanceof WebTimes) {
-                    ((WebTimes) mTimes).syncTimes();
+                    ((WebTimes) mTimes).syncAsync();
                 }
                 break;
 

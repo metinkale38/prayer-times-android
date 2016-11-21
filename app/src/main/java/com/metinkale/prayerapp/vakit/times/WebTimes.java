@@ -16,26 +16,29 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.BatteryManager;
-import android.os.PowerManager;
+
+import android.support.annotation.NonNull;
+
+import com.crashlytics.android.Crashlytics;
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.other.Source;
+
 import org.joda.time.LocalDate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class WebTimes extends Times {
 
 
-    public Runnable mNotify = new Runnable() {
+    private Runnable mNotify = new Runnable() {
         @Override
         public void run() {
             notifyOnUpdated();
@@ -43,74 +46,19 @@ public class WebTimes extends Times {
         }
     };
     protected Map<String, String> times = new HashMap<>();
-    private int lastSyncTime;
     private String id;
-    private Runnable mCheckSync = new Runnable() {
-        @Override
-        public void run() {
-            App.getHandler().removeCallbacks(mCheckSync);
+    private int jobId = -1;
 
-            LocalDate ld = LocalDate.now();
-            long lastSync = getLastSyncTime();
-
-            if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24)) {
-                // always if +15 days does not exist
-                ld = ld.plusDays(15);
-                if ("00:00".equals(getTime(ld, 1))) {
-                    syncTimes();
-                    return;
-                }
-
-
-                ConnectivityManager connManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-                int reasons = 0;
-                if (wifi.isConnected()) {
-                    reasons++;
-                }
-
-                try {
-                    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-                    Intent batteryStatus = App.getContext().registerReceiver(null, ifilter);
-                    int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    if ((status == BatteryManager.BATTERY_STATUS_CHARGING) || (status == BatteryManager.BATTERY_STATUS_FULL)) {
-                        reasons++;
-                    }
-                } catch (Exception ignore) {
-                }
-                if (((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
-                    reasons++;
-                }
-
-                if (Main.isRunning) {
-                    reasons++;
-                }
-
-                ld = ld.plusDays(reasons * 3);
-                // if +15+reasons*3 days does not exist
-                if ("00:00".equals(getTime(ld, 1))) {
-                    syncTimes();
-                    return;
-                }
-
-                // always if last sync was earlier than before (60-reasons*5) days
-                if ((System.currentTimeMillis() - lastSync) > (1000 * 60 * 60 * 24 * (60 - (reasons * 5)))) {
-                    syncTimes();
-                    //noinspection UnnecessaryReturnStatement
-                    return;
-                }
-            }
-        }
-    };
 
     WebTimes(long id) {
         super(id);
+        scheduleJob();
 
     }
 
     WebTimes() {
         super();
+        scheduleJob();
     }
 
 
@@ -145,27 +93,24 @@ public class WebTimes extends Times {
     @Override
     public void delete() {
         super.delete();
-        App.getHandler().removeCallbacks(mCheckSync);
+        if (jobId != -1)
+            JobManager.instance().cancel(jobId);
     }
 
     @Override
     public synchronized String getTime(LocalDate date, int time) {
-        App.getHandler().post(mCheckSync);
 
         return super.getTime(date, time);
     }
 
-    public void syncTimes() {
 
-    }
-
-    protected String extractLine(String str) {
+    String extractLine(String str) {
         str = str.substring(str.indexOf(">") + 1);
         str = str.substring(0, str.indexOf("</"));
         return str;
     }
 
-    protected String az(int i) {
+    String az(int i) {
         if (i < 10) {
             return "0" + i;
         } else {
@@ -181,33 +126,25 @@ public class WebTimes extends Times {
         }
     }
 
-    public long getLastSyncTime() {
-        return lastSyncTime * 1000L;
-    }
-
-    public void setLastSyncTime(long lastSyncTime) {
-        this.lastSyncTime = (int) (lastSyncTime / 1000);
-        save();
-    }
 
     @Override
-    public synchronized String _getTime(LocalDate date, int time) {
+    protected synchronized String _getTime(LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
-        if (str == null) {
+        if (str == null || str.contains("00:00")) {
             return "00:00";
         }
         return str.replace("*", "");
     }
 
-    public synchronized void setTime(LocalDate date, int time, String value) {
-        if (deleted()) return;
+    private synchronized void setTime(LocalDate date, int time, String value) {
+        if (deleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
 
         App.getHandler().post(mNotify);
     }
 
-    public void setTimes(LocalDate date, String[] value) {
+    void setTimes(LocalDate date, String[] value) {
         if (deleted()) return;
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
@@ -222,4 +159,128 @@ public class WebTimes extends Times {
         this.id = id;
         save();
     }
+
+    public void syncAsync() {
+        Builders.Any.F[] builders = createIonBuilder();
+        for (Builders.Any.F builder : builders) {
+            builder.asString().setCallback(new FutureCallback<String>() {
+                @Override
+                public void onCompleted(Exception e, String result) {
+                    if (e != null) {
+                        Crashlytics.logException(e);
+                        return;
+                    }
+
+                    try {
+                        parseResult(result);
+                    } catch (Exception ee) {
+                        Crashlytics.logException(ee);
+                        ee.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    protected Builders.Any.F[] createIonBuilder() {
+        return new Builders.Any.F[0];
+    }
+
+    protected boolean parseResult(String result) {
+        return true;
+    }
+
+    private int getSyncedDays() {
+        LocalDate date = LocalDate.now();
+        int i = 0;
+        while (i < 45) {
+            String prefix = date.toString("yyyy-MM-dd") + "-";
+            String times[] = {
+                    this.times.get(prefix + 0),
+                    this.times.get(prefix + 1),
+                    this.times.get(prefix + 2),
+                    this.times.get(prefix + 3),
+                    this.times.get(prefix + 4),
+                    this.times.get(prefix + 5)
+            };
+            for (String time : times) {
+                if (time == null || time.contains("00:00")) return i;
+            }
+            i++;
+            date = date.plusDays(1);
+        }
+        return i;
+
+    }
+
+    private void scheduleJob() {
+        int syncedDays = getSyncedDays();
+
+
+        if (syncedDays == 0) {
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
+                    .setExecutionWindow(1, TimeUnit.MINUTES.toMillis(3))
+                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL)
+                    .setUpdateCurrent(true)
+                    .build()
+                    .schedule();
+        } else if (syncedDays < 3)
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
+                    .setExecutionWindow(1, TimeUnit.HOURS.toMillis(3))
+                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setUpdateCurrent(true)
+                    .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobRequest.BackoffPolicy.EXPONENTIAL)
+                    .build()
+                    .schedule();
+        else if (syncedDays < 10)
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
+                    .setExecutionWindow(1, TimeUnit.DAYS.toMillis(3))
+                    .setBackoffCriteria(TimeUnit.DAYS.toMillis(1), JobRequest.BackoffPolicy.LINEAR)
+                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setRequiresCharging(true)
+                    .setUpdateCurrent(true)
+                    .build()
+                    .schedule();
+        else if (syncedDays < 20)
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
+                    .setExecutionWindow(1, TimeUnit.DAYS.toMillis(10))
+                    .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
+                    .setBackoffCriteria(TimeUnit.DAYS.toMillis(3), JobRequest.BackoffPolicy.LINEAR)
+                    .setUpdateCurrent(true)
+                    .build()
+                    .schedule();
+
+    }
+
+
+    public class SyncJob extends Job {
+        public static final String TAG = "WebTimesSyncJob";
+
+        @NonNull
+        @Override
+        protected Result onRunJob(Params params) {
+            boolean success = false;
+            Builders.Any.F[] builders = createIonBuilder();
+            for (Builders.Any.F builder : builders) {
+                try {
+                    String str = builder.asString().get();
+                    if (parseResult(str)) success = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                }
+            }
+            return success ? Result.SUCCESS : (params.isPeriodic() ? Result.FAILURE : Result.RESCHEDULE);
+        }
+
+        @Override
+        protected void onReschedule(int newJobId) {
+            jobId = newJobId;
+        }
+
+
+    }
+
+
 }

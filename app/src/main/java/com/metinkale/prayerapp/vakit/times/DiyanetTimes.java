@@ -16,7 +16,10 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
 import org.joda.time.LocalDate;
@@ -37,14 +40,13 @@ class DiyanetTimes extends WebTimes {
         return Source.Diyanet;
     }
 
-    @Override
-    public void syncTimes() {
-        setLastSyncTime(System.currentTimeMillis());
+
+    protected Builders.Any.F[] createIonBuilder() {
         String path = getId();
 
         if (!path.startsWith("D_")) {
             delete();
-            return;
+            return new Builders.Any.F[0];
         }
         if ("D_13_1008_0".equals(path)) {
             path = "D_13_10080_9206";
@@ -57,8 +59,7 @@ class DiyanetTimes extends WebTimes {
         if (a.length == 4) {
             city = Integer.parseInt(a[3]);
         }
-
-        Ion.with(App.getContext()).load("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc")
+        Builders.Any.F builder = Ion.with(App.getContext()).load("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setTimeout(3000)
@@ -68,48 +69,46 @@ class DiyanetTimes extends WebTimes {
                         "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
                         "<username i:type=\"d:string\">namazuser</username>" +
                         "<password i:type=\"d:string\">NamVak!14</password>" +
-                        "</AylikNamazVakti></v:Body></v:Envelope>")
-                .asString()
-                .setCallback(new CatchedFutureCallback<String>() {
-                    @Override
-                    public void onCompleted(String result) {
-                        result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
-                        result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
-                        String[] days = result.split("</a:NamazVakti><a:NamazVakti>");
-                        for (String day : days) {
-                            String[] parts = day.split("><a:");
+                        "</AylikNamazVakti></v:Body></v:Envelope>");
+        return new Builders.Any.F[]{builder};
+    }
 
-                            String[] times = new String[6];
-                            String date = null;
-                            for (String part : parts) {
-                                String name = part.substring(0, part.indexOf(">"));
-                                name = name.substring(name.indexOf(":") + 1);
-                                String content = part.substring(part.indexOf(">") + 1);
-                                content = content.substring(0, content.indexOf("<"));
-                                if ("Imsak".equals(name)) {
-                                    times[0] = content;
-                                } else if ("Gunes".equals(name)) {
-                                    times[1] = content;
-                                } else if ("Ogle".equals(name)) {
-                                    times[2] = content;
-                                } else if ("Ikindi".equals(name)) {
-                                    times[3] = content;
-                                } else if ("Aksam".equals(name)) {
-                                    times[4] = content;
-                                } else if ("Yatsi".equals(name)) {
-                                    times[5] = content;
-                                } else if ("MiladiTarihKisa".equals(name)) {
-                                    date = content;
-                                }
-                            }
-                            String[] d = date.split("\\.");
-                            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
-                        }
+    protected boolean parseResult(String result) {
+        result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
+        result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
+        String[] days = result.split("</a:NamazVakti><a:NamazVakti>");
+        int i = 0;
+        for (String day : days) {
+            String[] parts = day.split("><a:");
 
-                    }
-                });
-
-
+            String[] times = new String[6];
+            String date = null;
+            for (String part : parts) {
+                String name = part.substring(0, part.indexOf(">"));
+                name = name.substring(name.indexOf(":") + 1);
+                String content = part.substring(part.indexOf(">") + 1);
+                content = content.substring(0, content.indexOf("<"));
+                if ("Imsak".equals(name)) {
+                    times[0] = content;
+                } else if ("Gunes".equals(name)) {
+                    times[1] = content;
+                } else if ("Ogle".equals(name)) {
+                    times[2] = content;
+                } else if ("Ikindi".equals(name)) {
+                    times[3] = content;
+                } else if ("Aksam".equals(name)) {
+                    times[4] = content;
+                } else if ("Yatsi".equals(name)) {
+                    times[5] = content;
+                } else if ("MiladiTarihKisa".equals(name)) {
+                    date = content;
+                }
+            }
+            String[] d = date.split("\\.");
+            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
+            i++;
+        }
+        return i > 0;
     }
 
 

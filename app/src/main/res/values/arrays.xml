@@ -74,6 +74,7 @@
         <item>Türkçe</item>
         <item>Deutsch</item>
         <item>English</item>
+        <item>Français</item>
         <item>عربي</item>
     </string-array>
 
@@ -82,6 +83,7 @@
         <item>tr</item>
         <item>de</item>
         <item>en</item>
+        <item>fr</item>
         <item>ar</item>
     </string-array>
     <string-array name="lefttext_part">
@@ -243,6 +245,5 @@
         <item>@string/juristicShafi</item>
         <item>@string/juristicHanafi</item>
     </string-array>
-
 
 </resources>

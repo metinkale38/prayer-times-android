@@ -24,15 +24,13 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import com.crashlytics.android.Crashlytics;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,27 +58,17 @@ public class Main extends BaseActivity implements OnQueryTextListener {
         listView = (ListView) findViewById(android.R.id.list);
         values = new Item[99];
 
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getResources().openRawResource(R.raw.names)));
-            String line;
-            int i = 0;
-            while ((line = br.readLine()) != null) {
-                String[] p = line.split("\t");
-                values[i] = new Item();
-                values[i].arabic = p[0];
-                values[i].name[0] = p[1];
-                values[i].meaning[0] = p[2];
-                values[i].name[1] = p[3];
-                values[i].meaning[1] = p[4];
-                values[i].name[2] = p[5];
-                values[i].meaning[2] = p[6];
-                i++;
-            }
-            br.close();
-        } catch (IOException e) {
-            Crashlytics.logException(e);
-        }
+        String[] ar = getResources().getStringArray(R.array.names_ar);
+        String[] name = getResources().getStringArray(R.array.names_name);
+        String[] desc = getResources().getStringArray(R.array.names_desc);
 
+        for (int i = 0; i < 99; i++) {
+            Item item = new Item();
+            item.arabic = ar[i];
+            if (name.length > i) item.name = name[i];
+            if (desc.length > i) item.desc = desc[i];
+            values[i] = item;
+        }
         listView.setAdapter(new Adapter(this, values));
         listView.setFastScrollEnabled(true);
     }

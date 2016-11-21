@@ -1,0 +1,222 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string-array name="names_name">
+        <item>Allah</item>
+        <item>Er-Rahmân</item>
+        <item>Er-Rahîm</item>
+        <item>El-Melik</item>
+        <item>El-Kuddüs</item>
+        <item>Es-Selām</item>
+        <item>El-Mü\'min</item>
+        <item>El-Müheymin</item>
+        <item>El-Azîz</item>
+        <item>El-Cebbâr</item>
+        <item>El-Mütekebbir</item>
+        <item>El-Hâlik</item>
+        <item>El-Bâri</item>
+        <item>El-Musavvir</item>
+        <item>El-Gaffâr</item>
+        <item>El-Kahhâr</item>
+        <item>El-Vehhâb</item>
+        <item>Er-Rezzâk</item>
+        <item>El-Fettâh</item>
+        <item>El-Alîm</item>
+        <item>El-Kābid</item>
+        <item>El-Bâsit</item>
+        <item>El-Hâfıd</item>
+        <item>Er-Râfi</item>
+        <item>El-Muiz</item>
+        <item>El-Müzil</item>
+        <item>Es-Semî</item>
+        <item>El-Basîr</item>
+        <item>El-Hakem</item>
+        <item>El-Adil</item>
+        <item>El-Latîf</item>
+        <item>El-Habîr</item>
+        <item>El-Halîm</item>
+        <item>El-Azîm</item>
+        <item>El-Gafûr</item>
+        <item>Eş-Şekûr</item>
+        <item>El-Aliyy</item>
+        <item>El-Kebîr</item>
+        <item>El-Hafîz</item>
+        <item>El-Mukît</item>
+        <item>El-Hasîb</item>
+        <item>El-Celîl</item>
+        <item>El-Kerîm</item>
+        <item>Er-Rakîb</item>
+        <item>El-Mucîb</item>
+        <item>El-Vâsi</item>
+        <item>El-Hakîm</item>
+        <item>El-Vedûd</item>
+        <item>El-Mecîd</item>
+        <item>El-Bâis</item>
+        <item>Eş-Şehîd</item>
+        <item>El-Hakk</item>
+        <item>El-Vekîl</item>
+        <item>El-Kaviyy</item>
+        <item>El-Metîn</item>
+        <item>El-Velî</item>
+        <item>El-Hamîd</item>
+        <item>El-Muhsî</item>
+        <item>El-Mübdî\'</item>
+        <item>El-Muîd</item>
+        <item>El-Muhyî</item>
+        <item>El-Mümît</item>
+        <item>El-Hayy</item>
+        <item>El-Kayyûm</item>
+        <item>El-Vâcid</item>
+        <item>El-Mâcid</item>
+        <item>El-Vâhid</item>
+        <item>El-Samed</item>
+        <item>El-Kādir</item>
+        <item>El-Muktedir</item>
+        <item>El-Mukaddim</item>
+        <item>El-Mu\'ahhir</item>
+        <item>El-Evvel</item>
+        <item>El-Âhir</item>
+        <item>Ez-Zâhir</item>
+        <item>El-Bâtın</item>
+        <item>El-Vâlî</item>
+        <item>El-Müteâli</item>
+        <item>El-Berr</item>
+        <item>El-Tevvâb</item>
+        <item>El-Müntakim</item>
+        <item>El-Afüv</item>
+        <item>Er-Ra\'ûf</item>
+        <item>Mâlik-ül Mülk</item>
+        <item>Zülcelâl-i vel-İkrâm</item>
+        <item>El-Muksit</item>
+        <item>El-Câmi</item>
+        <item>El-Ganî</item>
+        <item>El-Muğnî</item>
+        <item>El-Mâni</item>
+        <item>Ed-Dâr</item>
+        <item>En-Nâfi</item>
+        <item>En-Nûr</item>
+        <item>El-Hâdî</item>
+        <item>El-Bedî</item>
+        <item>El-Bâkî</item>
+        <item>El-Vâris</item>
+        <item>Er-Reşîd</item>
+        <item>Es-Sabûr</item>
+    </string-array>
+
+    <string-array name="names_desc">
+        <item>O Allah ki, O\'ndan başka ilah yoktur</item>
+        <item>Dünyada her kuluna karşı merhametli</item>
+        <item>Ahirette sadece mümin kuluna karşı merhametli</item>
+        <item>Herşeyin tek sahibi</item>
+        <item>Bütün noksanlıklardan uzak olan</item>
+        <item>Selamete ulaştıran</item>
+        <item>İman eden kulunu koruyan</item>
+        <item>Gözetip muhafaza eden</item>
+        <item>Üstün, kuvvetli olan</item>
+        <item>Dilediğini zorla yaptırmaya muktedir olan</item>
+        <item>Her hadisede büyüklüğünü gösteren</item>
+        <item>Herşeyi yerli yerince yaratan</item>
+        <item>Herşeyi değişik biçim ve surette yaratan</item>
+        <item>Herşeye şekil veren</item>
+        <item>Günahları bağışlayan</item>
+        <item>Kahredici bir güçle herşeye galip olan</item>
+        <item>Karşılıksız, istemeden veren</item>
+        <item>Bütün mahlukatın rıskını veren</item>
+        <item>Her kapıyı açan</item>
+        <item>Herşeyi bilen</item>
+        <item>Ölüm anında ruhları alan</item>
+        <item>Bağışı çok, ihsanı bol olan</item>
+        <item>En yüce mertebeden en aşağı indiren</item>
+        <item>Dereceleri yükselten</item>
+        <item>İstediğini aziz eden</item>
+        <item>Dilediğini zelil eden</item>
+        <item>Yer ve göklerdeki herşeyi işiten</item>
+        <item>Herşeyi gören</item>
+        <item>Hüküm sahibi</item>
+        <item>Adalet sahibi</item>
+        <item>Lütuf sahibi</item>
+        <item>Herşeyin gizlisinden haberdar olan</item>
+        <item>Çok yumuşak olan, mühlet tanıyan</item>
+        <item>Azametli, pek büyük olan</item>
+        <item>Çok bağışlayıcı olan</item>
+        <item>Yapılan şükrün karşılığını bolca veren</item>
+        <item>Çok yüce</item>
+        <item>En büyük</item>
+        <item>Koruyan, muhafaza eden</item>
+        <item>Yaşamak için gıdaları yaratan</item>
+        <item>Hesaba çeken</item>
+        <item>Zatında, sıfatında hiçbir şey kendisine denk olmayan</item>
+        <item>Cömert, kerem sahibi</item>
+        <item>Gözeten, kontrol eden</item>
+        <item>Dualara icabet eden</item>
+        <item>İhsanı, ilmi kudreti ve rahmeti ile kuşatan</item>
+        <item>Herşeyin hakikatini seven</item>
+        <item>Aşkı ile yanan kullarını seven</item>
+        <item>Şanı büyük ve yüksek olan</item>
+        <item>Gönderen, uyandıran, dirilten</item>
+        <item>Herşeye sahip olan</item>
+        <item>Sözünde sadık olan</item>
+        <item>İşlerini kendisine bırakanın işini en iyi şekilde yapan</item>
+        <item>Yegane güç ve kuvvet sahibi</item>
+        <item>Son derece güçlü</item>
+        <item>Dostlarına yardım eden</item>
+        <item>Hamde tek layık olan</item>
+        <item>Her yapılanı hesap eden</item>
+        <item>Kainatı yoktan var eden</item>
+        <item>Öldükten sonra dirilten</item>
+        <item>Ölüleri dirilten</item>
+        <item>Eceli geleni öldüren</item>
+        <item>Ölmeyen, diri olan</item>
+        <item>Bütün eşya kendi varlığı ile kaim olan</item>
+        <item>En zengin olan</item>
+        <item>Nimetleri ve ihsanı sonsuz olan</item>
+        <item>Zatında ortağı olmayan tek</item>
+        <item>Herşeyin kendisine muhtaç olduğu zat</item>
+        <item>Kudret sahibi</item>
+        <item>Herşeye gücü yeten</item>
+        <item>Dilediğini öne alan</item>
+        <item>İstediğini arkaya bırakan</item>
+        <item>Varlığının başlangıcı olmayan</item>
+        <item>Varlığının sonu olmayan</item>
+        <item>Varlığı, kudretiyle aşikar olan</item>
+        <item>Mahiyeti gizli olan</item>
+        <item>Kainatın tek yöneticisi</item>
+        <item>İzzet ve şeref bakımından en yüce olan</item>
+        <item>Bütün iyilik ve güzelliğin sahibi</item>
+        <item>Tövbeleri kabul eden</item>
+        <item>Suçluları gerektiği gibi cezalandıran</item>
+        <item>Affeden</item>
+        <item>Çok şefkatli olan</item>
+        <item>Kainatın tek sahibi</item>
+        <item>Büyüklük ve kerem sahibi</item>
+        <item>Adaletle hükmeden</item>
+        <item>Güzellikleri zatında, kullarını ahırette toplayan</item>
+        <item>Zenginlikte herşeyin kendisine muhtaç olduğu zat</item>
+        <item>Dilediğini zengin kılan</item>
+        <item>Kötülüklere mani olan</item>
+        <item>Zarar veren şeyleri de yaratan</item>
+        <item>Fayda veren şeyleri yaratan</item>
+        <item>Nurlandıran</item>
+        <item>Hidayete erdiren</item>
+        <item>Örneksiz, eşsiz yaratan</item>
+        <item>Ebedi olan</item>
+        <item>Herşey yok olunca diri kalacak olan</item>
+        <item>Doğru yola ileten</item>
+        <item>Çok sabırlı olan</item>
+    </string-array>
+</resources>
