@@ -218,13 +218,16 @@ public class WebTimes extends Times {
 
 
         if (syncedDays == 0) {
-            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
-                    .setExecutionWindow(1, TimeUnit.MINUTES.toMillis(3))
-                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                    .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL)
-                    .setUpdateCurrent(true)
-                    .build()
-                    .schedule();
+            if (App.isOnline()) syncAsync();
+            else
+                jobId = new JobRequest.Builder(SyncJob.TAG + getID())
+                        .setExecutionWindow(1, TimeUnit.MINUTES.toMillis(3))
+                        .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                        .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL)
+                        .setUpdateCurrent(true)
+                        .build()
+                        .schedule();
+
         } else if (syncedDays < 3)
             jobId = new JobRequest.Builder(SyncJob.TAG + getID())
                     .setExecutionWindow(1, TimeUnit.HOURS.toMillis(3))

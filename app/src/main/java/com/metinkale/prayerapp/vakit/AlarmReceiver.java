@@ -29,11 +29,13 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -69,14 +71,8 @@ public class AlarmReceiver extends IntentService {
 
             am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * dur), service);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-                if (nm.isNotificationPolicyAccessGranted()) {
-                    aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
-                }
-            } else {
+            if (PermissionUtils.get(c).pNotPolicy)
                 aum.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_VIBRATE);
-            }
 
 
         }
@@ -147,7 +143,7 @@ public class AlarmReceiver extends IntentService {
     }
 
     public void fireAlarm(Intent intent) throws InterruptedException {
-    
+
 
         Context c = App.getContext();
 
@@ -211,10 +207,10 @@ public class AlarmReceiver extends IntentService {
         String txt = "";
         if (next.early) {
             String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], t.getEarlyTime(next.vakit));
+            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getEarlyTime(next.vakit));
         } else if (next.cuma) {
             String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], t.getCumaTime());
+            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getCumaTime());
         } else if (next.vakit != null) {
             txt = next.vakit.getString();
         }

@@ -18,12 +18,16 @@ package com.metinkale.prayerapp.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -45,24 +49,26 @@ public class PermissionUtils {
     public boolean pLocation;
     public boolean pNotPolicy;
 
-    private PermissionUtils(Activity act) {
-        checkPermissions(act);
+    private PermissionUtils(Context c) {
+        checkPermissions(c);
     }
 
-    public static PermissionUtils get(Activity act) {
+    public static PermissionUtils get(Context c) {
         if (mInstance == null) {
-            mInstance = new PermissionUtils(act);
+            mInstance = new PermissionUtils(c);
         }
         return mInstance;
     }
 
-    private void checkPermissions(Activity act) {
-        pCalendar = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
-        pCamera = ContextCompat.checkSelfPermission(act, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        pStorage = ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        pLocation = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    private void checkPermissions(Context c) {
+        pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+        pCamera = ContextCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pNotPolicy = ContextCompat.checkSelfPermission(act, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED;
+            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            pNotPolicy = nm.isNotificationPolicyAccessGranted();
             Crashlytics.setBool("pNotPolicy", pLocation);
         } else
             pNotPolicy = true;
@@ -75,13 +81,19 @@ public class PermissionUtils {
     }
 
     public void needNotificationPolicy(final Activity act) {
-        if (!pNotPolicy && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, REQUEST_NOT_POLICY);
-        } else {
-            pNotPolicy = true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+        NotificationManager nm = (NotificationManager) act.getSystemService(Context.NOTIFICATION_SERVICE);
+        pNotPolicy = nm.isNotificationPolicyAccessGranted();
+        if (!pNotPolicy) {
+            Intent intent = new Intent(
+                    android.provider.Settings
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+            act.startActivity(intent);
         }
     }
-
 
     public void needCamera(final Activity act) {
         if (!pCamera) {
