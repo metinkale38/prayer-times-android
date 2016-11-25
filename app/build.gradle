@@ -49,6 +49,7 @@ android {
         signingConfig signingConfigs.debugKey
         versionCode 163
         versionName '3.6.2'
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -115,4 +116,5 @@ dependencies {
     compile 'com.android.support:customtabs:25.0.1'
     compile 'com.evernote:android-job:1.1.3'
     playCompile 'com.google.android.gms:play-services:10.0.0'
+    compile 'com.android.support:multidex:1.0.1'
 }

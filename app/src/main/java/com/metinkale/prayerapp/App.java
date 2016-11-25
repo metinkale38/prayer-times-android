@@ -28,6 +28,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -51,7 +52,7 @@ import java.io.IOException;
 import java.util.TimeZone;
 
 
-public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class App extends MultiDexApplication implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;
