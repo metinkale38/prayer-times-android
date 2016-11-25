@@ -114,5 +114,5 @@ dependencies {
     compile 'net.steamcrafted:materialiconlib:1.1.1'
     compile 'com.android.support:customtabs:25.0.1'
     compile 'com.evernote:android-job:1.1.3'
-    compile 'com.google.android.gms:play-services:10.0.0'
+    playCompile 'com.google.android.gms:play-services:10.0.0'
 }
