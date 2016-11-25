@@ -255,4 +255,5 @@
     <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
     <string name="sendMail_sum">Send me an E-Mail!</string>
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

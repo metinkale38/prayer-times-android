@@ -22,9 +22,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.mapbox.mapboxsdk.MapboxAccountManager;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -94,6 +96,16 @@ public class FragMap extends Fragment implements Main.MyCompassListener, MapboxM
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+        new AlertDialog.Builder(getActivity()).setTitle("Attention")
+                .setMessage("This map is displayed with the MapBox Api, which does not support Geodesic Polylines, so the direction on the map might not be accurate (especially at lower latitudes), because it does not take the earth curvature into account." +
+                        "\n\n" +
+                        "Therefore this Map is not suggested to use for an accurate determination of the prayer direction!" +
+                        "\n\n" +
+                        "In the Play Store Version of this Prayer App, Google Maps is used instead, which support Geodesic Lines, and is accurate due to that." +
+                        "\n\n" +
+                        "Since F-Droid permits the usage of the Google Maps Api, this Map will not be updated anymore!")    
+                .setPositiveButton("Ok", null)
+                .show();
     }
 
     @Override
@@ -147,7 +159,8 @@ public class FragMap extends Fragment implements Main.MyCompassListener, MapboxM
                 .add(pos)
                 .add(mKaabePos)
                 .color(Color.parseColor("#3bb2d0"))
-                .width(2));
+                .width(3));
+
 
     }
 }

@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
@@ -33,7 +34,9 @@ import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
+
 import org.joda.time.LocalDate;
 
 @SuppressLint("ClickableViewAccessibility")
@@ -151,13 +154,15 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         }
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MaterialMenuInflater
-                .with(getActivity())
-                .setDefaultColor(Color.WHITE)
-                .inflate(R.menu.vakit, menu);
+        try {
+            MaterialMenuInflater.with(getActivity(), inflater)
+                    .setDefaultColor(Color.WHITE)
+                    .inflate(R.menu.vakit, menu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

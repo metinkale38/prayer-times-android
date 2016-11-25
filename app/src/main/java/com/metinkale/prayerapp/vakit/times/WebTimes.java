@@ -52,13 +52,10 @@ public class WebTimes extends Times {
 
     WebTimes(long id) {
         super(id);
-        scheduleJob();
-
     }
 
     WebTimes() {
         super();
-        scheduleJob();
     }
 
 
@@ -157,6 +154,7 @@ public class WebTimes extends Times {
 
     public synchronized void setId(String id) {
         this.id = id;
+        scheduleJob();
         save();
     }
 

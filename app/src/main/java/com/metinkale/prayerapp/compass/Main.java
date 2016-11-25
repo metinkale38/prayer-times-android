@@ -33,6 +33,7 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
@@ -49,6 +50,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
+@SuppressWarnings("MissingPermission")
 public class Main extends BaseActivity implements LocationListener, RotationUpdateDelegate {
 
     private static double mQAngle;
