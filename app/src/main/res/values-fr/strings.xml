@@ -180,7 +180,6 @@
   <string name="shareTimes">Les temps de prières pour aujourd\'hui %1$s</string>
   <string name="showMore">Afficher plus</string>
   <string name="silenterDuration">durée silencieuse</string>
-  <string name="silenterType">Mode silencieux</string>
   <string name="silent">Silencieux</string>
   <string name="sorted">Triés par ordre</string>
   <string name="soundPicker">Choisir voix</string>
@@ -191,7 +190,6 @@
   <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Temps</string>
   <string name="time">Temps</string>
-  <string name="touchToSelectCity">Touchez ici pour sélectionner la ville</string>
   <string name="transWhiteWidget">Widget Blanc Transparent</string>
   <string name="transWidget">Widget Transparent</string>
   <string name="test">Essayer</string>
