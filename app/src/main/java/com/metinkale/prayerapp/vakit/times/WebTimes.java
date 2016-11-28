@@ -18,13 +18,17 @@ package com.metinkale.prayerapp.vakit.times;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
 
@@ -84,6 +88,7 @@ public class WebTimes extends Times {
         t.setLng(lng);
         t.setId(id);
         t.setSortId(99);
+        t.scheduleJob();
 
     }
 
@@ -154,23 +159,22 @@ public class WebTimes extends Times {
 
     public synchronized void setId(String id) {
         this.id = id;
-        scheduleJob();
         save();
     }
 
     public void syncAsync() {
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
-            builder.asString().setCallback(new FutureCallback<String>() {
+            builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
                 @Override
-                public void onCompleted(Exception e, String result) {
+                public void onCompleted(Exception e, Response<String> result) {
                     if (e != null) {
                         Crashlytics.logException(e);
                         return;
                     }
 
                     try {
-                        parseResult(result);
+                        parseResult(result.getResult());
                     } catch (Exception ee) {
                         Crashlytics.logException(ee);
                         ee.printStackTrace();

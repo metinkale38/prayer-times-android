@@ -22,6 +22,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
+
 import org.joda.time.LocalDate;
 
 class DiyanetTimes extends WebTimes {
@@ -59,10 +60,9 @@ class DiyanetTimes extends WebTimes {
         if (a.length == 4) {
             city = Integer.parseInt(a[3]);
         }
-        Builders.Any.F builder = Ion.with(App.getContext()).load("http://namazvakitleri.diyanet.gov.tr/wsNamazVakti.svc")
+        Builders.Any.F builder = Ion.with(App.getContext()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
-                .setTimeout(3000)
                 .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                         "<v:Header /><v:Body>" +
                         "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
@@ -84,7 +84,9 @@ class DiyanetTimes extends WebTimes {
             String[] times = new String[6];
             String date = null;
             for (String part : parts) {
+                if (!part.contains(">")) continue;
                 String name = part.substring(0, part.indexOf(">"));
+                if (name.contains(":")) ;
                 name = name.substring(name.indexOf(":") + 1);
                 String content = part.substring(part.indexOf(">") + 1);
                 content = content.substring(0, content.indexOf("<"));

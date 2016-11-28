@@ -26,7 +26,9 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -147,10 +149,15 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
 
+        boolean synced = false;
         for (int i = 0; i < 6; i++) {
 
             TextView time = (TextView) mView.findViewById(ids[i]);
             time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            if (!synced && daytimes[i].equals("00:00") && mTimes instanceof WebTimes && App.isOnline()) {
+                ((WebTimes) mTimes).syncAsync();
+                synced = true;
+            }
         }
     }
 
@@ -162,6 +169,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                     .inflate(R.menu.vakit, menu);
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 
