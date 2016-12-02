@@ -254,4 +254,5 @@
   <string name="rate_desc">Eğer Namaz Vakti\'ni sevdiyseniz olumlu bir değerlendirme bırakın.</string>
   <string name="sendMail_sum">Bana bir e-posta gönder!</string>
   <string name="beta_tester_desc">Buraya tıklayarak Beta Tester olarak kayıt yaptır</string>
+  <string name="no_internet">İnternet bağlantısı yok</string>
 </resources>

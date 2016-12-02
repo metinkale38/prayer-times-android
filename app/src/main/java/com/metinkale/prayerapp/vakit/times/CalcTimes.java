@@ -24,14 +24,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
 import com.metinkale.prayerapp.vakit.times.other.Juristic;
 import com.metinkale.prayerapp.vakit.times.other.Method;
 import com.metinkale.prayerapp.vakit.times.other.PrayTime;
 import com.metinkale.prayerapp.vakit.times.other.Source;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -154,8 +157,10 @@ public class CalcTimes extends Times {
 
         });
 
-        dlg.show();
-
+        try {
+            dlg.show();
+        } catch (WindowManager.BadTokenException ignore) {
+        }
     }
 
     @Override

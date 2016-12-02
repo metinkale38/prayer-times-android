@@ -31,27 +31,18 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.vakit.PrefsView;
 
 
 public class Settings extends BaseActivity {
 
-    public static void sendMail(Context ctx) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Namaz Vakti uygulamasi");
-        String versionCode = "Undefined";
-        try {
-            versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + "";
-        } catch (PackageManager.NameNotFoundException e) {
-            Crashlytics.logException(e);
-        }
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "===Device Information===\nManufacturer: " + Build.MANUFACTURER + "\nModel: " + Build.MODEL + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nApp Version Code: " + versionCode);
-        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendMail)));
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -125,6 +125,7 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
 
 
         Fabric.with(this, new Crashlytics());
+        Crashlytics.setString("uuid", Prefs.getUUID());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
 

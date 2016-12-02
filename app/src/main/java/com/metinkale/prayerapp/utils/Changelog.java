@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.about.AboutAct;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.settings.Settings;
 
@@ -61,7 +62,7 @@ public class Changelog {
         builder.setNeutralButton(mContext.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Settings.sendMail(mContext);
+                AboutAct.sendMail(mContext);
             }
         });
 

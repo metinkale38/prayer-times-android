@@ -26,12 +26,13 @@ android {
     }
 
     dexOptions {
-        preDexLibraries = true
+        preDexLibraries true
+        javaMaxHeapSize "2g"
     }
 
     signingConfigs {
         debugKey {
-            storeFile file('/home/metin/Daten/Dropbox/Dokumente/Sonstiges/debug.keystore')
+            storeFile file('D:/Dropbox/Dokumente/Sonstiges/debug.keystore')
             keyAlias 'androiddebugkey'
             keyPassword 'android'
             storePassword 'android'
@@ -39,7 +40,8 @@ android {
     }
 
     compileSdkVersion 25
-    buildToolsVersion '25'
+    buildToolsVersion '25.0.1'
+
 
 
     defaultConfig {
@@ -47,7 +49,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 164
+        versionCode 165
         versionName '3.6.2'
         multiDexEnabled true
     }

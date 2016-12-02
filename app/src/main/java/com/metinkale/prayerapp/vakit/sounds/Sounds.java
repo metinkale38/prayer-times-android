@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.vakit.sounds;
 
 import android.content.SharedPreferences;
 import android.os.Environment;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -197,22 +198,33 @@ public class Sounds {
         }
 
         public File getFile() {
-            File old = new File(url.replace(App.API_URL + "/sounds/", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if (old.exists()) {
-                return old;
+            File folder = App.getContext().getExternalFilesDir(null);
+            if (folder != null) {
+                File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
+                if (old.exists()) {
+                    return old;
+                }
             }
 
-            File def = new File(url.replace(App.API_URL + "/sounds", App.getContext().getExternalFilesDir(null).getAbsolutePath()));
-            if (def.exists()) {
-                return def;
+            File def = null;
+            folder = App.getContext().getExternalFilesDir(null);
+            if (folder != null) {
+                def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+                if (def.exists()) {
+                    return def;
+                }
             }
 
-            File nosd = new File(url.replace(App.API_URL + "/sounds", App.getContext().getFilesDir().getAbsolutePath()));
-            if (nosd.exists()) {
-                return nosd;
+            File nosd = null;
+            folder = App.getContext().getFilesDir();
+            if (folder != null) {
+                nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+                if (nosd.exists()) {
+                    return nosd;
+                }
             }
 
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            if (def != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 return def;
             } else {
                 return nosd;

@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -48,6 +49,7 @@ import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SoundChooser extends DialogFragment implements OnItemClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
@@ -119,6 +121,8 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
 
         mList.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
+        if (mCb == null)
+            mAdapter = new MyAdapter(getActivity(), new ArrayList<Sound>());
         mAdapter = new MyAdapter(getActivity(), mCb.getSounds());
         mList.setAdapter(mAdapter);
 
@@ -334,7 +338,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             mp.start();
             mp.reset();
         } catch (Exception e) {
-            Toast.makeText(getActivity(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
+            Toast.makeText(App.getContext(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
             dismiss();
             new SoundChooser().showExpanded(getFragmentManager(), mCb);
             return;

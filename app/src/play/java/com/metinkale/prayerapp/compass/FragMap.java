@@ -71,6 +71,14 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
         }
     }
 
+    @Override
+    public void onPause() {
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onPause();
+    }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
@@ -86,7 +94,8 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        if (mGoogleApiClient.isConnected())
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
     @Override
@@ -129,6 +138,7 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
 
     @Override
     public void onLocationChanged(Location location) {
+
         mLocation = location;
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         if (mLine != null) {

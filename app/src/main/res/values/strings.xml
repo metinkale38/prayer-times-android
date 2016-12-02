@@ -256,4 +256,5 @@
     <string name="sendMail_sum">Send me an E-Mail!</string>
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
     <string name="title_activity_maps">Map</string>
+    <string name="no_internet">No Internet Connection</string>
 </resources>

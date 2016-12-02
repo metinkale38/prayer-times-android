@@ -29,6 +29,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.BuildConfig;
+import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.other.Source;
 
@@ -163,6 +164,10 @@ public class WebTimes extends Times {
     }
 
     public void syncAsync() {
+        if (!App.isOnline()) {
+            Toast.makeText(App.getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
             builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {

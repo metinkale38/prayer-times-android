@@ -18,7 +18,10 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import com.metinkale.prayerapp.App;
+
+import java.util.UUID;
 
 public class Prefs {
 
@@ -55,6 +58,17 @@ public class Prefs {
     public static String getHDF() {
         return getPrefs().getString("hdateformat", "DD MMM YYYY");
     }
+
+
+    public static String getUUID() {
+        String uuid = getPrefs().getString("uuid", null);
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+            getPrefs().edit().putString("uuid", uuid).apply();
+        }
+        return uuid;
+    }
+
 
     public static boolean useArabic() {
         return !"ar".equals(getLanguage()) && getPrefs().getBoolean("arabicNames", false);

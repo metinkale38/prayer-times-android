@@ -182,10 +182,10 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                 Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
                 if (frag == null) {
                     ((Main) getActivity()).setFooterText("", false);
-                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragContainer, NotificationPrefs.create(mTimes), "notPrefs").commitAllowingStateLoss();
                 } else {
                     ((Main) getActivity()).setFooterText(getString(R.string.monthly), true);
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commitAllowingStateLoss();
 
                 }
 
