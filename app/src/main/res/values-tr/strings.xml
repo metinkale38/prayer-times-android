@@ -180,6 +180,7 @@
   <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>
   <string name="showMore">Fazla göster</string>
   <string name="silenterDuration">Sessize alma süresi</string>
+  <string name="silenterType">Sessiz mod</string>
   <string name="silent">Sessiz</string>
   <string name="sorted">Sıraya göre</string>
   <string name="soundPicker">Telefon Seslerinden seç</string>
@@ -190,6 +191,7 @@
   <string name="tesbihat">Tesbihat</string>
   <string name="timeBased">Zaman</string>
   <string name="time">Zaman</string>
+  <string name="touchToSelectCity">Şehir seçmek için buraya dokunun</string>
   <string name="transWhiteWidget">Beyaz şeffaf Widget</string>
   <string name="transWidget">Şeffaf Widget</string>
   <string name="test">Dene</string>
