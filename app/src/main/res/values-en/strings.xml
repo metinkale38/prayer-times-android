@@ -69,7 +69,6 @@
   <string name="djuma">Friday Prayer</string>
   <string name="dlHadith">Download Hadith Database?</string>
   <string name="dlSound">Download “%1$s” (%2$s)?</string>
-  <string name="donateDesc">If you feel like to support the Developer some money, click here</string>
   <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you feel like to support me, thank you&#8230;</string>
   <string name="donate">Donate</string>
   <string name="earlyNotification">early Notification</string>
@@ -137,9 +136,6 @@
   <string name="kerahatMaghrib">Sunset (before Maghrib Prayer)</string>
   <string name="kerahatSun">Sunrise (after Morning Prayer)</string>
   <string name="kerahatTime">Makruh Praying Time</string>
-  <string name="langEn">English</string>
-  <string name="langGe">German</string>
-  <string name="langTr">Turkish</string>
   <string name="language">Language</string>
   <string name="leftText">%1$s | %3$s to %2$s</string>
   <string name="maghrib">Maghrib</string>
@@ -217,7 +213,6 @@
   <string name="zoomIn">Zoom In</string>
   <string name="zoomOut">Zoom out</string>
   <string name="zuhr">Zuhr</string>
-  <string name="langAr">Arabic</string>
   <string name="calculated">Calculated</string>
   <string name="beta_tester">Become a tester</string>
   <string name="widgetClock2">Prayer Times - 2*2 Clock</string>
@@ -228,14 +223,12 @@
   <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
-  <string name="dontshowagain">Don\'t show again</string>
   <string name="paypal">Paypal</string>
   <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Show minutes in Notification-Icon</string>
   <string name="vakit_indicator">Prayertime indicator</string>
   <string name="vakit_indicator_next">Next prayertime</string>
   <string name="vakit_indicator_current">Current prayertime</string>
-  <string name="night_mode">Force Night Mode</string>
   <string name="show_notification_screen">Show Notification Screen</string>
   <string name="autoremove_notification">Remove Notification after Adhan</string>
   <string name="about">About</string>
