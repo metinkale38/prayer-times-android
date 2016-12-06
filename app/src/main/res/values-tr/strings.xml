@@ -69,7 +69,6 @@
   <string name="djuma">Cuma</string>
   <string name="dlHadith">Hadisleri indirmek istiyormusunuz?</string>
   <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
-  <string name="donateDesc">Eğer geliştiriciyi desteklemek istiyorsanız, buraya tıklayın</string>
   <string name="donateDlg">Bu sadece destek amaçlı :)\n Elhamdulillah ihtiyacım yok, ama vermek isterseniz, Allah razı olsun&#8230;</string>
   <string name="donate">Destek</string>
   <string name="earlyNotification">Erken Uyarı</string>
@@ -137,9 +136,6 @@
   <string name="kerahatMaghrib">Güneş batması (Akşam\'dan önce)</string>
   <string name="kerahatSun">Güneş doğması (Sabah\'dan sonra)</string>
   <string name="kerahatTime">Kerahat Vakti</string>
-  <string name="langEn">Ingilizce</string>
-  <string name="langGe">Almanca</string>
-  <string name="langTr">Türkçe</string>
   <string name="language">Dil</string>
   <string name="leftText">%1$s | %2$s %3$s kaldı</string>
   <string name="maghrib">Akşam</string>
@@ -219,7 +215,6 @@
   <string name="zoomIn">Büyült</string>
   <string name="zoomOut">Küçült</string>
   <string name="zuhr">Öğle</string>
-  <string name="langAr">Arapça</string>
   <string name="calculated">Hesaplanmış</string>
   <string name="beta_tester">Test sürümünü kullan</string>
   <string name="widgetClock2">Namaz Vakti - Saat 2*2</string>
@@ -229,14 +224,12 @@
   <string name="useAlarm">Bildirimler için Alarm kullan</string>
   <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
     </string>
-  <string name="dontshowagain">Birdaha gösterme</string>
   <string name="paypal">Paypal</string>
   <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
   <string name="vakit_indicator">Vakit göstergesi</string>
   <string name="vakit_indicator_next">Gelecek Vakit</string>
   <string name="vakit_indicator_current">Şu anki Vakit</string>
-  <string name="night_mode">Gece Modu kullan</string>
   <string name="show_notification_screen">Bildiri ekranı göster</string>
   <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
   <string name="about">Hakkında</string>
