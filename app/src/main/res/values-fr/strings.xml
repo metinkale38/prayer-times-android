@@ -69,7 +69,6 @@
   <string name="djuma">La prière du vendredi</string>
   <string name="dlHadith">Télécharger les données pour les Hadith?</string>
   <string name="dlSound">Télécharger les voix \" %1$s \" (%2$s)?</string>
-  <string name="donateDesc">Pour soutenir le développeur, cliquez ici</string>
   <string name="donateDlg">Ceci est juste une aide pour le développeur :)\nAlhamdulillah, je ne ai pas besoin de cet argent, mais si vous avez envie de me soutenir, je vous remercie&#8230;</string>
   <string name="donate">Soutien</string>
   <string name="earlyNotification">notification précoce</string>
@@ -137,9 +136,6 @@
   <string name="kerahatMaghrib">Coucher du soleil (avant la prière du maghrib)</string>
   <string name="kerahatSun">lever du soleil (après la prière du matin)</string>
   <string name="kerahatTime">Temps Makruh</string>
-  <string name="langEn">Anglais</string>
-  <string name="langGe">allemand</string>
-  <string name="langTr">turc</string>
   <string name="language">Langue</string>
   <string name="leftText">Rèste %1$s |%2$s  %3$s</string>
   <string name="maghrib">Maghrib</string>
@@ -219,7 +215,6 @@
   <string name="zoomIn">Agrandir</string>
   <string name="zoomOut">Diminuer</string>
   <string name="zuhr">Dhohr</string>
-  <string name="langAr">Arabe</string>
   <string name="calculated">Calculé</string>
   <string name="beta_tester">Devenir un beta_testeur</string>
   <string name="widgetClock2">Horaires des prières - Horloge 2 * 2</string>
@@ -228,12 +223,10 @@
   <string name="hDateFormat3">30 Mouharram </string>
   <string name="useAlarm">Utilisez l\'alarme pour les notifications</string>
   <string name="useAlarmDesc">EXPERIMENTAL - Si les notifications ne sont pas déclenchés à temps, vous pouvez essayer ce paramètre. Une icône d\'alarme sera ajouté à la barre d\'état!</string>
-  <string name="dontshowagain">Ne plus afficher</string>
   <string name="ongoingNumber">Afficher les minutes dans l’icône de Notification</string>
   <string name="vakit_indicator">Indicateur des temps de prières</string>
   <string name="vakit_indicator_next">Prochaine prière</string>
   <string name="vakit_indicator_current">Temps de prière actuelle</string>
-  <string name="night_mode">Forcer le mode nuit</string>
   <string name="show_notification_screen">Afficher l\'écan des notifications</string>
   <string name="autoremove_notification">Supprimer la Notification après l’Adhan</string>
   <string name="about">À Propos</string>
