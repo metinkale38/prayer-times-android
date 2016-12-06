@@ -17,14 +17,7 @@
 package com.metinkale.prayerapp.settings;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -32,12 +25,9 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 
-import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
-import com.metinkale.prayerapp.vakit.PrefsView;
 
 
 public class Settings extends BaseActivity {
@@ -48,12 +38,6 @@ public class Settings extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Utils.init(this);
     }
 
 

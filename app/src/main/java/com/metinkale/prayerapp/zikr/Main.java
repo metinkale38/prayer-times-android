@@ -92,12 +92,6 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         });
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        saveCurrent();
-    }
-
     private void saveCurrent() {
         if (mCurrent == null) {
             return;
@@ -108,7 +102,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         mCurrent.max = mZikr.getMax();
         mCurrent.count2 = mZikr.getCount2();
 
-        mPrefs.edit().putStringSet(mCurrent.key, new HashSet<String>(Arrays.asList(new String[]{"0" + mCurrent.title, "1" + mCurrent.color, "2" + mCurrent.count, "3" + mCurrent.count2, "4" + mCurrent.max}))).apply();
+        mPrefs.edit().putStringSet(mCurrent.key, new HashSet<>(Arrays.asList(new String[]{"0" + mCurrent.title, "1" + mCurrent.color, "2" + mCurrent.count, "3" + mCurrent.count2, "4" + mCurrent.max}))).apply();
     }
 
     @Override
@@ -117,7 +111,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
         Map<String, Set<String>> map = (Map<String, Set<String>>) mPrefs.getAll();
         Set<String> keys = map.keySet();
-        mZikrList = new ArrayList<Zikr>();
+        mZikrList = new ArrayList<>();
         for (String key : keys) {
             if (key == null) {
                 continue;

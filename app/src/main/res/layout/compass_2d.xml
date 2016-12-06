@@ -47,8 +47,7 @@
                 android:layout_centerHorizontal="true"/>
 
         <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_above="@+id/hline"
@@ -75,8 +74,7 @@
                 android:textColor="#707070"/>
 
         <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_above="@+id/hline"

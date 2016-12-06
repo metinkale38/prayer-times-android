@@ -67,8 +67,7 @@
     <string name="djuma">صلاة الجمعة</string>
     <string name="dlHadith">تحميل الأحاديث</string>
     <string name="dlSound">تحميل “%1$s” (%2$s) ؟</string>
-    <string name="donateDesc">لدعم المنتج أنقر هنا</string>
-  <string name="donateDlg">\"هذا فقظ دعم للمنتج :)
+    <string name="donateDlg">\"هذا فقظ دعم للمنتج :)
         الحمد لله لست بحاجة للمال، ولكن إن أردت دعمي فشكراً جزيلاً\"</string>
     <string name="donate">الدعم</string>
     <string name="earlyNotification">التنبيه المبكر</string>
@@ -136,9 +135,6 @@
     <string name="kerahatMaghrib">غروب الشمس ( قبل وقت المغرب)</string>
     <string name="kerahatSun">شروق الشمس ( بعد وقت الفجر)</string>
     <string name="kerahatTime">وقت تَحرم فيها صلاة النافلة</string>
-    <string name="langEn">الإنجليزية</string>
-    <string name="langGe">Deutsch</string>
-    <string name="langTr">Türk</string>
     <string name="language">اللغة</string>
     <string name="leftText">%1$s | بقي %3$s bis %2$s</string>
     <string name="maghrib">المغرب</string>
@@ -227,7 +223,6 @@
     <string name="zoomIn">تكبيرالصورة</string>
     <string name="zoomOut">تغير الصورة</string>
     <string name="zuhr">الظهر</string>
-    <string name="langAr">عربي</string>
     <string name="calculated">حسابياً</string>
     <string name="beta_tester">جرب الإصدارات  التجريبية من التطبيق</string>
     <string name="widgetClock2">أوقات الصلاة الساعة - 2*2</string>
@@ -238,12 +233,10 @@
   <string name="useAlarmDesc">\"تجريبي:
 في حالة ملاحظة التأخير في تفعيل التنبيهات عن الوقت المحدد، اختر استخدام منبه الجهاز لحل هذه المشكلة.
 مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات \"</string>
-    <string name="dontshowagain">لا تظهره مرة أخرى</string>
     <string name="ongoingNumber">أظهر الدقائق مع المنبه</string>
     <string name="vakit_indicator">تمييز وقت الصلاة</string>
     <string name="vakit_indicator_next">وقت الصلاة التالي</string>
     <string name="vakit_indicator_current">وقت الصلاة الحالي</string>
-    <string name="night_mode">الشاشة الليلة</string>
     <string name="show_notification_screen">إظهار شاشة التنبيه</string>
     <string name="translate">ترجمة</string>
     <string name="github">GitHub</string>

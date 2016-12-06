@@ -256,8 +256,7 @@ public class NotificationPrefs extends Fragment {
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
-                boolean ret = mTimes.hasVibration(vakit);
-                return ret;
+                return mTimes.hasVibration(vakit);
             }
 
             @Override

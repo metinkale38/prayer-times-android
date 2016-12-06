@@ -16,6 +16,7 @@
 
 package com.metinkale.prayerapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -26,17 +27,17 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -45,6 +46,7 @@ import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
+
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.io.File;
@@ -70,9 +72,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(Prefs.isNightMode() ?
-                AppCompatDelegate.MODE_NIGHT_YES :
-                AppCompatDelegate.MODE_NIGHT_NO);
         if (App.getContext() == null) {
             App.setContext(this);
         }
@@ -145,8 +144,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         content.addView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mNav = (ListView) mDrawerLayout.findViewById(R.id.base_nav);
         ArrayAdapter<String> list = new ArrayAdapter<String>(this, R.layout.drawer_list_item, getResources().getStringArray(R.array.dropdown)) {
+            @NonNull
             @Override
-            public View getView(int pos, View v, ViewGroup p) {
+            public View getView(int pos, View v, @NonNull ViewGroup p) {
                 v = super.getView(pos, v, p);
                 if (pos == mNavPos) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
@@ -171,7 +171,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
-                toolbar.setTitle(title);
+                if (toolbar != null) {
+                    toolbar.setTitle(title);
+                }
             }
         });
 
@@ -198,11 +200,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mNav.setSelection(mNavPos);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
+    @SuppressLint("RtlHardcoded")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -224,8 +222,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        PermissionUtils.get(this).onRequestPermissionResult(requestCode, permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionUtils.get(this).onRequestPermissionResult(permissions, grantResults);
     }
 
     private class MyClickListener implements OnItemClickListener {
@@ -237,7 +235,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent i;
+            Intent i = null;
             switch (pos) {
                 case 0:
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
@@ -270,12 +268,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 ((Object) null).toString();
                             }
                         } catch (Exception e) {
-                            f.delete();
+                            if (f.exists() && !f.delete()) {
+                                Log.e("BaseActivity", "could not delete " + f.getAbsolutePath());
+                            }
                             onItemClick(null, null, 5, 0);
                         }
                         i = new Intent(BaseActivity.this, com.metinkale.prayerapp.hadis.Main.class);
+                    } else if (!App.isOnline()) {
+                        Toast.makeText(BaseActivity.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
                     } else {
-                        f.delete();
                         AlertDialog dialog = new AlertDialog.Builder(BaseActivity.this).create();
                         dialog.setTitle(R.string.hadith);
                         dialog.setMessage(getString(R.string.dlHadith));
@@ -294,7 +295,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                                 String url = App.API_URL + "/hadis." + lang + ".db";
 
-                                f.getParentFile().mkdirs();
+                                if (!f.getParentFile().mkdirs()) {
+                                    Log.e("BaseActivity", "could not mkdirs " + f.getParent());
+                                }
                                 final ProgressDialog dlg = new ProgressDialog(BaseActivity.this);
                                 dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                                 dlg.show();
@@ -345,21 +348,24 @@ public abstract class BaseActivity extends AppCompatActivity {
                     i = new Intent(BaseActivity.this, com.metinkale.prayerapp.vakit.Main.class);
             }
 
-            i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra("anim", true);
-            startActivity(i);
+            if (i != null) {
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra("anim", true);
+                startActivity(i);
 
-            overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0);
 
-            mDrawerLayout.postDelayed(new Runnable() {
+                mDrawerLayout.postDelayed(new Runnable() {
 
-                @Override
-                public void run() {
-                    mDrawerLayout.closeDrawers();
+                    @Override
+                    public void run() {
+                        mDrawerLayout.closeDrawers();
 
-                }
-            }, 500);
+                    }
+                }, 500);
+            }
+
 
         }
     }

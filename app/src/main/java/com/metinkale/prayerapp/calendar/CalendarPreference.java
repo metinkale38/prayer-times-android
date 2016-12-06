@@ -78,7 +78,7 @@ public class CalendarPreference extends ListPreference {
         setEntryValues(ids.toArray(new String[ids.size()]));
     }
 
-    void getCalendars(Collection<String> names, Collection<String> ids) {
+    private void getCalendars(Collection<String> names, Collection<String> ids) {
 
         String[] projection = {CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME};
         Uri calendars;

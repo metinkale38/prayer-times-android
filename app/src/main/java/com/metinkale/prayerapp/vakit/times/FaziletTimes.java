@@ -26,6 +26,8 @@ import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.metinkale.prayerapp.Utils.az;
+
 class FaziletTimes extends WebTimes {
 
     @SuppressWarnings("unused")

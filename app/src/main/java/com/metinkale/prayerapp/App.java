@@ -18,7 +18,6 @@ package com.metinkale.prayerapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -48,7 +47,6 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTimeZone;
 
-import java.io.IOException;
 import java.util.TimeZone;
 
 
@@ -86,15 +84,12 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     }
 
     public static boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
+        //only checks for connection, not for actual internet connection
+        //everything else need (or should be in) a seperate thread
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
     public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {

@@ -24,7 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
 
 public class CompassView extends View {
@@ -185,14 +184,6 @@ public class CompassView extends View {
         }
         return angle;
 
-    }
-
-    public int getQiblaAngle() {
-        int angle = (int) mqAngle;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
     }
 
     public void setAngle(float x, float y, float z) {

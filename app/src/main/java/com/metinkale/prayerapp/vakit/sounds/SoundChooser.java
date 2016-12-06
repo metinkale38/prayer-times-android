@@ -29,6 +29,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -234,6 +235,8 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     e.printStackTrace();
                 }
                 mList.setTag(s);
+            } else if (!App.isOnline()) {
+                Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             } else {
                 AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
                 dialog.setTitle(R.string.sound);
@@ -424,8 +427,9 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             sounds.add(other);
         }
 
+        @NonNull
         @Override
-        public View getView(int pos, View convertView, ViewGroup parent) {
+        public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), android.R.layout.simple_list_item_single_choice, null);
             }

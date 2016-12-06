@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -79,8 +78,7 @@ public class AlarmReceiver extends IntentService {
     }
 
     public static MediaPlayer play(Context c, String sound) throws IOException {
-        Uri uri = null;
-        uri = Uri.parse(sound);
+        Uri uri = Uri.parse(sound);
 
         MediaPlayer mp = new MediaPlayer();
         mp.setLooping(false);
@@ -322,12 +320,11 @@ public class AlarmReceiver extends IntentService {
                         mp.mp.release();
                         mp.mp = null;
 
-                        sound = null;
                         dua = null;
                     } else {
                         try {
                             Thread.sleep(500);
-                        } catch (InterruptedException e) {
+                        } catch (InterruptedException ignore) {
                         }
                     }
                 }
@@ -367,9 +364,10 @@ public class AlarmReceiver extends IntentService {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-
+            if (PermissionUtils.get(context).pNotPolicy) {
+                AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            }
         }
     }
 
@@ -377,8 +375,10 @@ public class AlarmReceiver extends IntentService {
 
         @Override
         public void onReceive(Context c, Intent i) {
-            AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
-            am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+            if (PermissionUtils.get(c).pNotPolicy) {
+                AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
+                am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+            }
         }
     }
 

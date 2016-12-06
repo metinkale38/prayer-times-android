@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.vakit.times;
 import android.content.SharedPreferences;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
-import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -135,7 +134,7 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    protected static void clearTimes() {
+    static void clearTimes() {
         sTimes.clear();
     }
 
@@ -189,7 +188,7 @@ public abstract class Times extends TimesBase {
         return getTimes().size();
     }
 
-    public static List<Alarm> getAllAlarms() {
+    private static List<Alarm> getAllAlarms() {
         List<Alarm> alarms = new ArrayList<>();
         List<Long> ids = getIds();
         for (long id : ids) {
@@ -223,13 +222,13 @@ public abstract class Times extends TimesBase {
         mListeners.remove(list);
     }
 
-    protected void notifyOnUpdated() {
+    void notifyOnUpdated() {
         if (mListeners != null)
             for (OnTimesUpdatedListener list : mListeners)
                 list.onTimesUpdated(this);
     }
 
-    Collection<Alarm> getAlarms() {
+    private Collection<Alarm> getAlarms() {
         Collection<Alarm> alarms = new ArrayList<>();
 
 
@@ -324,7 +323,7 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    public LocalDateTime getTimeCal(LocalDate date, int time) {
+    private LocalDateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -366,8 +365,7 @@ public abstract class Times extends TimesBase {
 
 
         }
-        String ret = adj(_getTime(date, time), time);
-        return ret;
+        return adj(_getTime(date, time), time);
     }
 
     protected String _getTime(LocalDate date, int time) {

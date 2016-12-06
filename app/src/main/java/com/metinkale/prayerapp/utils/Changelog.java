@@ -25,11 +25,9 @@ import android.net.Uri;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.about.AboutAct;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.settings.Settings;
 
 public class Changelog {
     private static final int CHANGELOG_VERSION = 16;

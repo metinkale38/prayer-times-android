@@ -56,7 +56,7 @@ public class Main extends BaseActivity {
                     int i = 0;
                     try {
                         i = Integer.parseInt(txt);
-                    } catch (Exception e) {
+                    } catch (Exception ignore) {
                     } finally {
                         i++;
                     }
@@ -98,22 +98,6 @@ public class Main extends BaseActivity {
             nr.setText(prefs.getString("count" + i, "0"));
 
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        ViewGroup vg = (ViewGroup) findViewById(R.id.main);
-        SharedPreferences.Editor edit = getSharedPreferences("kaza", 0).edit();
-        for (int i = 0; i < 7; i++) {
-            View v = vg.getChildAt(i);
-            EditText nr = (EditText) v.findViewById(R.id.nr);
-            edit.putString("count" + i, nr.getText().toString());
-
-        }
-
-        edit.apply();
     }
 
 }

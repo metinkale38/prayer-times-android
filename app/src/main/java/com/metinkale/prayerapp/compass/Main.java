@@ -25,6 +25,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -46,6 +47,7 @@ import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.rotation.MagAccelListener;
 import com.metinkale.prayerapp.compass.classes.rotation.RotationUpdateDelegate;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
@@ -213,22 +215,6 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         return true;
     }
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (PermissionUtils.get(this).pLocation) {
-            LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-            List<String> providers = locMan.getProviders(true);
-            for (String provider : providers) {
-                locMan.requestLocationUpdates(provider, 0, 0, this);
-                Location lastKnownLocation = locMan.getLastKnownLocation(provider);
-                if (lastKnownLocation != null) {
-                    calcQiblaAngel(lastKnownLocation);
-                }
-            }
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -273,7 +259,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionUtils.get(this).pCamera) {
             mMode = Mode.TwoDim;
@@ -310,17 +296,6 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(mMagAccel);
-        if (PermissionUtils.get(this).pLocation) {
-            LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locMan.removeUpdates(this);
-        }
-
-    }
-
-    @Override
     public void onLocationChanged(Location location) {
         if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -330,7 +305,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     private void calcQiblaAngel(Location location) {
-        if (location.getProvider() != "custom") {
+        if (!"custom".equals(location.getProvider())) {
             mSelCity.setVisibility(View.GONE);
         }
         double lat1 = location.getLatitude();// Latitude of Desired Location

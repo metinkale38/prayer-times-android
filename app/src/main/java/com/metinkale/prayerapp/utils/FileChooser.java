@@ -3,6 +3,7 @@ package com.metinkale.prayerapp.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
@@ -63,7 +64,7 @@ public class FileChooser {
             }
         });
         dialog.setContentView(list);
-        dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+        dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         refresh(Environment.getExternalStorageDirectory());
     }
 
@@ -126,8 +127,9 @@ public class FileChooser {
             dialog.setTitle(currentPath.getPath());
             list.setAdapter(new ArrayAdapter(activity,
                     android.R.layout.simple_list_item_1, fileList) {
+                @NonNull
                 @Override
-                public View getView(int pos, View view, ViewGroup parent) {
+                public View getView(int pos, View view, @NonNull ViewGroup parent) {
                     view = super.getView(pos, view, parent);
                     ((TextView) view).setSingleLine(true);
                     return view;

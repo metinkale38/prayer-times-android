@@ -16,8 +16,6 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -86,8 +84,8 @@ class DiyanetTimes extends WebTimes {
             for (String part : parts) {
                 if (!part.contains(">")) continue;
                 String name = part.substring(0, part.indexOf(">"));
-                if (name.contains(":")) ;
-                name = name.substring(name.indexOf(":") + 1);
+                if (name.contains(":"))
+                    name = name.substring(name.indexOf(":") + 1);
                 String content = part.substring(part.indexOf(">") + 1);
                 content = content.substring(0, content.indexOf("<"));
                 if ("Imsak".equals(name)) {

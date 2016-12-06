@@ -23,6 +23,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -51,7 +52,6 @@ import java.util.List;
 public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
     private MyAdapter mAdapter;
     private FloatingActionButton mFab;
-    private SearchView mSearchView;
     private MenuItem mSearchItem;
 
     @Override
@@ -86,7 +86,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionUtils.get(this).pLocation) {
             checkLocation();
@@ -142,7 +142,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 .setDefaultColor(0xFFFFFFFF)
                 .inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         mSearchView.performClick();
         mSearchView.setOnQueryTextListener(this);
         return true;
@@ -251,7 +251,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         }
 
         @Override
-        public void addAll(Collection<? extends Item> collection) {
+        public void addAll(@NonNull Collection<? extends Item> collection) {
             super.addAll(collection);
             sort(new Comparator<Item>() {
 
@@ -263,8 +263,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             });
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder vh;
             if (convertView == null) {
                 convertView = View.inflate(parent.getContext(), R.layout.vakit_addcity_row, null);

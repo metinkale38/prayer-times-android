@@ -19,7 +19,6 @@
     <color name="colorPrimary">#0288d1</color>
     <color name="colorPrimaryDark">#01579b</color>
     <color name="colorPrimaryLight">#b3e5fc</color>
-    <color name="colorNavBar">#ff000000</color>
     <color name="indicator">#4fc3f7</color>
     <color name="kerahat">#e51c23</color>
     <color name="background">#ffffff</color>

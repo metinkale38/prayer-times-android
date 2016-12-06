@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class CalcTimes extends Times {
                     mPrayTime.setMethodParams(getMethod().params);
                 mPrayTime.setAsrJuristic(getJuristic());
                 mPrayTime.setAdjustHighLats(getAdjMethod());
-            } catch (NullPointerException e) {
+            } catch (NullPointerException ignore) {
             }
             mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
         }
@@ -86,8 +87,9 @@ public class CalcTimes extends Times {
         final Spinner sp2 = (Spinner) view.findViewById(R.id.spinner2);
 
         lv.setAdapter(new ArrayAdapter<Method>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch, Method.values()) {
+            @NonNull
             @Override
-            public View getView(int pos, View convertView, ViewGroup parent) {
+            public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
                 ViewGroup vg = (ViewGroup) super.getView(pos, convertView, parent);
                 ((TextView) vg.getChildAt(0)).setText(getItem(pos).title);
                 ((TextView) vg.getChildAt(1)).setText(getItem(pos).desc);

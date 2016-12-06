@@ -17,8 +17,10 @@
 package com.metinkale.prayerapp.calendar;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.webkit.WebView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 
@@ -30,7 +32,9 @@ public class WebViewActivity extends BaseActivity {
         setContentView(R.layout.webview);
         WebView v = (WebView) findViewById(R.id.webview);
         v.loadUrl("file:///android_asset/" + getIntent().getStringExtra("asset"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null)
+            ab.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

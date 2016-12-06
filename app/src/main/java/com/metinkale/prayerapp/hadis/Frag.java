@@ -16,7 +16,6 @@
 
 package com.metinkale.prayerapp.hadis;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.hadis.SqliteHelper.Hadis;
 
 import java.text.Normalizer;
@@ -98,7 +96,7 @@ public class Frag extends Fragment {
             mQuery = query;
             return;
         }
-        if (query == "") {
+        if ("".equals(query)) {
             mTv.setText(Html.fromHtml(mText));
         } else {
             query = normalize(query);

@@ -88,12 +88,12 @@ public class WidgetService extends Service {
             Times t = Times.getTimes(id);
 
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
-            Notification noti = null;
             boolean icon = Prefs.showOngoingIcon();
             boolean number = Prefs.showOngoingNumber();
             Crashlytics.setBool("showIcon", icon);
             Crashlytics.setBool("showNumber", number);
 
+            Notification noti;
             if (Prefs.getAlternativeOngoing()) {
                 RemoteViews views = new RemoteViews(App.getContext().getPackageName(), R.layout.notification_layout);
 
@@ -140,6 +140,7 @@ public class WidgetService extends Service {
 
                 views.setTextColor(R.id.time, COLOR_1ST);
                 views.setTextColor(R.id.city, COLOR_1ST);
+
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());

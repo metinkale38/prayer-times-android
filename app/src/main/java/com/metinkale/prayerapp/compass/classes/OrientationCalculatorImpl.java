@@ -306,7 +306,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
      *
      * @param rotationMatrix
      */
-    void rotatePoints(Matrix4 rotationMatrix, int screenRotation) {
+    private void rotatePoints(Matrix4 rotationMatrix, int screenRotation) {
         resetPoints();
         int width = ORTHO_RESOLUTION;
         int height = ORTHO_RESOLUTION;

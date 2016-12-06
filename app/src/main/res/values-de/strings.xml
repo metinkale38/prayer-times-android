@@ -67,7 +67,6 @@
     <string name="djuma">Freitagsgebet</string>
     <string name="dlHadith">Hadithe runterladen?</string>
     <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
-    <string name="donateDesc">Um den Entwickler zu unterstützen, klicke hier</string>
     <string name="donateDlg">Dies ist nur eine Unterstützung für den Entwickler :)\n Alhamdulillah, ich brauche kein
         Geld, aber wenn Du mich Unterstützen willst, vielen dank&#8230;</string>
     <string name="donate">Spenden</string>
@@ -136,9 +135,6 @@
     <string name="kerahatMaghrib">Sonnenuntergang (vor dem Maghrib Gebet)</string>
     <string name="kerahatSun">Sonnenaufgang (nach dem Morgengebet)</string>
     <string name="kerahatTime">Makruh Gebetszeit</string>
-    <string name="langEn">Englisch</string>
-    <string name="langGe">Deutsch</string>
-    <string name="langTr">Türkisch</string>
     <string name="language">Sprache</string>
     <string name="leftText">%1$s | noch %3$s bis %2$s</string>
     <string name="maghrib">Maghrib</string>
@@ -228,7 +224,6 @@
     <string name="zoomIn">Größer</string>
     <string name="zoomOut">Kleiner</string>
     <string name="zuhr">Zuhr</string>
-    <string name="langAr">Arabisch</string>
     <string name="calculated">Berechnet</string>
     <string name="beta_tester">Tester werden</string>
     <string name="widgetClock2">Gebetszeiten - 2*2 Uhr</string>
@@ -239,14 +234,12 @@
     <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
     </string>
-    <string name="dontshowagain">Nicht nochmal zeigen</string>
     <string name="paypal">PayPal</string>
     <string name="bitcoin">Bitcoin</string>
     <string name="ongoingNumber">Zeige Minuten in Notification-Icon</string>
     <string name="vakit_indicator">Gebetszeit Anzeige</string>
     <string name="vakit_indicator_next">Nächste Gebetszeit</string>
     <string name="vakit_indicator_current">Aktuelle Gebetszeit</string>
-    <string name="night_mode">Erzwinge Nachmodus</string>
     <string name="show_notification_screen">Zeige Benachrichtigungsbildschirm</string>
     <string name="autoremove_notification">Benachrichtigung nach Adhan löschen</string>
     <string name="about">Über</string>

@@ -37,11 +37,6 @@ import com.metinkale.prayerapp.settings.Prefs;
  * Created by metin on 14.12.2015.
  */
 public class PermissionUtils {
-    private static final int REQUEST_CALENDAR = 1;
-    private static final int REQUEST_CAMERA = 2;
-    private static final int REQUEST_STORAGE = 3;
-    private static final int REQUEST_LOCATION = 4;
-    private static final int REQUEST_NOT_POLICY = 5;
 
     private static PermissionUtils mInstance;
     public boolean pCalendar;
@@ -108,7 +103,7 @@ public class PermissionUtils {
             builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0);
                 }
             });
 
@@ -126,7 +121,7 @@ public class PermissionUtils {
             builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
                 }
             });
 
@@ -145,7 +140,7 @@ public class PermissionUtils {
             builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CALENDAR);
+                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0);
                 }
             });
 
@@ -164,7 +159,7 @@ public class PermissionUtils {
             builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
             });
 
@@ -175,50 +170,28 @@ public class PermissionUtils {
     }
 
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    pCamera = true;
-                } else {
-                    pCamera = false;
-                }
-                return;
-
-            case REQUEST_CALENDAR:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    pCalendar = true;
-                } else {
-                    pCalendar = false;
-                }
-                return;
-
-            case REQUEST_NOT_POLICY:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    pNotPolicy = true;
-                } else {
-                    pNotPolicy = false;
-                }
-                return;
-
-            case REQUEST_LOCATION:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    pLocation = true;
-                } else {
-                    pLocation = false;
-                    Prefs.setCalendar("-1");
-                }
-                return;
-
-            case REQUEST_STORAGE:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    pStorage = true;
-                } else {
-                    pStorage = false;
-                }
-                return;
-
-
+    public void onRequestPermissionResult(String[] permissions, int[] grantResults) {
+        for (int i = 0; i < permissions.length; i++) {
+            switch (permissions[i]) {
+                case Manifest.permission.CAMERA:
+                    pCamera = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    break;
+                case Manifest.permission.WRITE_CALENDAR:
+                    pCalendar = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    if (!pCalendar) Prefs.setCalendar("-1");
+                    break;
+                case Manifest.permission.ACCESS_NOTIFICATION_POLICY:
+                    pNotPolicy = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    break;
+                case Manifest.permission.ACCESS_FINE_LOCATION:
+                    pLocation = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    break;
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    pStorage = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    break;
+            }
         }
     }
+
 }
+

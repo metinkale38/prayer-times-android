@@ -14,204 +14,204 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:gravity="center">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            android:layout_weight="1"
+            android:text="Braunschweig"
+            android:textColor="#ff000000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
-                android:textSize="14sp"
-                android:textColor="#ff000000"
-                android:layout_weight="1"
-                android:id="@+id/city"
-                android:text="Braunschweig"
-                android:layout_width="0dp"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:textSize="14sp"
-                android:textColor="#ff000000"
-                android:id="@+id/time"
-                android:text="00:00"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="#ff000000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time0"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time0"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/fajr"
-                    android:id="@+id/imsak"
-                    android:layout_weight="1"/>
+                android:id="@+id/imsak"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fajr"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time1"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/sun"
-                    android:id="@+id/gunes"
-                    android:layout_weight="1"/>
+                android:id="@+id/gunes"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/sun"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time2"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/zuhr"
-                    android:id="@+id/ogle"
-                    android:layout_weight="1"/>
+                android:id="@+id/ogle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/zuhr"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time3"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/asr"
-                    android:id="@+id/ikindi"
-                    android:layout_weight="1"/>
+                android:id="@+id/ikindi"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/asr"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time4"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/maghrib"
-                    android:id="@+id/aksam"
-                    android:layout_weight="1"/>
+                android:id="@+id/aksam"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/maghrib"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
 
             <TextView
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/time5"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:layout_weight="1"/>
-
-            <TextView
-                    android:textSize="12sp"
-                    android:textColor="#ff000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/ishaa"
-                    android:id="@+id/yatsi"
-                    android:layout_weight="1"/>
+                android:id="@+id/yatsi"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ishaa"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
         </LinearLayout>
 
 

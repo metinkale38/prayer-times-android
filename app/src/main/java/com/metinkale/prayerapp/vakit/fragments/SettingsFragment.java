@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment {
                     float h = Float.parseFloat(mTimeZone.getText().toString());
                     h += 0.5;
                     mTimeZone.setText(h + "");
-                } catch (Exception e) {
+                } catch (Exception ignore) {
                 }
             }
         });
@@ -69,7 +69,7 @@ public class SettingsFragment extends Fragment {
                     double h = Double.parseDouble(mTimeZone.getText().toString());
                     h -= 0.5;
                     mTimeZone.setText(h + "");
-                } catch (Exception e) {
+                } catch (Exception ignore) {
                 }
             }
         });
@@ -111,7 +111,7 @@ public class SettingsFragment extends Fragment {
                         int min = Integer.parseInt(mMins[ii].getText().toString());
                         min++;
                         mMins[ii].setText(min + "");
-                    } catch (Exception e) {
+                    } catch (Exception ignore) {
                     }
                 }
             });
@@ -123,7 +123,7 @@ public class SettingsFragment extends Fragment {
                         int min = Integer.parseInt(mMins[ii].getText().toString());
                         min--;
                         mMins[ii].setText(min + "");
-                    } catch (Exception e) {
+                    } catch (Exception ignore) {
                     }
                 }
             });

@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.compass;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -43,8 +44,9 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
         list.setOnItemClickListener(this);
 
         mAdapter = new ArrayAdapter<Geocoder.Result>(this, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 if (v instanceof TextView) ((TextView) v).setTextColor(Color.BLACK);
                 return v;

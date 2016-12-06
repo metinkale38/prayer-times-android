@@ -43,9 +43,7 @@ public class Prefs {
         getPrefs().edit().putString("language", language).apply();
     }
 
-    public static boolean isNightMode() {
-        return getPrefs().getBoolean("nightMode", false);
-    }
+
 
     public static String getDigits() {
         return getPrefs().getString("numbers", "normal");

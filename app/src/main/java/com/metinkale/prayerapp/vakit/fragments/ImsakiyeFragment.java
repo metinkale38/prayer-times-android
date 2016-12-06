@@ -18,7 +18,6 @@ package com.metinkale.prayerapp.vakit.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;

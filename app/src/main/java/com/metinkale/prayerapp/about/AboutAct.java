@@ -51,7 +51,7 @@ public class AboutAct extends BaseActivity {
         setContentView(R.layout.about_main);
 
 
-        PackageInfo pInfo = null;
+        PackageInfo pInfo;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             ((TextView) findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
@@ -138,7 +138,6 @@ public class AboutAct extends BaseActivity {
 
     public void licenses(View view) {
         WebView wv = new WebView(this);
-        String lang = Prefs.getLanguage();
         wv.loadUrl("file:///android_asset/license.html");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -159,6 +158,7 @@ public class AboutAct extends BaseActivity {
         new LibsBuilder()
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withActivityTitle(getString(R.string.library_licenses))
+                .withLibraries()
                 .start(this);
     }
 
