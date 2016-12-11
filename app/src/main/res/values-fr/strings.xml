@@ -246,4 +246,10 @@
   <string name="rate_desc">Laissez-nous un avis positif si vous aimez les temps de prière.</string>
   <string name="sendMail_sum">Envoyez-moi un E-Mail!</string>
   <string name="beta_tester_desc">S’inscrire comme Beta testeur en cliquant ici</string>
+  <string name="title_activity_maps">Carte</string>
+  <string name="no_internet">Aucune connexion Internet</string>
+  <string name="export">Exporter</string>
+  <string name="versionNotSupported">Votre Version d’Android ne supporte pas cela!</string>
+  <string name="from">De</string>
+  <string name="to">À</string>
 </resources>
