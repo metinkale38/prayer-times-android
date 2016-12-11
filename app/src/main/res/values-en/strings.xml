@@ -176,6 +176,7 @@
   <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
   <string name="showMore">Show more</string>
   <string name="silenterDuration">Silenter duration</string>
+  <string name="silenterType">Silent Mode</string>
   <string name="silent">Silent</string>
   <string name="sorted">Sorted</string>
   <string name="soundPicker">Sound Picker</string>
@@ -186,6 +187,7 @@
   <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Minutes</string>
   <string name="time">Time</string>
+  <string name="touchToSelectCity">Touch hier to select City</string>
   <string name="transWhiteWidget">Transparent White Widget</string>
   <string name="transWidget">Transparent Widget</string>
   <string name="test">Try</string>
@@ -248,4 +250,10 @@
   <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
   <string name="sendMail_sum">Send me an E-Mail!</string>
   <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
+  <string name="title_activity_maps">Map</string>
+  <string name="no_internet">No Internet Connection</string>
+  <string name="export">Export</string>
+  <string name="versionNotSupported">Your Android Version does not support this!</string>
+  <string name="from">From</string>
+  <string name="to">To</string>
 </resources>
