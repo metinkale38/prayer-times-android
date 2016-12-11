@@ -264,4 +264,7 @@
   <string name="title_activity_maps">Karte</string>
   <string name="no_internet">Keine Internetverbindung</string>
   <string name="export">Exportieren</string>
+  <string name="versionNotSupported">Diese Funktion wird nicht auf ihrer Android Version unterstützt!</string>
+  <string name="from">Von</string>
+  <string name="to">Bis</string>
 </resources>
