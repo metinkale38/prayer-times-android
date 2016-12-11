@@ -155,7 +155,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
 
             }
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
         mMode = mode;
     }

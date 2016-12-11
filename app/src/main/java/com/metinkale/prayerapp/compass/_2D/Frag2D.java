@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.compass.LowPassFilter;
@@ -72,7 +73,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     @Override
     public void onUpdateSensors(float[] rot) {
-        if (mCompassView != null) {
+        if (mCompassView != null && !isDetached()) {
             // mCompassView.setAngle(rot[0]);
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
