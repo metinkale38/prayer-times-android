@@ -17,14 +17,25 @@
 package com.metinkale.prayerapp.vakit.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.view.*;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
@@ -39,7 +50,12 @@ import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @SuppressLint("ClickableViewAccessibility")
 public class MainFragment extends Fragment implements Times.OnTimesUpdatedListener {
@@ -189,6 +205,59 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
                 }
 
+                break;
+            case R.id.export:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.export)
+                        .setItems(new CharSequence[]{"CSV", "PDF"}, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, final int which) {
+
+                                long minDate = 0;
+                                long maxDate = Long.MAX_VALUE;
+                                if (mTimes instanceof WebTimes) {
+                                    minDate = ((WebTimes) mTimes).getFirstSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                                    maxDate = ((WebTimes) mTimes).getLastSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                                }
+                                final LocalDate ld = LocalDate.now();
+                                final long finalMaxDate = maxDate;
+                                DatePickerDialog dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                        final LocalDate from = new LocalDate(y, m + 1, d);
+                                        DatePickerDialog
+                                                dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                                            @Override
+                                            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                                final LocalDate to = new LocalDate(y, m + 1, d);
+                                                try {
+                                                    export(which, from, to);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                    Crashlytics.logException(e);
+                                                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
+                                        DateTime startDate = DateTime.now().withDate(y, m + 1, d);
+                                        long start = startDate.getMillis();
+                                        dlg.getDatePicker().setMinDate(start);
+                                        if (which == 1)
+                                            dlg.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
+                                        else
+                                            dlg.getDatePicker().setMaxDate(finalMaxDate);
+                                        dlg.setTitle(R.string.to);
+                                        dlg.show();
+
+                                    }
+                                }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
+                                dlg.getDatePicker().setMinDate(minDate);
+                                dlg.getDatePicker().setMaxDate(maxDate);
+                                dlg.setTitle(R.string.from);
+                                dlg.show();
+                            }
+                        });
+                builder.show();
+                break;
             case R.id.refresh:
                 if (mTimes instanceof WebTimes) {
                     ((WebTimes) mTimes).syncAsync();
@@ -205,12 +274,133 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
                 startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void export(int csvpdf, LocalDate from, LocalDate to) throws IOException {
+        File outputDir = getActivity().getCacheDir();
+        if (!outputDir.exists()) outputDir.mkdirs();
+        File outputFile = new File(outputDir, mTimes.getName().replace(" ", "_") + (csvpdf == 0 ? ".csv" : ".pdf"));
+        if (outputDir.exists()) outputFile.delete();
+        FileOutputStream outputStream;
+
+        outputStream = new FileOutputStream(outputFile);
+        if (csvpdf == 0) {
+            outputStream.write("Date;Fajr;Shuruq;Dhuhr;Asr;Maghrib;Ishaa\n".getBytes());
+
+            do {
+                outputStream.write((from.toString("yyyy-MM-dd") + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 0) + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 1) + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 2) + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 3) + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 4) + ";").getBytes());
+                outputStream.write((mTimes.getTime(from, 5) + "\n").getBytes());
+            } while (!(from = from.plusDays(1)).isAfter(to));
+            outputStream.close();
+
+
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                PdfDocument document = new PdfDocument();
+
+                PdfDocument.PageInfo pageInfo = null;
+                int pw = 595;
+                int ph = 842;
+                pageInfo = new PdfDocument.PageInfo.Builder(pw, ph, 1).create();
+                PdfDocument.Page page = document.startPage(pageInfo);
+                Drawable launcher = Drawable.createFromStream(getActivity().getAssets().open("pdf/launcher.png"), null);
+                Drawable qr = Drawable.createFromStream(getActivity().getAssets().open("pdf/qrcode.png"), null);
+                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Prefs.getLanguage() + ".png"), null);
+
+                launcher.setBounds(30, 30, 30 + 65, 30 + 65);
+                qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);
+                int w = 100;
+                int h = w * badge.getIntrinsicHeight() / badge.getIntrinsicWidth();
+                badge.setBounds(pw - 30 - w, 30 + (60 / 2 - h / 2), pw - 30, 30 + (60 / 2 - h / 2) + h);
+
+
+                Canvas canvas = page.getCanvas();
+
+                Paint paint = new Paint();
+                paint.setARGB(255, 0, 0, 0);
+                paint.setTextSize(10);
+                paint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText("com.metinkale.prayer", pw - 30 - w / 2, 30 + (60 / 2 - h / 2) + h + 10, paint);
+
+                launcher.draw(canvas);
+                qr.draw(canvas);
+                badge.draw(canvas);
+
+                paint.setARGB(255, 61, 184, 230);
+                canvas.drawRect(30, 30 + 60, pw - 30, 30 + 60 + 5, paint);
+
+
+                if (mTimes.getSource().resId != 0) {
+                    Drawable source = getResources().getDrawable(mTimes.getSource().resId);
+
+                    h = 65;
+                    w = h * source.getIntrinsicWidth() / source.getIntrinsicHeight();
+                    source.setBounds(30, 30 + 65 + 5, 30 + w, 30 + 65 + 5 + h);
+                    source.draw(canvas);
+                }
+
+                paint.setARGB(255, 0, 0, 0);
+                paint.setTextSize(40);
+                paint.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText(getText(R.string.appName).toString(), 30 + 65 + 5, 30 + 50, paint);
+                paint.setTextAlign(Paint.Align.CENTER);
+                paint.setFakeBoldText(true);
+                canvas.drawText(mTimes.getName(), pw / 2.0f, 30 + 65 + 50, paint);
+
+                paint.setTextSize(12);
+                int y = 30 + 65 + 5 + 65 + 30;
+                int p = 30;
+                int cw = (pw - p - p) / 7;
+                canvas.drawText(getString(R.string.date), 30 + (0.5f * cw), y, paint);
+                canvas.drawText(Vakit.IMSAK.getString(), 30 + (1.5f * cw), y, paint);
+                canvas.drawText(Vakit.GUNES.getString(), 30 + (2.5f * cw), y, paint);
+                canvas.drawText(Vakit.OGLE.getString(), 30 + (3.5f * cw), y, paint);
+                canvas.drawText(Vakit.IKINDI.getString(), 30 + (4.5f * cw), y, paint);
+                canvas.drawText(Vakit.AKSAM.getString(), 30 + (5.5f * cw), y, paint);
+                canvas.drawText(Vakit.YATSI.getString(), 30 + (6.5f * cw), y, paint);
+                paint.setFakeBoldText(false);
+                do {
+                    y += 20;
+                    canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 0)), 30 + (1.5f * cw), y, paint);
+                     canvas.drawText((mTimes.getTime(from, 1)), 30 + (2.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 2)), 30 + (3.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 3)), 30 + (4.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 4)), 30 + (5.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 5)), 30 + (6.5f * cw), y, paint);
+                } while (!(from = from.plusDays(1)).isAfter(to));
+                document.finishPage(page);
+
+
+                document.writeTo(outputStream);
+
+                // close the document
+                document.close();
+
+            } else {
+                Toast.makeText(getActivity(), R.string.versionNotSupported, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType(csvpdf == 0 ? "text/csv" : "application/pdf");
+
+        Uri uri = FileProvider.getUriForFile(getActivity(), "com.metinkale.prayer.fileprovider", outputFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.export)));
     }
 
     public Times getTimes() {

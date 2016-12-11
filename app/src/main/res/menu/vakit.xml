@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +15,26 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/notification"
+        android:title="@string/notification"
         app:materialIcon="alarm"
         app:materialIconColor="#FFFFFF"
-        android:title="@string/notification"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/refresh"
         android:title="@string/refresh"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/export"
+        android:title="@string/export"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/share"
         android:title="@string/share"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

@@ -179,6 +179,7 @@ public class WebTimes extends Times {
         }
     }
 
+
     protected Builders.Any.F[] createIonBuilder() {
         return new Builders.Any.F[0];
     }
@@ -208,6 +209,50 @@ public class WebTimes extends Times {
         }
         return i;
 
+    }
+
+    public LocalDate getFirstSyncedDay() {
+        LocalDate date = LocalDate.now();
+        int i = 0;
+        while (true) {
+            String prefix = date.toString("yyyy-MM-dd") + "-";
+            String times[] = {
+                    this.times.get(prefix + 0),
+                    this.times.get(prefix + 1),
+                    this.times.get(prefix + 2),
+                    this.times.get(prefix + 3),
+                    this.times.get(prefix + 4),
+                    this.times.get(prefix + 5)
+            };
+            for (String time : times) {
+                if (time == null || time.contains("00:00") || i > this.times.size())
+                    return date.plusDays(1);
+            }
+            i++;
+            date = date.minusDays(1);
+        }
+    }
+
+    public LocalDate getLastSyncedDay() {
+        LocalDate date = LocalDate.now();
+        int i = 0;
+        while (true) {
+            String prefix = date.toString("yyyy-MM-dd") + "-";
+            String times[] = {
+                    this.times.get(prefix + 0),
+                    this.times.get(prefix + 1),
+                    this.times.get(prefix + 2),
+                    this.times.get(prefix + 3),
+                    this.times.get(prefix + 4),
+                    this.times.get(prefix + 5)
+            };
+            for (String time : times) {
+                if (time == null || time.contains("00:00") || i > this.times.size())
+                    return date.minusDays(1);
+            }
+            i++;
+            date = date.plusDays(1);
+        }
     }
 
     private void scheduleJob() {

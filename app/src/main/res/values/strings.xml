@@ -250,4 +250,8 @@
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
     <string name="title_activity_maps">Map</string>
     <string name="no_internet">No Internet Connection</string>
+    <string name="export">Export</string>
+    <string name="versionNotSupported">Your Android Version does not support this!</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>
