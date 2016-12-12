@@ -73,7 +73,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     @Override
     public void onUpdateSensors(float[] rot) {
-        if (mCompassView != null && !isDetached()) {
+        if (mCompassView != null && getActivity() != null) {
             // mCompassView.setAngle(rot[0]);
             mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
             mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);

@@ -38,8 +38,6 @@ public class Utils {
     private static String[] sGMonths;
     private static String[] sHMonths;
     private static String[] sHolydays;
-    private static String[] sWeekdays;
-    private static String[] sShortWeekdays;
 
     public static CharSequence fixTimeForHTML(String time) {
         time = fixTime(time);
@@ -85,7 +83,7 @@ public class Utils {
     }
 
 
-    public static void init(Context c) {
+    static void init(Context c) {
         String newLang = Prefs.getLanguage();
 
 
@@ -127,8 +125,6 @@ public class Utils {
         sGMonths = null;
         sHMonths = null;
         sHolydays = null;
-        sWeekdays = null;
-        sShortWeekdays = null;
         PackageManager pm = c.getPackageManager();
 
         pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
@@ -162,24 +158,6 @@ public class Utils {
             sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
-    }
-
-    public static String getWeekday(int which) {
-        if (sWeekdays == null) {
-            sWeekdays = App.getContext().getResources().getStringArray(R.array.week_days);
-        }
-        return sWeekdays[which];
-    }
-
-    public static String getShortWeekday(int which) {
-        if (sShortWeekdays == null) {
-            sShortWeekdays = App.getContext().getResources().getStringArray(R.array.week_days_short);
-        }
-        return sShortWeekdays[which];
-    }
-
-    public static String[] getAllHolydays() {
-        return sHolydays;
     }
 
     public static boolean askLang(final Activity act) {

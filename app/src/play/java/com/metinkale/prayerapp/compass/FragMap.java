@@ -73,6 +73,12 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+        mMarker.remove();
+        mCircle.remove();
+        mLine.remove();
+        mMarker = null;
+        mCircle = null;
+        mLine = null;
         super.onPause();
     }
 
@@ -123,6 +129,7 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
 
     }
 
+
     @Override
     public void onUpdateDirection() {
 
@@ -158,12 +165,12 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
                     .add(mKaabePos)
                     .geodesic(true)
                     .color(Color.parseColor("#3bb2d0"))
-                    .width(3));
+                    .width(3).zIndex(1));
 
             mMarker = mMap.addMarker(new MarkerOptions()
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mylocation))
                     .anchor(0.5f, 0.5f)
-                    .position(pos).zIndex(1));
+                    .position(pos).zIndex(2));
 
             mCircle = mMap.addCircle(new CircleOptions()
                     .center(pos)

@@ -155,9 +155,15 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
 
             }
-            fragmentTransaction.commitAllowingStateLoss();
+            if (!isFinishing())
+                fragmentTransaction.commitAllowingStateLoss();
         }
         mMode = mode;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -185,7 +191,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                         .setColor(Color.WHITE)
                         .setToActionbarSize()
                         .build());
-            } else {
+            } else if (PermissionUtils.get(this).pLocation) {
                 mSensorManager.unregisterListener(mMagAccel);
                 updateFrag(Mode.Map);
                 mSwitch.setIcon(MaterialDrawableBuilder.with(this)
@@ -193,6 +199,8 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                         .setColor(Color.WHITE)
                         .setToActionbarSize()
                         .build());
+            } else {
+                Toast.makeText(this, R.string.permissionNotGranted, Toast.LENGTH_LONG).show();
             }
         }
 

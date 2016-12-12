@@ -254,4 +254,5 @@
     <string name="versionNotSupported">Your Android Version does not support this!</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="permissionNotGranted">Permission not granted.</string>
 </resources>

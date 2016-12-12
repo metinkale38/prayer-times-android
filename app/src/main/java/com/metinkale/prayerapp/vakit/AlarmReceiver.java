@@ -96,14 +96,12 @@ public class AlarmReceiver extends IntentService {
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
             i.putExtra("json", alarm.toString());
-        }
-        int id = alarm.hashCode();
-        PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
-                FLAG_UPDATE_CURRENT);
+            int id = alarm.hashCode();
+            PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
+                    FLAG_UPDATE_CURRENT);
 
-        am.cancel(service);
+            am.cancel(service);
 
-        if (alarm != null) {
             App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
         }
 
@@ -157,15 +155,14 @@ public class AlarmReceiver extends IntentService {
         }
 
         Times t = Times.getTimes(next.city);
-        boolean active = false;
-        if (t != null) {
-            if (next.cuma) {
-                active = t.isCumaActive();
-            } else if (next.early) {
-                active = t.isEarlyNotificationActive(next.vakit);
-            } else {
-                active = t.isNotificationActive(next.vakit);
-            }
+        if (t == null) return;
+        boolean active;
+        if (next.cuma) {
+            active = t.isCumaActive();
+        } else if (next.early) {
+            active = t.isEarlyNotificationActive(next.vakit);
+        } else {
+            active = t.isNotificationActive(next.vakit);
         }
         if (!active) {
             return;
@@ -196,11 +193,9 @@ public class AlarmReceiver extends IntentService {
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
         nm.cancel(next.city + "", NotIds.ALARM);
-        String text = "Ezan";
+        String text;
 
-        if (t != null) {
-            text = t.getName() + " (" + t.getSource() + ")";
-        }
+        text = t.getName() + " (" + t.getSource() + ")";
 
         String txt = "";
         if (next.early) {
@@ -253,7 +248,7 @@ public class AlarmReceiver extends IntentService {
             int volume = -2;
             hasSound = true;
 
-            if ((sound != null) && !sound.startsWith("silent") && !sound.startsWith("picker")) {
+            if (!sound.startsWith("silent") && !sound.startsWith("picker")) {
 
                 if (sound.contains("$volume")) {
                     volume = Integer.parseInt(sound.substring(sound.indexOf("$volume") + 7));
@@ -289,7 +284,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            if ((mp == null) || (mp.mp == null)) {
+                            if (mp.mp == null) {
                                 return;
                             }
                             mp.mp.stop();
@@ -301,7 +296,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                         @Override
                         public void onSeekComplete(MediaPlayer mediaPlayer) {
-                            if ((mp == null) || (mp.mp == null)) {
+                            if (mp.mp == null) {
                                 return;
                             }
                             mp.mp.stop();

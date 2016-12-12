@@ -195,7 +195,7 @@ public class TimesBase {
     }
 
 
-    public void delete() {
+    public synchronized void delete() {
         deleted = true;
 
         prefs.edit().remove("id" + ID).apply();
@@ -220,12 +220,12 @@ public class TimesBase {
     }
 
 
-    public boolean deleted() {
+    public synchronized boolean deleted() {
         return deleted;
     }
 
 
-    public long getID() {
+    public synchronized long getID() {
         return ID;
     }
 

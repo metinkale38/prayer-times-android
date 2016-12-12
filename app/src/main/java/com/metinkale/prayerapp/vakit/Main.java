@@ -284,7 +284,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     public class MyAdapter extends FragmentPagerAdapter implements Times.OnTimesListChangeListener {
 
-        public MyAdapter(FragmentManager fm) {
+        MyAdapter(FragmentManager fm) {
             super(fm);
 
         }

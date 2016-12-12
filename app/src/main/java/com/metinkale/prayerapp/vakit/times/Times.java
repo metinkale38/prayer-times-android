@@ -17,6 +17,8 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
@@ -123,6 +125,7 @@ public abstract class Times extends TimesBase {
         return getTimes().get(index);
     }
 
+    @Nullable
     public static Times getTimes(long id) {
         for (Times t : sTimes) {
             if (t != null) {
