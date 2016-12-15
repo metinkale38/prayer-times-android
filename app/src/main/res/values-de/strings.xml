@@ -267,4 +267,5 @@
   <string name="versionNotSupported">Diese Funktion wird nicht auf ihrer Android Version unterstützt!</string>
   <string name="from">Von</string>
   <string name="to">Bis</string>
+  <string name="permissionNotGranted">Berechtigung wurde nicht erteilt.</string>
 </resources>
