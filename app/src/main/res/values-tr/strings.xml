@@ -255,4 +255,5 @@
   <string name="versionNotSupported">Android sürümü bunu desteklemiyor!</string>
   <string name="from">Başlangıç</string>
   <string name="to">Bitiş</string>
+  <string name="permissionNotGranted">İzin verilmedi.</string>
 </resources>
