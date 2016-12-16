@@ -26,6 +26,7 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.*;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -61,8 +62,9 @@ public abstract class Times extends TimesBase {
             if (object == null) {
                 return false;
             }
+            object.setSortId(Integer.MAX_VALUE);
             boolean ret = super.add(object);
-            notifyDataSetChanged();
+            Times.sort();
             return ret;
         }
 
@@ -174,6 +176,7 @@ public abstract class Times extends TimesBase {
         for (Times t : sTimes) {
             t.setSortId(sTimes.indexOf(t));
         }
+        notifyDataSetChanged();
     }
 
     public static List<Long> getIds() {

@@ -85,7 +85,7 @@ public class PermissionUtils {
         if (!pNotPolicy) {
             Intent intent = new Intent(
                     android.provider.Settings
-                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                             .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
 
             try {
                 act.startActivity(intent);

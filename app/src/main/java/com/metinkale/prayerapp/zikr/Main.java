@@ -121,7 +121,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 continue;
             }
             try {
-                List<String> list = new ArrayList<>(set);
+                List<String> list = new ArrayList<String>(set);
                 Collections.sort(list);
                 Zikr zikr = new Zikr();
                 zikr.title = list.get(0).substring(1);
@@ -150,6 +150,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             mCurrent.max = 33;
             mCurrent.key = "default";
             mZikrList.add(mCurrent);
+            saveCurrent();
         }
     }
 

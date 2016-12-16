@@ -34,7 +34,6 @@ import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
 import com.metinkale.prayerapp.vakit.times.other.Juristic;
 import com.metinkale.prayerapp.vakit.times.other.Method;
 import com.metinkale.prayerapp.vakit.times.other.PrayTime;
-import com.metinkale.prayerapp.vakit.times.other.Source;
 
 import org.joda.time.LocalDate;
 

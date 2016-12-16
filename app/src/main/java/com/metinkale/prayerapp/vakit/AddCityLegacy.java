@@ -30,8 +30,8 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
-import com.metinkale.prayerapp.vakit.times.other.Cities;
-import com.metinkale.prayerapp.vakit.times.other.Source;
+import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Source;
 
 import java.util.List;
 

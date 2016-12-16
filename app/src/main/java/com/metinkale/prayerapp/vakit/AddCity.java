@@ -35,14 +35,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
-import com.metinkale.prayerapp.vakit.times.other.Cities;
-import com.metinkale.prayerapp.vakit.times.other.Cities.Item;
-import com.metinkale.prayerapp.vakit.times.other.Source;
+import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Cities.Item;
+import com.metinkale.prayerapp.vakit.times.Source;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.Collection;
@@ -93,6 +95,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         }
     }
 
+    @SuppressWarnings("MissingPermission")
     public void checkLocation() {
         if (PermissionUtils.get(this).pLocation) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -151,24 +154,16 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
         Cities.Item i = mAdapter.getItem(pos);
-        switch (i.source) {
-            case Calc:
-                Bundle bdl = new Bundle();
-                bdl.putString("city", i.city);
-                bdl.putDouble("lat", i.lat);
-                bdl.putDouble("lng", i.lng);
-                CalcTimes.add(this, bdl);
-                break;
-            case NVC:
-            case Diyanet:
-            case Fazilet:
-            case Semerkand:
-            case IGMG:
-                WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
-                finish();
-                break;
+        if (i != null) if (i.source == Source.Calc) {
+            Bundle bdl = new Bundle();
+            bdl.putString("city", i.city);
+            bdl.putDouble("lat", i.lat);
+            bdl.putDouble("lng", i.lng);
+            CalcTimes.add(this, bdl);
+        } else {
+            WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
+            finish();
         }
-
 
     }
 

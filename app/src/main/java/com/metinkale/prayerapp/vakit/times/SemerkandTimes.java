@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.vakit.times.other.Source;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;

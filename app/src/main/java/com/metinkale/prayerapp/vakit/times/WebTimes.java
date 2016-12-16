@@ -29,7 +29,6 @@ import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.vakit.times.other.Source;
 
 import org.joda.time.LocalDate;
 
@@ -63,8 +62,10 @@ public class WebTimes extends Times {
 
 
     public static void add(Source source, String city, String id, double lat, double lng) {
+        if (source == null || source == Source.Calc) return;
         long _id = System.currentTimeMillis();
-        WebTimes t;
+        WebTimes t = null;
+
         switch (source) {
             case Diyanet:
                 t = new DiyanetTimes(_id);
@@ -81,9 +82,11 @@ public class WebTimes extends Times {
             case Semerkand:
                 t = new SemerkandTimes(_id);
                 break;
-            default:
-                return;
+            case Morocco:
+                t = new MoroccoTimes(_id);
+                break;
         }
+        if (t == null) return;
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);

@@ -100,4 +100,21 @@ public class Main extends BaseActivity {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        ViewGroup vg = (ViewGroup) findViewById(R.id.main);
+        SharedPreferences.Editor edit = getSharedPreferences("kaza", 0).edit();
+        for (int i = 0; i < 7; i++) {
+            View v = vg.getChildAt(i);
+            EditText nr = (EditText) v.findViewById(R.id.nr);
+            edit.putString("count" + i, nr.getText().toString());
+
+        }
+
+        edit.apply();
+    }
+
+
 }
