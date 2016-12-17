@@ -206,7 +206,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.add(item);
             mAdapter.notifyDataSetChanged();
 
-            Cities.search(item.lat + "," + item.lng, new Cities.Callback() {
+            Cities.search(item.lat, item.lng, new Cities.Callback() {
                 @Override
                 public void onResult(List result) {
                     List<Item> items = result;

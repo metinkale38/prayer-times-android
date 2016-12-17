@@ -22,7 +22,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Handler;
-import android.os.Looper;
 
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -35,32 +34,23 @@ import java.util.Locale;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 public class Cities extends SQLiteAssetHelper {
 
+    private static Cities mInstance;
     private static final String DATABASE_NAME = "cities.db";
     private static final int DATABASE_VERSION = 5;
-    private static Cities mInstance;
     private AtomicInteger mOpenCounter = new AtomicInteger();
     private SQLiteDatabase mDatabase;
-    private Executor mExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>()) {
-        @Override
-        public void execute(Runnable command) {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                super.execute(command);
-            } else {
-                command.run();
-            }
-        }
-    };
-
     private Handler mHandler = new Handler();
+    private Executor mThread = Executors.newSingleThreadExecutor();
 
     private Cities(Context context) {
         super(context, DATABASE_NAME, null, Cities.DATABASE_VERSION);
         setForcedUpgrade(DATABASE_VERSION);
     }
 
-    public static synchronized Cities get() {
+    private static synchronized Cities get() {
         if (mInstance == null) {
             mInstance = new Cities(App.getContext());
         }
@@ -68,40 +58,6 @@ public class Cities extends SQLiteAssetHelper {
         return mInstance;
     }
 
-    public static void list(final String source, final String country, final String state, final Callback cb) {
-        final Cities c = get();
-        c.mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<String> result = c.list(source, country, state);
-                c.mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        cb.onResult(result);
-                    }
-                });
-            }
-        });
-
-    }
-
-
-    public static void search(final String q, final Callback cb) {
-        final Cities c = get();
-        c.mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<Item> result = c.search(q);
-                c.mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        cb.onResult(result);
-                    }
-                });
-
-            }
-        });
-    }
 
     private synchronized SQLiteDatabase openDatabase() {
         if (mOpenCounter.incrementAndGet() == 1) {
@@ -115,6 +71,23 @@ public class Cities extends SQLiteAssetHelper {
             mDatabase.close();
             mDatabase = null;
         }
+    }
+
+
+    public static void list(final String source, final String country, final String state, final Callback callback) {
+        final Cities cities = Cities.get();
+        cities.mThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> result = cities.list(source, country, state);
+                cities.mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(result);
+                    }
+                });
+            }
+        });
     }
 
     private List<String> list(String source, String country, String state) {
@@ -213,46 +186,54 @@ public class Cities extends SQLiteAssetHelper {
 
     }
 
-    private List<Cities.Item> search(String q) {
-        q = q.trim();
-
-        Geocoder.Response resp = null;
-        try {
-            resp = Geocoder.from(q).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        if (resp == null || !resp.status.contains("OK") || resp.results.size() == 0) {
-            return search2(0, 0, q, q, q);
-        }
-
-        Geocoder.Result result = resp.results.get(0);
-
-        double lat = result.geometry.location.lat;
-        double lng = result.geometry.location.lng;
-        String country = null;
-        String city = null;
-
-        FOR1:
-        for (Geocoder.Address ad : result.address_components) {
-            for (String type : ad.types) {
-
-                if (type.equals("country")) country = ad.long_name;
-                if (!type.equals("political")
-                        && !type.equals("locality")
-                        && !type.contains("administrative_area_level_")) {
-                    continue FOR1;
-                }
+    public static void search(final String q, final Callback callback) {
+        final Cities cities = Cities.get();
+        Geocoder.search(q, new Geocoder.SearchCallback() {
+            @Override
+            public void onResult(List<Geocoder.Result> results) {
+                final Geocoder.Result result = results == null || results.isEmpty() ? null : results.get(0);
+                cities.mThread.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List search = cities.search(result.city, result.state, result.country, result.lat, result.lng, q);
+                        cities.mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onResult(search);
+                            }
+                        });
+                    }
+                });
             }
-            if (city == null) city = ad.long_name;
-        }
+        });
 
-
-        return search2(lat, lng, country, city, q);
     }
 
-    private List<Cities.Item> search2(double lat, double lng, String country, String city, String q) throws SQLException {
-        q = q.replace("'", "\'");
+    public static void search(double lat, double lng, final Callback callback) {
+        final Cities cities = Cities.get();
+        Geocoder.reverse(lat, lng, new Geocoder.ReverseCallback() {
+            @Override
+            public void onResult(final String city, final String state, final String country, final double lat, final double lng) {
+                cities.mThread.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List search = cities.search(city, state, country, lat, lng, null);
+                        cities.mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onResult(search);
+                            }
+                        });
+                    }
+                });
+            }
+
+        });
+
+    }
+
+    private List<Cities.Item> search(String city, String state, String country, double lat, double lng, String q) throws SQLException {
+        if (q != null) q = q.replace("'", "\'");
         String[] sources = {"Diyanet", "IGMG", "Fazilet", "NVC", "Semerkand", "Maroc"};
 
         List<Cities.Item> items = new ArrayList<>();
@@ -304,20 +285,20 @@ public class Cities extends SQLiteAssetHelper {
 
                 String sort = "abs(lat - " + lat + ") + abs(lng - " + lng + ")";
                 String limit = "1";
-                Cursor c;
+                Cursor c = null;
 
 
-                //search in names
-                if (searchrow1 != null && searchrow2 != null) {
-                    c = db.query(table, null, searchrow1 + " like '%" + q + "%'" + " or " + searchrow2 + " like '%" + q + "%' ", null, null, null, sort, limit);
-                } else if (searchrow1 != null) {
-                    c = db.query(table, null, searchrow1 + " like '%" + q + "%'", null, null, null, sort, limit);
-                } else continue;
+                //search q in names
+                if (q != null)
+                    if (searchrow1 != null && searchrow2 != null) {
+                        c = db.query(table, null, searchrow1 + " like '%" + q + "%'" + " or " + searchrow2 + " like '%" + q + "%' ", null, null, null, sort, limit);
+                    } else if (searchrow1 != null) {
+                        c = db.query(table, null, searchrow1 + " like '%" + q + "%'", null, null, null, sort, limit);
+                    }
 
-                c.moveToFirst();
-                //search by coords
-                if (c.isAfterLast()) {
-                    c.close();
+                if (c != null) c.moveToFirst();
+                if (c == null || c.isAfterLast()) {
+                    if (c != null) c.close();
                     c = db.query(table, null, "abs(lat - " + lat + ") + abs(lng - " + lng + ") < 2", null, null, null, sort, limit);
                     c.moveToFirst();
                     if (c.isAfterLast()) {
@@ -379,6 +360,7 @@ public class Cities extends SQLiteAssetHelper {
                 }
                 item.lat = c.getDouble(c.getColumnIndex("lat"));
                 item.lng = c.getDouble(c.getColumnIndex("lng"));
+
                 c.close();
 
                 if ((lat != 0) || (lng != 0) || (item.lat != 0) || (item.lng != 0)) {
