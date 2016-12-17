@@ -26,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
@@ -34,12 +35,15 @@ import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
+import com.github.anrwatchdog.ANRError;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -116,11 +120,14 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
         sContext = this;
 
-
         Fabric.with(this, new Crashlytics());
-        Crashlytics.setString("uuid", Prefs.getUUID());
+        Crashlytics.setUserIdentifier(Prefs.getUUID());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
 
@@ -145,6 +152,13 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
         Times.setAlarms();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        if ("longcheer".equalsIgnoreCase(Build.BRAND)
+                || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
+                || "general mobile".equalsIgnoreCase(Build.BRAND)
+                || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
+            new ANRWatchDog().start();
+        }
     }
 
     @Override
