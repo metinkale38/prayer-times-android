@@ -17,17 +17,21 @@
 package com.metinkale.prayerapp.vakit;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +42,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.utils.FileChooser;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -47,6 +52,7 @@ import com.metinkale.prayerapp.vakit.times.Source;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -66,6 +72,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
         listView.setOnItemClickListener(this);
+        listView.addFooterView(View.inflate(this, R.layout.vakit_addcity_addcsv, null));
         mAdapter = new MyAdapter(this);
         listView.setAdapter(mAdapter);
 
@@ -235,6 +242,54 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public void addFromCSV(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.addFromCSV)
+                .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            FileChooser chooser = new FileChooser(AddCity.this);
+                            chooser.setExtension("csv");
+                            chooser.showDialog();
+                            chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                @Override
+                                public void fileSelected(File file) {
+                                    String name = file.getName();
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
+                                    WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                                }
+                            });
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
+                            final EditText editText = new EditText(AddCity.this);
+                            editText.setHint("http(s)://example.com/prayertimes.csv");
+                            alert.setView(editText);
+                            alert.setTitle(R.string.csvFromURL);
+                            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String url = editText.getText().toString();
+                                    String name = url.substring(url.lastIndexOf("/") + 1);
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
+                                    WebTimes.add(Source.CSV, name, url, 0, 0);
+                                }
+                            });
+                            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            alert.show();
+
+                        }
+                    }
+                });
+        builder.show();
     }
 
 

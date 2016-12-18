@@ -84,6 +84,8 @@ public class WebTimes extends Times {
                 break;
             case Morocco:
                 t = new MoroccoTimes(_id);
+            case CSV:
+                t = new CSVTimes(_id);
                 break;
         }
         if (t == null) return;

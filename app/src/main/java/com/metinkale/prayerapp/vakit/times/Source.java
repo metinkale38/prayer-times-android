@@ -40,7 +40,8 @@ public enum Source {
     IGMG("IGMG.org", R.drawable.ic_igmg, IGMGTimes.class),
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, NVCTimes.class),
-    Morocco("habous.gov.ma", R.drawable.ic_morocco, MoroccoTimes.class);
+    Morocco("habous.gov.ma", R.drawable.ic_morocco, MoroccoTimes.class),
+    CSV("CSV", 0, CSVTimes.class);
 
     public Class<? extends Times> clz;
     public int resId;

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -244,6 +243,10 @@
     <string-array name="juristicMethod">
         <item>@string/juristicShafi</item>
         <item>@string/juristicHanafi</item>
+    </string-array>
+    <string-array name="addFromCSV">
+        <item>@string/csvFromFile</item>
+        <item>@string/csvFromURL</item>
     </string-array>
 
 </resources>

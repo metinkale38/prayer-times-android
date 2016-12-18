@@ -249,4 +249,5 @@
   <string name="sendMail_sum">Send me an E-Mail!</string>
   <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
   <string name="no_internet">No Internet Connection</string>
+  <string name="addFromCSV">Add from CSV</string>
 </resources>

@@ -26,11 +26,6 @@ android {
         abortOnError false
     }
 
-    dexOptions {
-        preDexLibraries true
-        javaMaxHeapSize "2g"
-    }
-
     signingConfigs {
         debugKey {
             storeFile file('D:/Dropbox/Dokumente/Sonstiges/debug.keystore')
