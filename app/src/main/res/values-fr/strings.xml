@@ -252,4 +252,9 @@
   <string name="versionNotSupported">Votre Version d’Android ne supporte pas cela!</string>
   <string name="from">De</string>
   <string name="to">À</string>
+  <string name="permissionNotGranted">Autorisation non accordée.</string>
+  <string name="useOSMGeocoder">Utiliser OpenStreetMaps pour le géocodage</string>
+  <string name="addFromCSV">Ajouter depuis un CSV</string>
+  <string name="csvFromFile">Charger du CSV depuis un fichier</string>
+  <string name="csvFromURL">Charger du CSV depuis une URL</string>
 </resources>
