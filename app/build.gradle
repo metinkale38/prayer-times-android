@@ -50,6 +50,10 @@ android {
         multiDexEnabled true
     }
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         debug {
             debuggable true
