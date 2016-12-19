@@ -257,4 +257,7 @@
   <string name="to">Bitiş</string>
   <string name="permissionNotGranted">İzin verilmedi.</string>
   <string name="useOSMGeocoder">Coğrafi kodlamar için OpenStreetMap kullanın</string>
+  <string name="addFromCSV">CSV\'den ekle</string>
+  <string name="csvFromFile">CSV dosyasını Hafıza\'dan oku</string>
+  <string name="csvFromURL">CSV dosyasını Internet\'den oku</string>
 </resources>
