@@ -68,7 +68,10 @@
   <string name="distance">Расстояние</string>
   <string name="djuma">Джума</string>
   <string name="dlHadith">Загрузка базы данных хадисов?</string>
+  <string name="dlSound">Скачать “%1$s” (%2$s)?</string>
+  <string name="donateDlg">Это просто поддержка для разработчика:) \nAlhamdulillah, я не нуждаюсь в этих деньгах, но если вы хотите поддержать меня, спасибо&#8230;</string>
   <string name="donate">Support</string>
+  <string name="earlyNotification">предварительные уведомления</string>
   <string name="holyday8">Начало Рамадана</string>
   <string name="holyday9">Ночь Предопределения</string>
   <string name="holyday10">(Арафат Ид аль Фитр)</string>
