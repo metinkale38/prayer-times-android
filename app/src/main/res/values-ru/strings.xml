@@ -83,4 +83,27 @@
   <string name="juristicShafi">Шафи (по умолчанию)</string>
   <string name="kerahatDuration">Нежелательное время - продолжительность</string>
   <string name="kerahatIstiwa">Время Истива (до молитвы Зухр) </string>
+  <string name="kerahatMaghrib">Закат (перед молитвой Магриб)</string>
+  <string name="kerahatSun">Восход (после молитвы Фаджр)</string>
+  <string name="kerahatTime">Нежелательное для молитвы время</string>
+  <string name="language">Язык</string>
+  <string name="leftText">%1$s | %3$s до %2$s</string>
+  <string name="maghrib">Магриб</string>
+  <string name="missedPrayers">Пропущенные молитвы</string>
+  <string name="mixed">Смешанный</string>
+  <string name="monthly">Обзор месяца</string>
+  <string name="morningPrayer">Молитва Фаджр</string>
+  <string name="names">99 имён Аллаха</string>
+  <string name="newAddCity">Выберите город</string>
+  <string name="newDhikr">Новый Зикр</string>
+  <string name="noConnection">Подключение отсутствует&#8230;</string>
+  <string name="noFavs">Нет избранного</string>
+  <string name="no">Heт</string>
+  <string name="notification">Уведомление</string>
+  <string name="off">Выкл</string>
+  <string name="ok">Ok</string>
+  <string name="oldAddCity">Выберите город вручную</string>
+  <string name="ongoingIcon">Значок уведомления</string>
+  <string name="ongoingNotification">Виджет уведомлений</string>
+  <string name="other">Дополнительно</string>
 </resources>
