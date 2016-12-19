@@ -176,6 +176,7 @@
   <string name="shareTimes">Les temps de prières pour aujourd\'hui %1$s</string>
   <string name="showMore">Afficher plus</string>
   <string name="silenterDuration">durée silencieuse</string>
+  <string name="silenterType">Mode silencieux</string>
   <string name="silent">Silencieux</string>
   <string name="sorted">Triés par ordre</string>
   <string name="soundPicker">Choisir voix</string>
@@ -186,6 +187,7 @@
   <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Temps</string>
   <string name="time">Temps</string>
+  <string name="touchToSelectCity">Touchez ici pour sélectionner la ville</string>
   <string name="transWhiteWidget">Widget Blanc Transparent</string>
   <string name="transWidget">Widget Transparent</string>
   <string name="test">Essayer</string>
@@ -244,4 +246,15 @@
   <string name="rate_desc">Laissez-nous un avis positif si vous aimez les temps de prière.</string>
   <string name="sendMail_sum">Envoyez-moi un E-Mail!</string>
   <string name="beta_tester_desc">S’inscrire comme Beta testeur en cliquant ici</string>
+  <string name="title_activity_maps">Carte</string>
+  <string name="no_internet">Aucune connexion Internet</string>
+  <string name="export">Exporter</string>
+  <string name="versionNotSupported">Votre Version d’Android ne supporte pas cela!</string>
+  <string name="from">De</string>
+  <string name="to">À</string>
+  <string name="permissionNotGranted">Autorisation non accordée.</string>
+  <string name="useOSMGeocoder">Utiliser OpenStreetMaps pour le géocodage</string>
+  <string name="addFromCSV">Ajouter depuis un CSV</string>
+  <string name="csvFromFile">Charger du CSV depuis un fichier</string>
+  <string name="csvFromURL">Charger du CSV depuis une URL</string>
 </resources>

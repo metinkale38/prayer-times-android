@@ -176,6 +176,7 @@
   <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>
   <string name="showMore">Fazla göster</string>
   <string name="silenterDuration">Sessize alma süresi</string>
+  <string name="silenterType">Sessiz mod</string>
   <string name="silent">Sessiz</string>
   <string name="sorted">Sıraya göre</string>
   <string name="soundPicker">Telefon Seslerinden seç</string>
@@ -186,6 +187,7 @@
   <string name="tesbihat">Tesbihat</string>
   <string name="timeBased">Zaman</string>
   <string name="time">Zaman</string>
+  <string name="touchToSelectCity">Şehir seçmek için buraya dokunun</string>
   <string name="transWhiteWidget">Beyaz şeffaf Widget</string>
   <string name="transWidget">Şeffaf Widget</string>
   <string name="test">Dene</string>
@@ -247,5 +249,16 @@
   <string name="rate_desc">Eğer Namaz Vakti\'ni sevdiyseniz olumlu bir değerlendirme bırakın.</string>
   <string name="sendMail_sum">Bana bir e-posta gönder!</string>
   <string name="beta_tester_desc">Buraya tıklayarak Beta Tester olarak kayıt yaptır</string>
+  <string name="title_activity_maps">Harita</string>
   <string name="no_internet">İnternet bağlantısı yok</string>
+  <string name="export">Dışarı aktar</string>
+  <string name="versionNotSupported">Android sürümü bunu desteklemiyor!</string>
+  <string name="from">Başlangıç</string>
+  <string name="to">Bitiş</string>
+  <string name="permissionNotGranted">İzin verilmedi.</string>
+  <string name="useOSMGeocoder">Coğrafi kodlamar için OpenStreetMap kullanın</string>
+  <string name="addFromCSV">CSV\'den ekle</string>
+  <string name="csvFromFile">CSV dosyasını Hafıza\'dan oku</string>
+  <string name="csvFromURL">CSV dosyasını Internet\'den oku</string>
+
 </resources>
