@@ -106,4 +106,20 @@
   <string name="ongoingIcon">Значок уведомления</string>
   <string name="ongoingNotification">Виджет уведомлений</string>
   <string name="other">Дополнительно</string>
+  <string name="permissionCalendarText">Если вы хотите, что памятные дни отображались в вашем телефонном календаре, необходимо разрешить доступ приложения к календарю.</string>
+  <string name="permissionCalendarTitle">Подтвердить календарь</string>
+  <string name="permissionCameraText">Чтобы использовать 3D-компас, необходимо разрешить доступ к камере. В противном случае вы сможете использовать только 2D-компас.</string>
+  <string name="permissionCameraTitle">Разрешения для камеры</string>
+  <string name="permissionLocationText">Доступ к геоданным необходим для определения города. В случае отсутствия доступа к геоданным, необходимо установить город вручную.</string>
+  <string name="permissionLocationTitle">Доступ к геоданным</string>
+  <string name="permissionStorageText">Необходимо разрешение на хранение данных... Без этого разрешения некоторые функции будут недоступны</string>
+  <string name="permissionStorageTitle">Доступ к хранению данных</string>
+  <string name="prayerNotification">Уведомление о молитве</string>
+  <string name="refresh">Синхронизировать</string>
+  <string name="resetConfirmDhikr">Вы действительно хотите сбросить \“%1$s\”?</string>
+  <string name="widgetClock2">Времена молитв - 2*2 Часы</string>
+  <string name="numbers">Цифры</string>
+  <string name="dateFormat3">31 декабря </string>
+  <string name="hDateFormat3">30 мухаррам </string>
+  <string name="useAlarm">Использовать звуки будильника для уведомления</string>
 </resources>
