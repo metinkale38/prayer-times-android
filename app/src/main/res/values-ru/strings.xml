@@ -69,5 +69,17 @@
   <string name="donate">Support</string>
   <string name="holyday8">Рамадан начинается</string>
   <string name="holyday9">Ночь Предопределения</string>
-  <string name="holyday10">День Арафа</string>
+  <string name="holyday10">(Арафат Ид аль Фитр)</string>
+  <string name="holyday11">Ид аль Фитр</string>
+  <string name="holyday12">Ид аль Фитр 2-й день</string>
+  <string name="holyday13">Ид аль Фитр 3-й день</string>
+  <string name="holyday14">День Арафа</string>
+  <string name="holyday15">Ид аль Адха</string>
+  <string name="holyday16">Ид аль Адха 2-й день</string>
+  <string name="holyday17">Ид аль Адха 3-й день</string>
+  <string name="holyday18">Ид аль Адха 4-й день</string>
+  <string name="ishaa">Иша</string>
+  <string name="juristicHanafi">Ханафи</string>
+  <string name="juristicShafi">Шафи (по умолчанию)</string>
+  <string name="kerahatDuration">Нежелательное время - продолжительность</string>
 </resources>
