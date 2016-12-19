@@ -82,4 +82,5 @@
   <string name="juristicHanafi">Ханафи</string>
   <string name="juristicShafi">Шафи (по умолчанию)</string>
   <string name="kerahatDuration">Нежелательное время - продолжительность</string>
+  <string name="kerahatIstiwa">Время Истива (до молитвы Зухр) </string>
 </resources>
