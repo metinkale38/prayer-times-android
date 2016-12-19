@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -79,8 +78,7 @@ public class AlarmReceiver extends IntentService {
     }
 
     public static MediaPlayer play(Context c, String sound) throws IOException {
-        Uri uri = null;
-        uri = Uri.parse(sound);
+        Uri uri = Uri.parse(sound);
 
         MediaPlayer mp = new MediaPlayer();
         mp.setLooping(false);
@@ -98,14 +96,12 @@ public class AlarmReceiver extends IntentService {
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
             i.putExtra("json", alarm.toString());
-        }
-        int id = alarm.hashCode();
-        PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
-                FLAG_UPDATE_CURRENT);
+            int id = alarm.hashCode();
+            PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
+                    FLAG_UPDATE_CURRENT);
 
-        am.cancel(service);
+            am.cancel(service);
 
-        if (alarm != null) {
             App.setExact(am, AlarmManager.RTC_WAKEUP, alarm.time, service);
         }
 
@@ -159,15 +155,14 @@ public class AlarmReceiver extends IntentService {
         }
 
         Times t = Times.getTimes(next.city);
-        boolean active = false;
-        if (t != null) {
-            if (next.cuma) {
-                active = t.isCumaActive();
-            } else if (next.early) {
-                active = t.isEarlyNotificationActive(next.vakit);
-            } else {
-                active = t.isNotificationActive(next.vakit);
-            }
+        if (t == null) return;
+        boolean active;
+        if (next.cuma) {
+            active = t.isCumaActive();
+        } else if (next.early) {
+            active = t.isEarlyNotificationActive(next.vakit);
+        } else {
+            active = t.isNotificationActive(next.vakit);
         }
         if (!active) {
             return;
@@ -198,11 +193,9 @@ public class AlarmReceiver extends IntentService {
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
         nm.cancel(next.city + "", NotIds.ALARM);
-        String text = "Ezan";
+        String text;
 
-        if (t != null) {
-            text = t.getName() + " (" + t.getSource() + ")";
-        }
+        text = t.getName() + " (" + t.getSource() + ")";
 
         String txt = "";
         if (next.early) {
@@ -255,7 +248,7 @@ public class AlarmReceiver extends IntentService {
             int volume = -2;
             hasSound = true;
 
-            if ((sound != null) && !sound.startsWith("silent") && !sound.startsWith("picker")) {
+            if (!sound.startsWith("silent") && !sound.startsWith("picker")) {
 
                 if (sound.contains("$volume")) {
                     volume = Integer.parseInt(sound.substring(sound.indexOf("$volume") + 7));
@@ -291,7 +284,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            if ((mp == null) || (mp.mp == null)) {
+                            if (mp.mp == null) {
                                 return;
                             }
                             mp.mp.stop();
@@ -303,7 +296,7 @@ public class AlarmReceiver extends IntentService {
                     mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                         @Override
                         public void onSeekComplete(MediaPlayer mediaPlayer) {
-                            if ((mp == null) || (mp.mp == null)) {
+                            if (mp.mp == null) {
                                 return;
                             }
                             mp.mp.stop();
@@ -322,12 +315,11 @@ public class AlarmReceiver extends IntentService {
                         mp.mp.release();
                         mp.mp = null;
 
-                        sound = null;
                         dua = null;
                     } else {
                         try {
                             Thread.sleep(500);
-                        } catch (InterruptedException e) {
+                        } catch (InterruptedException ignore) {
                         }
                     }
                 }
@@ -367,9 +359,10 @@ public class AlarmReceiver extends IntentService {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-
+            if (PermissionUtils.get(context).pNotPolicy) {
+                AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            }
         }
     }
 
@@ -377,8 +370,10 @@ public class AlarmReceiver extends IntentService {
 
         @Override
         public void onReceive(Context c, Intent i) {
-            AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
-            am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+            if (PermissionUtils.get(c).pNotPolicy) {
+                AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
+                am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+            }
         }
     }
 

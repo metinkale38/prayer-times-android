@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 
@@ -50,9 +51,12 @@ public class Main extends BaseActivity {
 
                 @Override
                 public void onClick(View arg0) {
+                    String txt = nr.getText().toString();
+                    if (txt.isEmpty()) txt = "0";
                     int i = 0;
                     try {
-                        i = Integer.parseInt(nr.getText().toString());
+                        i = Integer.parseInt(txt);
+                    } catch (Exception ignore) {
                     } finally {
                         i++;
                     }
@@ -66,9 +70,11 @@ public class Main extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
+                    String txt = nr.getText().toString();
+                    if (txt.isEmpty()) txt = "0";
                     int i = 0;
                     try {
-                        i = Integer.parseInt(nr.getText().toString());
+                        i = Integer.parseInt(txt);
                     } finally {
                         i--;
                     }
@@ -109,5 +115,6 @@ public class Main extends BaseActivity {
 
         edit.apply();
     }
+
 
 }

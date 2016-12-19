@@ -19,17 +19,21 @@ package com.metinkale.prayerapp.compass;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Geocoder;
+
+import java.util.List;
 
 public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;
@@ -43,8 +47,9 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
         list.setOnItemClickListener(this);
 
         mAdapter = new ArrayAdapter<Geocoder.Result>(this, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 if (v instanceof TextView) ((TextView) v).setTextColor(Color.BLACK);
                 return v;
@@ -59,19 +64,15 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void afterTextChanged(Editable txt) {
-        Geocoder.from(txt.toString()).setCallback(new FutureCallback<Geocoder.Response>() {
+        Geocoder.search(txt.toString(), new Geocoder.SearchCallback() {
             @Override
-            public void onCompleted(Exception e, Geocoder.Response result) {
-                if (e != null) {
-                    Crashlytics.logException(e);
-                    return;
-                }
-                if (result == null || !"OK".equals(result.status)) return;
-
+            public void onResult(List<Geocoder.Result> results) {
+                if (results == null) return;
                 mAdapter.clear();
-                mAdapter.addAll(result.results);
+                mAdapter.addAll(results);
             }
         });
+
     }
 
     @Override
@@ -87,7 +88,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
         Geocoder.Result a = mAdapter.getItem(pos);
-        Prefs.setCompassPos((float) a.geometry.location.lat, (float) a.geometry.location.lng);
+        Prefs.setCompassPos((float) a.lat, (float) a.lng);
 
         finish();
 

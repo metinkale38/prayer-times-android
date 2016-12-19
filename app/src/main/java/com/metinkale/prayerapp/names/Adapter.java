@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.names;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,9 @@ class Adapter extends ArrayAdapter<Item> {
     }
 
 
+    @NonNull
     @Override
-    public View getView(int pos, View convertView, ViewGroup parent) {
+    public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
         ViewHolder vh;
         if (convertView == null) {
 

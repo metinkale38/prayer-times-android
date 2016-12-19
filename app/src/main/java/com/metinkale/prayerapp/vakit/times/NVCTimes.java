@@ -19,7 +19,7 @@ package com.metinkale.prayerapp.vakit.times;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.vakit.times.other.Source;
+
 import org.joda.time.LocalDate;
 
 import java.io.BufferedInputStream;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NVCTimes extends WebTimes {
+class NVCTimes extends WebTimes {
 
 
     @SuppressWarnings("unused")
@@ -60,7 +60,6 @@ public class NVCTimes extends WebTimes {
             String line;
 
 
-            int y = LocalDate.now().getYear();
             while ((line = reader.readLine()) != null) {
                 if (line.contains("cityNameTR")) {
                     line = line.substring(line.indexOf("cityNameTR"));

@@ -18,7 +18,6 @@ package com.metinkale.prayerapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
@@ -35,12 +35,15 @@ import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
+import com.github.anrwatchdog.ANRError;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -48,7 +51,6 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTimeZone;
 
-import java.io.IOException;
 import java.util.TimeZone;
 
 
@@ -86,15 +88,12 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     }
 
     public static boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
+        //only checks for connection, not for actual internet connection
+        //everything else need (or should be in) a seperate thread
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
     public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
@@ -121,10 +120,14 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
         sContext = this;
 
-
         Fabric.with(this, new Crashlytics());
+        Crashlytics.setUserIdentifier(Prefs.getUUID());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
 
@@ -149,6 +152,13 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
         Times.setAlarms();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        if ("longcheer".equalsIgnoreCase(Build.BRAND)
+                || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
+                || "general mobile".equalsIgnoreCase(Build.BRAND)
+                || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
+            new ANRWatchDog().start();
+        }
     }
 
     @Override

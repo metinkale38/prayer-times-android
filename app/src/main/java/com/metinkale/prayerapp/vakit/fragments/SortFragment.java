@@ -41,8 +41,6 @@ import java.util.List;
 
 public class SortFragment extends Fragment implements Times.OnTimesListChangeListener {
 
-    private LinearLayoutManager mLinLayMan;
-    private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
     private Main act;
     private ItemTouchHelper mItemTouchHelper;
@@ -50,17 +48,17 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_sort_main, container, false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
+        RecyclerView recyclerMan = (RecyclerView) v.findViewById(R.id.list);
         mAdapter = new MyAdapter();
-        mRecyclerView.setAdapter(mAdapter);
-        mLinLayMan = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLinLayMan);
-        mRecyclerView.setHasFixedSize(true);
+        recyclerMan.setAdapter(mAdapter);
+        LinearLayoutManager linLayMan = new LinearLayoutManager(getContext());
+        recyclerMan.setLayoutManager(linLayMan);
+        recyclerMan.setHasFixedSize(true);
 
         ItemTouchHelper.Callback callback =
                 new SimpleItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mItemTouchHelper.attachToRecyclerView(recyclerMan);
         return v;
     }
 

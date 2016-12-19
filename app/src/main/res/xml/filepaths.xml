@@ -1,0 +1,4 @@
+<paths>
+    <cache-path name="*.csv" />
+    <cache-path name="*.pdf" />
+</paths>

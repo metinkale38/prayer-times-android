@@ -18,7 +18,11 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.App;
+
+import java.util.UUID;
 
 public class Prefs {
 
@@ -40,9 +44,6 @@ public class Prefs {
         getPrefs().edit().putString("language", language).apply();
     }
 
-    public static boolean isNightMode() {
-        return getPrefs().getBoolean("nightMode", false);
-    }
 
     public static String getDigits() {
         return getPrefs().getString("numbers", "normal");
@@ -55,6 +56,17 @@ public class Prefs {
     public static String getHDF() {
         return getPrefs().getString("hdateformat", "DD MMM YYYY");
     }
+
+
+    public static String getUUID() {
+        String uuid = getPrefs().getString("uuid", null);
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+            getPrefs().edit().putString("uuid", uuid).apply();
+        }
+        return uuid;
+    }
+
 
     public static boolean useArabic() {
         return !"ar".equals(getLanguage()) && getPrefs().getBoolean("arabicNames", false);
@@ -159,5 +171,16 @@ public class Prefs {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
+    public static void setUseOSM(boolean useOSM) {
+        getPrefs().edit().putBoolean("useOSM", useOSM).apply();
+    }
 
+    public static boolean useOSM() {
+        if (!getPrefs().contains("useOSM")) {
+           if("fdroid".equals(BuildConfig.FLAVOR)){
+               setUseOSM(true);
+           }
+        }
+        return getPrefs().getBoolean("useOSM", false);
+    }
 }

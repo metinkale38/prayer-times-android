@@ -58,8 +58,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, w, r.getDisplayMetrics());
         h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
 
-        int min = Math.min(w, h);
-        int s = min;
+        int s = Math.min(w, h);
 
         if (s <= 0) {
             SharedPreferences.Editor edit = widgets.edit();

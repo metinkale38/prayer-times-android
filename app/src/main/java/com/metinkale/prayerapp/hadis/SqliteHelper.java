@@ -22,6 +22,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -163,7 +164,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         mOpenCounter++;
         if (mDB == null) {
             String lang = Prefs.getLanguage();
-            if (lang.equals("ar")) lang = "en";
+            if (lang.equals("ar") || lang.equals("fr")) lang = "en";
             mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
         }
 

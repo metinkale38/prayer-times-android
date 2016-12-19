@@ -25,13 +25,12 @@ import android.net.Uri;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.about.AboutAct;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.settings.Settings;
 
 public class Changelog {
-    private static final int CHANGELOG_VERSION = 16;
+    private static final int CHANGELOG_VERSION = 17;
     private static Context mContext;
 
     public static void start(Context c) {
@@ -61,7 +60,7 @@ public class Changelog {
         builder.setNeutralButton(mContext.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Settings.sendMail(mContext);
+                AboutAct.sendMail(mContext);
             }
         });
 

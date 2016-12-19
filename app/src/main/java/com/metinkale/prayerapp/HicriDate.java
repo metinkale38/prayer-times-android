@@ -34,8 +34,11 @@ public class HicriDate {
     public static final int DAY = 6;
     private static final int[][] mDates;
 
+    @SuppressWarnings("WeakerAccess")
     public final int Year;
+    @SuppressWarnings("WeakerAccess")
     public final int Month;
+    @SuppressWarnings("WeakerAccess")
     public final int Day;
 
     public HicriDate(int y, int m, int d) {

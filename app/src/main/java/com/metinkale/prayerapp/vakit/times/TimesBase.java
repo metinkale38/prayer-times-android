@@ -17,14 +17,13 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapterFactory;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
 import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
-import com.metinkale.prayerapp.vakit.times.other.Source;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.util.List;
@@ -36,7 +35,7 @@ import static com.metinkale.prayerapp.vakit.times.Times.getTimes;
 /**
  * Created by metin on 03.04.2016.
  */
-public class TimesBase {
+class TimesBase {
     private static final Gson GSON;
 
     static {
@@ -44,15 +43,11 @@ public class TimesBase {
         BooleanSerializer booleanSerializer = new BooleanSerializer();
 
 
-        TypeAdapterFactory subTypeFactory = RuntimeTypeAdapterFactory
-                .of(Times.class, "source")
-                .registerSubtype(IGMGTimes.class, "IGMG")
-                .registerSubtype(CalcTimes.class, "Calc")
-                .registerSubtype(DiyanetTimes.class, "Diyanet")
-                .registerSubtype(FaziletTimes.class, "Fazilet")
-                .registerSubtype(SemerkandTimes.class, "Semerkand")
-                .registerSubtype(NVCTimes.class, "NVC");
-
+        RuntimeTypeAdapterFactory<Times> subTypeFactory = RuntimeTypeAdapterFactory
+                .of(Times.class, "source");
+        for (Source source : Source.values()) {
+            subTypeFactory = subTypeFactory.registerSubtype(source.clz, source.name());
+        }
 
         b.registerTypeAdapterFactory(subTypeFactory);
         b.registerTypeAdapter(Boolean.class, booleanSerializer);
@@ -195,7 +190,7 @@ public class TimesBase {
     }
 
 
-    public void delete() {
+    public synchronized void delete() {
         deleted = true;
 
         prefs.edit().remove("id" + ID).apply();
@@ -213,19 +208,17 @@ public class TimesBase {
             return;
         }
         apply();
-        if (prefs != null && !prefs.contains("id" + ID)) {
-            Times.clearTimes();
-        }
+
 
     }
 
 
-    public boolean deleted() {
+    public synchronized boolean deleted() {
         return deleted;
     }
 
 
-    public long getID() {
+    public synchronized long getID() {
         return ID;
     }
 

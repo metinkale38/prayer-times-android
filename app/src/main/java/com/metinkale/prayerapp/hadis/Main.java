@@ -171,12 +171,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
-    }
-
-    @Override
     public void onClick(View v) {
         if (v == mLeft) {
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);

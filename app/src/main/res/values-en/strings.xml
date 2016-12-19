@@ -250,7 +250,6 @@
   <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
   <string name="sendMail_sum">Send me an E-Mail!</string>
   <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
-  <string name="title_activity_maps">Map</string>
   <string name="no_internet">No Internet Connection</string>
   <string name="export">Export</string>
   <string name="versionNotSupported">Your Android Version does not support this!</string>
@@ -258,4 +257,5 @@
   <string name="to">To</string>
   <string name="permissionNotGranted">Permission not granted.</string>
   <string name="useOSMGeocoder">Use OpenStreetMaps for Geocoding</string>
+
 </resources>

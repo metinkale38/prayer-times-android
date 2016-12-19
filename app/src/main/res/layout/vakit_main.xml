@@ -97,9 +97,7 @@
                 class="com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:background="@color/background"
-                android:layout_alignParentBottom="true"
                 android:tag="imsakiye"
                 tools:layout="@layout/vakit_imsakiye"/>
 

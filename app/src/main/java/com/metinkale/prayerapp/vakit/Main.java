@@ -215,14 +215,6 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        isRunning = false;
-        Times.removeOnTimesListChangeListener(mAdapter);
-
-    }
-
-    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Fragment frag = getSupportFragmentManager().findFragmentByTag("notPrefs");
@@ -292,7 +284,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     public class MyAdapter extends FragmentPagerAdapter implements Times.OnTimesListChangeListener {
 
-        public MyAdapter(FragmentManager fm) {
+        MyAdapter(FragmentManager fm) {
             super(fm);
 
         }

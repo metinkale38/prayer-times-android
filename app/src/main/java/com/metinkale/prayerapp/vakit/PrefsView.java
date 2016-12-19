@@ -278,7 +278,7 @@ public class PrefsView extends View implements OnClickListener {
             int titleId = 0;
             switch (mPref) {
                 case Silenter:
-                    PermissionUtils.get((Activity) getContext())
+                    PermissionUtils.get(getContext())
                             .needNotificationPolicy((Activity) getContext());
                     titleId = R.string.silenterDuration;
                     break;

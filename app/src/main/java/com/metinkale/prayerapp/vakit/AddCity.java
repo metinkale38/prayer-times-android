@@ -17,16 +17,21 @@
 package com.metinkale.prayerapp.vakit;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,16 +39,20 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.utils.FileChooser;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
-import com.metinkale.prayerapp.vakit.times.other.Cities;
-import com.metinkale.prayerapp.vakit.times.other.Cities.Item;
-import com.metinkale.prayerapp.vakit.times.other.Source;
+import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Cities.Item;
+import com.metinkale.prayerapp.vakit.times.Source;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -51,7 +60,6 @@ import java.util.List;
 public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
     private MyAdapter mAdapter;
     private FloatingActionButton mFab;
-    private SearchView mSearchView;
     private MenuItem mSearchItem;
 
     @Override
@@ -64,6 +72,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
         listView.setOnItemClickListener(this);
+        listView.addFooterView(View.inflate(this, R.layout.vakit_addcity_addcsv, null));
         mAdapter = new MyAdapter(this);
         listView.setAdapter(mAdapter);
 
@@ -86,13 +95,14 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionUtils.get(this).pLocation) {
             checkLocation();
         }
     }
 
+    @SuppressWarnings("MissingPermission")
     public void checkLocation() {
         if (PermissionUtils.get(this).pLocation) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -142,7 +152,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 .setDefaultColor(0xFFFFFFFF)
                 .inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         mSearchView.performClick();
         mSearchView.setOnQueryTextListener(this);
         return true;
@@ -151,24 +161,16 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
         Cities.Item i = mAdapter.getItem(pos);
-        switch (i.source) {
-            case Calc:
-                Bundle bdl = new Bundle();
-                bdl.putString("city", i.city);
-                bdl.putDouble("lat", i.lat);
-                bdl.putDouble("lng", i.lng);
-                CalcTimes.add(this, bdl);
-                break;
-            case NVC:
-            case Diyanet:
-            case Fazilet:
-            case Semerkand:
-            case IGMG:
-                WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
-                finish();
-                break;
+        if (i != null) if (i.source == Source.Calc) {
+            Bundle bdl = new Bundle();
+            bdl.putString("city", i.city);
+            bdl.putDouble("lat", i.lat);
+            bdl.putDouble("lng", i.lng);
+            CalcTimes.add(this, bdl);
+        } else {
+            WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
+            finish();
         }
-
 
     }
 
@@ -211,7 +213,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             mAdapter.add(item);
             mAdapter.notifyDataSetChanged();
 
-            Cities.search(item.lat + "," + item.lng, new Cities.Callback() {
+            Cities.search(item.lat, item.lng, new Cities.Callback() {
                 @Override
                 public void onResult(List result) {
                     List<Item> items = result;
@@ -242,6 +244,54 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     }
 
+    public void addFromCSV(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.addFromCSV)
+                .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            FileChooser chooser = new FileChooser(AddCity.this);
+                            chooser.setExtension("csv");
+                            chooser.showDialog();
+                            chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                @Override
+                                public void fileSelected(File file) {
+                                    String name = file.getName();
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
+                                    WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                                }
+                            });
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
+                            final EditText editText = new EditText(AddCity.this);
+                            editText.setHint("http(s)://example.com/prayertimes.csv");
+                            alert.setView(editText);
+                            alert.setTitle(R.string.csvFromURL);
+                            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String url = editText.getText().toString();
+                                    String name = url.substring(url.lastIndexOf("/") + 1);
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
+                                    WebTimes.add(Source.CSV, name, url, 0, 0);
+                                }
+                            });
+                            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            alert.show();
+
+                        }
+                    }
+                });
+        builder.show();
+    }
+
 
     static class MyAdapter extends ArrayAdapter<Cities.Item> {
 
@@ -251,7 +301,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         }
 
         @Override
-        public void addAll(Collection<? extends Item> collection) {
+        public void addAll(@NonNull Collection<? extends Item> collection) {
             super.addAll(collection);
             sort(new Comparator<Item>() {
 
@@ -263,8 +313,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             });
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder vh;
             if (convertView == null) {
                 convertView = View.inflate(parent.getContext(), R.layout.vakit_addcity_row, null);

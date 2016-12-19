@@ -42,8 +42,6 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class NotificationPopup extends Activity {
     public static NotificationPopup instance;
-    private TextView name;
-    private TextView vakit;
 
 
     @Override
@@ -73,9 +71,9 @@ public class NotificationPopup extends Activity {
 
         setContentView(R.layout.vakit_notpopup);
 
-        name = (TextView) findViewById(R.id.name);
+        TextView name = (TextView) findViewById(R.id.name);
         name.setText(getIntent().getStringExtra("name"));
-        vakit = (TextView) findViewById(R.id.vakit);
+        TextView vakit = (TextView) findViewById(R.id.vakit);
         vakit.setText(getIntent().getStringExtra("vakit"));
         vakit.setKeepScreenOn(true);
 
@@ -123,7 +121,7 @@ public class NotificationPopup extends Activity {
                     .setColor(Color.WHITE)
                     .setSizeDp(24)
                     .build();
-            ;
+
             setOnTouchListener(this);
         }
 

@@ -17,14 +17,16 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
-import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.*;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -60,8 +62,9 @@ public abstract class Times extends TimesBase {
             if (object == null) {
                 return false;
             }
+            object.setSortId(Integer.MAX_VALUE);
             boolean ret = super.add(object);
-            notifyDataSetChanged();
+            Times.sort();
             return ret;
         }
 
@@ -124,6 +127,7 @@ public abstract class Times extends TimesBase {
         return getTimes().get(index);
     }
 
+    @Nullable
     public static Times getTimes(long id) {
         for (Times t : sTimes) {
             if (t != null) {
@@ -135,7 +139,7 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    protected static void clearTimes() {
+    static void clearTimes() {
         sTimes.clear();
     }
 
@@ -172,6 +176,7 @@ public abstract class Times extends TimesBase {
         for (Times t : sTimes) {
             t.setSortId(sTimes.indexOf(t));
         }
+        notifyDataSetChanged();
     }
 
     public static List<Long> getIds() {
@@ -189,7 +194,7 @@ public abstract class Times extends TimesBase {
         return getTimes().size();
     }
 
-    public static List<Alarm> getAllAlarms() {
+    private static List<Alarm> getAllAlarms() {
         List<Alarm> alarms = new ArrayList<>();
         List<Long> ids = getIds();
         for (long id : ids) {
@@ -223,13 +228,13 @@ public abstract class Times extends TimesBase {
         mListeners.remove(list);
     }
 
-    protected void notifyOnUpdated() {
+    void notifyOnUpdated() {
         if (mListeners != null)
             for (OnTimesUpdatedListener list : mListeners)
                 list.onTimesUpdated(this);
     }
 
-    Collection<Alarm> getAlarms() {
+    private Collection<Alarm> getAlarms() {
         Collection<Alarm> alarms = new ArrayList<>();
 
 
@@ -324,7 +329,7 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    public LocalDateTime getTimeCal(LocalDate date, int time) {
+    private LocalDateTime getTimeCal(LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -366,8 +371,7 @@ public abstract class Times extends TimesBase {
 
 
         }
-        String ret = adj(_getTime(date, time), time);
-        return ret;
+        return adj(_getTime(date, time), time);
     }
 
     protected String _getTime(LocalDate date, int time) {

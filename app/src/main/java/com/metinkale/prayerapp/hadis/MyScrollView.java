@@ -58,7 +58,6 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     private boolean hasFailedObtainingScrollFields;
     private int prevScrollY;
     private boolean isInFlingMode;
-    private DisplayMetrics metrics;
     private View child;
     private Runnable overScrollerSpringbackTask;
     /**
@@ -128,7 +127,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     private void initBounce() {
-        metrics = mContext.getResources().getDisplayMetrics();
+        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
 
         // init the bouncy scroller, and make sure the layout is being drawn
         // after the top padding
@@ -160,7 +159,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         if (mScrollYField != null) {
             try {
                 mScrollYField.setInt(this, value);
-            } catch (Exception e) {
+            } catch (Exception ignore) {
             }
         }
     }
@@ -169,7 +168,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         if (mScrollXField != null) {
             try {
                 mScrollXField.setInt(this, value);
-            } catch (Exception e) {
+            } catch (Exception ignore) {
             }
         }
     }
@@ -698,7 +697,6 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 		 */
         boolean foundFullyContainedFocusable = false;
 
-        int count = focusables.size();
         for (View view : focusables) {
             int viewTop = view.getTop();
             int viewBottom = view.getBottom();

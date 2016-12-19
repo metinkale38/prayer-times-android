@@ -14,8 +14,6 @@ import android.hardware.SensorManager;
  * @author Adam
  */
 public class MagAccelListener implements SensorEventListener {
-    // smoothing factor - tune to taste
-    private final float mFilterFactor = 0.05f;
     // smoothed accelerometer values
     public float[] mAccelVals = {0f, 0f, 9.8f};
     // smoothed magnetometer values
@@ -54,10 +52,11 @@ public class MagAccelListener implements SensorEventListener {
     }
 
     private void smooth(float[] inv, float[] prevv, float[] outv) {
-        float filterFactorInv = 1.0f - mFilterFactor;
-        outv[0] = (inv[0] * mFilterFactor) + (prevv[0] * filterFactorInv);
-        outv[1] = (inv[1] * mFilterFactor) + (prevv[1] * filterFactorInv);
-        outv[2] = (inv[2] * mFilterFactor) + (prevv[2] * filterFactorInv);
+        float filterFactor = 0.05f;
+        float filterFactorInv = 1.0f - filterFactor;
+        outv[0] = (inv[0] * filterFactor) + (prevv[0] * filterFactorInv);
+        outv[1] = (inv[1] * filterFactor) + (prevv[1] * filterFactorInv);
+        outv[2] = (inv[2] * filterFactor) + (prevv[2] * filterFactorInv);
     }
 
     @Override

@@ -340,9 +340,7 @@ public class PrayTime {
         double Maghrib = computeTime(methodParams[2], t[5]);
         double Isha = computeTime(methodParams[4], t[6]);
 
-        double[] CTimes = {Fajr, Sunrise, Dhuhr, Asr, Sunset, Maghrib, Isha};
-
-        return CTimes;
+        return new double[]{Fajr, Sunrise, Dhuhr, Asr, Sunset, Maghrib, Isha};
 
     }
 

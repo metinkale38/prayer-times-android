@@ -121,7 +121,7 @@
   <string name="holyday8">بداية رمضان</string>
   <string name="holyday9">ليلة القدر</string>
   <string name="holyday10">آخر أيام شهر رمضان المبارك</string>
-  <string name="holyday11">عيد الفطر</string>
+  <string name="holyday11">عيد الفطر</string
   <string name="holyday12">اليوم التالي لعيد الفطر</string>
   <string name="holyday13">اليوم الثاني بعد عيد الفطر</string>
   <string name="holyday14">يوم عرفة</string>
@@ -157,6 +157,7 @@
   <string name="ongoingIcon">أيقونة المنبه</string>
   <string name="ongoingNotification">ويدجيت التنبيه</string>
   <string name="other">أخرى</string>
+
   <string name="permissionCalendarText">\"إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
         الصلاحية لذلك!
         وإذا لم ترد ذلك فلا تعط الصلاحية!
