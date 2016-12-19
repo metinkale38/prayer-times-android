@@ -269,4 +269,5 @@
   <string name="to">Bis</string>
   <string name="permissionNotGranted">Berechtigung wurde nicht erteilt.</string>
   <string name="useOSMGeocoder">Nutze OpenStreetMaps für Geocoding</string>
+  <string name="addFromCSV">Aus CSV-Datei hinzufügen</string>
 </resources>
