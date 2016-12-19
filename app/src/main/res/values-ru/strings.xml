@@ -21,7 +21,7 @@
   <string name="adjAngle">На основе эклиптики (угол / 60-я часть ночь)</string>
   <string name="adjMidnight">Полночь</string>
   <string name="adjTime">На основе времени (1/7-я часть ночи)</string>
-  <string name="afterImsak">После Фаджра</string>
+  <string name="afterImsak">После рассвета</string>
   <string name="alternativeOngoing">Альтернативный виджет уведомлений</string>
   <string name="angle">Угол</string>
   <string name="angleBased">Угол</string>
@@ -66,8 +66,10 @@
   <string name="dhikrCount">Зикр цель</string>
   <string name="dhikr">Зикр</string>
   <string name="distance">Расстояние</string>
+  <string name="djuma">Джума</string>
+  <string name="dlHadith">Загрузка базы данных хадисов?</string>
   <string name="donate">Support</string>
-  <string name="holyday8">Рамадан начинается</string>
+  <string name="holyday8">Начало Рамадана</string>
   <string name="holyday9">Ночь Предопределения</string>
   <string name="holyday10">(Арафат Ид аль Фитр)</string>
   <string name="holyday11">Ид аль Фитр</string>
@@ -155,4 +157,6 @@
   <string name="permissionNotGranted">Разрешение не предоставлено.</string>
   <string name="useOSMGeocoder">Использовать карты Openstreet Maps для геокодирования</string>
   <string name="addFromCSV">Добавить из CSV</string>
+  <string name="csvFromFile">Загрузить CSV из файла</string>
+  <string name="csvFromURL">Загрузить CSV по ссылке</string>
 </resources>
