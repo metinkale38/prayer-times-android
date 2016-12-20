@@ -162,7 +162,7 @@
   <string name="permissionCameraTitle">Autorisation d\'accès à l\'appareil photo</string>
   <string name="permissionLocationText">L\'autorisation de localisation est nécessaire, pour trouver votre ville. Si vous n\'autoriser pas cette appli pour accéder à votre emplacement, vous devez rechercher votre ville manuellement.</string>
   <string name="permissionLocationTitle">Autorisation d\'accès pour votre localisation</string>
-  <string name="permissionStorageText">L\'autorisation d\'accès au stockage est nécessaire… Sans cette autorisation certaines fonctions ne seront pas active</string>
+  <string name="permissionStorageText">L\'autorisation d\'accès au stockage est nécessaire ... Sans cette autorisation certaines fonctions ne seront pas active</string>
   <string name="permissionStorageTitle">Autorisation d\'accès au stockage</string>
   <string name="prayerNotification">notification pour le temps de la prière</string>
   <string name="refresh">Synchroniser</string>
