@@ -47,9 +47,6 @@
         android:noHistory="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabricKey" />
 
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 

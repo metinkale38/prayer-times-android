@@ -16,3 +16,4 @@
 /app/src/google-services.json
 /.idea
 google_maps_api.xml
+/fabric.properties

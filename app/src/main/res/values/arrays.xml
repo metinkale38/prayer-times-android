@@ -75,6 +75,7 @@
         <item>English</item>
         <item>Français</item>
         <item>عربي</item>
+        <item>русский</item>
     </string-array>
 
 
@@ -84,6 +85,7 @@
         <item>en</item>
         <item>fr</item>
         <item>ar</item>
+        <item>ru</item>
     </string-array>
     <string-array name="lefttext_part">
         <item>@string/fajr</item>
