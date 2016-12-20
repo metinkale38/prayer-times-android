@@ -27,11 +27,23 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DurationFieldType;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 public abstract class Times extends TimesBase {
 
@@ -154,13 +166,15 @@ public abstract class Times extends TimesBase {
                 }
             }
 
-            sort();
+            if (!sTimes.isEmpty())
+                sort();
         }
         return sTimes;
 
     }
 
     public static void sort() {
+        if (sTimes.isEmpty()) return;
         Collections.sort(sTimes, new Comparator<Times>() {
             @Override
             public int compare(Times t1, Times t2) {

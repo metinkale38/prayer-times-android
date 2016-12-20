@@ -38,14 +38,12 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.1'
 
-
-
     defaultConfig {
         applicationId "com.metinkale.prayer"
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 169
+        versionCode 170
         versionName '3.6.3'
         multiDexEnabled true
     }

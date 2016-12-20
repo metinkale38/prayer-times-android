@@ -19,14 +19,6 @@ package com.metinkale.prayerapp.vakit.times;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.times.CalcTimes;
-import com.metinkale.prayerapp.vakit.times.DiyanetTimes;
-import com.metinkale.prayerapp.vakit.times.FaziletTimes;
-import com.metinkale.prayerapp.vakit.times.IGMGTimes;
-import com.metinkale.prayerapp.vakit.times.MoroccoTimes;
-import com.metinkale.prayerapp.vakit.times.NVCTimes;
-import com.metinkale.prayerapp.vakit.times.SemerkandTimes;
-import com.metinkale.prayerapp.vakit.times.Times;
 
 import java.util.Locale;
 
@@ -54,7 +46,9 @@ public enum Source {
     }
 
     Source(int resTxt, int resIcon, Class<? extends Times> clz) {
-        Locale.setDefault(new Locale(Prefs.getLanguage()));
+        String lang = Prefs.getLanguage();
+        if (lang != null)
+            Locale.setDefault(new Locale(lang));
         this.text = App.getContext().getString(resTxt);
         this.resId = resIcon;
         this.clz = clz;
