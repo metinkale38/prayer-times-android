@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
@@ -45,7 +46,6 @@ import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Main extends BaseActivity implements OnPageChangeListener, View.OnClickListener {
 
-    public static boolean isRunning;
     public MyAdapter mAdapter;
     public FloatingActionButton mAddCityFab;
     private RTLViewPager mPager;
@@ -208,10 +208,15 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        isRunning = true;
         Times.addOnTimesListChangeListener(mAdapter);
 
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Times.removeOnTimesListChangeListener(mAdapter);
     }
 
     @Override

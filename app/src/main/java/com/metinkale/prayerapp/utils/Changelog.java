@@ -31,48 +31,46 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 public class Changelog {
     private static final int CHANGELOG_VERSION = 17;
-    private static Context mContext;
 
     public static void start(Context c) {
-        mContext = c;
         if (Prefs.getChangelogVersion() < CHANGELOG_VERSION) {
-            getDialog().show();
+            getDialog(c).show();
             Prefs.setChangelogVersion(CHANGELOG_VERSION);
         }
     }
 
-    private static AlertDialog getDialog() {
-        WebView wv = new WebView(mContext);
+    private static AlertDialog getDialog(final Context c) {
+        WebView wv = new WebView(c);
         String lang = Prefs.getLanguage();
         if (lang.equals("ar") || lang.equals("fr")) lang = "en";
         wv.loadUrl("file:///android_asset/" + lang + "/changelog.htm");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(mContext.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle(c.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);
 
-        builder.setNegativeButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(c.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
 
-        builder.setNeutralButton(mContext.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(c.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AboutAct.sendMail(mContext);
+                AboutAct.sendMail(c);
             }
         });
 
-        builder.setPositiveButton(mContext.getResources().getString(R.string.vote), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(c.getResources().getString(R.string.vote), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
+                Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 try {
-                    mContext.startActivity(goToMarket);
+                    c.startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(mContext, "Couldn't launch the market", Toast.LENGTH_LONG).show();
+                    Toast.makeText(c, "Couldn't launch the market", Toast.LENGTH_LONG).show();
                 }
             }
         });

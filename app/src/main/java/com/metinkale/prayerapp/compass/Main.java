@@ -30,15 +30,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.view.*;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Surface;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.compass._2D.Frag2D;
 import com.metinkale.prayerapp.compass._3D.Frag3D;
 import com.metinkale.prayerapp.compass.classes.OrientationCalculator;
@@ -47,6 +51,7 @@ import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.rotation.MagAccelListener;
 import com.metinkale.prayerapp.compass.classes.rotation.RotationUpdateDelegate;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.PermissionUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -264,6 +269,13 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
             loc.setLongitude(Prefs.getCompassLng());
             calcQiblaAngel(loc);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locMan.removeUpdates(this);
+        super.onPause();
     }
 
     @Override

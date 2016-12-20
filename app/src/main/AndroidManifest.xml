@@ -14,6 +14,7 @@
   ~ limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.metinkale.prayer"
     android:installLocation="internalOnly">
 
@@ -39,15 +40,16 @@
 
     <application
         android:name="com.metinkale.prayerapp.App"
-        android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_config"
+        android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/appName"
         android:noHistory="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
 
+        <!--suppress AndroidDomInspection -->
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 
         <activity
@@ -89,7 +91,31 @@
         <activity-alias
             android:name=".aliasTR"
             android:enabled="false"
-            android:label="Namaz Vakti"
+            android:label="@string/appNameTR"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasFR"
+            android:enabled="false"
+            android:label="@string/appNameFR"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasRU"
+            android:enabled="false"
+            android:label="@string/appNameRU"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -101,7 +127,7 @@
         <activity-alias
             android:name=".aliasAR"
             android:enabled="false"
-            android:label="أوقات الصلاة"
+            android:label="@string/appNameAR"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -113,7 +139,7 @@
         <activity-alias
             android:name=".aliasDE"
             android:enabled="false"
-            android:label="Gebetszeiten"
+            android:label="@string/appNameDE"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -125,7 +151,7 @@
         <activity-alias
             android:name=".aliasEN"
             android:enabled="false"
-            android:label="Prayer Times"
+            android:label="@string/appNameEN"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
