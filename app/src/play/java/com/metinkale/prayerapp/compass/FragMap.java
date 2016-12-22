@@ -2,11 +2,11 @@ package com.metinkale.prayerapp.compass;
 
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,12 +70,15 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
 
     @Override
     public void onPause() {
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-        mMarker.remove();
-        mCircle.remove();
-        mLine.remove();
+        if (mMarker != null)
+            mMarker.remove();
+        if (mCircle != null)
+            mCircle.remove();
+        if (mLine != null)
+            mLine.remove();
         mMarker = null;
         mCircle = null;
         mLine = null;

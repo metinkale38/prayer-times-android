@@ -72,8 +72,8 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
 
     @Override
     public void onPause() {
-        super.onPause();
         Times.removeOnTimesListChangeListener(this);
+        super.onPause();
     }
 
     @Override

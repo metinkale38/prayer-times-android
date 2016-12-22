@@ -74,7 +74,7 @@ public abstract class Times extends TimesBase {
             if (object == null) {
                 return false;
             }
-            object.setSortId(Integer.MAX_VALUE);
+
             boolean ret = super.add(object);
             Times.sort();
             return ret;
@@ -187,9 +187,6 @@ public abstract class Times extends TimesBase {
             }
         });
 
-        for (Times t : sTimes) {
-            t.setSortId(sTimes.indexOf(t));
-        }
         notifyDataSetChanged();
     }
 

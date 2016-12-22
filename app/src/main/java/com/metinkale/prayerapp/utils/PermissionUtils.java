@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -85,11 +84,13 @@ public class PermissionUtils {
         if (!pNotPolicy) {
             Intent intent = new Intent(
                     android.provider.Settings
-                             .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
 
-            try {
+            PackageManager packageManager = act.getPackageManager();
+            if (intent.resolveActivity(packageManager) != null) {
                 act.startActivity(intent);
-            } catch (ActivityNotFoundException ignore) {
+            } else {
+                ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 0);
             }
         }
     }

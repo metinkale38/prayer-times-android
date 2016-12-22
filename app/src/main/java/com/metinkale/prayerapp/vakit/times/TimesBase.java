@@ -78,7 +78,7 @@ class TimesBase {
     private double timezone;
     private double lng;
     private double lat;
-    private int sortId;
+    private int sortId=Integer.MAX_VALUE;
     private int cuma_silenter;
     private int cuma_time;
     private int sabah_time;

@@ -164,10 +164,10 @@ public class WebTimes extends Times {
                 @Override
                 public void onCompleted(Exception e, Response<String> result) {
                     if (e != null) {
-                        Crashlytics.setString("WebTimesSource", getSource().toString());
-                        Crashlytics.setString("WebTimesName", getName());
-                        Crashlytics.setString("WebTimesId", getId());
-                        Crashlytics.logException(e);
+                        //Crashlytics.setString("WebTimesSource", getSource().toString());
+                        //Crashlytics.setString("WebTimesName", getName());
+                        //Crashlytics.setString("WebTimesId", getId());
+                        //Crashlytics.logException(e);
                         return;
                     }
 
