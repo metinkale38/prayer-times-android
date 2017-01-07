@@ -169,6 +169,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         }
 
         int contentId = a.getResourceId(R.styleable.MultipleOrientationSlidingDrawer_content, 0);
+
+	a.recycle();
+
         if (contentId == 0) {
             throw new IllegalArgumentException("The content attribute is required and must refer "
                     + "to a valid child.");
