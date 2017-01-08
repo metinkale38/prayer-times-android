@@ -92,18 +92,23 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
         });
 
-        checkLocation();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLocation();
     }
 
     @SuppressWarnings("MissingPermission")
     @Override
-    protected void onDestroy() {
+    protected void onPause() {
         if (PermissionUtils.get(this).pLocation) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             lm.removeUpdates(this);
         }
-        super.onDestroy();
+        super.onPause();
     }
 
     @Override
@@ -141,6 +146,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             String provider = lm.getBestProvider(criteria, true);
             if (provider != null) {
                 lm.requestSingleUpdate(provider, this, null);
+
             }
 
         } else {
@@ -271,7 +277,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                                     String name = file.getName();
                                     if (name.contains("."))
                                         name = name.substring(0, name.lastIndexOf("."));
+
                                     WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                                    finish();
                                 }
                             });
                         } else {
@@ -288,6 +296,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                                     if (name.contains("."))
                                         name = name.substring(0, name.lastIndexOf("."));
                                     WebTimes.add(Source.CSV, name, url, 0, 0);
+                                    finish();
                                 }
                             });
                             alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

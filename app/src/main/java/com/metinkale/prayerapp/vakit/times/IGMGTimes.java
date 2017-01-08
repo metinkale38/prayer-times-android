@@ -20,6 +20,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -88,8 +89,11 @@ class IGMGTimes extends WebTimes {
             int _d = Integer.parseInt(tarih.substring(0, 2));
             int _m = Integer.parseInt(tarih.substring(3, 5));
             int _y = Integer.parseInt(tarih.substring(6, 10));
-            i++;
-            setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+            try {
+                setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+            } catch (IllegalFieldValueException ignore) {
+                i++;
+            }
         }
 
         return i > 0;

@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 public class WebTimes extends Times {
 
-
     private Runnable mNotify = new Runnable() {
         @Override
         public void run() {
@@ -123,7 +122,7 @@ public class WebTimes extends Times {
     @Override
     protected synchronized String _getTime(LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
-        if (str == null || str.contains("00:00")) {
+        if (str == null || str.isEmpty() || str.contains("00:00")) {
             return "00:00";
         }
         return str.replace("*", "");

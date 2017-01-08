@@ -43,7 +43,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 171
+        versionCode 173
         versionName '3.6.3'
         multiDexEnabled true
     }
@@ -115,7 +115,7 @@ dependencies {
     compile 'net.steamcrafted:materialiconlib:1.1.1'
     compile 'com.android.support:customtabs:25.1.0'
     compile 'com.evernote:android-job:1.1.3'
-    playCompile 'com.google.android.gms:play-services:10.0.1'
+    playCompile 'com.google.android.gms:play-services:10.0.1'//excludeInFDroid
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.anrwatchdog:anrwatchdog:1.3.+'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'

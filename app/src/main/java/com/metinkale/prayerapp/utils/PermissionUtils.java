@@ -76,6 +76,9 @@ public class PermissionUtils {
     }
 
     public void needNotificationPolicy(final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
@@ -96,9 +99,10 @@ public class PermissionUtils {
     }
 
     public void needCamera(final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pCamera) {
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
             builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -115,6 +119,9 @@ public class PermissionUtils {
 
 
     public void needLocation(final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pLocation) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
@@ -134,6 +141,9 @@ public class PermissionUtils {
 
 
     public void needCalendar(final Activity act, boolean force) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pCalendar && (!"-1".equals(Prefs.getCalendar()) || force)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
@@ -153,6 +163,9 @@ public class PermissionUtils {
 
 
     public void needStorage(final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pStorage) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);

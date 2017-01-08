@@ -18,4 +18,8 @@ public class Crashlytics {
 
     public static void setBool(String key, boolean value) {
     }
+
+    public static void setUserIdentifier(String uuid) {
+
+    }
 }

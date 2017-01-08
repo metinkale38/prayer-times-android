@@ -31,7 +31,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -240,7 +246,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                         }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
                                         DateTime startDate = DateTime.now().withDate(y, m + 1, d);
                                         long start = startDate.getMillis();
-                                        dlg.getDatePicker().setMinDate(start);
+                                        dlg.getDatePicker().setMinDate(start - 1);
                                         if (which == 1)
                                             dlg.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
                                         else
@@ -374,7 +380,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                     y += 20;
                     canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 0)), 30 + (1.5f * cw), y, paint);
-                     canvas.drawText((mTimes.getTime(from, 1)), 30 + (2.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 1)), 30 + (2.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 2)), 30 + (3.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 3)), 30 + (4.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 4)), 30 + (5.5f * cw), y, paint);

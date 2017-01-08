@@ -142,6 +142,12 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveCurrent();
+    }
+
     private void createDefault() {
         if (mZikrList.isEmpty()) {
             mZikrList = new ArrayList<>();

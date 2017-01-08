@@ -45,6 +45,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -52,6 +53,7 @@ import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
 import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
+
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
@@ -82,6 +84,12 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     private ShareActionProvider mShareActionProvider;
     private SearchTask mTask;
     private String mQuery;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

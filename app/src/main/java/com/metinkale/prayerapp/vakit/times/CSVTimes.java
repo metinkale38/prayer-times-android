@@ -16,25 +16,18 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.widget.Toast;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 class CSVTimes extends WebTimes {
 
+
+    private boolean firstSync = true;
 
     @SuppressWarnings("unused")
     CSVTimes() {
@@ -99,6 +92,12 @@ class CSVTimes extends WebTimes {
             } catch (Exception ignore) {
             }
         }
+
+        if (firstSync && i == 0) {
+            Toast.makeText(App.getContext(), "Invalid CSV", Toast.LENGTH_LONG).show();
+            delete();
+        }
+        firstSync = false;
         return i > 0;
     }
 
