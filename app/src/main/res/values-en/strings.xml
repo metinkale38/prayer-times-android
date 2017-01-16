@@ -258,6 +258,7 @@
   <string name="to">To</string>
   <string name="permissionNotGranted">Permission not granted.</string>
   <string name="useOSMGeocoder">Use OpenStreetMaps for Geocoding</string>
+  <string name="addFromCSV">Add from CSV</string>
   <string name="csvFromFile">Load CSV from File</string>
   <string name="csvFromURL">Load CSV from URL</string>
 </resources>
