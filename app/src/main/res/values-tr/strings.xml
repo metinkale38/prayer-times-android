@@ -101,7 +101,7 @@
   <string name="hmonth1">Muharrem</string>
   <string name="hmonth2">Safer</string>
   <string name="hmonth3">Rebiülevvel</string>
-  <string name="hmonth4">Rebhiiülahir</string>
+  <string name="hmonth4">Rebiülahir</string>
   <string name="hmonth5">Cemaziyelevvel</string>
   <string name="hmonth6">Cemaziyelahir</string>
   <string name="hmonth7">Recep</string>
@@ -260,5 +260,4 @@
   <string name="addFromCSV">CSV\'den ekle</string>
   <string name="csvFromFile">CSV dosyasını Hafıza\'dan oku</string>
   <string name="csvFromURL">CSV dosyasını Internet\'den oku</string>
-
 </resources>
