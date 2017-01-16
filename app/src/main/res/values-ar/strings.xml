@@ -157,7 +157,6 @@
   <string name="ongoingIcon">أيقونة المنبه</string>
   <string name="ongoingNotification">ويدجيت التنبيه</string>
   <string name="other">أخرى</string>
-
   <string name="permissionCalendarText">\"إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق
         الصلاحية لذلك!
         وإذا لم ترد ذلك فلا تعط الصلاحية!
