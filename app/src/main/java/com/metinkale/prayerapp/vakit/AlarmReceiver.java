@@ -16,11 +16,19 @@
 
 package com.metinkale.prayerapp.vakit;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -42,8 +50,10 @@ import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
 import java.io.IOException;
 
+import static android.hardware.Sensor.TYPE_ROTATION_VECTOR;
 
-public class AlarmReceiver extends IntentService {
+
+public class AlarmReceiver extends IntentService implements SensorEventListener {
 
     private static boolean sInterrupt;
 
@@ -245,6 +255,10 @@ public class AlarmReceiver extends IntentService {
         sInterrupt = false;
         boolean hasSound = false;
         while ((sound != null) && !sound.startsWith("silent") && !sInterrupt) {
+            SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+            if (Prefs.stopByFacedown())
+                sensorManager.registerListener(this, sensorManager.getDefaultSensor(TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_UI);
             int volume = -2;
             hasSound = true;
 
@@ -333,6 +347,8 @@ public class AlarmReceiver extends IntentService {
             }
             sound = dua;
             dua = null;
+            if (Prefs.stopByFacedown()) 
+                sensorManager.unregisterListener(this);
         }
 
         if (hasSound && Prefs.autoRemoveNotification()) {
@@ -342,6 +358,28 @@ public class AlarmReceiver extends IntentService {
             silenter(c, silenter);
         }
 
+
+    }
+
+
+    private int mIsFaceDown = 1;
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (Math.abs(sensorEvent.values[0]) > 0.65) {
+            if (mIsFaceDown != 1) {//ignore if already was off
+                mIsFaceDown += 2;
+                if (mIsFaceDown >= 15) {//prevent accident
+                    sInterrupt = true;
+                }
+            }
+        } else {
+            mIsFaceDown = 0;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
 

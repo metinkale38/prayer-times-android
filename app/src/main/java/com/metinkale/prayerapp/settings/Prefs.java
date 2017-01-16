@@ -101,6 +101,9 @@ public class Prefs {
     public static boolean isDefaultWidgetMinuteType() {
         return "default".equals(getPrefs().getString("widget_countdown", "default"));
     }
+    public static boolean stopByFacedown() {
+        return getPrefs().getBoolean("stopFacedown",false);
+    }
 
     public static int getHijriFix() {
         return Integer.parseInt(getPrefs().getString("hijri_fix", "0").replace("+", ""));

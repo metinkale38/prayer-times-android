@@ -167,6 +167,13 @@
             android:key="notificationScreen"
             android:title="@string/show_notification_screen" />
 
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="stopFacedown"
+            android:title="@string/stopFacedown" />
+
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="useAlarm"
