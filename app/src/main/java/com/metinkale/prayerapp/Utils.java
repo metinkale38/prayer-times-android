@@ -209,7 +209,7 @@ public class Utils {
 
 
     public static String format(LocalDate date) {
-        String format = getDateFormat(true);
+        String format = getDateFormat(false);
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
         try {

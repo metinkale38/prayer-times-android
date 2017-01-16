@@ -47,6 +47,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
@@ -59,9 +61,10 @@ import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Main extends BaseActivity implements OnClickListener, OnQueryTextListener {
 
@@ -78,18 +81,13 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     private SharedPreferences mPrefs;
     private MenuItem mSwitch;
     private MenuItem mFav;
-    private List<Integer> mFavs = new ArrayList<>();
+    private Set<Integer> mFavs = new HashSet<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
     private ShareActionProvider mShareActionProvider;
     private SearchTask mTask;
     private String mQuery;
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +166,14 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     protected void onResume() {
         super.onResume();
         mPager.setCurrentItem(mPrefs.getInt(last(), 0));
+        loadFavs();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
+        storeFavs();
     }
 
     private String last() {
@@ -228,7 +234,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
                 }
                 mAdapter.notifyDataSetChanged();
                 setCurrentPage(mPager.getCurrentItem());
-                storeFavs();
             }
 
         } else if (item.getItemId() == mSwitch.getItemId()) {
@@ -318,25 +323,14 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
             mAdapter.notifyDataSetChanged();
             setCurrentPage(mPager.getCurrentItem());
-            storeFavs();
             mRemFav = -1;
         }
     }
 
     void storeFavs() {
-        Collections.sort(mFavs, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer a, Integer b) {
-                return b - a;
-            }
-        });
         SharedPreferences.Editor edit = getSharedPreferences("hadis", Context.MODE_PRIVATE).edit();
         edit.clear();
-        edit.putInt("Count", mFavs.size());
-        int count = 0;
-        for (int i : mFavs) {
-            edit.putInt("fav_" + count++, i);
-        }
+        edit.putString("favs", new Gson().toJson(mFavs));
         edit.apply();
     }
 
@@ -344,10 +338,16 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         SharedPreferences prefs = getSharedPreferences("hadis", Context.MODE_PRIVATE);
         int count = prefs.getInt("Count", 0);
 
-        for (int i = 0; i < count; i++) {
-            mFavs.add(prefs.getInt("fav_" + i, i) + 1);
+        if (count != 0) {
+            for (int i = 0; i < count; i++) {
+                mFavs.add(prefs.getInt("fav_" + i, i) + 1);
+            }
+            storeFavs();
+            prefs.edit().clear().apply();
         }
 
+        mFavs.addAll((Collection<? extends Integer>) new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
+        }.getType()));
     }
 
 

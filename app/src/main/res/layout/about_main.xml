@@ -57,6 +57,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/version"/>
 
+            <TextView
+                android:id="@+id/developer"
+                android:layout_width="wrap_content"
+                android:textColor="#555555"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:text="metinkale38"/>
+
         </LinearLayout>
 
         <LinearLayout style="@style/MyCard">

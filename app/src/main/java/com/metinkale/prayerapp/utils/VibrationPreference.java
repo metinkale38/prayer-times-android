@@ -18,6 +18,8 @@ package com.metinkale.prayerapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.Vibrator;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
@@ -29,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 
 import java.util.ArrayList;
@@ -95,7 +98,7 @@ public class VibrationPreference extends EditTextPreference {
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }
 
-    //Create the Dialog view
+
     @Override
     protected View onCreateDialogView() {
         button.setId(R.id.button5);
@@ -138,4 +141,58 @@ public class VibrationPreference extends EditTextPreference {
     public void setValue(CharSequence value) {
         editText.setText(value);
     }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        final SavedState myState = new SavedState(superState);
+        myState.text = editText.getText().toString();
+        return myState;
+    }
+
+
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state == null || !state.getClass().equals(SavedState.class)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        editText.setText(myState.text);
+    }
+
+    private static class SavedState extends BaseSavedState {
+        String text;
+
+        public SavedState(Parcel source) {
+            super(source);
+            text = source.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeString(text);
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
+
 }

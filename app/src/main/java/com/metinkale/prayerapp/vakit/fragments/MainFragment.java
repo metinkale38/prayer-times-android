@@ -246,11 +246,12 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                         }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
                                         DateTime startDate = DateTime.now().withDate(y, m + 1, d);
                                         long start = startDate.getMillis();
-                                        dlg.getDatePicker().setMinDate(start - 1);
                                         if (which == 1)
                                             dlg.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
                                         else
                                             dlg.getDatePicker().setMaxDate(finalMaxDate);
+
+                                        dlg.getDatePicker().setMinDate(start);
                                         dlg.setTitle(R.string.to);
                                         dlg.show();
 
