@@ -44,8 +44,13 @@ class SemerkandTimes extends WebTimes {
     }
 
     protected Builders.Any.F[] createIonBuilder() {
+        String _id = getId();
+        if (_id.equals("S_2_140_0")) {
+            _id = "S_2_1052_0";
+            setId(_id);
+        }
         final int year = LocalDate.now().getYear();
-        final String[] id = getId().split("_");
+        final String[] id = _id.split("_");
         if (id.length <= 3) {
             Crashlytics.setString("id", getId());
             Crashlytics.setString("name", getName());

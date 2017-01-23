@@ -140,12 +140,14 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
+
+        Times.setAlarms();
+
         wakeLock.release();
         if (NotificationPopup.instance != null && Prefs.showNotificationScreen()) {
             NotificationPopup.instance.finish();
         }
 
-        Times.setAlarms();
     }
 
     public void fireAlarm(Intent intent) throws InterruptedException {
@@ -347,7 +349,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             }
             sound = dua;
             dua = null;
-            if (Prefs.stopByFacedown()) 
+            if (Prefs.stopByFacedown())
                 sensorManager.unregisterListener(this);
         }
 
