@@ -195,7 +195,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-        Cities.search(query, new Cities.Callback() {
+        Cities.search(query == null ? query : query.trim().replace(" ","+"), new Cities.Callback() {
             @Override
             public void onResult(List result) {
                 List<Item> items = result;
