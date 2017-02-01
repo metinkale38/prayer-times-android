@@ -272,4 +272,5 @@
   <string name="addFromCSV">Aus CSV-Datei hinzufügen</string>
   <string name="csvFromFile">Lade CSV von Datei</string>
   <string name="csvFromURL">Lade CSV von URL</string>
+  <string name="stopFacedown">Ton anhalten, wenn Bildschirm nach unten zeigt.</string>
 </resources>
