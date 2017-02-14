@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 /**
  * Created by metin on 06.02.2017.
@@ -18,12 +17,10 @@ public class Cache {
 
     public static void put(String key, String data) {
         try {
-            PrintWriter out = new PrintWriter("cache/" + key.hashCode(), "UTF-8");
+            PrintWriter out = new PrintWriter(System.getProperty("user.home") + "/cache/" + key.hashCode(), "UTF-8");
             out.write(data);
             out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }

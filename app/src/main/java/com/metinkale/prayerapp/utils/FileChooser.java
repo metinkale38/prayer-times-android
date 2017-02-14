@@ -7,13 +7,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Arrays;
 
 public class FileChooser {
@@ -48,19 +46,16 @@ public class FileChooser {
         this.activity = activity;
         dialog = new Dialog(activity);
         list = new ListView(activity);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int which, long id) {
-                String fileChosen = (String) list.getItemAtPosition(which);
-                File chosenFile = getChosenFile(fileChosen);
-                if (chosenFile.isDirectory()) {
-                    refresh(chosenFile);
-                } else {
-                    if (fileListener != null) {
-                        fileListener.fileSelected(chosenFile);
-                    }
-                    dialog.dismiss();
+        list.setOnItemClickListener((parent, view, which, id) -> {
+            String fileChosen = (String) list.getItemAtPosition(which);
+            File chosenFile = getChosenFile(fileChosen);
+            if (chosenFile.isDirectory()) {
+                refresh(chosenFile);
+            } else {
+                if (fileListener != null) {
+                    fileListener.fileSelected(chosenFile);
                 }
+                dialog.dismiss();
             }
         });
         dialog.setContentView(list);
@@ -79,25 +74,17 @@ public class FileChooser {
     private void refresh(File path) {
         currentPath = path;
         if (path.exists()) {
-            File[] dirs = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    return file.isDirectory() && file.canRead();
-                }
-            });
-            File[] files = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    if (file.isDirectory()) {
+            File[] dirs = path.listFiles(file -> file.isDirectory() && file.canRead());
+            File[] files = path.listFiles(file -> {
+                if (file.isDirectory()) {
+                    return false;
+                } else {
+                    if (!file.canRead()) {
                         return false;
+                    } else if (extension == null) {
+                        return true;
                     } else {
-                        if (!file.canRead()) {
-                            return false;
-                        } else if (extension == null) {
-                            return true;
-                        } else {
-                            return file.getName().toLowerCase().endsWith(extension);
-                        }
+                        return file.getName().toLowerCase().endsWith(extension);
                     }
                 }
             });

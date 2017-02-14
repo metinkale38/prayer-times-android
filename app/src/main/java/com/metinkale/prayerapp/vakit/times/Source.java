@@ -33,6 +33,7 @@ public enum Source {
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, NVCTimes.class),
     Morocco("habous.gov.ma", R.drawable.ic_morocco, MoroccoTimes.class),
+    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, MalaysiaTimes.class),
     CSV("CSV", 0, CSVTimes.class);
 
     public Class<? extends Times> clz;

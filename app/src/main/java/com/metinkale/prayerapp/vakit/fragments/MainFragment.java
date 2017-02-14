@@ -18,7 +18,6 @@ package com.metinkale.prayerapp.vakit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -38,7 +37,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -215,53 +213,45 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             case R.id.export:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.export)
-                        .setItems(new CharSequence[]{"CSV", "PDF"}, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, final int which) {
+                        .setItems(new CharSequence[]{"CSV", "PDF"}, (dialog, which) -> {
 
-                                long minDate = 0;
-                                long maxDate = Long.MAX_VALUE;
-                                if (mTimes instanceof WebTimes) {
-                                    minDate = ((WebTimes) mTimes).getFirstSyncedDay().toDateTimeAtCurrentTime().getMillis();
-                                    maxDate = ((WebTimes) mTimes).getLastSyncedDay().toDateTimeAtCurrentTime().getMillis();
-                                }
-                                final LocalDate ld = LocalDate.now();
-                                final long finalMaxDate = maxDate;
-                                DatePickerDialog dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                                    @Override
-                                    public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                                        final LocalDate from = new LocalDate(y, m + 1, d);
-                                        DatePickerDialog
-                                                dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                                            @Override
-                                            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                                                final LocalDate to = new LocalDate(y, m + 1, d);
-                                                try {
-                                                    export(which, from, to);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                    Crashlytics.logException(e);
-                                                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-                                                }
+                            long minDate = 0;
+                            long maxDate = Long.MAX_VALUE;
+                            if (mTimes instanceof WebTimes) {
+                                minDate = ((WebTimes) mTimes).getFirstSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                                maxDate = ((WebTimes) mTimes).getLastSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                            }
+                            final LocalDate ld = LocalDate.now();
+                            final long finalMaxDate = maxDate;
+                            DatePickerDialog dlg = new DatePickerDialog(getActivity(), (datePicker, y, m, d) -> {
+                                final LocalDate from = new LocalDate(y, m + 1, d);
+                                DatePickerDialog
+                                        dlg1 = new DatePickerDialog(getActivity(), (datePicker1, y1, m1, d1) -> {
+                                            final LocalDate to = new LocalDate(y1, m1 + 1, d1);
+                                            try {
+                                                export(which, from, to);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                                Crashlytics.logException(e);
+                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
                                             }
                                         }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
-                                        DateTime startDate = DateTime.now().withDate(y, m + 1, d);
-                                        long start = startDate.getMillis();
-                                        if (which == 1)
-                                            dlg.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
-                                        else
-                                            dlg.getDatePicker().setMaxDate(finalMaxDate);
+                                DateTime startDate = DateTime.now().withDate(y, m + 1, d);
+                                long start = startDate.getMillis();
+                                if (which == 1)
+                                    dlg1.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
+                                else
+                                    dlg1.getDatePicker().setMaxDate(finalMaxDate);
 
-                                        dlg.getDatePicker().setMinDate(start);
-                                        dlg.setTitle(R.string.to);
-                                        dlg.show();
+                                dlg1.getDatePicker().setMinDate(start);
+                                dlg1.setTitle(R.string.to);
+                                dlg1.show();
 
-                                    }
-                                }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
-                                dlg.getDatePicker().setMinDate(minDate);
-                                dlg.getDatePicker().setMaxDate(maxDate);
-                                dlg.setTitle(R.string.from);
-                                dlg.show();
-                            }
+                            }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
+                            dlg.getDatePicker().setMinDate(minDate);
+                            dlg.getDatePicker().setMaxDate(maxDate);
+                            dlg.setTitle(R.string.from);
+                            dlg.show();
                         });
                 builder.show();
                 break;

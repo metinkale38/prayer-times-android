@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.utils;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
@@ -48,30 +47,19 @@ public class Changelog {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle(c.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);
 
-        builder.setNegativeButton(c.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton(c.getResources().getString(R.string.ok), (dialog, which) -> {
 
-            }
         });
 
-        builder.setNeutralButton(c.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AboutAct.sendMail(c);
-            }
-        });
+        builder.setNeutralButton(c.getResources().getString(R.string.sendMail), (dialog, which) -> AboutAct.sendMail(c));
 
-        builder.setPositiveButton(c.getResources().getString(R.string.vote), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                try {
-                    c.startActivity(goToMarket);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(c, "Couldn't launch the market", Toast.LENGTH_LONG).show();
-                }
+        builder.setPositiveButton(c.getResources().getString(R.string.vote), (dialog, which) -> {
+            Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            try {
+                c.startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(c, "Couldn't launch the market", Toast.LENGTH_LONG).show();
             }
         });
 

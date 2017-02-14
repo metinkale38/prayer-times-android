@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.vakit.sounds;
 
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.support.v4.util.SimpleArrayMap;
 
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.MD5;
@@ -29,14 +30,14 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Sounds {
-    private static AbstractMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
+    private static SimpleArrayMap<String, List<Sound>> sSounds = new SimpleArrayMap<>();
 
     public static boolean isDownloaded(Sound sound) {
         return (sound.url == null) || sound.getFile().exists();
 
     }
 
-    public static Map<String, List<Sound>> getSounds() {
+    public static SimpleArrayMap<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
             List<Sound> sabah = new ArrayList<>();
@@ -153,16 +154,13 @@ public class Sounds {
 
     public static List<Sound> getAllSounds() {
         List<Sound> sounds = new ArrayList<>();
-        Set<String> set = getSounds().keySet();
-        for (String cat : set) {
-            if (getSounds().containsKey(cat)) {
-                sounds.addAll(getSounds().get(cat));
-            }
+        SimpleArrayMap<String, List<Sound>> map = getSounds();
+        for (int i = 0; i < map.size(); i++) {
+            sounds.addAll(getSounds().get(map.valueAt(i)));
         }
-
-
         return sounds;
     }
+
 
     private static String forAlarm(Times.Alarm alarm) {
         Times t = Times.getTimes(alarm.time);
@@ -178,77 +176,77 @@ public class Sounds {
     }
 
 
-    public static class Sound implements Serializable {
-        public String name;
-        public String uri;
-        public String url;
-        public String size;
+public static class Sound implements Serializable {
+    public String name;
+    public String uri;
+    public String url;
+    public String size;
 
-        public Sound() {
+    Sound() {
+    }
+
+    Sound(String name, String url, String size) {
+        this.name = name;
+        this.url = url;
+        this.size = size;
+        uri = getFile().toURI().toString();
+    }
+
+    public File getFile() {
+        File folder = App.getContext().getExternalFilesDir(null);
+        if (folder != null) {
+            File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
+            if (old.exists()) {
+                return old;
+            }
         }
 
-        public Sound(String name, String url, String size) {
-            this.name = name;
-            this.url = url;
-            this.size = size;
-            uri = getFile().toURI().toString();
-        }
-
-        public File getFile() {
-            File folder = App.getContext().getExternalFilesDir(null);
-            if (folder != null) {
-                File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
-                if (old.exists()) {
-                    return old;
-                }
-            }
-
-            File def = null;
-            folder = App.getContext().getExternalFilesDir(null);
-            if (folder != null) {
-                def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
-                if (def.exists()) {
-                    return def;
-                }
-            }
-
-            File nosd = null;
-            folder = App.getContext().getFilesDir();
-            if (folder != null) {
-                nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
-                if (nosd.exists()) {
-                    return nosd;
-                }
-            }
-
-            if (def != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        File def = null;
+        folder = App.getContext().getExternalFilesDir(null);
+        if (folder != null) {
+            def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+            if (def.exists()) {
                 return def;
-            } else {
+            }
+        }
+
+        File nosd = null;
+        folder = App.getContext().getFilesDir();
+        if (folder != null) {
+            nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+            if (nosd.exists()) {
                 return nosd;
             }
         }
 
-        public void checkMD5() {
-            File file = getFile();
-            if (file.exists()) {
-                SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
-                String md5 = preferences.getString(name, null);
-
-                if (md5 != null && !MD5.checkMD5(md5, file)) {
-                    file.delete();
-                }
-            }
+        if (def != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            return def;
+        } else {
+            return nosd;
         }
+    }
 
+    public void checkMD5() {
+        File file = getFile();
+        if (file.exists()) {
+            SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
+            String md5 = preferences.getString(name, null);
 
-        public boolean equals(Object o) {
-            if (o instanceof Sound) {
-                return uri.equals(((Sound) o).uri);
-            } else {
-                return uri.equals(o.toString());
+            if (md5 != null && !MD5.checkMD5(md5, file)) {
+                file.delete();
             }
         }
     }
+
+
+    public boolean equals(Object o) {
+        if (o instanceof Sound) {
+            return uri.equals(((Sound) o).uri);
+        } else {
+            return uri.equals(o.toString());
+        }
+    }
+}
 
 
 }

@@ -107,7 +107,7 @@ class DiyanetTimes extends WebTimes {
             setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
             i++;
         }
-        return i > 0;
+        return i > 25;
     }
 
 

@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.hadis;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -54,7 +53,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
-import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -148,14 +146,11 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         mState = state;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-                mPager.setCurrentItem(9999);
-                mPager.setAdapter(mAdapter);
-                mPager.setCurrentItem(mPrefs.getInt(last(), 0));
-            }
+        runOnUiThread(() -> {
+            mAdapter.notifyDataSetChanged();
+            mPager.setCurrentItem(9999);
+            mPager.setAdapter(mAdapter);
+            mPager.setCurrentItem(mPrefs.getInt(last(), 0));
         });
 
         return true;
@@ -192,12 +187,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
         } else if (v == mNumber) {
             NumberDialog nd = NumberDialog.create(1, mAdapter.getCount() + 1, mPager.getCurrentItem() + 1);
-            nd.setOnNumberChangeListener(new OnNumberChangeListener() {
-                @Override
-                public void onNumberChange(int nr) {
-                    mPager.setCurrentItem(nr - 1, false);
-                }
-            });
+            nd.setOnNumberChangeListener(nr -> mPager.setCurrentItem(nr - 1, false));
             nd.show(getSupportFragmentManager(), null);
         }
 
@@ -246,14 +236,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             for (String cat : cats) {
                 items.add(Html.fromHtml(cat).toString());
             }
-            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!setState(which)) {
-                        Toast.makeText(Main.this, R.string.noFavs, Toast.LENGTH_LONG).show();
-                    }
-
+            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[items.size()]), (dialog, which) -> {
+                if (!setState(which)) {
+                    Toast.makeText(Main.this, R.string.noFavs, Toast.LENGTH_LONG).show();
                 }
 
             });

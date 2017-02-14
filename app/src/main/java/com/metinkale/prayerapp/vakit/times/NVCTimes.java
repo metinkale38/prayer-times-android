@@ -80,9 +80,11 @@ class NVCTimes extends WebTimes {
     }
 
     protected Builders.Any.F[] createIonBuilder() {
+        String id = getId();
+        if (id.startsWith("N_")) id = id.substring(2);
         return new Builders.Any.F[]{
                 Ion.with(App.getContext())
-                        .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                        .load("http://namazvakti.com/XML.php?cityID=" + id)
                         .setTimeout(3000)};
     }
 
@@ -130,7 +132,7 @@ class NVCTimes extends WebTimes {
             }
 
         }
-        return i > 0;
+        return i > 25;
     }
 
 

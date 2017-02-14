@@ -50,27 +50,21 @@ public class SettingsFragment extends Fragment {
         mName = (EditText) v.findViewById(R.id.name);
         ViewGroup tz = (ViewGroup) v.findViewById(R.id.tz);
         mTimeZone = (EditText) tz.findViewById(R.id.timezonefix);
-        tz.findViewById(R.id.plus).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    float h = Float.parseFloat(mTimeZone.getText().toString());
-                    h += 0.5;
-                    mTimeZone.setText(h + "");
-                } catch (Exception ignore) {
-                }
+        tz.findViewById(R.id.plus).setOnClickListener(view -> {
+            try {
+                float h = Float.parseFloat(mTimeZone.getText().toString());
+                h += 0.5;
+                mTimeZone.setText(h + "");
+            } catch (Exception ignore) {
             }
         });
 
-        tz.findViewById(R.id.minus).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    double h = Double.parseDouble(mTimeZone.getText().toString());
-                    h -= 0.5;
-                    mTimeZone.setText(h + "");
-                } catch (Exception ignore) {
-                }
+        tz.findViewById(R.id.minus).setOnClickListener(view -> {
+            try {
+                double h = Double.parseDouble(mTimeZone.getText().toString());
+                h -= 0.5;
+                mTimeZone.setText(h + "");
+            } catch (Exception ignore) {
             }
         });
 
@@ -104,27 +98,21 @@ public class SettingsFragment extends Fragment {
             mMins[ii] = (EditText) time.findViewById(R.id.nr);
             mPlus[ii] = (ImageView) time.findViewById(R.id.plus);
             mMinus[ii] = (ImageView) time.findViewById(R.id.minus);
-            mPlus[ii].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        int min = Integer.parseInt(mMins[ii].getText().toString());
-                        min++;
-                        mMins[ii].setText(min + "");
-                    } catch (Exception ignore) {
-                    }
+            mPlus[ii].setOnClickListener(view -> {
+                try {
+                    int min = Integer.parseInt(mMins[ii].getText().toString());
+                    min++;
+                    mMins[ii].setText(min + "");
+                } catch (Exception ignore) {
                 }
             });
 
-            mMinus[ii].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        int min = Integer.parseInt(mMins[ii].getText().toString());
-                        min--;
-                        mMins[ii].setText(min + "");
-                    } catch (Exception ignore) {
-                    }
+            mMinus[ii].setOnClickListener(view -> {
+                try {
+                    int min = Integer.parseInt(mMins[ii].getText().toString());
+                    min--;
+                    mMins[ii].setText(min + "");
+                } catch (Exception ignore) {
                 }
             });
 

@@ -219,16 +219,10 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             dialog.setTitle(R.string.dhikr);
             dialog.setMessage(getString(R.string.resetConfirmDhikr, mCurrent.title));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                    mZikr.setCount(0);
-                }
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                mZikr.setCount(0);
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                }
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
             });
             dialog.show();
         }
@@ -271,20 +265,14 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 dialog.setTitle(R.string.delete);
                 dialog.setMessage(getString(R.string.delConfirmDhikr, mCurrent.title));
                 dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                        mZikrList.remove(mCurrent);
-                        mPrefs.edit().remove(mCurrent.key).apply();
-                        mCurrent = null;
-                        createDefault();
-                        load(mZikrList.get(0));
-                    }
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                    mZikrList.remove(mCurrent);
+                    mPrefs.edit().remove(mCurrent.key).apply();
+                    mCurrent = null;
+                    createDefault();
+                    load(mZikrList.get(0));
                 });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                    }
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
                 });
                 dialog.show();
                 return true;
@@ -308,23 +296,15 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    mZikr.setMax(Integer.parseInt(input.getText().toString()));
-                } catch (Exception e) {
-                    Crashlytics.logException(e);
-                }
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
+            try {
+                mZikr.setMax(Integer.parseInt(input.getText().toString()));
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
 
         builder.show();
         return false;

@@ -19,8 +19,10 @@ package com.metinkale.prayerapp.vakit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -29,20 +31,23 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.vakit.times.Entry;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
 import com.metinkale.prayerapp.vakit.times.Source;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     private ListView mListView;
     private MyAdapter mAdapter;
-    private String mSource;
-    private String mCountry;
-    private String mState;
-    private String mCity;
+    private Stack<Integer> mBackStack = new Stack<>();
+    private Cities mCities = Cities.get();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,14 +57,9 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
-        legacy.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-                startActivity(new Intent(AddCityLegacy.this, AddCity.class));
-
-            }
+        legacy.setOnClickListener(v -> {
+            finish();
+            startActivity(new Intent(AddCityLegacy.this, AddCity.class));
 
         });
 
@@ -69,97 +69,70 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         mAdapter = new MyAdapter(this);
         mListView.setAdapter(mAdapter);
 
-        get("", "", "", "");
+        get(0);
     }
 
-    public void get(final String source, final String country, final String state, final String city) {
-        Cities.list(source, country, state, new Cities.Callback() {
+    public void get(int id) {
+        mBackStack.add(id);
+        mCities.list(id, new Cities.Callback<List<Entry>>() {
             @Override
-            public void onResult(List result) {
+            public void onResult(List<Entry> result) {
                 if (!result.isEmpty()) {
-                    mSource = source;
-                    mCountry = country;
-                    mState = state;
-                    mCity = city;
+                    Collections.sort(result, (e1, e2) -> e1.getName().compareTo(e2.getName()));
                     mAdapter.clear();
                     mAdapter.addAll(result);
                     mListView.scrollTo(0, 0);
-                }
-                if (result.size() == 1) {
-                    onItemClick(mListView, null, 0, 0);
                 }
                 mAdapter.notifyDataSetChanged();
             }
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if ("".equals(mCity)) {
-            get(mSource, mCountry, mState, "");
-        } else if ("".equals(mState)) {
-            get(mSource, mCountry, "", "");
-        } else if ("".equals(mCountry)) {
-            get(mSource, "", "", "");
-        } else if ("".equals(mSource)) {
-            get("", "", "", "");
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        if (mAdapter.getFullText(pos).contains(";")) {
-            Cities.Item i = new Cities.Item();
-            i.city = mAdapter.getItem(pos);
-            i.country = mCountry;
-            String[] s = mAdapter.getFullText(pos).split(";");
-            i.id = s[1];
-            i.lat = Double.parseDouble(s[2]);
-            i.lng = Double.parseDouble(s[3]);
-            i.source = Source.valueOf(mSource);
+        Entry entry = mAdapter.getItem(pos);
 
-            WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
+        if (entry.getKey() != null) {
+            Source source = entry.getSource();
+
+
+            WebTimes.add(source, entry.getName(), entry.getKey(), entry.getLat(), entry.getLng());
             finish();
             return;
         }
 
-        if ("".equals(mSource)) {
-            get(mAdapter.getItem(pos), "", "", "");
-        } else if ("".equals(mCountry)) {
-            get(mSource, mAdapter.getItem(pos), "", "");
-        } else if ("".equals(mState)) {
-            get(mSource, mCountry, mAdapter.getItem(pos), "");
-        } else if ("".equals(mCity)) {
-            get(mSource, mCountry, mState, mAdapter.getItem(pos));
-        } else {
-            get(mSource, mCountry, mState, mCity);
-        }
+        get(entry.getId());
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mBackStack.size() > 1) {
+            mBackStack.pop();
+            get(mBackStack.pop());
+        } else super.onBackPressed();
+    }
 
-    static class MyAdapter extends ArrayAdapter<String> {
+    static class MyAdapter extends ArrayAdapter<Entry> {
 
         MyAdapter(Context context) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
-
         }
 
-        String getFullText(int pos) {
-            return super.getItem(pos);
-        }
-
+        @NonNull
         @Override
-        public String getItem(int pos) {
-            String s = super.getItem(pos);
-            if (s.contains(";")) {
-                s = s.substring(0, s.indexOf(";"));
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             }
+            Entry entry = getItem(position);
+            TextView tv = ((TextView) convertView.findViewById(android.R.id.text1));
+            tv.setText(entry.getName());
+            tv.setCompoundDrawables(null, null, entry.getKey() == null ?
+                    MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CHEVRON_RIGHT).build() : null, null);
 
-            return s;
+            return convertView;
         }
-
     }
 
 }

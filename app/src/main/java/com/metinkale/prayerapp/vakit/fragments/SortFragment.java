@@ -115,19 +115,13 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         dialog.setTitle(R.string.delete);
         dialog.setMessage(getString(R.string.delConfirm, times.getName()));
         dialog.setCancelable(false);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int buttonId) {
-                times.delete();
-                mAdapter.notifyItemRemoved(position);
-            }
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+            times.delete();
+            mAdapter.notifyItemRemoved(position);
         });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int buttonId) {
-                dialog.cancel();
-                mAdapter.notifyDataSetChanged();
-            }
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
+            dialog1.cancel();
+            mAdapter.notifyDataSetChanged();
         });
         dialog.show();
     }
@@ -171,24 +165,16 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
             vh.city.setText(c.getName());
             vh.source.setText(c.getSource().text);
 
-            vh.handler.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) ==
-                            MotionEvent.ACTION_DOWN) {
-                        mItemTouchHelper.startDrag(vh);
-                    }
-
-                    return false;
+            vh.handler.setOnTouchListener((v, event) -> {
+                if (MotionEventCompat.getActionMasked(event) ==
+                        MotionEvent.ACTION_DOWN) {
+                    mItemTouchHelper.startDrag(vh);
                 }
+
+                return false;
             });
 
-            vh.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    act.onItemClick(vh.getAdapterPosition());
-                }
-            });
+            vh.itemView.setOnClickListener(view -> act.onItemClick(vh.getAdapterPosition()));
         }
 
 

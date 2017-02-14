@@ -35,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -238,14 +237,11 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
         if (mSelCity == null) {
             mSelCity = (TextView) findViewById(R.id.selcity);
-            mSelCity.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    if (App.isOnline()) {
-                        startActivity(new Intent(Main.this, LocationPicker.class));
-                    } else {
-                        Toast.makeText(Main.this, R.string.noConnection, Toast.LENGTH_LONG).show();
-                    }
+            mSelCity.setOnClickListener(arg0 -> {
+                if (App.isOnline()) {
+                    startActivity(new Intent(Main.this, LocationPicker.class));
+                } else {
+                    Toast.makeText(Main.this, R.string.noConnection, Toast.LENGTH_LONG).show();
                 }
             });
         }

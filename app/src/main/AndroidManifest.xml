@@ -49,7 +49,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
 
-        <!--suppress AndroidDomInspection -->
+        <!-- suppress AndroidDomInspection -->
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 
         <activity
@@ -425,6 +425,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <receiver
+            android:name="com.metinkale.prayerapp.utils.TimeZoneChangedReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

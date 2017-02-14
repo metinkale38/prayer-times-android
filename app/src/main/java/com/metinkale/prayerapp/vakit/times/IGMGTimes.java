@@ -46,8 +46,9 @@ class IGMGTimes extends WebTimes {
     protected Builders.Any.F[] createIonBuilder() {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");
-        int world = Integer.parseInt(a[1]);
-        int germany = Integer.parseInt(a[2]);
+        int id = Integer.parseInt(a[1]);
+        if(id<=0&&a.length>2)
+            id = Integer.parseInt(a[2]);
 
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
@@ -61,7 +62,7 @@ class IGMGTimes extends WebTimes {
                 Y++;
             }
             queue.add(Ion.with(App.getContext())
-                    .load("https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + (germany > 0 ? germany : world) + "&show_month=" + (M - 1))
+                    .load("https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + id + "&show_month=" + (M - 1))
                     .setTimeout(3000)
             );
         }
@@ -96,6 +97,6 @@ class IGMGTimes extends WebTimes {
             }
         }
 
-        return i > 0;
+        return i > 25;
     }
 }

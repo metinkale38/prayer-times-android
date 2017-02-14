@@ -39,7 +39,6 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
@@ -168,12 +167,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         final String title = list.getItem(mNavPos);
 
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (toolbar != null) {
-                    toolbar.setTitle(title);
-                }
+        mDrawerLayout.post(() -> {
+            if (toolbar != null) {
+                toolbar.setTitle(title);
             }
         });
 
@@ -181,14 +177,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("anim", false)) {
 
             mDrawerLayout.openDrawer(GravityCompat.START);
-            mDrawerLayout.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    mDrawerLayout.closeDrawers();
-
-                }
-            });
+            mDrawerLayout.post(() -> mDrawerLayout.closeDrawers());
 
         }
     }
@@ -281,51 +270,44 @@ public abstract class BaseActivity extends AppCompatActivity {
                         dialog.setTitle(R.string.hadith);
                         dialog.setMessage(getString(R.string.dlHadith));
                         dialog.setCancelable(false);
-                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int buttonId) {
-                                if (Prefs.getLanguage() == null) {
-                                    return;
-                                }
-                                String lang = Prefs.getLanguage();
-                                if (lang.equals("ar")) lang = "en";
-
-                                String file = lang + "/hadis.db";
-                                File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
-
-                                String url = App.API_URL + "/hadis." + lang + ".db";
-
-                                if (!f.getParentFile().mkdirs()) {
-                                    Log.e("BaseActivity", "could not mkdirs " + f.getParent());
-                                }
-                                final ProgressDialog dlg = new ProgressDialog(BaseActivity.this);
-                                dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                dlg.show();
-                                Ion.with(BaseActivity.this)
-                                        .load(url)
-                                        .progressDialog(dlg)
-                                        .write(f)
-                                        .setCallback(new FutureCallback<File>() {
-                                            @Override
-                                            public void onCompleted(Exception e, File result) {
-                                                dlg.cancel();
-                                                if (e != null) {
-                                                    e.printStackTrace();
-                                                    Crashlytics.logException(e);
-                                                    Toast.makeText(BaseActivity.this, R.string.error, Toast.LENGTH_LONG).show();
-                                                } else if (result.exists()) {
-                                                    onItemClick(null, null, 5, 0);
-                                                }
-                                            }
-                                        });
-
+                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                            if (Prefs.getLanguage() == null) {
+                                return;
                             }
+                            String lang1 = Prefs.getLanguage();
+                            if (lang1.equals("ar")) lang1 = "en";
+
+                            String file1 = lang1 + "/hadis.db";
+                            File f1 = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file1);
+
+                            String url = App.API_URL + "/hadis." + lang1 + ".db";
+
+                            if (!f1.getParentFile().mkdirs()) {
+                                Log.e("BaseActivity", "could not mkdirs " + f1.getParent());
+                            }
+                            final ProgressDialog dlg = new ProgressDialog(BaseActivity.this);
+                            dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            dlg.setCancelable(false);
+                            dlg.setCanceledOnTouchOutside(false);
+                            dlg.show();
+                            Ion.with(BaseActivity.this)
+                                    .load(url)
+                                    .progressDialog(dlg)
+                                    .write(f1)
+                                    .setCallback((e, result) -> {
+                                        dlg.dismiss();
+                                        if (e != null) {
+                                            e.printStackTrace();
+                                            Crashlytics.logException(e);
+                                            Toast.makeText(BaseActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                                        } else if (result.exists()) {
+                                            onItemClick(null, null, 5, 0);
+                                        }
+                                    });
+
                         });
-                        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int buttonId) {
-                                dialog.cancel();
-                            }
+                        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
+                            dialog1.cancel();
                         });
                         dialog.show();
                         return;
@@ -356,14 +338,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                 overridePendingTransition(0, 0);
 
-                mDrawerLayout.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mDrawerLayout.closeDrawers();
-
-                    }
-                }, 500);
+                mDrawerLayout.postDelayed(() -> mDrawerLayout.closeDrawers(), 500);
             }
 
 

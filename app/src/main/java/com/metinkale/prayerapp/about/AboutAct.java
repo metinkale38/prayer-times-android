@@ -21,7 +21,6 @@ package com.metinkale.prayerapp.about;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -67,33 +66,18 @@ public class AboutAct extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.donateDlg);
         builder.setCancelable(true);
-        builder.setPositiveButton(R.string.paypal, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.cancel();
-                String url = "http://www.paypal.me/metinkale38";
-                openUrl(url);
-            }
+        builder.setPositiveButton(R.string.paypal, (arg0, arg1) -> {
+            arg0.cancel();
+            String url = "http://www.paypal.me/metinkale38";
+            openUrl(url);
         });
-        builder.setNegativeButton(R.string.bitcoin, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.bitcoin, (arg0, arg1) -> {
+            arg0.cancel();
+            String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
+            openUrl(url);
 
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.cancel();
-                String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
-                openUrl(url);
-
-            }
         });
-        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
+        builder.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.cancel());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -143,11 +127,8 @@ public class AboutAct extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
 
-        builder.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton(getResources().getString(R.string.ok), (dialog, which) -> {
 
-            }
         });
 
 

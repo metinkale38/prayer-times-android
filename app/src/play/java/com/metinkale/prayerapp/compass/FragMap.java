@@ -119,13 +119,10 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
         mMap.addMarker(new MarkerOptions().position(mKaabePos).anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_kaabe)));
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFab.setOnClickListener(v -> {
 
-                if (mLocation != null) {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
-                }
+            if (mLocation != null) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
             }
         });
 

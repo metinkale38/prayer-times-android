@@ -56,6 +56,7 @@ import static android.hardware.Sensor.TYPE_ROTATION_VECTOR;
 public class AlarmReceiver extends IntentService implements SensorEventListener {
 
     private static boolean sInterrupt;
+    private SensorManager mSensorManager;
 
     public AlarmReceiver() {
         super("AlarmReceiver");
@@ -257,10 +258,10 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         sInterrupt = false;
         boolean hasSound = false;
         while ((sound != null) && !sound.startsWith("silent") && !sInterrupt) {
-            SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
             if (Prefs.stopByFacedown())
-                sensorManager.registerListener(this, sensorManager.getDefaultSensor(TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_UI);
+                mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_UI);
             int volume = -2;
             hasSound = true;
 
@@ -297,28 +298,22 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
                 if (mp.mp != null) {
 
-                    mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            if (mp.mp == null) {
-                                return;
-                            }
-                            mp.mp.stop();
-                            mp.mp.release();
-                            mp.mp = null;
+                    mp.mp.setOnCompletionListener(mediaPlayer -> {
+                        if (mp.mp == null) {
+                            return;
                         }
+                        mp.mp.stop();
+                        mp.mp.release();
+                        mp.mp = null;
                     });
 
-                    mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
-                        @Override
-                        public void onSeekComplete(MediaPlayer mediaPlayer) {
-                            if (mp.mp == null) {
-                                return;
-                            }
-                            mp.mp.stop();
-                            mp.mp.release();
-                            mp.mp = null;
+                    mp.mp.setOnSeekCompleteListener(mediaPlayer -> {
+                        if (mp.mp == null) {
+                            return;
                         }
+                        mp.mp.stop();
+                        mp.mp.release();
+                        mp.mp = null;
                     });
 
                 }
@@ -350,7 +345,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             sound = dua;
             dua = null;
             if (Prefs.stopByFacedown())
-                sensorManager.unregisterListener(this);
+                mSensorManager.unregisterListener(this);
         }
 
         if (hasSound && Prefs.autoRemoveNotification()) {
@@ -367,8 +362,14 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     private int mIsFaceDown = 1;
 
     @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (Math.abs(sensorEvent.values[0]) > 0.65) {
+    public void onSensorChanged(SensorEvent event) {
+        /*float[] roationV = new float[16];
+        SensorManager.getRotationMatrixFromVector(roationV, event.values);
+
+        float[] orientationValuesV = new float[3];
+        SensorManager.getOrientation(roationV, orientationValuesV);
+*/
+        if (Math.abs(event.values[0]) > 0.65) {
             if (mIsFaceDown != 1) {//ignore if already was off
                 mIsFaceDown += 2;
                 if (mIsFaceDown >= 15) {//prevent accident

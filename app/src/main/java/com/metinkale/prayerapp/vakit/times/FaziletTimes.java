@@ -51,6 +51,7 @@ class FaziletTimes extends WebTimes {
         if (a.length < 4) {
             Crashlytics.setString("FAZILET_ID", getId());
             Crashlytics.logException(new Exception("INVALID ID IN FAZILET"));
+            this.delete();
             return new Builders.Any.F[0];
         }
         int country = Integer.parseInt(a[1]);
@@ -118,7 +119,7 @@ class FaziletTimes extends WebTimes {
             }
         }
 
-        return c > 0;
+        return c > 25;
     }
 
 

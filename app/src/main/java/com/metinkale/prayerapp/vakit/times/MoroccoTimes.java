@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.vakit.times;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
 
@@ -41,6 +42,18 @@ class MoroccoTimes extends WebTimes {
         return Source.Morocco;
     }
 
+    @Override
+    public synchronized String getName() {
+        String name = super.getName();
+        if (name.contains("(") && name.contains(")")) {
+            if ("ar".equals(Prefs.getLanguage())) {
+                return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+            } else {
+                return name.substring(0, name.indexOf(" ("));
+            }
+        }
+        return name;
+    }
 
     protected Builders.Any.F[] createIonBuilder() {
         LocalDate ldate = LocalDate.now();
@@ -55,13 +68,23 @@ class MoroccoTimes extends WebTimes {
                 Y++;
             }
             queue.add(Ion.with(App.getContext())
-                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId() + "&mois=" + M)
+                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId().substring(2) + "&mois=" + M)
                     .setTimeout(3000)
             );
         }
 
 
         return queue.toArray(new Builders.Any.F[queue.size()]);
+    }
+
+    @Override
+    public synchronized String getId() {
+        String id = super.getId();
+        if (!id.contains("H_")) {
+            setId("H_" + id);
+            return "H_" + id;
+        }
+        return id;
     }
 
     protected boolean parseResult(String result) {
@@ -88,7 +111,7 @@ class MoroccoTimes extends WebTimes {
         }
 
 
-        return x > 0;
+        return x > 25;
     }
 
     private String extract(String s) {

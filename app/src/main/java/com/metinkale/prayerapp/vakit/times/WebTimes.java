@@ -18,21 +18,19 @@ package com.metinkale.prayerapp.vakit.times;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 
 import org.joda.time.LocalDate;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -46,17 +44,19 @@ public class WebTimes extends Times {
             App.getHandler().removeCallbacks(this);
         }
     };
-    protected Map<String, String> times = new HashMap<>();
+    protected Map<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
 
 
     WebTimes(long id) {
         super(id);
+        scheduleJob();
     }
 
     WebTimes() {
         super();
+        App.getHandler().post(this::scheduleJob);
     }
 
 
@@ -83,6 +83,9 @@ public class WebTimes extends Times {
                 break;
             case Morocco:
                 t = new MoroccoTimes(_id);
+                break;
+            case Malaysia:
+                t = new MalaysiaTimes(_id);
                 break;
             case CSV:
                 t = new CSVTimes(_id);
@@ -160,25 +163,22 @@ public class WebTimes extends Times {
         }
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
-            builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, Response<String> result) {
-                    if (e != null) {
-                        //Crashlytics.setString("WebTimesSource", getSource().toString());
-                        //Crashlytics.setString("WebTimesName", getName());
-                        //Crashlytics.setString("WebTimesId", getId());
-                        //Crashlytics.logException(e);
-                        return;
-                    }
+            builder.asString().withResponse().setCallback((e, result) -> {
+                if (e != null) {
+                    //Crashlytics.setString("WebTimesSource", getSource().toString());
+                    //Crashlytics.setString("WebTimesName", getName());
+                    //Crashlytics.setString("WebTimesId", getId());
+                    //Crashlytics.logException(e);
+                    return;
+                }
 
-                    try {
-                        parseResult(result.getResult());
-                    } catch (Exception ee) {
-                        Crashlytics.setString("WebTimesSource", getSource().toString());
-                        Crashlytics.setString("WebTimesName", getName());
-                        Crashlytics.setString("WebTimesId", getId());
-                        Crashlytics.logException(ee);
-                    }
+                try {
+                    parseResult(result.getResult());
+                } catch (Exception ee) {
+                    Crashlytics.setString("WebTimesSource", getSource().toString());
+                    Crashlytics.setString("WebTimesName", getName());
+                    Crashlytics.setString("WebTimesId", getId());
+                    Crashlytics.logException(ee);
                 }
             });
         }

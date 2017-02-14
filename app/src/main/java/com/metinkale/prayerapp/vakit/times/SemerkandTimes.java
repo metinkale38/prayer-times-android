@@ -51,14 +51,8 @@ class SemerkandTimes extends WebTimes {
         }
         final int year = LocalDate.now().getYear();
         final String[] id = _id.split("_");
-        if (id.length <= 3) {
-            Crashlytics.setString("id", getId());
-            Crashlytics.setString("name", getName());
-            Crashlytics.logException(new Exception("SEMERKANDISSUE"));
-            return new Builders.Any.F[0];
-        }
         return new Builders.Any.F[]{Ion.with(App.getContext())
-                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + ("0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))};
+                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + (id.length >= 3 || "0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))};
 
 
     }
@@ -71,7 +65,7 @@ class SemerkandTimes extends WebTimes {
             date = date.withDayOfYear(d.Day);
             setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
         }
-        return result.size() > 0;
+        return result.size() > 25;
     }
 
 

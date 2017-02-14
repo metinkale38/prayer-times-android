@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.settings;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.App;
 
 import java.util.UUID;
@@ -174,16 +173,5 @@ public class Prefs {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
-    public static void setUseOSM(boolean useOSM) {
-        getPrefs().edit().putBoolean("useOSM", useOSM).apply();
-    }
 
-    public static boolean useOSM() {
-        if (!getPrefs().contains("useOSM")) {
-           if("fdroid".equals(BuildConfig.FLAVOR)){
-               setUseOSM(true);
-           }
-        }
-        return getPrefs().getBoolean("useOSM", false);
-    }
 }

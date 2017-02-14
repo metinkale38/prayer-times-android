@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.vakit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.*;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff.Mode;
@@ -34,7 +33,6 @@ import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.NumberPickerDialog;
-import com.metinkale.prayerapp.utils.NumberPickerDialog.OnNumberSetListener;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser.Callback;
@@ -252,15 +250,7 @@ public class PrefsView extends View implements OnClickListener {
             np.setValue(Math.abs(val));
 
             rg.check((val < 0) ? R.id.afterImsak : R.id.beforeGunes);
-            builder.setView(view).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    setValue(np.getValue() * ((rg.getCheckedRadioButtonId() == R.id.beforeGunes) ? 1 : -1));
-                }
-            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                }
+            builder.setView(view).setPositiveButton(R.string.ok, (dialog, id) -> setValue(np.getValue() * ((rg.getCheckedRadioButtonId() == R.id.beforeGunes) ? 1 : -1))).setNegativeButton(R.string.cancel, (dialog, id) -> {
             });
             builder.show();
         } else if (mPref == Pref.Vibration2) {
@@ -288,14 +278,7 @@ public class PrefsView extends View implements OnClickListener {
                 default:
                     break;
             }
-            NumberPickerDialog npd = new NumberPickerDialog(getContext(), new OnNumberSetListener() {
-
-                @Override
-                public void onNumberSet(int dialogId, int number) {
-                    setValue(number);
-
-                }
-            }, (Integer) o, 0, 300, titleId, 0, 0);
+            NumberPickerDialog npd = new NumberPickerDialog(getContext(), (dialogId, number) -> setValue(number), (Integer) o, 0, 300, titleId, 0, 0);
             npd.show();
         }
 

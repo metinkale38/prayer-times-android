@@ -17,7 +17,6 @@
 package com.metinkale.prayerapp.vakit;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -49,21 +48,20 @@ import com.metinkale.prayerapp.utils.FileChooser;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
-import com.metinkale.prayerapp.vakit.times.Cities.Item;
+import com.metinkale.prayerapp.vakit.times.Entry;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import java.io.File;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
 public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
     private MyAdapter mAdapter;
     private FloatingActionButton mFab;
     private MenuItem mSearchItem;
+    private Cities mCities = Cities.get();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,14 +79,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.oldAddCity);
-        legacy.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-                startActivity(new Intent(AddCity.this, AddCityLegacy.class));
-
-            }
+        legacy.setOnClickListener(v -> {
+            finish();
+            startActivity(new Intent(AddCity.this, AddCityLegacy.class));
 
         });
 
@@ -138,11 +131,11 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
                 onLocationChanged(loc);
 
             Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
             criteria.setAltitudeRequired(false);
             criteria.setBearingRequired(false);
             criteria.setCostAllowed(false);
-            criteria.setSpeedRequired(false);
+            criteria.setSpeedRequired(true);
             String provider = lm.getBestProvider(criteria, true);
             if (provider != null) {
                 lm.requestSingleUpdate(provider, this, null);
@@ -178,15 +171,15 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-        Cities.Item i = mAdapter.getItem(pos);
-        if (i != null) if (i.source == Source.Calc) {
+        Entry i = mAdapter.getItem(pos);
+        if (i != null) if (i.getSource() == Source.Calc) {
             Bundle bdl = new Bundle();
-            bdl.putString("city", i.city);
-            bdl.putDouble("lat", i.lat);
-            bdl.putDouble("lng", i.lng);
+            bdl.putString("city", i.getName());
+            bdl.putDouble("lat", i.getLat());
+            bdl.putDouble("lng", i.getLng());
             CalcTimes.add(this, bdl);
         } else {
-            WebTimes.add(i.source, i.city, i.id, i.lat, i.lng);
+            WebTimes.add(i.getSource(), i.getName(), i.getKey(), i.getLat(), i.getLng());
             finish();
         }
 
@@ -195,10 +188,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-        Cities.search(query == null ? query : query.trim().replace(" ","+"), new Cities.Callback() {
+        mCities.search(query == null ? query : query.trim().replace(" ", "+"), new Cities.Callback<List<Entry>>() {
             @Override
-            public void onResult(List result) {
-                List<Item> items = result;
+            public void onResult(List<Entry> items) {
                 if ((items != null) && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
@@ -222,19 +214,18 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     public void onLocationChanged(Location loc) {
         if ((mAdapter.getCount() <= 1)) {
             mAdapter.clear();
-            Item item = new Item();
-            item.city = "GPS";
-            item.country = "GPS";
-            item.source = Source.Calc;
-            item.lat = loc.getLatitude();
-            item.lng = loc.getLongitude();
+            Entry item = new Entry();
+            item.setName("GPS");
+            item.setCountry("");
+            item.setKey("C_");
+            item.setLat(loc.getLatitude());
+            item.setLng(loc.getLongitude());
             mAdapter.add(item);
             mAdapter.notifyDataSetChanged();
 
-            Cities.search(item.lat, item.lng, new Cities.Callback() {
+            mCities.search(item.getLat(), item.getLng(), new Cities.Callback<List<Entry>>() {
                 @Override
-                public void onResult(List result) {
-                    List<Item> items = result;
+                public void onResult(List<Entry> items) {
                     if ((items != null) && !items.isEmpty()) {
                         mAdapter.clear();
                         mAdapter.addAll(items);
@@ -265,56 +256,45 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     public void addFromCSV(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.addFromCSV)
-                .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            FileChooser chooser = new FileChooser(AddCity.this);
-                            chooser.setExtension("csv");
-                            chooser.showDialog();
-                            chooser.setFileListener(new FileChooser.FileSelectedListener() {
-                                @Override
-                                public void fileSelected(File file) {
-                                    String name = file.getName();
-                                    if (name.contains("."))
-                                        name = name.substring(0, name.lastIndexOf("."));
+                .setItems(R.array.addFromCSV, (dialog, which) -> {
+                    if (which == 0) {
+                        FileChooser chooser = new FileChooser(AddCity.this);
+                        chooser.setExtension("csv");
+                        chooser.showDialog();
+                        chooser.setFileListener(file -> {
+                            String name = file.getName();
+                            if (name.contains("."))
+                                name = name.substring(0, name.lastIndexOf("."));
 
-                                    WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
-                                    finish();
-                                }
-                            });
-                        } else {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
-                            final EditText editText = new EditText(AddCity.this);
-                            editText.setHint("http(s)://example.com/prayertimes.csv");
-                            alert.setView(editText);
-                            alert.setTitle(R.string.csvFromURL);
-                            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    String url = editText.getText().toString();
-                                    String name = url.substring(url.lastIndexOf("/") + 1);
-                                    if (name.contains("."))
-                                        name = name.substring(0, name.lastIndexOf("."));
-                                    WebTimes.add(Source.CSV, name, url, 0, 0);
-                                    finish();
-                                }
-                            });
-                            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                            WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                            finish();
+                        });
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
+                        final EditText editText = new EditText(AddCity.this);
+                        editText.setHint("http(s)://example.com/prayertimes.csv");
+                        alert.setView(editText);
+                        alert.setTitle(R.string.csvFromURL);
+                        alert.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                            String url = editText.getText().toString();
+                            String name = url.substring(url.lastIndexOf("/") + 1);
+                            if (name.contains("."))
+                                name = name.substring(0, name.lastIndexOf("."));
+                            WebTimes.add(Source.CSV, name, url, 0, 0);
+                            finish();
+                        });
+                        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
 
-                                }
-                            });
-                            alert.show();
+                        });
+                        alert.show();
 
-                        }
                     }
                 });
         builder.show();
     }
 
 
-    static class MyAdapter extends ArrayAdapter<Cities.Item> {
+    static class MyAdapter extends ArrayAdapter<Entry> {
 
         public MyAdapter(Context context) {
             super(context, 0, 0);
@@ -322,16 +302,9 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         }
 
         @Override
-        public void addAll(@NonNull Collection<? extends Item> collection) {
+        public void addAll(@NonNull Collection<? extends Entry> collection) {
             super.addAll(collection);
-            sort(new Comparator<Item>() {
-
-                @Override
-                public int compare(Item i0, Item i1) {
-                    return i0.source.ordinal() - i1.source.ordinal();
-                }
-
-            });
+            sort((i0, i1) -> i0.getSource().ordinal() - i1.getSource().ordinal());
         }
 
         @NonNull
@@ -350,18 +323,16 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
             } else {
                 vh = (ViewHolder) convertView.getTag();
             }
-            Cities.Item i = getItem(position);
-            if (i.city != null && i.city.startsWith("BRUNSWICK")) {
-                i.city = "Braunschweig"; //;)
-            }
-            vh.city.setText(i.city);
-            vh.country.setText(i.country);
+            Entry i = getItem(position);
 
-            vh.sourcetxt.setText(i.source.text);
-            if (i.source.resId == 0) {
+            vh.city.setText(i.getName());
+            vh.country.setText(i.getCountry());
+
+            vh.sourcetxt.setText(i.getSource().text);
+            if (i.getSource().resId == 0) {
                 vh.source.setVisibility(View.GONE);
             } else {
-                vh.source.setImageResource(i.source.resId);
+                vh.source.setImageResource(i.getSource().resId);
                 vh.source.setVisibility(View.VISIBLE);
             }
             return convertView;

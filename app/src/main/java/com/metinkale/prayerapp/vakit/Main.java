@@ -116,67 +116,44 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         });
 
-        mTopSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
-                int position = mPager.getCurrentItem();
-                if (position != 0) {
-                    Times t = Times.getTimes(mAdapter.getItemId(position));
-                    mSettingsFrag.setTimes(t);
-                }
-                mBottomSlider.lock();
+        mTopSlider.setOnDrawerOpenListener(() -> {
+            int position = mPager.getCurrentItem();
+            if (position != 0) {
+                Times t = Times.getTimes(mAdapter.getItemId(position));
+                mSettingsFrag.setTimes(t);
             }
+            mBottomSlider.lock();
         });
 
-        mTopSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mBottomSlider.unlock();
+        mTopSlider.setOnDrawerCloseListener(() -> {
+            mBottomSlider.unlock();
 
-                Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
-                if (page instanceof MainFragment) {
-                    ((MainFragment) page).update();
-                }
-
+            Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
+            if (page instanceof MainFragment) {
+                ((MainFragment) page).update();
             }
+
         });
 
 
-        mBottomSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
+        mBottomSlider.setOnDrawerOpenListener(() -> mTopSlider.lock());
 
-                mTopSlider.lock();
+        mBottomSlider.setOnDrawerCloseListener(() -> mTopSlider.unlock());
+        findViewById(R.id.topSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
+                mTopSlider.animateClose();
+                return true;
             }
-        });
-
-        mBottomSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mTopSlider.unlock();
-            }
-        });
-        findViewById(R.id.topSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
-                    mTopSlider.animateClose();
-                    return true;
-                }
-                return false;
-            }
+            return false;
         });
 
 
-        findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
-                    mBottomSlider.animateClose();
-                    return true;
-                }
-                return false;
+        findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
+                mBottomSlider.animateClose();
+                return true;
             }
+            return false;
         });
 
 

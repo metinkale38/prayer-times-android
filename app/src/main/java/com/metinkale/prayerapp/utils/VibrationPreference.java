@@ -72,28 +72,25 @@ public class VibrationPreference extends EditTextPreference {
         super(context, attrs);
         setPersistent(true);
         button.setText(R.string.test);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Long> mills = new ArrayList<>();
-                String txt = editText.getText().toString();
-                String[] split = txt.split(" ");
-                for (String s : split) {
-                    if (!s.isEmpty()) {
-                        try {
-                            mills.add(Long.parseLong(s));
-                        } catch (Exception ignore) {
-                        }
+        button.setOnClickListener(v -> {
+            List<Long> mills = new ArrayList<>();
+            String txt = editText.getText().toString();
+            String[] split = txt.split(" ");
+            for (String s : split) {
+                if (!s.isEmpty()) {
+                    try {
+                        mills.add(Long.parseLong(s));
+                    } catch (Exception ignore) {
                     }
                 }
-
-                Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                long[] pattern = new long[mills.size()];
-                for (int i = 0; i < pattern.length; i++) {
-                    pattern[i] = mills.get(i);
-                }
-                vib.vibrate(pattern, -1);
             }
+
+            Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            long[] pattern = new long[mills.size()];
+            for (int i = 0; i < pattern.length; i++) {
+                pattern[i] = mills.get(i);
+            }
+            vib.vibrate(pattern, -1);
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }

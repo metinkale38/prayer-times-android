@@ -18,14 +18,12 @@ package com.metinkale.prayerapp.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -59,18 +57,11 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         View v = View.inflate(getActivity(), R.layout.number_dialog, null);
-        builder.setView(v).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                if (mList != null) {
-                    mList.onNumberChange(mNr);
-                }
+        builder.setView(v).setPositiveButton(R.string.ok, (dialog, id) -> {
+            if (mList != null) {
+                mList.onNumberChange(mNr);
             }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
+        }).setNegativeButton(R.string.cancel, (dialog, id) -> {
 
         });
 
@@ -82,45 +73,29 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         for (int id : ids) {
             Button btn = (Button) v.findViewById(id);
             btn.setTag(btn.getText());
-            btn.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    String txt = mEdit.getText().toString();
-                    mEdit.setText(txt + v.getTag());
-                }
+            btn.setOnClickListener(v14 -> {
+                String txt = mEdit.getText().toString();
+                mEdit.setText(txt + v14.getTag());
             });
         }
 
-        v.findViewById(R.id.back).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String txt = mEdit.getText().toString();
-                if (!txt.isEmpty()) {
-                    mEdit.setText(txt.substring(0, txt.length() - 1));
-                }
-
+        v.findViewById(R.id.back).setOnClickListener(v13 -> {
+            String txt = mEdit.getText().toString();
+            if (!txt.isEmpty()) {
+                mEdit.setText(txt.substring(0, txt.length() - 1));
             }
+
         });
 
-        v.findViewById(R.id.prev).setOnClickListener(new OnClickListener() {
+        v.findViewById(R.id.prev).setOnClickListener(v12 -> {
+            String txt = mEdit.getText().toString();
+            mEdit.setText((Integer.parseInt("0" + txt) - 1) + "");
 
-            @Override
-            public void onClick(View v) {
-                String txt = mEdit.getText().toString();
-                mEdit.setText((Integer.parseInt("0" + txt) - 1) + "");
-
-            }
         });
-        v.findViewById(R.id.next).setOnClickListener(new OnClickListener() {
+        v.findViewById(R.id.next).setOnClickListener(v1 -> {
+            String txt = mEdit.getText().toString();
+            mEdit.setText(Integer.parseInt(txt) + 1 + "");
 
-            @Override
-            public void onClick(View v) {
-                String txt = mEdit.getText().toString();
-                mEdit.setText(Integer.parseInt(txt) + 1 + "");
-
-            }
         });
 
         return builder.create();

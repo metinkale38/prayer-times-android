@@ -35,6 +35,7 @@ import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
@@ -122,7 +123,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             return;
         }
         LeakCanary.install(this);
-        sContext = new WeakReference<Context>(this);
+        sContext = new WeakReference<>(this);
 
         Fabric.with(this, new Crashlytics());
         Crashlytics.setUserIdentifier(Prefs.getUUID());
@@ -160,6 +161,13 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                     .detectAll()
                     .penaltyLog()
                     .build());
+        }
+
+        if ("longcheer".equalsIgnoreCase(Build.BRAND)
+                || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
+                || "general mobile".equalsIgnoreCase(Build.BRAND)
+                || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
+            new ANRWatchDog().start();
         }
     }
 

@@ -399,23 +399,59 @@ public class Cities {
             parent.lng = 0;
             mEntries.put(parent.id, parent);
 
-            if (parent.name.equals("BA")) parent.name = "Bosnien";
-            else if (parent.name.equals("NL")) parent.name = "Niederlande";
-            else if (parent.name.equals("DE")) parent.name = "Deutschland";
-            else if (parent.name.equals("AT")) parent.name = "Österreich";
-            else if (parent.name.equals("AU")) parent.name = "Australien";
-            else if (parent.name.equals("BE")) parent.name = "Belgien";
-            else if (parent.name.equals("CA")) parent.name = "Kanada";
-            else if (parent.name.equals("CH")) parent.name = "Schweiz";
-            else if (parent.name.equals("DK")) parent.name = "Dänemark";
-            else if (parent.name.equals("FR")) parent.name = "Frankreich";
-            else if (parent.name.equals("GB")) parent.name = "Vereinigtes Königreich";
-            else if (parent.name.equals("IT")) parent.name = "Italien";
-            else if (parent.name.equals("LI")) parent.name = "Liechtenstein";
-            else if (parent.name.equals("MK")) parent.name = "Mazedonien";
-            else if (parent.name.equals("NO")) parent.name = "Norwegen";
-            else if (parent.name.equals("SE")) parent.name = "Schweden";
-            else if (parent.name.equals("US")) parent.name = "Vereinigte Staaten von Amerika";
+            switch (parent.name) {
+                case "BA":
+                    parent.name = "Bosnien";
+                    break;
+                case "NL":
+                    parent.name = "Niederlande";
+                    break;
+                case "DE":
+                    parent.name = "Deutschland";
+                    break;
+                case "AT":
+                    parent.name = "Österreich";
+                    break;
+                case "AU":
+                    parent.name = "Australien";
+                    break;
+                case "BE":
+                    parent.name = "Belgien";
+                    break;
+                case "CA":
+                    parent.name = "Kanada";
+                    break;
+                case "CH":
+                    parent.name = "Schweiz";
+                    break;
+                case "DK":
+                    parent.name = "Dänemark";
+                    break;
+                case "FR":
+                    parent.name = "Frankreich";
+                    break;
+                case "GB":
+                    parent.name = "Vereinigtes Königreich";
+                    break;
+                case "IT":
+                    parent.name = "Italien";
+                    break;
+                case "LI":
+                    parent.name = "Liechtenstein";
+                    break;
+                case "MK":
+                    parent.name = "Mazedonien";
+                    break;
+                case "NO":
+                    parent.name = "Norwegen";
+                    break;
+                case "SE":
+                    parent.name = "Schweden";
+                    break;
+                case "US":
+                    parent.name = "Vereinigte Staaten von Amerika";
+                    break;
+            }
 
 
             List<City> cities = map.get(country);
@@ -909,9 +945,7 @@ public class Cities {
                         geocodeNVC(e);
                 });
             } else {
-                mWorker.execute(() -> {
-                    geocode(e, false);
-                });
+                mWorker.execute(() -> geocode(e, false));
 
             }
         }

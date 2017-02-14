@@ -164,14 +164,11 @@ public class Utils {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
-                init(act);
-                act.finish();
-                act.startActivity(new Intent(act, act.getClass()));
-            }
+        builder.setTitle(R.string.language).setItems(R.array.language, (dialog, which) -> {
+            changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
+            init(act);
+            act.finish();
+            act.startActivity(new Intent(act, act.getClass()));
         }).setCancelable(false);
 
         builder.show();

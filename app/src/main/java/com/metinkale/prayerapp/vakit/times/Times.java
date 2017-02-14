@@ -41,7 +41,6 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -151,10 +150,6 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    static void clearTimes() {
-        sTimes.clear();
-    }
-
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
             SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
@@ -175,15 +170,12 @@ public abstract class Times extends TimesBase {
 
     public static void sort() {
         if (sTimes.isEmpty()) return;
-        Collections.sort(sTimes, new Comparator<Times>() {
-            @Override
-            public int compare(Times t1, Times t2) {
-                try {
-                    return t1.getSortId() - t2.getSortId();
-                } catch (RuntimeException e) {
-                    Crashlytics.logException(e);
-                    return 0;
-                }
+        Collections.sort(sTimes, (t1, t2) -> {
+            try {
+                return t1.getSortId() - t2.getSortId();
+            } catch (RuntimeException e) {
+                Crashlytics.logException(e);
+                return 0;
             }
         });
 
