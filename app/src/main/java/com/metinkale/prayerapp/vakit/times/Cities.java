@@ -23,6 +23,7 @@ import android.os.Handler;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.Geocoder;
+import com.metinkale.prayerapp.utils.SimpleIntArrayMap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -39,20 +39,17 @@ public class Cities {
 
     private static WeakReference<Cities> mInstance = new WeakReference<Cities>(null);
     private final Context mContext;
-    private final HashMap<Integer, Entry> mEntries = new HashMap<>(112665);
+    private final SimpleIntArrayMap<Entry> mEntries = new SimpleIntArrayMap<>(112665);
     private Handler mHandler = new Handler();
     private Executor mThread = Executors.newSingleThreadExecutor();
 
     private Cities(Context context) {
         mContext = context;
-        mThread.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    loadTSV();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        mThread.execute(() -> {
+            try {
+                loadTSV();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -96,71 +93,39 @@ public class Cities {
 
 
     public void list(final int id, final Callback<List<Entry>> callback) {
-        mThread.execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<Entry> result = list(id);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onResult(result);
-                    }
-                });
-            }
+        mThread.execute(() -> {
+            final List<Entry> result = list(id);
+            mHandler.post(() -> callback.onResult(result));
         });
     }
 
 
     public void search(final String q, final Callback<List<Entry>> callback) {
-        Geocoder.search(q, new Geocoder.SearchCallback() {
-            @Override
-            public void onResult(List<Geocoder.Result> results) {
-                final Geocoder.Result result = results == null || results.isEmpty() ? new Geocoder.Result() : results.get(0);
-                mThread.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Entry> search = search(q, result);
-                        Entry calc = new Entry();
-                        calc.setKey("C_");
-                        calc.setLat(result.lat);
-                        calc.setLng(result.lng);
-                        calc.setName(result.city);
-                        calc.setCountry(result.country);
-                        search.add(calc);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onResult(search);
-                            }
-                        });
-                    }
-                });
-            }
+        Geocoder.search(q, results -> {
+            final Geocoder.Result result = results == null || results.isEmpty() ? new Geocoder.Result() : results.get(0);
+            mThread.execute(() -> {
+                final List<Entry> search = search(q, result);
+                Entry calc = new Entry();
+                calc.setKey("C_");
+                calc.setLat(result.lat);
+                calc.setLng(result.lng);
+                calc.setName(result.city);
+                calc.setCountry(result.country);
+                search.add(calc);
+                mHandler.post(() -> callback.onResult(search));
+            });
         });
 
     }
 
     public void search(final double lat, final double lng, final Callback<List<Entry>> callback) {
         final Cities cities = Cities.get();
-        Geocoder.reverse(lat, lng, new Geocoder.ReverseCallback() {
-            @Override
-            public void onResult(final Entry e) {
-                mThread.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Entry> search = cities.search(lat, lng);
-                        e.setKey("C_");
-                        search.add(e);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onResult(search);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        Geocoder.reverse(lat, lng, e -> mThread.execute(() -> {
+            final List<Entry> search = cities.search(lat, lng);
+            e.setKey("C_");
+            search.add(e);
+            mHandler.post(() -> callback.onResult(search));
+        }));
 
 
     }
@@ -168,8 +133,9 @@ public class Cities {
 
     private List<Entry> list(int id) {
         List<Entry> entries = new ArrayList<>();
-        for (Entry e : mEntries.values()) {
-            if (e.getParent() == id)
+        for (int i = 0; i < mEntries.size(); i++) {
+            Entry e = mEntries.get(i);
+            if (e != null && e.getParent() == id)
                 entries.add(e);
         }
         return entries;
@@ -179,8 +145,9 @@ public class Cities {
 
         List<Entry> items = new ArrayList<>();
         EnumMap<Source, Entry> map = new EnumMap<Source, Entry>(Source.class);
-        for (Entry entry : mEntries.values()) {
-            if (entry.getKey() == null) continue;
+        for (int i = 0; i < mEntries.size(); i++) {
+            Entry entry = mEntries.get(i);
+            if (entry == null || entry.getKey() == null) continue;
             Source s = entry.getSource();
             Entry e = map.get(s);
             double latDist = Math.abs(lat - entry.getLat());
@@ -207,8 +174,9 @@ public class Cities {
 
         q = normalize(q);
 
-        for (Entry entry : mEntries.values()) {
-            if (entry.getKey() == null) continue;
+        for (int i = 0; i < mEntries.size(); i++) {
+            Entry entry = mEntries.get(i);
+            if (entry == null || entry.getKey() == null) continue;
             Source s = entry.getSource();
             if (s == null) continue;
             String norm = entry.getNormalized();
