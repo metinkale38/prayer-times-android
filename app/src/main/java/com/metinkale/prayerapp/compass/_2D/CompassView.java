@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass._2D;
@@ -26,6 +27,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 

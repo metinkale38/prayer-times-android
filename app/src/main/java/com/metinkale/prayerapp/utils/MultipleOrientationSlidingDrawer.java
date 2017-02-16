@@ -1,5 +1,23 @@
+/*
+ * Copyright (c) 2016 Metin Kale
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.metinkale.prayerapp.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -11,28 +29,14 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import com.metinkale.prayer.R;
 
-/*
- * Copyright (c) 2001 - 2012 Sileria, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- *
- *
- * SOURCE: https://gist.github.com/patrickfav/6284130
- */
+import com.metinkale.prayer.R;
 
 public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
@@ -175,7 +179,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
 
         int contentId = a.getResourceId(R.styleable.MultipleOrientationSlidingDrawer_content, 0);
 
-	a.recycle();
+        a.recycle();
 
         if (contentId == 0) {
             throw new IllegalArgumentException("The content attribute is required and must refer "
@@ -1282,6 +1286,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private class SlidingHandler extends Handler {
         public void handleMessage(@NonNull Message m) {
             switch (m.what) {

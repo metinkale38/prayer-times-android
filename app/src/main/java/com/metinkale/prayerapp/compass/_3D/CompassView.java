@@ -12,18 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass._3D;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 
@@ -107,7 +113,7 @@ public class CompassView extends View {
         canvas.drawText(Utils.toArabicNrs(Math.round(mqDist)) + "km", w * 0.45f, h * 0.98f, mPaint);
 
         mPaint.setTextAlign(Align.LEFT);
-        canvas.drawText(Utils.toArabicNrs((int)Math.round(mqAngle)) + "°", w * 0.55f, h * 0.98f, mPaint);
+        canvas.drawText(Utils.toArabicNrs((int) Math.round(mqAngle)) + "°", w * 0.55f, h * 0.98f, mPaint);
 
         if (mX > 180) {
             mX -= 360;

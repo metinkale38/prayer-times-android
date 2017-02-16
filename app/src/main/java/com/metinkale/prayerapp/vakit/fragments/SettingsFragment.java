@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 

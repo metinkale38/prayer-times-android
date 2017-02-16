@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -19,9 +20,14 @@ package com.metinkale.prayerapp.vakit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +39,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.NumberPickerDialog;
 import com.metinkale.prayerapp.utils.PermissionUtils;

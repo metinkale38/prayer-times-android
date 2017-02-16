@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.sounds;
@@ -29,7 +30,9 @@ import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Sounds {
     @NonNull
@@ -184,78 +187,78 @@ public class Sounds {
     }
 
 
-public static class Sound implements Serializable {
-    public String name;
-    public String uri;
-    public String url;
-    public String size;
+    public static class Sound implements Serializable {
+        public String name;
+        public String uri;
+        public String url;
+        public String size;
 
-    Sound() {
-    }
-
-    Sound(String name, String url, String size) {
-        this.name = name;
-        this.url = url;
-        this.size = size;
-        uri = getFile().toURI().toString();
-    }
-
-    @Nullable
-    public File getFile() {
-        File folder = App.get().getExternalFilesDir(null);
-        if (folder != null) {
-            File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
-            if (old.exists()) {
-                return old;
-            }
+        Sound() {
         }
 
-        File def = null;
-        folder = App.get().getExternalFilesDir(null);
-        if (folder != null) {
-            def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
-            if (def.exists()) {
+        Sound(String name, String url, String size) {
+            this.name = name;
+            this.url = url;
+            this.size = size;
+            uri = getFile().toURI().toString();
+        }
+
+        @Nullable
+        public File getFile() {
+            File folder = App.get().getExternalFilesDir(null);
+            if (folder != null) {
+                File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
+                if (old.exists()) {
+                    return old;
+                }
+            }
+
+            File def = null;
+            folder = App.get().getExternalFilesDir(null);
+            if (folder != null) {
+                def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+                if (def.exists()) {
+                    return def;
+                }
+            }
+
+            File nosd = null;
+            folder = App.get().getFilesDir();
+            if (folder != null) {
+                nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
+                if (nosd.exists()) {
+                    return nosd;
+                }
+            }
+
+            if (def != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 return def;
-            }
-        }
-
-        File nosd = null;
-        folder = App.get().getFilesDir();
-        if (folder != null) {
-            nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
-            if (nosd.exists()) {
+            } else {
                 return nosd;
             }
         }
 
-        if (def != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return def;
-        } else {
-            return nosd;
+        public void checkMD5() {
+            File file = getFile();
+            if (file.exists()) {
+                SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
+                String md5 = preferences.getString(name, null);
+
+                if (md5 != null && !MD5.checkMD5(md5, file)) {
+                    file.delete();
+                }
+            }
         }
-    }
 
-    public void checkMD5() {
-        File file = getFile();
-        if (file.exists()) {
-            SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
-            String md5 = preferences.getString(name, null);
 
-            if (md5 != null && !MD5.checkMD5(md5, file)) {
-                file.delete();
+        public boolean equals(Object o) {
+            if (o instanceof Sound) {
+                return uri.equals(((Sound) o).uri);
+            } else {
+                return uri.equals(o.toString());
             }
         }
     }
-
-
-    public boolean equals(Object o) {
-        if (o instanceof Sound) {
-            return uri.equals(((Sound) o).uri);
-        } else {
-            return uri.equals(o.toString());
-        }
-    }
-}
 
 
 }

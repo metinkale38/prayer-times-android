@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -24,19 +25,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.LocalDateTime;
 
 public class WidgetProviderClock2 extends AppWidgetProvider {

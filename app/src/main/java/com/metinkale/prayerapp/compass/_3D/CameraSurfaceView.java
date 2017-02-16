@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass._3D;
@@ -26,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+
 import com.crashlytics.android.Crashlytics;
 
 @SuppressWarnings("deprecation")

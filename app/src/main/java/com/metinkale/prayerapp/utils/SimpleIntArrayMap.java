@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2016 Metin Kale
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.metinkale.prayerapp.utils;
 
 
@@ -22,7 +39,7 @@ import java.util.Arrays;
  * An ArrayList fills the Array without gaps and the index ("key") will be in insertion order
  * SimpleIntArrayMap uses the key as the Array index, so we have a real key to object mapping.
  * Other than that, it works exactly the same as an ArrayList
- *
+ * <p>
  * Why not use an Array?
  * It does not resize and you will get OutOfBoundsExceptions...
  *

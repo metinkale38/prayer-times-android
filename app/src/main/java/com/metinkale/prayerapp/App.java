@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
@@ -48,11 +49,11 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.squareup.leakcanary.LeakCanary;
 
-import io.fabric.sdk.android.Fabric;
-
 import org.joda.time.DateTimeZone;
 
 import java.lang.ref.WeakReference;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -66,7 +67,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, @NonNull Throwable ex) {
-            // Custom logic goes here
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {

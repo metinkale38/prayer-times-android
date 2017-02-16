@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -32,10 +33,10 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.vakit.times.Entry;
-import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
+import com.metinkale.prayerapp.vakit.times.Entry;
 import com.metinkale.prayerapp.vakit.times.Source;
+import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 

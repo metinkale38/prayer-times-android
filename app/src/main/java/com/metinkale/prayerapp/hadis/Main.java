@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
@@ -61,7 +62,6 @@ import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -223,7 +223,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
                 }
             } else {
                 if (mFavs.contains(i)) {
-                    mFavs.remove((Integer) i);
+                    mFavs.remove(Integer.valueOf(i));
                 } else {
                     mFavs.add(i);
                 }
@@ -309,7 +309,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
-            mFavs.remove((Integer) mRemFav);
+            mFavs.remove(mRemFav);
 
             mAdapter.notifyDataSetChanged();
             setCurrentPage(mPager.getCurrentItem());
@@ -336,7 +336,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             prefs.edit().clear().apply();
         }
 
-        mFavs.addAll((Collection<? extends Integer>) new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
+        mFavs.addAll(new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
         }.getType()));
     }
 

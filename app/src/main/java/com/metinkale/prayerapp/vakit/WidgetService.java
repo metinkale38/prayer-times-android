@@ -12,15 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
@@ -33,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -41,6 +51,7 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -79,7 +90,6 @@ public class WidgetService extends Service {
                 mOngoing.add(id);
             }
         }
-
 
 
         LocalDate cal = LocalDate.now();

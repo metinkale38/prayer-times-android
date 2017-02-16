@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -21,6 +22,7 @@ import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 

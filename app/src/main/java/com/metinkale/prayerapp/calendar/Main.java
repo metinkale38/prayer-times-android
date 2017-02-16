@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.calendar;
@@ -29,11 +30,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 
 

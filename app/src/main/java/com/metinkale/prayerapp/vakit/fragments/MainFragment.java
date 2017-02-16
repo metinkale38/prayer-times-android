@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -232,15 +233,15 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                 final LocalDate from = new LocalDate(y, m + 1, d);
                                 DatePickerDialog
                                         dlg1 = new DatePickerDialog(getActivity(), (datePicker1, y1, m1, d1) -> {
-                                            final LocalDate to = new LocalDate(y1, m1 + 1, d1);
-                                            try {
-                                                export(which, from, to);
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                                Crashlytics.logException(e);
-                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-                                            }
-                                        }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
+                                    final LocalDate to = new LocalDate(y1, m1 + 1, d1);
+                                    try {
+                                        export(which, from, to);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        Crashlytics.logException(e);
+                                        Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                                    }
+                                }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
                                 DateTime startDate = DateTime.now().withDate(y, m + 1, d);
                                 long start = startDate.getMillis();
                                 if (which == 1)

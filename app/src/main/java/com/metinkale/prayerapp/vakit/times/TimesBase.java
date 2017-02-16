@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -81,7 +82,7 @@ class TimesBase {
     private double timezone;
     private double lng;
     private double lat;
-    private int sortId=Integer.MAX_VALUE;
+    private int sortId = Integer.MAX_VALUE;
     private int cuma_silenter;
     private int cuma_time;
     private int sabah_time;

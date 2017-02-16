@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.names;
@@ -81,7 +82,7 @@ public class Main extends BaseActivity implements OnQueryTextListener {
                 .inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        
+
         searchView.setOnQueryTextListener(this);
         return true;
     }

@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.settings;
@@ -107,8 +108,9 @@ public class Prefs {
     public static boolean isDefaultWidgetMinuteType() {
         return "default".equals(getPrefs().getString("widget_countdown", "default"));
     }
+
     public static boolean stopByFacedown() {
-        return getPrefs().getBoolean("stopFacedown",false);
+        return getPrefs().getBoolean("stopFacedown", false);
     }
 
     public static int getHijriFix() {

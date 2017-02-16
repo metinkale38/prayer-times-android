@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -37,9 +38,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
+
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class NotificationPopup extends Activity {

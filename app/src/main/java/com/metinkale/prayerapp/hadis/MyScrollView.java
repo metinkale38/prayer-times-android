@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
@@ -23,8 +24,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.*;
+import android.view.FocusFinder;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
@@ -1392,7 +1402,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
     private int clamp(int n, int my, int child) {
         if ((my >= child) || (n < 0)) {
-			/*
+            /*
 			 * my >= child is this case: |--------------- me ---------------|
 			 * |------ child ------| or |--------------- me ---------------|
 			 * |------ child ------| or |--------------- me ---------------|

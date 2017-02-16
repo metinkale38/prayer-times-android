@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.zikr;
@@ -39,14 +40,22 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class Main extends BaseActivity implements OnClickListener, OnNavigationListener, OnLongClickListener {

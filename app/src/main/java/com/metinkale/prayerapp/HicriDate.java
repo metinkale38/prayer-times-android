@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
@@ -19,6 +20,7 @@ package com.metinkale.prayerapp;
 import android.support.annotation.NonNull;
 
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 

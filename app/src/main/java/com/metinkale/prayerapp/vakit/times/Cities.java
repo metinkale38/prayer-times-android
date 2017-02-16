@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -34,7 +35,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class Cities {

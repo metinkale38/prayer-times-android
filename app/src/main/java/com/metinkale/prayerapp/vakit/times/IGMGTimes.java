@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -51,7 +52,7 @@ class IGMGTimes extends WebTimes {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");
         int id = Integer.parseInt(a[1]);
-        if(id<=0&&a.length>2)
+        if (id <= 0 && a.length > 2)
             id = Integer.parseInt(a[2]);
 
         LocalDate ldate = LocalDate.now();

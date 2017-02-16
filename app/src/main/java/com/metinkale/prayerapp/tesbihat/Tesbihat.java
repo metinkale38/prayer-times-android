@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.tesbihat;
@@ -24,12 +25,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.utils.PagerSlidingTabStrip;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.PagerSlidingTabStrip;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 public class Tesbihat extends BaseActivity {

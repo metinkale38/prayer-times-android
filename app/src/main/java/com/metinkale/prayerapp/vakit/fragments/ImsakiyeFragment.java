@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -28,9 +29,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
+
 import org.joda.time.LocalDate;
 
 /**

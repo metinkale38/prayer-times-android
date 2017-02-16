@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -222,7 +223,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
     @Override
-    public void  onPageScrollStateChanged(int state) {
+    public void onPageScrollStateChanged(int state) {
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             int pos = mPager.getCurrentItem();
             if (pos != 0) {
