@@ -112,7 +112,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             finish();
             String lang = Prefs.getLanguage();
             if (lang.equals("ar")) lang = "en";
-            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
+            new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
     }

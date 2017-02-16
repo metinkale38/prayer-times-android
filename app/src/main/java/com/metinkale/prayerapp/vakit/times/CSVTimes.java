@@ -45,7 +45,7 @@ class CSVTimes extends WebTimes {
 
     protected Builders.Any.F[] createIonBuilder() {
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
+                Ion.with(App.get())
                         .load(getId())
                         .setTimeout(3000)};
     }
@@ -94,7 +94,7 @@ class CSVTimes extends WebTimes {
         }
 
         if (firstSync && i == 0) {
-            Toast.makeText(App.getContext(), "Invalid CSV", Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), "Invalid CSV", Toast.LENGTH_LONG).show();
             delete();
         }
         firstSync = false;

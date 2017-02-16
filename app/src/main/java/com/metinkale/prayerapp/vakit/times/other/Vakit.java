@@ -63,7 +63,7 @@ public enum Vakit {
             return arabic;
         }
         if (name == null) {
-            name = App.getContext().getString(resId);
+            name = App.get().getString(resId);
         }
 
         return name;

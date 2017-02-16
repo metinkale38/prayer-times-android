@@ -85,7 +85,7 @@ public class Cities {
     public static synchronized Cities get() {
         Cities cities = mInstance.get();
         if (cities == null) {
-            cities = new Cities(App.getContext());
+            cities = new Cities(App.get());
             mInstance = new WeakReference<Cities>(cities);
         }
         return cities;

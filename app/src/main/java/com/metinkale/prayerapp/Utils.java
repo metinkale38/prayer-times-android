@@ -26,9 +26,11 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 
 import java.util.Locale;
@@ -94,8 +96,9 @@ public class Utils {
 
         if (year != Prefs.getLastCalSync()) {
             MainIntentService.startCalendarIntegration(c);
+            Prefs.setLastCalSync(year);
         }
-        Prefs.setLastCalSync(year);
+
 
         if (newLang == null) {
             return;
@@ -118,7 +121,7 @@ public class Utils {
     }
 
     public static void changeLanguage(String language) {
-        Context c = App.getContext();
+        Context c = App.get();
 
         Prefs.setLanguage(language);
 
@@ -139,21 +142,21 @@ public class Utils {
 
     public static String getHolyday(int which) {
         if (sHolydays == null) {
-            sHolydays = App.getContext().getResources().getStringArray(R.array.holydays);
+            sHolydays = App.get().getResources().getStringArray(R.array.holydays);
         }
         return sHolydays[which];
     }
 
     public static String getGregMonth(int which) {
         if (sGMonths == null) {
-            sGMonths = App.getContext().getResources().getStringArray(R.array.months);
+            sGMonths = App.get().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }
 
     public static String getHijriMonth(int which) {
         if (sHMonths == null) {
-            sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
+            sHMonths = App.get().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
     }

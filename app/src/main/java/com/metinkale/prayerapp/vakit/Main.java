@@ -60,7 +60,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         if (t == null) {
             return null;
         }
-        Context context = App.getContext();
+        Context context = App.get();
         Intent intent = new Intent(context, Main.class);
         intent.putExtra("startCity", Times.getTimes().indexOf(t));
         return PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -219,7 +219,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
 
     @Override
-    public void onPageScrollStateChanged(int state) {
+    public void  onPageScrollStateChanged(int state) {
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             int pos = mPager.getCurrentItem();
             if (pos != 0) {

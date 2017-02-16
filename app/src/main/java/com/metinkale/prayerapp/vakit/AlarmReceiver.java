@@ -154,7 +154,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     public void fireAlarm(Intent intent) throws InterruptedException {
 
 
-        Context c = App.getContext();
+        Context c = App.get();
 
         if ((intent == null) || !intent.hasExtra("json")) {
 
@@ -212,11 +212,11 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         String txt = "";
         if (next.early) {
-            String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getEarlyTime(next.vakit));
+            String[] left_part = App.get().getResources().getStringArray(R.array.lefttext_part);
+            txt = App.get().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getEarlyTime(next.vakit));
         } else if (next.cuma) {
-            String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
-            txt = App.getContext().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getCumaTime());
+            String[] left_part = App.get().getResources().getStringArray(R.array.lefttext_part);
+            txt = App.get().getString(R.string.earlyText, left_part[next.vakit.index], "" + t.getCumaTime());
         } else if (next.vakit != null) {
             txt = next.vakit.getString();
         }

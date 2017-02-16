@@ -45,7 +45,7 @@ public class MalaysiaTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.getContext())
+            queue.add(Ion.with(App.get())
                     .load("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" + split[1] + "&state=" + split[1] + "&zone=" + split[2] + "&year="
                             + Y + "&jenis=year&bulan=" + M)
                     .setTimeout(3000)
@@ -71,21 +71,23 @@ public class MalaysiaTimes extends WebTimes {
              result.contains("tr ");
              result = result.substring(result.indexOf("<tr", 1))) {
             try {
-                result = result.substring(result.indexOf("<td") + 1);
-                int day = Integer.parseInt(extract(result));
-                result = result.substring(result.indexOf("<td") + 1);
-                result = result.substring(result.indexOf("<td") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
+                String d = extract(result);
+                if (d.startsWith("Tarikh")) continue;
+                int day = Integer.parseInt(d.substring(0, 2));
+                result = result.substring(result.indexOf("<font") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
                 String imsak = extract(result);
-                result = result.substring(result.indexOf("<td") + 1);
-                result = result.substring(result.indexOf("<td") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
                 String sun = extract(result);
-                result = result.substring(result.indexOf("<td") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
                 String ogle = extract(result);
-                result = result.substring(result.indexOf("<td") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
                 String ikindi = extract(result);
-                result = result.substring(result.indexOf("<td") + 1);
+                result = result.substring(result.indexOf("<font") + 1);
                 String aksam = extract(result);
-                result = result.substring(result.indexOf("<td" + 1));
+                result = result.substring(result.indexOf("<font") + 1);
                 String yatsi = extract(result);
 
                 String[] array = new String[]{imsak, sun, ogle, ikindi, aksam, yatsi};
@@ -97,6 +99,7 @@ public class MalaysiaTimes extends WebTimes {
                 setTimes(new LocalDate(year, month, day), array);
                 x++;
             } catch (Exception ignore) {
+                ignore.printStackTrace();
             }
         }
 
@@ -104,6 +107,7 @@ public class MalaysiaTimes extends WebTimes {
     }
 
     private String extract(String s) {
-        return s.substring(s.indexOf(">"), s.indexOf("<")).trim();
+        return s.substring(s.indexOf(">") + 1, s.indexOf("<"))
+                .replace("\n", "").replace(" ", "").replace("\t", "");
     }
 }

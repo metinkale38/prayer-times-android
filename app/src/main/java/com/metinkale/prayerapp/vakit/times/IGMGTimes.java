@@ -61,7 +61,7 @@ class IGMGTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.getContext())
+            queue.add(Ion.with(App.get())
                     .load("https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + id + "&show_month=" + (M - 1))
                     .setTimeout(3000)
             );

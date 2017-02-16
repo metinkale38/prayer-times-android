@@ -193,7 +193,7 @@ public static class Sound implements Serializable {
     }
 
     public File getFile() {
-        File folder = App.getContext().getExternalFilesDir(null);
+        File folder = App.get().getExternalFilesDir(null);
         if (folder != null) {
             File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
             if (old.exists()) {
@@ -202,7 +202,7 @@ public static class Sound implements Serializable {
         }
 
         File def = null;
-        folder = App.getContext().getExternalFilesDir(null);
+        folder = App.get().getExternalFilesDir(null);
         if (folder != null) {
             def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
             if (def.exists()) {
@@ -211,7 +211,7 @@ public static class Sound implements Serializable {
         }
 
         File nosd = null;
-        folder = App.getContext().getFilesDir();
+        folder = App.get().getFilesDir();
         if (folder != null) {
             nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
             if (nosd.exists()) {
@@ -229,7 +229,7 @@ public static class Sound implements Serializable {
     public void checkMD5() {
         File file = getFile();
         if (file.exists()) {
-            SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
+            SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
             String md5 = preferences.getString(name, null);
 
             if (md5 != null && !MD5.checkMD5(md5, file)) {

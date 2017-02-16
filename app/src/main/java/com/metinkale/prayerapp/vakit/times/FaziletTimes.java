@@ -65,7 +65,7 @@ class FaziletTimes extends WebTimes {
 
 
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
+                Ion.with(App.get())
                         .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
                         .setTimeout(3000)
                         .setBodyParameter("ulke_id", "" + country)

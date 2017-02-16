@@ -27,7 +27,7 @@ public class Prefs {
 
 
     private static SharedPreferences getPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(App.getContext());
+        return PreferenceManager.getDefaultSharedPreferences(App.get());
     }
 
 

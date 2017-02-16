@@ -51,7 +51,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import java.io.File;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private static final String[] mActs = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings", "about"};
+    private static final String[] ACTS = {"vakit", "compass", "names", "calendar", "tesbihat", "hadis", "kaza", "zikr", "settings", "about"};
     private static final int[] ICONS = {R.drawable.ic_menu_times, R.drawable.ic_menu_compass, R.drawable.ic_menu_names,
             R.drawable.ic_menu_calendar, R.drawable.ic_menu_tesbihat, R.drawable.ic_menu_hadith, R.drawable.ic_menu_missed,
             R.drawable.ic_menu_dhikr, R.drawable.ic_menu_settings, R.drawable.ic_menu_about};
@@ -61,8 +61,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public BaseActivity() {
         String clz = getClass().toString();
-        for (int i = 0; i < mActs.length; i++) {
-            if (clz.contains("prayerapp." + mActs[i])) {
+        for (int i = 0; i < ACTS.length; i++) {
+            if (clz.contains("prayerapp." + ACTS[i])) {
                 mNavPos = i;
             }
         }
@@ -71,9 +71,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (App.getContext() == null) {
-            App.setContext(this);
-        }
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
@@ -247,7 +244,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     if (lang.equals("ar")) lang = "en";
                     String file = lang + "/hadis.db";
-                    File f = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
+                    File f = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 
                     if (f.exists()) {
@@ -278,7 +275,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             if (lang1.equals("ar")) lang1 = "en";
 
                             String file1 = lang1 + "/hadis.db";
-                            File f1 = new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file1);
+                            File f1 = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file1);
 
                             String url = App.API_URL + "/hadis." + lang1 + ".db";
 

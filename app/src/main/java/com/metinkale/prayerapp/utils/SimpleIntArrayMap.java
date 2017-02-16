@@ -23,6 +23,9 @@ import java.util.Arrays;
  * SimpleIntArrayMap uses the key as the Array index, so we have a real key to object mapping.
  * Other than that, it works exactly the same as an ArrayList
  *
+ * Why not use an Array?
+ * It does not resize and you will get OutOfBoundsExceptions...
+ *
  * @param <T> Object Type
  */
 public class SimpleIntArrayMap<T> {

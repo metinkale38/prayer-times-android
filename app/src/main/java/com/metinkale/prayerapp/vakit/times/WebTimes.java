@@ -41,7 +41,7 @@ public class WebTimes extends Times {
         @Override
         public void run() {
             notifyOnUpdated();
-            App.getHandler().removeCallbacks(this);
+            App.get().getHandler().removeCallbacks(this);
         }
     };
     protected Map<String, String> times = new ArrayMap<>();
@@ -51,12 +51,12 @@ public class WebTimes extends Times {
 
     WebTimes(long id) {
         super(id);
-        scheduleJob();
+        App.get().getHandler().post(this::scheduleJob);
     }
 
     WebTimes() {
         super();
-        App.getHandler().post(this::scheduleJob);
+        App.get().getHandler().post(this::scheduleJob);
     }
 
 
@@ -137,7 +137,7 @@ public class WebTimes extends Times {
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
 
-        App.getHandler().post(mNotify);
+        App.get().getHandler().post(mNotify);
     }
 
     void setTimes(LocalDate date, String[] value) {
@@ -158,7 +158,7 @@ public class WebTimes extends Times {
 
     public void syncAsync() {
         if (!App.isOnline()) {
-            Toast.makeText(App.getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
         Builders.Any.F[] builders = createIonBuilder();

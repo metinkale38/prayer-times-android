@@ -213,7 +213,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         } else if (!"silent".equals(s.uri)) {
             if (Sounds.isDownloaded(s)) {
                 try {
-                    mMp = AlarmReceiver.play(App.getContext(), s.uri);
+                    mMp = AlarmReceiver.play(App.get(), s.uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -242,11 +242,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                                         Crashlytics.logException(e);
                                     }
                                     dlg.cancel();
-                                    Toast.makeText(App.getContext(), R.string.error, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
                                     return;
                                 }
 
-                                Ion.with(App.getContext()).load(s.url + ".md5")
+                                Ion.with(App.get()).load(s.url + ".md5")
                                         .setTimeout(3000)
                                         .asString()
                                         .setCallback((e1, md5) -> {
@@ -258,12 +258,12 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                                                 return;
                                             }
                                             if (!MD5.isValidMD5(md5)) return;
-                                            SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
+                                            SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
                                             preferences.edit().putString(s.name, md5).apply();
                                             s.checkMD5();
 
                                             try {
-                                                mMp = AlarmReceiver.play(App.getContext(), s.uri);
+                                                mMp = AlarmReceiver.play(App.get(), s.uri);
                                             } catch (IOException ee) {
                                                 ee.printStackTrace();
                                                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
@@ -296,7 +296,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             try {
-                uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
+                uri = Uri.parse(getRingtonePathFromContentUri(App.get(), uri));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -312,7 +312,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             mp.start();
             mp.reset();
         } catch (Exception e) {
-            Toast.makeText(App.getContext(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
             dismiss();
             new SoundChooser().showExpanded(getFragmentManager(), mCb);
             return;
@@ -372,7 +372,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     if (sound.contains("$")) {
                         sound = sound.substring(0, sound.indexOf("$"));
                     }
-                    AlarmReceiver.play(App.getContext(), sound).reset();
+                    AlarmReceiver.play(App.get(), sound).reset();
                 } catch (Exception e) {
                     mCb.setCurrent("silent");
                     s.uri = "silent";
@@ -385,7 +385,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             if (!sounds.contains(s)) {
                 Ringtone r = RingtoneManager.getRingtone(getContext(), Uri.parse(s.uri));
                 if (r != null) {
-                    s.name = r.getTitle(App.getContext());
+                    s.name = r.getTitle(App.get());
                 } else {
                     s.name = "Unknown";
                 }

@@ -152,7 +152,7 @@ public abstract class Times extends TimesBase {
 
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
-            SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
+            SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
 
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {
@@ -214,7 +214,7 @@ public abstract class Times extends TimesBase {
         List<Alarm> alarms = getAllAlarms();
 
         for (Alarm a : alarms) {
-            AlarmReceiver.setAlarm(App.getContext(), a);
+            AlarmReceiver.setAlarm(App.get(), a);
 
         }
 

@@ -34,7 +34,7 @@ public class Geocoder {
     }
 
     public static void reverse(double lat, double lng, final ReverseCallback callback) {
-        Ion.with(App.getContext())
+        Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
                         "&lon=" + lng + "&accept-language=" + Prefs.getLanguage())
                 .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
@@ -76,7 +76,7 @@ public class Geocoder {
     }
 
     public static void search(String query, final SearchCallback callback) {
-        Ion.with(App.getContext())
+        Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/search?format=jsonv2&email=metinkale38@gmail.com&q=" + query
                         + "&accept-language=" + Prefs.getLanguage())
                 .as(new TypeToken<List<OSMPlace>>() {

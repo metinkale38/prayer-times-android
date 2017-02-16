@@ -429,7 +429,7 @@
         <receiver
             android:name="com.metinkale.prayerapp.utils.TimeZoneChangedReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
     </application>
 
 </manifest>

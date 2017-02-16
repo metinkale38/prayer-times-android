@@ -57,7 +57,7 @@ class DiyanetTimes extends WebTimes {
         if (a.length == 4) {
             city = Integer.parseInt(a[3]);
         }
-        Builders.Any.F builder = Ion.with(App.getContext()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
+        Builders.Any.F builder = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +

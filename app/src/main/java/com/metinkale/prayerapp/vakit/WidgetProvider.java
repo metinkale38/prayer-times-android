@@ -214,7 +214,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     public static void updateWidgets(Context c) {
         try {
-            AppWidgetManager manager = AppWidgetManager.getInstance(App.getContext());
+            AppWidgetManager manager = AppWidgetManager.getInstance(App.get());
 
 
             ComponentName thisWidget = new ComponentName(c, WidgetProvider.class);

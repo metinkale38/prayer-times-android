@@ -55,8 +55,8 @@ import java.lang.ref.WeakReference;
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
-    private static WeakReference<Context> sContext;
-    private static Handler sHandler = new Handler();
+    private static WeakReference<App> sApp;
+    private Handler mHandler = new Handler();
 
     private static Thread.UncaughtExceptionHandler mDefaultUEH;
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
@@ -67,7 +67,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                     && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Prefs.setShowOngoingNumber(false);
-                    Toast.makeText(App.getContext(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
                     Crashlytics.setBool("WORKAROUND#1", true);
                 }
             }
@@ -77,20 +77,16 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     };
 
 
-    public static Context getContext() {
-        if (sContext == null) return null;
-        return sContext.get();
-    }
-
-    public static void setContext(Context context) {
-        sContext = new WeakReference<>(context);
+    public static App get() {
+        if (sApp == null) return null;
+        return sApp.get();
     }
 
     public static boolean isOnline() {
         //only checks for connection, not for actual internet connection
         //everything else need (or should be in) a seperate thread
         ConnectivityManager cm =
-                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) get().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
@@ -100,7 +96,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                 && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
             AlarmManager.AlarmClockInfo info =
                     new AlarmManager.AlarmClockInfo(time,
-                            PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
+                            PendingIntent.getActivity(App.get(), 0, new Intent(App.get(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
             am.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);
@@ -112,8 +108,13 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     }
 
-    public static Handler getHandler() {
-        return sHandler;
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+    public App() {
+        super();
+        sApp = new WeakReference<>(this);
     }
 
     @Override
@@ -123,7 +124,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             return;
         }
         LeakCanary.install(this);
-        sContext = new WeakReference<>(this);
 
         Fabric.with(this, new Crashlytics());
         Crashlytics.setUserIdentifier(Prefs.getUUID());
@@ -156,10 +156,12 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
+                    .penaltyDeath()
                     .build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
+                    .penaltyDeath()
                     .build());
         }
 
@@ -174,7 +176,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if ("calendarIntegration".equals(key)) {
-            MainIntentService.startCalendarIntegration(App.getContext());
+            MainIntentService.startCalendarIntegration(App.get());
         } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
             WidgetService.updateOngoing();
         } else if ("alternativeOngoing".equals(key)) {

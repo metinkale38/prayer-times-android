@@ -105,7 +105,7 @@ public class NotificationPrefs extends Fragment {
             a.cuma = true;
             a.vakit = vakit;
             AlarmReceiver.setAlarm(getActivity(), a);
-            Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
             return true;
         });
 
@@ -200,7 +200,7 @@ public class NotificationPrefs extends Fragment {
             a.city = mTimes.getID();
             a.vakit = vakit;
             AlarmReceiver.setAlarm(getActivity(), a);
-            Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
             return true;
         });
         title.setOnClickListener(view -> {
@@ -314,7 +314,7 @@ public class NotificationPrefs extends Fragment {
             a.early = true;
             a.vakit = vakit;
             AlarmReceiver.setAlarm(getActivity(), a);
-            Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
             return true;
         });
         title.setOnClickListener(view -> {

@@ -50,7 +50,7 @@ public enum Source {
         String lang = Prefs.getLanguage();
         if (lang != null)
             Locale.setDefault(new Locale(lang));
-        this.text = App.getContext().getString(resTxt);
+        this.text = App.get().getString(resTxt);
         this.resId = resIcon;
         this.clz = clz;
     }

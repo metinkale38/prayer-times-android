@@ -67,7 +67,7 @@ class MoroccoTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.getContext())
+            queue.add(Ion.with(App.get())
                     .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId().substring(2) + "&mois=" + M)
                     .setTimeout(3000)
             );

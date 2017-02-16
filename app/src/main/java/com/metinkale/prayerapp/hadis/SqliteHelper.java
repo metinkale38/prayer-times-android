@@ -54,7 +54,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     public static SqliteHelper get() {
         if (mInstance == null) {
-            new SqliteHelper(App.getContext());
+            new SqliteHelper(App.get());
 
         }
         return mInstance;

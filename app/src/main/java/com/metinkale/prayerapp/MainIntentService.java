@@ -27,8 +27,10 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
@@ -56,29 +58,22 @@ public class MainIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            try {
-                long mills = System.currentTimeMillis();
-                String action = intent.getAction();
-                switch (action) {
+        long mills = System.currentTimeMillis();
+        String action = intent.getAction();
+        switch (action) {
 
-                    case ACTION_CALENDAR_INTEGRATION:
-                        handleCalendarIntegration();
-                        break;
-                }
-
-                mills -= System.currentTimeMillis();
-                if (mills > 1000) {
-                    Crashlytics.logException(
-                            new Exception(action.substring(action.lastIndexOf(".") + 1) + " took " + mills + " ms"));
-                }
-            } catch (Exception e) {
-                if (e.getMessage() != null && !e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                    Crashlytics.logException(e);
-                }
-            }
-
+            case ACTION_CALENDAR_INTEGRATION:
+                handleCalendarIntegration();
+                break;
         }
+
+        mills -= System.currentTimeMillis();
+        if (mills > 1000) {
+            Crashlytics.logException(
+                    new Exception(action.substring(action.lastIndexOf(".") + 1) + " took " + mills + " ms"));
+        }
+
+
     }
 
 
@@ -87,7 +82,7 @@ public class MainIntentService extends IntentService {
             Prefs.setCalendar("-1");
             return;
         }
-        Context context = App.getContext();
+        Context context = App.get();
         try {
             ContentResolver cr = context.getContentResolver();
 

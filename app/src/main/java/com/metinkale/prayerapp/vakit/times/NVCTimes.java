@@ -83,7 +83,7 @@ class NVCTimes extends WebTimes {
         String id = getId();
         if (id.startsWith("N_")) id = id.substring(2);
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
+                Ion.with(App.get())
                         .load("http://namazvakti.com/XML.php?cityID=" + id)
                         .setTimeout(3000)};
     }

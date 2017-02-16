@@ -161,12 +161,12 @@ class TimesBase {
     }
 
     TimesBase() {
-        prefs = App.getContext().getSharedPreferences("cities", 0);
+        prefs = App.get().getSharedPreferences("cities", 0);
         source = getSource().name();
     }
 
     public static Times from(long id) {
-        String json = App.getContext().getSharedPreferences("cities", 0).getString("id" + id, null);
+        String json = App.get().getSharedPreferences("cities", 0).getString("id" + id, null);
         try {
             Times t = GSON.fromJson(json, Times.class);
             t.ID = id;
@@ -200,8 +200,8 @@ class TimesBase {
     }
 
     private void apply() {
-        App.getHandler().removeCallbacks(mApplyPrefs);
-        App.getHandler().post(mApplyPrefs);
+        App.get().getHandler().removeCallbacks(mApplyPrefs);
+        App.get().getHandler().post(mApplyPrefs);
     }
 
     protected void save() {
