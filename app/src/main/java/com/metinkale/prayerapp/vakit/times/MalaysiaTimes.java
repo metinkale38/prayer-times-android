@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -23,12 +25,14 @@ public class MalaysiaTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Malaysia;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
@@ -56,7 +60,7 @@ public class MalaysiaTimes extends WebTimes {
         return queue.toArray(new Builders.Any.F[queue.size()]);
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         String date = result.substring(result.indexOf("muatturun"));
         date = date.substring(date.indexOf("year=") + 5);
         int year = Integer.parseInt(date.substring(0, 4));
@@ -106,7 +110,7 @@ public class MalaysiaTimes extends WebTimes {
         return x > 25;
     }
 
-    private String extract(String s) {
+    private String extract(@NonNull String s) {
         return s.substring(s.indexOf(">") + 1, s.indexOf("<"))
                 .replace("\n", "").replace(" ", "").replace("\t", "");
     }

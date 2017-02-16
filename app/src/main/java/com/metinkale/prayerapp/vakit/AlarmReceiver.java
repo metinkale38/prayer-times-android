@@ -34,6 +34,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
@@ -62,7 +64,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         super("AlarmReceiver");
     }
 
-    public static void silenter(Context c, long dur) {
+    public static void silenter(@NonNull Context c, long dur) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         boolean silent = "silent".equals(prefs.getString("silenterType", "silent"));
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
@@ -88,7 +90,8 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         }
     }
 
-    public static MediaPlayer play(Context c, String sound) throws IOException {
+    @NonNull
+    public static MediaPlayer play(@NonNull Context c, String sound) throws IOException {
         Uri uri = Uri.parse(sound);
 
         MediaPlayer mp = new MediaPlayer();
@@ -101,7 +104,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         return mp;
     }
 
-    public static void setAlarm(Context c, Alarm alarm) {
+    public static void setAlarm(@NonNull Context c, @Nullable Alarm alarm) {
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
         Intent i = new Intent(c, WakefulReceiver.class);
@@ -151,7 +154,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
     }
 
-    public void fireAlarm(Intent intent) throws InterruptedException {
+    public void fireAlarm(@Nullable Intent intent) throws InterruptedException {
 
 
         Context c = App.get();
@@ -232,6 +235,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
 
         class MPHolder {
+            @Nullable
             MediaPlayer mp;
         }
         not.deleteIntent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -362,7 +366,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     private int mIsFaceDown = 1;
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(@NonNull SensorEvent event) {
         /*float[] roationV = new float[16];
         SensorManager.getRotationMatrixFromVector(roationV, event.values);
 
@@ -399,7 +403,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     public static class setNormal extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(@NonNull Context context, Intent intent) {
             if (PermissionUtils.get(context).pNotPolicy) {
                 AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -410,7 +414,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     public static class setVibrate extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context c, Intent i) {
+        public void onReceive(@NonNull Context c, Intent i) {
             if (PermissionUtils.get(c).pNotPolicy) {
                 AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
                 am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
@@ -421,7 +425,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
     public static class WakefulReceiver extends WakefulBroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(@NonNull Context context, @NonNull Intent intent) {
             String json = intent.getStringExtra("json");
             if (json != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);

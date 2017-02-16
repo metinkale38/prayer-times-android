@@ -18,6 +18,8 @@ package com.metinkale.prayerapp.vakit.sounds;
 
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.SimpleArrayMap;
 
 import com.metinkale.prayerapp.App;
@@ -30,13 +32,15 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Sounds {
+    @NonNull
     private static SimpleArrayMap<String, List<Sound>> sSounds = new SimpleArrayMap<>();
 
-    public static boolean isDownloaded(Sound sound) {
+    public static boolean isDownloaded(@NonNull Sound sound) {
         return (sound.url == null) || sound.getFile().exists();
 
     }
 
+    @NonNull
     public static SimpleArrayMap<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
@@ -127,6 +131,7 @@ public class Sounds {
         return sSounds;
     }
 
+    @NonNull
     public static List<Sound> getSounds(Vakit vakit) {
         if (vakit == Vakit.IMSAK) {
             vakit = Vakit.SABAH;
@@ -140,7 +145,8 @@ public class Sounds {
         return getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra");
     }
 
-    public static List<Sound> getSounds(String... categories) {
+    @NonNull
+    public static List<Sound> getSounds(@NonNull String... categories) {
         List<Sound> sounds = new ArrayList<>();
         for (String cat : categories) {
             if (getSounds().containsKey(cat)) {
@@ -152,6 +158,7 @@ public class Sounds {
         return sounds;
     }
 
+    @NonNull
     public static List<Sound> getAllSounds() {
         List<Sound> sounds = new ArrayList<>();
         SimpleArrayMap<String, List<Sound>> map = getSounds();
@@ -162,7 +169,8 @@ public class Sounds {
     }
 
 
-    private static String forAlarm(Times.Alarm alarm) {
+    @Nullable
+    private static String forAlarm(@NonNull Times.Alarm alarm) {
         Times t = Times.getTimes(alarm.time);
         String sound;
         if (alarm.cuma) {
@@ -192,6 +200,7 @@ public static class Sound implements Serializable {
         uri = getFile().toURI().toString();
     }
 
+    @Nullable
     public File getFile() {
         File folder = App.get().getExternalFilesDir(null);
         if (folder != null) {

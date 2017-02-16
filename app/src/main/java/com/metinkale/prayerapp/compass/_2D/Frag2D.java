@@ -21,6 +21,7 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
@@ -47,7 +48,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     private float[] mGeo = new float[3];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
 

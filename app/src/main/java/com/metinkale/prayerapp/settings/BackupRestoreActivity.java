@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -157,13 +158,13 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         ZipOutputStream out;
         byte[] data;
 
-        public Zip(String name) throws FileNotFoundException {
+        public Zip(@NonNull String name) throws FileNotFoundException {
             FileOutputStream dest = new FileOutputStream(name);
             out = new ZipOutputStream(new BufferedOutputStream(dest));
             data = new byte[BUFFER];
         }
 
-        public static boolean unzip(String zip, String to) {
+        public static boolean unzip(@NonNull String zip, String to) {
             InputStream is;
             ZipInputStream zis;
             try {
@@ -201,7 +202,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             return true;
         }
 
-        public void addFile(String folder, String name) throws IOException {
+        public void addFile(@Nullable String folder, @NonNull String name) throws IOException {
             FileInputStream fi = new FileInputStream(name);
             BufferedInputStream origin = new BufferedInputStream(fi, BUFFER);
             ZipEntry entry = new ZipEntry((folder == null ? "" : folder + "/") + name.substring(name.lastIndexOf("/") + 1));
@@ -220,7 +221,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
     class MyAdapter extends ArrayAdapter<String> {
 
-        public MyAdapter(Context context) {
+        public MyAdapter(@NonNull Context context) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
         }
 

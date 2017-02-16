@@ -59,7 +59,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     }
 
     @Override
-    public void afterTextChanged(Editable txt) {
+    public void afterTextChanged(@NonNull Editable txt) {
         Geocoder.search(txt.toString(), results -> {
             if (results == null) return;
             mAdapter.clear();

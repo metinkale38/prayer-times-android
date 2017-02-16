@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import com.metinkale.prayer.R;
@@ -35,7 +36,7 @@ public class CompassView extends View {
     private float mAngle = -80;
     private float mqAngle;
 
-    public CompassView(Context context, AttributeSet attrs, int defStyle) {
+    public CompassView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mKaabe = context.getResources().getDrawable(R.drawable.kaabe, null);
@@ -45,12 +46,12 @@ public class CompassView extends View {
 
     }
 
-    public CompassView(Context context, AttributeSet attrs) {
+    public CompassView(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
 
     }
 
-    public CompassView(Context context) {
+    public CompassView(@NonNull Context context) {
         this(context, null);
 
     }
@@ -76,7 +77,7 @@ public class CompassView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         int width = getWidth();
         int center = width / 2;
 

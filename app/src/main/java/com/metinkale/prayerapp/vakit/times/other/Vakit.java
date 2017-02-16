@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times.other;
 
+import android.support.annotation.NonNull;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -35,6 +37,7 @@ public enum Vakit {
         this.arabic = arabic;
     }
 
+    @NonNull
     public static Vakit getByIndex(int index) {
         switch (index) {
             case 0:

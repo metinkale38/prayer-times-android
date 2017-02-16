@@ -24,6 +24,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.text.InputType;
@@ -53,7 +55,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     private ZikrView mZikr;
     private EditText mTitle;
     private Vibrator mVibrator;
+    @Nullable
     private Zikr mCurrent;
+    @NonNull
     private List<Zikr> mZikrList = new ArrayList<>();
     private ImageView mReset;
     private int mVibrate;
@@ -160,7 +164,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         }
     }
 
-    private void load(Zikr z) {
+    private void load(@Nullable Zikr z) {
         if (!mZikrList.contains(z) && (z != null)) {
             mZikrList.add(z);
         }
@@ -194,7 +198,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
-    public void changeColor(View v) {
+    public void changeColor(@NonNull View v) {
         int c = Color.parseColor((String) v.getTag());
         mZikr.setColor(c);
     }
@@ -238,7 +242,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         MaterialMenuInflater.with(this)
                 .setDefaultColor(0xFFFFFFFF)
                 .inflate(R.menu.zikr, menu);
@@ -246,7 +250,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
                 Zikr z = new Zikr();
@@ -317,6 +321,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         int count;
         int color;
         int count2;
+        @Nullable
         String key;
     }
 

@@ -19,6 +19,8 @@ package com.metinkale.prayerapp.vakit.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,13 +90,15 @@ public class ImsakiyeFragment extends Fragment {
             return position + ((times == null) ? 0 : times.getID());
         }
 
+        @NonNull
         @Override
         public Object getItem(int position) {
             return date.plusDays(position);
         }
 
+        @Nullable
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, @Nullable View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.vakit_imsakiye, parent, false);
             }

@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -37,12 +39,14 @@ class IGMGTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.IGMG;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");

@@ -29,6 +29,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -56,12 +58,14 @@ import java.lang.ref.WeakReference;
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
     private static WeakReference<App> sApp;
+    @NonNull
     private Handler mHandler = new Handler();
 
     private static Thread.UncaughtExceptionHandler mDefaultUEH;
+    @NonNull
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
-        public void uncaughtException(Thread thread, Throwable ex) {
+        public void uncaughtException(Thread thread, @NonNull Throwable ex) {
             // Custom logic goes here
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ex.getClass().getName().contains("RemoteServiceException")) {
@@ -91,7 +95,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         return activeNetwork != null && activeNetwork.isConnected();
     }
 
-    public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
+    public static void setExact(@NonNull AlarmManager am, int type, long time, PendingIntent service) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
                 && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
             AlarmManager.AlarmClockInfo info =
@@ -108,6 +112,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     }
 
+    @NonNull
     public Handler getHandler() {
         return mHandler;
     }
@@ -192,8 +197,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     }
 
     private static class MyJobCreator implements JobCreator {
+        @Nullable
         @Override
-        public Job create(String tag) {
+        public Job create(@NonNull String tag) {
             try {
                 if (tag.startsWith(WebTimes.SyncJob.TAG)) {
                     Times t = Times.getTimes(Long.parseLong(tag.substring(WebTimes.SyncJob.TAG.length())));

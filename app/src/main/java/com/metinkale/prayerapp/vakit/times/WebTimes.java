@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.vakit.times;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 public class WebTimes extends Times {
 
+    @NonNull
     private Runnable mNotify = new Runnable() {
         @Override
         public void run() {
@@ -44,6 +46,7 @@ public class WebTimes extends Times {
             App.get().getHandler().removeCallbacks(this);
         }
     };
+    @NonNull
     protected Map<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
@@ -60,7 +63,7 @@ public class WebTimes extends Times {
     }
 
 
-    public static void add(Source source, String city, String id, double lat, double lng) {
+    public static void add(@Nullable Source source, String city, String id, double lat, double lng) {
         if (source == null || source == Source.Calc) return;
         long _id = System.currentTimeMillis();
         WebTimes t = null;
@@ -124,7 +127,7 @@ public class WebTimes extends Times {
 
 
     @Override
-    protected synchronized String _getTime(LocalDate date, int time) {
+    protected synchronized String _getTime(@NonNull LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
         if (str == null || str.isEmpty() || str.contains("00:00")) {
             return "00:00";
@@ -132,7 +135,7 @@ public class WebTimes extends Times {
         return str.replace("*", "");
     }
 
-    private synchronized void setTime(LocalDate date, int time, String value) {
+    private synchronized void setTime(@NonNull LocalDate date, int time, @NonNull String value) {
         if (deleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
@@ -140,7 +143,7 @@ public class WebTimes extends Times {
         App.get().getHandler().post(mNotify);
     }
 
-    void setTimes(LocalDate date, String[] value) {
+    void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
         if (deleted()) return;
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
@@ -216,6 +219,7 @@ public class WebTimes extends Times {
 
     }
 
+    @NonNull
     public LocalDate getFirstSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;
@@ -238,6 +242,7 @@ public class WebTimes extends Times {
         }
     }
 
+    @NonNull
     public LocalDate getLastSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;

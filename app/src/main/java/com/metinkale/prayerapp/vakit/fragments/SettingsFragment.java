@@ -19,6 +19,8 @@ package com.metinkale.prayerapp.vakit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -36,16 +38,20 @@ public class SettingsFragment extends Fragment {
     private View mView;
 
     private EditText mName;
+    @NonNull
     private EditText[] mMins = new EditText[6];
+    @NonNull
     private ImageView[] mMinus = new ImageView[6];
+    @NonNull
     private ImageView[] mPlus = new ImageView[6];
+    @Nullable
     private Times mTimes;
     private int[] mMinAdj;
     private EditText mTimeZone;
 
     @SuppressLint("WrongViewCast")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_settings, container, false);
         mName = (EditText) v.findViewById(R.id.name);
         ViewGroup tz = (ViewGroup) v.findViewById(R.id.tz);
@@ -80,7 +86,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(@NonNull Editable editable) {
                 if (mTimes == null) {
                     return;
                 }
@@ -128,7 +134,7 @@ public class SettingsFragment extends Fragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable editable) {
+                public void afterTextChanged(@NonNull Editable editable) {
                     if (mTimes == null) {
                         return;
                     }
@@ -154,7 +160,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(@NonNull Editable editable) {
                 if (mTimes != null) {
                     mTimes.setName(editable.toString());
                 }
@@ -166,7 +172,7 @@ public class SettingsFragment extends Fragment {
     }
 
 
-    public void setTimes(Times t) {
+    public void setTimes(@Nullable Times t) {
         if ((mName != null) && (t != null)) {
             mTimes = null;
             mMinAdj = t.getMinuteAdj();

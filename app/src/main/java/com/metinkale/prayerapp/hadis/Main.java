@@ -26,6 +26,8 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -79,11 +81,13 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     private SharedPreferences mPrefs;
     private MenuItem mSwitch;
     private MenuItem mFav;
+    @NonNull
     private Set<Integer> mFavs = new HashSet<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
     private ShareActionProvider mShareActionProvider;
     private SearchTask mTask;
+    @Nullable
     private String mQuery;
 
 
@@ -171,6 +175,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         storeFavs();
     }
 
+    @NonNull
     private String last() {
         if ((mState == STATE_FAVORITE) || (mState == STATE_SHUFFLED) || (mState == STATE_ORDER)) {
             return "last_nr" + (mState == STATE_FAVORITE) + (mState == STATE_SHUFFLED);
@@ -194,7 +199,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == mFav.getItemId()) {
             int i = (int) mAdapter.getItemId(mPager.getCurrentItem());
             if (mState == STATE_FAVORITE) {
@@ -249,7 +254,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         super.onCreateOptionsMenu(menu);
         MaterialMenuInflater.with(this)
                 .setDefaultColor(0xFFFFFFFF)
@@ -366,6 +371,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             return mList.get(pos);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int pos) {
             return Frag.create((int) getItemId(pos));
@@ -445,6 +451,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             dialog.setMessage(arg[0]);
         }
 
+        @NonNull
         @Override
         protected Boolean doInBackground(String... args) {
             if ("".equals(args[0])) {

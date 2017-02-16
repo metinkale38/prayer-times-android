@@ -22,6 +22,8 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -37,8 +39,11 @@ import java.util.Locale;
 
 public class Utils {
     private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
+    @Nullable
     private static String[] sGMonths;
+    @Nullable
     private static String[] sHMonths;
+    @Nullable
     private static String[] sHolydays;
 
     public static CharSequence fixTimeForHTML(String time) {
@@ -58,7 +63,8 @@ public class Utils {
     }
 
 
-    public static String fixTime(String time) {
+    @Nullable
+    public static String fixTime(@NonNull String time) {
         if (Prefs.use12H() && time.contains(":")) {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
@@ -85,7 +91,7 @@ public class Utils {
     }
 
 
-    static void init(Context c) {
+    static void init(@NonNull Context c) {
         String newLang = Prefs.getLanguage();
 
 
@@ -140,6 +146,7 @@ public class Utils {
 
     }
 
+    @Nullable
     public static String getHolyday(int which) {
         if (sHolydays == null) {
             sHolydays = App.get().getResources().getStringArray(R.array.holydays);
@@ -147,6 +154,7 @@ public class Utils {
         return sHolydays[which];
     }
 
+    @Nullable
     public static String getGregMonth(int which) {
         if (sGMonths == null) {
             sGMonths = App.get().getResources().getStringArray(R.array.months);
@@ -154,6 +162,7 @@ public class Utils {
         return sGMonths[which];
     }
 
+    @Nullable
     public static String getHijriMonth(int which) {
         if (sHMonths == null) {
             sHMonths = App.get().getResources().getStringArray(R.array.months_hicri);
@@ -161,7 +170,7 @@ public class Utils {
         return sHMonths[which];
     }
 
-    public static boolean askLang(final Activity act) {
+    public static boolean askLang(@NonNull final Activity act) {
         if (Prefs.getLanguage() != null) {
             return false;
         }
@@ -178,6 +187,7 @@ public class Utils {
         return true;
     }
 
+    @NonNull
     public static String az(int i) {
         if (i < 10) {
             return "0" + i;
@@ -185,11 +195,13 @@ public class Utils {
         return i + "";
     }
 
+    @Nullable
     private static String getDateFormat(boolean hicri) {
         return hicri ? Prefs.getHDF() : Prefs.getDF();
     }
 
-    public static String format(HicriDate date) {
+    @Nullable
+    public static String format(@NonNull HicriDate date) {
         String format = getDateFormat(true);
         format = format.replace("DD", az(date.Day, 2));
 
@@ -208,7 +220,8 @@ public class Utils {
     }
 
 
-    public static String format(LocalDate date) {
+    @Nullable
+    public static String format(@NonNull LocalDate date) {
         String format = getDateFormat(false);
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
@@ -227,6 +240,7 @@ public class Utils {
         return toArabicNrs(format);
     }
 
+    @NonNull
     private static String az(int Int, int num) {
         String ret = Int + "";
         if (ret.length() < num) {
@@ -240,12 +254,14 @@ public class Utils {
         return ret;
     }
 
+    @Nullable
     public static String getAssetForHolyday(int pos) {
         return Prefs.getLanguage() + ASSETS[pos - 1];
     }
 
 
-    public static String toArabicNrs(String str) {
+    @Nullable
+    public static String toArabicNrs(@Nullable String str) {
         if (str == null) return null;
         if (Prefs.getDigits().equals("normal")) return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
@@ -265,6 +281,7 @@ public class Utils {
         return builder.toString();
     }
 
+    @Nullable
     public static String toArabicNrs(int nr) {
         return toArabicNrs(nr + "");
     }

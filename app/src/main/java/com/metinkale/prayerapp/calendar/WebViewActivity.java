@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.calendar;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -38,7 +39,7 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
 

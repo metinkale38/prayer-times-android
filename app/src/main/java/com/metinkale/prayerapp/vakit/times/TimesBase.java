@@ -17,6 +17,8 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,6 +38,7 @@ import static com.metinkale.prayerapp.vakit.times.Times.getTimes;
  * Created by metin on 03.04.2016.
  */
 class TimesBase {
+    @NonNull
     private static final Gson GSON;
 
     static {
@@ -82,6 +85,7 @@ class TimesBase {
     private int cuma_silenter;
     private int cuma_time;
     private int sabah_time;
+    @NonNull
     private int[] minuteAdj = new int[6];
     private String IMSAK_dua;
     private String SABAH_dua;
@@ -236,7 +240,7 @@ class TimesBase {
         return Source.valueOf(source);
     }
 
-    public synchronized void setSource(Source source) {
+    public synchronized void setSource(@NonNull Source source) {
         this.source = source.name();
         save();
     }
@@ -260,11 +264,12 @@ class TimesBase {
     }
 
 
+    @NonNull
     public synchronized int[] getMinuteAdj() {
         return minuteAdj;
     }
 
-    public synchronized void setMinuteAdj(int[] adj) {
+    public synchronized void setMinuteAdj(@NonNull int[] adj) {
         if (adj.length != 6) {
             throw new RuntimeException("setMinuteAdj(double[] adj) can only be called with adj of size 6");
         }
@@ -326,7 +331,8 @@ class TimesBase {
         save();
     }
 
-    public synchronized String getDua(Vakit v) {
+    @Nullable
+    public synchronized String getDua(@NonNull Vakit v) {
         String dua = null;
         switch (v) {
             case IMSAK:
@@ -359,7 +365,7 @@ class TimesBase {
         return dua;
     }
 
-    public synchronized int getEarlySilenterDuration(Vakit v) {
+    public synchronized int getEarlySilenterDuration(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return pre_IMSAK_silenter;
@@ -380,7 +386,8 @@ class TimesBase {
     }
 
 
-    public synchronized String getEarlySound(Vakit v) {
+    @Nullable
+    public synchronized String getEarlySound(@NonNull Vakit v) {
         String sound = null;
         switch (v) {
             case IMSAK:
@@ -411,7 +418,7 @@ class TimesBase {
         return sound;
     }
 
-    public synchronized int getEarlyTime(Vakit v) {
+    public synchronized int getEarlyTime(@NonNull Vakit v) {
         int time = 0;
         switch (v) {
             case IMSAK:
@@ -454,7 +461,7 @@ class TimesBase {
         sabah_time = time;
     }
 
-    public synchronized int getSilenterDuration(Vakit v) {
+    public synchronized int getSilenterDuration(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return IMSAK_silenter;
@@ -474,7 +481,8 @@ class TimesBase {
         return 0;
     }
 
-    public synchronized String getSound(Vakit v) {
+    @Nullable
+    public synchronized String getSound(@NonNull Vakit v) {
         String sound = null;
         switch (v) {
             case IMSAK:
@@ -509,7 +517,7 @@ class TimesBase {
         return cuma_vibration;
     }
 
-    public synchronized boolean hasEarlyVibration(Vakit v) {
+    public synchronized boolean hasEarlyVibration(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return pre_IMSAK_vibration;
@@ -529,7 +537,7 @@ class TimesBase {
         return false;
     }
 
-    public synchronized boolean hasVibration(Vakit v) {
+    public synchronized boolean hasVibration(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return IMSAK_vibration;
@@ -567,7 +575,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized boolean isEarlyNotificationActive(Vakit v) {
+    public synchronized boolean isEarlyNotificationActive(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return pre_IMSAK;
@@ -588,7 +596,7 @@ class TimesBase {
 
     }
 
-    public synchronized boolean isNotificationActive(Vakit v) {
+    public synchronized boolean isNotificationActive(@NonNull Vakit v) {
         switch (v) {
             case IMSAK:
                 return IMSAK;
@@ -623,7 +631,7 @@ class TimesBase {
         cuma_vibration = value;
     }
 
-    public synchronized void setDua(Vakit v, String value) {
+    public synchronized void setDua(@NonNull Vakit v, String value) {
         switch (v) {
             case IMSAK:
                 IMSAK_dua = value;
@@ -650,7 +658,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setEarlyNotificationActive(Vakit v, boolean value) {
+    public synchronized void setEarlyNotificationActive(@NonNull Vakit v, boolean value) {
         switch (v) {
             case IMSAK:
                 pre_IMSAK = value;
@@ -677,7 +685,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setEarlySilenterDuration(Vakit v, int value) {
+    public synchronized void setEarlySilenterDuration(@NonNull Vakit v, int value) {
         switch (v) {
             case IMSAK:
                 pre_IMSAK_silenter = value;
@@ -704,7 +712,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setEarlySound(Vakit v, String value) {
+    public synchronized void setEarlySound(@NonNull Vakit v, String value) {
         switch (v) {
             case IMSAK:
                 pre_IMSAK_sound = value;
@@ -731,7 +739,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setEarlyTime(Vakit v, int value) {
+    public synchronized void setEarlyTime(@NonNull Vakit v, int value) {
         switch (v) {
             case IMSAK:
                 pre_IMSAK_time = value;
@@ -758,7 +766,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setEarlyVibration(Vakit v, boolean value) {
+    public synchronized void setEarlyVibration(@NonNull Vakit v, boolean value) {
         switch (v) {
             case IMSAK:
                 pre_IMSAK_vibration = value;
@@ -786,7 +794,7 @@ class TimesBase {
 
     }
 
-    public synchronized void setNotificationActive(Vakit v, boolean value) {
+    public synchronized void setNotificationActive(@NonNull Vakit v, boolean value) {
         switch (v) {
             case IMSAK:
                 IMSAK = value;
@@ -813,7 +821,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setSilenterDuration(Vakit v, int value) {
+    public synchronized void setSilenterDuration(@NonNull Vakit v, int value) {
 
         switch (v) {
             case IMSAK:
@@ -842,7 +850,7 @@ class TimesBase {
 
     }
 
-    public synchronized void setSound(Vakit v, String value) {
+    public synchronized void setSound(@NonNull Vakit v, String value) {
         switch (v) {
             case IMSAK:
                 IMSAK_sound = value;
@@ -869,7 +877,7 @@ class TimesBase {
         save();
     }
 
-    public synchronized void setVibration(Vakit v, boolean value) {
+    public synchronized void setVibration(@NonNull Vakit v, boolean value) {
         switch (v) {
             case IMSAK:
                 IMSAK_vibration = value;

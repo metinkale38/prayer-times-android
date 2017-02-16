@@ -18,6 +18,8 @@ package com.metinkale.prayerapp.tesbihat;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -33,6 +35,7 @@ import com.metinkale.prayerapp.vakit.times.Times;
 public class Tesbihat extends BaseActivity {
 
     private static int mTextSize;
+    @Nullable
     private static String mLang;
     private FragmentStatePagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -97,7 +100,7 @@ public class Tesbihat extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.zoomIn: {
@@ -130,6 +133,7 @@ public class Tesbihat extends BaseActivity {
 
         private int pos;
 
+        @NonNull
         public static TesbihatFragment create(int pos) {
             TesbihatFragment frag = new TesbihatFragment();
             frag.pos = pos;
@@ -137,7 +141,7 @@ public class Tesbihat extends BaseActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.webview, container, false);
             WebView wv = (WebView) rootView.findViewById(R.id.webview);
             wv.getSettings().setTextZoom((int) (102.38 * Math.pow(1.41, mTextSize)));
@@ -149,6 +153,7 @@ public class Tesbihat extends BaseActivity {
             return rootView;
         }
 
+        @Nullable
         public String getAssetDir(int position) {
             switch (position) {
                 case 0:
@@ -173,6 +178,7 @@ public class Tesbihat extends BaseActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return TesbihatFragment.create(position);
@@ -183,6 +189,7 @@ public class Tesbihat extends BaseActivity {
             return 5;
         }
 
+        @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -207,6 +214,7 @@ public class Tesbihat extends BaseActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return TesbihatFragment.create(position);
@@ -218,6 +226,7 @@ public class Tesbihat extends BaseActivity {
             return 1;
         }
 
+        @NonNull
         @Override
         public CharSequence getPageTitle(int position) {
             return "";

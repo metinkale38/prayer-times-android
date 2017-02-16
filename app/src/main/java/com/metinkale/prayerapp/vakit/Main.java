@@ -20,6 +20,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -56,7 +58,8 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private MultipleOrientationSlidingDrawer mTopSlider;
     private MultipleOrientationSlidingDrawer mBottomSlider;
 
-    public static PendingIntent getPendingIntent(Times t) {
+    @Nullable
+    public static PendingIntent getPendingIntent(@Nullable Times t) {
         if (t == null) {
             return null;
         }
@@ -247,7 +250,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     }
 
-    public void setFooterText(CharSequence txt, boolean enablePane) {
+    public void setFooterText(@NonNull CharSequence txt, boolean enablePane) {
         mFooterText.setVisibility(txt.toString().isEmpty() ? View.GONE : View.VISIBLE);
         mFooterText.setText(txt);
         mPager.setSwipeLocked(!enablePane);
@@ -301,6 +304,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
 
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             if (position > 0) {

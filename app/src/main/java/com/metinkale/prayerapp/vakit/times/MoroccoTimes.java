@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -37,6 +39,7 @@ class MoroccoTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Morocco;
@@ -55,6 +58,7 @@ class MoroccoTimes extends WebTimes {
         return name;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
@@ -87,7 +91,7 @@ class MoroccoTimes extends WebTimes {
         return id;
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         String temp = result.substring(result.indexOf("colspan=\"4\" class=\"cournt\""));
         temp = temp.substring(temp.indexOf(">") + 1);
         temp = temp.substring(0, temp.indexOf("<")).replace(" ", "");
@@ -114,7 +118,7 @@ class MoroccoTimes extends WebTimes {
         return x > 25;
     }
 
-    private String extract(String s) {
+    private String extract(@NonNull String s) {
         return s.substring(0, s.indexOf("<"));
     }
 }

@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -74,11 +76,13 @@ class NVCTimes extends WebTimes {
         return null;
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.NVC;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String id = getId();
         if (id.startsWith("N_")) id = id.substring(2);
@@ -88,7 +92,7 @@ class NVCTimes extends WebTimes {
                         .setTimeout(3000)};
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         int i = 0;
         String[] lines = result.split("\n");
 

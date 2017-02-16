@@ -24,6 +24,7 @@ import android.graphics.*;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.TypedValue;
@@ -50,6 +51,7 @@ public class WidgetService extends Service {
 
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
+    @NonNull
     private static List<Long> mOngoing = new ArrayList<>();
     private static Bitmap mAbIcon;
     private static Integer COLOR_1ST;
@@ -243,7 +245,7 @@ public class WidgetService extends Service {
     }
 
 
-    private static boolean recurseGroup(ViewGroup gp) {
+    private static boolean recurseGroup(@NonNull ViewGroup gp) {
         int count = gp.getChildCount();
         for (int i = 0; i < count; ++i) {
             View v = gp.getChildAt(i);
@@ -297,7 +299,7 @@ public class WidgetService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
         WidgetProvider.updateWidgets(this);
         updateOngoing();
 

@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.ArraySet;
 
@@ -16,6 +18,7 @@ import java.util.TimeZone;
  * Created by metin on 13.02.2017.
  */
 public class AndroidTimeZoneProvider implements Provider {
+    @NonNull
     private SimpleArrayMap<String, WeakReference<DateTimeZone>> cache = new SimpleArrayMap<>();
 
     public AndroidTimeZoneProvider() {
@@ -23,7 +26,7 @@ public class AndroidTimeZoneProvider implements Provider {
     }
 
     @Override
-    public DateTimeZone getZone(String id) {
+    public DateTimeZone getZone(@NonNull String id) {
         if (id.equals("UTC")) return DateTimeZone.UTC;
         WeakReference<DateTimeZone> wr = cache.get(id);
         if (wr != null) {
@@ -36,6 +39,7 @@ public class AndroidTimeZoneProvider implements Provider {
         return dtz;
     }
 
+    @NonNull
     @Override
     public Set<String> getAvailableIDs() {
         ArraySet<String> set = new ArraySet<>();
@@ -47,9 +51,10 @@ public class AndroidTimeZoneProvider implements Provider {
 
     private class MyDateTimeZone extends DateTimeZone {
         private TimeZone tz;
+        @NonNull
         private long[] transitions = new long[0];
 
-        MyDateTimeZone(String id, TimeZone tz) {
+        MyDateTimeZone(@NonNull String id, @NonNull TimeZone tz) {
             super(id);
             this.tz = tz;
 
@@ -65,6 +70,7 @@ public class AndroidTimeZoneProvider implements Provider {
             }
         }
 
+        @Nullable
         @Override
         public String getNameKey(long l) {
             return null;

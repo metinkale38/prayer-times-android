@@ -16,19 +16,24 @@
 
 package com.metinkale.prayerapp.vakit.times.gson;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
 public class BooleanSerializer implements JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
 
+    @Nullable
     @Override
     public JsonElement serialize(Boolean arg0, Type arg1, JsonSerializationContext arg2) {
         return arg0 ? new JsonPrimitive(1) : null;
     }
 
+    @NonNull
     @Override
-    public Boolean deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+    public Boolean deserialize(@NonNull JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
         return arg0.getAsInt() == 1;
     }
 }

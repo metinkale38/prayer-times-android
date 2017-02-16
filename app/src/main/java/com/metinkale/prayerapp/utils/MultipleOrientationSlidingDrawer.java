@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
@@ -49,7 +51,9 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     private final int mHandleId;
     private final int mContentId;
 
+    @Nullable
     private View mHandle;
+    @Nullable
     private View mContent;
 
     private final Rect mFrame = new Rect();
@@ -57,6 +61,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     private boolean mTracking;
     private boolean mLocked;
 
+    @Nullable
     private VelocityTracker mVelocityTracker;
 
     private Orientation mOrientation;
@@ -102,7 +107,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @param content     Cannot be <code>null</code>
      * @param orientation TOP, LEFT, BOTTOM or RIGHT.
      */
-    public MultipleOrientationSlidingDrawer(Context context, View handle, View content, Orientation orientation) {
+    public MultipleOrientationSlidingDrawer(Context context, @Nullable View handle, @Nullable View content, Orientation orientation) {
         super(context);
 
         // handle
@@ -138,7 +143,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @param context The application's environment.
      * @param attrs   The attributes defined in XML.
      */
-    public MultipleOrientationSlidingDrawer(Context context, AttributeSet attrs) {
+    public MultipleOrientationSlidingDrawer(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -149,7 +154,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @param attrs    The attributes defined in XML.
      * @param defStyle The style to apply to this widget.
      */
-    public MultipleOrientationSlidingDrawer(Context context, AttributeSet attrs, int defStyle) {
+    public MultipleOrientationSlidingDrawer(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultipleOrientationSlidingDrawer, defStyle, 0);
 
@@ -308,7 +313,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(@NonNull Canvas canvas) {
         long drawingTime = getDrawingTime();
         View handle = mHandle;
         Orientation orientation = mOrientation;
@@ -461,7 +466,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
         if (mLocked) {
             return false;
         }
@@ -524,7 +529,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (mLocked) {
             return false;
         }
@@ -1160,6 +1165,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @return The View reprenseting the handle of the drawer, identified by
      * the "handle" id in XML.
      */
+    @Nullable
     public View getHandle() {
         return mHandle;
     }
@@ -1181,6 +1187,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
      * @return The View reprenseting the content of the drawer, identified by
      * the "content" id in XML.
      */
+    @Nullable
     public View getContent() {
         return mContent;
     }
@@ -1276,7 +1283,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     }
 
     private class SlidingHandler extends Handler {
-        public void handleMessage(Message m) {
+        public void handleMessage(@NonNull Message m) {
             switch (m.what) {
                 case MSG_ANIMATE:
                     doAnimation();
@@ -1335,6 +1342,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             this.value = value;
         }
 
+        @NonNull
         public static Side getByValue(int value) {
             for (Side s : Side.values()) {
                 if (s.value == value) {
@@ -1353,6 +1361,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
             this.value = value;
         }
 
+        @NonNull
         public static Orientation getByValue(int value) {
             for (Orientation s : Orientation.values()) {
                 if (s.value == value) {

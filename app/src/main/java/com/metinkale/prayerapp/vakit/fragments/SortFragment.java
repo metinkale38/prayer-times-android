@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,7 +48,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     private ItemTouchHelper mItemTouchHelper;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_sort_main, container, false);
         RecyclerView recyclerMan = (RecyclerView) v.findViewById(R.id.list);
         mAdapter = new MyAdapter();
@@ -131,7 +133,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         public TextView source;
         public View handler;
 
-        public ViewHolder(View v) {
+        public ViewHolder(@NonNull View v) {
             super(v);
             city = (TextView) v.findViewById(R.id.city);
             source = (TextView) v.findViewById(R.id.source);
@@ -141,6 +143,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
 
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+        @NonNull
         private List<Long> ids = new ArrayList<>();
 
         private int hide = -1;
@@ -149,6 +152,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
             dataChanged();
         }
 
+        @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
@@ -156,7 +160,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder vh, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder vh, int position) {
 
             Times c = getItem(position);
             if (c == null) {
@@ -185,6 +189,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
 
+        @Nullable
         public Times getItem(int pos) {
             return Times.getTimes(ids.get(pos));
         }
@@ -214,7 +219,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder
+        public boolean onMove(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder
                 target) {
             onItemMove(viewHolder.getAdapterPosition(),
                     target.getAdapterPosition());
@@ -222,7 +227,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
         @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             onItemDismiss(viewHolder.getAdapterPosition());
         }
 
@@ -253,7 +258,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
 
         @Override
         public void clearView(RecyclerView recyclerView,
-                              RecyclerView.ViewHolder viewHolder) {
+                              @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
 
             if (viewHolder instanceof ViewHolder) {

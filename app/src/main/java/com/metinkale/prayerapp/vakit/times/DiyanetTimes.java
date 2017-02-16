@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
@@ -33,12 +35,14 @@ class DiyanetTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Diyanet;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String path = getId();
 

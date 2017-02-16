@@ -19,6 +19,8 @@ package com.metinkale.prayerapp.vakit.times;
 import android.content.Context;
 import android.database.SQLException;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -37,10 +39,13 @@ import java.util.concurrent.*;
 
 public class Cities {
 
+    @Nullable
     private static WeakReference<Cities> mInstance = new WeakReference<Cities>(null);
     private final Context mContext;
     private final SimpleIntArrayMap<Entry> mEntries = new SimpleIntArrayMap<>(112665);
+    @NonNull
     private Handler mHandler = new Handler();
+    @NonNull
     private Executor mThread = Executors.newSingleThreadExecutor();
 
     private Cities(Context context) {
@@ -82,6 +87,7 @@ public class Cities {
         }
     }
 
+    @Nullable
     public static synchronized Cities get() {
         Cities cities = mInstance.get();
         if (cities == null) {
@@ -92,7 +98,7 @@ public class Cities {
     }
 
 
-    public void list(final int id, final Callback<List<Entry>> callback) {
+    public void list(final int id, @NonNull final Callback<List<Entry>> callback) {
         mThread.execute(() -> {
             final List<Entry> result = list(id);
             mHandler.post(() -> callback.onResult(result));
@@ -100,7 +106,7 @@ public class Cities {
     }
 
 
-    public void search(final String q, final Callback<List<Entry>> callback) {
+    public void search(final String q, @NonNull final Callback<List<Entry>> callback) {
         Geocoder.search(q, results -> {
             final Geocoder.Result result = results == null || results.isEmpty() ? new Geocoder.Result() : results.get(0);
             mThread.execute(() -> {
@@ -118,7 +124,7 @@ public class Cities {
 
     }
 
-    public void search(final double lat, final double lng, final Callback<List<Entry>> callback) {
+    public void search(final double lat, final double lng, @NonNull final Callback<List<Entry>> callback) {
         final Cities cities = Cities.get();
         Geocoder.reverse(lat, lng, e -> mThread.execute(() -> {
             final List<Entry> search = cities.search(lat, lng);
@@ -131,6 +137,7 @@ public class Cities {
     }
 
 
+    @NonNull
     private List<Entry> list(int id) {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < mEntries.size(); i++) {
@@ -141,6 +148,7 @@ public class Cities {
         return entries;
     }
 
+    @NonNull
     private List<Entry> search(double lat, double lng) throws SQLException {
 
         List<Entry> items = new ArrayList<>();
@@ -167,7 +175,8 @@ public class Cities {
     }
 
 
-    private List<Entry> search(String q, Geocoder.Result r) throws SQLException {
+    @NonNull
+    private List<Entry> search(String q, @NonNull Geocoder.Result r) throws SQLException {
         List<Entry> items = new ArrayList<>();
         EnumMap<Source, Entry> name = new EnumMap<Source, Entry>(Source.class);
         EnumMap<Source, Entry> pos = new EnumMap<Source, Entry>(Source.class);
@@ -231,7 +240,7 @@ public class Cities {
         public abstract void onResult(T result);
     }
 
-    private String normalize(String s) {
+    private String normalize(@NonNull String s) {
         StringBuilder builder = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (c >= 0x41 && c <= 0x5A) {//A-Z
@@ -300,17 +309,19 @@ public class Cities {
     }
 
     private static class MyFastTokenizer {
+        @NonNull
         private final String delim;
         private final int dsize;
         private String str;
         private int start = 0;
 
-        public MyFastTokenizer(String str, String delim) {
+        public MyFastTokenizer(String str, @NonNull String delim) {
             this.str = str;
             this.delim = delim;
             this.dsize = delim.length();
         }
 
+        @NonNull
         public String nextString() {
             int size = str.indexOf(delim, start);
             if (size < 0) {

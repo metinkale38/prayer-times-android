@@ -3,6 +3,7 @@ package com.metinkale.prayerapp.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.joda.time.DateTimeZone;
@@ -16,7 +17,7 @@ import java.util.TimeZone;
 public class TimeZoneChangedReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, @NonNull Intent intent) {
         String tzId = intent.getStringExtra("time-zone");
 
         try {

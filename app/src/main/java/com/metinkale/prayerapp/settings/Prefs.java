@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
 import com.metinkale.prayerapp.App;
 
@@ -35,6 +36,7 @@ public class Prefs {
         return getPrefs().getBoolean("useAlarm", false);
     }
 
+    @Nullable
     public static String getLanguage() {
         return getPrefs().getString("language", null);
     }
@@ -44,19 +46,23 @@ public class Prefs {
     }
 
 
+    @Nullable
     public static String getDigits() {
         return getPrefs().getString("numbers", "normal");
     }
 
+    @Nullable
     public static String getDF() {
         return getPrefs().getString("dateformat", "DD MMM YYYY");
     }
 
+    @Nullable
     public static String getHDF() {
         return getPrefs().getString("hdateformat", "DD MMM YYYY");
     }
 
 
+    @Nullable
     public static String getUUID() {
         String uuid = getPrefs().getString("uuid", null);
         if (uuid == null) {
@@ -85,6 +91,7 @@ public class Prefs {
         getPrefs().edit().putInt("lastCalSync", date).apply();
     }
 
+    @Nullable
     public static String getCalendar() {
         return getPrefs().getString("calendarIntegration", "-1");
     }
@@ -144,6 +151,7 @@ public class Prefs {
         return getPrefs().getInt("kerahat_sunset", 45);
     }
 
+    @Nullable
     public static String getVakitIndicator() {
         return getPrefs().getString("vakit_indicator", "current");
     }

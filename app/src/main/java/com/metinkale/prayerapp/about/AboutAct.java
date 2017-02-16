@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.webkit.WebView;
@@ -143,11 +144,11 @@ public class AboutAct extends BaseActivity {
                 .start(this);
     }
 
-    public void mail(View view) {
+    public void mail(@NonNull View view) {
         sendMail(view.getContext());
     }
 
-    public static void sendMail(Context ctx) {
+    public static void sendMail(@NonNull Context ctx) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.appName) + " (com.metinkaler.prayer)");
         String versionCode = "Undefined";

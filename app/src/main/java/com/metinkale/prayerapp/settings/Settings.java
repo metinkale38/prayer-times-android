@@ -24,6 +24,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
@@ -68,7 +69,7 @@ public class Settings extends BaseActivity {
         }
 
         @Override
-        public boolean onPreferenceClick(Preference preference) {
+        public boolean onPreferenceClick(@NonNull Preference preference) {
             if ("backupRestore".equals(preference.getKey())) {
                 startActivity(new Intent(getActivity(), BackupRestoreActivity.class));
             }
@@ -77,7 +78,7 @@ public class Settings extends BaseActivity {
         }
 
         @Override
-        public boolean onPreferenceChange(Preference pref, Object newValue) {
+        public boolean onPreferenceChange(@NonNull Preference pref, Object newValue) {
 
             if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
                 if ("language".equals(pref.getKey())) Utils.changeLanguage((String) newValue);

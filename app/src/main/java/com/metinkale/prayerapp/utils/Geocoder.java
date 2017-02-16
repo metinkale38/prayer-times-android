@@ -16,6 +16,9 @@
 
 package com.metinkale.prayerapp.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -33,13 +36,13 @@ public class Geocoder {
         void onResult(Entry e);
     }
 
-    public static void reverse(double lat, double lng, final ReverseCallback callback) {
+    public static void reverse(double lat, double lng, @NonNull final ReverseCallback callback) {
         Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
                         "&lon=" + lng + "&accept-language=" + Prefs.getLanguage())
                 .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
             @Override
-            public void onCompleted(Exception e, Response<OSMReverse> response) {
+            public void onCompleted(@Nullable Exception e, @NonNull Response<OSMReverse> response) {
                 OSMReverse result = response.getResult();
                 if (e != null) e.printStackTrace();
                 if (result == null) {
@@ -75,14 +78,14 @@ public class Geocoder {
         void onResult(List<Result> results);
     }
 
-    public static void search(String query, final SearchCallback callback) {
+    public static void search(String query, @NonNull final SearchCallback callback) {
         Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/search?format=jsonv2&email=metinkale38@gmail.com&q=" + query
                         + "&accept-language=" + Prefs.getLanguage())
                 .as(new TypeToken<List<OSMPlace>>() {
                 }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
             @Override
-            public void onCompleted(Exception e, Response<List<OSMPlace>> response) {
+            public void onCompleted(@Nullable Exception e, @NonNull Response<List<OSMPlace>> response) {
                 List<OSMPlace> result = response.getResult();
                 List<Result> allresults = new ArrayList<>();
                 if (e != null) e.printStackTrace();

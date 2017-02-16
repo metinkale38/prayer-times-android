@@ -19,6 +19,8 @@ package com.metinkale.prayerapp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+
 import com.metinkale.prayerapp.vakit.WidgetService;
 
 /**
@@ -26,7 +28,7 @@ import com.metinkale.prayerapp.vakit.WidgetService;
  */
 public class UserPresentReceiver extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(@NonNull Context context, Intent intent) {
         context.startService(new Intent(context, WidgetService.class));
     }
 }

@@ -29,6 +29,8 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +43,7 @@ import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class NotificationPopup extends Activity {
+    @Nullable
     public static NotificationPopup instance;
 
 
@@ -81,7 +84,7 @@ public class NotificationPopup extends Activity {
         BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(@NonNull Context context, Intent intent) {
                 context.sendBroadcast(new Intent(context, AlarmReceiver.Audio.class));
                 finish();
             }
@@ -108,7 +111,7 @@ public class NotificationPopup extends Activity {
         private MotionEvent touch;
         private boolean acceptTouch;
 
-        public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
+        public MyView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             icon = context.getResources().getDrawable(R.drawable.ic_abicon);
             silent = MaterialDrawableBuilder.with(context)
@@ -125,11 +128,11 @@ public class NotificationPopup extends Activity {
             setOnTouchListener(this);
         }
 
-        public MyView(Context context, AttributeSet attrs) {
+        public MyView(@NonNull Context context, AttributeSet attrs) {
             this(context, attrs, 0);
         }
 
-        public MyView(Context context) {
+        public MyView(@NonNull Context context) {
             this(context, null);
         }
 
@@ -142,7 +145,7 @@ public class NotificationPopup extends Activity {
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        protected void onDraw(@NonNull Canvas canvas) {
             int w = getWidth();
             int r = w / 10;
 
@@ -209,7 +212,7 @@ public class NotificationPopup extends Activity {
         }
 
         @Override
-        public boolean onTouch(View arg0, MotionEvent me) {
+        public boolean onTouch(View arg0, @NonNull MotionEvent me) {
             touch = me;
             if (me.getAction() == MotionEvent.ACTION_UP) {
                 acceptTouch = false;

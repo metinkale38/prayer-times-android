@@ -27,6 +27,8 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -66,8 +68,10 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
     private static final int[] ids = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
     private static final int[] idsNames = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+    @NonNull
     private static Handler mHandler = new Handler();
     private View mView;
+    @Nullable
     private Times mTimes;
     private long mCity;
     private TextView mCountdown;
@@ -75,6 +79,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     private TextView mTitle;
     private TextView mHicri;
     private TextView mDate;
+    @NonNull
     private Runnable onSecond = new Runnable() {
 
         @Override
@@ -115,7 +120,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
         setHasOptionsMenu(true);
         if (mCity == 0) {
@@ -182,7 +187,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         try {
             MaterialMenuInflater.with(getActivity(), inflater)
                     .setDefaultColor(Color.WHITE)
@@ -194,7 +199,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
 
@@ -279,7 +284,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         return super.onOptionsItemSelected(item);
     }
 
-    private void export(int csvpdf, LocalDate from, LocalDate to) throws IOException {
+    private void export(int csvpdf, @NonNull LocalDate from, @NonNull LocalDate to) throws IOException {
         File outputDir = getActivity().getCacheDir();
         if (!outputDir.exists()) outputDir.mkdirs();
         File outputFile = new File(outputDir, mTimes.getName().replace(" ", "_") + (csvpdf == 0 ? ".csv" : ".pdf"));
@@ -400,6 +405,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.export)));
     }
 
+    @Nullable
     public Times getTimes() {
         return mTimes;
     }

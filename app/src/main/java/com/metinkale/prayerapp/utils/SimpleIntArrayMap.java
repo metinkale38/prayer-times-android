@@ -108,7 +108,7 @@ public class SimpleIntArrayMap<T> {
      * @param object Object
      * @return index or -1 if it does not exist
      */
-    public int indexOf(T object) {
+    public int indexOf(@Nullable T object) {
         if (object == null) return -1;
         for (int i = 0; i < mArray.length; i++) {
             Object o = mArray[i];
@@ -138,7 +138,7 @@ public class SimpleIntArrayMap<T> {
      * @param key    index
      * @param object object
      */
-    public void put(int key, T object) {
+    public void put(int key, @Nullable T object) {
         ensureCapacity(key + 1);
         if (mArray[key] == null && object != null) mSize++;
         mArray[key] = object;

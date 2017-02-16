@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,13 +58,15 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     private CheckBox mVolumeCB;
     private SeekBar mVolume;
     private MyAdapter mAdapter;
+    @Nullable
     private MediaPlayer mMp;
     private Callback mCb;
     private int mStartVolume;
     private AudioManager mAm;
+    @Nullable
     private Runnable onResume;
 
-    public static String getRingtonePathFromContentUri(Context context, Uri contentUri) {
+    public static String getRingtonePathFromContentUri(@NonNull Context context, @NonNull Uri contentUri) {
         String[] proj = {MediaStore.Audio.Media.DATA};
         Cursor ringtoneCursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         ringtoneCursor.moveToFirst();
@@ -292,7 +295,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             try {
@@ -304,7 +307,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         }
     }
 
-    private void onSelect(Uri uri) {
+    private void onSelect(@NonNull Uri uri) {
         try {
             MediaPlayer mp = new MediaPlayer();
             mp.setDataSource(getActivity(), uri);
@@ -357,7 +360,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
     public class MyAdapter extends ArrayAdapter<Sound> {
 
-        public MyAdapter(Context context, List<Sound> sounds) {
+        public MyAdapter(@NonNull Context context, @NonNull List<Sound> sounds) {
             super(context, 0, 0, sounds);
             Sound silent = new Sound();
             silent.name = context.getString(R.string.silent);
@@ -400,7 +403,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         @NonNull
         @Override
-        public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
+        public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), android.R.layout.simple_list_item_single_choice, null);
             }

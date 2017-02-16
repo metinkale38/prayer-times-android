@@ -188,7 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @SuppressLint("RtlHardcoded")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(isRTL() ? Gravity.RIGHT : Gravity.LEFT);

@@ -16,6 +16,8 @@ package com.metinkale.prayerapp.vakit.times.other;
  * limitations under the License.
  */
 
+import android.support.annotation.NonNull;
+
 public enum Method {
 
     MWL("Muslim World League", "Europe, Far East, parts of US",
@@ -45,6 +47,7 @@ public enum Method {
      * iv : isha parameter value (in angle or minutes)
      */
     public double[] params;
+    @NonNull
     double[] offsets = {0, 0, 0, 0, 0, 0, 0, 0};
 
     Method(String title, String desc, double[] params) {

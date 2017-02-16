@@ -36,6 +36,7 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
     private EditText mEdit;
     private OnNumberChangeListener mList;
 
+    @NonNull
     public static NumberDialog create(int min, int max, int current) {
         Bundle bdl = new Bundle();
         bdl.putInt("min", min);
@@ -110,7 +111,7 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(@NonNull CharSequence s, int start, int before, int count) {
         try {
             if (s.length() != 0) {
                 int i = Integer.parseInt(mEdit.getText().toString());

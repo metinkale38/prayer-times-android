@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.annotation.NonNull;
 
 /**
  * Magnetometer / Accelerometer sensor fusion Smoothed by means of simple high
@@ -15,9 +16,12 @@ import android.hardware.SensorManager;
  */
 public class MagAccelListener implements SensorEventListener {
     // smoothed accelerometer values
+    @NonNull
     public float[] mAccelVals = {0f, 0f, 9.8f};
     // smoothed magnetometer values
+    @NonNull
     public float[] mMagVals = {0.5f, 0f, 0f};
+    @NonNull
     private float[] mRotationM = new float[16];
     private boolean mIsReady;
     private RotationUpdateDelegate mRotationUpdateDelegate;
@@ -27,7 +31,7 @@ public class MagAccelListener implements SensorEventListener {
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(@NonNull SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 smooth(event.values, mAccelVals, mAccelVals);

@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by metin on 10.02.2017.
  */
@@ -9,6 +11,7 @@ public class Entry {
     private int id;
     private String name;
     private String normalized;
+    @Nullable
     private String key;
     private double lat;
     private double lng;
@@ -42,11 +45,12 @@ public class Entry {
         this.id = id;
     }
 
+    @Nullable
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(@Nullable String key) {
         if (key == null || key.isEmpty())
             this.key = null;
         else
@@ -77,6 +81,7 @@ public class Entry {
         this.country = country;
     }
 
+    @Nullable
     public Source getSource() {
         if (key == null || key.isEmpty()) return null;
         switch (key.charAt(0)) {

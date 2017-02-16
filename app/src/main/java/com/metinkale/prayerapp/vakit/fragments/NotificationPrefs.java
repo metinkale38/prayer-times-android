@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.vakit.fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
@@ -35,12 +36,14 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 public class NotificationPrefs extends Fragment {
+    @Nullable
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
     private View mView;
     private boolean mTestAlarm;
 
-    public static NotificationPrefs create(Times t) {
+    @NonNull
+    public static NotificationPrefs create(@NonNull Times t) {
         Bundle bdl = new Bundle();
         bdl.putLong("city", t.getID());
         NotificationPrefs frag = new NotificationPrefs();
@@ -49,7 +52,7 @@ public class NotificationPrefs extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.vakit_notprefs, container, false);
 
 
@@ -175,7 +178,7 @@ public class NotificationPrefs extends Fragment {
         });
     }
 
-    private void initMain(int switchId, int textId, int expandId, final Vakit vakit) {
+    private void initMain(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
@@ -215,6 +218,7 @@ public class NotificationPrefs extends Fragment {
         PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getSound(vakit);
@@ -254,6 +258,7 @@ public class NotificationPrefs extends Fragment {
 
         PrefsView dua = (PrefsView) expand.findViewById(R.id.dua);
         dua.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getDua(vakit);
@@ -269,6 +274,7 @@ public class NotificationPrefs extends Fragment {
         if (vakit == Vakit.SABAH) {
             time.setTag("SabahTime");
             time.setPrefFunctions(new PrefsView.PrefsFunctions() {
+                @NonNull
                 @Override
                 public Object getValue() {
                     return mTimes.getSabahTime() * (mTimes.isAfterImsak() ? -1 : 1);
@@ -286,7 +292,7 @@ public class NotificationPrefs extends Fragment {
         }
     }
 
-    private void initEarly(int switchId, int textId, int expandId, final Vakit vakit) {
+    private void initEarly(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
@@ -328,6 +334,7 @@ public class NotificationPrefs extends Fragment {
         PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getEarlySound(vakit);

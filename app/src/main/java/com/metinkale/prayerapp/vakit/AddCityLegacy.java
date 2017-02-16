@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,9 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     private ListView mListView;
     private MyAdapter mAdapter;
+    @NonNull
     private Stack<Integer> mBackStack = new Stack<>();
+    @Nullable
     private Cities mCities = Cities.get();
 
     @Override
@@ -76,7 +79,7 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
         mBackStack.add(id);
         mCities.list(id, new Cities.Callback<List<Entry>>() {
             @Override
-            public void onResult(List<Entry> result) {
+            public void onResult(@NonNull List<Entry> result) {
                 if (!result.isEmpty()) {
                     Collections.sort(result, (e1, e2) -> e1.getName().compareTo(e2.getName()));
                     mAdapter.clear();
@@ -115,13 +118,13 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
     static class MyAdapter extends ArrayAdapter<Entry> {
 
-        MyAdapter(Context context) {
+        MyAdapter(@NonNull Context context) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
         }
 
         @NonNull
         @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             }

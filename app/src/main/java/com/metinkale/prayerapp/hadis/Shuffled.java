@@ -16,12 +16,17 @@
 
 package com.metinkale.prayerapp.hadis;
 
+import android.support.annotation.NonNull;
+
 import java.util.*;
 
 class Shuffled {
+    @NonNull
     private static Random random = new Random(5);
+    @NonNull
     private static List<Integer> list = new ArrayList<>();
 
+    @NonNull
     public static Collection<Integer> getList() {
         if (list.isEmpty()) {
             int c = SqliteHelper.get().getCount();

@@ -23,6 +23,8 @@ import android.graphics.*;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -46,29 +48,31 @@ public class PrefsView extends View implements OnClickListener {
     private static final ColorFilter sCFActive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
     private static final ColorFilter sCFInactive = new PorterDuffColorFilter(0xffa0a0a0, Mode.SRC_ATOP);
 
+    @NonNull
     private final Paint mPaint;
+    @Nullable
     private Pref mPref;
     private Drawable mDrawable;
     private PrefsFunctions mFunc;
     private Vakit mVakit;
 
-    public PrefsView(Context c) {
+    public PrefsView(@NonNull Context c) {
         this(c, null, 0);
     }
 
-    public PrefsView(Context c, Pref pref) {
+    public PrefsView(@NonNull Context c, Pref pref) {
         this(c, null, 0, pref);
     }
 
-    public PrefsView(Context c, AttributeSet attrs) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs) {
         this(c, attrs, 0);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs, int defStyle) {
         this(c, attrs, defStyle, null);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle, Pref pref) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs, int defStyle, @Nullable Pref pref) {
         super(c, attrs, defStyle);
         if (pref != null) {
             mPref = pref;
@@ -108,7 +112,7 @@ public class PrefsView extends View implements OnClickListener {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
         canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2, canvas.getHeight() / 2);
         Object o = getValue();
@@ -169,6 +173,7 @@ public class PrefsView extends View implements OnClickListener {
         setMeasuredDimension(size, size);
     }
 
+    @Nullable
     public Object getValue() {
         if (mFunc == null) {
             switch (mPref) {
@@ -206,6 +211,7 @@ public class PrefsView extends View implements OnClickListener {
         if ((mPref == Pref.Sound) || (mPref == Pref.Dua) || (mPref == Pref.Sela)) {
             new SoundChooser().showExpanded(((Activity) getContext()).getFragmentManager(), new Callback() {
 
+                @Nullable
                 @Override
                 public String getCurrent() {
                     return (String) getValue();
@@ -222,6 +228,7 @@ public class PrefsView extends View implements OnClickListener {
                     return mVakit;
                 }
 
+                @NonNull
                 @Override
                 public List<Sound> getSounds() {
                     if (mPref == Pref.Sound) {
@@ -295,6 +302,7 @@ public class PrefsView extends View implements OnClickListener {
     }
 
     public interface PrefsFunctions {
+        @Nullable
         Object getValue();
 
         void setValue(Object obj);

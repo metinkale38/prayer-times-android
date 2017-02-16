@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
@@ -37,11 +39,13 @@ class SemerkandTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Semerkand;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String _id = getId();
         if (_id.equals("S_2_140_0")) {

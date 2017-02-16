@@ -21,6 +21,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -31,14 +32,14 @@ import com.metinkale.prayerapp.settings.Prefs;
 public class Changelog {
     private static final int CHANGELOG_VERSION = 17;
 
-    public static void start(Context c) {
+    public static void start(@NonNull Context c) {
         if (Prefs.getChangelogVersion() < CHANGELOG_VERSION) {
             getDialog(c).show();
             Prefs.setChangelogVersion(CHANGELOG_VERSION);
         }
     }
 
-    private static AlertDialog getDialog(final Context c) {
+    private static AlertDialog getDialog(@NonNull final Context c) {
         WebView wv = new WebView(c);
         String lang = Prefs.getLanguage();
         if (lang.equals("ar") || lang.equals("fr")) lang = "en";

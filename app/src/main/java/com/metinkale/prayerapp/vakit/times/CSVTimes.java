@@ -16,6 +16,7 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
@@ -38,11 +39,13 @@ class CSVTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.CSV;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         return new Builders.Any.F[]{
                 Ion.with(App.get())
@@ -50,7 +53,7 @@ class CSVTimes extends WebTimes {
                         .setTimeout(3000)};
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         int i = 0;
         String[] lines = result.replace("\"", "").split("\n");
 

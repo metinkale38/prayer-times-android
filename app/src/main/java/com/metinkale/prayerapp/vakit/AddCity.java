@@ -24,6 +24,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -61,6 +62,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     private MyAdapter mAdapter;
     private FloatingActionButton mFab;
     private MenuItem mSearchItem;
+    @Nullable
     private Cities mCities = Cities.get();
 
     @Override
@@ -157,7 +159,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         super.onCreateOptionsMenu(menu);
         MaterialMenuInflater.with(this)
                 .setDefaultColor(0xFFFFFFFF)
@@ -186,11 +188,11 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
+    public boolean onQueryTextSubmit(@Nullable String query) {
 
         mCities.search(query == null ? query : query.trim().replace(" ", "+"), new Cities.Callback<List<Entry>>() {
             @Override
-            public void onResult(List<Entry> items) {
+            public void onResult(@Nullable List<Entry> items) {
                 if ((items != null) && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
@@ -211,7 +213,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
 
     @Override
-    public void onLocationChanged(Location loc) {
+    public void onLocationChanged(@NonNull Location loc) {
         if ((mAdapter.getCount() <= 1)) {
             mAdapter.clear();
             Entry item = new Entry();
@@ -225,7 +227,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
             mCities.search(item.getLat(), item.getLng(), new Cities.Callback<List<Entry>>() {
                 @Override
-                public void onResult(List<Entry> items) {
+                public void onResult(@Nullable List<Entry> items) {
                     if ((items != null) && !items.isEmpty()) {
                         mAdapter.clear();
                         mAdapter.addAll(items);
@@ -296,7 +298,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
     static class MyAdapter extends ArrayAdapter<Entry> {
 
-        public MyAdapter(Context context) {
+        public MyAdapter(@NonNull Context context) {
             super(context, 0, 0);
 
         }
@@ -309,7 +311,7 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
         @NonNull
         @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder vh;
             if (convertView == null) {
                 convertView = View.inflate(parent.getContext(), R.layout.vakit_addcity_row, null);

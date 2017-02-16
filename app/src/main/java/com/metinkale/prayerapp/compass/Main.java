@@ -62,6 +62,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private static double mQAngle;
     private static float mDist;
     public MagAccelListener mMagAccel;
+    @NonNull
     private Matrix4 mRotationMatrix = new Matrix4();
     private int mDisplayRotation;
     private SensorManager mSensorManager;
@@ -70,7 +71,9 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private MenuItem mSwitch;
     private boolean mOnlyNew;
     private MyCompassListener mList;
+    @NonNull
     private OrientationCalculator mOrientationCalculator = new OrientationCalculatorImpl();
+    @NonNull
     private float[] mDerivedDeviceOrientation = {0, 0, 0};
     private Frag2D mFrag2D;
     private Frag3D mFrag3D;
@@ -212,7 +215,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         super.onCreateOptionsMenu(menu);
         mRefresh = menu.add(Menu.NONE, Menu.NONE, 1, R.string.refresh);
         mSwitch = menu.add(Menu.NONE, Menu.NONE, 0, R.string.switchCompass);
@@ -284,7 +287,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
     // RotationUpdateDelegate methods
     @Override
-    public void onRotationUpdate(float[] newMatrix) {
+    public void onRotationUpdate(@NonNull float[] newMatrix) {
         if (mMode == Mode.Map) {
             return;
         }
@@ -312,7 +315,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(@NonNull Location location) {
         if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
@@ -320,7 +323,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
     }
 
-    private void calcQiblaAngel(Location location) {
+    private void calcQiblaAngel(@NonNull Location location) {
         if (!"custom".equals(location.getProvider())) {
             mSelCity.setVisibility(View.GONE);
         }

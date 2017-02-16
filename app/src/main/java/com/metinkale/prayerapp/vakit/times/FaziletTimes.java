@@ -16,6 +16,8 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
@@ -39,12 +41,14 @@ class FaziletTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Fazilet;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String[] a = getId().split("_");
 
@@ -77,7 +81,7 @@ class FaziletTimes extends WebTimes {
         };
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         List<String> ay = new ArrayList<>();
         ay.add("Ocak");
         ay.add("Şubat");

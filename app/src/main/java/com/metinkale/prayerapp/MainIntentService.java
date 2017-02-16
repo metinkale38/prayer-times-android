@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -49,7 +50,7 @@ public class MainIntentService extends IntentService {
     }
 
 
-    public static void startCalendarIntegration(Context context) {
+    public static void startCalendarIntegration(@NonNull Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_CALENDAR_INTEGRATION);
         context.startService(intent);
@@ -57,7 +58,7 @@ public class MainIntentService extends IntentService {
 
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(@NonNull Intent intent) {
         long mills = System.currentTimeMillis();
         String action = intent.getAction();
         switch (action) {

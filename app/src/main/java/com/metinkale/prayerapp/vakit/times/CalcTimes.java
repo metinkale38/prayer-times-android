@@ -76,7 +76,7 @@ public class CalcTimes extends Times {
     }
 
     @SuppressLint("InflateParams")
-    public static void add(final Activity c, final Bundle bdl) {
+    public static void add(@NonNull final Activity c, @NonNull final Bundle bdl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         final LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
@@ -155,13 +155,14 @@ public class CalcTimes extends Times {
         }
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Calc;
     }
 
     @Override
-    public String _getTime(LocalDate date, int time) {
+    public String _getTime(@NonNull LocalDate date, int time) {
         List<String> times = getPrayTime().getDatePrayerTimes(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), getLat(), getLng());
         times.remove(4);
         return times.get(time);
@@ -172,7 +173,7 @@ public class CalcTimes extends Times {
         return Method.valueOf(method);
     }
 
-    public synchronized void setMethod(Method value) {
+    public synchronized void setMethod(@NonNull Method value) {
         method = value.name();
         save();
     }
@@ -191,7 +192,7 @@ public class CalcTimes extends Times {
         return Juristic.valueOf(juristic);
     }
 
-    public synchronized void setJuristic(Juristic value) {
+    public synchronized void setJuristic(@NonNull Juristic value) {
         juristic = value.name();
         save();
     }
@@ -200,7 +201,7 @@ public class CalcTimes extends Times {
         return AdjMethod.valueOf(adjMethod);
     }
 
-    public synchronized void setAdjMethod(AdjMethod value) {
+    public synchronized void setAdjMethod(@NonNull AdjMethod value) {
         adjMethod = value.name();
         save();
     }

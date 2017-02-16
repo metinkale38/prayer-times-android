@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.utils;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -52,7 +53,7 @@ public class RTLViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
         return !swipeLocked && super.onInterceptTouchEvent(event);
     }
 
@@ -61,7 +62,7 @@ public class RTLViewPager extends ViewPager {
         return !swipeLocked && super.canScrollHorizontally(direction);
     }
 
-    public void setRTLSupportAdapter(FragmentManager fm, FragmentPagerAdapter adapter) {
+    public void setRTLSupportAdapter(FragmentManager fm, @NonNull FragmentPagerAdapter adapter) {
         super.setAdapter(isRTL() ? new RTLAdapterWrapper(fm, adapter) : adapter);
     }
 
@@ -108,6 +109,7 @@ public class RTLViewPager extends ViewPager {
     private class RTLAdapterWrapper extends FragmentPagerAdapter {
         private FragmentPagerAdapter adapter;
 
+        @NonNull
         private DataSetObserver observer = new DataSetObserver() {
             @Override
             public void onChanged() {
@@ -120,7 +122,7 @@ public class RTLViewPager extends ViewPager {
             }
         };
 
-        private RTLAdapterWrapper(FragmentManager fm, FragmentPagerAdapter adapter) {
+        private RTLAdapterWrapper(FragmentManager fm, @NonNull FragmentPagerAdapter adapter) {
             super(fm);
             this.adapter = adapter;
             adapter.registerDataSetObserver(observer);
@@ -132,7 +134,7 @@ public class RTLViewPager extends ViewPager {
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(View view, @NonNull Object object) {
             return adapter.isViewFromObject(view, object);
         }
 

@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.compass._3D;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public class Frag3D extends Fragment implements MyCompassListener {
     private CompassView mCompassView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_3d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
         onUpdateDirection();

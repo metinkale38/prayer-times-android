@@ -19,6 +19,8 @@ package com.metinkale.prayerapp.compass._3D;
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
@@ -29,6 +31,7 @@ import com.crashlytics.android.Crashlytics;
 @SuppressWarnings("deprecation")
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
+    @Nullable
     private Camera mCamera;
     private DisplayMetrics mMetrics;
 
@@ -95,7 +98,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    private Camera.Size getBestPreviewSize(int width, int height, Camera.Parameters parameters) {
+    @Nullable
+    private Camera.Size getBestPreviewSize(int width, int height, @NonNull Camera.Parameters parameters) {
         Camera.Size result = null;
 
         for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
@@ -127,6 +131,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mCamera = null;
     }
 
+    @Nullable
     public Camera getCamera() {
         return mCamera;
     }

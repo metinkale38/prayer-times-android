@@ -19,6 +19,8 @@ package com.metinkale.prayerapp.hadis;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.*;
@@ -80,6 +82,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * while the layout is dirty. This prevents the scroll from being wrong if
      * the child has not been laid out before requesting focus.
      */
+    @Nullable
     private View mChildToScrollTo;
     /**
      * True if the user is currently dragging this ScrollView around. This is
@@ -90,6 +93,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     /**
      * Determines speed during touch scrolling
      */
+    @Nullable
     private VelocityTracker mVelocityTracker;
     /**
      * When set to true, the scroll view measure its child to make it fill the
@@ -104,20 +108,20 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     private int mMinimumVelocity;
     private int mMaximumVelocity;
 
-    public MyScrollView(Context context) {
+    public MyScrollView(@NonNull Context context) {
         this(context, null);
         mContext = context;
         initBounce();
     }
 
-    public MyScrollView(Context context, AttributeSet attrs) {
+    public MyScrollView(@NonNull Context context, AttributeSet attrs) {
 
         this(context, attrs, 0);
         mContext = context;
         initBounce();
     }
 
-    public MyScrollView(Context context, AttributeSet attrs, int defStyle) {
+    public MyScrollView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
 
@@ -373,7 +377,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
         // Let the focused view and/or our descendants get the key first
         return super.dispatchKeyEvent(event) || executeKeyEvent(event);
     }
@@ -386,7 +390,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @param event The key event to execute.
      * @return Return true if the event was handled, else false.
      */
-    boolean executeKeyEvent(KeyEvent event) {
+    boolean executeKeyEvent(@NonNull KeyEvent event) {
         mTempRect.setEmpty();
 
         if (!canScroll()) {
@@ -437,7 +441,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent ev) {
         /*
          * This method JUST determines whether we want to intercept the motion.
 		 * If we return true, onMotionEvent will be called and we do the actual
@@ -523,7 +527,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
 
         if ((ev.getAction() == MotionEvent.ACTION_DOWN) && (ev.getEdgeFlags() != 0)) {
             // Don't handle edge touches immediately -- they may actually belong
@@ -616,7 +620,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         return (getScrollY() < child.getPaddingTop()) || (getScrollY() > (child.getBottom() - child.getPaddingBottom() - getHeight()));
     }
 
-    private void onSecondaryPointerUp(MotionEvent ev) {
+    private void onSecondaryPointerUp(@NonNull MotionEvent ev) {
         int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
         int pointerId = ev.getPointerId(pointerIndex);
         if (pointerId == mActivePointerId) {
@@ -646,7 +650,8 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @return the next focusable component in the bounds or null if none can be
      * found
      */
-    private View findFocusableViewInMyBounds(boolean topFocus, int top, View preferredFocusable) {
+    @Nullable
+    private View findFocusableViewInMyBounds(boolean topFocus, int top, @Nullable View preferredFocusable) {
         /*
          * The fading edge's transparent side should be considered for focus
 		 * since it's mostly visible, so we divide the actual fading edge length
@@ -678,6 +683,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @return the next focusable component in the bounds or null if none can be
      * found
      */
+    @Nullable
     private View findFocusableViewInBounds(boolean topFocus, int top, int bottom) {
 
         List<View> focusables = getFocusables(View.FOCUS_FORWARD);
@@ -919,7 +925,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @return whether the descendant of this scroll view is scrolled off
      * screen.
      */
-    private boolean isOffScreen(View descendant) {
+    private boolean isOffScreen(@NonNull View descendant) {
         return !isWithinDeltaOfScreen(descendant, 0, getHeight());
     }
 
@@ -927,7 +933,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @return whether the descendant of this scroll view is within delta pixels
      * of being on the screen.
      */
-    private boolean isWithinDeltaOfScreen(View descendant, int delta, int height) {
+    private boolean isWithinDeltaOfScreen(@NonNull View descendant, int delta, int height) {
         descendant.getDrawingRect(mTempRect);
         offsetDescendantRectToMyCoords(descendant, mTempRect);
 
@@ -1020,7 +1026,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    protected void measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+    protected void measureChild(@NonNull View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
         ViewGroup.LayoutParams lp = child.getLayoutParams();
 
         int childWidthMeasureSpec;
@@ -1034,7 +1040,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    protected void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
+    protected void measureChildWithMargins(@NonNull View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
         MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
 
         int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingStart() + getPaddingEnd() + lp.leftMargin + lp.rightMargin + widthUsed, lp.width);
@@ -1103,7 +1109,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      *
      * @param child the View to scroll to
      */
-    private void scrollToChild(View child) {
+    private void scrollToChild(@NonNull View child) {
         child.getDrawingRect(mTempRect);
 
 		/* Offset from child's local coordinates to ScrollView coordinates */
@@ -1124,7 +1130,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @param immediate True to scroll immediately without animation
      * @return true if scrolling was performed
      */
-    private boolean scrollToChildRect(Rect rect, boolean immediate) {
+    private boolean scrollToChildRect(@NonNull Rect rect, boolean immediate) {
         int delta = computeScrollDeltaToGetChildRectOnScreen(rect);
         boolean scroll = delta != 0;
         if (scroll) {
@@ -1145,7 +1151,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * @param rect The rect.
      * @return The scroll delta.
      */
-    int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
+    int computeScrollDeltaToGetChildRectOnScreen(@NonNull Rect rect) {
         if (getChildCount() == 0) {
             return 0;
         }
@@ -1208,7 +1214,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public void requestChildFocus(View child, View focused) {
+    public void requestChildFocus(View child, @NonNull View focused) {
         if (!mScrollViewMovedFocus) {
             if (mIsLayoutDirty) {
                 // The child may not be laid out yet, we can't compute the
@@ -1229,7 +1235,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * implementation, otherwise this behavior might have been made the default.
      */
     @Override
-    protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+    protected boolean onRequestFocusInDescendants(int direction, @Nullable Rect previouslyFocusedRect) {
 
         // convert from forward / backward notation to up / down / left / right
         // (ugh).
@@ -1250,7 +1256,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate) {
+    public boolean requestChildRectangleOnScreen(@NonNull View child, @NonNull Rect rectangle, boolean immediate) {
         // offset into coordinate space of this scroll view
         rectangle.offset(child.getLeft() - child.getScrollX(), child.getTop() - child.getScrollY());
 
@@ -1326,7 +1332,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
      * Return true if child is an descendant of parent, (or equal to the
      * parent).
      */
-    private boolean isViewDescendantOf(View child, View parent) {
+    private boolean isViewDescendantOf(@NonNull View child, View parent) {
         if (child == parent) {
             return true;
         }
@@ -1408,7 +1414,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch(View v, @NonNull MotionEvent event) {
         // Stop scrolling calculation.
         mScroller.forceFinished(true);
         // Stop scrolling animation.

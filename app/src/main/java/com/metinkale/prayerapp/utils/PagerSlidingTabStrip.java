@@ -25,6 +25,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -76,15 +77,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int tabBackgroundResId = R.drawable.background_tab;
     private Locale locale;
 
-    public PagerSlidingTabStrip(Context context) {
+    public PagerSlidingTabStrip(@NonNull Context context) {
         this(context, null);
     }
 
-    public PagerSlidingTabStrip(Context context, AttributeSet attrs) {
+    public PagerSlidingTabStrip(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PagerSlidingTabStrip(Context context, AttributeSet attrs, int defStyle) {
+    public PagerSlidingTabStrip(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         setFillViewport(true);
@@ -148,7 +149,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    public void setViewPager(ViewPager pager) {
+    public void setViewPager(@NonNull ViewPager pager) {
         this.pager = pager;
 
         if (pager.getAdapter() == null) {
@@ -216,7 +217,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     }
 
-    private void addTab(final int position, View tab) {
+    private void addTab(final int position, @NonNull View tab) {
         tab.setFocusable(true);
         tab.setOnClickListener(v -> pager.setCurrentItem(position));
 
@@ -274,7 +275,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
 
         if (isInEditMode() || (tabCount == 0)) {
@@ -469,6 +470,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         requestLayout();
     }
 
+    @NonNull
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
@@ -483,11 +485,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     static class SavedState extends BaseSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            @NonNull
             @Override
-            public SavedState createFromParcel(Parcel in) {
+            public SavedState createFromParcel(@NonNull Parcel in) {
                 return new SavedState(in);
             }
 
+            @NonNull
             @Override
             public SavedState[] newArray(int size) {
                 return new SavedState[size];
@@ -499,13 +503,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             super(superState);
         }
 
-        private SavedState(Parcel in) {
+        private SavedState(@NonNull Parcel in) {
             super(in);
             currentPosition = in.readInt();
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(currentPosition);
         }

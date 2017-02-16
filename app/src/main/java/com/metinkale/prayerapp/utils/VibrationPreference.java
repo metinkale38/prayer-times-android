@@ -23,6 +23,8 @@ import android.os.Parcelable;
 import android.os.Vibrator;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -46,6 +48,7 @@ public class VibrationPreference extends EditTextPreference {
     private final EditText editText = new EditText(getContext());
     private final Button button = new Button(getContext());
 
+    @NonNull
     public static long[] getPattern(Context c, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         List<Long> mills = new ArrayList<>();
@@ -96,6 +99,7 @@ public class VibrationPreference extends EditTextPreference {
     }
 
 
+    @NonNull
     @Override
     protected View onCreateDialogView() {
         button.setId(R.id.button5);
@@ -139,6 +143,7 @@ public class VibrationPreference extends EditTextPreference {
         editText.setText(value);
     }
 
+    @NonNull
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
@@ -150,7 +155,7 @@ public class VibrationPreference extends EditTextPreference {
 
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@Nullable Parcelable state) {
         if (state == null || !state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -165,13 +170,13 @@ public class VibrationPreference extends EditTextPreference {
     private static class SavedState extends BaseSavedState {
         String text;
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             text = source.readString();
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(text);
         }
@@ -182,10 +187,12 @@ public class VibrationPreference extends EditTextPreference {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
+                    @NonNull
+                    public SavedState createFromParcel(@NonNull Parcel in) {
                         return new SavedState(in);
                     }
 
+                    @NonNull
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }

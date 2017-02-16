@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.ListPreference;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.PermissionUtils;
@@ -78,7 +79,7 @@ public class CalendarPreference extends ListPreference {
         setEntryValues(ids.toArray(new String[ids.size()]));
     }
 
-    private void getCalendars(Collection<String> names, Collection<String> ids) {
+    private void getCalendars(@NonNull Collection<String> names, @NonNull Collection<String> ids) {
 
         String[] projection = {CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME};
         Uri calendars;
