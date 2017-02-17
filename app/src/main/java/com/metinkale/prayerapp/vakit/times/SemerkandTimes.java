@@ -12,11 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
 
-import com.crashlytics.android.Crashlytics;
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
@@ -38,22 +40,23 @@ class SemerkandTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Semerkand;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
-        final int year = LocalDate.now().getYear();
-        final String[] id = getId().split("_");
-        if (id.length <= 3) {
-            Crashlytics.setString("id", getId());
-            Crashlytics.setString("name", getName());
-            Crashlytics.logException(new Exception("SEMERKANDISSUE"));
-            return new Builders.Any.F[0];
+        String _id = getId();
+        if (_id.equals("S_2_140_0")) {
+            _id = "S_2_1052_0";
+            setId(_id);
         }
-        return new Builders.Any.F[]{Ion.with(App.getContext())
-                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + ("0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))};
+        final int year = LocalDate.now().getYear();
+        final String[] id = _id.split("_");
+        return new Builders.Any.F[]{Ion.with(App.get())
+                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + (id.length >= 3 || "0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))};
 
 
     }
@@ -66,7 +69,7 @@ class SemerkandTimes extends WebTimes {
             date = date.withDayOfYear(d.Day);
             setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
         }
-        return result.size() > 0;
+        return result.size() > 25;
     }
 
 

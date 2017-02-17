@@ -18,6 +18,8 @@ package com.metinkale.prayerapp.compass.classes.math;
  * ****************************************************************************
  */
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -70,11 +72,13 @@ public class Matrix4 implements Serializable {
      *               major</a> order.
      * @return This matrix for the purpose of chaining methods together.
      */
-    public Matrix4 set(float[] values) {
+    @NonNull
+    public Matrix4 set(@NonNull float[] values) {
         System.arraycopy(values, 0, val, 0, val.length);
         return this;
     }
 
+    @NonNull
     public float[] getValues() {
         return val;
     }
@@ -90,7 +94,8 @@ public class Matrix4 implements Serializable {
      * @param matrix The other matrix to multiply by.
      * @return This matrix for the purpose of chaining operations together.
      */
-    public Matrix4 mul(Matrix4 matrix) {
+    @NonNull
+    public Matrix4 mul(@NonNull Matrix4 matrix) {
         // mul(val, matrix.val);
         // return this;
         return mul_java(matrix);
@@ -103,7 +108,8 @@ public class Matrix4 implements Serializable {
      * @param matrix The other matrix
      * @return This matrix for chaining.
      */
-    private Matrix4 mul_java(Matrix4 matrix) {
+    @NonNull
+    private Matrix4 mul_java(@NonNull Matrix4 matrix) {
         tmp[M00] = (val[M00] * matrix.val[M00]) + (val[M01] * matrix.val[M10]) + (val[M02] * matrix.val[M20]) + (val[M03] * matrix.val[M30]);
         tmp[M01] = (val[M00] * matrix.val[M01]) + (val[M01] * matrix.val[M11]) + (val[M02] * matrix.val[M21]) + (val[M03] * matrix.val[M31]);
         tmp[M02] = (val[M00] * matrix.val[M02]) + (val[M01] * matrix.val[M12]) + (val[M02] * matrix.val[M22]) + (val[M03] * matrix.val[M32]);
@@ -128,6 +134,7 @@ public class Matrix4 implements Serializable {
      *
      * @return This matrix for the purpose of chaining methods together.
      */
+    @NonNull
     public Matrix4 idt() {
         val[M00] = 1;
         val[M01] = 0;
@@ -159,6 +166,7 @@ public class Matrix4 implements Serializable {
      * @param height The height
      * @return This matrix for the purpose of chaining methods together.
      */
+    @NonNull
     public Matrix4 setToOrtho2D(float x, float y, float width, float height) {
         setToOrtho(x, x + width, y, y + height, 0, 1);
         return this;
@@ -177,6 +185,7 @@ public class Matrix4 implements Serializable {
      * @param far    The far clipping plane
      * @return This matrix for the purpose of chaining methods together.
      */
+    @NonNull
     private Matrix4 setToOrtho(float left, float right, float bottom, float top, float near, float far) {
 
         idt();
@@ -210,6 +219,7 @@ public class Matrix4 implements Serializable {
 
 
 
+    @NonNull
     @Override
     public String toString() {
         return "[" + val[M00] + "|" + val[M01] + "|" + val[M02] + "|" + val[M03] + "]\n" + "[" + val[M10] + "|" + val[M11] + "|" + val[M12] + "|" + val[M13] + "]\n" + "[" + val[M20] + "|" + val[M21] + "|" + val[M22] + "|" + val[M23] + "]\n" + "[" + val[M30] + "|" + val[M31] + "|" + val[M32] + "|" + val[M33] + "]\n";

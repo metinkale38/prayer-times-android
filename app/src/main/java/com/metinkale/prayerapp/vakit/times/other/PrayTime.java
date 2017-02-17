@@ -12,35 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 
-//--------------------- Copyright Block ----------------------
-/*
 
-PrayTime.java: Prayer Times Calculator (ver 1.0)
-Copyright (C) 2007-2010 PrayTimes.org
 
-Java Code By: Hussain Ali Khan
-Original JS Code By: Hamid Zarrabi-Zadeh
-
-License: GNU LGPL v3.0
-
-TERMS OF USE:
-	Permission is granted to use this code, with or
-	without modification, in any website or application
-	provided that credit is given to the original work
-	with a link back to PrayTimes.org.
-
-This program is distributed in the hope that it will
-be useful, but WITHOUT ANY WARRANTY.
-
-PLEASE DO NOT REMOVE THIS COPYRIGHT BLOCK.
-
-*/
 
 
 package com.metinkale.prayerapp.vakit.times.other;
+
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -162,6 +144,7 @@ public class PrayTime {
     // http://www.ummah.net/astronomy/saltime
     // http://aa.usno.navy.mil/faq/docs/SunApprox.html
     // compute declination angle of sun and equation of time
+    @NonNull
     private double[] sunPosition(double jd) {
 
         double D = jd - 2451545;
@@ -227,6 +210,7 @@ public class PrayTime {
 
     // -------------------- Interface Functions --------------------
     // return prayer times for a given date
+    @NonNull
     public List<String> getDatePrayerTimes(int year, int month, int day, double latitude, double longitude) {
         setLat(latitude);
         setLng(longitude);
@@ -237,7 +221,8 @@ public class PrayTime {
     }
 
     // return prayer times for a given date
-    List<String> getPrayerTimes(Calendar date, double latitude, double longitude) {
+    @NonNull
+    List<String> getPrayerTimes(@NonNull Calendar date, double latitude, double longitude) {
 
         int year = date.get(Calendar.YEAR);
         int month = date.get(Calendar.MONTH);
@@ -325,6 +310,7 @@ public class PrayTime {
 
     // ---------------------- Compute Prayer Times -----------------------
     // compute prayer times at given julian date
+    @NonNull
     private double[] computeTimes(double[] times) {
 
         double[] t = dayPortion(times);
@@ -345,6 +331,7 @@ public class PrayTime {
     }
 
     // compute prayer times at given julian date
+    @NonNull
     private ArrayList<String> computeDayTimes() {
         double[] times = {5, 6, 12, 13, 18, 18, 18}; // default times
 
@@ -358,7 +345,8 @@ public class PrayTime {
     }
 
     // adjust times in a prayer time array
-    private double[] adjustTimes(double[] times) {
+    @NonNull
+    private double[] adjustTimes(@NonNull double[] times) {
         for (int i = 0; i < times.length; i++) {
             times[i] += getTimeZone() - (getLng() / 15);
         }
@@ -378,6 +366,7 @@ public class PrayTime {
     }
 
     // convert times array to given time format
+    @NonNull
     private ArrayList<String> adjustTimesFormat(double[] times) {
 
         ArrayList<String> result = new ArrayList<>();
@@ -448,7 +437,7 @@ public class PrayTime {
     }
 
 
-    public void setMethod(Method method) {
+    public void setMethod(@NonNull Method method) {
         this.methodParams = method.params;
     }
 

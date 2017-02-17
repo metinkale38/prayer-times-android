@@ -12,9 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
+
+import android.support.annotation.NonNull;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
@@ -74,19 +77,23 @@ class NVCTimes extends WebTimes {
         return null;
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.NVC;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
+        String id = getId();
+        if (id.startsWith("N_")) id = id.substring(2);
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
-                        .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                Ion.with(App.get())
+                        .load("http://namazvakti.com/XML.php?cityID=" + id)
                         .setTimeout(3000)};
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         int i = 0;
         String[] lines = result.split("\n");
 
@@ -130,7 +137,7 @@ class NVCTimes extends WebTimes {
             }
 
         }
-        return i > 0;
+        return i > 25;
     }
 
 

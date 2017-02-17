@@ -1,5 +1,8 @@
 package com.metinkale.prayerapp.compass.classes.math;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -59,6 +62,7 @@ public class Vector3 implements Serializable {
      * @param z The z-component
      * @return this vector for chaining
      */
+    @NonNull
     public Vector3 set(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -72,11 +76,13 @@ public class Vector3 implements Serializable {
      * @param vector The vector
      * @return This vector for chaining
      */
-    public Vector3 set(Vector3 vector) {
+    @NonNull
+    public Vector3 set(@NonNull Vector3 vector) {
         return set(vector.x, vector.y, vector.z);
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return x + "," + y + "," + z;
@@ -94,7 +100,7 @@ public class Vector3 implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }

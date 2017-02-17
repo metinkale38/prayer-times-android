@@ -1,5 +1,7 @@
 package com.metinkale.prayerapp.compass.classes.math;
 
+import android.support.annotation.NonNull;
+
 public class Util {
     /**
      * Converts a double to a value between 0 and 360
@@ -18,7 +20,7 @@ public class Util {
      * @param b
      * @return
      */
-    public static float calcDistance(Vector3 a, Vector3 b) {
+    public static float calcDistance(@NonNull Vector3 a, @NonNull Vector3 b) {
         return (float) Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)) + ((a.z - b.z) * (a.z - b.z)));
     }
 

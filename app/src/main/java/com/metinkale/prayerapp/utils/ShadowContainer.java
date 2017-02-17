@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
@@ -21,8 +22,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+
 import com.metinkale.prayer.R;
 
 public class ShadowContainer extends ViewGroup {
@@ -60,7 +64,7 @@ public class ShadowContainer extends ViewGroup {
     }
 
     @SuppressLint("NewApi")
-    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         mShadow = getResources().getDrawable(R.drawable.shadow);
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowContainer, defStyleAttr, defStyleRes);
@@ -163,7 +167,7 @@ public class ShadowContainer extends ViewGroup {
     }
 
     @Override
-    public void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(@NonNull Canvas canvas) {
         super.dispatchDraw(canvas);
         int size = (int) (mShadowSize * mMaxShadowSize);
 

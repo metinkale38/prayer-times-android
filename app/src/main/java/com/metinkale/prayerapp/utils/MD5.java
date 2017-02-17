@@ -12,15 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.crashlytics.android.Crashlytics;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,7 +36,7 @@ import java.security.NoSuchAlgorithmException;
 public class MD5 {
     private static final String TAG = "MD5";
 
-    public static boolean checkMD5(String md5, File updateFile) {
+    public static boolean checkMD5(String md5, @Nullable File updateFile) {
         if (TextUtils.isEmpty(md5) || (updateFile == null)) {
             Log.e(TAG, "MD5 string empty or updateFile null");
             return false;
@@ -43,7 +51,7 @@ public class MD5 {
         return calculatedDigest.equalsIgnoreCase(md5);
     }
 
-    public static String calculateMD5(File updateFile) {
+    public static String calculateMD5(@NonNull File updateFile) {
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("MD5");
@@ -88,7 +96,7 @@ public class MD5 {
         }
     }
 
-    public static boolean isValidMD5(String s) {
+    public static boolean isValidMD5(@NonNull String s) {
         return s.matches("[a-fA-F0-9]{32}");
     }
 }

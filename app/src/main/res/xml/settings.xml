@@ -12,6 +12,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+  ~
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
@@ -167,6 +168,13 @@
             android:key="notificationScreen"
             android:title="@string/show_notification_screen" />
 
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="stopFacedown"
+            android:title="@string/stopFacedown" />
+
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="useAlarm"
@@ -177,11 +185,6 @@
 
 
     <PreferenceCategory android:title="@string/other">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="useOSM"
-            android:title="@string/useOSMGeocoder" />
 
 
         <Preference

@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.zikr;
@@ -21,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -30,6 +32,7 @@ public class ZikrView extends View {
     private int mCount;
     private int mCount2;
     private int mColor = 0xFF33B5E5;
+    @NonNull
     private RectF mRectF = new RectF();
 
     public ZikrView(Context context, AttributeSet attrs, int defStyle) {
@@ -54,7 +57,7 @@ public class ZikrView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         int width = getWidth();
         int center = width / 2;
         canvas.scale(0.95f, 0.95f, center, center);

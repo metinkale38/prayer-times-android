@@ -12,14 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
-import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.App;
 
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class Prefs {
 
 
     private static SharedPreferences getPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(App.getContext());
+        return PreferenceManager.getDefaultSharedPreferences(App.get());
     }
 
 
@@ -36,6 +37,7 @@ public class Prefs {
         return getPrefs().getBoolean("useAlarm", false);
     }
 
+    @Nullable
     public static String getLanguage() {
         return getPrefs().getString("language", null);
     }
@@ -45,19 +47,23 @@ public class Prefs {
     }
 
 
+    @Nullable
     public static String getDigits() {
         return getPrefs().getString("numbers", "normal");
     }
 
+    @Nullable
     public static String getDF() {
         return getPrefs().getString("dateformat", "DD MMM YYYY");
     }
 
+    @Nullable
     public static String getHDF() {
         return getPrefs().getString("hdateformat", "DD MMM YYYY");
     }
 
 
+    @Nullable
     public static String getUUID() {
         String uuid = getPrefs().getString("uuid", null);
         if (uuid == null) {
@@ -86,6 +92,7 @@ public class Prefs {
         getPrefs().edit().putInt("lastCalSync", date).apply();
     }
 
+    @Nullable
     public static String getCalendar() {
         return getPrefs().getString("calendarIntegration", "-1");
     }
@@ -100,6 +107,10 @@ public class Prefs {
 
     public static boolean isDefaultWidgetMinuteType() {
         return "default".equals(getPrefs().getString("widget_countdown", "default"));
+    }
+
+    public static boolean stopByFacedown() {
+        return getPrefs().getBoolean("stopFacedown", false);
     }
 
     public static int getHijriFix() {
@@ -142,6 +153,7 @@ public class Prefs {
         return getPrefs().getInt("kerahat_sunset", 45);
     }
 
+    @Nullable
     public static String getVakitIndicator() {
         return getPrefs().getString("vakit_indicator", "current");
     }
@@ -171,16 +183,5 @@ public class Prefs {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
-    public static void setUseOSM(boolean useOSM) {
-        getPrefs().edit().putBoolean("useOSM", useOSM).apply();
-    }
 
-    public static boolean useOSM() {
-        if (!getPrefs().contains("useOSM")) {
-           if("fdroid".equals(BuildConfig.FLAVOR)){
-               setUseOSM(true);
-           }
-        }
-        return getPrefs().getBoolean("useOSM", false);
-    }
 }

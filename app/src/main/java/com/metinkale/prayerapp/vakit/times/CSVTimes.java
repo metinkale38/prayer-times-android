@@ -12,29 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
+
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 class CSVTimes extends WebTimes {
 
+
+    private boolean firstSync = true;
 
     @SuppressWarnings("unused")
     CSVTimes() {
@@ -45,19 +40,21 @@ class CSVTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.CSV;
     }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
+                Ion.with(App.get())
                         .load(getId())
                         .setTimeout(3000)};
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         int i = 0;
         String[] lines = result.replace("\"", "").split("\n");
 
@@ -99,6 +96,12 @@ class CSVTimes extends WebTimes {
             } catch (Exception ignore) {
             }
         }
+
+        if (firstSync && i == 0) {
+            Toast.makeText(App.get(), "Invalid CSV", Toast.LENGTH_LONG).show();
+            delete();
+        }
+        firstSync = false;
         return i > 0;
     }
 

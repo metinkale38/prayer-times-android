@@ -12,32 +12,37 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.calendar;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
 
 public class Adapter extends ArrayAdapter<int[]> {
+    @NonNull
     private final Context context;
     private List<int[]> days;
     private boolean hasInfo;
 
-    public Adapter(Context context, int year) {
+    public Adapter(@NonNull Context context, int year) {
         super(context, R.layout.names_item);
         this.context = context;
         days = HicriDate.getHolydays(year);
@@ -48,7 +53,7 @@ public class Adapter extends ArrayAdapter<int[]> {
 
     @NonNull
     @Override
-    public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         ViewHolder vh;
         if (convertView == null) {
@@ -67,7 +72,7 @@ public class Adapter extends ArrayAdapter<int[]> {
             vh = (ViewHolder) convertView.getTag(R.id.viewholder);
         }
 
-         int[] h = days.get(pos);
+        int[] h = days.get(pos);
 
         vh.hicri.setText(Utils.format(new HicriDate(h[HicriDate.HY], h[HicriDate.HM], h[HicriDate.HD])));
         vh.date.setText(Utils.format(new LocalDate(h[HicriDate.GY], h[HicriDate.GM], h[HicriDate.GD])));

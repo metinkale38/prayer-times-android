@@ -12,11 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.sounds;
 
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,14 +35,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -58,13 +71,15 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     private CheckBox mVolumeCB;
     private SeekBar mVolume;
     private MyAdapter mAdapter;
+    @Nullable
     private MediaPlayer mMp;
     private Callback mCb;
     private int mStartVolume;
     private AudioManager mAm;
+    @Nullable
     private Runnable onResume;
 
-    public static String getRingtonePathFromContentUri(Context context, Uri contentUri) {
+    public static String getRingtonePathFromContentUri(@NonNull Context context, @NonNull Uri contentUri) {
         String[] proj = {MediaStore.Audio.Media.DATA};
         Cursor ringtoneCursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         ringtoneCursor.moveToFirst();
@@ -123,37 +138,31 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         mList.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
         if (mCb == null)
-            mAdapter = new MyAdapter(getActivity(), new ArrayList<Sound>());
+            mAdapter = new MyAdapter(getActivity(), new ArrayList<>());
         mAdapter = new MyAdapter(getActivity(), mCb.getSounds());
         mList.setAdapter(mAdapter);
 
         mList.setOnItemClickListener(this);
-        builder.setView(v).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                if (mMp != null) {
-                    mMp.stop();
-                    mMp.release();
-                    mMp = null;
-                }
-                if (mList.getTag() != null) {
-                    if (mVolumeCB.isChecked()) {
-                        mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
-                    } else {
-                        mCb.setCurrent(((Sound) mList.getTag()).uri);
-                    }
+        builder.setView(v).setPositiveButton(R.string.ok, (dialog, id) -> {
+            if (mMp != null) {
+                mMp.stop();
+                mMp.release();
+                mMp = null;
+            }
+            if (mList.getTag() != null) {
+                if (mVolumeCB.isChecked()) {
+                    mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
+                } else {
+                    mCb.setCurrent(((Sound) mList.getTag()).uri);
                 }
             }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                if (mMp != null) {
-                    mMp.stop();
-                    mMp.release();
-                    mMp = null;
-                }
-                getDialog().cancel();
+        }).setNegativeButton(R.string.cancel, (dialog, id) -> {
+            if (mMp != null) {
+                mMp.stop();
+                mMp.release();
+                mMp = null;
             }
+            getDialog().cancel();
         });
 
         Sound s = new Sound();
@@ -191,35 +200,25 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         final Sound s = mAdapter.getItem(pos);
         if ("picker".equals(s.uri)) {
-            onResume = new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle(R.string.other)
-                            .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        FileChooser chooser = new FileChooser(getActivity());
-                                        chooser.showDialog();
-                                        chooser.setFileListener(new FileChooser.FileSelectedListener() {
-                                            @Override
-                                            public void fileSelected(File file) {
-                                                onSelect(Uri.fromFile(file));
-                                            }
-                                        });
-                                    } else {
-                                        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                        Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                                        startActivityForResult(chooserIntent, 0);
-                                    }
-                                }
-                            });
-                    builder.show();
+            onResume = () -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.other)
+                        .setItems(R.array.soundPicker, (dialog, which) -> {
+                            if (which == 0) {
+                                FileChooser chooser = new FileChooser(getActivity());
+                                chooser.showDialog();
+                                chooser.setFileListener(file -> onSelect(Uri.fromFile(file)));
+                            } else {
+                                Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                                Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
+                                startActivityForResult(chooserIntent, 0);
+                            }
+                        });
+                builder.show();
 
-                }
             };
             if (PermissionUtils.get(getActivity()).pStorage) {
                 onResume.run();
@@ -230,7 +229,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         } else if (!"silent".equals(s.uri)) {
             if (Sounds.isDownloaded(s)) {
                 try {
-                    mMp = AlarmReceiver.play(App.getContext(), s.uri);
+                    mMp = AlarmReceiver.play(App.get(), s.uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -242,75 +241,63 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                 dialog.setTitle(R.string.sound);
                 dialog.setMessage(getString(R.string.dlSound, s.name, s.size));
                 dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                        final ProgressDialog dlg = new ProgressDialog(getActivity());
-                        dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                        dlg.show();
-                        File f = s.getFile();
-                        f.getParentFile().mkdirs();
-                        Ion.with(getActivity())
-                                .load(s.url)
-                                .progressDialog(dlg)
-                                .write(f)
-                                .setCallback(new FutureCallback<File>() {
-                                    @Override
-                                    public void onCompleted(Exception e, File result) {
-                                        if (e != null || result == null || !result.exists()) {
-                                            if (e != null) {
-                                                e.printStackTrace();
-                                                Crashlytics.logException(e);
-                                            }
-                                            dlg.cancel();
-                                            Toast.makeText(App.getContext(), R.string.error, Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-
-                                        Ion.with(App.getContext()).load(s.url + ".md5")
-                                                .setTimeout(3000)
-                                                .asString()
-                                                .setCallback(new FutureCallback<String>() {
-                                                    @Override
-                                                    public void onCompleted(Exception e, String md5) {
-                                                        dlg.cancel();
-                                                        if (e != null) {
-                                                            e.printStackTrace();
-                                                            Crashlytics.logException(e);
-                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                                            return;
-                                                        }
-                                                        if (!MD5.isValidMD5(md5)) return;
-                                                        SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
-                                                        preferences.edit().putString(s.name, md5).apply();
-                                                        s.checkMD5();
-
-                                                        try {
-                                                            mMp = AlarmReceiver.play(App.getContext(), s.uri);
-                                                        } catch (IOException ee) {
-                                                            ee.printStackTrace();
-                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                                        }
-                                                        mList.setTag(s);
-                                                    }
-                                                });
-
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                    final ProgressDialog dlg = new ProgressDialog(getActivity());
+                    dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    dlg.show();
+                    File f = s.getFile();
+                    f.getParentFile().mkdirs();
+                    Ion.with(getActivity())
+                            .load(s.url)
+                            .progressDialog(dlg)
+                            .write(f)
+                            .setCallback((e, result) -> {
+                                if (e != null || result == null || !result.exists()) {
+                                    if (e != null) {
+                                        e.printStackTrace();
+                                        Crashlytics.logException(e);
                                     }
-                                });
+                                    dlg.cancel();
+                                    Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                Ion.with(App.get()).load(s.url + ".md5")
+                                        .setTimeout(3000)
+                                        .asString()
+                                        .setCallback((e1, md5) -> {
+                                            dlg.cancel();
+                                            if (e1 != null) {
+                                                e1.printStackTrace();
+                                                Crashlytics.logException(e1);
+                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+                                                return;
+                                            }
+                                            if (!MD5.isValidMD5(md5)) return;
+                                            SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
+                                            preferences.edit().putString(s.name, md5).apply();
+                                            s.checkMD5();
+
+                                            try {
+                                                mMp = AlarmReceiver.play(App.get(), s.uri);
+                                            } catch (IOException ee) {
+                                                ee.printStackTrace();
+                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+                                            }
+                                            mList.setTag(s);
+                                        });
+
+                            });
 
 
-                    }
                 });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                        dialog.cancel();
-                        Sound s = new Sound();
-                        s.uri = mCb.getCurrent();
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
+                    dialog1.cancel();
+                    Sound s1 = new Sound();
+                    s1.uri = mCb.getCurrent();
 
-                        mList.setItemChecked(mAdapter.getPosition(s), true);
+                    mList.setItemChecked(mAdapter.getPosition(s1), true);
 
-                    }
                 });
                 dialog.show();
 
@@ -321,11 +308,11 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             try {
-                uri = Uri.parse(getRingtonePathFromContentUri(App.getContext(), uri));
+                uri = Uri.parse(getRingtonePathFromContentUri(App.get(), uri));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -333,7 +320,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         }
     }
 
-    private void onSelect(Uri uri) {
+    private void onSelect(@NonNull Uri uri) {
         try {
             MediaPlayer mp = new MediaPlayer();
             mp.setDataSource(getActivity(), uri);
@@ -341,7 +328,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             mp.start();
             mp.reset();
         } catch (Exception e) {
-            Toast.makeText(App.getContext(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
+            Toast.makeText(App.get(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
             dismiss();
             new SoundChooser().showExpanded(getFragmentManager(), mCb);
             return;
@@ -386,7 +373,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
     public class MyAdapter extends ArrayAdapter<Sound> {
 
-        public MyAdapter(Context context, List<Sound> sounds) {
+        public MyAdapter(@NonNull Context context, @NonNull List<Sound> sounds) {
             super(context, 0, 0, sounds);
             Sound silent = new Sound();
             silent.name = context.getString(R.string.silent);
@@ -401,7 +388,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                     if (sound.contains("$")) {
                         sound = sound.substring(0, sound.indexOf("$"));
                     }
-                    AlarmReceiver.play(App.getContext(), sound).reset();
+                    AlarmReceiver.play(App.get(), sound).reset();
                 } catch (Exception e) {
                     mCb.setCurrent("silent");
                     s.uri = "silent";
@@ -414,7 +401,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             if (!sounds.contains(s)) {
                 Ringtone r = RingtoneManager.getRingtone(getContext(), Uri.parse(s.uri));
                 if (r != null) {
-                    s.name = r.getTitle(App.getContext());
+                    s.name = r.getTitle(App.get());
                 } else {
                     s.name = "Unknown";
                 }
@@ -429,7 +416,7 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         @NonNull
         @Override
-        public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
+        public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), android.R.layout.simple_list_item_single_choice, null);
             }

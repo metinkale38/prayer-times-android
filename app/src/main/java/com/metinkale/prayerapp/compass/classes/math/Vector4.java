@@ -1,5 +1,8 @@
 package com.metinkale.prayerapp.compass.classes.math;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 /**
  * Derived from Vector3 from libgdx - encapsulates a 4 component vector for
  * representing Homogeneous Coordinates
@@ -24,7 +27,8 @@ public final class Vector4 {
      * @param matrix The matrix
      * @return This vector for chaining
      */
-    public Vector4 mul(Matrix4 matrix) {
+    @NonNull
+    public Vector4 mul(@NonNull Matrix4 matrix) {
         float[] l_mat = matrix.val;
         return set((x * l_mat[Matrix4.M00]) + (y * l_mat[Matrix4.M01]) + (z * l_mat[Matrix4.M02]) + (w * l_mat[Matrix4.M03]), x * l_mat[Matrix4.M10] + y * l_mat[Matrix4.M11] + z * l_mat[Matrix4.M12] + w * l_mat[Matrix4.M13], x * l_mat[Matrix4.M20] + y * l_mat[Matrix4.M21] + z * l_mat[Matrix4.M22] + w * l_mat[Matrix4.M23], x * l_mat[Matrix4.M30] + y * l_mat[Matrix4.M31] + z * l_mat[Matrix4.M32] + w * l_mat[Matrix4.M33]);
     }
@@ -37,6 +41,7 @@ public final class Vector4 {
      * @param z The z-component
      * @return this vector for chaining
      */
+    @NonNull
     public Vector4 set(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -52,6 +57,7 @@ public final class Vector4 {
      * @param values The array
      * @return this vector for chaining
      */
+    @NonNull
     public Vector4 set(float[] values) {
         return set(values[0], values[1], values[2], values[3]);
     }
@@ -63,7 +69,8 @@ public final class Vector4 {
      * @param vector The other vector
      * @return This vector for chaining
      */
-    public Vector4 add(Vector4 vector) {
+    @NonNull
+    public Vector4 add(@NonNull Vector4 vector) {
         return add(vector.x, vector.y, vector.z, vector.w);
     }
 
@@ -75,6 +82,7 @@ public final class Vector4 {
      * @param z The z-component of the other vector
      * @return This vector for chaining.
      */
+    @NonNull
     private Vector4 add(float x, float y, float z, float w) {
         return set(this.x + x, this.y + y, this.z + z, this.w + w);
     }
@@ -85,6 +93,7 @@ public final class Vector4 {
      * @param values The value
      * @return This vector for chaining
      */
+    @NonNull
     public Vector4 add(float values) {
         return set(x + values, y + values, z + values, w + values);
     }
@@ -108,7 +117,7 @@ public final class Vector4 {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }

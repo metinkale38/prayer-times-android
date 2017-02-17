@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.zikr;
@@ -24,6 +25,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.text.InputType;
@@ -37,14 +40,22 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.vakit.PrefsView;
 import com.metinkale.prayerapp.vakit.PrefsView.PrefsFunctions;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class Main extends BaseActivity implements OnClickListener, OnNavigationListener, OnLongClickListener {
@@ -53,7 +64,9 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     private ZikrView mZikr;
     private EditText mTitle;
     private Vibrator mVibrator;
+    @Nullable
     private Zikr mCurrent;
+    @NonNull
     private List<Zikr> mZikrList = new ArrayList<>();
     private ImageView mReset;
     private int mVibrate;
@@ -142,6 +155,12 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveCurrent();
+    }
+
     private void createDefault() {
         if (mZikrList.isEmpty()) {
             mZikrList = new ArrayList<>();
@@ -154,7 +173,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         }
     }
 
-    private void load(Zikr z) {
+    private void load(@Nullable Zikr z) {
         if (!mZikrList.contains(z) && (z != null)) {
             mZikrList.add(z);
         }
@@ -188,7 +207,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
 
     }
 
-    public void changeColor(View v) {
+    public void changeColor(@NonNull View v) {
         int c = Color.parseColor((String) v.getTag());
         mZikr.setColor(c);
     }
@@ -213,16 +232,10 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
             dialog.setTitle(R.string.dhikr);
             dialog.setMessage(getString(R.string.resetConfirmDhikr, mCurrent.title));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                    mZikr.setCount(0);
-                }
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                mZikr.setCount(0);
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int buttonId) {
-                }
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
             });
             dialog.show();
         }
@@ -238,7 +251,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         MaterialMenuInflater.with(this)
                 .setDefaultColor(0xFFFFFFFF)
                 .inflate(R.menu.zikr, menu);
@@ -246,7 +259,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
                 Zikr z = new Zikr();
@@ -265,20 +278,14 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 dialog.setTitle(R.string.delete);
                 dialog.setMessage(getString(R.string.delConfirmDhikr, mCurrent.title));
                 dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                        mZikrList.remove(mCurrent);
-                        mPrefs.edit().remove(mCurrent.key).apply();
-                        mCurrent = null;
-                        createDefault();
-                        load(mZikrList.get(0));
-                    }
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
+                    mZikrList.remove(mCurrent);
+                    mPrefs.edit().remove(mCurrent.key).apply();
+                    mCurrent = null;
+                    createDefault();
+                    load(mZikrList.get(0));
                 });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int buttonId) {
-                    }
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
                 });
                 dialog.show();
                 return true;
@@ -302,23 +309,15 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    mZikr.setMax(Integer.parseInt(input.getText().toString()));
-                } catch (Exception e) {
-                    Crashlytics.logException(e);
-                }
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
+            try {
+                mZikr.setMax(Integer.parseInt(input.getText().toString()));
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
 
         builder.show();
         return false;
@@ -331,6 +330,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
         int count;
         int color;
         int count2;
+        @Nullable
         String key;
     }
 

@@ -12,9 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -22,6 +26,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.times.Entry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,54 +34,31 @@ import java.util.List;
 public class Geocoder {
 
     public interface ReverseCallback {
-        void onResult(String city, String state, String country, double lat, double lng);
+        void onResult(Entry e);
     }
 
-    public static void reverse(double lat, double lng, final ReverseCallback callback) {
-        if (Prefs.useOSM()) {
-            Ion.with(App.getContext())
-                    .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
-                            "&lon=" + lng + "&accept-language=" + Prefs.getLanguage())
-                    .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
-                @Override
-                public void onCompleted(Exception e, Response<OSMReverse> response) {
-                    OSMReverse result = response.getResult();
-                    if (e != null) e.printStackTrace();
-                    if (result == null) return;
-                    callback.onResult(result.address.county, result.address.state, result.address.country, result.lat, result.lon);
+    public static void reverse(double lat, double lng, @NonNull final ReverseCallback callback) {
+        Ion.with(App.get())
+                .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
+                        "&lon=" + lng + "&accept-language=" + Prefs.getLanguage())
+                .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
+            @Override
+            public void onCompleted(@Nullable Exception e, @NonNull Response<OSMReverse> response) {
+                OSMReverse result = response.getResult();
+                if (e != null) e.printStackTrace();
+                if (result == null) {
+                    callback.onResult(null);
+                    return;
                 }
-            });
-        } else {
-            Ion.with(App.getContext())
-                    .load("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat +
-                            "," + lng + "&language=" + Prefs.getLanguage())
-                    .as(GResponse.class).setCallback(new FutureCallback<GResponse>() {
-                @Override
-                public void onCompleted(Exception e, GResponse result) {
-                    if (e != null) e.printStackTrace();
-                    if (result == null || !result.status.equals("OK") || result.results.size() == 0)
-                        return;
-                    GResult res = result.results.get(0);
-                    String country = null;
-                    String state = null;
-                    String city = null;
-                    double lat = res.geometry.location.lat;
-                    double lng = res.geometry.location.lng;
-                    for (GAddress ad : res.address_components) {
-                        if (ad.types.contains("country"))
-                            country = ad.long_name;
-                        else if (ad.types.contains("administrative_area_level_1"))
-                            state = ad.long_name;
-                        else if (ad.types.contains("political")) {
-                            city = ad.long_name;
-                            break;
-                        }
-                    }
+                Entry entry = new Entry();
+                entry.setCountry(result.address.country);
+                entry.setName(result.address.county);
+                entry.setLat(result.lat);
+                entry.setLng(result.lon);
+                callback.onResult(entry);
+            }
+        });
 
-                    callback.onResult(city, state, country, lat, lng);
-                }
-            });
-        }
     }
 
     public static class Result {
@@ -97,73 +79,42 @@ public class Geocoder {
         void onResult(List<Result> results);
     }
 
-    public static void search(String query, final SearchCallback callback) {
-        if (Prefs.useOSM()) {
-            Ion.with(App.getContext())
-                    .load("http://nominatim.openstreetmap.org/search?format=jsonv2&email=metinkale38@gmail.com&q=" + query
-                            + "&accept-language=" + Prefs.getLanguage())
-                    .as(new TypeToken<List<OSMPlace>>() {
-                    }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
-                @Override
-                public void onCompleted(Exception e, Response<List<OSMPlace>> response) {
-                    List<OSMPlace> result = response.getResult();
-                    if (e != null) e.printStackTrace();
-                    if (result == null || result.size() == 0)
-                        return;
-                    List<Result> allresults = new ArrayList<>();
-                    for (OSMPlace res : result) {
-                        Result r = new Result();
-                        r.lat = res.lat;
-                        r.lng = res.lon;
-                        r.formatted_address = res.display_name;
-                        String[] parts = res.display_name.split(", ");
-                        r.city = parts[0];
-                        r.state = parts[(parts.length - 1) / 2];
-                        r.country = parts[parts.length - 1];
-                        allresults.add(r);
-
-                    }
-
-
+    public static void search(String query, @NonNull final SearchCallback callback) {
+        Ion.with(App.get())
+                .load("http://nominatim.openstreetmap.org/search?format=jsonv2&email=metinkale38@gmail.com&q=" + query
+                        + "&accept-language=" + Prefs.getLanguage())
+                .as(new TypeToken<List<OSMPlace>>() {
+                }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
+            @Override
+            public void onCompleted(@Nullable Exception e, @NonNull Response<List<OSMPlace>> response) {
+                List<OSMPlace> result = response.getResult();
+                List<Result> allresults = new ArrayList<>();
+                if (e != null) e.printStackTrace();
+                if (result == null || result.size() == 0) {
                     callback.onResult(allresults);
+                    return;
+                }
+
+                for (OSMPlace res : result) {
+                    Result r = new Result();
+                    r.lat = res.lat;
+                    r.lng = res.lon;
+                    r.formatted_address = res.display_name;
+                    String[] parts = res.display_name.split(", ");
+                    r.city = parts[0];
+                    r.state = parts[(parts.length - 1) / 2];
+                    r.country = parts[parts.length - 1];
+                    allresults.add(r);
 
                 }
-            });
-
-        } else {
-            Ion.with(App.getContext())
-                    .load("https://maps.googleapis.com/maps/api/geocode/json?address=" + query
-                            + "&language=" + Prefs.getLanguage())
-                    .as(GResponse.class).setCallback(new FutureCallback<GResponse>() {
-                @Override
-                public void onCompleted(Exception e, GResponse result) {
-                    if (e != null) e.printStackTrace();
-                    if (result == null || !result.status.equals("OK") || result.results.size() == 0)
-                        return;
-                    List<Result> allresults = new ArrayList<>();
-                    for (GResult res : result.results) {
-                        Result r = new Result();
-                        r.lat = res.geometry.location.lat;
-                        r.lng = res.geometry.location.lng;
-                        r.formatted_address = res.formatted_address;
-                        for (GAddress ad : res.address_components) {
-                            if (ad.types.contains("country"))
-                                r.country = ad.long_name;
-                            else if (ad.types.contains("administrative_area_level_1"))
-                                r.state = ad.long_name;
-                            else if (ad.types.contains("political")) {
-                                r.city = ad.long_name;
-                                break;
-                            }
-                        }
-                        allresults.add(r);
-                    }
 
 
-                    callback.onResult(allresults);
-                }
-            });
-        }
+                callback.onResult(allresults);
+
+            }
+        });
+
+
     }
 
 
@@ -187,37 +138,5 @@ public class Geocoder {
         String display_name;
     }
 
-    private static class GResponse {
-        public String status;
-        public List<GResult> results;
-    }
-
-
-    private static class GResult {
-        List<GAddress> address_components;
-        String formatted_address;
-        GGeometry geometry;
-
-        @Override
-        public String toString() {
-            return formatted_address;
-        }
-    }
-
-
-    private static class GAddress {
-        public String long_name;
-        public List<String> types;
-    }
-
-
-    private static class GGeometry {
-        public GLatLng location;
-    }
-
-    private static class GLatLng {
-        public double lat;
-        public double lng;
-    }
 
 }

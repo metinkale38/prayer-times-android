@@ -12,31 +12,41 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 
 import java.util.Locale;
 
 public class Utils {
     private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
+    @Nullable
     private static String[] sGMonths;
+    @Nullable
     private static String[] sHMonths;
+    @Nullable
     private static String[] sHolydays;
 
     public static CharSequence fixTimeForHTML(String time) {
@@ -56,7 +66,8 @@ public class Utils {
     }
 
 
-    public static String fixTime(String time) {
+    @Nullable
+    public static String fixTime(@NonNull String time) {
         if (Prefs.use12H() && time.contains(":")) {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
@@ -83,7 +94,7 @@ public class Utils {
     }
 
 
-    static void init(Context c) {
+    static void init(@NonNull Context c) {
         String newLang = Prefs.getLanguage();
 
 
@@ -94,8 +105,9 @@ public class Utils {
 
         if (year != Prefs.getLastCalSync()) {
             MainIntentService.startCalendarIntegration(c);
+            Prefs.setLastCalSync(year);
         }
-        Prefs.setLastCalSync(year);
+
 
         if (newLang == null) {
             return;
@@ -118,7 +130,7 @@ public class Utils {
     }
 
     public static void changeLanguage(String language) {
-        Context c = App.getContext();
+        Context c = App.get();
 
         Prefs.setLanguage(language);
 
@@ -137,47 +149,48 @@ public class Utils {
 
     }
 
+    @Nullable
     public static String getHolyday(int which) {
         if (sHolydays == null) {
-            sHolydays = App.getContext().getResources().getStringArray(R.array.holydays);
+            sHolydays = App.get().getResources().getStringArray(R.array.holydays);
         }
         return sHolydays[which];
     }
 
+    @Nullable
     public static String getGregMonth(int which) {
         if (sGMonths == null) {
-            sGMonths = App.getContext().getResources().getStringArray(R.array.months);
+            sGMonths = App.get().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }
 
+    @Nullable
     public static String getHijriMonth(int which) {
         if (sHMonths == null) {
-            sHMonths = App.getContext().getResources().getStringArray(R.array.months_hicri);
+            sHMonths = App.get().getResources().getStringArray(R.array.months_hicri);
         }
         return sHMonths[which];
     }
 
-    public static boolean askLang(final Activity act) {
+    public static boolean askLang(@NonNull final Activity act) {
         if (Prefs.getLanguage() != null) {
             return false;
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
-                init(act);
-                act.finish();
-                act.startActivity(new Intent(act, act.getClass()));
-            }
+        builder.setTitle(R.string.language).setItems(R.array.language, (dialog, which) -> {
+            changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
+            init(act);
+            act.finish();
+            act.startActivity(new Intent(act, act.getClass()));
         }).setCancelable(false);
 
         builder.show();
         return true;
     }
 
+    @NonNull
     public static String az(int i) {
         if (i < 10) {
             return "0" + i;
@@ -185,11 +198,13 @@ public class Utils {
         return i + "";
     }
 
+    @Nullable
     private static String getDateFormat(boolean hicri) {
         return hicri ? Prefs.getHDF() : Prefs.getDF();
     }
 
-    public static String format(HicriDate date) {
+    @Nullable
+    public static String format(@NonNull HicriDate date) {
         String format = getDateFormat(true);
         format = format.replace("DD", az(date.Day, 2));
 
@@ -208,8 +223,9 @@ public class Utils {
     }
 
 
-    public static String format(LocalDate date) {
-        String format = getDateFormat(true);
+    @Nullable
+    public static String format(@NonNull LocalDate date) {
+        String format = getDateFormat(false);
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
 
         try {
@@ -227,6 +243,7 @@ public class Utils {
         return toArabicNrs(format);
     }
 
+    @NonNull
     private static String az(int Int, int num) {
         String ret = Int + "";
         if (ret.length() < num) {
@@ -240,12 +257,14 @@ public class Utils {
         return ret;
     }
 
+    @Nullable
     public static String getAssetForHolyday(int pos) {
         return Prefs.getLanguage() + ASSETS[pos - 1];
     }
 
 
-    public static String toArabicNrs(String str) {
+    @Nullable
+    public static String toArabicNrs(@Nullable String str) {
         if (str == null) return null;
         if (Prefs.getDigits().equals("normal")) return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
@@ -265,6 +284,7 @@ public class Utils {
         return builder.toString();
     }
 
+    @Nullable
     public static String toArabicNrs(int nr) {
         return toArabicNrs(nr + "");
     }

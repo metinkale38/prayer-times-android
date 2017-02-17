@@ -12,22 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -37,12 +38,14 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 public class NotificationPrefs extends Fragment {
+    @Nullable
     private Times mTimes;
     private PreferenceManager.OnActivityResultListener mListener;
     private View mView;
     private boolean mTestAlarm;
 
-    public static NotificationPrefs create(Times t) {
+    @NonNull
+    public static NotificationPrefs create(@NonNull Times t) {
         Bundle bdl = new Bundle();
         bdl.putLong("city", t.getID());
         NotificationPrefs frag = new NotificationPrefs();
@@ -51,20 +54,14 @@ public class NotificationPrefs extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.vakit_notprefs, container, false);
 
 
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
         SwitchCompat ongoing = (SwitchCompat) mView.findViewById(R.id.ongoing);
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
-        ongoing.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton arg0, boolean val) {
-                mTimes.setOngoingNotificationActive(val);
-            }
-        });
+        ongoing.setOnCheckedChangeListener((arg0, val) -> mTimes.setOngoingNotificationActive(val));
 
 
         initMain(R.id.imsak, R.id.imsakText, R.id.imsakExpanded, Vakit.IMSAK);
@@ -92,45 +89,36 @@ public class NotificationPrefs extends Fragment {
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isCumaActive());
-        sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mTimes.setCumaActive(b);
-                if (!b && expand.getVisibility() == View.VISIBLE) {
-                    expand.setVisibility(View.GONE);
-                }
-
+        sw.setOnCheckedChangeListener((compoundButton, b) -> {
+            mTimes.setCumaActive(b);
+            if (!b && expand.getVisibility() == View.VISIBLE) {
+                expand.setVisibility(View.GONE);
             }
+
         });
 
         View title = (View) mView.findViewById(textId).getParent();
 
-        title.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (!BuildConfig.DEBUG) {
-                    return false;
-                }
-                mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.cuma = true;
-                a.vakit = vakit;
-                AlarmReceiver.setAlarm(getActivity(), a);
-                Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
-                return true;
+        title.setOnLongClickListener(v -> {
+            if (!BuildConfig.DEBUG) {
+                return false;
             }
+            mTestAlarm = true;
+            Times.Alarm a = new Times.Alarm();
+            a.time = System.currentTimeMillis() + (5 * 1000);
+            a.city = mTimes.getID();
+            a.cuma = true;
+            a.vakit = vakit;
+            AlarmReceiver.setAlarm(getActivity(), a);
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            return true;
         });
 
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sw.isChecked()) {
-                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                } else {
-                    Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
-                }
+        title.setOnClickListener(view -> {
+            if (sw.isChecked()) {
+                expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+            } else {
+                Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -192,48 +180,39 @@ public class NotificationPrefs extends Fragment {
         });
     }
 
-    private void initMain(int switchId, int textId, int expandId, final Vakit vakit) {
+    private void initMain(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isNotificationActive(vakit));
-        sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mTimes.setNotificationActive(vakit, b);
-                if (!b && expand.getVisibility() == View.VISIBLE) {
-                    expand.setVisibility(View.GONE);
-                }
-
+        sw.setOnCheckedChangeListener((compoundButton, b) -> {
+            mTimes.setNotificationActive(vakit, b);
+            if (!b && expand.getVisibility() == View.VISIBLE) {
+                expand.setVisibility(View.GONE);
             }
+
         });
 
         View title = (View) mView.findViewById(textId).getParent();
 
-        title.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (!BuildConfig.DEBUG) {
-                    return false;
-                }
-                mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.vakit = vakit;
-                AlarmReceiver.setAlarm(getActivity(), a);
-                Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
-                return true;
+        title.setOnLongClickListener(v -> {
+            if (!BuildConfig.DEBUG) {
+                return false;
             }
+            mTestAlarm = true;
+            Times.Alarm a = new Times.Alarm();
+            a.time = System.currentTimeMillis() + (5 * 1000);
+            a.city = mTimes.getID();
+            a.vakit = vakit;
+            AlarmReceiver.setAlarm(getActivity(), a);
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            return true;
         });
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sw.isChecked()) {
-                    expand.setVisibility(expand.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                } else {
-                    Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
-                }
+        title.setOnClickListener(view -> {
+            if (sw.isChecked()) {
+                expand.setVisibility(expand.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+            } else {
+                Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -241,6 +220,7 @@ public class NotificationPrefs extends Fragment {
         PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getSound(vakit);
@@ -280,6 +260,7 @@ public class NotificationPrefs extends Fragment {
 
         PrefsView dua = (PrefsView) expand.findViewById(R.id.dua);
         dua.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getDua(vakit);
@@ -295,6 +276,7 @@ public class NotificationPrefs extends Fragment {
         if (vakit == Vakit.SABAH) {
             time.setTag("SabahTime");
             time.setPrefFunctions(new PrefsView.PrefsFunctions() {
+                @NonNull
                 @Override
                 public Object getValue() {
                     return mTimes.getSabahTime() * (mTimes.isAfterImsak() ? -1 : 1);
@@ -312,57 +294,49 @@ public class NotificationPrefs extends Fragment {
         }
     }
 
-    private void initEarly(int switchId, int textId, int expandId, final Vakit vakit) {
+    private void initEarly(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
         final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
         final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
 
-        sw.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mTimes.setEarlyNotificationActive(vakit, b);
-                if (!b && expand.getVisibility() == View.VISIBLE) {
-                    expand.setVisibility(View.GONE);
-                }
-
+        sw.setOnCheckedChangeListener((compoundButton, b) -> {
+            mTimes.setEarlyNotificationActive(vakit, b);
+            if (!b && expand.getVisibility() == View.VISIBLE) {
+                expand.setVisibility(View.GONE);
             }
+
         });
 
 
         View title = (View) mView.findViewById(textId).getParent();
 
-        title.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (!BuildConfig.DEBUG) {
-                    return false;
-                }
-                mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.early = true;
-                a.vakit = vakit;
-                AlarmReceiver.setAlarm(getActivity(), a);
-                Toast.makeText(App.getContext(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
-                return true;
+        title.setOnLongClickListener(v -> {
+            if (!BuildConfig.DEBUG) {
+                return false;
             }
+            mTestAlarm = true;
+            Times.Alarm a = new Times.Alarm();
+            a.time = System.currentTimeMillis() + (5 * 1000);
+            a.city = mTimes.getID();
+            a.early = true;
+            a.vakit = vakit;
+            AlarmReceiver.setAlarm(getActivity(), a);
+            Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
+            return true;
         });
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sw.isChecked()) {
-                    expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                } else {
-                    Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
-                }
+        title.setOnClickListener(view -> {
+            if (sw.isChecked()) {
+                expand.setVisibility((expand.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+            } else {
+                Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
             }
         });
 
         PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
+            @Nullable
             @Override
             public Object getValue() {
                 return mTimes.getEarlySound(vakit);

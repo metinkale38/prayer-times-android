@@ -12,9 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
+
+import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.ion.Ion;
@@ -39,18 +42,21 @@ class FaziletTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Fazilet;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String[] a = getId().split("_");
 
         if (a.length < 4) {
             Crashlytics.setString("FAZILET_ID", getId());
             Crashlytics.logException(new Exception("INVALID ID IN FAZILET"));
+            this.delete();
             return new Builders.Any.F[0];
         }
         int country = Integer.parseInt(a[1]);
@@ -64,7 +70,7 @@ class FaziletTimes extends WebTimes {
 
 
         return new Builders.Any.F[]{
-                Ion.with(App.getContext())
+                Ion.with(App.get())
                         .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
                         .setTimeout(3000)
                         .setBodyParameter("ulke_id", "" + country)
@@ -76,7 +82,7 @@ class FaziletTimes extends WebTimes {
         };
     }
 
-    protected boolean parseResult(String result) {
+    protected boolean parseResult(@NonNull String result) {
         List<String> ay = new ArrayList<>();
         ay.add("Ocak");
         ay.add("Şubat");
@@ -118,7 +124,7 @@ class FaziletTimes extends WebTimes {
             }
         }
 
-        return c > 0;
+        return c > 25;
     }
 
 

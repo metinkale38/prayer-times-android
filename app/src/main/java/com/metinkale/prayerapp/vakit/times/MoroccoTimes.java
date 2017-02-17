@@ -12,13 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
 
@@ -36,12 +40,26 @@ class MoroccoTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Morocco;
     }
 
+    @Override
+    public synchronized String getName() {
+        String name = super.getName();
+        if (name.contains("(") && name.contains(")")) {
+            if ("ar".equals(Prefs.getLanguage())) {
+                return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+            } else {
+                return name.substring(0, name.indexOf(" ("));
+            }
+        }
+        return name;
+    }
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
@@ -54,8 +72,8 @@ class MoroccoTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.getContext())
-                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId() + "&mois=" + M)
+            queue.add(Ion.with(App.get())
+                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId().substring(2) + "&mois=" + M)
                     .setTimeout(3000)
             );
         }
@@ -64,7 +82,17 @@ class MoroccoTimes extends WebTimes {
         return queue.toArray(new Builders.Any.F[queue.size()]);
     }
 
-    protected boolean parseResult(String result) {
+    @Override
+    public synchronized String getId() {
+        String id = super.getId();
+        if (!id.contains("H_")) {
+            setId("H_" + id);
+            return "H_" + id;
+        }
+        return id;
+    }
+
+    protected boolean parseResult(@NonNull String result) {
         String temp = result.substring(result.indexOf("colspan=\"4\" class=\"cournt\""));
         temp = temp.substring(temp.indexOf(">") + 1);
         temp = temp.substring(0, temp.indexOf("<")).replace(" ", "");
@@ -88,10 +116,10 @@ class MoroccoTimes extends WebTimes {
         }
 
 
-        return x > 0;
+        return x > 25;
     }
 
-    private String extract(String s) {
+    private String extract(@NonNull String s) {
         return s.substring(0, s.indexOf("<"));
     }
 }

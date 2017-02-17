@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass._2D;
@@ -21,6 +22,7 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
@@ -47,7 +49,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     private float[] mGeo = new float[3];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
 
@@ -98,41 +100,35 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     public void show() {
         mHidden = false;
-        mCompassView.post(new Runnable() {
-            @Override
-            public void run() {
-                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
-                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
+        mCompassView.post(() -> {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
 
-                ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 0, 1);
-                ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 0, 1);
-                AnimatorSet animSetXY = new AnimatorSet();
-                animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
-                animSetXY.setInterpolator(overshootInterpolator);
-                animSetXY.setDuration(300);
-                animSetXY.start();
-            }
+            ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 0, 1);
+            ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 0, 1);
+            AnimatorSet animSetXY = new AnimatorSet();
+            animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
+            animSetXY.setInterpolator(overshootInterpolator);
+            animSetXY.setDuration(300);
+            animSetXY.start();
         });
 
     }
 
     public void hide() {
         mHidden = true;
-        mCompassView.post(new Runnable() {
-            @Override
-            public void run() {
-                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
-                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
+        mCompassView.post(() -> {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
 
-                ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
-                ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
+            ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
+            ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
 
-                AnimatorSet animSetXY = new AnimatorSet();
-                animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
-                animSetXY.setInterpolator(accelerateInterpolator);
-                animSetXY.setDuration(300);
-                animSetXY.start();
-            }
+            AnimatorSet animSetXY = new AnimatorSet();
+            animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
+            animSetXY.setInterpolator(accelerateInterpolator);
+            animSetXY.setDuration(300);
+            animSetXY.start();
         });
 
     }

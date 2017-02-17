@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
@@ -19,7 +20,6 @@ package com.metinkale.prayerapp.hadis;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -27,6 +27,8 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -45,21 +47,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
-import com.metinkale.prayerapp.utils.NumberDialog.OnNumberChangeListener;
+
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Main extends BaseActivity implements OnClickListener, OnQueryTextListener {
 
@@ -76,12 +81,15 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     private SharedPreferences mPrefs;
     private MenuItem mSwitch;
     private MenuItem mFav;
-    private List<Integer> mFavs = new ArrayList<>();
+    @NonNull
+    private Set<Integer> mFavs = new HashSet<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
     private ShareActionProvider mShareActionProvider;
     private SearchTask mTask;
+    @Nullable
     private String mQuery;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +116,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             finish();
             String lang = Prefs.getLanguage();
             if (lang.equals("ar")) lang = "en";
-            new File(App.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
+            new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
     }
@@ -142,14 +150,11 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         mState = state;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-                mPager.setCurrentItem(9999);
-                mPager.setAdapter(mAdapter);
-                mPager.setCurrentItem(mPrefs.getInt(last(), 0));
-            }
+        runOnUiThread(() -> {
+            mAdapter.notifyDataSetChanged();
+            mPager.setCurrentItem(9999);
+            mPager.setAdapter(mAdapter);
+            mPager.setCurrentItem(mPrefs.getInt(last(), 0));
         });
 
         return true;
@@ -160,8 +165,17 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     protected void onResume() {
         super.onResume();
         mPager.setCurrentItem(mPrefs.getInt(last(), 0));
+        loadFavs();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
+        storeFavs();
+    }
+
+    @NonNull
     private String last() {
         if ((mState == STATE_FAVORITE) || (mState == STATE_SHUFFLED) || (mState == STATE_ORDER)) {
             return "last_nr" + (mState == STATE_FAVORITE) + (mState == STATE_SHUFFLED);
@@ -178,19 +192,14 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
         } else if (v == mNumber) {
             NumberDialog nd = NumberDialog.create(1, mAdapter.getCount() + 1, mPager.getCurrentItem() + 1);
-            nd.setOnNumberChangeListener(new OnNumberChangeListener() {
-                @Override
-                public void onNumberChange(int nr) {
-                    mPager.setCurrentItem(nr - 1, false);
-                }
-            });
+            nd.setOnNumberChangeListener(nr -> mPager.setCurrentItem(nr - 1, false));
             nd.show(getSupportFragmentManager(), null);
         }
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == mFav.getItemId()) {
             int i = (int) mAdapter.getItemId(mPager.getCurrentItem());
             if (mState == STATE_FAVORITE) {
@@ -214,13 +223,12 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
                 }
             } else {
                 if (mFavs.contains(i)) {
-                    mFavs.remove((Integer) i);
+                    mFavs.remove(Integer.valueOf(i));
                 } else {
                     mFavs.add(i);
                 }
                 mAdapter.notifyDataSetChanged();
                 setCurrentPage(mPager.getCurrentItem());
-                storeFavs();
             }
 
         } else if (item.getItemId() == mSwitch.getItemId()) {
@@ -233,14 +241,9 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             for (String cat : cats) {
                 items.add(Html.fromHtml(cat).toString());
             }
-            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (!setState(which)) {
-                        Toast.makeText(Main.this, R.string.noFavs, Toast.LENGTH_LONG).show();
-                    }
-
+            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[items.size()]), (dialog, which) -> {
+                if (!setState(which)) {
+                    Toast.makeText(Main.this, R.string.noFavs, Toast.LENGTH_LONG).show();
                 }
 
             });
@@ -251,7 +254,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         super.onCreateOptionsMenu(menu);
         MaterialMenuInflater.with(this)
                 .setDefaultColor(0xFFFFFFFF)
@@ -306,29 +309,18 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         }
 
         if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
-            mFavs.remove((Integer) mRemFav);
+            mFavs.remove(mRemFav);
 
             mAdapter.notifyDataSetChanged();
             setCurrentPage(mPager.getCurrentItem());
-            storeFavs();
             mRemFav = -1;
         }
     }
 
     void storeFavs() {
-        Collections.sort(mFavs, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer a, Integer b) {
-                return b - a;
-            }
-        });
         SharedPreferences.Editor edit = getSharedPreferences("hadis", Context.MODE_PRIVATE).edit();
         edit.clear();
-        edit.putInt("Count", mFavs.size());
-        int count = 0;
-        for (int i : mFavs) {
-            edit.putInt("fav_" + count++, i);
-        }
+        edit.putString("favs", new Gson().toJson(mFavs));
         edit.apply();
     }
 
@@ -336,10 +328,16 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         SharedPreferences prefs = getSharedPreferences("hadis", Context.MODE_PRIVATE);
         int count = prefs.getInt("Count", 0);
 
-        for (int i = 0; i < count; i++) {
-            mFavs.add(prefs.getInt("fav_" + i, i) + 1);
+        if (count != 0) {
+            for (int i = 0; i < count; i++) {
+                mFavs.add(prefs.getInt("fav_" + i, i) + 1);
+            }
+            storeFavs();
+            prefs.edit().clear().apply();
         }
 
+        mFavs.addAll(new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
+        }.getType()));
     }
 
 
@@ -373,6 +371,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             return mList.get(pos);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int pos) {
             return Frag.create((int) getItemId(pos));
@@ -452,6 +451,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             dialog.setMessage(arg[0]);
         }
 
+        @NonNull
         @Override
         protected Boolean doInBackground(String... args) {
             if ("".equals(args[0])) {

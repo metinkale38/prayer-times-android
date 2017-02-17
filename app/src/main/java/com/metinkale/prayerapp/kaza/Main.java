@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.kaza;
@@ -19,7 +20,6 @@ package com.metinkale.prayerapp.kaza;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,40 +47,32 @@ public class Main extends BaseActivity {
 
             name.setText(ids[i]);
 
-            plus.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    String txt = nr.getText().toString();
-                    if (txt.isEmpty()) txt = "0";
-                    int i = 0;
-                    try {
-                        i = Integer.parseInt(txt);
-                    } catch (Exception ignore) {
-                    } finally {
-                        i++;
-                    }
-
-                    nr.setText(i + "");
-
+            plus.setOnClickListener(arg0 -> {
+                String txt = nr.getText().toString();
+                if (txt.isEmpty()) txt = "0";
+                int i12 = 0;
+                try {
+                    i12 = Integer.parseInt(txt);
+                } catch (Exception ignore) {
+                } finally {
+                    i12++;
                 }
+
+                nr.setText(i12 + "");
+
             });
 
-            minus.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    String txt = nr.getText().toString();
-                    if (txt.isEmpty()) txt = "0";
-                    int i = 0;
-                    try {
-                        i = Integer.parseInt(txt);
-                    } finally {
-                        i--;
-                    }
-
-                    nr.setText(i + "");
+            minus.setOnClickListener(v1 -> {
+                String txt = nr.getText().toString();
+                if (txt.isEmpty()) txt = "0";
+                int i1 = 0;
+                try {
+                    i1 = Integer.parseInt(txt);
+                } finally {
+                    i1--;
                 }
+
+                nr.setText(i1 + "");
             });
 
         }

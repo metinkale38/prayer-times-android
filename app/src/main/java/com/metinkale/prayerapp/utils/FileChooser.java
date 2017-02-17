@@ -1,33 +1,51 @@
+/*
+ * Copyright (c) 2016 Metin Kale
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.metinkale.prayerapp.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Arrays;
 
 public class FileChooser {
     private static final String PARENT_DIR = "..";
 
+    @NonNull
     private final Activity activity;
     private ListView list;
     private Dialog dialog;
     private File currentPath;
 
     // filter on file extension
+    @Nullable
     private String extension;
 
-    public void setExtension(String extension) {
+    public void setExtension(@Nullable String extension) {
         this.extension = extension == null ? null :
                 extension.toLowerCase();
     }
@@ -37,6 +55,7 @@ public class FileChooser {
         void fileSelected(File file);
     }
 
+    @NonNull
     public FileChooser setFileListener(FileSelectedListener fileListener) {
         this.fileListener = fileListener;
         return this;
@@ -44,23 +63,20 @@ public class FileChooser {
 
     private FileSelectedListener fileListener;
 
-    public FileChooser(Activity activity) {
+    public FileChooser(@NonNull Activity activity) {
         this.activity = activity;
         dialog = new Dialog(activity);
         list = new ListView(activity);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int which, long id) {
-                String fileChosen = (String) list.getItemAtPosition(which);
-                File chosenFile = getChosenFile(fileChosen);
-                if (chosenFile.isDirectory()) {
-                    refresh(chosenFile);
-                } else {
-                    if (fileListener != null) {
-                        fileListener.fileSelected(chosenFile);
-                    }
-                    dialog.dismiss();
+        list.setOnItemClickListener((parent, view, which, id) -> {
+            String fileChosen = (String) list.getItemAtPosition(which);
+            File chosenFile = getChosenFile(fileChosen);
+            if (chosenFile.isDirectory()) {
+                refresh(chosenFile);
+            } else {
+                if (fileListener != null) {
+                    fileListener.fileSelected(chosenFile);
                 }
+                dialog.dismiss();
             }
         });
         dialog.setContentView(list);
@@ -76,34 +92,26 @@ public class FileChooser {
     /**
      * Sort, filter and display the files for the given path.
      */
-    private void refresh(File path) {
+    private void refresh(@NonNull File path) {
         currentPath = path;
         if (path.exists()) {
-            File[] dirs = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    return file.isDirectory() && file.canRead();
-                }
-            });
-            File[] files = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    if (file.isDirectory()) {
+            File[] dirs = path.listFiles(file -> file.isDirectory() && file.canRead());
+            File[] files = path.listFiles(file -> {
+                if (file.isDirectory()) {
+                    return false;
+                } else {
+                    if (!file.canRead()) {
                         return false;
+                    } else if (extension == null) {
+                        return true;
                     } else {
-                        if (!file.canRead()) {
-                            return false;
-                        } else if (extension == null) {
-                            return true;
-                        } else {
-                            return file.getName().toLowerCase().endsWith(extension);
-                        }
+                        return file.getName().toLowerCase().endsWith(extension);
                     }
                 }
             });
 
-            if(files==null)files=new File[0];
-            if(dirs==null)dirs  =new File[0];
+            if (files == null) files = new File[0];
+            if (dirs == null) dirs = new File[0];
 
             // convert to an array
             int i = 0;
@@ -125,7 +133,7 @@ public class FileChooser {
 
             // refresh the user interface
             dialog.setTitle(currentPath.getPath());
-            list.setAdapter(new ArrayAdapter(activity,
+            list.setAdapter(new ArrayAdapter<String>(activity,
                     android.R.layout.simple_list_item_1, fileList) {
                 @NonNull
                 @Override
@@ -142,7 +150,7 @@ public class FileChooser {
     /**
      * Convert a relative filename into an actual File object.
      */
-    private File getChosenFile(String fileChosen) {
+    private File getChosenFile(@NonNull String fileChosen) {
         if (fileChosen.equals(PARENT_DIR)) {
             return currentPath.getParentFile();
         } else {

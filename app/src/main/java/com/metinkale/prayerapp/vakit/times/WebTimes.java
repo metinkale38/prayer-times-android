@@ -12,56 +12,59 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 
 import org.joda.time.LocalDate;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
 public class WebTimes extends Times {
 
-
+    @NonNull
     private Runnable mNotify = new Runnable() {
         @Override
         public void run() {
             notifyOnUpdated();
-            App.getHandler().removeCallbacks(this);
+            App.get().getHandler().removeCallbacks(this);
         }
     };
-    protected Map<String, String> times = new HashMap<>();
+    @NonNull
+    protected Map<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
 
 
     WebTimes(long id) {
         super(id);
+        App.get().getHandler().post(this::scheduleJob);
     }
 
     WebTimes() {
         super();
+        App.get().getHandler().post(this::scheduleJob);
     }
 
 
-    public static void add(Source source, String city, String id, double lat, double lng) {
+    public static void add(@Nullable Source source, String city, String id, double lat, double lng) {
         if (source == null || source == Source.Calc) return;
         long _id = System.currentTimeMillis();
         WebTimes t = null;
@@ -84,6 +87,10 @@ public class WebTimes extends Times {
                 break;
             case Morocco:
                 t = new MoroccoTimes(_id);
+                break;
+            case Malaysia:
+                t = new MalaysiaTimes(_id);
+                break;
             case CSV:
                 t = new CSVTimes(_id);
                 break;
@@ -121,23 +128,23 @@ public class WebTimes extends Times {
 
 
     @Override
-    protected synchronized String _getTime(LocalDate date, int time) {
+    protected synchronized String _getTime(@NonNull LocalDate date, int time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
-        if (str == null || str.contains("00:00")) {
+        if (str == null || str.isEmpty() || str.contains("00:00")) {
             return "00:00";
         }
         return str.replace("*", "");
     }
 
-    private synchronized void setTime(LocalDate date, int time, String value) {
+    private synchronized void setTime(@NonNull LocalDate date, int time, @NonNull String value) {
         if (deleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
 
-        App.getHandler().post(mNotify);
+        App.get().getHandler().post(mNotify);
     }
 
-    void setTimes(LocalDate date, String[] value) {
+    void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
         if (deleted()) return;
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
@@ -155,30 +162,27 @@ public class WebTimes extends Times {
 
     public void syncAsync() {
         if (!App.isOnline()) {
-            Toast.makeText(App.getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
-            builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, Response<String> result) {
-                    if (e != null) {
-                        //Crashlytics.setString("WebTimesSource", getSource().toString());
-                        //Crashlytics.setString("WebTimesName", getName());
-                        //Crashlytics.setString("WebTimesId", getId());
-                        //Crashlytics.logException(e);
-                        return;
-                    }
+            builder.asString().withResponse().setCallback((e, result) -> {
+                if (e != null) {
+                    //Crashlytics.setString("WebTimesSource", getSource().toString());
+                    //Crashlytics.setString("WebTimesName", getName());
+                    //Crashlytics.setString("WebTimesId", getId());
+                    //Crashlytics.logException(e);
+                    return;
+                }
 
-                    try {
-                        parseResult(result.getResult());
-                    } catch (Exception ee) {
-                        Crashlytics.setString("WebTimesSource", getSource().toString());
-                        Crashlytics.setString("WebTimesName", getName());
-                        Crashlytics.setString("WebTimesId", getId());
-                        Crashlytics.logException(ee);
-                    }
+                try {
+                    parseResult(result.getResult());
+                } catch (Exception ee) {
+                    Crashlytics.setString("WebTimesSource", getSource().toString());
+                    Crashlytics.setString("WebTimesName", getName());
+                    Crashlytics.setString("WebTimesId", getId());
+                    Crashlytics.logException(ee);
                 }
             });
         }
@@ -216,6 +220,7 @@ public class WebTimes extends Times {
 
     }
 
+    @NonNull
     public LocalDate getFirstSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;
@@ -238,6 +243,7 @@ public class WebTimes extends Times {
         }
     }
 
+    @NonNull
     public LocalDate getLastSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;

@@ -12,14 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
+
+import android.support.annotation.NonNull;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -36,17 +40,20 @@ class IGMGTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.IGMG;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");
-        int world = Integer.parseInt(a[1]);
-        int germany = Integer.parseInt(a[2]);
+        int id = Integer.parseInt(a[1]);
+        if (id <= 0 && a.length > 2)
+            id = Integer.parseInt(a[2]);
 
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
@@ -59,8 +66,8 @@ class IGMGTimes extends WebTimes {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.getContext())
-                    .load("https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + (germany > 0 ? germany : world) + "&show_month=" + (M - 1))
+            queue.add(Ion.with(App.get())
+                    .load("https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + id + "&show_month=" + (M - 1))
                     .setTimeout(3000)
             );
         }
@@ -88,10 +95,13 @@ class IGMGTimes extends WebTimes {
             int _d = Integer.parseInt(tarih.substring(0, 2));
             int _m = Integer.parseInt(tarih.substring(3, 5));
             int _y = Integer.parseInt(tarih.substring(6, 10));
-            i++;
-            setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+            try {
+                setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+            } catch (IllegalFieldValueException ignore) {
+                i++;
+            }
         }
 
-        return i > 0;
+        return i > 25;
     }
 }

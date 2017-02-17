@@ -12,24 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.names;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.names.Adapter.Item;
 
 class Adapter extends ArrayAdapter<Item> {
 
-    Adapter(Context context, Item[] objects) {
+    Adapter(@NonNull Context context, @NonNull Item[] objects) {
         super(context, 0, objects);
 
 
@@ -38,7 +41,7 @@ class Adapter extends ArrayAdapter<Item> {
 
     @NonNull
     @Override
-    public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder vh;
         if (convertView == null) {
 
@@ -88,6 +91,7 @@ class Adapter extends ArrayAdapter<Item> {
         String name;
         String desc;
 
+        @NonNull
         @Override
         public String toString() {
             return arabic + " " + name + " " + desc;

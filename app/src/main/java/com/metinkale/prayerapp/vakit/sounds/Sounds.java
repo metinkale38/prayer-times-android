@@ -12,12 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.sounds;
 
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.util.SimpleArrayMap;
 
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.MD5;
@@ -26,17 +30,21 @@ import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Sounds {
-    private static AbstractMap<String, List<Sound>> sSounds = new LinkedHashMap<>();
+    @NonNull
+    private static SimpleArrayMap<String, List<Sound>> sSounds = new SimpleArrayMap<>();
 
-    public static boolean isDownloaded(Sound sound) {
+    public static boolean isDownloaded(@NonNull Sound sound) {
         return (sound.url == null) || sound.getFile().exists();
 
     }
 
-    public static Map<String, List<Sound>> getSounds() {
+    @NonNull
+    public static SimpleArrayMap<String, List<Sound>> getSounds() {
 
         if (sSounds.isEmpty()) {
             List<Sound> sabah = new ArrayList<>();
@@ -126,6 +134,7 @@ public class Sounds {
         return sSounds;
     }
 
+    @NonNull
     public static List<Sound> getSounds(Vakit vakit) {
         if (vakit == Vakit.IMSAK) {
             vakit = Vakit.SABAH;
@@ -139,7 +148,8 @@ public class Sounds {
         return getSounds(vakit.name().toLowerCase(Locale.GERMAN), "ezan", "extra");
     }
 
-    public static List<Sound> getSounds(String... categories) {
+    @NonNull
+    public static List<Sound> getSounds(@NonNull String... categories) {
         List<Sound> sounds = new ArrayList<>();
         for (String cat : categories) {
             if (getSounds().containsKey(cat)) {
@@ -151,20 +161,19 @@ public class Sounds {
         return sounds;
     }
 
+    @NonNull
     public static List<Sound> getAllSounds() {
         List<Sound> sounds = new ArrayList<>();
-        Set<String> set = getSounds().keySet();
-        for (String cat : set) {
-            if (getSounds().containsKey(cat)) {
-                sounds.addAll(getSounds().get(cat));
-            }
+        SimpleArrayMap<String, List<Sound>> map = getSounds();
+        for (int i = 0; i < map.size(); i++) {
+            sounds.addAll(getSounds().get(map.valueAt(i)));
         }
-
-
         return sounds;
     }
 
-    private static String forAlarm(Times.Alarm alarm) {
+
+    @Nullable
+    private static String forAlarm(@NonNull Times.Alarm alarm) {
         Times t = Times.getTimes(alarm.time);
         String sound;
         if (alarm.cuma) {
@@ -184,18 +193,19 @@ public class Sounds {
         public String url;
         public String size;
 
-        public Sound() {
+        Sound() {
         }
 
-        public Sound(String name, String url, String size) {
+        Sound(String name, String url, String size) {
             this.name = name;
             this.url = url;
             this.size = size;
             uri = getFile().toURI().toString();
         }
 
+        @Nullable
         public File getFile() {
-            File folder = App.getContext().getExternalFilesDir(null);
+            File folder = App.get().getExternalFilesDir(null);
             if (folder != null) {
                 File old = new File(url.replace(App.API_URL + "/sounds/", folder.getAbsolutePath()));
                 if (old.exists()) {
@@ -204,7 +214,7 @@ public class Sounds {
             }
 
             File def = null;
-            folder = App.getContext().getExternalFilesDir(null);
+            folder = App.get().getExternalFilesDir(null);
             if (folder != null) {
                 def = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
                 if (def.exists()) {
@@ -213,7 +223,7 @@ public class Sounds {
             }
 
             File nosd = null;
-            folder = App.getContext().getFilesDir();
+            folder = App.get().getFilesDir();
             if (folder != null) {
                 nosd = new File(url.replace(App.API_URL + "/sounds", folder.getAbsolutePath()));
                 if (nosd.exists()) {
@@ -231,7 +241,7 @@ public class Sounds {
         public void checkMD5() {
             File file = getFile();
             if (file.exists()) {
-                SharedPreferences preferences = App.getContext().getSharedPreferences("md5", 0);
+                SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
                 String md5 = preferences.getString(name, null);
 
                 if (md5 != null && !MD5.checkMD5(md5, file)) {

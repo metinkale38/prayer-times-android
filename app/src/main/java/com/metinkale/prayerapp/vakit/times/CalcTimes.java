@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -26,8 +27,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
@@ -77,7 +82,7 @@ public class CalcTimes extends Times {
     }
 
     @SuppressLint("InflateParams")
-    public static void add(final Activity c, final Bundle bdl) {
+    public static void add(@NonNull final Activity c, @NonNull final Bundle bdl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         final LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
@@ -105,57 +110,49 @@ public class CalcTimes extends Times {
         builder.setTitle(R.string.calcMethod);
         builder.setView(view);
         final AlertDialog dlg = builder.create();
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        lv.setOnItemClickListener((arg0, arg1, pos, index) -> {
+            Method method1 = Method.values()[pos];
 
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long index) {
-                Method method = Method.values()[pos];
+            if (method1 == Method.Custom) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
+                final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
 
-                if (method == Method.Custom) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(c);
-                    final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
-
-                    builder.setView(custom);
-                    final Dialog dlg = builder.show();
-                    custom.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            CalcTimes t = new CalcTimes(System.currentTimeMillis());
-                            t.setSource(Source.Calc);
-                            t.setName(bdl.getString("city"));
-                            t.setLat(bdl.getDouble("lat"));
-                            t.setLng(bdl.getDouble("lng"));
-                            t.setMethodParams(new double[]{
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
-                                    ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
-                                    ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
-                            });
-                            t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
-                            t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
-                            t.setSortId(99);
-                            c.finish();
-
-
-                            dlg.cancel();
-                        }
-                    });
-                } else {
+                builder1.setView(custom);
+                final Dialog dlg1 = builder1.show();
+                custom.findViewById(R.id.ok).setOnClickListener(view1 -> {
                     CalcTimes t = new CalcTimes(System.currentTimeMillis());
                     t.setSource(Source.Calc);
                     t.setName(bdl.getString("city"));
                     t.setLat(bdl.getDouble("lat"));
                     t.setLng(bdl.getDouble("lng"));
-                    t.setMethod(method);
+                    t.setMethodParams(new double[]{
+                            Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
+                            ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
+                            Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
+                            ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
+                            Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
+                    });
                     t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
                     t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
                     t.setSortId(99);
                     c.finish();
-                }
-                dlg.cancel();
-            }
 
+
+                    dlg1.cancel();
+                });
+            } else {
+                CalcTimes t = new CalcTimes(System.currentTimeMillis());
+                t.setSource(Source.Calc);
+                t.setName(bdl.getString("city"));
+                t.setLat(bdl.getDouble("lat"));
+                t.setLng(bdl.getDouble("lng"));
+                t.setMethod(method1);
+                t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
+                t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                t.setSortId(99);
+                c.finish();
+            }
+            dlg.cancel();
         });
 
         try {
@@ -164,13 +161,14 @@ public class CalcTimes extends Times {
         }
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Calc;
     }
 
     @Override
-    public String _getTime(LocalDate date, int time) {
+    public String _getTime(@NonNull LocalDate date, int time) {
         List<String> times = getPrayTime().getDatePrayerTimes(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), getLat(), getLng());
         times.remove(4);
         return times.get(time);
@@ -181,7 +179,7 @@ public class CalcTimes extends Times {
         return Method.valueOf(method);
     }
 
-    public synchronized void setMethod(Method value) {
+    public synchronized void setMethod(@NonNull Method value) {
         method = value.name();
         save();
     }
@@ -200,7 +198,7 @@ public class CalcTimes extends Times {
         return Juristic.valueOf(juristic);
     }
 
-    public synchronized void setJuristic(Juristic value) {
+    public synchronized void setJuristic(@NonNull Juristic value) {
         juristic = value.name();
         save();
     }
@@ -209,7 +207,7 @@ public class CalcTimes extends Times {
         return AdjMethod.valueOf(adjMethod);
     }
 
-    public synchronized void setAdjMethod(AdjMethod value) {
+    public synchronized void setAdjMethod(@NonNull AdjMethod value) {
         adjMethod = value.name();
         save();
     }

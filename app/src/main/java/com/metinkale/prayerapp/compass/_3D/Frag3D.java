@@ -12,15 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass._3D;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.compass.Main;
 import com.metinkale.prayerapp.compass.Main.MyCompassListener;
@@ -30,7 +33,7 @@ public class Frag3D extends Fragment implements MyCompassListener {
     private CompassView mCompassView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_3d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
         onUpdateDirection();

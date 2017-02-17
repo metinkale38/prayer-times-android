@@ -12,12 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -28,11 +30,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 
 
@@ -57,7 +61,7 @@ public class Main extends BaseActivity {
         private int year;
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View view = inflater.inflate(R.layout.calendar_frag, container, false);
 
@@ -73,7 +77,7 @@ public class Main extends BaseActivity {
         }
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, @NonNull View v, int pos, long arg3) {
             String asset = Utils.getAssetForHolyday((Integer) v.getTag());
             if ((asset != null) && !"en".equals(Prefs.getLanguage()) && !"ar".equals(Prefs.getLanguage())) {
 
@@ -91,6 +95,7 @@ public class Main extends BaseActivity {
 
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             if ("ar".equals(Prefs.getLanguage())) position = getCount() - position - 1;

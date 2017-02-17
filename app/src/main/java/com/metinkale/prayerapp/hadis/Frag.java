@@ -12,17 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.hadis.SqliteHelper.Hadis;
 
@@ -33,9 +37,12 @@ public class Frag extends Fragment {
 
     private static final String NUMBER = "nr";
     private TextView mTv;
+    @Nullable
     private String mText;
+    @Nullable
     private String mQuery;
 
+    @NonNull
     public static Fragment create(int nr) {
         Frag frag = new Frag();
         Bundle bdl = new Bundle();
@@ -51,7 +58,7 @@ public class Frag extends Fragment {
     }
 
     @Override
-    public void setArguments(Bundle bdl) {
+    public void setArguments(@NonNull Bundle bdl) {
         super.setArguments(bdl);
         int nr = bdl.getInt(NUMBER);
 
@@ -67,7 +74,7 @@ public class Frag extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bdl = getArguments();
         String hadis = bdl.getString("hadis");
         String kaynak = bdl.getString("kaynak");
@@ -91,7 +98,7 @@ public class Frag extends Fragment {
         return v;
     }
 
-    public void setQuery(String query) {
+    public void setQuery(@Nullable String query) {
         if ((query == null) || (mText == null)) {
             mQuery = query;
             return;

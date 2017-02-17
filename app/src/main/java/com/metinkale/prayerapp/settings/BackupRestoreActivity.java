@@ -12,17 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,13 +31,22 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.Main;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -73,38 +83,35 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         final File file = mAdapter.getFile(pos);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(file.getName()).setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    File files = getFilesDir();
-                    for (File file : files.listFiles()) {
-                        file.delete();
-                    }
-                    files.delete();
-                    files = new File(files.getParentFile(), "databases");
-                    for (File file : files.listFiles()) {
-                        file.delete();
-                    }
-                    files.delete();
-                    files = new File(files.getParentFile(), "shared_prefs");
-                    for (File file : files.listFiles()) {
-                        file.delete();
-                    }
-                    files.delete();
-
-                    files = files.getParentFile();
-
-                    Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
-                    System.exit(0);
-                    Intent i = new Intent(BackupRestoreActivity.this, Main.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
-                } else {
-                    file.delete();
-                    mAdapter.notifyDataSetChanged();
+        builder.setTitle(file.getName()).setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, (dialog, which) -> {
+            if (which == 0) {
+                File files = getFilesDir();
+                for (File file1 : files.listFiles()) {
+                    file1.delete();
                 }
+                files.delete();
+                files = new File(files.getParentFile(), "databases");
+                for (File file1 : files.listFiles()) {
+                    file1.delete();
+                }
+                files.delete();
+                files = new File(files.getParentFile(), "shared_prefs");
+                for (File file1 : files.listFiles()) {
+                    file1.delete();
+                }
+                files.delete();
+
+                files = files.getParentFile();
+
+                Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
+                System.exit(0);
+                Intent i = new Intent(BackupRestoreActivity.this, Main.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            } else {
+                file.delete();
+                mAdapter.notifyDataSetChanged();
             }
         });
         builder.show();
@@ -161,13 +168,13 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         ZipOutputStream out;
         byte[] data;
 
-        public Zip(String name) throws FileNotFoundException {
+        public Zip(@NonNull String name) throws FileNotFoundException {
             FileOutputStream dest = new FileOutputStream(name);
             out = new ZipOutputStream(new BufferedOutputStream(dest));
             data = new byte[BUFFER];
         }
 
-        public static boolean unzip(String zip, String to) {
+        public static boolean unzip(@NonNull String zip, String to) {
             InputStream is;
             ZipInputStream zis;
             try {
@@ -205,7 +212,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
             return true;
         }
 
-        public void addFile(String folder, String name) throws IOException {
+        public void addFile(@Nullable String folder, @NonNull String name) throws IOException {
             FileInputStream fi = new FileInputStream(name);
             BufferedInputStream origin = new BufferedInputStream(fi, BUFFER);
             ZipEntry entry = new ZipEntry((folder == null ? "" : folder + "/") + name.substring(name.lastIndexOf("/") + 1));
@@ -224,7 +231,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
     class MyAdapter extends ArrayAdapter<String> {
 
-        public MyAdapter(Context context) {
+        public MyAdapter(@NonNull Context context) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
         }
 

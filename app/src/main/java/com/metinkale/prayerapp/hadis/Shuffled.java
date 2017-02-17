@@ -12,16 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
 
-import java.util.*;
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 class Shuffled {
+    @NonNull
     private static Random random = new Random(5);
+    @NonNull
     private static List<Integer> list = new ArrayList<>();
 
+    @NonNull
     public static Collection<Integer> getList() {
         if (list.isEmpty()) {
             int c = SqliteHelper.get().getCount();

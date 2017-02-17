@@ -12,9 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
+
+import android.support.annotation.NonNull;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
@@ -33,12 +36,14 @@ class DiyanetTimes extends WebTimes {
         super(id);
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return Source.Diyanet;
     }
 
 
+    @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String path = getId();
 
@@ -57,7 +62,7 @@ class DiyanetTimes extends WebTimes {
         if (a.length == 4) {
             city = Integer.parseInt(a[3]);
         }
-        Builders.Any.F builder = Ion.with(App.getContext()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
+        Builders.Any.F builder = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
@@ -107,7 +112,7 @@ class DiyanetTimes extends WebTimes {
             setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
             i++;
         }
-        return i > 0;
+        return i > 25;
     }
 
 

@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -30,8 +31,10 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -39,12 +42,13 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.LocalDate;
 
 public class WidgetProvider extends AppWidgetProvider {
     private static float mDP;
 
-    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+    private static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
 
         if (mDP == 0) {
             Resources r = context.getResources();
@@ -212,9 +216,9 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
 
-    public static void updateWidgets(Context c) {
+    public static void updateWidgets(@NonNull Context c) {
         try {
-            AppWidgetManager manager = AppWidgetManager.getInstance(App.getContext());
+            AppWidgetManager manager = AppWidgetManager.getInstance(App.get());
 
 
             ComponentName thisWidget = new ComponentName(c, WidgetProvider.class);
@@ -260,7 +264,7 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onEnabled(Context context) {
+    public void onEnabled(@NonNull Context context) {
         ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
@@ -268,7 +272,7 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, @NonNull int[] appWidgetIds) {
 
         for (int widgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, widgetId);
@@ -282,7 +286,7 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+    public void onAppWidgetOptionsChanged(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int appWidgetId, @NonNull Bundle newOptions) {
         int w = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int h = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 

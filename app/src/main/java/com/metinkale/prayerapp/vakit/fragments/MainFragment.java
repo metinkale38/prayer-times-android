@@ -12,13 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,11 +28,18 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.view.*;
-import android.widget.DatePicker;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,8 +69,10 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
     private static final int[] ids = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
     private static final int[] idsNames = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+    @NonNull
     private static Handler mHandler = new Handler();
     private View mView;
+    @Nullable
     private Times mTimes;
     private long mCity;
     private TextView mCountdown;
@@ -71,6 +80,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     private TextView mTitle;
     private TextView mHicri;
     private TextView mDate;
+    @NonNull
     private Runnable onSecond = new Runnable() {
 
         @Override
@@ -111,7 +121,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
         setHasOptionsMenu(true);
         if (mCity == 0) {
@@ -178,7 +188,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         try {
             MaterialMenuInflater.with(getActivity(), inflater)
                     .setDefaultColor(Color.WHITE)
@@ -190,7 +200,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
 
@@ -209,52 +219,45 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             case R.id.export:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.export)
-                        .setItems(new CharSequence[]{"CSV", "PDF"}, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, final int which) {
+                        .setItems(new CharSequence[]{"CSV", "PDF"}, (dialog, which) -> {
 
-                                long minDate = 0;
-                                long maxDate = Long.MAX_VALUE;
-                                if (mTimes instanceof WebTimes) {
-                                    minDate = ((WebTimes) mTimes).getFirstSyncedDay().toDateTimeAtCurrentTime().getMillis();
-                                    maxDate = ((WebTimes) mTimes).getLastSyncedDay().toDateTimeAtCurrentTime().getMillis();
-                                }
-                                final LocalDate ld = LocalDate.now();
-                                final long finalMaxDate = maxDate;
-                                DatePickerDialog dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                                    @Override
-                                    public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                                        final LocalDate from = new LocalDate(y, m + 1, d);
-                                        DatePickerDialog
-                                                dlg = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                                            @Override
-                                            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                                                final LocalDate to = new LocalDate(y, m + 1, d);
-                                                try {
-                                                    export(which, from, to);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                    Crashlytics.logException(e);
-                                                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
-                                        DateTime startDate = DateTime.now().withDate(y, m + 1, d);
-                                        long start = startDate.getMillis();
-                                        dlg.getDatePicker().setMinDate(start);
-                                        if (which == 1)
-                                            dlg.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
-                                        else
-                                            dlg.getDatePicker().setMaxDate(finalMaxDate);
-                                        dlg.setTitle(R.string.to);
-                                        dlg.show();
-
+                            long minDate = 0;
+                            long maxDate = Long.MAX_VALUE;
+                            if (mTimes instanceof WebTimes) {
+                                minDate = ((WebTimes) mTimes).getFirstSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                                maxDate = ((WebTimes) mTimes).getLastSyncedDay().toDateTimeAtCurrentTime().getMillis();
+                            }
+                            final LocalDate ld = LocalDate.now();
+                            final long finalMaxDate = maxDate;
+                            DatePickerDialog dlg = new DatePickerDialog(getActivity(), (datePicker, y, m, d) -> {
+                                final LocalDate from = new LocalDate(y, m + 1, d);
+                                DatePickerDialog
+                                        dlg1 = new DatePickerDialog(getActivity(), (datePicker1, y1, m1, d1) -> {
+                                    final LocalDate to = new LocalDate(y1, m1 + 1, d1);
+                                    try {
+                                        export(which, from, to);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        Crashlytics.logException(e);
+                                        Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
                                     }
                                 }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
-                                dlg.getDatePicker().setMinDate(minDate);
-                                dlg.getDatePicker().setMaxDate(maxDate);
-                                dlg.setTitle(R.string.from);
-                                dlg.show();
-                            }
+                                DateTime startDate = DateTime.now().withDate(y, m + 1, d);
+                                long start = startDate.getMillis();
+                                if (which == 1)
+                                    dlg1.getDatePicker().setMaxDate(Math.min(finalMaxDate, startDate.plusDays(31).getMillis()));
+                                else
+                                    dlg1.getDatePicker().setMaxDate(finalMaxDate);
+
+                                dlg1.getDatePicker().setMinDate(start);
+                                dlg1.setTitle(R.string.to);
+                                dlg1.show();
+
+                            }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
+                            dlg.getDatePicker().setMinDate(minDate);
+                            dlg.getDatePicker().setMaxDate(maxDate);
+                            dlg.setTitle(R.string.from);
+                            dlg.show();
                         });
                 builder.show();
                 break;
@@ -282,7 +285,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         return super.onOptionsItemSelected(item);
     }
 
-    private void export(int csvpdf, LocalDate from, LocalDate to) throws IOException {
+    private void export(int csvpdf, @NonNull LocalDate from, @NonNull LocalDate to) throws IOException {
         File outputDir = getActivity().getCacheDir();
         if (!outputDir.exists()) outputDir.mkdirs();
         File outputFile = new File(outputDir, mTimes.getName().replace(" ", "_") + (csvpdf == 0 ? ".csv" : ".pdf"));
@@ -374,7 +377,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                     y += 20;
                     canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 0)), 30 + (1.5f * cw), y, paint);
-                     canvas.drawText((mTimes.getTime(from, 1)), 30 + (2.5f * cw), y, paint);
+                    canvas.drawText((mTimes.getTime(from, 1)), 30 + (2.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 2)), 30 + (3.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 3)), 30 + (4.5f * cw), y, paint);
                     canvas.drawText((mTimes.getTime(from, 4)), 30 + (5.5f * cw), y, paint);
@@ -403,6 +406,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.export)));
     }
 
+    @Nullable
     public Times getTimes() {
         return mTimes;
     }

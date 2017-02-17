@@ -1,5 +1,6 @@
 package com.metinkale.prayerapp.compass.classes;
 
+import android.support.annotation.NonNull;
 import android.view.Surface;
 import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.math.Util;
@@ -18,24 +19,40 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
     private static final int POINTS_PER_SEGMENT = 72;
     private static final int NUM_SEGMENTS = 11;
     private static final int NUM_POINTS = POINTS_PER_SEGMENT * NUM_SEGMENTS;
+    @NonNull
     private List<Vector3> mVertices = new ArrayList<>(NUM_POINTS + 1);
     private static final int ORTHO_RESOLUTION = 1000;
+    @NonNull
     private Vector3 mRollTopAbsolute = new Vector3();
+    @NonNull
     private Vector3 mRollBottomAbsolute = new Vector3();
+    @NonNull
     private Vector3 mOriginPoint = new Vector3();
+    @NonNull
     private Vector3 mReticlePoint = new Vector3();
+    @NonNull
     private Vector3 mSphereTop = new Vector3();
+    @NonNull
     private Vector3 mSphereBottom = new Vector3();
+    @NonNull
     private Vector3 mNorthReference = new Vector3();
+    @NonNull
     private Vector3 mNorthAbsolute = new Vector3();
+    @NonNull
     private Vector3 mSouthAbsolute = new Vector3();
+    @NonNull
     private Vector3 mWestAbsolute = new Vector3();
+    @NonNull
     private Vector3 mEastAbsolute = new Vector3();
 
+    @NonNull
     private Matrix4 mOrthographicProjectionMatrix = new Matrix4();
+    @NonNull
     private Matrix4 mModelViewMatrix = new Matrix4();
 
+    @NonNull
     private Collection<Vector3> mOrthographicVertexBatch = new ArrayList<>();
+    @NonNull
     private Vector4 vTemp = new Vector4();
 
     public OrientationCalculatorImpl() {
@@ -51,7 +68,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
     }
 
     @Override
-    public void getOrientation(Matrix4 rotationMatrix, int screenRotation, float[] out) {
+    public void getOrientation(@NonNull Matrix4 rotationMatrix, int screenRotation, float[] out) {
         rotatePoints(rotationMatrix, screenRotation);
 
         Vector3 neighborPoint;
@@ -306,7 +323,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
      *
      * @param rotationMatrix
      */
-    private void rotatePoints(Matrix4 rotationMatrix, int screenRotation) {
+    private void rotatePoints(@NonNull Matrix4 rotationMatrix, int screenRotation) {
         resetPoints();
         int width = ORTHO_RESOLUTION;
         int height = ORTHO_RESOLUTION;

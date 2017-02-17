@@ -12,11 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
@@ -41,7 +43,6 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -67,10 +68,12 @@ public abstract class Times extends TimesBase {
             .appendMinutes()
             .toFormatter();
 
+    @NonNull
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
+    @Nullable
     private static List<Times> sTimes = new ArrayList<Times>() {
         @Override
-        public boolean add(Times object) {
+        public boolean add(@Nullable Times object) {
             if (object == null) {
                 return false;
             }
@@ -124,7 +127,7 @@ public abstract class Times extends TimesBase {
         }
     }
 
-    public static void addOnTimesListChangeListener(OnTimesListChangeListener list) {
+    public static void addOnTimesListChangeListener(@NonNull OnTimesListChangeListener list) {
         if (sListeners == null) sListeners = new ArrayList<>();
         sListeners.add(list);
         list.notifyDataSetChanged();
@@ -151,13 +154,10 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    static void clearTimes() {
-        sTimes.clear();
-    }
-
+    @Nullable
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
-            SharedPreferences prefs = App.getContext().getSharedPreferences("cities", 0);
+            SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
 
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {
@@ -175,21 +175,19 @@ public abstract class Times extends TimesBase {
 
     public static void sort() {
         if (sTimes.isEmpty()) return;
-        Collections.sort(sTimes, new Comparator<Times>() {
-            @Override
-            public int compare(Times t1, Times t2) {
-                try {
-                    return t1.getSortId() - t2.getSortId();
-                } catch (RuntimeException e) {
-                    Crashlytics.logException(e);
-                    return 0;
-                }
+        Collections.sort(sTimes, (t1, t2) -> {
+            try {
+                return t1.getSortId() - t2.getSortId();
+            } catch (RuntimeException e) {
+                Crashlytics.logException(e);
+                return 0;
             }
         });
 
         notifyDataSetChanged();
     }
 
+    @NonNull
     public static List<Long> getIds() {
         List<Long> ids = new ArrayList<>();
         List<Times> times = getTimes();
@@ -205,6 +203,7 @@ public abstract class Times extends TimesBase {
         return getTimes().size();
     }
 
+    @NonNull
     private static List<Alarm> getAllAlarms() {
         List<Alarm> alarms = new ArrayList<>();
         List<Long> ids = getIds();
@@ -222,13 +221,13 @@ public abstract class Times extends TimesBase {
         List<Alarm> alarms = getAllAlarms();
 
         for (Alarm a : alarms) {
-            AlarmReceiver.setAlarm(App.getContext(), a);
+            AlarmReceiver.setAlarm(App.get(), a);
 
         }
 
     }
 
-    public void addOnTimesUpdatedListener(OnTimesUpdatedListener list) {
+    public void addOnTimesUpdatedListener(@NonNull OnTimesUpdatedListener list) {
         if (mListeners == null) mListeners = new ArrayList<>();
         mListeners.add(list);
         list.onTimesUpdated(this);
@@ -245,6 +244,7 @@ public abstract class Times extends TimesBase {
                 list.onTimesUpdated(this);
     }
 
+    @NonNull
     private Collection<Alarm> getAlarms() {
         Collection<Alarm> alarms = new ArrayList<>();
 
@@ -340,7 +340,8 @@ public abstract class Times extends TimesBase {
         return alarms;
     }
 
-    private LocalDateTime getTimeCal(LocalDate date, int time) {
+    @NonNull
+    private LocalDateTime getTimeCal(@Nullable LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -365,7 +366,7 @@ public abstract class Times extends TimesBase {
         return timeCal;
     }
 
-    public String getTime(LocalDate date, int time) {
+    public String getTime(@Nullable LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -393,7 +394,8 @@ public abstract class Times extends TimesBase {
         return getTime(null, time);
     }
 
-    private String adj(String time, int t) {
+    @NonNull
+    private String adj(@NonNull String time, int t) {
         try {
             double drift = getTZFix();
             int[] adj = getMinuteAdj();
@@ -486,6 +488,7 @@ public abstract class Times extends TimesBase {
 
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "times_id_" + getID();

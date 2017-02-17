@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -19,11 +20,17 @@ package com.metinkale.prayerapp.vakit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -32,9 +39,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.utils.NumberPickerDialog;
-import com.metinkale.prayerapp.utils.NumberPickerDialog.OnNumberSetListener;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser.Callback;
@@ -48,29 +55,31 @@ public class PrefsView extends View implements OnClickListener {
     private static final ColorFilter sCFActive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
     private static final ColorFilter sCFInactive = new PorterDuffColorFilter(0xffa0a0a0, Mode.SRC_ATOP);
 
+    @NonNull
     private final Paint mPaint;
+    @Nullable
     private Pref mPref;
     private Drawable mDrawable;
     private PrefsFunctions mFunc;
     private Vakit mVakit;
 
-    public PrefsView(Context c) {
+    public PrefsView(@NonNull Context c) {
         this(c, null, 0);
     }
 
-    public PrefsView(Context c, Pref pref) {
+    public PrefsView(@NonNull Context c, Pref pref) {
         this(c, null, 0, pref);
     }
 
-    public PrefsView(Context c, AttributeSet attrs) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs) {
         this(c, attrs, 0);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs, int defStyle) {
         this(c, attrs, defStyle, null);
     }
 
-    public PrefsView(Context c, AttributeSet attrs, int defStyle, Pref pref) {
+    public PrefsView(@NonNull Context c, AttributeSet attrs, int defStyle, @Nullable Pref pref) {
         super(c, attrs, defStyle);
         if (pref != null) {
             mPref = pref;
@@ -110,7 +119,7 @@ public class PrefsView extends View implements OnClickListener {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
         canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2, canvas.getHeight() / 2);
         Object o = getValue();
@@ -171,6 +180,7 @@ public class PrefsView extends View implements OnClickListener {
         setMeasuredDimension(size, size);
     }
 
+    @Nullable
     public Object getValue() {
         if (mFunc == null) {
             switch (mPref) {
@@ -208,6 +218,7 @@ public class PrefsView extends View implements OnClickListener {
         if ((mPref == Pref.Sound) || (mPref == Pref.Dua) || (mPref == Pref.Sela)) {
             new SoundChooser().showExpanded(((Activity) getContext()).getFragmentManager(), new Callback() {
 
+                @Nullable
                 @Override
                 public String getCurrent() {
                     return (String) getValue();
@@ -224,6 +235,7 @@ public class PrefsView extends View implements OnClickListener {
                     return mVakit;
                 }
 
+                @NonNull
                 @Override
                 public List<Sound> getSounds() {
                     if (mPref == Pref.Sound) {
@@ -252,15 +264,7 @@ public class PrefsView extends View implements OnClickListener {
             np.setValue(Math.abs(val));
 
             rg.check((val < 0) ? R.id.afterImsak : R.id.beforeGunes);
-            builder.setView(view).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    setValue(np.getValue() * ((rg.getCheckedRadioButtonId() == R.id.beforeGunes) ? 1 : -1));
-                }
-            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                }
+            builder.setView(view).setPositiveButton(R.string.ok, (dialog, id) -> setValue(np.getValue() * ((rg.getCheckedRadioButtonId() == R.id.beforeGunes) ? 1 : -1))).setNegativeButton(R.string.cancel, (dialog, id) -> {
             });
             builder.show();
         } else if (mPref == Pref.Vibration2) {
@@ -288,14 +292,7 @@ public class PrefsView extends View implements OnClickListener {
                 default:
                     break;
             }
-            NumberPickerDialog npd = new NumberPickerDialog(getContext(), new OnNumberSetListener() {
-
-                @Override
-                public void onNumberSet(int dialogId, int number) {
-                    setValue(number);
-
-                }
-            }, (Integer) o, 0, 300, titleId, 0, 0);
+            NumberPickerDialog npd = new NumberPickerDialog(getContext(), (dialogId, number) -> setValue(number), (Integer) o, 0, 300, titleId, 0, 0);
             npd.show();
         }
 
@@ -312,6 +309,7 @@ public class PrefsView extends View implements OnClickListener {
     }
 
     public interface PrefsFunctions {
+        @Nullable
         Object getValue();
 
         void setValue(Object obj);

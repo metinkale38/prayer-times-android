@@ -1,22 +1,32 @@
 /*
- * Copyright (C) 2011 Google Inc.
+ * Copyright (c) 2016 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times.gson;
 
-import com.google.gson.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -116,12 +126,14 @@ import java.util.Map;
  * }</pre>
  */
 public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
+    @Nullable
     private final Class<?> baseType;
+    @Nullable
     private final String typeFieldName;
     private final Map<String, Class<?>> labelToSubtype = new LinkedHashMap<>();
     private final Map<Class<?>, String> subtypeToLabel = new LinkedHashMap<>();
 
-    private RuntimeTypeAdapterFactory(Class<?> baseType, String typeFieldName) {
+    private RuntimeTypeAdapterFactory(@Nullable Class<?> baseType, @Nullable String typeFieldName) {
         if (typeFieldName == null || (baseType == null)) {
             throw new NullPointerException();
         }
@@ -133,6 +145,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
      * Creates a new runtime type adapter using for {@code baseType} using {@code
      * typeFieldName} as the type field name. Type field names are case sensitive.
      */
+    @NonNull
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName) {
         return new RuntimeTypeAdapterFactory<>(baseType, typeFieldName);
     }
@@ -141,6 +154,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
      * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
      * the type field name.
      */
+    @NonNull
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType) {
         return new RuntimeTypeAdapterFactory<>(baseType, "type");
     }
@@ -152,7 +166,8 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
      * @throws IllegalArgumentException if either {@code type} or {@code label}
      *                                  have already been registered on this type adapter.
      */
-    public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label) {
+    @NonNull
+    public RuntimeTypeAdapterFactory<T> registerSubtype(@Nullable Class<? extends T> type, @Nullable String label) {
         if (type == null || (label == null)) {
             throw new NullPointerException();
         }
@@ -171,12 +186,13 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
      * @throws IllegalArgumentException if either {@code type} or its simple name
      *                                  have already been registered on this type adapter.
      */
-    public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type) {
+    @NonNull
+    public RuntimeTypeAdapterFactory<T> registerSubtype(@NonNull Class<? extends T> type) {
         return registerSubtype(type, type.getSimpleName());
     }
 
     @Override
-    public <R> TypeAdapter<R> create(Gson gson, TypeToken<R> type) {
+    public <R> TypeAdapter<R> create(@NonNull Gson gson, @NonNull TypeToken<R> type) {
         if (type.getRawType() != baseType) {
             return null;
         }
@@ -211,7 +227,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
             }
 
             @Override
-            public void write(JsonWriter out, R value) throws IOException {
+            public void write(JsonWriter out, @NonNull R value) throws IOException {
                 Class<?> srcType = value.getClass();
                 String label = subtypeToLabel.get(srcType);
                 @SuppressWarnings("unchecked") // registration requires that subtype extends T

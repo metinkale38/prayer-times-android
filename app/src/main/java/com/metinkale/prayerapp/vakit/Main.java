@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -20,6 +21,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -56,11 +59,12 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
     private MultipleOrientationSlidingDrawer mTopSlider;
     private MultipleOrientationSlidingDrawer mBottomSlider;
 
-    public static PendingIntent getPendingIntent(Times t) {
+    @Nullable
+    public static PendingIntent getPendingIntent(@Nullable Times t) {
         if (t == null) {
             return null;
         }
-        Context context = App.getContext();
+        Context context = App.get();
         Intent intent = new Intent(context, Main.class);
         intent.putExtra("startCity", Times.getTimes().indexOf(t));
         return PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -116,67 +120,44 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
             }
         });
 
-        mTopSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
-                int position = mPager.getCurrentItem();
-                if (position != 0) {
-                    Times t = Times.getTimes(mAdapter.getItemId(position));
-                    mSettingsFrag.setTimes(t);
-                }
-                mBottomSlider.lock();
+        mTopSlider.setOnDrawerOpenListener(() -> {
+            int position = mPager.getCurrentItem();
+            if (position != 0) {
+                Times t = Times.getTimes(mAdapter.getItemId(position));
+                mSettingsFrag.setTimes(t);
             }
+            mBottomSlider.lock();
         });
 
-        mTopSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mBottomSlider.unlock();
+        mTopSlider.setOnDrawerCloseListener(() -> {
+            mBottomSlider.unlock();
 
-                Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
-                if (page instanceof MainFragment) {
-                    ((MainFragment) page).update();
-                }
-
+            Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
+            if (page instanceof MainFragment) {
+                ((MainFragment) page).update();
             }
+
         });
 
 
-        mBottomSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
+        mBottomSlider.setOnDrawerOpenListener(() -> mTopSlider.lock());
 
-                mTopSlider.lock();
+        mBottomSlider.setOnDrawerCloseListener(() -> mTopSlider.unlock());
+        findViewById(R.id.topSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
+                mTopSlider.animateClose();
+                return true;
             }
-        });
-
-        mBottomSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mTopSlider.unlock();
-            }
-        });
-        findViewById(R.id.topSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
-                    mTopSlider.animateClose();
-                    return true;
-                }
-                return false;
-            }
+            return false;
         });
 
 
-        findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
-                    mBottomSlider.animateClose();
-                    return true;
-                }
-                return false;
+        findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
+                mBottomSlider.animateClose();
+                return true;
             }
+            return false;
         });
 
 
@@ -270,7 +251,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
 
     }
 
-    public void setFooterText(CharSequence txt, boolean enablePane) {
+    public void setFooterText(@NonNull CharSequence txt, boolean enablePane) {
         mFooterText.setVisibility(txt.toString().isEmpty() ? View.GONE : View.VISIBLE);
         mFooterText.setText(txt);
         mPager.setSwipeLocked(!enablePane);
@@ -324,6 +305,7 @@ public class Main extends BaseActivity implements OnPageChangeListener, View.OnC
         }
 
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             if (position > 0) {

@@ -12,11 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
 
+import android.support.annotation.NonNull;
+
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
@@ -32,6 +36,7 @@ public class HicriDate {
     public static final int GM = 4;
     public static final int GY = 5;
     public static final int DAY = 6;
+    @NonNull
     private static final int[][] mDates;
 
     @SuppressWarnings("WeakerAccess")
@@ -93,6 +98,7 @@ public class HicriDate {
     }
 
 
+    @NonNull
     public static List<int[]> getHolydays(int year) {
         List<int[]> dates = new ArrayList<>();
         for (int[] d : mDates) {

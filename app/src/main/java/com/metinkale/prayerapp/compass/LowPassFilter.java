@@ -12,9 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass;
+
+import android.support.annotation.Nullable;
 
 public class LowPassFilter {
 
@@ -36,7 +39,8 @@ public class LowPassFilter {
      * @param prev  float array representing the previous values.
      * @return float array smoothed with a low-pass filter.
      */
-    public static float[] filter(float[] input, float[] prev) {
+    @Nullable
+    public static float[] filter(@Nullable float[] input, @Nullable float[] prev) {
         if ((input == null) || (prev == null)) {
             throw new NullPointerException("input and prev float arrays must be non-NULL");
         }

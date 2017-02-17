@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.hadis;
@@ -22,6 +23,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -35,12 +38,15 @@ import java.util.Locale;
 
 public class SqliteHelper extends SQLiteOpenHelper {
     private static SqliteHelper mInstance;
+    @Nullable
     private static File FILE;
+    @Nullable
     private SQLiteDatabase mDB;
+    @NonNull
     private List<String> categories = new ArrayList<>();
     private volatile int mOpenCounter;
 
-    private SqliteHelper(Context context) {
+    private SqliteHelper(@NonNull Context context) {
         super(context, "hadis.db", null, 1);
         FILE = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         mInstance = this;
@@ -54,7 +60,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     public static SqliteHelper get() {
         if (mInstance == null) {
-            new SqliteHelper(App.getContext());
+            new SqliteHelper(App.get());
 
         }
         return mInstance;
@@ -69,6 +75,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return ret;
     }
 
+    @NonNull
     public List<Integer> search(CharSequence query) {
         openDatabase();
         List<Integer> list = new ArrayList<>();
@@ -95,6 +102,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    @NonNull
     public Collection<Integer> get(String cat) {
         openDatabase();
         Collection<Integer> list = new ArrayList<>();
@@ -115,6 +123,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    @Nullable
     public Hadis get(int id) {
         openDatabase();
         try {
@@ -136,6 +145,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         }
     }
 
+    @NonNull
     List<String> getCategories() {
         if (!categories.isEmpty()) {
             return categories;

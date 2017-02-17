@@ -12,15 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,48 +30,48 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.support.multidex.MultiDexApplication;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
-import com.github.anrwatchdog.ANRError;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
+import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.squareup.leakcanary.LeakCanary;
 
-import io.fabric.sdk.android.Fabric;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.joda.time.DateTimeZone;
 
-import java.util.TimeZone;
+import java.lang.ref.WeakReference;
+
+import io.fabric.sdk.android.Fabric;
 
 
-public class App extends MultiDexApplication implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
-    @SuppressLint("StaticFieldLeak")
-    private static Context sContext;
-    private static Handler sHandler = new Handler();
+    private static WeakReference<App> sApp;
+    @NonNull
+    private Handler mHandler = new Handler();
 
     private static Thread.UncaughtExceptionHandler mDefaultUEH;
+    @NonNull
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
-        public void uncaughtException(Thread thread, Throwable ex) {
-            // Custom logic goes here
+        public void uncaughtException(Thread thread, @NonNull Throwable ex) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Prefs.setShowOngoingNumber(false);
-                    Toast.makeText(App.getContext(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
                     Crashlytics.setBool("WORKAROUND#1", true);
                 }
             }
@@ -79,29 +81,26 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     };
 
 
-    public static Context getContext() {
-        return sContext;
-    }
-
-    public static void setContext(Context context) {
-        sContext = context;
+    public static App get() {
+        if (sApp == null) return null;
+        return sApp.get();
     }
 
     public static boolean isOnline() {
         //only checks for connection, not for actual internet connection
         //everything else need (or should be in) a seperate thread
         ConnectivityManager cm =
-                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) get().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
 
-    public static void setExact(AlarmManager am, int type, long time, PendingIntent service) {
+    public static void setExact(@NonNull AlarmManager am, int type, long time, PendingIntent service) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
                 && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
             AlarmManager.AlarmClockInfo info =
                     new AlarmManager.AlarmClockInfo(time,
-                            PendingIntent.getActivity(App.getContext(), 0, new Intent(App.getContext(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
+                            PendingIntent.getActivity(App.get(), 0, new Intent(App.get(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
             am.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);
@@ -113,8 +112,14 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
 
     }
 
-    public static Handler getHandler() {
-        return sHandler;
+    @NonNull
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+    public App() {
+        super();
+        sApp = new WeakReference<>(this);
     }
 
     @Override
@@ -124,21 +129,20 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
             return;
         }
         LeakCanary.install(this);
-        sContext = this;
 
         Fabric.with(this, new Crashlytics());
         Crashlytics.setUserIdentifier(Prefs.getUUID());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
 
+
         JobManager.create(this).addJobCreator(new MyJobCreator());
 
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
-        JodaTimeAndroid.init(this);
-        DateTimeZone.setDefault(DateTimeZone.forTimeZone(TimeZone.getDefault()));
-
+        DateTimeZone.setProvider(new AndroidTimeZoneProvider());
+        registerReceiver(new TimeZoneChangedReceiver(), new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
 
         try {
             Times.getTimes();
@@ -153,6 +157,19 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
+
         if ("longcheer".equalsIgnoreCase(Build.BRAND)
                 || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
                 || "general mobile".equalsIgnoreCase(Build.BRAND)
@@ -164,7 +181,7 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if ("calendarIntegration".equals(key)) {
-            MainIntentService.startCalendarIntegration(App.getContext());
+            MainIntentService.startCalendarIntegration(App.get());
         } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
             WidgetService.updateOngoing();
         } else if ("alternativeOngoing".equals(key)) {
@@ -179,9 +196,10 @@ public class App extends MultiDexApplication implements SharedPreferences.OnShar
         public static final int ONGOING = 2;
     }
 
-    private class MyJobCreator implements JobCreator {
+    private static class MyJobCreator implements JobCreator {
+        @Nullable
         @Override
-        public Job create(String tag) {
+        public Job create(@NonNull String tag) {
             try {
                 if (tag.startsWith(WebTimes.SyncJob.TAG)) {
                     Times t = Times.getTimes(Long.parseLong(tag.substring(WebTimes.SyncJob.TAG.length())));

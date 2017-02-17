@@ -1,5 +1,3 @@
-package com.metinkale.prayerapp.vakit.times.other;
-
 /*
  * Copyright (c) 2016 Metin Kale
  *
@@ -14,7 +12,12 @@ package com.metinkale.prayerapp.vakit.times.other;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
+
+package com.metinkale.prayerapp.vakit.times.other;
+
+import android.support.annotation.NonNull;
 
 public enum Method {
 
@@ -45,6 +48,7 @@ public enum Method {
      * iv : isha parameter value (in angle or minutes)
      */
     public double[] params;
+    @NonNull
     double[] offsets = {0, 0, 0, 0, 0, 0, 0, 0};
 
     Method(String title, String desc, double[] params) {

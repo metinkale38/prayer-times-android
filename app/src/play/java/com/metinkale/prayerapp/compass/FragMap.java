@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2016 Metin Kale
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.metinkale.prayerapp.compass;
 
 import android.graphics.Color;
@@ -38,15 +55,18 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
     private GoogleMap mMap;
     private FloatingActionButton mFab;
     private final LatLng mKaabePos = new LatLng(21.42247, 39.826198);
+    @Nullable
     private Polyline mLine;
     private GoogleApiClient mGoogleApiClient;
     private Location mLocation;
+    @Nullable
     private Marker mMarker;
+    @Nullable
     private Circle mCircle;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.compass_map, container, false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -119,13 +139,10 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
         mMap.addMarker(new MarkerOptions().position(mKaabePos).anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_kaabe)));
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFab.setOnClickListener(v -> {
 
-                if (mLocation != null) {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
-                }
+            if (mLocation != null) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
             }
         });
 
@@ -144,7 +161,7 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(@NonNull Location location) {
 
         mLocation = location;
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());

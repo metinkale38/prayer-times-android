@@ -1,18 +1,17 @@
 /*
+ * Copyright (c) 2016 Metin Kale
  *
- *  * Copyright (c) $year Metin Kale
- *  *
- *  * Licensed under the Apache License, Version 2.0 (the "License");
- *  * you may not use this file except in compliance with the License.
- *  * You may obtain a copy of the License at
- *  *
- *  *     http://www.apache.org/licenses/LICENSE-2.0
- *  *
- *  * Unless required by applicable law or agreed to in writing, software
- *  * distributed under the License is distributed on an "AS IS" BASIS,
- *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  * See the License for the specific language governing permissions and
- *  * limitations under the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
@@ -21,13 +20,13 @@ package com.metinkale.prayerapp.about;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.webkit.WebView;
@@ -67,33 +66,18 @@ public class AboutAct extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.donateDlg);
         builder.setCancelable(true);
-        builder.setPositiveButton(R.string.paypal, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.cancel();
-                String url = "http://www.paypal.me/metinkale38";
-                openUrl(url);
-            }
+        builder.setPositiveButton(R.string.paypal, (arg0, arg1) -> {
+            arg0.cancel();
+            String url = "http://www.paypal.me/metinkale38";
+            openUrl(url);
         });
-        builder.setNegativeButton(R.string.bitcoin, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.bitcoin, (arg0, arg1) -> {
+            arg0.cancel();
+            String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
+            openUrl(url);
 
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.cancel();
-                String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
-                openUrl(url);
-
-            }
         });
-        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
+        builder.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.cancel());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -143,11 +127,8 @@ public class AboutAct extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
 
-        builder.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton(getResources().getString(R.string.ok), (dialog, which) -> {
 
-            }
         });
 
 
@@ -162,11 +143,11 @@ public class AboutAct extends BaseActivity {
                 .start(this);
     }
 
-    public void mail(View view) {
+    public void mail(@NonNull View view) {
         sendMail(view.getContext());
     }
 
-    public static void sendMail(Context ctx) {
+    public static void sendMail(@NonNull Context ctx) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.appName) + " (com.metinkaler.prayer)");
         String versionCode = "Undefined";
@@ -178,14 +159,14 @@ public class AboutAct extends BaseActivity {
             Crashlytics.logException(e);
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT,
-                   "===Device Information===" +
-                "\nUUID: " + Prefs.getUUID() +
-                "\nManufacturer: " + Build.MANUFACTURER +
-                "\nModel: " + Build.MODEL +
-                "\nAndroid Version: " + Build.VERSION.RELEASE +
-                "\nApp Version Name: " + versionName +
-                "\nApp Version Code: " + versionCode +
-                "\n======================\n\n");
+                "===Device Information===" +
+                        "\nUUID: " + Prefs.getUUID() +
+                        "\nManufacturer: " + Build.MANUFACTURER +
+                        "\nModel: " + Build.MODEL +
+                        "\nAndroid Version: " + Build.VERSION.RELEASE +
+                        "\nApp Version Name: " + versionName +
+                        "\nApp Version Code: " + versionCode +
+                        "\n======================\n\n");
         ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendMail)));
     }
 

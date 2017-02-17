@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
@@ -27,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 
 /**
@@ -36,6 +38,7 @@ import com.metinkale.prayer.R;
 public class NumberPickerDialog extends AlertDialog implements OnClickListener {
 
     private static final String NUMBER = "number";
+    @NonNull
     private final NumberPicker mNumberPicker;
     private final OnNumberSetListener mCallback;
     private final int mDialogId;
@@ -45,7 +48,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * @param callBack How parent is notified.
      * @param number   The initial number.
      */
-    public NumberPickerDialog(Context context, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
+    public NumberPickerDialog(@NonNull Context context, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
         this(context, 0, callBack, number, rangeMin, rangeMax, title, units, dialogId);
     }
 
@@ -55,7 +58,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * @param callBack How parent is notified.
      * @param number   The initial number.
      */
-    private NumberPickerDialog(Context context, int theme, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
+    private NumberPickerDialog(@NonNull Context context, int theme, OnNumberSetListener callBack, int number, int rangeMin, int rangeMax, int title, int units, int dialogId) {
         super(context, theme);
         mCallback = callBack;
         mDialogId = dialogId;
@@ -81,7 +84,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
+    public void onClick(@NonNull DialogInterface dialog, int which) {
         if (mCallback != null) {
             mNumberPicker.clearFocus();
             mCallback.onNumberSet(mDialogId, mNumberPicker.getValue());

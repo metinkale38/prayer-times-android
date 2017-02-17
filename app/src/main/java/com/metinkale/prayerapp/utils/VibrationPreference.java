@@ -12,15 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.Vibrator;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.metinkale.prayer.R;
 
 import java.util.ArrayList;
@@ -43,6 +49,7 @@ public class VibrationPreference extends EditTextPreference {
     private final EditText editText = new EditText(getContext());
     private final Button button = new Button(getContext());
 
+    @NonNull
     public static long[] getPattern(Context c, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         List<Long> mills = new ArrayList<>();
@@ -69,33 +76,31 @@ public class VibrationPreference extends EditTextPreference {
         super(context, attrs);
         setPersistent(true);
         button.setText(R.string.test);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Long> mills = new ArrayList<>();
-                String txt = editText.getText().toString();
-                String[] split = txt.split(" ");
-                for (String s : split) {
-                    if (!s.isEmpty()) {
-                        try {
-                            mills.add(Long.parseLong(s));
-                        } catch (Exception ignore) {
-                        }
+        button.setOnClickListener(v -> {
+            List<Long> mills = new ArrayList<>();
+            String txt = editText.getText().toString();
+            String[] split = txt.split(" ");
+            for (String s : split) {
+                if (!s.isEmpty()) {
+                    try {
+                        mills.add(Long.parseLong(s));
+                    } catch (Exception ignore) {
                     }
                 }
-
-                Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                long[] pattern = new long[mills.size()];
-                for (int i = 0; i < pattern.length; i++) {
-                    pattern[i] = mills.get(i);
-                }
-                vib.vibrate(pattern, -1);
             }
+
+            Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            long[] pattern = new long[mills.size()];
+            for (int i = 0; i < pattern.length; i++) {
+                pattern[i] = mills.get(i);
+            }
+            vib.vibrate(pattern, -1);
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }
 
-    //Create the Dialog view
+
+    @NonNull
     @Override
     protected View onCreateDialogView() {
         button.setId(R.id.button5);
@@ -138,4 +143,60 @@ public class VibrationPreference extends EditTextPreference {
     public void setValue(CharSequence value) {
         editText.setText(value);
     }
+
+    @NonNull
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        final SavedState myState = new SavedState(superState);
+        myState.text = editText.getText().toString();
+        return myState;
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(@Nullable Parcelable state) {
+        if (state == null || !state.getClass().equals(SavedState.class)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        editText.setText(myState.text);
+    }
+
+    private static class SavedState extends BaseSavedState {
+        String text;
+
+        public SavedState(@NonNull Parcel source) {
+            super(source);
+            text = source.readString();
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeString(text);
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @NonNull
+                    public SavedState createFromParcel(@NonNull Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    @NonNull
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
+
 }

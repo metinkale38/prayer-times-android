@@ -12,6 +12,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+  ~
   -->
 <resources>
     <string name="activateForMorePrefs">Activate for more Preferences&#8230;</string>
@@ -259,4 +260,5 @@
     <string name="addFromCSV">Add from CSV</string>
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
+    <string name="stopFacedown">Stop Sound by turning the screen face down.</string>
 </resources>

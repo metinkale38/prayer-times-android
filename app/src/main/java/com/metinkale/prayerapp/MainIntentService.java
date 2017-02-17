@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp;
@@ -24,11 +25,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
@@ -47,7 +51,7 @@ public class MainIntentService extends IntentService {
     }
 
 
-    public static void startCalendarIntegration(Context context) {
+    public static void startCalendarIntegration(@NonNull Context context) {
         Intent intent = new Intent(context, MainIntentService.class);
         intent.setAction(ACTION_CALENDAR_INTEGRATION);
         context.startService(intent);
@@ -55,30 +59,23 @@ public class MainIntentService extends IntentService {
 
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            try {
-                long mills = System.currentTimeMillis();
-                String action = intent.getAction();
-                switch (action) {
+    protected void onHandleIntent(@NonNull Intent intent) {
+        long mills = System.currentTimeMillis();
+        String action = intent.getAction();
+        switch (action) {
 
-                    case ACTION_CALENDAR_INTEGRATION:
-                        handleCalendarIntegration();
-                        break;
-                }
-
-                mills -= System.currentTimeMillis();
-                if (mills > 1000) {
-                    Crashlytics.logException(
-                            new Exception(action.substring(action.lastIndexOf(".") + 1) + " took " + mills + " ms"));
-                }
-            } catch (Exception e) {
-                if (e.getMessage() != null && !e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                    Crashlytics.logException(e);
-                }
-            }
-
+            case ACTION_CALENDAR_INTEGRATION:
+                handleCalendarIntegration();
+                break;
         }
+
+        mills -= System.currentTimeMillis();
+        if (mills > 1000) {
+            Crashlytics.logException(
+                    new Exception(action.substring(action.lastIndexOf(".") + 1) + " took " + mills + " ms"));
+        }
+
+
     }
 
 
@@ -87,7 +84,7 @@ public class MainIntentService extends IntentService {
             Prefs.setCalendar("-1");
             return;
         }
-        Context context = App.getContext();
+        Context context = App.get();
         try {
             ContentResolver cr = context.getContentResolver();
 

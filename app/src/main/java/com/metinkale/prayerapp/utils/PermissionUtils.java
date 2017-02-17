@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.utils;
@@ -20,10 +21,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -44,18 +45,18 @@ public class PermissionUtils {
     public boolean pLocation;
     public boolean pNotPolicy;
 
-    private PermissionUtils(Context c) {
+    private PermissionUtils(@NonNull Context c) {
         checkPermissions(c);
     }
 
-    public static PermissionUtils get(Context c) {
+    public static PermissionUtils get(@NonNull Context c) {
         if (mInstance == null) {
             mInstance = new PermissionUtils(c);
         }
         return mInstance;
     }
 
-    private void checkPermissions(Context c) {
+    private void checkPermissions(@NonNull Context c) {
         pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pCamera = ContextCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -75,7 +76,10 @@ public class PermissionUtils {
 
     }
 
-    public void needNotificationPolicy(final Activity act) {
+    public void needNotificationPolicy(@NonNull final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
@@ -95,18 +99,14 @@ public class PermissionUtils {
         }
     }
 
-    public void needCamera(final Activity act) {
+    public void needCamera(@NonNull final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pCamera) {
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0);
-                }
-            });
+            builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0));
 
             builder.show();
 
@@ -114,17 +114,15 @@ public class PermissionUtils {
     }
 
 
-    public void needLocation(final Activity act) {
+    public void needLocation(@NonNull final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pLocation) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-                }
-            });
+            builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0));
 
 
             builder.show();
@@ -133,17 +131,15 @@ public class PermissionUtils {
     }
 
 
-    public void needCalendar(final Activity act, boolean force) {
+    public void needCalendar(@NonNull final Activity act, boolean force) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pCalendar && (!"-1".equals(Prefs.getCalendar()) || force)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0);
-                }
-            });
+            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0));
 
 
             builder.show();
@@ -152,17 +148,15 @@ public class PermissionUtils {
     }
 
 
-    public void needStorage(final Activity act) {
+    public void needStorage(@NonNull final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
         if (!pStorage) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                }
-            });
+            builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
 
 
             builder.show();
@@ -171,7 +165,7 @@ public class PermissionUtils {
     }
 
 
-    public void onRequestPermissionResult(String[] permissions, int[] grantResults) {
+    public void onRequestPermissionResult(@NonNull String[] permissions, int[] grantResults) {
         for (int i = 0; i < permissions.length; i++) {
             switch (permissions[i]) {
                 case Manifest.permission.CAMERA:

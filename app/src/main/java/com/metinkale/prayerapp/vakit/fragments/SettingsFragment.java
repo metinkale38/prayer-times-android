@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -19,6 +20,8 @@ package com.metinkale.prayerapp.vakit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -36,41 +40,39 @@ public class SettingsFragment extends Fragment {
     private View mView;
 
     private EditText mName;
+    @NonNull
     private EditText[] mMins = new EditText[6];
+    @NonNull
     private ImageView[] mMinus = new ImageView[6];
+    @NonNull
     private ImageView[] mPlus = new ImageView[6];
+    @Nullable
     private Times mTimes;
     private int[] mMinAdj;
     private EditText mTimeZone;
 
     @SuppressLint("WrongViewCast")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_settings, container, false);
         mName = (EditText) v.findViewById(R.id.name);
         ViewGroup tz = (ViewGroup) v.findViewById(R.id.tz);
         mTimeZone = (EditText) tz.findViewById(R.id.timezonefix);
-        tz.findViewById(R.id.plus).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    float h = Float.parseFloat(mTimeZone.getText().toString());
-                    h += 0.5;
-                    mTimeZone.setText(h + "");
-                } catch (Exception ignore) {
-                }
+        tz.findViewById(R.id.plus).setOnClickListener(view -> {
+            try {
+                float h = Float.parseFloat(mTimeZone.getText().toString());
+                h += 0.5;
+                mTimeZone.setText(h + "");
+            } catch (Exception ignore) {
             }
         });
 
-        tz.findViewById(R.id.minus).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    double h = Double.parseDouble(mTimeZone.getText().toString());
-                    h -= 0.5;
-                    mTimeZone.setText(h + "");
-                } catch (Exception ignore) {
-                }
+        tz.findViewById(R.id.minus).setOnClickListener(view -> {
+            try {
+                double h = Double.parseDouble(mTimeZone.getText().toString());
+                h -= 0.5;
+                mTimeZone.setText(h + "");
+            } catch (Exception ignore) {
             }
         });
 
@@ -86,7 +88,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(@NonNull Editable editable) {
                 if (mTimes == null) {
                     return;
                 }
@@ -104,27 +106,21 @@ public class SettingsFragment extends Fragment {
             mMins[ii] = (EditText) time.findViewById(R.id.nr);
             mPlus[ii] = (ImageView) time.findViewById(R.id.plus);
             mMinus[ii] = (ImageView) time.findViewById(R.id.minus);
-            mPlus[ii].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        int min = Integer.parseInt(mMins[ii].getText().toString());
-                        min++;
-                        mMins[ii].setText(min + "");
-                    } catch (Exception ignore) {
-                    }
+            mPlus[ii].setOnClickListener(view -> {
+                try {
+                    int min = Integer.parseInt(mMins[ii].getText().toString());
+                    min++;
+                    mMins[ii].setText(min + "");
+                } catch (Exception ignore) {
                 }
             });
 
-            mMinus[ii].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        int min = Integer.parseInt(mMins[ii].getText().toString());
-                        min--;
-                        mMins[ii].setText(min + "");
-                    } catch (Exception ignore) {
-                    }
+            mMinus[ii].setOnClickListener(view -> {
+                try {
+                    int min = Integer.parseInt(mMins[ii].getText().toString());
+                    min--;
+                    mMins[ii].setText(min + "");
+                } catch (Exception ignore) {
                 }
             });
 
@@ -140,7 +136,7 @@ public class SettingsFragment extends Fragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable editable) {
+                public void afterTextChanged(@NonNull Editable editable) {
                     if (mTimes == null) {
                         return;
                     }
@@ -166,7 +162,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(@NonNull Editable editable) {
                 if (mTimes != null) {
                     mTimes.setName(editable.toString());
                 }
@@ -178,7 +174,7 @@ public class SettingsFragment extends Fragment {
     }
 
 
-    public void setTimes(Times t) {
+    public void setTimes(@Nullable Times t) {
         if ((mName != null) && (t != null)) {
             mTimes = null;
             mMinAdj = t.getMinuteAdj();

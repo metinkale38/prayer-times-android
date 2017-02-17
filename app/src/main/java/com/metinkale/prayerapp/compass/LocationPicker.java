@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.compass;
@@ -24,16 +25,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Geocoder;
-
-import java.util.List;
 
 public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;
@@ -63,14 +64,11 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
     }
 
     @Override
-    public void afterTextChanged(Editable txt) {
-        Geocoder.search(txt.toString(), new Geocoder.SearchCallback() {
-            @Override
-            public void onResult(List<Geocoder.Result> results) {
-                if (results == null) return;
-                mAdapter.clear();
-                mAdapter.addAll(results);
-            }
+    public void afterTextChanged(@NonNull Editable txt) {
+        Geocoder.search(txt.toString(), results -> {
+            if (results == null) return;
+            mAdapter.clear();
+            mAdapter.addAll(results);
         });
 
     }

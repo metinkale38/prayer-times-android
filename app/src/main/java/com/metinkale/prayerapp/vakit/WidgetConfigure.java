@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -19,9 +20,9 @@ package com.metinkale.prayerapp.vakit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -62,15 +63,12 @@ public class WidgetConfigure extends Activity {
                 array[i] = t.getName() + " (" + t.getSource() + ")";
             }
         }
-        builder.setItems(array, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setItems(array, (dialog, which) -> {
 
-                getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
+            getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
 
-                themeDialog();
+            themeDialog();
 
-            }
         });
         builder.show();
     }
@@ -78,15 +76,12 @@ public class WidgetConfigure extends Activity {
     void themeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.widgetDesign);
-        builder.setItems(new String[]{getString(R.string.whiteWidget), getString(R.string.blackWidget), getString(R.string.transWhiteWidget), getString(R.string.transWidget)}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setItems(new String[]{getString(R.string.whiteWidget), getString(R.string.blackWidget), getString(R.string.transWhiteWidget), getString(R.string.transWidget)}, (dialog, which) -> {
 
-                getSharedPreferences("widgets", 0).edit().putInt(mAppWidgetId + "_theme", which).apply();
+            getSharedPreferences("widgets", 0).edit().putInt(mAppWidgetId + "_theme", which).apply();
 
-                result();
+            result();
 
-            }
         });
         builder.show();
     }

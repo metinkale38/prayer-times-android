@@ -12,9 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times.other;
+
+import android.support.annotation.NonNull;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -35,6 +38,7 @@ public enum Vakit {
         this.arabic = arabic;
     }
 
+    @NonNull
     public static Vakit getByIndex(int index) {
         switch (index) {
             case 0:
@@ -63,7 +67,7 @@ public enum Vakit {
             return arabic;
         }
         if (name == null) {
-            name = App.getContext().getString(resId);
+            name = App.get().getString(resId);
         }
 
         return name;

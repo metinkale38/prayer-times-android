@@ -12,18 +12,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.TypedValue;
@@ -32,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -40,6 +51,7 @@ import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -50,6 +62,7 @@ public class WidgetService extends Service {
 
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
+    @NonNull
     private static List<Long> mOngoing = new ArrayList<>();
     private static Bitmap mAbIcon;
     private static Integer COLOR_1ST;
@@ -57,7 +70,7 @@ public class WidgetService extends Service {
 
     public static void updateOngoing() {
         extractColors();
-        NotificationManager nm = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) App.get().getSystemService(Context.NOTIFICATION_SERVICE);
 
         for (int i = mOngoing.size() - 1; i >= 0; i--) {
             long id = mOngoing.get(i);
@@ -79,9 +92,8 @@ public class WidgetService extends Service {
         }
 
 
-
         LocalDate cal = LocalDate.now();
-        String[] left_part = App.getContext().getResources().getStringArray(R.array.lefttext_part);
+        String[] left_part = App.get().getResources().getStringArray(R.array.lefttext_part);
         for (long id : mOngoing) {
 
 
@@ -95,7 +107,7 @@ public class WidgetService extends Service {
 
             Notification noti;
             if (Prefs.getAlternativeOngoing()) {
-                RemoteViews views = new RemoteViews(App.getContext().getPackageName(), R.layout.notification_layout);
+                RemoteViews views = new RemoteViews(App.get().getPackageName(), R.layout.notification_layout);
 
                 int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
                 int[] vakitIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
@@ -144,17 +156,17 @@ public class WidgetService extends Service {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.Builder(App.getContext())
+                    noti = new Notification.Builder(App.get())
                             .setContent(views)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(App.getContext(), R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(App.getContext(), R.drawable.ic_placeholder))
+                                    Icon.createWithResource(App.get(), R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(App.get(), R.drawable.ic_placeholder))
                             .setOngoing(true)
                             .build();
                 } else {
-                    noti = new NotificationCompat.Builder(App.getContext())
+                    noti = new NotificationCompat.Builder(App.get())
                             .setContent(views)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
@@ -163,18 +175,18 @@ public class WidgetService extends Service {
                 }
             } else {
                 int n = t.getNext();
-                String sum = App.getContext().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
+                String sum = App.get().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.InboxStyle(new Notification.Builder(App.getContext())
+                    noti = new Notification.InboxStyle(new Notification.Builder(App.get())
                             .setContentTitle(t.getName() + " (" + t.getSource() + ")")
                             .setContentText("")
                             .setLargeIcon(mAbIcon)
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(App.getContext(), R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(App.getContext(), R.drawable.ic_placeholder))
+                                    Icon.createWithResource(App.get(), R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(App.get(), R.drawable.ic_placeholder))
                             .setContentInfo(sum)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setOngoing(true))
@@ -187,7 +199,7 @@ public class WidgetService extends Service {
                             .setSummaryText("")
                             .build();
                 } else {
-                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.getContext())
+                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.get())
                             .setContentTitle(t.getName() + " (" + t.getSource() + ")")
                             .setContentText("")
                             .setLargeIcon(mAbIcon)
@@ -223,7 +235,7 @@ public class WidgetService extends Service {
 
     private static Bitmap getIconFromMinutes(long left) {
         String text = left + "";
-        Resources r = App.getContext().getResources();
+        Resources r = App.get().getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r.getDisplayMetrics());
         Bitmap b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_4444);
         Canvas c = new Canvas(b);
@@ -243,7 +255,7 @@ public class WidgetService extends Service {
     }
 
 
-    private static boolean recurseGroup(ViewGroup gp) {
+    private static boolean recurseGroup(@NonNull ViewGroup gp) {
         int count = gp.getChildCount();
         for (int i = 0; i < count; ++i) {
             View v = gp.getChildAt(i);
@@ -277,12 +289,12 @@ public class WidgetService extends Service {
 
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(App.getContext());
+                    new NotificationCompat.Builder(App.get());
             mBuilder.setContentTitle(COLOR_SEARCH_1ST)
                     .setContentText(COLOR_SEARCH_2ND);
             Notification ntf = mBuilder.build();
-            LinearLayout group = new LinearLayout(App.getContext());
-            ViewGroup event = (ViewGroup) ntf.contentView.apply(App.getContext(), group);
+            LinearLayout group = new LinearLayout(App.get());
+            ViewGroup event = (ViewGroup) ntf.contentView.apply(App.get(), group);
             recurseGroup(event);
             group.removeAllViews();
         } catch (Exception e) {
@@ -297,7 +309,7 @@ public class WidgetService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
         WidgetProvider.updateWidgets(this);
         updateOngoing();
 

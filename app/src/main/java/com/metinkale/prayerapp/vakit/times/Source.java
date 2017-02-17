@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -33,6 +34,7 @@ public enum Source {
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, NVCTimes.class),
     Morocco("habous.gov.ma", R.drawable.ic_morocco, MoroccoTimes.class),
+    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, MalaysiaTimes.class),
     CSV("CSV", 0, CSVTimes.class);
 
     public Class<? extends Times> clz;
@@ -49,7 +51,7 @@ public enum Source {
         String lang = Prefs.getLanguage();
         if (lang != null)
             Locale.setDefault(new Locale(lang));
-        this.text = App.getContext().getString(resTxt);
+        this.text = App.get().getString(resTxt);
         this.resId = resIcon;
         this.clz = clz;
     }
