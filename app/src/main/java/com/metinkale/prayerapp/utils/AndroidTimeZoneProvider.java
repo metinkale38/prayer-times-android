@@ -19,8 +19,8 @@ package com.metinkale.prayerapp.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArraySet;
 import android.support.v4.util.SimpleArrayMap;
-import android.util.ArraySet;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
