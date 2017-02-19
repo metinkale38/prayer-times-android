@@ -249,7 +249,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                 else
                                     dlg1.getDatePicker().setMaxDate(finalMaxDate);
 
-                                dlg1.getDatePicker().setMinDate(start);
+                                dlg1.getDatePicker().setMinDate(Math.min(start, dlg1.getDatePicker().getMaxDate() - 1));
                                 dlg1.setTitle(R.string.to);
                                 dlg1.show();
 

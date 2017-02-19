@@ -60,8 +60,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 175
-        versionName '3.6.3'
+        versionCode 176
+        versionName '3.6.4'
         multiDexEnabled false
         jackOptions {
             enabled true

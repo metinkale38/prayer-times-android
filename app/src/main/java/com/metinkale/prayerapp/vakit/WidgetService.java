@@ -30,6 +30,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
@@ -177,6 +178,9 @@ public class WidgetService extends Service {
                 int n = t.getNext();
                 String sum = App.get().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
 
+                if (mAbIcon == null) {
+                    mAbIcon = ((BitmapDrawable) App.get().getResources().getDrawable(R.drawable.ic_abicon)).getBitmap();
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.InboxStyle(new Notification.Builder(App.get())
