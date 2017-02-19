@@ -81,6 +81,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     };
 
 
+    @NonNull
     public static App get() {
         if (sApp == null) return null;
         return sApp.get();

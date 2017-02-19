@@ -86,7 +86,6 @@ class TimesBase {
     private int cuma_silenter;
     private int cuma_time;
     private int sabah_time;
-    @NonNull
     private int[] minuteAdj = new int[6];
     private String IMSAK_dua;
     private String SABAH_dua;
@@ -460,6 +459,7 @@ class TimesBase {
 
     public synchronized void setSabahTime(int time) {
         sabah_time = time;
+        save();
     }
 
     public synchronized int getSilenterDuration(@NonNull Vakit v) {
@@ -565,6 +565,7 @@ class TimesBase {
 
     public synchronized void setAfterImsak(boolean value) {
         sabah_afterImsak = value;
+        save();
     }
 
     public synchronized boolean isCumaActive() {
@@ -630,6 +631,7 @@ class TimesBase {
 
     public synchronized void setCumaVibration(boolean value) {
         cuma_vibration = value;
+        save();
     }
 
     public synchronized void setDua(@NonNull Vakit v, String value) {
