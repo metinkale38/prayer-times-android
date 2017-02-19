@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -84,18 +85,26 @@ public class NotificationPopup extends Activity {
         vakit.setKeepScreenOn(true);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-        BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
-            @Override
-            public void onReceive(@NonNull Context context, Intent intent) {
-                context.sendBroadcast(new Intent(context, AlarmReceiver.Audio.class));
-                finish();
-            }
-        };
         registerReceiver(mReceiver, filter);
 
 
     }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
+    BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(@NonNull Context context, Intent intent) {
+            context.sendBroadcast(new Intent(context, AlarmReceiver.Audio.class));
+            finish();
+        }
+    };
 
     void onDismiss() {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -109,26 +118,32 @@ public class NotificationPopup extends Activity {
     public static class MyView extends View implements OnTouchListener {
         private final Paint paint = new Paint();
         private final Drawable icon;
-        private final Drawable silent;
-        private final Drawable close;
+        private Bitmap silent;
+        private Bitmap close;
         private MotionEvent touch;
         private boolean acceptTouch;
 
         public MyView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             icon = context.getResources().getDrawable(R.drawable.ic_abicon);
-            silent = MaterialDrawableBuilder.with(context)
-                    .setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF)
-                    .setColor(Color.WHITE)
-                    .setSizeDp(24)
-                    .build();
-            close = MaterialDrawableBuilder.with(context)
-                    .setIcon(MaterialDrawableBuilder.IconValue.CLOSE)
-                    .setColor(Color.WHITE)
-                    .setSizeDp(24)
-                    .build();
 
             setOnTouchListener(this);
+        }
+
+        @Override
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            super.onSizeChanged(w, h, oldw, oldh);
+            silent = drawableToBitmap(MaterialDrawableBuilder.with(getContext())
+                    .setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF)
+                    .setColor(Color.WHITE)
+                    .setSizePx(w / 5)
+                    .build(), w / 5);
+            close = drawableToBitmap(MaterialDrawableBuilder.with(getContext())
+                    .setIcon(MaterialDrawableBuilder.IconValue.CLOSE)
+                    .setColor(Color.WHITE)
+                    .setSizePx(w / 5)
+                    .build(), w / 5);
+
         }
 
         public MyView(@NonNull Context context, AttributeSet attrs) {
@@ -183,14 +198,17 @@ public class NotificationPopup extends Activity {
             }
 
             if (acceptTouch && (touch.getAction() != MotionEvent.ACTION_UP)) {
-                silent.setBounds(-5 * r, -r, -3 * r, r);
 
-                silent.draw(canvas);
-
-                close.setBounds(3 * r, -r, 5 * r, r);
-                close.draw(canvas);
+                paint.setColor(0xFFFFFFFF);
+                if (silent != null) {
+                    canvas.drawBitmap(silent, -5 * r, -r, paint);
+                }
+                if (close != null) {
+                    canvas.drawBitmap(close, 3 * r, -r, paint);
+                }
 
                 icon.setBounds(x - r, y - r, x + r, y + r);
+                icon.draw(canvas);
 
                 paint.setStyle(Style.STROKE);
                 paint.setColor(0x88FFFFFF);
@@ -198,6 +216,7 @@ public class NotificationPopup extends Activity {
 
             } else {
                 icon.setBounds(-r, -r, r, r);
+                icon.draw(canvas);
 
                 if (tr > (3 * r)) {
                     if ((Math.abs(angle) < (Math.PI / 10)) && (instance != null)) {
@@ -209,8 +228,6 @@ public class NotificationPopup extends Activity {
                     }
                 }
             }
-
-            icon.draw(canvas);
 
         }
 
@@ -229,4 +246,11 @@ public class NotificationPopup extends Activity {
 
     }
 
+    public static Bitmap drawableToBitmap(Drawable drawable, int size) {
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ALPHA_8);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
 }

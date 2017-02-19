@@ -53,7 +53,7 @@ import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
 import java.io.IOException;
 
-import static android.hardware.Sensor.TYPE_ROTATION_VECTOR;
+import static android.hardware.Sensor.TYPE_ACCELEROMETER;
 
 
 public class AlarmReceiver extends IntentService implements SensorEventListener {
@@ -266,7 +266,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
             if (Prefs.stopByFacedown())
-                mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(TYPE_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_UI);
+                mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
             int volume = -2;
             hasSound = true;
 
@@ -368,13 +368,8 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
     @Override
     public void onSensorChanged(@NonNull SensorEvent event) {
-        /*float[] roationV = new float[16];
-        SensorManager.getRotationMatrixFromVector(roationV, event.values);
 
-        float[] orientationValuesV = new float[3];
-        SensorManager.getOrientation(roationV, orientationValuesV);
-*/
-        if (Math.abs(event.values[0]) > 0.65) {
+        if (event.values[2] < -3) {
             if (mIsFaceDown != 1) {//ignore if already was off
                 mIsFaceDown += 2;
                 if (mIsFaceDown >= 15) {//prevent accident

@@ -162,7 +162,7 @@ public class FragMap extends Fragment implements Main.MyCompassListener, OnMapRe
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-
+        if (!isAdded() || isDetached()) return;
         mLocation = location;
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         if (mLine != null) {
