@@ -41,6 +41,7 @@ import com.metinkale.prayerapp.vakit.times.WebTimes;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
@@ -61,10 +62,12 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
-        legacy.setOnClickListener(v -> {
-            finish();
-            startActivity(new Intent(AddCityLegacy.this, AddCity.class));
-
+        legacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(AddCityLegacy.this, AddCity.class));
+            }
         });
 
         mListView = (ListView) findViewById(R.id.listView);
@@ -82,7 +85,12 @@ public class AddCityLegacy extends BaseActivity implements OnItemClickListener {
             @Override
             public void onResult(@NonNull List<Entry> result) {
                 if (!result.isEmpty()) {
-                    Collections.sort(result, (e1, e2) -> e1.getName().compareTo(e2.getName()));
+                    Collections.sort(result, new Comparator<Entry>() {
+                        @Override
+                        public int compare(Entry e1, Entry e2) {
+                            return e1.getName().compareTo(e2.getName());
+                        }
+                    });
                     mAdapter.clear();
                     mAdapter.addAll(result);
                     mListView.scrollTo(0, 0);

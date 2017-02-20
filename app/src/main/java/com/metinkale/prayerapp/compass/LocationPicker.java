@@ -36,6 +36,8 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Geocoder;
 
+import java.util.List;
+
 public class LocationPicker extends Activity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;
 
@@ -65,10 +67,13 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
     @Override
     public void afterTextChanged(@NonNull Editable txt) {
-        Geocoder.search(txt.toString(), results -> {
-            if (results == null) return;
-            mAdapter.clear();
-            mAdapter.addAll(results);
+        Geocoder.search(txt.toString(), new Geocoder.SearchCallback() {
+            @Override
+            public void onResult(List<Geocoder.Result> results) {
+                if (results == null) return;
+                mAdapter.clear();
+                mAdapter.addAll(results);
+            }
         });
 
     }

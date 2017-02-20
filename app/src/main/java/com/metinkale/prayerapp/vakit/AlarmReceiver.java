@@ -303,22 +303,28 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
                 if (mp.mp != null) {
 
-                    mp.mp.setOnCompletionListener(mediaPlayer -> {
-                        if (mp.mp == null) {
-                            return;
+                    mp.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            if (mp.mp == null) {
+                                return;
+                            }
+                            mp.mp.stop();
+                            mp.mp.release();
+                            mp.mp = null;
                         }
-                        mp.mp.stop();
-                        mp.mp.release();
-                        mp.mp = null;
                     });
 
-                    mp.mp.setOnSeekCompleteListener(mediaPlayer -> {
-                        if (mp.mp == null) {
-                            return;
+                    mp.mp.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                        @Override
+                        public void onSeekComplete(MediaPlayer mediaPlayer) {
+                            if (mp.mp == null) {
+                                return;
+                            }
+                            mp.mp.stop();
+                            mp.mp.release();
+                            mp.mp = null;
                         }
-                        mp.mp.stop();
-                        mp.mp.release();
-                        mp.mp = null;
                     });
 
                 }

@@ -20,6 +20,7 @@ package com.metinkale.prayerapp.vakit;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.R;
@@ -39,12 +40,20 @@ public class SilenterPrompt extends Activity {
         np.setMaxValue(300);
         np.setValue(widgets.getInt("silenterWidget", 15));
 
-        findViewById(R.id.cancel).setOnClickListener(v -> finish());
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-        findViewById(R.id.ok).setOnClickListener(v -> {
-            widgets.edit().putInt("silenterWidget", np.getValue()).apply();
-            AlarmReceiver.silenter(v.getContext(), np.getValue());
-            finish();
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                widgets.edit().putInt("silenterWidget", np.getValue()).apply();
+                AlarmReceiver.silenter(v.getContext(), np.getValue());
+                finish();
+            }
         });
 
     }

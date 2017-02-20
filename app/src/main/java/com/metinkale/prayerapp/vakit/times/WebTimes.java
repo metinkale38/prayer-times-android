@@ -27,6 +27,8 @@ import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -55,12 +57,22 @@ public class WebTimes extends Times {
 
     WebTimes(long id) {
         super(id);
-        App.get().getHandler().post(this::scheduleJob);
+        App.get().getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                scheduleJob();
+            }
+        });
     }
 
     WebTimes() {
         super();
-        App.get().getHandler().post(this::scheduleJob);
+        App.get().getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                scheduleJob();
+            }
+        });
     }
 
 
@@ -167,22 +179,25 @@ public class WebTimes extends Times {
         }
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
-            builder.asString().withResponse().setCallback((e, result) -> {
-                if (e != null) {
-                    //Crashlytics.setString("WebTimesSource", getSource().toString());
-                    //Crashlytics.setString("WebTimesName", getName());
-                    //Crashlytics.setString("WebTimesId", getId());
-                    //Crashlytics.logException(e);
-                    return;
-                }
+            builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
+                @Override
+                public void onCompleted(Exception e, Response<String> result) {
+                    if (e != null) {
+                        //Crashlytics.setString("WebTimesSource", getSource().toString());
+                        //Crashlytics.setString("WebTimesName", getName());
+                        //Crashlytics.setString("WebTimesId", getId());
+                        //Crashlytics.logException(e);
+                        return;
+                    }
 
-                try {
-                    parseResult(result.getResult());
-                } catch (Exception ee) {
-                    Crashlytics.setString("WebTimesSource", getSource().toString());
-                    Crashlytics.setString("WebTimesName", getName());
-                    Crashlytics.setString("WebTimesId", getId());
-                    Crashlytics.logException(ee);
+                    try {
+                        parseResult(result.getResult());
+                    } catch (Exception ee) {
+                        Crashlytics.setString("WebTimesSource", getSource().toString());
+                        Crashlytics.setString("WebTimesName", getName());
+                        Crashlytics.setString("WebTimesId", getId());
+                        Crashlytics.logException(ee);
+                    }
                 }
             });
         }

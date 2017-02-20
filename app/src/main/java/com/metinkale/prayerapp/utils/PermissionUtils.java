@@ -21,6 +21,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -106,7 +107,14 @@ public class PermissionUtils {
         if (!pCamera) {
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0));
+            builder.setTitle(R.string.permissionCameraTitle)
+                    .setMessage(R.string.permissionCameraText)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0);
+                        }
+                    });
 
             builder.show();
 
@@ -122,7 +130,13 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0));
+            builder.setTitle(R.string.permissionLocationTitle).setMessage(R.string.permissionLocationText).setPositiveButton(R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                        }
+                    });
 
 
             builder.show();
@@ -139,7 +153,12 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0));
+            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0);
+                }
+            });
 
 
             builder.show();
@@ -156,7 +175,14 @@ public class PermissionUtils {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
-            builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText).setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
+            builder.setTitle(R.string.permissionStorageTitle)
+                    .setMessage(R.string.permissionStorageText)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                        }
+                    });
 
 
             builder.show();

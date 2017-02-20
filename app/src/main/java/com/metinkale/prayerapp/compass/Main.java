@@ -241,11 +241,14 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
         if (mSelCity == null) {
             mSelCity = (TextView) findViewById(R.id.selcity);
-            mSelCity.setOnClickListener(arg0 -> {
-                if (App.isOnline()) {
-                    startActivity(new Intent(Main.this, LocationPicker.class));
-                } else {
-                    Toast.makeText(Main.this, R.string.noConnection, Toast.LENGTH_LONG).show();
+            mSelCity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (App.isOnline()) {
+                        startActivity(new Intent(Main.this, LocationPicker.class));
+                    } else {
+                        Toast.makeText(Main.this, R.string.noConnection, Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }

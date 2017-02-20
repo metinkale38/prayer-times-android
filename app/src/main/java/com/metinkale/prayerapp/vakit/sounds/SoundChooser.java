@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -138,37 +139,47 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         mList.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
         if (mCb == null)
-            mAdapter = new MyAdapter(getActivity(), new ArrayList<>());
+            mAdapter = new MyAdapter(getActivity(), new ArrayList<Sound>());
         mAdapter = new MyAdapter(getActivity(), mCb.getSounds());
         mList.setAdapter(mAdapter);
 
         mList.setOnItemClickListener(this);
-        builder.setView(v).setPositiveButton(R.string.ok, (dialog, id) -> {
-            if (mMp != null) {
-                mMp.stop();
-                mMp.release();
-                mMp = null;
-            }
-            if (mList.getTag() != null) {
-                if (mVolumeCB.isChecked()) {
-                    mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
-                } else {
-                    mCb.setCurrent(((Sound) mList.getTag()).uri);
+        builder.setView(v).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (mMp != null) {
+                            mMp.stop();
+                            mMp.release();
+                            mMp = null;
+                        }
+                        if (mList.getTag() != null) {
+                            if (mVolumeCB.isChecked()) {
+                                mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
+                            } else {
+                                mCb.setCurrent(((Sound) mList.getTag()).uri);
+                            }
+                        }
+                    }
                 }
-            }
-        }).setNegativeButton(R.string.cancel, (dialog, id) -> {
-            if (mMp != null) {
-                mMp.stop();
-                mMp.release();
-                mMp = null;
-            }
-            getDialog().cancel();
-        });
+        ).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (mMp != null) {
+                            mMp.stop();
+                            mMp.release();
+                            mMp = null;
+                        }
+                        getDialog().cancel();
+                    }
+                }
+        );
 
         Sound s = new Sound();
         s.uri = mCb.getCurrent();
         mList.setTag(s);
-        if ((s.uri != null) && s.uri.contains("$volume")) {
+        if ((s.uri != null) && s.uri.contains("$volume"))
+
+        {
             mVolumeCB.setChecked(true);
             mVolume.setEnabled(true);
             int progress = Integer.parseInt(s.uri.substring(s.uri.indexOf("$volume") + 7));
@@ -176,7 +187,9 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
             mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), progress, 0);
             s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
 
-        } else {
+        } else
+
+        {
             mVolume.setEnabled(false);
             mVolume.setProgress(0);
             mVolumeCB.setChecked(false);
@@ -200,25 +213,35 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
         final Sound s = mAdapter.getItem(pos);
         if ("picker".equals(s.uri)) {
-            onResume = () -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.other)
-                        .setItems(R.array.soundPicker, (dialog, which) -> {
-                            if (which == 0) {
-                                FileChooser chooser = new FileChooser(getActivity());
-                                chooser.showDialog();
-                                chooser.setFileListener(file -> onSelect(Uri.fromFile(file)));
-                            } else {
-                                Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                                startActivityForResult(chooserIntent, 0);
-                            }
-                        });
-                builder.show();
-
+            onResume = new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.other)
+                            .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    if (which == 0) {
+                                        FileChooser chooser = new FileChooser(getActivity());
+                                        chooser.showDialog();
+                                        chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                            @Override
+                                            public void fileSelected(File file) {
+                                                onSelect(Uri.fromFile(file));
+                                            }
+                                        });
+                                    } else {
+                                        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                                        Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
+                                        startActivityForResult(chooserIntent, 0);
+                                    }
+                                }
+                            });
+                    builder.show();
+                }
             };
             if (PermissionUtils.get(getActivity()).pStorage) {
                 onResume.run();
@@ -241,63 +264,72 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
                 dialog.setTitle(R.string.sound);
                 dialog.setMessage(getString(R.string.dlSound, s.name, s.size));
                 dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, buttonId) -> {
-                    final ProgressDialog dlg = new ProgressDialog(getActivity());
-                    dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    dlg.show();
-                    File f = s.getFile();
-                    f.getParentFile().mkdirs();
-                    Ion.with(getActivity())
-                            .load(s.url)
-                            .progressDialog(dlg)
-                            .write(f)
-                            .setCallback((e, result) -> {
-                                if (e != null || result == null || !result.exists()) {
-                                    if (e != null) {
-                                        e.printStackTrace();
-                                        Crashlytics.logException(e);
-                                    }
-                                    dlg.cancel();
-                                    Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-
-                                Ion.with(App.get()).load(s.url + ".md5")
-                                        .setTimeout(3000)
-                                        .asString()
-                                        .setCallback((e1, md5) -> {
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final ProgressDialog dlg = new ProgressDialog(getActivity());
+                        dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        dlg.show();
+                        File f = s.getFile();
+                        f.getParentFile().mkdirs();
+                        Ion.with(getActivity())
+                                .load(s.url)
+                                .progressDialog(dlg)
+                                .write(f)
+                                .setCallback(new FutureCallback<File>() {
+                                    @Override
+                                    public void onCompleted(Exception e, File result) {
+                                        if (e != null || result == null || !result.exists()) {
+                                            if (e != null) {
+                                                e.printStackTrace();
+                                                Crashlytics.logException(e);
+                                            }
                                             dlg.cancel();
-                                            if (e1 != null) {
-                                                e1.printStackTrace();
-                                                Crashlytics.logException(e1);
-                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                                return;
-                                            }
-                                            if (!MD5.isValidMD5(md5)) return;
-                                            SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
-                                            preferences.edit().putString(s.name, md5).apply();
-                                            s.checkMD5();
+                                            Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
 
-                                            try {
-                                                mMp = AlarmReceiver.play(App.get(), s.uri);
-                                            } catch (IOException ee) {
-                                                ee.printStackTrace();
-                                                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                            }
-                                            mList.setTag(s);
-                                        });
+                                        Ion.with(App.get()).load(s.url + ".md5")
+                                                .setTimeout(3000)
+                                                .asString()
+                                                .setCallback(new FutureCallback<String>() {
+                                                    @Override
+                                                    public void onCompleted(Exception e, String md5) {
+                                                        dlg.cancel();
+                                                        if (e != null) {
+                                                            e.printStackTrace();
+                                                            Crashlytics.logException(e);
+                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+                                                            return;
+                                                        }
+                                                        if (!MD5.isValidMD5(md5)) return;
+                                                        SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
+                                                        preferences.edit().putString(s.name, md5).apply();
+                                                        s.checkMD5();
 
-                            });
+                                                        try {
+                                                            mMp = AlarmReceiver.play(App.get(), s.uri);
+                                                        } catch (IOException ee) {
+                                                            ee.printStackTrace();
+                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+                                                        }
+                                                        mList.setTag(s);
+                                                    }
+                                                });
+                                    }
+                                });
 
-
+                    }
                 });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialog1, buttonId) -> {
-                    dialog1.cancel();
-                    Sound s1 = new Sound();
-                    s1.uri = mCb.getCurrent();
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.cancel();
+                        Sound s1 = new Sound();
+                        s1.uri = mCb.getCurrent();
 
-                    mList.setItemChecked(mAdapter.getPosition(s1), true);
-
+                        mList.setItemChecked(mAdapter.getPosition(s1), true);
+                    }
                 });
                 dialog.show();
 

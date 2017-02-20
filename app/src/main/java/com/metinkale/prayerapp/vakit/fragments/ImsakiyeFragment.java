@@ -52,9 +52,12 @@ public class ImsakiyeFragment extends Fragment {
         TextView addMore = new TextView(getActivity());
         addMore.setText("\n" + getString(R.string.showMore) + "\n");
         addMore.setGravity(Gravity.CENTER);
-        addMore.setOnClickListener(view -> {
-            mAdapter.daysInMonth += 7;
-            mAdapter.notifyDataSetInvalidated();
+        addMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.daysInMonth += 7;
+                mAdapter.notifyDataSetInvalidated();
+            }
         });
         lv.addFooterView(addMore);
         lv.setBackgroundResource(R.color.background);

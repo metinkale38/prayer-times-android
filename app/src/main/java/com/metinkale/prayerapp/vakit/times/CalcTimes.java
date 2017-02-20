@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -110,49 +111,56 @@ public class CalcTimes extends Times {
         builder.setTitle(R.string.calcMethod);
         builder.setView(view);
         final AlertDialog dlg = builder.create();
-        lv.setOnItemClickListener((arg0, arg1, pos, index) -> {
-            Method method1 = Method.values()[pos];
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                Method method1 = Method.values()[pos];
 
-            if (method1 == Method.Custom) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
-                final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
+                if (method1 == Method.Custom) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
+                    final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
 
-                builder1.setView(custom);
-                final Dialog dlg1 = builder1.show();
-                custom.findViewById(R.id.ok).setOnClickListener(view1 -> {
+                    builder1.setView(custom);
+                    final Dialog dlg1 = builder1.show();
+                    custom.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            CalcTimes t = new CalcTimes(System.currentTimeMillis());
+                            t.setSource(Source.Calc);
+                            t.setName(bdl.getString("city"));
+                            t.setLat(bdl.getDouble("lat"));
+                            t.setLng(bdl.getDouble("lng"));
+                            t.setMethodParams(new double[]{
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
+                                    ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
+                                    ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
+                                    Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
+                            });
+                            t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
+                            t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                            t.setSortId(99);
+                            c.finish();
+
+
+                            dlg1.cancel();
+
+                        }
+                    });
+                } else {
                     CalcTimes t = new CalcTimes(System.currentTimeMillis());
                     t.setSource(Source.Calc);
                     t.setName(bdl.getString("city"));
                     t.setLat(bdl.getDouble("lat"));
                     t.setLng(bdl.getDouble("lng"));
-                    t.setMethodParams(new double[]{
-                            Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
-                            ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
-                            Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
-                            ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
-                            Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
-                    });
+                    t.setMethod(method1);
                     t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
                     t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
                     t.setSortId(99);
                     c.finish();
-
-
-                    dlg1.cancel();
-                });
-            } else {
-                CalcTimes t = new CalcTimes(System.currentTimeMillis());
-                t.setSource(Source.Calc);
-                t.setName(bdl.getString("city"));
-                t.setLat(bdl.getDouble("lat"));
-                t.setLng(bdl.getDouble("lng"));
-                t.setMethod(method1);
-                t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
-                t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
-                t.setSortId(99);
-                c.finish();
+                }
+                dlg.cancel();
             }
-            dlg.cancel();
         });
 
         try {

@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -83,37 +84,41 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
         final File file = mAdapter.getFile(pos);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(file.getName()).setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, (dialog, which) -> {
-            if (which == 0) {
-                File files = getFilesDir();
-                for (File file1 : files.listFiles()) {
-                    file1.delete();
-                }
-                files.delete();
-                files = new File(files.getParentFile(), "databases");
-                for (File file1 : files.listFiles()) {
-                    file1.delete();
-                }
-                files.delete();
-                files = new File(files.getParentFile(), "shared_prefs");
-                for (File file1 : files.listFiles()) {
-                    file1.delete();
-                }
-                files.delete();
+        builder.setTitle(file.getName()).setItems(new String[]{getString(R.string.restore), getString(R.string.delete)},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        if (which == 0) {
+                            File files = getFilesDir();
+                            for (File file1 : files.listFiles()) {
+                                file1.delete();
+                            }
+                            files.delete();
+                            files = new File(files.getParentFile(), "databases");
+                            for (File file1 : files.listFiles()) {
+                                file1.delete();
+                            }
+                            files.delete();
+                            files = new File(files.getParentFile(), "shared_prefs");
+                            for (File file1 : files.listFiles()) {
+                                file1.delete();
+                            }
+                            files.delete();
 
-                files = files.getParentFile();
+                            files = files.getParentFile();
 
-                Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
-                System.exit(0);
-                Intent i = new Intent(BackupRestoreActivity.this, Main.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            } else {
-                file.delete();
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+                            Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
+                            System.exit(0);
+                            Intent i = new Intent(BackupRestoreActivity.this, Main.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        } else {
+                            file.delete();
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
         builder.show();
 
     }

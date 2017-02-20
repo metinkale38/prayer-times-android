@@ -18,6 +18,7 @@
 package com.metinkale.prayerapp.vakit;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -56,7 +57,9 @@ import com.metinkale.prayerapp.vakit.times.WebTimes;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class AddCity extends BaseActivity implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
@@ -82,10 +85,12 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
 
         TextView legacy = (TextView) findViewById(R.id.legacySwitch);
         legacy.setText(R.string.oldAddCity);
-        legacy.setOnClickListener(v -> {
-            finish();
-            startActivity(new Intent(AddCity.this, AddCityLegacy.class));
-
+        legacy.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(AddCity.this, AddCityLegacy.class));
+            }
         });
 
 
@@ -259,38 +264,45 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
     public void addFromCSV(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.addFromCSV)
-                .setItems(R.array.addFromCSV, (dialog, which) -> {
-                    if (which == 0) {
-                        FileChooser chooser = new FileChooser(AddCity.this);
-                        chooser.setExtension("csv");
-                        chooser.showDialog();
-                        chooser.setFileListener(file -> {
-                            String name = file.getName();
-                            if (name.contains("."))
-                                name = name.substring(0, name.lastIndexOf("."));
+                .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        if (which == 0) {
+                            FileChooser chooser = new FileChooser(AddCity.this);
+                            chooser.setExtension("csv");
+                            chooser.showDialog();
+                            chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                @Override
+                                public void fileSelected(File file) {
+                                    String name = file.getName();
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
 
-                            WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
-                            finish();
-                        });
-                    } else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
-                        final EditText editText = new EditText(AddCity.this);
-                        editText.setHint("http(s)://example.com/prayertimes.csv");
-                        alert.setView(editText);
-                        alert.setTitle(R.string.csvFromURL);
-                        alert.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                            String url = editText.getText().toString();
-                            String name = url.substring(url.lastIndexOf("/") + 1);
-                            if (name.contains("."))
-                                name = name.substring(0, name.lastIndexOf("."));
-                            WebTimes.add(Source.CSV, name, url, 0, 0);
-                            finish();
-                        });
-                        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
+                                    WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                                    finish();
+                                }
+                            });
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AddCity.this);
+                            final EditText editText = new EditText(AddCity.this);
+                            editText.setHint("http(s)://example.com/prayertimes.csv");
+                            alert.setView(editText);
+                            alert.setTitle(R.string.csvFromURL);
+                            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String url = editText.getText().toString();
+                                    String name = url.substring(url.lastIndexOf("/") + 1);
+                                    if (name.contains("."))
+                                        name = name.substring(0, name.lastIndexOf("."));
+                                    WebTimes.add(Source.CSV, name, url, 0, 0);
+                                    finish();
+                                }
+                            });
+                            alert.setNegativeButton(R.string.cancel, null);
+                            alert.show();
 
-                        });
-                        alert.show();
-
+                        }
                     }
                 });
         builder.show();
@@ -307,7 +319,12 @@ public class AddCity extends BaseActivity implements OnItemClickListener, OnQuer
         @Override
         public void addAll(@NonNull Collection<? extends Entry> collection) {
             super.addAll(collection);
-            sort((i0, i1) -> i0.getSource().ordinal() - i1.getSource().ordinal());
+            sort(new Comparator<Entry>() {
+                @Override
+                public int compare(Entry e1, Entry e2) {
+                    return e1.getSource().ordinal() - e2.getSource().ordinal();
+                }
+            });
         }
 
         @NonNull
