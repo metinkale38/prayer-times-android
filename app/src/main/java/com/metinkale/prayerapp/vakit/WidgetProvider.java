@@ -220,7 +220,6 @@ public class WidgetProvider extends AppWidgetProvider {
         try {
             AppWidgetManager manager = AppWidgetManager.getInstance(App.get());
 
-
             ComponentName thisWidget = new ComponentName(c, WidgetProvider.class);
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 updateAppWidget(c, manager, i);
@@ -253,8 +252,7 @@ public class WidgetProvider extends AppWidgetProvider {
             thisWidget = new ComponentName(c, WidgetProviderClock2.class);
 
             for (int i : manager.getAppWidgetIds(thisWidget)) {
-                WidgetProviderClock2
-                        .updateAppWidget(c, manager, i);
+                WidgetProviderClock2.updateAppWidget(c, manager, i);
             }
 
 

@@ -24,6 +24,8 @@ import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
@@ -116,6 +118,10 @@ public class WebTimes extends Times {
         t.setSortId(99);
         t.scheduleJob();
 
+        Answers.getInstance().logCustom(new CustomEvent("AddCity")
+                .putCustomAttribute("Source", source.name())
+                .putCustomAttribute("City", city)
+        );
     }
 
     @Override

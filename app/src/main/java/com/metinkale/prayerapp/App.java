@@ -41,6 +41,7 @@ import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
+import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.WidgetService;
@@ -66,6 +67,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, @NonNull Throwable ex) {
+            AppRatingDialog.setInstalltionTime(0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
@@ -159,24 +161,17 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
-        }
+
 
         if ("longcheer".equalsIgnoreCase(Build.BRAND)
                 || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
                 || "general mobile".equalsIgnoreCase(Build.BRAND)
                 || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
             new ANRWatchDog().start();
+        }
+
+        if (AppRatingDialog.getInstallationTime() == 0) {
+            AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
         }
     }
 

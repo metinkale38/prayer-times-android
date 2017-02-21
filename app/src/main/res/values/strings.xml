@@ -261,4 +261,9 @@
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
     <string name="stopFacedown">Stop Sound by turning the screen face down.</string>
+    <string name="ratingFirstDlgTitle">Do you like this App?</string>
+    <string name="ratingPositiveTitle">Rate this App</string>
+    <string name="ratingPositiveText">Do you want to rate this App in the Play Store?</string>
+    <string name="ratingNegativeTitle">Write Feedback!</string>
+    <string name="ratingNegativeText">Do you me an E-Mail, and help me improving this app?</string>
 </resources>

@@ -35,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -92,6 +94,11 @@ public class AboutAct extends BaseActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "donate")
+        );
     }
 
     private void openUrl(String url) {
@@ -110,6 +117,10 @@ public class AboutAct extends BaseActivity {
     public void github(View view) {
         String url = "https://github.com/metinkale38/prayer-times-android";
         openUrl(url);
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "github")
+        );
     }
 
     public void rate(View view) {
@@ -120,29 +131,41 @@ public class AboutAct extends BaseActivity {
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "Couldn't launch the market", Toast.LENGTH_LONG).show();
         }
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "rate")
+        );
     }
 
     public void translate(View view) {
         String url = "https://crowdin.com/project/prayer-times-android";
         openUrl(url);
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "translate")
+        );
     }
 
     public void reportBug(View view) {
         String url = "https://github.com/metinkale38/prayer-times-android/issues";
         openUrl(url);
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "reportBug")
+        );
     }
 
     public void licenses(View view) {
         WebView wv = new WebView(this);
         wv.loadUrl("file:///android_asset/license.html");
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
-
         builder.setNegativeButton(getResources().getString(R.string.ok), null);
-
-
         builder.show();
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "licenses")
+        );
     }
 
     public void LibLicences(View view) {
@@ -151,10 +174,18 @@ public class AboutAct extends BaseActivity {
                 .withActivityTitle(getString(R.string.library_licenses))
                 .withLibraries()
                 .start(this);
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "libLicenses")
+        );
     }
 
     public void mail(@NonNull View view) {
         sendMail(view.getContext());
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "mail")
+        );
     }
 
     public static void sendMail(@NonNull Context ctx) {
@@ -185,5 +216,9 @@ public class AboutAct extends BaseActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+
+        Answers.getInstance().logCustom(new CustomEvent("About")
+                .putCustomAttribute("action", "beta")
+        );
     }
 }

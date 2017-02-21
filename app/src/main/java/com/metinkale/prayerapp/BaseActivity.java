@@ -48,11 +48,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 
@@ -68,6 +71,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
+    private long mStartTime;
+
 
     public BaseActivity() {
         String clz = getClass().toString();
@@ -76,11 +81,41 @@ public abstract class BaseActivity extends AppCompatActivity {
                 mNavPos = i;
             }
         }
+
+        AppRatingDialog.addToOpenedMenus(ACTS[mNavPos]);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        intent.putExtra("startTime", mStartTime);
+        super.startActivity(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!(this instanceof com.metinkale.prayerapp.vakit.Main)
+                || !AppRatingDialog.showDialog(this, System.currentTimeMillis() - mStartTime))
+            super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mStartTime == 0) {
+            mStartTime = getIntent().getLongExtra("startTime", System.currentTimeMillis());
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppRatingDialog.increateAppStarts();
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentId(mNavPos + "")
+                .putContentType("BaseActivity")
+                .putContentName(ACTS[mNavPos]));
 
 
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {

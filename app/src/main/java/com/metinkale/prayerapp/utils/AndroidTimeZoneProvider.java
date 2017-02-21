@@ -110,6 +110,7 @@ public class AndroidTimeZoneProvider implements Provider {
 
         @Override
         public long nextTransition(long l) {
+            if (transitions.length == 0) return Long.MAX_VALUE;
             int i = 0;
             long time = System.currentTimeMillis() / 1000;
             while (i < transitions.length && transitions[i] < time) {
@@ -120,6 +121,7 @@ public class AndroidTimeZoneProvider implements Provider {
 
         @Override
         public long previousTransition(long l) {
+            if (transitions.length == 0) return 0;
             int i = -1;
             long time = System.currentTimeMillis() / 1000;
             while (i + 1 < transitions.length && transitions[i + 1] < time) {

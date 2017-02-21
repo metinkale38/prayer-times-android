@@ -35,6 +35,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
 import com.metinkale.prayerapp.vakit.times.other.Juristic;
@@ -141,10 +143,15 @@ public class CalcTimes extends Times {
                             t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
                             t.setSortId(99);
                             c.finish();
-
-
                             dlg1.cancel();
 
+                            Answers.getInstance().logCustom(new CustomEvent("AddCity")
+                                    .putCustomAttribute("Source", Source.Calc.name())
+                                    .putCustomAttribute("City", bdl.getString("city"))
+                                    .putCustomAttribute("Method", "Custom")
+                                    .putCustomAttribute("Juristic", Juristic.values()[sp2.getSelectedItemPosition()].name())
+                                    .putCustomAttribute("AdjMethod", AdjMethod.values()[sp.getSelectedItemPosition()].name())
+                            );
                         }
                     });
                 } else {
@@ -158,6 +165,14 @@ public class CalcTimes extends Times {
                     t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
                     t.setSortId(99);
                     c.finish();
+
+                    Answers.getInstance().logCustom(new CustomEvent("AddCity")
+                            .putCustomAttribute("Source", Source.Calc.name())
+                            .putCustomAttribute("City", bdl.getString("city"))
+                            .putCustomAttribute("Method", method1.name())
+                            .putCustomAttribute("Juristic", Juristic.values()[sp2.getSelectedItemPosition()].name())
+                            .putCustomAttribute("AdjMethod", AdjMethod.values()[sp.getSelectedItemPosition()].name())
+                    );
                 }
                 dlg.cancel();
             }

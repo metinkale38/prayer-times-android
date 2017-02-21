@@ -34,6 +34,8 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -183,7 +185,11 @@ public class Utils {
         builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                changeLanguage(act.getResources().getStringArray(R.array.language_val)[which]);
+                String lang = act.getResources().getStringArray(R.array.language_val)[which];
+                changeLanguage(lang);
+                Answers.getInstance().logCustom(new CustomEvent("Language")
+                        .putCustomAttribute("lang", lang)
+                );
                 init(act);
                 act.finish();
                 act.startActivity(new Intent(act, act.getClass()));

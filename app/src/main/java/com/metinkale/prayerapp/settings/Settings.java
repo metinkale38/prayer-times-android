@@ -27,6 +27,8 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.Utils;
@@ -87,6 +89,10 @@ public class Settings extends BaseActivity {
                 Intent i = new Intent(act, act.getClass());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 act.startActivity(i);
+
+                Answers.getInstance().logCustom(new CustomEvent("Language")
+                        .putCustomAttribute("lang", (String) newValue)
+                );
             }
             return true;
         }

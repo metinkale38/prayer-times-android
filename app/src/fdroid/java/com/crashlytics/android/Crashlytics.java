@@ -6,7 +6,7 @@ import java.io.IOException;
  * Created by metin on 08.08.16.
  */
 public class Crashlytics {
-    public static void logException(Exception e) {
+    public static void logException(Throwable e) {
 
     }
 

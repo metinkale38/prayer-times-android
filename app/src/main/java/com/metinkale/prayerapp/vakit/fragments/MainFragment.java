@@ -52,6 +52,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -217,6 +218,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
                 }
 
+                AppRatingDialog.addToOpenedMenus("notPrefs");
                 break;
             case R.id.export:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

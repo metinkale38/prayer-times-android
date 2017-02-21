@@ -27,6 +27,8 @@ import android.support.annotation.NonNull;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.about.AboutAct;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -50,12 +52,20 @@ public class Changelog {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle(c.getResources().getString(R.string.changelog)).setView(wv).setCancelable(false);
 
-        builder.setNegativeButton(c.getResources().getString(R.string.ok), null);
+        builder.setNegativeButton(c.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Answers.getInstance().logCustom(new CustomEvent("ChangelogDialog")
+                        .putCustomAttribute("Button", "ok"));
+            }
+        });
 
         builder.setNeutralButton(c.getResources().getString(R.string.sendMail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 AboutAct.sendMail(c);
+                Answers.getInstance().logCustom(new CustomEvent("ChangelogDialog")
+                        .putCustomAttribute("Button", "mail"));
             }
         });
 
@@ -69,6 +79,8 @@ public class Changelog {
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(c, "Couldn't launch the market", Toast.LENGTH_LONG).show();
                 }
+                Answers.getInstance().logCustom(new CustomEvent("ChangelogDialog")
+                        .putCustomAttribute("Button", "vote"));
             }
         });
 
