@@ -75,6 +75,7 @@
         <item>Deutsch</item>
         <item>English</item>
         <item>Français</item>
+        <item>Kurdish</item>
         <item>عربي</item>
         <item>русский</item>
     </string-array>
@@ -85,6 +86,7 @@
         <item>de</item>
         <item>en</item>
         <item>fr</item>
+        <item>ku</item>
         <item>ar</item>
         <item>ru</item>
     </string-array>

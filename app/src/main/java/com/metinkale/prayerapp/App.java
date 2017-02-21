@@ -32,7 +32,6 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
@@ -71,8 +70,10 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                     && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Prefs.setShowOngoingNumber(false);
-                    Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
                     Crashlytics.setBool("WORKAROUND#1", true);
+                    Crashlytics.logException(ex);
+                    return;
                 }
             }
             // This will make Crashlytics do its job
