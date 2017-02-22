@@ -262,11 +262,11 @@
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
     <string name="stopFacedown">Stop Sound by turning the screen face down.</string>
-    <string name="ratingFirstDlgTitle">Do you like this App?</string>
-    <string name="ratingPositiveTitle">Rate this App!</string>
-    <string name="ratingPositiveText">If you like this App, take a moment to vote it in the Play Store.</string>
+    <string name="ratingFirstDlgTitle">Do you like this app?</string>
+    <string name="ratingPositiveTitle">Rate this app!</string>
+    <string name="ratingPositiveText">If you like this app, take a moment to vote it in the Play Store.</string>
     <string name="ratingNegativeTitle">Write Feedback!</string>
-    <string name="ratingNegativeText">Write me an E-Mail with your feelings, impressions and suggestions for this App and help me improving it continuously!</string>
+    <string name="ratingNegativeText">Write me an E-Mail with your feelings, impressions and suggestions for this app and help me improving it continuously!</string>
     <string name="notnow">Not Now</string>
     <string name="totheplaystore">Take me to the Play Store</string>
 </resources>
