@@ -184,7 +184,7 @@
   <string name="restore">Wiederherstellen</string>
   <string name="search">Suchen</string>
   <string name="selectOther">andere&#8230;</string>
-  <string name="sendMail">E-Mail schreiben…</string>
+  <string name="mail">E-Mail schreiben…</string>
   <string name="settings">Einstellungen</string>
   <string name="share">Teilen</string>
   <string name="shareTimes">Gebetszeiten von heute für %1$s</string>

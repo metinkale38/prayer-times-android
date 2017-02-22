@@ -139,7 +139,7 @@
                     android:textStyle="bold"
                     android:layout_toRightOf="@+id/icon"
                     android:layout_toEndOf="@+id/icon"
-                    android:text="@string/sendMail"
+                    android:text="@string/mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

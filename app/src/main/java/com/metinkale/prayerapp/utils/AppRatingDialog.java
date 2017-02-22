@@ -148,7 +148,7 @@ public class AppRatingDialog {
                                         .putCustomAttribute("Like this App?", "yes")
                                         .putCustomAttribute("Rate this App?", "cancel"));
                             }
-                        }).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        }).setPositiveButton(R.string.totheplaystore, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Uri uri = Uri.parse("market://details?id=" + act.getPackageName());
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -162,7 +162,7 @@ public class AppRatingDialog {
                             Toast.makeText(act, "Couldn't launch the market", Toast.LENGTH_LONG).show();
                         }
                     }
-                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.notnow, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         setInstalltionTime(0);
                         act.finish();
@@ -186,7 +186,7 @@ public class AppRatingDialog {
                                         .putCustomAttribute("Like this App?", "no")
                                         .putCustomAttribute("Write Feedback?", "cancel"));
                             }
-                        }).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        }).setPositiveButton(R.string.sendMail, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         AboutAct.sendMail(act);
                         setInstalltionTime(Long.MAX_VALUE);
@@ -195,7 +195,7 @@ public class AppRatingDialog {
                                 .putCustomAttribute("Like this App?", "no")
                                 .putCustomAttribute("Write Feedback?", "yes"));
                     }
-                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.notnow, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         setInstalltionTime(0);
                         act.finish();

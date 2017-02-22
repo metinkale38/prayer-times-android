@@ -173,7 +173,7 @@
   <string name="restore">Восстановить</string>
   <string name="search">Поиск</string>
   <string name="selectOther">другое&#8230;</string>
-  <string name="sendMail">Электронная почта</string>
+  <string name="mail">Электронная почта</string>
   <string name="settings">Настройки</string>
   <string name="share">Поделится</string>
   <string name="shareTimes">Расписание молитв на сегодня для %1$s</string>

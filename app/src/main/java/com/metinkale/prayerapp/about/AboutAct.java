@@ -208,7 +208,7 @@ public class AboutAct extends BaseActivity {
                         "\nApp Version Name: " + versionName +
                         "\nApp Version Code: " + versionCode +
                         "\n======================\n\n");
-        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.sendMail)));
+        ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.mail)));
     }
 
     public void beta(View view) {

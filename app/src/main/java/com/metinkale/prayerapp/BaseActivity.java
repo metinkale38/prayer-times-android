@@ -113,8 +113,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppRatingDialog.increateAppStarts();
 
         Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentId(mNavPos + "")
-                .putContentType("BaseActivity")
                 .putContentName(ACTS[mNavPos]));
 
 

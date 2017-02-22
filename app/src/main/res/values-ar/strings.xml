@@ -183,7 +183,7 @@
   <string name="restore">إسترجاع</string>
   <string name="search">بحث</string>
   <string name="selectOther">أخرى &#8230;</string>
-  <string name="sendMail">كتابة رسالة إلكترونية …</string>
+  <string name="mail">كتابة رسالة إلكترونية …</string>
   <string name="settings">إعدادات</string>
   <string name="share">مشاركة</string>
   <string name="shareTimes">أرسل أقوات الصلاة لهذا اليوم لـ %1$s</string>
