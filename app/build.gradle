@@ -45,7 +45,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 178
+        versionCode 179
         versionName '3.6.4'
         multiDexEnabled false
     }
