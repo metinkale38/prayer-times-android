@@ -150,25 +150,33 @@ public class Cities {
 
     public void search(final double lat, final double lng, @NonNull final Callback<List<Entry>> callback) {
         final Cities cities = Cities.get();
-        Geocoder.reverse(lat, lng, new Geocoder.ReverseCallback() {
-            @Override
-            public void onResult(final Entry e) {
-                mThread.execute(new Runnable() {
+        Geocoder.reverse(lat, lng,
+                new Geocoder.ReverseCallback() {
                     @Override
-                    public void run() {
-                        final List<Entry> search = cities.search(lat, lng);
-                        e.setKey("C_");
-                        search.add(e);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onResult(search);
-                            }
-                        });
+                    public void onResult(final Entry e) {
+                        mThread.execute(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        final List<Entry> search = cities.search(lat, lng);
+                                        if (e != null) {
+                                            e.setKey("C_");
+                                            search.add(e);
+                                        }
+                                        mHandler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                callback.onResult(search);
+                                            }
+                                        });
+                                    }
+                                }
+
+                        );
                     }
-                });
-            }
-        });
+                }
+
+        );
 
 
     }

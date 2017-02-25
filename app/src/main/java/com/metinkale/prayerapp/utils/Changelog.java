@@ -34,7 +34,7 @@ import com.metinkale.prayerapp.about.AboutAct;
 import com.metinkale.prayerapp.settings.Prefs;
 
 public class Changelog {
-    private static final int CHANGELOG_VERSION = 17;
+    private static final int CHANGELOG_VERSION = 18;
 
     public static void start(@NonNull Context c) {
         if (Prefs.getChangelogVersion() < CHANGELOG_VERSION) {

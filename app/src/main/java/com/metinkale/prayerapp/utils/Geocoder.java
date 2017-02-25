@@ -44,12 +44,17 @@ public class Geocoder {
                 .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
             @Override
             public void onCompleted(@Nullable Exception e, @NonNull Response<OSMReverse> response) {
-                OSMReverse result = response.getResult();
                 if (e != null) e.printStackTrace();
+                if (response == null) {
+                    callback.onResult(null);
+                    return;
+                }
+                OSMReverse result = response.getResult();
                 if (result == null) {
                     callback.onResult(null);
                     return;
                 }
+
                 Entry entry = new Entry();
                 entry.setCountry(result.address.country);
                 entry.setName(result.address.county);

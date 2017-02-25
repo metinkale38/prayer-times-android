@@ -183,6 +183,7 @@ public class WebTimes extends Times {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
+        if (getId() == null) return;
         Builders.Any.F[] builders = createIonBuilder();
         for (Builders.Any.F builder : builders) {
             builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
