@@ -55,6 +55,7 @@ public class WebTimes extends Times {
     protected Map<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
+    private long lastSync;
 
 
     WebTimes(long id) {
@@ -220,7 +221,7 @@ public class WebTimes extends Times {
     }
 
     private int getSyncedDays() {
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.now().plusDays(1);
         int i = 0;
         while (i < 45) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
@@ -292,7 +293,8 @@ public class WebTimes extends Times {
         int syncedDays = getSyncedDays();
 
 
-        if (syncedDays == 0) {
+        if (syncedDays == 0 && System.currentTimeMillis() - lastSync < 1000 * 60 * 60) {
+            lastSync = System.currentTimeMillis();
             if (App.isOnline()) syncAsync();
             else
                 jobId = new JobRequest.Builder(SyncJob.TAG + getID())

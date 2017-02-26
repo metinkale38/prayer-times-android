@@ -92,6 +92,7 @@ public class Cities {
         }
     }
 
+
     @Nullable
     public static synchronized Cities get() {
         Cities cities = mInstance.get();
@@ -381,14 +382,64 @@ public class Cities {
 
         public double nextDouble() {
             String str = nextString();
-            if (str == null || str.isEmpty()) return 0;
-            return Double.parseDouble(str);
+            if (str.isEmpty()) return 0;
+            return parseDouble(str);
         }
 
         public int nextInt() {
             String str = nextString();
-            if (str == null || str.isEmpty()) return 0;
-            return Integer.parseInt(str);
+            if (str.isEmpty()) return 0;
+            return parseInt(str);
+        }
+
+        /**
+         * NO CHECKING IS DONE!!!
+         *
+         * @param s string
+         * @return long value
+         */
+        private static int parseInt(String s) {
+            if (s.startsWith("-")) {
+                return -parseInt(s.substring(1));
+            }
+            int val = 0;
+            for (int i = 0; i < s.length(); i++) {
+                val *= 10;
+                val += (s.charAt(i) - '0');
+            }
+            return val;
+        }
+
+        /**
+         * NO CHECKING IS DONE!!! UNSAFE
+         *
+         * @param s string
+         * @return double value
+         */
+        private static double parseDouble(String s) {
+            if (s.startsWith("-")) {
+                return -parseDouble(s.substring(1));
+            }
+
+            long full = 0;
+            long dec = 0;
+            long c = 0;
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);
+                if (c == 0) {
+                    if (ch == '.' || ch == ',') {
+                        c++;
+                    } else {
+                        full *= 10;
+                        full += (ch - '0');
+                    }
+                } else {
+                    dec *= 10;
+                    dec += (ch - '0');
+                    c *= 10;
+                }
+            }
+            return full + dec / (double) c;
         }
     }
 }
