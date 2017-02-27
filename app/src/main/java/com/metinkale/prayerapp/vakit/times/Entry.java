@@ -30,8 +30,8 @@ public class Entry {
     private String normalized;
     @Nullable
     private String key;
-    private double lat;
-    private double lng;
+    private float lat;
+    private float lng;
     private String country;
 
     public Entry() {
@@ -79,7 +79,7 @@ public class Entry {
     }
 
     public void setLat(double lat) {
-        this.lat = lat;
+        this.lat = (float) lat;
     }
 
     public double getLng() {
@@ -87,7 +87,7 @@ public class Entry {
     }
 
     public void setLng(double lng) {
-        this.lng = lng;
+        this.lng = (float) lng;
     }
 
     public String getCountry() {
