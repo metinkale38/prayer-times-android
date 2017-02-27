@@ -349,6 +349,7 @@ public class Cities {
         wor = wor.substring(0, wor.indexOf("</select>"));
 
         String all = ger + wor;
+        all = all.replace("Hoogenzand", "Hoogezand");
 
         class City {
             private String name;
