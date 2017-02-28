@@ -344,8 +344,13 @@ public class WebTimes extends Times {
             boolean success = false;
             Builders.Any.F[] builders = createIonBuilder();
             for (Builders.Any.F builder : builders) {
+                String str = null;
                 try {
-                    String str = builder.asString().get();
+                    str = builder.asString().get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
                     if (parseResult(str)) success = true;
                 } catch (Exception e) {
                     Crashlytics.setString("WebTimesSource", getSource().toString());

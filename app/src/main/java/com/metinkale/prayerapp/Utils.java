@@ -273,8 +273,8 @@ public class Utils {
     }
 
 
-    @Nullable
-    public static String toArabicNrs(@Nullable String str) {
+    @NonNull
+    public static String toArabicNrs(@NonNull String str) {
         if (str == null) return null;
         if (Prefs.getDigits().equals("normal")) return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};

@@ -31,6 +31,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -154,7 +155,7 @@ public class WidgetProviderLong extends AppWidgetProvider {
         paint.setSubpixelText(true);
 
         paint.setColor(theme.hovercolor);
-        if (next != 0) {
+        if (next != 0 && !Prefs.showAltWidgetHightlight()) {
             canvas.drawRect((w * (next - 1)) / 6, h * 3 / 9, w * next / 6, h, paint);
         }
         float s = paint.getStrokeWidth();
@@ -195,13 +196,22 @@ public class WidgetProviderLong extends AppWidgetProvider {
         } while (!fits);
 
         for (int i = 0; i < vakits.length; i++) {
+            if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+            }
             canvas.drawText(vakits[i], (w * (1 + (2 * i))) / 12, y, paint);
+            if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            }
         }
 
 
         paint.setTextSize((h * 2) / 9);
         if (Prefs.use12H()) {
             for (int i = 0; i < daytimes.length; i++) {
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+                }
                 String time = Utils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
@@ -209,10 +219,19 @@ public class WidgetProviderLong extends AppWidgetProvider {
                 canvas.drawText(time, (w * (1 + (2 * i))) / 12, h * 6 / 10, paint);
                 paint.setTextSize(h / 9);
                 canvas.drawText(suffix, (w * (1 + (2 * i))) / 12, h * 7 / 10, paint);
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                }
             }
         } else {
             for (int i = 0; i < daytimes.length; i++) {
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+                }
                 canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * (1 + (2 * i))) / 12, h * 3 / 5, paint);
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                }
             }
         }
 

@@ -28,7 +28,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +43,7 @@ import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.WidgetProvider;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -162,7 +162,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
 
-
         if ("longcheer".equalsIgnoreCase(Build.BRAND)
                 || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
                 || "general mobile".equalsIgnoreCase(Build.BRAND)
@@ -185,6 +184,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             WidgetService.updateOngoing();
         } else if ("useAlarm".equals(key)) {
             Times.setAlarms();
+        } else if ("showAltWidgetHightlight".equals(key)) {
+            WidgetProvider.updateWidgets(this);
         }
     }
 

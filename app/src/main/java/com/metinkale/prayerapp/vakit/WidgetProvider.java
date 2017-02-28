@@ -30,6 +30,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
@@ -163,23 +164,28 @@ public class WidgetProvider extends AppWidgetProvider {
 
         paint.setTextSize((int) ((l * 8) / 10));
 
-        if (next != 0) {
+        if (next != 0 && !Prefs.showAltWidgetHightlight()) {
             paint.setColor(theme.hovercolor);
             canvas.drawRect(0, (int) (l * (next + 1.42)), w, (int) (l * (next + 2.42)), paint);
         }
         paint.setColor(theme.textcolor);
 
         paint.setTextAlign(Align.LEFT);
-        canvas.drawText(Vakit.getByIndex(0).getString(), w / 6, (int) (l * 3.2), paint);
-        canvas.drawText(Vakit.GUNES.getString(), w / 6, (int) (l * 4.2), paint);
-        canvas.drawText(Vakit.OGLE.getString(), w / 6, (int) (l * 5.2), paint);
-        canvas.drawText(Vakit.IKINDI.getString(), w / 6, (int) (l * 6.2), paint);
-        canvas.drawText(Vakit.AKSAM.getString(), w / 6, (int) (l * 7.2), paint);
-        canvas.drawText(Vakit.YATSI.getString(), w / 6, (int) (l * 8.2), paint);
-
+        for (int i = 0; i < 6; i++) {
+            if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+            }
+            canvas.drawText(Vakit.getByIndex(i).getString(), w / 6, (int) (l * (3.2 + i)), paint);
+            if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            }
+        }
         paint.setTextAlign(Align.RIGHT);
         if (Prefs.use12H()) {
             for (int i = 0; i < daytimes.length; i++) {
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+                }
                 String time = Utils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
@@ -187,10 +193,19 @@ public class WidgetProvider extends AppWidgetProvider {
                 canvas.drawText(time, ((w * 5) / 6) - paint.measureText("A"), (int) (l * 3.2 + i * l), paint);
                 paint.setTextSize((int) ((l * 4) / 10));
                 canvas.drawText(suffix, ((w * 5) / 6) + (paint.measureText(time) / 4), (int) (l * 3 + i * l), paint);
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                }
             }
         } else {
             for (int i = 0; i < daytimes.length; i++) {
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+                }
                 canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
+                if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                }
             }
         }
         paint.setTextSize((int) l);

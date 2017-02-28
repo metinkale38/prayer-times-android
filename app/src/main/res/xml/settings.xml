@@ -87,6 +87,11 @@
             android:key="vakit_indicator"
             android:title="@string/vakit_indicator" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showAltWidgetHightlight"
+            android:title="@string/widget_current_vakit" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/dateAndTime">

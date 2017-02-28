@@ -183,5 +183,8 @@ public class Prefs {
         getPrefs().edit().putFloat("compassLat", lat).putFloat("compassLong", lon).apply();
     }
 
+    public static boolean showAltWidgetHightlight() {
+        return getPrefs().getBoolean("showAltWidgetHightlight", false);
+    }
 
 }

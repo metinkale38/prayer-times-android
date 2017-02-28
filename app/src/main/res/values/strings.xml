@@ -269,4 +269,5 @@
     <string name="ratingNegativeText">Write me an E-Mail with your feelings, impressions and suggestions for this app and help me improving it continuously!</string>
     <string name="notnow">Not Now</string>
     <string name="totheplaystore">Take me to the Play Store</string>
+    <string name="widget_current_vakit">Widget - Alternative Current Time indicator</string>
 </resources>
