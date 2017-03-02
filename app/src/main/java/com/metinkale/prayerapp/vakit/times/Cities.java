@@ -17,20 +17,13 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import android.content.Context;
 import android.database.SQLException;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.Geocoder;
-import com.metinkale.prayerapp.utils.SimpleIntArrayMap;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -43,53 +36,13 @@ public class Cities {
 
     @Nullable
     private static WeakReference<Cities> mInstance = new WeakReference<Cities>(null);
-    private final Context mContext;
-    private final SimpleIntArrayMap<Entry> mEntries = new SimpleIntArrayMap<>(112665);
+    private final CitiesSet mEntries = new CitiesSet();
     @NonNull
     private Handler mHandler = new Handler();
     @NonNull
     private Executor mThread = Executors.newSingleThreadExecutor();
 
-    private Cities(Context context) {
-        mContext = context;
-        mThread.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    loadTSV();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void loadTSV() throws IOException {
-        BufferedReader is = new BufferedReader(new InputStreamReader(mContext.getResources().openRawResource(R.raw.cities)));
-        String line;
-        while ((line = is.readLine()) != null) {
-            if (line.isEmpty()) continue;
-            MyFastTokenizer st = new MyFastTokenizer(line, "\t");
-            Entry e = new Entry();
-            e.setId(st.nextInt());
-            e.setParent(st.nextInt());
-            e.setLat(st.nextDouble());
-            e.setLng(st.nextDouble());
-            e.setKey(st.nextString());
-            e.setName(st.nextString());
-            e.setNormalized(normalize(e.getName()));
-            if (e.getKey() != null) {
-                Entry parent = e;
-                Entry tmp = mEntries.get(parent.getParent());
-                while (tmp.getParent() != 0) {
-                    parent = tmp;
-                    tmp = mEntries.get(parent.getParent());
-                }
-                e.setCountry(parent.getName());
-            }
-
-            mEntries.put(e.getId(), e);
-        }
+    private Cities() {
     }
 
 
@@ -97,7 +50,7 @@ public class Cities {
     public static synchronized Cities get() {
         Cities cities = mInstance.get();
         if (cities == null) {
-            cities = new Cities(App.get());
+            cities = new Cities();
             mInstance = new WeakReference<>(cities);
         }
         return cities;
@@ -186,8 +139,7 @@ public class Cities {
     @NonNull
     private List<Entry> list(int id) {
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < mEntries.size(); i++) {
-            Entry e = mEntries.get(i);
+        for (Entry e : mEntries) {
             if (e != null && e.getParent() == id)
                 entries.add(e);
         }
@@ -199,8 +151,7 @@ public class Cities {
 
         List<Entry> items = new ArrayList<>();
         EnumMap<Source, Entry> map = new EnumMap<Source, Entry>(Source.class);
-        for (int i = 0; i < mEntries.size(); i++) {
-            Entry entry = mEntries.get(i);
+        for (Entry entry : mEntries) {
             if (entry == null || entry.getKey() == null) continue;
             Source s = entry.getSource();
             Entry e = map.get(s);
@@ -227,10 +178,9 @@ public class Cities {
         EnumMap<Source, Entry> name = new EnumMap<Source, Entry>(Source.class);
         EnumMap<Source, Entry> pos = new EnumMap<Source, Entry>(Source.class);
 
-        q = normalize(q);
+        q = Entry.normalize(q);
 
-        for (int i = 0; i < mEntries.size(); i++) {
-            Entry entry = mEntries.get(i);
+        for (Entry entry : mEntries) {
             if (entry == null || entry.getKey() == null) continue;
             Source s = entry.getSource();
             if (s == null) continue;
@@ -261,13 +211,8 @@ public class Cities {
 
             double latDist = Math.abs(r.lat - entry.getLat());
             double lngDist = Math.abs(r.lng - entry.getLng());
-            if (e == null) {
-                if (latDist < 2 && lngDist < 2)
-                    name.put(s, entry);
-            } else {
-                if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
-                    name.put(s, entry);
-                }
+            if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
+                name.put(s, entry);
             }
 
 
@@ -286,75 +231,8 @@ public class Cities {
         public abstract void onResult(T result);
     }
 
-    private String normalize(@NonNull String s) {
-        StringBuilder builder = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            if (c >= 0x41 && c <= 0x5A) {//A-Z
-                builder.append((char) (c + 0x20));
-            } else if (c >= 0x61 && c <= 0x7A) {//a-z
-                builder.append(c);
-            } else {
-                switch (c) {
-                    case 'é':
-                    case 'è':
-                    case 'ê':
-                    case 'ë':
-                    case 'È':
-                    case 'É':
-                    case 'Ë':
-                    case 'Ê':
-                        builder.append("e");
-                        break;
-                    case 'Ç':
-                    case 'ç':
-                        builder.append("c");
-                        break;
-                    case 'Ğ':
-                    case 'ğ':
-                        builder.append("g");
-                        break;
-                    case 'ı':
-                    case 'İ':
-                    case 'ï':
-                    case 'î':
-                    case 'Ï':
-                    case 'Î':
-                        builder.append("i");
-                        break;
-                    case 'Ö':
-                    case 'ö':
-                    case 'Ô':
-                        builder.append("o");
-                        break;
-                    case 'Ş':
-                    case 'ş':
-                        builder.append("s");
-                        break;
-                    case 'Ä':
-                    case 'ä':
-                    case 'à':
-                    case 'â':
-                    case 'À':
-                    case 'Â':
-                        builder.append("a");
-                        break;
-                    case 'ü':
-                    case 'Ü':
-                    case 'û':
-                    case 'ù':
-                    case 'Û':
-                    case 'Ù':
-                        builder.append("u");
-                        break;
-                    default:
-                        builder.append(c);
-                }
-            }
-        }
-        return builder.toString();
-    }
 
-    private static class MyFastTokenizer {
+    static class MyFastTokenizer {
         @NonNull
         private final String delim;
         private final int dsize;

@@ -17,6 +17,7 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
@@ -123,10 +124,77 @@ public class Entry {
     }
 
     public String getNormalized() {
+        if (normalized == null) {
+            normalized = normalize(getName());
+        }
         return normalized;
     }
 
-    public void setNormalized(String normalized) {
-        this.normalized = normalized;
+    static String normalize(@NonNull String s) {
+        StringBuilder builder = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c >= 0x41 && c <= 0x5A) {//A-Z
+                builder.append((char) (c + 0x20));
+            } else if (c >= 0x61 && c <= 0x7A) {//a-z
+                builder.append(c);
+            } else {
+                switch (c) {
+                    case 'é':
+                    case 'è':
+                    case 'ê':
+                    case 'ë':
+                    case 'È':
+                    case 'É':
+                    case 'Ë':
+                    case 'Ê':
+                        builder.append("e");
+                        break;
+                    case 'Ç':
+                    case 'ç':
+                        builder.append("c");
+                        break;
+                    case 'Ğ':
+                    case 'ğ':
+                        builder.append("g");
+                        break;
+                    case 'ı':
+                    case 'İ':
+                    case 'ï':
+                    case 'î':
+                    case 'Ï':
+                    case 'Î':
+                        builder.append("i");
+                        break;
+                    case 'Ö':
+                    case 'ö':
+                    case 'Ô':
+                        builder.append("o");
+                        break;
+                    case 'Ş':
+                    case 'ş':
+                        builder.append("s");
+                        break;
+                    case 'Ä':
+                    case 'ä':
+                    case 'à':
+                    case 'â':
+                    case 'À':
+                    case 'Â':
+                        builder.append("a");
+                        break;
+                    case 'ü':
+                    case 'Ü':
+                    case 'û':
+                    case 'ù':
+                    case 'Û':
+                    case 'Ù':
+                        builder.append("u");
+                        break;
+                    default:
+                        builder.append(c);
+                }
+            }
+        }
+        return builder.toString();
     }
 }
