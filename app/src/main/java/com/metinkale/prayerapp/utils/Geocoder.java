@@ -56,8 +56,13 @@ public class Geocoder {
                 }
 
                 Entry entry = new Entry();
-                entry.setCountry(result.address.country);
-                entry.setName(result.address.county);
+                if (result.address != null) {
+                    entry.setCountry(result.address.country);
+                    entry.setName(result.address.county);
+                } else {
+                    entry.setName("Unknown");
+                    entry.setCountry("Unknown");
+                }
                 entry.setLat(result.lat);
                 entry.setLng(result.lon);
                 callback.onResult(entry);
@@ -92,6 +97,10 @@ public class Geocoder {
                 }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
             @Override
             public void onCompleted(@Nullable Exception e, @NonNull Response<List<OSMPlace>> response) {
+                if (response == null) {
+                    callback.onResult(new ArrayList<Result>());
+                    return;
+                }
                 List<OSMPlace> result = response.getResult();
                 List<Result> allresults = new ArrayList<>();
                 if (e != null) e.printStackTrace();

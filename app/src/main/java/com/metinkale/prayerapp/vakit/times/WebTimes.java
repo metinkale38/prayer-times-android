@@ -21,6 +21,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.util.ArraySet;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -34,23 +35,17 @@ import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.utils.FastParser;
 
 import org.joda.time.LocalDate;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
 public class WebTimes extends Times {
 
-    @NonNull
-    private Runnable mNotify = new Runnable() {
-        @Override
-        public void run() {
-            notifyOnUpdated();
-            App.get().getHandler().removeCallbacks(this);
-        }
-    };
     @NonNull
     protected Map<String, String> times = new ArrayMap<>();
     private String id;
@@ -159,8 +154,6 @@ public class WebTimes extends Times {
         if (deleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
-
-        App.get().getHandler().post(mNotify);
     }
 
     void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
@@ -168,6 +161,8 @@ public class WebTimes extends Times {
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
         }
+
+        notifyOnUpdated();
     }
 
     public synchronized String getId() {
@@ -189,7 +184,7 @@ public class WebTimes extends Times {
         for (Builders.Any.F builder : builders) {
             builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
                 @Override
-                public void onCompleted(Exception e, Response<String> result) {
+                public void onCompleted(Exception e, final Response<String> result) {
                     if (e != null) {
                         //Crashlytics.setString("WebTimesSource", getSource().toString());
                         //Crashlytics.setString("WebTimesName", getName());
@@ -197,15 +192,21 @@ public class WebTimes extends Times {
                         //Crashlytics.logException(e);
                         return;
                     }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                parseResult(result.getResult());
+                            } catch (Exception ee) {
+                                Crashlytics.setString("WebTimesSource", getSource().toString());
+                                Crashlytics.setString("WebTimesName", getName());
+                                Crashlytics.setString("WebTimesId", getId());
+                                Crashlytics.logException(ee);
+                            }
 
-                    try {
-                        parseResult(result.getResult());
-                    } catch (Exception ee) {
-                        Crashlytics.setString("WebTimesSource", getSource().toString());
-                        Crashlytics.setString("WebTimesName", getName());
-                        Crashlytics.setString("WebTimesId", getId());
-                        Crashlytics.logException(ee);
-                    }
+                            notifyOnUpdated();
+                        }
+                    }).start();
                 }
             });
         }
@@ -359,14 +360,34 @@ public class WebTimes extends Times {
                     Crashlytics.logException(e);
                 }
             }
+            cleanTimes();
+            notifyOnUpdated();
             return success ? Result.SUCCESS : Result.RESCHEDULE;
         }
+
 
         @Override
         protected void onReschedule(int newJobId) {
             jobId = newJobId;
         }
 
+
+    }
+
+    private void cleanTimes() {
+        Set<String> keys = new ArraySet<>();
+        keys.addAll(times.keySet());
+        LocalDate date = LocalDate.now();
+        int y = date.getYear();
+        int m = date.getMonthOfYear();
+        for (String key : keys) {
+            int year = FastParser.parseInt(key.substring(0, 4));
+            if (year < y) keys.remove(key);
+            else if (year == y) {
+                int month = FastParser.parseInt(key.substring(5, 7));
+                if (month < m) keys.remove(key);
+            }
+        }
 
     }
 

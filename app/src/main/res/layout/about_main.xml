@@ -316,47 +316,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
-
-            <RelativeLayout
-                android:clickable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="donate"
-                android:padding="5dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <net.steamcrafted.materialiconlib.MaterialIconView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:materialIcon="gift"
-                    app:materialIconColor="#555555"
-                    app:materialIconSize="24dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:scaleType="center"
-                    android:id="@id/icon"/>
-
-                <TextView
-                    android:id="@id/title"
-                    android:textStyle="bold"
-                    android:layout_toRightOf="@+id/icon"
-                    android:layout_toEndOf="@+id/icon"
-                    android:text="@string/donate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@id/summary"
-                    android:layout_toRightOf="@+id/icon"
-                    android:textSize="12sp"
-                    android:layout_toEndOf="@+id/icon"
-                    android:textColor="#555555"
-                    android:layout_below="@+id/title"
-                    android:text="@string/donate_sum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout style="@style/MyCard">

@@ -37,7 +37,6 @@ import com.metinkale.prayerapp.vakit.times.Times;
  * Created by Metin on 21.07.2015.
  */
 public class SettingsFragment extends Fragment {
-    private View mView;
 
     private EditText mName;
     @NonNull

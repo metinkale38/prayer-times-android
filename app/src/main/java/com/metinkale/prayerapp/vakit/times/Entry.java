@@ -24,7 +24,7 @@ import android.support.annotation.Nullable;
  * Created by metin on 10.02.2017.
  */
 
-public class Entry {
+public class Entry implements Cloneable {
     private int parent;
     private int id;
     private String name;
@@ -41,6 +41,7 @@ public class Entry {
 
     public void setName(String name) {
         this.name = name;
+        normalized = null;
     }
 
     public String getName() {
@@ -196,5 +197,19 @@ public class Entry {
             }
         }
         return builder.toString();
+    }
+
+    @Override
+    protected Object clone() {
+        Entry e = new Entry();
+        e.id = id;
+        e.normalized = normalized;
+        e.name = name;
+        e.lat = lat;
+        e.lng = lng;
+        e.country = country;
+        e.key = key;
+        e.parent = parent;
+        return e;
     }
 }

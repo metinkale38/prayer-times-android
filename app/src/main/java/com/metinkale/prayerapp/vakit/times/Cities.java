@@ -141,7 +141,7 @@ public class Cities {
         List<Entry> entries = new ArrayList<>();
         for (Entry e : mEntries) {
             if (e != null && e.getParent() == id)
-                entries.add(e);
+                entries.add((Entry) e.clone());
         }
         return entries;
     }
@@ -159,10 +159,10 @@ public class Cities {
             double lngDist = Math.abs(lng - entry.getLng());
             if (e == null) {
                 if (latDist < 2 && lngDist < 2)
-                    map.put(s, entry);
+                    map.put(s, (Entry) entry.clone());
             } else {
                 if (latDist + lngDist < Math.abs(lat - e.getLat()) + Math.abs(lng - e.getLng())) {
-                    map.put(s, entry);
+                    map.put(s, (Entry) entry.clone());
                 }
             }
         }
@@ -193,10 +193,10 @@ public class Cities {
                 double lngDist = Math.abs(r.lng - entry.getLng());
                 if (e == null) {
                     if (latDist < 2 && lngDist < 2)
-                        pos.put(s, entry);
+                        pos.put(s, (Entry) entry.clone());
                 } else {
                     if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
-                        pos.put(s, entry);
+                        pos.put(s, (Entry) entry.clone());
                     }
                 }
             }
@@ -205,14 +205,14 @@ public class Cities {
 
             Entry e = name.get(s);
             if (e == null) {
-                name.put(s, entry);
+                name.put(s, (Entry) entry.clone());
                 continue;
             }
 
             double latDist = Math.abs(r.lat - entry.getLat());
             double lngDist = Math.abs(r.lng - entry.getLng());
             if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
-                name.put(s, entry);
+                name.put(s, (Entry) entry.clone());
             }
 
 
@@ -232,92 +232,5 @@ public class Cities {
     }
 
 
-    static class MyFastTokenizer {
-        @NonNull
-        private final String delim;
-        private final int dsize;
-        private String str;
-        private int start = 0;
 
-        public MyFastTokenizer(String str, @NonNull String delim) {
-            this.str = str;
-            this.delim = delim;
-            this.dsize = delim.length();
-        }
-
-        @NonNull
-        public String nextString() {
-            int size = str.indexOf(delim, start);
-            if (size < 0) {
-                size = str.length();
-            }
-            try {
-                return str.substring(start, size);
-            } finally {
-                start = size + dsize;
-            }
-        }
-
-        public double nextDouble() {
-            String str = nextString();
-            if (str.isEmpty()) return 0;
-            return parseDouble(str);
-        }
-
-        public int nextInt() {
-            String str = nextString();
-            if (str.isEmpty()) return 0;
-            return parseInt(str);
-        }
-
-        /**
-         * NO CHECKING IS DONE!!!
-         *
-         * @param s string
-         * @return long value
-         */
-        private static int parseInt(String s) {
-            if (s.startsWith("-")) {
-                return -parseInt(s.substring(1));
-            }
-            int val = 0;
-            for (int i = 0; i < s.length(); i++) {
-                val *= 10;
-                val += (s.charAt(i) - '0');
-            }
-            return val;
-        }
-
-        /**
-         * NO CHECKING IS DONE!!! UNSAFE
-         *
-         * @param s string
-         * @return double value
-         */
-        private static double parseDouble(String s) {
-            if (s.startsWith("-")) {
-                return -parseDouble(s.substring(1));
-            }
-
-            long full = 0;
-            long dec = 0;
-            long c = 0;
-            for (int i = 0; i < s.length(); i++) {
-                char ch = s.charAt(i);
-                if (c == 0) {
-                    if (ch == '.' || ch == ',') {
-                        c++;
-                    } else {
-                        full *= 10;
-                        full += (ch - '0');
-                    }
-                } else {
-                    dec *= 10;
-                    dec += (ch - '0');
-                    c *= 10;
-                }
-            }
-            return full + dec / (double) c;
-        }
-    }
 }

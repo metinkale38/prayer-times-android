@@ -17,8 +17,11 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.NonNull;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.utils.FastParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,6 +42,7 @@ public class CitiesSet implements Iterable<Entry> {
     private class MyIterator implements Iterator<Entry> {
         private BufferedReader is;
         private Entry entry;
+        private Entry cache = new Entry();
 
         MyIterator() {
             is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.cities)));
@@ -69,20 +73,62 @@ public class CitiesSet implements Iterable<Entry> {
                     }
                 } while (line.isEmpty());
 
-                Cities.MyFastTokenizer st = new Cities.MyFastTokenizer(line, "\t");
-                Entry e = new Entry();
+                MyFastTokenizer st = new MyFastTokenizer(line, "\t");
+                Entry e = cache;
                 e.setId(st.nextInt());
                 e.setParent(st.nextInt());
                 e.setLat(st.nextDouble());
                 e.setLng(st.nextDouble());
                 e.setKey(st.nextString());
                 e.setName(st.nextString());
+                e.setCountry(null);
                 return e;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
         }
+
+    }
+
+    static class MyFastTokenizer {
+        @NonNull
+        private final String delim;
+        private final int dsize;
+        private String str;
+        private int start = 0;
+
+        public MyFastTokenizer(String str, @NonNull String delim) {
+            this.str = str;
+            this.delim = delim;
+            this.dsize = delim.length();
+        }
+
+        @NonNull
+        public String nextString() {
+            int size = str.indexOf(delim, start);
+            if (size < 0) {
+                size = str.length();
+            }
+            try {
+                return str.substring(start, size);
+            } finally {
+                start = size + dsize;
+            }
+        }
+
+        public double nextDouble() {
+            String str = nextString();
+            if (str.isEmpty()) return 0;
+            return FastParser.parseDouble(str);
+        }
+
+        public int nextInt() {
+            String str = nextString();
+            if (str.isEmpty()) return 0;
+            return FastParser.parseInt(str);
+        }
+
 
     }
 

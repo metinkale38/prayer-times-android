@@ -66,8 +66,8 @@ public class WidgetService extends Service {
     @NonNull
     private static List<Long> mOngoing = new ArrayList<>();
     private static Bitmap mAbIcon;
-    private static Integer COLOR_1ST;
-    private static Integer COLOR_2ND;
+    private static Integer COLOR_1ST = null;
+    private static Integer COLOR_2ND = null;
 
     public static void updateOngoing() {
         extractColors();
@@ -286,7 +286,7 @@ public class WidgetService extends Service {
     }
 
     private static void extractColors() {
-        if (COLOR_1ST != null) {
+        if (COLOR_1ST != null && COLOR_2ND != null) {
             return;
         }
 

@@ -18,6 +18,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -71,8 +72,8 @@ public abstract class Times extends TimesBase {
 
     @NonNull
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
-    @Nullable
-    private static List<Times> sTimes = new ArrayList<Times>() {
+    @NonNull
+    private final static List<Times> sTimes = new ArrayList<Times>() {
         @Override
         public boolean add(@Nullable Times object) {
             if (object == null) {
@@ -243,6 +244,15 @@ public abstract class Times extends TimesBase {
     }
 
     void notifyOnUpdated() {
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            App.get().getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyOnUpdated();
+                }
+            });
+            return;
+        }
         if (mListeners != null)
             for (OnTimesUpdatedListener list : mListeners)
                 list.onTimesUpdated(this);

@@ -165,7 +165,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         if ("longcheer".equalsIgnoreCase(Build.BRAND)
                 || "longcheer".equalsIgnoreCase(Build.MANUFACTURER)
                 || "general mobile".equalsIgnoreCase(Build.BRAND)
-                || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
+                || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)
+                || "general_mobile".equalsIgnoreCase(Build.BRAND)
+                || "general_mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
             new ANRWatchDog().start();
         }
 
