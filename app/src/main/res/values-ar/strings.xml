@@ -70,9 +70,6 @@
   <string name="djuma">صلاة الجمعة</string>
   <string name="dlHadith">تحميل الأحاديث</string>
   <string name="dlSound">تحميل “%1$s” (%2$s) ؟</string>
-  <string name="donateDlg">\"هذا فقظ دعم للمنتج :)
-        الحمد لله لست بحاجة للمال، ولكن إن أردت دعمي فشكراً جزيلاً\"</string>
-  <string name="donate">الدعم</string>
   <string name="earlyNotification">التنبيه المبكر</string>
   <string name="earlyText">%2$s دقيقة حتى %1$s</string>
   <string name="error">طرأ خطأ</string>

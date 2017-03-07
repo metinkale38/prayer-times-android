@@ -70,8 +70,6 @@
   <string name="djuma">Cuma</string>
   <string name="dlHadith">Hadisleri indirmek istiyormusunuz?</string>
   <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
-  <string name="donateDlg">Bu sadece destek amaçlı :)\n Elhamdulillah ihtiyacım yok, ama vermek isterseniz, Allah razı olsun&#8230;</string>
-  <string name="donate">Destek</string>
   <string name="earlyNotification">Erken Uyarı</string>
   <string name="earlyText">%1$s %2$s dakika kaldı</string>
   <string name="error">Hata oluştu</string>
@@ -235,7 +233,6 @@
   <string name="show_notification_screen">Bildiri ekranı göster</string>
   <string name="autoremove_notification">Ezan\'dan sonra bildirimi sil</string>
   <string name="about">Hakkında</string>
-  <string name="support_development">Geliştirmeyi destekle</string>
   <string name="report_bug">Hata bildir</string>
   <string name="report_bug_sum">Hataları veya istediğin yeni özellikleri bildir.</string>
   <string name="translate">Çevir</string>
@@ -246,7 +243,6 @@
   <string name="license_sum">Bu Uygulama için kullanılan Apache License, Version 2.0 lisansı oku</string>
   <string name="library_licenses">Kütüphane Lisansları</string>
   <string name="library_licenses_sum">Namaz vakitleri içinde kullanılan üçüncü parti kütüphaneleri kontrol et</string>
-  <string name="donate_sum">Uygulamanın gelişimini desteklemek için bir şey bağışlamayı düşün.</string>
   <string name="rate">Değerlendir</string>
   <string name="rate_desc">Eğer Namaz Vakti\'ni sevdiyseniz olumlu bir değerlendirme bırakın.</string>
   <string name="sendMail_sum">Bana bir e-posta gönder!</string>

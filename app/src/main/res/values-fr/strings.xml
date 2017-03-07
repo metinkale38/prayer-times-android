@@ -70,8 +70,6 @@
   <string name="djuma">La prière du vendredi</string>
   <string name="dlHadith">Télécharger les données pour les Hadith?</string>
   <string name="dlSound">Télécharger les voix \" %1$s \" (%2$s)?</string>
-  <string name="donateDlg">Ceci est juste une aide pour le développeur :)\nAlhamdulillah, je ne ai pas besoin de cet argent, mais si vous avez envie de me soutenir, je vous remercie&#8230;</string>
-  <string name="donate">Soutien</string>
   <string name="earlyNotification">notification précoce</string>
   <string name="earlyText">reste %1$s %2$s minutes</string>
   <string name="error">Une erreur est survenue</string>
@@ -230,7 +228,6 @@
   <string name="show_notification_screen">Afficher l\'écan des notifications</string>
   <string name="autoremove_notification">Supprimer la Notification après l’Adhan</string>
   <string name="about">À Propos</string>
-  <string name="support_development">Soutenir le développement</string>
   <string name="report_bug">Signaler un bug</string>
   <string name="report_bug_sum">Signaler un bug ou proposer de nouvelles fonctionnalités.</string>
   <string name="translate">Traduction</string>
@@ -241,7 +238,6 @@
   <string name="license_sum">Verifier Apache License, Version 2.0 license terms used on Prayer times</string>
   <string name="library_licenses">Bibliothèque de Licenses</string>
   <string name="library_licenses_sum">Vérifier les libs tiers utilisés dans les temps de prière</string>
-  <string name="donate_sum">Faites un dont pour soutenir le développement.</string>
   <string name="rate">Évaluer</string>
   <string name="rate_desc">Laissez-nous un avis positif si vous aimez les temps de prière.</string>
   <string name="sendMail_sum">Envoyez-moi un E-Mail!</string>

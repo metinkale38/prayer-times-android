@@ -70,9 +70,6 @@
   <string name="djuma">Freitagsgebet</string>
   <string name="dlHadith">Hadithe runterladen?</string>
   <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
-  <string name="donateDlg">Dies ist nur eine Unterstützung für den Entwickler :)\n Alhamdulillah, ich brauche kein
-        Geld, aber wenn Du mich Unterstützen willst, vielen dank&#8230;</string>
-  <string name="donate">Spenden</string>
   <string name="earlyNotification">frühzeitige Benachrichtigung</string>
   <string name="earlyText">%2$s Minuten bis %1$s</string>
   <string name="error">Es ist ein Fehler aufgetreten</string>
@@ -247,7 +244,6 @@
   <string name="show_notification_screen">Zeige Benachrichtigungsbildschirm</string>
   <string name="autoremove_notification">Benachrichtigung nach Adhan löschen</string>
   <string name="about">Über</string>
-  <string name="support_development">Unterstütze die Entwicklung</string>
   <string name="report_bug">Fehler melden</string>
   <string name="report_bug_sum">Melden Sie Fehler oder schlagen Sie neue Funktionen vor.</string>
   <string name="translate">Übersetzen</string>
@@ -258,7 +254,6 @@
   <string name="license_sum">Prüfe die verwendete Apache License, Version 2.0 Lizenzbedingungen</string>
   <string name="library_licenses">Softwarebibliothek-Lizenzen</string>
   <string name="library_licenses_sum">Drittanbieter-Softwarebibliotheken ansehen</string>
-  <string name="donate_sum">Erwäge Geld zu spenden, um die Entwicklung zu unterstützen.</string>
   <string name="rate">Bewertung</string>
   <string name="rate_desc">Bewerte uns positiv falls du Gebetszeiten magst.</string>
   <string name="sendMail_sum">Sende mir eine E-Mail!</string>

@@ -70,8 +70,6 @@
   <string name="djuma">Джума</string>
   <string name="dlHadith">Загрузка базы данных хадисов?</string>
   <string name="dlSound">Скачать “%1$s” (%2$s)?</string>
-  <string name="donateDlg">Это просто поддержка для разработчика:) \nAlhamdulillah, я не нуждаюсь в этих деньгах, но если вы хотите поддержать меня, спасибо&#8230;</string>
-  <string name="donate">Support</string>
   <string name="earlyNotification">предварительные уведомления</string>
   <string name="earlyText">%2$s минут до %1$s</string>
   <string name="error">Произошла ошибка</string>
@@ -230,7 +228,6 @@
   <string name="show_notification_screen">Показать уведомление</string>
   <string name="autoremove_notification">Удалить уведомление после азана</string>
   <string name="about">Описание</string>
-  <string name="support_development">Поддержать разработку</string>
   <string name="report_bug">Отправить отчёт об ошибке</string>
   <string name="report_bug_sum">Сообщить об ошибке или запросить новые возможности.</string>
   <string name="translate">Перевести</string>
@@ -241,7 +238,6 @@
   <string name="license_sum">Смотрите условия лицензии Apache 2.0 используемой приложением</string>
   <string name="library_licenses">Лицензии на библиотеки</string>
   <string name="library_licenses_sum">Сторонние библиотеки, используемые в приложении</string>
-  <string name="donate_sum">Поддержите развитие проекта.</string>
   <string name="rate">Оценка</string>
   <string name="rate_desc">Поставьте нам хорошую оценку, если вам понравилось приложение.</string>
   <string name="sendMail_sum">Пришлите мне e-mail!</string>
