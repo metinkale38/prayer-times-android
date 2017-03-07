@@ -129,7 +129,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
         switch (state) {
             case STATE_ORDER:
-
                 for (int i = 1; i <= Shuffled.getList().size(); i++) {
                     mList.add(i);
                 }
