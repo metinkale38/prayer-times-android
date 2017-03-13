@@ -75,7 +75,7 @@ public class AppRatingDialog {
         return getPrefs().getInt("appStarts", 0);
     }
 
-    public static void increateAppStarts() {
+    public static void increaseAppStarts() {
         if (APP_STARTED) return;
         APP_STARTED = true;
         getPrefs().edit().putLong("installation", getAppStarts() + 1).apply();

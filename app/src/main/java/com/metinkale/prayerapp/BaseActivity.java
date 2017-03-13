@@ -110,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppRatingDialog.increateAppStarts();
+        AppRatingDialog.increaseAppStarts();
 
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putContentName(ACTS[mNavPos]));
