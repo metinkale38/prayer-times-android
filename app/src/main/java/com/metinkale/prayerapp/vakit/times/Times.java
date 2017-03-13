@@ -18,7 +18,6 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -119,7 +118,6 @@ public abstract class Times extends TimesBase {
     }
 
     private static void notifyDataSetChanged() {
-        if (sListeners == null) return;
         for (OnTimesListChangeListener list : sListeners) {
             try {
                 list.notifyDataSetChanged();
@@ -130,13 +128,11 @@ public abstract class Times extends TimesBase {
     }
 
     public static void addOnTimesListChangeListener(@NonNull OnTimesListChangeListener list) {
-        if (sListeners == null) sListeners = new ArrayList<>();
         sListeners.add(list);
         list.notifyDataSetChanged();
     }
 
     public static void removeOnTimesListChangeListener(OnTimesListChangeListener list) {
-        if (sListeners == null) return;
         sListeners.remove(list);
     }
 
@@ -156,7 +152,7 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    @Nullable
+    @NonNull
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
             SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
@@ -244,15 +240,6 @@ public abstract class Times extends TimesBase {
     }
 
     void notifyOnUpdated() {
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            App.get().getHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    notifyOnUpdated();
-                }
-            });
-            return;
-        }
         if (mListeners != null)
             for (OnTimesUpdatedListener list : mListeners)
                 list.onTimesUpdated(this);

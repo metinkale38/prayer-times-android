@@ -200,6 +200,7 @@ class TimesBase {
 
         prefs.edit().remove("id" + ID).apply();
 
+        //noinspection SuspiciousMethodCalls
         getTimes().remove(this);
     }
 
@@ -208,7 +209,7 @@ class TimesBase {
         App.get().getHandler().post(mApplyPrefs);
     }
 
-    protected void save() {
+    void save() {
         if (deleted) {
             return;
         }

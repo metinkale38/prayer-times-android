@@ -162,7 +162,6 @@ public class WebTimes extends Times {
             setTime(date, i, value[i]);
         }
 
-        notifyOnUpdated();
     }
 
     public synchronized String getId() {
@@ -175,6 +174,7 @@ public class WebTimes extends Times {
     }
 
     public void syncAsync() {
+        cleanTimes();
         if (!App.isOnline()) {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
@@ -192,21 +192,16 @@ public class WebTimes extends Times {
                         //Crashlytics.logException(e);
                         return;
                     }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                parseResult(result.getResult());
-                            } catch (Exception ee) {
-                                Crashlytics.setString("WebTimesSource", getSource().toString());
-                                Crashlytics.setString("WebTimesName", getName());
-                                Crashlytics.setString("WebTimesId", getId());
-                                Crashlytics.logException(ee);
-                            }
+                    try {
+                        parseResult(result.getResult());
+                    } catch (Exception ee) {
+                        Crashlytics.setString("WebTimesSource", getSource().toString());
+                        Crashlytics.setString("WebTimesName", getName());
+                        Crashlytics.setString("WebTimesId", getId());
+                        Crashlytics.logException(ee);
+                    }
 
-                            notifyOnUpdated();
-                        }
-                    }).start();
+                    notifyOnUpdated();
                 }
             });
         }
@@ -342,27 +337,8 @@ public class WebTimes extends Times {
         @Override
         protected Result onRunJob(Params params) {
             if (!App.isOnline()) return Result.RESCHEDULE;
-            boolean success = false;
-            Builders.Any.F[] builders = createIonBuilder();
-            for (Builders.Any.F builder : builders) {
-                String str = null;
-                try {
-                    str = builder.asString().get();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    if (parseResult(str)) success = true;
-                } catch (Exception e) {
-                    Crashlytics.setString("WebTimesSource", getSource().toString());
-                    Crashlytics.setString("WebTimesName", getName());
-                    Crashlytics.setString("WebTimesId", getId());
-                    Crashlytics.logException(e);
-                }
-            }
-            cleanTimes();
-            notifyOnUpdated();
-            return success ? Result.SUCCESS : Result.RESCHEDULE;
+            syncAsync();
+            return Result.SUCCESS;
         }
 
 
