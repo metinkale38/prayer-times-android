@@ -176,6 +176,7 @@
   <string name="zoomOut">Biçûk kirin</string>
   <string name="zuhr">Nîvro</string>
   <string name="calculated">Hesibandin</string>
+  <string name="beta_tester">Bibe tester</string>
   <string name="widgetClock2">Demên Nimêjê - 2*2 Saet</string>
   <string name="numbers">Hejmar</string>
   <string name="dateFormat3">31 Berfanbar</string>
@@ -192,6 +193,7 @@
   <string name="sendMail_sum">E-mailekê bişîne bo min!</string>
   <string name="title_activity_maps">Nexşe</string>
   <string name="no_internet">Girêdana înternetê tune</string>
+  <string name="versionNotSupported">Versiyon ji bo Android ev piştgirî ne!</string>
   <string name="from">Destpêk</string>
   <string name="to">Bo</string>
   <string name="addFromCSV">Lê zêde bike CSV</string>
