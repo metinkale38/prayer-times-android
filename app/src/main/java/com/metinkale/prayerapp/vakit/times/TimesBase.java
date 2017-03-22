@@ -204,18 +204,12 @@ class TimesBase {
         getTimes().remove(this);
     }
 
-    private void apply() {
-        App.get().getHandler().removeCallbacks(mApplyPrefs);
-        App.get().getHandler().post(mApplyPrefs);
-    }
-
     void save() {
         if (deleted) {
             return;
         }
-        apply();
-
-
+        App.get().getHandler().removeCallbacks(mApplyPrefs);
+        App.get().getHandler().post(mApplyPrefs);
     }
 
 

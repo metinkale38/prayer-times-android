@@ -39,7 +39,8 @@ import com.metinkale.prayerapp.utils.FastParser;
 
 import org.joda.time.LocalDate;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 public class WebTimes extends Times {
 
     @NonNull
-    protected Map<String, String> times = new ArrayMap<>();
+    protected ArrayMap<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
     private long lastSync;
@@ -356,14 +357,17 @@ public class WebTimes extends Times {
         LocalDate date = LocalDate.now();
         int y = date.getYear();
         int m = date.getMonthOfYear();
+        List<String> remove=new ArrayList<>();
         for (String key : keys) {
+            if (key == null) continue;
             int year = FastParser.parseInt(key.substring(0, 4));
             if (year < y) keys.remove(key);
             else if (year == y) {
                 int month = FastParser.parseInt(key.substring(5, 7));
-                if (month < m) keys.remove(key);
+                if (month < m) remove.add(key);
             }
         }
+        times.removeAll(remove);
 
     }
 
