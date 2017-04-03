@@ -207,6 +207,7 @@
   <string name="widgetCountdownType">Widget - Geri sayım Dakikaları</string>
   <string name="widgetDesign">Tema</string>
   <string name="widgetLong">Namaz Vakti - 4*1</string>
+  <string name="widgetLabel">Namaz Vakti - 2*2 Widget</string>
   <string name="widgetSilenter">Namaz Vakti - Sessize al</string>
   <string name="widgetSmall">Namaz Vakti - Kücük Widget</string>
   <string name="witr">Vitr</string>
@@ -267,4 +268,7 @@
   <string name="totheplaystore">Beni Play Store\'a götür</string>
   <string name="widget_current_vakit">Widget - alternatif Vakit göstergesi</string>
   <string name="support_development">Geliştirmeyi destekle</string>
+  <string name="widget">Widget</string>
+  <string name="showLegacyWidgets">Eski Widgetleri kullan</string>
+  <string name="showLegacyWidgetsSummary">Sadece Widget ile sorun var ise kullanınız</string>
 </resources>
