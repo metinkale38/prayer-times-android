@@ -187,7 +187,7 @@
   <string name="tesbihat">Tasbeehat</string>
   <string name="timeBased">Minutes</string>
   <string name="time">Time</string>
-  <string name="touchToSelectCity">Touch hier to select City</string>
+  <string name="touchToSelectCity">Touch here to select City</string>
   <string name="transWhiteWidget">Transparent White Widget</string>
   <string name="transWidget">Transparent Widget</string>
   <string name="test">Try</string>
@@ -207,7 +207,6 @@
   <string name="widgetCountdownType">Widget - Countdown Minutes</string>
   <string name="widgetDesign">Theme</string>
   <string name="widgetLong">Prayer Times - 4*1 Widget</string>
-  <string name="widget">Prayer Times - 2*2 Widget</string>
   <string name="widgetSilenter">Prayer Times - Silenter Widget</string>
   <string name="widgetSmall">Prayer Times - 1*1 Widget</string>
   <string name="witr">Witr</string>
@@ -268,4 +267,5 @@
   <string name="notnow">Not Now</string>
   <string name="totheplaystore">Take me to the Play Store</string>
   <string name="widget_current_vakit">Widget - Alternative current Prayertimes indicator</string>
+  <string name="support_development">Support Development</string>
 </resources>
