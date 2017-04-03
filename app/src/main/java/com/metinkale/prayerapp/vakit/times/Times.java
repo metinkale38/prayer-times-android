@@ -367,6 +367,7 @@ public abstract class Times extends TimesBase {
         return timeCal;
     }
 
+    @NonNull
     public String getTime(@Nullable LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
@@ -427,6 +428,11 @@ public abstract class Times extends TimesBase {
 
     public String getLeft(int next) {
         return getLeft(next, true);
+    }
+
+    public long getMills(int next){
+        DateTime date = getTimeCal(null, next).toDateTime();
+        return date.getMillis();
     }
 
     public String getLeft(int next, boolean showsecs) {

@@ -621,7 +621,7 @@ class TimesBase {
     public synchronized void setOngoingNotificationActive(boolean value) {
         ongoing = value;
         save();
-        WidgetService.updateOngoing();
+        WidgetService.start(App.get());
     }
 
     public synchronized void setCumaVibration(boolean value) {

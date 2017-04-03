@@ -66,6 +66,10 @@ public class Settings extends BaseActivity {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 findPreference("ongoingNumber").setEnabled(false);
             }
+
+            if (Build.VERSION.SDK_INT < 24)
+                findPreference("showLegacyWidgets").setEnabled(false);
+
             findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
 
         }

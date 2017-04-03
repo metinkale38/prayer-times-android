@@ -1,0 +1,83 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <FrameLayout
+        android:id="@+id/padder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingLeft="75dp"
+        android:paddingTop="75dp" />
+
+    <RelativeLayout
+        android:id="@+id/widget_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/padder"
+        android:layout_alignEnd="@+id/padder"
+        android:layout_alignStart="@+id/padder"
+        android:layout_alignTop="@+id/padder"
+        android:layout_gravity="center"
+        android:background="@drawable/widget_dark">
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="5dp"
+            android:text="City"
+            android:layout_below="@+id/countdown"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="5dp"
+            android:text="City"
+            android:layout_above="@+id/countdown"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+
+        <Chronometer
+            android:lines="1"
+            android:id="@+id/countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:countDown="true"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+</RelativeLayout>

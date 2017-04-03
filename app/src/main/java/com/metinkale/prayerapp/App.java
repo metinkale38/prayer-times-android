@@ -43,7 +43,6 @@ import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.vakit.Main;
-import com.metinkale.prayerapp.vakit.WidgetProvider;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -156,7 +155,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
         Utils.init(this);
 
-        startService(new Intent(this, WidgetService.class));
+        WidgetService.start(this);
         Times.setAlarms();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
@@ -178,17 +177,25 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if ("calendarIntegration".equals(key)) {
-            MainIntentService.startCalendarIntegration(App.get());
-        } else if ("ongoingIcon".equals(key) || "ongoingNumber".equals(key)) {
-            WidgetService.updateOngoing();
-        } else if ("alternativeOngoing".equals(key)) {
-            WidgetService.updateOngoing();
-        } else if ("useAlarm".equals(key)) {
-            Times.setAlarms();
-        } else if ("showAltWidgetHightlight".equals(key)) {
-            WidgetProvider.updateWidgets(this);
+        switch (key) {
+            case "calendarIntegration":
+                MainIntentService.startCalendarIntegration(App.get());
+                break;
+            case "useAlarm":
+                Times.setAlarms();
+                break;
+            case "use12h":
+            case "ongoingIcon":
+            case "ongoingNumber":
+            case "showAltWidgetHightlight":
+            case "widget_countdown":
+            case "alternativeOngoing":
+            case "showLegacyWidgets":
+                WidgetService.start(this);
+                break;
         }
+
+
     }
 
     public static final class NotIds {

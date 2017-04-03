@@ -69,7 +69,7 @@ public class Utils {
     }
 
 
-    @Nullable
+    @NonNull
     public static String fixTime(@NonNull String time) {
         if (Prefs.use12H() && time.contains(":")) {
             try {

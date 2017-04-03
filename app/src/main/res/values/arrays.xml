@@ -49,12 +49,14 @@
     <string-array name="widget_countdown">
         <item>01:23:45 => 01:23</item>
         <item>01:23:45 => 01:24</item>
+        <item>01:23:45 => 01:23:45</item>
     </string-array>
 
 
     <string-array name="widget_countdown_">
         <item>default</item>
         <item>alt</item>
+        <item>secs</item>
     </string-array>
 
 

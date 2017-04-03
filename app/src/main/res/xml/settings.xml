@@ -37,14 +37,6 @@
             android:title="@string/numbers" />
 
 
-        <ListPreference
-            android:defaultValue="default"
-            android:dialogTitle="@string/widgetCountdownType"
-            android:entries="@array/widget_countdown"
-            android:entryValues="@array/widget_countdown_"
-            android:key="widget_countdown"
-            android:title="@string/widgetCountdownType" />
-
         <com.metinkale.prayerapp.calendar.CalendarPreference
             android:defaultValue="1"
             android:key="calendarIntegration"
@@ -87,10 +79,28 @@
             android:key="vakit_indicator"
             android:title="@string/vakit_indicator" />
 
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/widget">
+        <ListPreference
+            android:defaultValue="default"
+            android:dialogTitle="@string/widgetCountdownType"
+            android:entries="@array/widget_countdown"
+            android:entryValues="@array/widget_countdown_"
+            android:key="widget_countdown"
+            android:title="@string/widgetCountdownType" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="showAltWidgetHightlight"
             android:title="@string/widget_current_vakit" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showLegacyWidgets"
+            android:title="@string/showLegacyWidgets"
+            android:summary="@string/showLegacyWidgetsSummary"/>
 
     </PreferenceCategory>
 

@@ -275,19 +275,24 @@
 
         <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver" />
         <service android:name="com.metinkale.prayerapp.MainIntentService" />
+
         <service
             android:name="com.metinkale.prayerapp.vakit.WidgetService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.USER_UNLOCKED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
             </intent-filter>
         </service>
 
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/widget">
+            android:label="@string/widgetLabel">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -356,20 +361,14 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/vakit_widget_silenter" />
         </receiver>
-        <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$WakefulReceiver">
+        <receiver
+            android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$WakefulReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.metinkale.prayerapp.UserPresentReceiver">
-            <intent-filter
-                android:enabled="true"
-                android:exported="false">
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.USER_UNLOCKED" />
             </intent-filter>
         </receiver>
         <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$Audio" />

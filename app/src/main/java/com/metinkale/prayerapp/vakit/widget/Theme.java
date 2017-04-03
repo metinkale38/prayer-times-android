@@ -15,23 +15,31 @@
  *
  */
 
-package com.metinkale.prayerapp.vakit;
+package com.metinkale.prayerapp.vakit.widget;
 
 import android.graphics.Color;
+import android.support.annotation.DrawableRes;
+
+import com.metinkale.prayer.R;
 
 public enum Theme {
-    Trans(0xFFFFFFFF, 0x55FFFFFF, 0x00000000, 0x00000000), LightTrans(0xFFFFFFFF, 0x55FFFFFF, 0x33FFFFFF, 0x55FFFFFF), Light(Color.BLACK, Color.WHITE, 0xAAFFFFFF, 0xFF3F9BBF), Dark(Color.WHITE, 0x55FFFFFF, 0x77000000, 0xAAFFFFFF);
+    Trans(0xFFFFFFFF, 0x55FFFFFF, 0x00000000, 0x00000000, R.drawable.widget_trans),
+    LightTrans(0xFFFFFFFF, 0x55FFFFFF, 0x33FFFFFF, 0x55FFFFFF,R.drawable.widget_lighttrans),
+    Light(Color.BLACK, Color.WHITE, 0xAAFFFFFF, 0xFF3F9BBF,R.drawable.widget_light),
+    Dark(Color.WHITE, 0x55FFFFFF, 0x77000000, 0xAAFFFFFF,R.drawable.widget_dark);
 
-    public int textcolor;
-    public int hovercolor;
-    public int bgcolor;
-    public int strokecolor;
+    public final int background;
+    public final int textcolor;
+    public final int hovercolor;
+    public final int bgcolor;
+    public final int strokecolor;
 
-    Theme(int textcolor, int hovercolor, int bgcolor, int strokecolor) {
+    Theme(int textcolor, int hovercolor, int bgcolor, int strokecolor, @DrawableRes int background) {
         this.textcolor = textcolor;
         this.hovercolor = hovercolor;
         this.bgcolor = bgcolor;
         this.strokecolor = strokecolor;
+        this.background=background;
     }
 
 }

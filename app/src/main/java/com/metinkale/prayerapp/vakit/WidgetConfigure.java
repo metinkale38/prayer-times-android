@@ -89,7 +89,7 @@ public class WidgetConfigure extends Activity {
     }
 
     void result() {
-        WidgetProvider.updateWidgets(this);
+        WidgetService.start(this);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

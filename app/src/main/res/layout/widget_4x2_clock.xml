@@ -1,0 +1,153 @@
+<!--
+  ~ Copyright (c) 2016 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:ignore="RtlCompat,RtlSymmetry">
+
+
+    <FrameLayout
+        android:id="@+id/padder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingStart="500dp"
+        android:paddingTop="200dp" />
+
+    <RelativeLayout
+        android:id="@+id/widget_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/padder"
+        android:layout_alignEnd="@+id/padder"
+        android:layout_alignStart="@+id/padder"
+        android:layout_alignTop="@+id/padder"
+        android:layout_gravity="center">
+
+
+        <TextClock
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:textSize="70sp" />
+
+        <TextView
+            android:id="@+id/greg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:paddingStart="5dp"
+            android:text="Greg"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/hicri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/time"
+            android:paddingEnd="5dp"
+            android:text="Hijri"
+            android:textColor="#ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/progresscontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hicri"
+            android:padding="5dp">
+
+            <FrameLayout
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ff0000"
+                android:paddingStart="200dp"
+                android:paddingTop="5dp" />
+
+            <FrameLayout
+                android:id="@+id/progressBg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/progress"
+                android:background="#ffffff"
+                android:paddingStart="200dp"
+                android:paddingTop="5dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lastTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/progresscontainer"
+            android:layout_below="@+id/progresscontainer"
+            android:paddingStart="5dp"
+            android:text="00:00"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/nextTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/progresscontainer"
+            android:layout_below="@+id/progresscontainer"
+            android:paddingEnd="5dp"
+            android:text="00:00"
+            android:textColor="#ffffff" />
+
+
+        <TextView
+            android:id="@+id/lastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/progresscontainer"
+            android:layout_below="@id/lastTime"
+            android:paddingStart="5dp"
+            android:text="00:00"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/nextText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/progresscontainer"
+            android:layout_below="@+id/nextTime"
+            android:paddingEnd="5dp"
+            android:text="00:00"
+            android:textColor="#ffffff" />
+
+        <Chronometer
+            android:id="@+id/countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/progresscontainer"
+            android:layout_centerHorizontal="true"
+            android:countDown="true"
+            android:gravity="center"
+            android:textColor="#ffffff" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

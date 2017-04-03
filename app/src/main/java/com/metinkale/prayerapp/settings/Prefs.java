@@ -18,6 +18,7 @@
 package com.metinkale.prayerapp.settings;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
@@ -106,8 +107,19 @@ public class Prefs {
     }
 
     public static boolean isDefaultWidgetMinuteType() {
-        return "default".equals(getPrefs().getString("widget_countdown", "default"));
+        return !"alt".equals(getPrefs().getString("widget_countdown", "default"));
     }
+
+
+    public static boolean showWidgetSeconds() {
+        return "secs".equals(getPrefs().getString("widget_countdown", "default"));
+    }
+
+    public static boolean showLegacyWidget() {
+        if (Build.VERSION.SDK_INT < 24) return true;
+        return getPrefs().getBoolean("showLegacyWidgets", false);
+    }
+
 
     public static boolean stopByFacedown() {
         return getPrefs().getBoolean("stopFacedown", false);

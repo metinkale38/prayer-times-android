@@ -217,7 +217,7 @@
   <string name="widgetCountdownType">Widget - Countdown Minuten</string>
   <string name="widgetDesign">Theme</string>
   <string name="widgetLong">Gebetszeiten - 4*1 Widget</string>
-  <string name="widget">Gebetszeiten - 2*2 Widget</string>
+  <string name="widgetLabel">Gebetszeiten - 2*2 Widget</string>
   <string name="widgetSilenter">Gebetszeiten - Lautlos-Widget</string>
   <string name="widgetSmall">Gebetszeiten - 1*1 Widget</string>
   <string name="witr">Witr</string>

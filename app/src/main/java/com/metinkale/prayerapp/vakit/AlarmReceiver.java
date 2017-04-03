@@ -33,6 +33,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -248,7 +249,8 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         if (Prefs.showNotificationScreen() && (sound != null) && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            if (!pm.isScreenOn()) {
+            if (Build.VERSION.SDK_INT >= 20 && !pm.isInteractive()
+                    || Build.VERSION.SDK_INT < 20 && !pm.isScreenOn()) {
                 Intent i = new Intent(c, NotificationPopup.class);
                 i.putExtra("city", next.city);
                 i.putExtra("name", text);
