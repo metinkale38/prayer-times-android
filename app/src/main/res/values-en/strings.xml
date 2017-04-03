@@ -207,6 +207,7 @@
   <string name="widgetCountdownType">Widget - Countdown Minutes</string>
   <string name="widgetDesign">Theme</string>
   <string name="widgetLong">Prayer Times - 4*1 Widget</string>
+  <string name="widgetLabel">Prayer Times - 2*2 Widget</string>
   <string name="widgetSilenter">Prayer Times - Silenter Widget</string>
   <string name="widgetSmall">Prayer Times - 1*1 Widget</string>
   <string name="witr">Witr</string>
@@ -268,4 +269,7 @@
   <string name="totheplaystore">Take me to the Play Store</string>
   <string name="widget_current_vakit">Widget - Alternative current Prayertimes indicator</string>
   <string name="support_development">Support Development</string>
+  <string name="widget">Widget</string>
+  <string name="showLegacyWidgets">Show legacy Widgets</string>
+  <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
 </resources>
