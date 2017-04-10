@@ -19,5 +19,7 @@
 <resources>
   <string name="activateForMorePrefs">Activeer voor meer voorkeuren&#8230;</string>
   <string name="adhanVolume">Azan Volume</string>
+  <string name="adjAngle">Hoek gebaseerd (hoek/60e nacht)</string>
   <string name="adjMidnight">Middernacht</string>
+  <string name="adjTime">Tijd gebaseerd (1/7e nacht)</string>
 </resources>
