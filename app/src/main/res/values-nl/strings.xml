@@ -79,4 +79,20 @@
   <string name="favorite">Favoriet</string>
   <string name="filePicker">Kies bestand</string>
   <string name="fixTimezone">Tijdzone +/-:</string>
+  <string name="foundXHadis">%1$s Hadith gevonden</string>
+  <string name="gmonth1">Januari</string>
+  <string name="gmonth2">Februari</string>
+  <string name="gmonth3">Maart</string>
+  <string name="gmonth4">April</string>
+  <string name="gmonth5">Mei</string>
+  <string name="gmonth6">Juni</string>
+  <string name="gmonth7">Juli</string>
+  <string name="gmonth8">Augustus</string>
+  <string name="gmonth9">September</string>
+  <string name="gmonth10">Oktober</string>
+  <string name="gmonth11">November</string>
+  <string name="gmonth12">December</string>
+  <string name="hadith">Sahih al-Bukhari</string>
+  <string name="hDateFormat1">30 Muharram 1434</string>
+  <string name="hDateFormat2">30 Muharram 34</string>
 </resources>
