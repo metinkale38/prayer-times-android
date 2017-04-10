@@ -68,4 +68,7 @@
   <string name="dhikr">Dhikr</string>
   <string name="distance">Afstand</string>
   <string name="djuma">Vrijdaggebed</string>
+  <string name="dlHadith">Hadith downloaden?</string>
+  <string name="dlSound">“%1$s” (%2$s) Downloaden?</string>
+  <string name="earlyNotification">Vroegtijdige Notificatie-melding</string>
 </resources>
