@@ -71,4 +71,12 @@
   <string name="dlHadith">Hadith downloaden?</string>
   <string name="dlSound">“%1$s” (%2$s) Downloaden?</string>
   <string name="earlyNotification">Vroegtijdige Notificatie-melding</string>
+  <string name="earlyText">%1$s %2$s minuten over</string>
+  <string name="error">Er is een fout opgetreden</string>
+  <string name="fajr">Fajr</string>
+  <string name="fajrIshaaCalculation">Fajr/Ischaa berekening:</string>
+  <string name="fasting">Vasten</string>
+  <string name="favorite">Favoriet</string>
+  <string name="filePicker">Kies bestand</string>
+  <string name="fixTimezone">Tijdzone +/-:</string>
 </resources>
