@@ -33,4 +33,17 @@
   <string name="beforeSun">Voor zonsopgang</string>
   <string name="blackWidget">Zwarte Widget</string>
   <string name="calcMethod">Rekenmethode</string>
+  <string name="calendar">Islamitische feestdagen</string>
+  <string name="calendarIntegration">Integreren in kalender</string>
+  <string name="cancel">Annuleren</string>
+  <string name="category">Categorie</string>
+  <string name="changelog">Wat is nieuw?</string>
+  <string name="cities">Steden</string>
+  <string name="compass">Kibla Kompas</string>
+  <string name="corruptAudio">slechte Audio-Bestand</string>
+  <string name="customVolume">Kies volume</string>
+  <string name="dateAndTime">Datum en Tijd</string>
+  <string name="date">Datum</string>
+  <string name="dateFormat1">31 December 2013</string>
+  <string name="dateFormat2">31 December 13</string>
 </resources>
