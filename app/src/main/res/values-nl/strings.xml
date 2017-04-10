@@ -22,4 +22,15 @@
   <string name="adjAngle">Hoek gebaseerd (hoek/60e nacht)</string>
   <string name="adjMidnight">Middernacht</string>
   <string name="adjTime">Tijd gebaseerd (1/7e nacht)</string>
+  <string name="afterImsak">Na Fajr</string>
+  <string name="alternativeOngoing">Alternatieve Notificatie Widget</string>
+  <string name="angle">Hoek</string>
+  <string name="angleBased">Hoek</string>
+  <string name="appName">Gebedstijden</string>
+  <string name="asr">Asr</string>
+  <string name="backup">Back-up</string>
+  <string name="backupRestore">Back-up/herstel</string>
+  <string name="beforeSun">Voor zonsopgang</string>
+  <string name="blackWidget">Zwarte Widget</string>
+  <string name="calcMethod">Rekenmethode</string>
 </resources>
