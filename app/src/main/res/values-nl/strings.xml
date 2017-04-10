@@ -95,4 +95,5 @@
   <string name="hadith">Sahih al-Bukhari</string>
   <string name="hDateFormat1">30 Muharram 1434</string>
   <string name="hDateFormat2">30 Muharram 34</string>
+  <string name="hdateFormat">Hidjra Datumnotatie</string>
 </resources>
