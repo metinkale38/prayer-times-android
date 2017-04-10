@@ -46,4 +46,26 @@
   <string name="date">Datum</string>
   <string name="dateFormat1">31 December 2013</string>
   <string name="dateFormat2">31 December 13</string>
+  <string name="dateFormat">Datumnotatie</string>
+  <string name="dayFr">Vrijdag</string>
+  <string name="dayMo">Maandag</string>
+  <string name="daySa">Zaterdag</string>
+  <string name="dayShortFr">Vr.</string>
+  <string name="dayShortMo">Ma.</string>
+  <string name="dayShortSa">Za.</string>
+  <string name="dayShortSu">Zo.</string>
+  <string name="dayShortTh">Do.</string>
+  <string name="dayShortTu">Di.</string>
+  <string name="dayShortWe">Wo.</string>
+  <string name="daySu">Zondag</string>
+  <string name="dayTh">Donderdag</string>
+  <string name="dayTu">Dinsdag</string>
+  <string name="dayWe">Woensdag</string>
+  <string name="delConfirmDhikr">Weet u zeker dat u \“%1$s\” wilt verwijderen?</string>
+  <string name="delConfirm">Weet u zeker dat u %1$s wilt verwijderen?</string>
+  <string name="delete">Verwijderen</string>
+  <string name="dhikrCount">Dhikr doel</string>
+  <string name="dhikr">Dhikr</string>
+  <string name="distance">Afstand</string>
+  <string name="djuma">Vrijdaggebed</string>
 </resources>
