@@ -130,4 +130,6 @@
   <string name="ishaa">Ishaa</string>
   <string name="juristicHanafi">Hanafi</string>
   <string name="juristicShafi">Shafi</string>
+  <string name="kerahatDuration">Makruh gebedstijd</string>
+  <string name="kerahatIstiwa">Istiwa Tijd</string>
 </resources>
