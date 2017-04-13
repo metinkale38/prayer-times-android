@@ -112,4 +112,6 @@
   <string name="holyday1">Islamitisch Nieuwjaar</string>
   <string name="holyday2">Asjoera</string>
   <string name="holyday3">Mawlid an-Nabi</string>
+  <string name="holyday4">Ingang van heilige drie maanden</string>
+  <string name="holyday5">Nacht van Regaib</string>
 </resources>
