@@ -114,4 +114,8 @@
   <string name="holyday3">Mawlid an-Nabi</string>
   <string name="holyday4">Ingang van heilige drie maanden</string>
   <string name="holyday5">Nacht van Regaib</string>
+  <string name="holyday6">Nacht van de Miraadj</string>
+  <string name="holyday7">Nacht van Baraat</string>
+  <string name="holyday8">Begin van de Ramadan</string>
+  <string name="holyday9">Nacht van Qadr</string>
 </resources>
