@@ -132,4 +132,8 @@
   <string name="juristicShafi">Shafi</string>
   <string name="kerahatDuration">Makruh gebedstijd</string>
   <string name="kerahatIstiwa">Istiwa Tijd</string>
+  <string name="kerahatMaghrib">Zonsondergang (voor Maghrib gebed)</string>
+  <string name="kerahatSun">Zonsopgang (Na ochtendgebed)</string>
+  <string name="kerahatTime">Makruh gebedstijd</string>
+  <string name="language">Taal</string>
 </resources>
