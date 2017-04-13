@@ -118,4 +118,16 @@
   <string name="holyday7">Nacht van Baraat</string>
   <string name="holyday8">Begin van de Ramadan</string>
   <string name="holyday9">Nacht van Qadr</string>
+  <string name="holyday10">Dag van Arafa</string>
+  <string name="holyday11">Feestdag Ramadan Dag 1</string>
+  <string name="holyday12">Feestdag Ramadan Dag 2</string>
+  <string name="holyday13">Feestdag Ramadan Dag 3</string>
+  <string name="holyday14">Dag van Arafa</string>
+  <string name="holyday15">Offerfeest Dag 1</string>
+  <string name="holyday16">Offerfeest Dag 2</string>
+  <string name="holyday17">Offerfeest Dag 3</string>
+  <string name="holyday18">Offerfeest Dag 4</string>
+  <string name="ishaa">Ishaa</string>
+  <string name="juristicHanafi">Hanafi</string>
+  <string name="juristicShafi">Shafi</string>
 </resources>
