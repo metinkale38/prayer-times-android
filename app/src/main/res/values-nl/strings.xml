@@ -136,4 +136,8 @@
   <string name="kerahatSun">Zonsopgang (Na ochtendgebed)</string>
   <string name="kerahatTime">Makruh gebedstijd</string>
   <string name="language">Taal</string>
+  <string name="leftText">%1$s | %2$s %3$s over</string>
+  <string name="maghrib">Maghrib</string>
+  <string name="missedPrayers">Gemiste gebeden</string>
+  <string name="mixed">Gemengd</string>
 </resources>
