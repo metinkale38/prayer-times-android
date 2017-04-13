@@ -96,4 +96,20 @@
   <string name="hDateFormat1">30 Muharram 1434</string>
   <string name="hDateFormat2">30 Muharram 34</string>
   <string name="hdateFormat">Hidjra Datumnotatie</string>
+  <string name="hijriFix">Hidjra Datum aanpassen</string>
+  <string name="hmonth1">Muharram</string>
+  <string name="hmonth2">Safar</string>
+  <string name="hmonth3">Rabi\' al-awwal</string>
+  <string name="hmonth4">Rabi\' al-thani</string>
+  <string name="hmonth5">Jumaada-ul-Awwal</string>
+  <string name="hmonth6">Jumaada-ul-Akhir</string>
+  <string name="hmonth7">Rajab</string>
+  <string name="hmonth8">Sha\'abaan</string>
+  <string name="hmonth9">Ramadhaan</string>
+  <string name="hmonth10">Shawwal</string>
+  <string name="hmonth11">Dhoe al-Qi\'dah</string>
+  <string name="hmonth12">Dhu al-Hijjah</string>
+  <string name="holyday1">Islamitisch Nieuwjaar</string>
+  <string name="holyday2">Asjoera</string>
+  <string name="holyday3">Mawlid an-Nabi</string>
 </resources>
