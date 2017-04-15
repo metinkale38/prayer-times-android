@@ -171,7 +171,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setBackgroundResource(R.color.colorPrimary);
             toolbar.setNavigationIcon(MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.VIEW_HEADLINE)
+                    .setIcon(MaterialDrawableBuilder.IconValue.MENU)
                     .setColor(Color.WHITE)
                     .setToActionbarSize()
                     .build());

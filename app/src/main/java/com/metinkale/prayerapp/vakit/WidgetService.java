@@ -120,7 +120,6 @@ public class WidgetService extends Service {
                 unregisterReceiver(mBroadcastReceiver);
                 registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
                 registerReceiver(mBroadcastReceiver, mTimeTickFilter);
-                break;
             }
             case Intent.ACTION_USER_PRESENT:
             case Intent.ACTION_TIME_TICK: {
