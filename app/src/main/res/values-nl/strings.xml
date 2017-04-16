@@ -140,4 +140,7 @@
   <string name="maghrib">Maghrib</string>
   <string name="missedPrayers">Gemiste gebeden</string>
   <string name="mixed">Gemengd</string>
+  <string name="monthly">Maandoverzicht</string>
+  <string name="morningPrayer">Morgengebed</string>
+  <string name="names">De 99 namen van Allah</string>
 </resources>
