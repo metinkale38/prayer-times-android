@@ -156,5 +156,9 @@
   <string name="ongoingNotification">Notificatie widget</string>
   <string name="other">Overig</string>
   <string name="permissionCalendarText">Als u wilt dat de heilige dagen in de agenda van de telefoon worden weergegeven, geeft u toegang tot de agenda.</string>
-  <string name="permissionCalendarTitle">Agendamachtiging</string>
+  <string name="permissionCalendarTitle">Toegang geven tot uw Agenda</string>
+  <string name="permissionCameraText">Geef toegang tot uw Camera om gebruik te kunnen maken van de 3D-kompas. Anders kunt u alleen gebruik maken van de 2D-kompas.</string>
+  <string name="permissionCameraTitle">Toegang geven tot uw Camera</string>
+  <string name="permissionLocationText">Toestemming geven tot uw Locatie om te zien in welke stad u zich bevindt. Anders moet u uw stad handmatig instellen.</string>
+  <string name="permissionLocationTitle">Toegang tot uw Locatie</string>
 </resources>
