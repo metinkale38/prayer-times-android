@@ -239,4 +239,25 @@
   <string name="license">Licentie</string>
   <string name="license_sum">Controleer Apache License, versie 2.0 licentievoorwaarden gebruikt op gebedstijden</string>
   <string name="library_licenses">Licentie database</string>
+  <string name="library_licenses_sum">Bekijk libs van derden dat gebruikt wordt voor gebedstijden</string>
+  <string name="rate">Waardeer</string>
+  <string name="rate_desc">Geef ons een positieve beoordeling als je Gebedstijden leuk vind.</string>
+  <string name="sendMail_sum">Stuur mij een E-mail!</string>
+  <string name="beta_tester_desc">Registreer als Beta-Testen door hier te klikken</string>
+  <string name="title_activity_maps">Kaart</string>
+  <string name="no_internet">Geen internetverbinding</string>
+  <string name="export">Exporteer</string>
+  <string name="versionNotSupported">Dit wordt niet ondersteund door uw Android versie!</string>
+  <string name="from">Van</string>
+  <string name="to">Naar</string>
+  <string name="permissionNotGranted">Toestemming niet verleend.</string>
+  <string name="useOSMGeocoder">Gebruik Openstreet Maps voor Geocoding</string>
+  <string name="addFromCSV">Toevoegen vanuit CSV</string>
+  <string name="csvFromFile">Laad CSV van bestand</string>
+  <string name="csvFromURL">Laad CSV vanuit URL</string>
+  <string name="stopFacedown">Leg de telefoon op zijn kop om het geluid te stoppen.</string>
+  <string name="ratingFirstDlgTitle">Vind u de app leuk?</string>
+  <string name="ratingPositiveTitle">Beoordeel deze app!</string>
+  <string name="ratingPositiveText">Als u deze app leuk vindt, neem een moment om te stemmen in de Play Store.</string>
+  <string name="ratingNegativeTitle">Schrijf Feedback!</string>
 </resources>
