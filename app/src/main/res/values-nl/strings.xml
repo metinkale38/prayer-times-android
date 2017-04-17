@@ -224,4 +224,19 @@
   <string name="useAlarm">Gebruik alarm voor Melding</string>
   <string name="useAlarmDesc">EXPERIMENTEEL - als u geen meldingen ontvangt op tijd, kunt u deze instellingen proberen. Een \'wekker\' pictogram zal worden toegevoegd aan uw status bar!    </string>
   <string name="ongoingNumber">Laat het aantal minuten zien in de Notificatie-Icon</string>
+  <string name="vakit_indicator">Gebedstijden weergave</string>
+  <string name="vakit_indicator_next">Het volgende gebed</string>
+  <string name="vakit_indicator_current">Huidige gebedstijd</string>
+  <string name="show_notification_screen">Toon meldingen</string>
+  <string name="autoremove_notification">Verberg melding na Azan</string>
+  <string name="about">Over</string>
+  <string name="report_bug">Fout melden</string>
+  <string name="report_bug_sum">Fout melden of verzoek om nieuwe functies.</string>
+  <string name="translate">Vertalen</string>
+  <string name="translate_sum">Help ons deze app te vertalen in uw eigen taal</string>
+  <string name="github">GitHub</string>
+  <string name="github_sum">Fork de repository en push veranderingen of meld nieuwe problemen.</string>
+  <string name="license">Licentie</string>
+  <string name="license_sum">Controleer Apache License, versie 2.0 licentievoorwaarden gebruikt op gebedstijden</string>
+  <string name="library_licenses">Licentie database</string>
 </resources>
