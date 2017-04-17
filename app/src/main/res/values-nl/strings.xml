@@ -260,4 +260,12 @@
   <string name="ratingPositiveTitle">Beoordeel deze app!</string>
   <string name="ratingPositiveText">Als u deze app leuk vindt, neem een moment om te stemmen in de Play Store.</string>
   <string name="ratingNegativeTitle">Schrijf Feedback!</string>
+  <string name="ratingNegativeText">Schrijf me een E-Mail met uw impressies en suggesties zodat ik dit app continu kan verbeteren!</string>
+  <string name="notnow">Niet Nu</string>
+  <string name="totheplaystore">Ga naar de Google Playstore</string>
+  <string name="widget_current_vakit">Widget - Alternatieve huidige-tijdindicator</string>
+  <string name="support_development">Ontwikkeling steunen</string>
+  <string name="widget">Widget</string>
+  <string name="showLegacyWidgets">Toon oudere Widgets</string>
+  <string name="showLegacyWidgetsSummary">Alleen gebruiken als u problemen heeft met de huidige Widgets</string>
 </resources>
