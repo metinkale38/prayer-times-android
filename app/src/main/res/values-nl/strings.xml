@@ -151,4 +151,10 @@
   <string name="notification">Melding</string>
   <string name="off">Uit</string>
   <string name="ok">Oké</string>
+  <string name="oldAddCity">Kies handmatig een nieuwe Stad</string>
+  <string name="ongoingIcon">Meldingspictogram</string>
+  <string name="ongoingNotification">Notificatie widget</string>
+  <string name="other">Overig</string>
+  <string name="permissionCalendarText">Als u wilt dat de heilige dagen in de agenda van de telefoon worden weergegeven, geeft u toegang tot de agenda.</string>
+  <string name="permissionCalendarTitle">Agendamachtiging</string>
 </resources>
