@@ -161,4 +161,16 @@
   <string name="permissionCameraTitle">Toegang geven tot uw Camera</string>
   <string name="permissionLocationText">Toestemming geven tot uw Locatie om te zien in welke stad u zich bevindt. Anders moet u uw stad handmatig instellen.</string>
   <string name="permissionLocationTitle">Toegang tot uw Locatie</string>
+  <string name="permissionStorageText">Toegang tot uw Opslaggeheugen is nodig... Anders zullen sommige dingen niet goed werken</string>
+  <string name="permissionStorageTitle">Toegang tot uw Opslag</string>
+  <string name="prayerNotification">Gebedstijd-melding</string>
+  <string name="refresh">Synchroniseren</string>
+  <string name="resetConfirmDhikr">Weet u zeker dat u \“%1$s\” wilt resetten?</string>
+  <string name="restore">Herstellen</string>
+  <string name="search">Zoeken</string>
+  <string name="selectOther">anders&#8230;</string>
+  <string name="mail">E-mail</string>
+  <string name="sendMail">Stuur e-mail</string>
+  <string name="settings">Instellingen</string>
+  <string name="share">Delen</string>
 </resources>
