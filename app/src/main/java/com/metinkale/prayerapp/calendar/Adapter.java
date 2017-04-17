@@ -48,7 +48,7 @@ public class Adapter extends ArrayAdapter<int[]> {
         days = HicriDate.getHolydays(year);
 
         String lang = Prefs.getLanguage();
-        hasInfo = !("en".equals(lang) || "ar".equals(lang));
+        hasInfo = ("de".equals(lang) || "tr".equals(lang));
     }
 
     @NonNull
@@ -86,7 +86,7 @@ public class Adapter extends ArrayAdapter<int[]> {
         return days.size();
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView name;
         TextView date;
         TextView hicri;

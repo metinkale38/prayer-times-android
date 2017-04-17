@@ -63,22 +63,22 @@ public class AppRatingDialog {
 
 
     public static long getInstallationTime() {
-        return getPrefs().getLong("installation", 0);
+        return getPrefs().getLong("installationTime", 0);
     }
 
     public static void setInstalltionTime(long mills) {
         if (mills == 0) mills = System.currentTimeMillis();
-        getPrefs().edit().putLong("installation", mills).apply();
+        getPrefs().edit().putLong("installationTime", mills).apply();
     }
 
-    private static long getAppStarts() {
-        return getPrefs().getInt("appStarts", 0);
+    private static int getAppStarts() {
+        return getPrefs().getInt("appStartsCount", 0);
     }
 
     public static void increaseAppStarts() {
         if (APP_STARTED) return;
         APP_STARTED = true;
-        getPrefs().edit().putLong("appStarts", getAppStarts() + 1).apply();
+        getPrefs().edit().putInt("appStartsCount", getAppStarts() + 1).apply();
     }
 
     private static Set<String> getOpenedMenus() {
