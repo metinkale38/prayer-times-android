@@ -78,7 +78,7 @@ public class AppRatingDialog {
     public static void increaseAppStarts() {
         if (APP_STARTED) return;
         APP_STARTED = true;
-        getPrefs().edit().putLong("installation", getAppStarts() + 1).apply();
+        getPrefs().edit().putLong("appStarts", getAppStarts() + 1).apply();
     }
 
     private static Set<String> getOpenedMenus() {
@@ -108,7 +108,7 @@ public class AppRatingDialog {
         days -= getOpenedMenus().size();
 
         List<Times> times = Times.getTimes();
-        if (times == null || times.isEmpty()) return false;
+        if (times.isEmpty()) return false;
         for (Times t : times) {
             if (t.getTime(3).equals("00:00")) return false;
         }
