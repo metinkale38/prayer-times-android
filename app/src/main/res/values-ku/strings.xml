@@ -89,9 +89,16 @@
   <string name="hDateFormat2">30 Muherem 34</string>
   <string name="hmonth1">Muherem</string>
   <string name="hmonth2">Safer</string>
+  <string name="hmonth3">Rebî\'ulewel</string>
+  <string name="hmonth4">Rebî\'usanî</string>
+  <string name="hmonth5">Cumadalûla</string>
+  <string name="hmonth6">Cumadasaniye</string>
   <string name="hmonth7">Recep</string>
+  <string name="hmonth8">Şeban</string>
   <string name="hmonth9">Remezan</string>
   <string name="hmonth10">Şewal</string>
+  <string name="hmonth11">Zîlqe\'de</string>
+  <string name="hmonth12">Zîlhice</string>
   <string name="holyday1">Sersal Îslamî</string>
   <string name="holyday2">Eşûre</string>
   <string name="holyday3">Mewlûda al-Nabi</string>
@@ -160,7 +167,6 @@
   <string name="widgetClock">Demên Nimêjê - 4*2 Saet</string>
   <string name="widgetDesign">Têma</string>
   <string name="widgetLong">Demên Nimêjê - 4*1 Widget</string>
-  <string name="widgetLabel">Demên Nimêjê - 2*2 Widget</string>
   <string name="widgetSilenter">Demên Nimêjê - Bêdeng Widget</string>
   <string name="widgetSmall">Demên Nimêjê - 1*1 Widget</string>
   <string name="witr">Fitr</string>
@@ -169,6 +175,7 @@
   <string name="zoomOut">Biçûk kirin</string>
   <string name="zuhr">Nîvro</string>
   <string name="calculated">Hesibandin</string>
+  <string name="beta_tester">Bibe tester</string>
   <string name="widgetClock2">Demên Nimêjê - 2*2 Saet</string>
   <string name="numbers">Hejmar</string>
   <string name="dateFormat3">31 Berfanbar</string>
@@ -177,6 +184,7 @@
   <string name="autoremove_notification">Jê agahdar bike, piştî azan</string>
   <string name="about">Derbar</string>
   <string name="translate">Werger</string>
+  <string name="translate_sum">Tevkarî ji bo wergerandina vê App li Zimanên din</string>
   <string name="github">GitHub</string>
   <string name="license">Lîsans</string>
   <string name="library_licenses">Lîsansa Pirtûkxaneya</string>
@@ -184,6 +192,7 @@
   <string name="sendMail_sum">E-mailekê bişîne bo min!</string>
   <string name="title_activity_maps">Nexşe</string>
   <string name="no_internet">Girêdana înternetê tune</string>
+  <string name="versionNotSupported">Versiyon ji bo Android ev piştgirî ne!</string>
   <string name="from">Destpêk</string>
   <string name="to">Bo</string>
   <string name="addFromCSV">Lê zêde bike CSV</string>

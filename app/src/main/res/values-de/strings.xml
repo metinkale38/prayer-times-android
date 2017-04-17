@@ -278,4 +278,8 @@
   <string name="notnow">Nicht jetzt</string>
   <string name="totheplaystore">Zum Play Store</string>
   <string name="widget_current_vakit">Widget - Alternative Gebetszeit anzeige</string>
+  <string name="support_development">Entwicklung unterstützen</string>
+  <string name="widget">Widget</string>
+  <string name="showLegacyWidgets">Benutze altes Widget</string>
+  <string name="showLegacyWidgetsSummary">Verwende diese Einstellung nur, falls du Probleme mit den WIdgets hast</string>
 </resources>

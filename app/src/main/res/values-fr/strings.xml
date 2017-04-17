@@ -169,6 +169,8 @@
   <string name="restore">Restaurer</string>
   <string name="search">Chercher</string>
   <string name="selectOther">autre choix</string>
+  <string name="mail">Email</string>
+  <string name="sendMail">Envoyer email</string>
   <string name="settings">Paramètres</string>
   <string name="share">Partager</string>
   <string name="shareTimes">Les temps de prières pour aujourd\'hui %1$s</string>
@@ -205,7 +207,7 @@
   <string name="widgetCountdownType">Widget - compte à rebours</string>
   <string name="widgetDesign">Thème</string>
   <string name="widgetLong">Horaires des prières - 4 * 1 Widget</string>
-  <string name="widgetLabel">Horaires des prières - 2 * 2 Widget</string>
+  <string name="widgetLabel">Horaires des prières - 2*2 Widget</string>
   <string name="widgetSilenter">Horaires des prières - Silenter Widget</string>
   <string name="widgetSmall">Horaires des prières - 1 * 1 Widget</string>
   <string name="witr">witr</string>
@@ -253,4 +255,5 @@
   <string name="addFromCSV">Ajouter depuis un CSV</string>
   <string name="csvFromFile">Charger du CSV depuis un fichier</string>
   <string name="csvFromURL">Charger du CSV depuis une URL</string>
+  <string name="widget">Widget</string>
 </resources>
