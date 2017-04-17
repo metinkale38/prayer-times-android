@@ -143,4 +143,12 @@
   <string name="monthly">Maandoverzicht</string>
   <string name="morningPrayer">Morgengebed</string>
   <string name="names">De 99 namen van Allah</string>
+  <string name="newAddCity">Maak keuze uit een nieuwe stad</string>
+  <string name="newDhikr">Nieuwe Dhikr</string>
+  <string name="noConnection">Geen verbinding&#8230;</string>
+  <string name="noFavs">Geen favorieten</string>
+  <string name="no">Nee</string>
+  <string name="notification">Melding</string>
+  <string name="off">Uit</string>
+  <string name="ok">Oké</string>
 </resources>
