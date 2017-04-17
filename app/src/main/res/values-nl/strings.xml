@@ -173,4 +173,15 @@
   <string name="sendMail">Stuur e-mail</string>
   <string name="settings">Instellingen</string>
   <string name="share">Delen</string>
+  <string name="shareTimes">Gebedstijden van vandaag voor %1$s</string>
+  <string name="showMore">Toon meer</string>
+  <string name="silenterDuration">Stil zetten voor</string>
+  <string name="silenterType">Stille modus</string>
+  <string name="silent">Stil</string>
+  <string name="sorted">Gesorteerd</string>
+  <string name="soundPicker">Kies geluid</string>
+  <string name="sound">Geluid</string>
+  <string name="sun">Zon</string>
+  <string name="switchCompass">Kompas/kaart</string>
+  <string name="tasbih">Tesbih</string>
 </resources>
