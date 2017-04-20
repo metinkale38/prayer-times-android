@@ -324,7 +324,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 PdfDocument document = new PdfDocument();
 
-                PdfDocument.PageInfo pageInfo = null;
+                PdfDocument.PageInfo pageInfo;
                 int pw = 595;
                 int ph = 842;
                 pageInfo = new PdfDocument.PageInfo.Builder(pw, ph, 1).create();

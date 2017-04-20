@@ -1,7 +1,5 @@
 package com.crashlytics.android;
 
-import java.io.IOException;
-
 /**
  * Created by metin on 08.08.16.
  */

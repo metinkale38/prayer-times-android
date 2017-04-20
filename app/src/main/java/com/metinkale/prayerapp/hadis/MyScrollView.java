@@ -22,8 +22,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.FocusFinder;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -39,7 +39,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -141,7 +140,6 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     }
 
     private void initBounce() {
-        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
 
         // init the bouncy scroller, and make sure the layout is being drawn
         // after the top padding
@@ -1408,7 +1406,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
     private int clamp(int n, int my, int child) {
         if ((my >= child) || (n < 0)) {
             /*
-			 * my >= child is this case: |--------------- me ---------------|
+             * my >= child is this case: |--------------- me ---------------|
 			 * |------ child ------| or |--------------- me ---------------|
 			 * |------ child ------| or |--------------- me ---------------|
 			 * |------ child ------|
@@ -1500,7 +1498,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
         return 0;
     }
 
-    public static class MyTextView extends TextView {
+    public static class MyTextView extends AppCompatTextView {
 
         public MyTextView(Context context) {
             this(context, null);

@@ -24,9 +24,9 @@ import com.metinkale.prayer.R;
 
 public enum Theme {
     Trans(0xFFFFFFFF, 0x55FFFFFF, 0x00000000, 0x00000000, R.drawable.widget_trans),
-    LightTrans(0xFFFFFFFF, 0x55FFFFFF, 0x33FFFFFF, 0x55FFFFFF,R.drawable.widget_lighttrans),
-    Light(Color.BLACK, Color.WHITE, 0xAAFFFFFF, 0xFF3F9BBF,R.drawable.widget_light),
-    Dark(Color.WHITE, 0x55FFFFFF, 0x77000000, 0xAAFFFFFF,R.drawable.widget_dark);
+    LightTrans(0xFFFFFFFF, 0x55FFFFFF, 0x33FFFFFF, 0x55FFFFFF, R.drawable.widget_lighttrans),
+    Light(Color.BLACK, Color.WHITE, 0xAAFFFFFF, 0xFF3F9BBF, R.drawable.widget_light),
+    Dark(Color.WHITE, 0x55FFFFFF, 0x77000000, 0xAAFFFFFF, R.drawable.widget_dark);
 
     public final int background;
     public final int textcolor;
@@ -39,7 +39,7 @@ public enum Theme {
         this.hovercolor = hovercolor;
         this.bgcolor = bgcolor;
         this.strokecolor = strokecolor;
-        this.background=background;
+        this.background = background;
     }
 
 }

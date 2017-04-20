@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +18,17 @@
 <resources>
 
     <declare-styleable name="PagerSlidingTabStrip">
-        <attr name="pstsIndicatorColor" format="color"/>
-        <attr name="pstsUnderlineColor" format="color"/>
-        <attr name="pstsDividerColor" format="color"/>
-        <attr name="pstsIndicatorHeight" format="dimension"/>
-        <attr name="pstsUnderlineHeight" format="dimension"/>
-        <attr name="pstsDividerPadding" format="dimension"/>
-        <attr name="pstsTabpaddingStartRight" format="dimension"/>
-        <attr name="pstsScrollOffset" format="dimension"/>
-        <attr name="pstsTabBackground" format="reference"/>
-        <attr name="pstsShouldExpand" format="boolean"/>
-        <attr name="pstsTextAllCaps" format="boolean"/>
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabpaddingStartRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
     </declare-styleable>
 
 </resources>

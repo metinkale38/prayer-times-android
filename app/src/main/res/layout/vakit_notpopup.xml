@@ -16,38 +16,38 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#000000">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <view
-            android:id="@+id/img"
-            class="com.metinkale.prayerapp.vakit.fragments.NotificationPopup$MyView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
+        android:id="@+id/img"
+        class="com.metinkale.prayerapp.vakit.fragments.NotificationPopup$MyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp" />
 
     <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/img"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
-            android:padding="25dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff"/>
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:padding="25dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ffffff" />
 
     <TextView
-            android:id="@+id/vakit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff"/>
+        android:id="@+id/vakit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

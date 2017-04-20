@@ -121,24 +121,7 @@
         <item>silent</item>
         <item>vibrate</item>
     </string-array>
-    <string-array name="week_days">
-        <item>@string/daySu</item>
-        <item>@string/dayMo</item>
-        <item>@string/dayTu</item>
-        <item>@string/dayWe</item>
-        <item>@string/dayTh</item>
-        <item>@string/dayFr</item>
-        <item>@string/daySa</item>
-    </string-array>
-    <string-array name="week_days_short">
-        <item>@string/dayShortSu</item>
-        <item>@string/dayShortMo</item>
-        <item>@string/dayShortTu</item>
-        <item>@string/dayShortWe</item>
-        <item>@string/dayShortTh</item>
-        <item>@string/dayShortFr</item>
-        <item>@string/dayShortSa</item>
-    </string-array>
+
     <string-array name="months">
         <item>@string/gmonth1</item>
         <item>@string/gmonth2</item>

@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 public class Cities {
 
     @Nullable
-    private static WeakReference<Cities> mInstance = new WeakReference<Cities>(null);
+    private static WeakReference<Cities> mInstance = new WeakReference<>(null);
     private final CitiesSet mEntries = new CitiesSet();
     @NonNull
     private Handler mHandler = new Handler();
@@ -150,7 +150,7 @@ public class Cities {
     private List<Entry> search(double lat, double lng) throws SQLException {
 
         List<Entry> items = new ArrayList<>();
-        EnumMap<Source, Entry> map = new EnumMap<Source, Entry>(Source.class);
+        EnumMap<Source, Entry> map = new EnumMap<>(Source.class);
         for (Entry entry : mEntries) {
             if (entry == null || entry.getKey() == null) continue;
             Source s = entry.getSource();
@@ -175,8 +175,8 @@ public class Cities {
     @NonNull
     private List<Entry> search(String q, @NonNull Geocoder.Result r) throws SQLException {
         List<Entry> items = new ArrayList<>();
-        EnumMap<Source, Entry> name = new EnumMap<Source, Entry>(Source.class);
-        EnumMap<Source, Entry> pos = new EnumMap<Source, Entry>(Source.class);
+        EnumMap<Source, Entry> name = new EnumMap<>(Source.class);
+        EnumMap<Source, Entry> pos = new EnumMap<>(Source.class);
 
         q = Entry.normalize(q);
 
@@ -230,7 +230,6 @@ public class Cities {
     public abstract static class Callback<T> {
         public abstract void onResult(T result);
     }
-
 
 
 }

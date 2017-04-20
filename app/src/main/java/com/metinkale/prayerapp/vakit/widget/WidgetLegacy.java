@@ -67,7 +67,7 @@ public class WidgetLegacy {
 
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int s = size.width;
-
+        if (s <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
         int next = times.getNext();
@@ -148,6 +148,7 @@ public class WidgetLegacy {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 300f / 60f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
@@ -160,6 +161,7 @@ public class WidgetLegacy {
 
 
         remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
+
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bmp);
@@ -289,7 +291,7 @@ public class WidgetLegacy {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f);
         int w = size.width;
         int h = size.height;
-
+        if (w <= 0 || h <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
 
@@ -400,7 +402,7 @@ public class WidgetLegacy {
         Theme theme = WidgetUtils.getTheme(widgetId);
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int s = size.width;
-
+        if (s <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
 
         Intent i = new Intent(context, SilenterPrompt.class);
@@ -459,6 +461,7 @@ public class WidgetLegacy {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 500f / 200f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
 
         remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
@@ -595,6 +598,7 @@ public class WidgetLegacy {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
 
         remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
@@ -608,7 +612,6 @@ public class WidgetLegacy {
         Intent intent =
                 new Intent(Intent.ACTION_VIEW, builder.build());
         remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
-
 
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);

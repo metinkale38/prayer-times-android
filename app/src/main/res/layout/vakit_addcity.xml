@@ -16,11 +16,11 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/listView"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/legacySwitch"
         android:layout_alignParentTop="true"
-        android:background="@color/background"/>
+        android:background="@color/background" />
 
     <TextView
         android:id="@+id/legacySwitch"
@@ -39,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:background="#aaaaaa"
         android:gravity="center"
-        android:padding="5dp"/>
+        android:padding="5dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/search"
@@ -56,5 +56,5 @@
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
         android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

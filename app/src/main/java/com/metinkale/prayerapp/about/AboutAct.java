@@ -20,7 +20,6 @@ package com.metinkale.prayerapp.about;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -62,7 +61,6 @@ public class AboutAct extends BaseActivity {
             e.printStackTrace();
         }
     }
-
 
 
     private void openUrl(String url) {

@@ -103,7 +103,7 @@ public class FragMap extends Fragment implements Main.MyCompassListener, MapboxM
                         "\n\n" +
                         "In the Play Store Version of this Prayer App, Google Maps is used instead, which support Geodesic Lines, and is accurate due to that." +
                         "\n\n" +
-                        "Since F-Droid permits the usage of the Google Maps Api, this Map will not be updated anymore!")    
+                        "Since F-Droid permits the usage of the Google Maps Api, this Map will not be updated anymore!")
                 .setPositiveButton("Ok", null)
                 .show();
     }

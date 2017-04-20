@@ -111,8 +111,7 @@ public class WidgetUtils {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
             boolean isPort = context.getResources().getBoolean(R.bool.isPort);
-            int w = 0;
-            w = options.getInt(isPort ?
+            int w = options.getInt(isPort ?
                     AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
             int h = options.getInt(isPort ?
                     AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);

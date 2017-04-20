@@ -17,6 +17,6 @@
 
 <resources>
 
-    <item name="viewholder" type="id"/>
+    <item name="viewholder" type="id" />
 
 </resources>

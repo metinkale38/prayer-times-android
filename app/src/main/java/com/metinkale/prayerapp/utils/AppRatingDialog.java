@@ -87,7 +87,7 @@ public class AppRatingDialog {
 
 
     public static void addToOpenedMenus(String menu) {
-        ArraySet<String> set = new ArraySet<String>();
+        ArraySet<String> set = new ArraySet<>();
         set.addAll(getPrefs().getStringSet("openedMenus", new ArraySet<String>()));
         if (set.contains(menu)) return;
         set.add(menu);

@@ -134,7 +134,7 @@ public class Main extends BaseActivity implements OnClickListener, OnNavigationL
                 continue;
             }
             try {
-                List<String> list = new ArrayList<String>(set);
+                List<String> list = new ArrayList<>(set);
                 Collections.sort(list);
                 Zikr zikr = new Zikr();
                 zikr.title = list.get(0).substring(1);

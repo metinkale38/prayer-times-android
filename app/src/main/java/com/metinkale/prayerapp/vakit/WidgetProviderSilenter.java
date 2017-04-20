@@ -62,6 +62,6 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int appWidgetId, @NonNull Bundle newOptions) {
-          updateAppWidget(context, appWidgetManager, appWidgetId);
+        updateAppWidget(context, appWidgetManager, appWidgetId);
     }
 }

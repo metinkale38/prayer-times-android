@@ -16,11 +16,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:background="#e0e0e0"
-              android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#e0e0e0"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/title"
@@ -31,7 +31,7 @@
         android:background="#00000000"
         android:hint="@string/newDhikr"
         android:text="@string/newDhikr"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
         <com.metinkale.prayerapp.zikr.ZikrView
             android:id="@+id/zikr"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:contentDescription="@null"
@@ -56,7 +56,7 @@
             android:layout_margin="10dp"
             app:materialIcon="backup_restore"
             app:materialIconColor="#000000"
-            app:materialIconSize="36dp"/>
+            app:materialIconSize="36dp" />
 
         <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/vibration"
@@ -64,14 +64,14 @@
             android:layout_height="60dp"
             android:layout_alignBottom="@id/zikr"
             android:layout_alignParentRight="true"
-            android:tag="Vibration2"/>
+            android:tag="Vibration2" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1" />
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_margin="5dp"
                 android:background="#00bcd4"
                 android:onClick="changeColor"
-                android:tag="#00bcd4"/>
+                android:tag="#00bcd4" />
 
             <View
                 android:layout_width="30dp"
@@ -98,7 +98,7 @@
                 android:layout_margin="5dp"
                 android:background="#ffc107"
                 android:onClick="changeColor"
-                android:tag="#ffc107"/>
+                android:tag="#ffc107" />
 
             <View
                 android:layout_width="30dp"
@@ -106,7 +106,7 @@
                 android:layout_margin="5dp"
                 android:background="#e51c23"
                 android:onClick="changeColor"
-                android:tag="#e51c23"/>
+                android:tag="#e51c23" />
 
             <View
                 android:layout_width="30dp"
@@ -114,7 +114,7 @@
                 android:layout_margin="5dp"
                 android:background="#259b24"
                 android:onClick="changeColor"
-                android:tag="#259b24"/>
+                android:tag="#259b24" />
         </TableRow>
 
         <TableRow
@@ -128,7 +128,7 @@
                 android:layout_margin="5dp"
                 android:background="#795548"
                 android:onClick="changeColor"
-                android:tag="#795548"/>
+                android:tag="#795548" />
 
             <View
                 android:layout_width="30dp"
@@ -136,7 +136,7 @@
                 android:layout_margin="5dp"
                 android:background="#9c27b0"
                 android:onClick="changeColor"
-                android:tag="#903AE8"/>
+                android:tag="#903AE8" />
 
             <View
                 android:layout_width="30dp"
@@ -144,7 +144,7 @@
                 android:layout_margin="5dp"
                 android:background="#e91e63"
                 android:onClick="changeColor"
-                android:tag="#e91e63"/>
+                android:tag="#e91e63" />
 
             <View
                 android:layout_width="30dp"
@@ -152,7 +152,7 @@
                 android:layout_margin="5dp"
                 android:background="#ffeb3b"
                 android:onClick="changeColor"
-                android:tag="#ffeb3b"/>
+                android:tag="#ffeb3b" />
         </TableRow>
     </TableLayout>
 

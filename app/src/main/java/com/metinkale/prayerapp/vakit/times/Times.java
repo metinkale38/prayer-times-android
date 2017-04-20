@@ -430,7 +430,7 @@ public abstract class Times extends TimesBase {
         return getLeft(next, true);
     }
 
-    public long getMills(int next){
+    public long getMills(int next) {
         DateTime date = getTimeCal(null, next).toDateTime();
         return date.getMillis();
     }

@@ -175,7 +175,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mRefresh == item) {
             mOnlyNew = true;
             if (PermissionUtils.get(this).pLocation) {

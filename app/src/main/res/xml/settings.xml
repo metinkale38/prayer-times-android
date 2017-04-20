@@ -100,7 +100,7 @@
             android:defaultValue="false"
             android:key="showLegacyWidgets"
             android:title="@string/showLegacyWidgets"
-            android:summary="@string/showLegacyWidgetsSummary"/>
+            android:summary="@string/showLegacyWidgetsSummary" />
 
     </PreferenceCategory>
 

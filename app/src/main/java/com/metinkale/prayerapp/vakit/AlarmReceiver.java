@@ -60,7 +60,6 @@ import static android.hardware.Sensor.TYPE_ACCELEROMETER;
 public class AlarmReceiver extends IntentService implements SensorEventListener {
 
     private static boolean sInterrupt;
-    private SensorManager mSensorManager;
 
     public AlarmReceiver() {
         super("AlarmReceiver");
@@ -265,10 +264,10 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         sInterrupt = false;
         boolean hasSound = false;
         while ((sound != null) && !sound.startsWith("silent") && !sInterrupt) {
-            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
             if (Prefs.stopByFacedown())
-                mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
+                sensorManager.registerListener(this, sensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
             int volume = -2;
             hasSound = true;
 
@@ -358,7 +357,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             sound = dua;
             dua = null;
             if (Prefs.stopByFacedown())
-                mSensorManager.unregisterListener(this);
+                sensorManager.unregisterListener(this);
         }
 
         if (hasSound && Prefs.autoRemoveNotification()) {
