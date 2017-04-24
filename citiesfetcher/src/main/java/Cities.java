@@ -74,7 +74,7 @@ public class Cities {
         mWorker.execute(() -> {
             System.out.println("Start fetchIGMG()");
             long time = System.currentTimeMillis();
-            fetchIGMG();
+          //  fetchIGMG();
             System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
             counter.decrementAndGet();
@@ -85,7 +85,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchFaziletCountries()");
-            fetchFaziletCountries();
+     //       fetchFaziletCountries();
             System.out.println("fetchFaziletCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
@@ -97,7 +97,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchDitibCountries()");
-            fetchDitibCountries();
+       //     fetchDitibCountries();
             System.out.println("fetchDitibCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
@@ -121,7 +121,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchHabous()");
-            fetchHabous();
+          //  fetchHabous();
             System.out.println("fetchHabous() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
@@ -132,7 +132,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchNVCCountries()");
-            fetchNVCCountries();
+           // fetchNVCCountries();
             System.out.println("fetchNVCCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
             counter.decrementAndGet();
         });
@@ -142,7 +142,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchMalaysia()");
-            fetchMalaysia();
+         //   fetchMalaysia();
             System.out.println("fetchMalaysia() - finished in " + (System.currentTimeMillis() - time) + " ms");
             counter.decrementAndGet();
         });
@@ -150,7 +150,7 @@ public class Cities {
 
         byte[] encoded;
         try {
-            encoded = Files.readAllBytes(Paths.get("geocodings.geo"));
+            encoded = Files.readAllBytes(Paths.get("citiesfetcher/geocodings.geo"));
             mGeocodings = new Gson().fromJson(new String(encoded, "UTF-8"), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
             }.getType());
         } catch (IOException e) {
@@ -563,9 +563,10 @@ public class Cities {
 
     private static void fetchSemerkand() {
         try {
-            String Url = "http://77.79.123.10/semerkandtakvimi/query/locations";
+            String Url = "http://semerkandtakvimi.semerkandmobile.com/locations";
             String data = get(Url);
-            Semerkand semerkand = new Gson().fromJson(data, Semerkand.class);
+            List<Semerkand> semerkand = new Gson().fromJson(data,
+                    new TypeToken<List<Semerkand>>(){}.getType());
 
 
             Entry sem = new Entry();
@@ -578,7 +579,7 @@ public class Cities {
             mEntries.put(sem.id, sem);
 
 
-            for (Semerkand country : semerkand.Countries) {
+            for (Semerkand country : semerkand) {
                 Entry parent = new Entry();
                 parent.id = Cities.id.incrementAndGet();
                 parent.parent = sem.id;
@@ -590,7 +591,7 @@ public class Cities {
 
 
                 for (Semerkand city : country.Cities) {
-                    if (city.Counties.length != 0) {
+                    if (city.Districts.length != 0) {
                         Entry parent2 = new Entry();
                         parent2.id = Cities.id.incrementAndGet();
                         parent2.parent = parent.id;
@@ -599,12 +600,12 @@ public class Cities {
                         parent2.lat = 0;
                         parent2.lng = 0;
                         mEntries.put(parent2.id, parent2);
-                        for (Semerkand county : city.Counties) {
+                        for (Semerkand county : city.Districts) {
                             Entry e = new Entry();
                             e.id = Cities.id.incrementAndGet();
                             e.parent = parent2.id;
                             e.name = county.DisplayName.equals("Merkez") ? (county.Name + " " + county.DisplayName) : county.Name;
-                            e.key = "S_" + country.CountryID + "_" + city.CityID + "_" + county.CountyID;
+                            e.key = "S_" + country.ID + "_" + city.ID + "_" + county.ID;
                             e.lat = 0;
                             e.lng = 0;
                             mEntries.put(e.id, e);
@@ -614,7 +615,7 @@ public class Cities {
                         e.id = Cities.id.incrementAndGet();
                         e.parent = parent.id;
                         e.name = city.Name;
-                        e.key = "S_" + country.CountryID + "_" + city.CityID;
+                        e.key = "S_" + country.ID + "_" + city.ID;
                         e.lat = 0;
                         e.lng = 0;
                         mEntries.put(e.id, e);
@@ -630,14 +631,11 @@ public class Cities {
     }
 
     static class Semerkand {
-        int CountryID;
-        int CityID;
-        int CountyID;
+        int ID;
         String Name;
         String DisplayName;
         Semerkand[] Cities = new Semerkand[0];
-        Semerkand[] Countries = new Semerkand[0];
-        Semerkand[] Counties = new Semerkand[0];
+        Semerkand[] Districts = new Semerkand[0];
     }
 
 

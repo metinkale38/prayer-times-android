@@ -7,17 +7,17 @@ import java.nio.file.Paths;
  */
 public class Cache {
     static {
-        new File("cache").mkdir();
+        new File("citiesfetcher-cache").mkdir();
     }
 
     public static void remove(String key) {
-        new File("cache/" + key.hashCode()).delete();
+        new File("citiesfetcher-cache/" + key.hashCode()).delete();
     }
 
 
     public static void put(String key, String data) {
         try {
-            PrintWriter out = new PrintWriter(System.getProperty("user.home") + "/cache/" + key.hashCode(), "UTF-8");
+            PrintWriter out = new PrintWriter(System.getProperty("user.home") + "/citiesfetcher-cache/" + key.hashCode(), "UTF-8");
             out.write(data);
             out.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -29,7 +29,7 @@ public class Cache {
         if (!new File("cache/" + key.hashCode()).exists()) return null;
         byte[] encoded;
         try {
-            encoded = Files.readAllBytes(Paths.get("cache/" + key.hashCode()));
+            encoded = Files.readAllBytes(Paths.get("citiesfetcher-cache/" + key.hashCode()));
             if (encoded.length == 0) return null;
             return new String(encoded, "UTF-8");
         } catch (IOException e) {
