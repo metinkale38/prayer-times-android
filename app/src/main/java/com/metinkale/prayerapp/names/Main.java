@@ -21,15 +21,18 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.names.Adapter.Item;
+import com.metinkale.prayerapp.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
@@ -40,8 +43,10 @@ import java.util.Locale;
 
 public class Main extends BaseActivity implements OnQueryTextListener {
 
-    private ListView listView;
-    private Item[] values;
+    private RecyclerView mRecyclerView;
+    private Item[] mValues;
+    private GridLayoutManager mLayoutManager;
+    private int mCols;
 
     @SuppressLint("NewApi")
     private static String normalize(CharSequence str) {
@@ -50,6 +55,7 @@ public class Main extends BaseActivity implements OnQueryTextListener {
         return string.toLowerCase(Locale.ENGLISH);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,8 +63,23 @@ public class Main extends BaseActivity implements OnQueryTextListener {
 
         setContentView(R.layout.names_main);
 
-        listView = (ListView) findViewById(android.R.id.list);
-        values = new Item[99];
+        mRecyclerView = (RecyclerView) findViewById(android.R.id.list);
+        DisplayMetrics dimension = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dimension);
+
+        float w = Utils.convertPixelsToDp(dimension.widthPixels, this);
+
+        mCols = (int) (w / 300);
+        mLayoutManager = new GridLayoutManager(this, mCols);
+
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? mCols : 1;
+            }
+        });
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mValues = new Item[99];
 
         String[] ar = getResources().getStringArray(R.array.names_ar);
         String[] name = getResources().getStringArray(R.array.names_name);
@@ -69,10 +90,9 @@ public class Main extends BaseActivity implements OnQueryTextListener {
             item.arabic = ar[i];
             if (name.length > i) item.name = name[i];
             if (desc.length > i) item.desc = desc[i];
-            values[i] = item;
+            mValues[i] = item;
         }
-        listView.setAdapter(new Adapter(this, values));
-        listView.setFastScrollEnabled(true);
+        mRecyclerView.setAdapter(new Adapter(this, mValues, mCols > 1));
     }
 
     @Override
@@ -95,13 +115,13 @@ public class Main extends BaseActivity implements OnQueryTextListener {
     @Override
     public boolean onQueryTextChange(String newText) {
         List<Item> values = new ArrayList<>();
-        for (Item val : this.values) {
+        for (Item val : this.mValues) {
             if (normalize(val.toString()).contains(normalize(newText))) {
                 values.add(val);
             }
         }
 
-        listView.setAdapter(new Adapter(this, values.toArray(new Item[values.size()])));
+        mRecyclerView.setAdapter(new Adapter(this, values.toArray(new Item[values.size()]), mCols > 1));
         return false;
     }
 

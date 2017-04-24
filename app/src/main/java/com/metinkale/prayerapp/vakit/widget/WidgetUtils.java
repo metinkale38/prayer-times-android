@@ -87,7 +87,8 @@ public class WidgetUtils {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
         Intent i = new Intent(context, WidgetConfigure.class);
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-        remoteViews.setOnClickPendingIntent(R.id.image, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT));
+        i.putExtra(WidgetConfigure.ONLYCITY, true);
+        remoteViews.setOnClickPendingIntent(R.id.image, PendingIntent.getActivity(context, widgetId, i, PendingIntent.FLAG_CANCEL_CURRENT));
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
 

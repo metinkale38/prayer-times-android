@@ -62,7 +62,7 @@ public class CalcTimes extends Times {
         super();
     }
 
-    CalcTimes(long id) {
+    public CalcTimes(long id) {
         super(id);
     }
 

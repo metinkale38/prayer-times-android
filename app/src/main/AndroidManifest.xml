@@ -62,20 +62,16 @@
         <activity
             android:name="com.metinkale.prayerapp.vakit.Main"
             android:label="@string/appName"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.metinkale.prayerapp.settings.BackupRestoreActivity"
-            android:label="@string/backupRestore"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.metinkale.prayerapp.about.AboutAct"
-            android:screenOrientation="portrait" />
+            android:label="@string/backupRestore" />
+        <activity android:name="com.metinkale.prayerapp.about.AboutAct" />
         <activity
             android:name="com.metinkale.prayerapp.vakit.MainStart"
             android:label="@string/appName"
             android:resizeableActivity="true"
-            android:screenOrientation="portrait"
+
             android:supportsPictureInPicture="true"
             android:windowSoftInputMode="stateHidden" />
 
@@ -163,12 +159,34 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.AddCity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.AddCityLegacy"
-            android:screenOrientation="portrait" />
+        <activity-alias
+            android:name=".aliasNL"
+            android:enabled="false"
+            android:label="@string/appNameNL"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".aliasKU"
+            android:enabled="false"
+            android:label="@string/appNameKU"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity android:name="com.metinkale.prayerapp.vakit.AddCity" />
+        <activity android:name="com.metinkale.prayerapp.vakit.AddCityLegacy" />
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
             android:label="Configure Widget"
@@ -205,8 +223,8 @@
         <activity
             android:name="com.metinkale.prayerapp.compass.Main"
             android:icon="@mipmap/ic_compass"
-            android:label="@string/compass"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:label="@string/compass">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
 
@@ -256,7 +274,7 @@
         </activity>
         <activity
             android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
-            android:screenOrientation="portrait"
+
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name="com.metinkale.prayerapp.compass.LocationPicker"
@@ -264,8 +282,7 @@
         <activity
             android:name="com.metinkale.prayerapp.zikr.Main"
             android:label="@string/dhikr"
-            android:logo="@mipmap/ic_zikr"
-            android:screenOrientation="portrait">
+            android:logo="@mipmap/ic_zikr">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
 

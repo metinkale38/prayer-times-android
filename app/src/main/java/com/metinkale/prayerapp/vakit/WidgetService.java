@@ -53,7 +53,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
@@ -177,7 +177,7 @@ public class WidgetService extends Service {
                 RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
                 int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
-                int[] vakitIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+                int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
                 int next = t.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;
@@ -207,12 +207,12 @@ public class WidgetService extends Service {
                 views.setTextViewText(R.id.city, t.getName());
 
 
-                views.setTextColor(R.id.imsak, mColor1st);
-                views.setTextColor(R.id.gunes, mColor1st);
-                views.setTextColor(R.id.ogle, mColor1st);
-                views.setTextColor(R.id.ikindi, mColor1st);
-                views.setTextColor(R.id.aksam, mColor1st);
-                views.setTextColor(R.id.yatsi, mColor1st);
+                views.setTextColor(R.id.fajr, mColor1st);
+                views.setTextColor(R.id.sun, mColor1st);
+                views.setTextColor(R.id.zuhr, mColor1st);
+                views.setTextColor(R.id.asr, mColor1st);
+                views.setTextColor(R.id.maghrib, mColor1st);
+                views.setTextColor(R.id.ishaa, mColor1st);
 
                 views.setTextColor(R.id.time0, mColor1st);
                 views.setTextColor(R.id.time1, mColor1st);

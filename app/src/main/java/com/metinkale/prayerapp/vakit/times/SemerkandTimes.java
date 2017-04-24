@@ -56,7 +56,7 @@ class SemerkandTimes extends WebTimes {
         final int year = LocalDate.now().getYear();
         final String[] id = _id.split("_");
         return new Builders.Any.F[]{Ion.with(App.get())
-                .load("http://77.79.123.10/semerkandtakvimi/query/SalaatTimes?year=" + year + "&" + (id.length >= 3 || "0".equals(id[3]) ? "cityID=" + id[2] : "countyID=" + id[3]))};
+                .load("http://semerkandtakvimi.semerkandmobile.com/salaattimes?year=    " + year + "&" + (id.length >= 3 || "0".equals(id[3]) ? "cityID=" + id[2] : "districtId=" + id[3]))};
 
 
     }

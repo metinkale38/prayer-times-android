@@ -38,7 +38,7 @@ import android.widget.RemoteViews;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;

@@ -20,53 +20,71 @@
     android:layout_height="wrap_content">
 
 
-    <LinearLayout
-        android:background="#ffffff"
-        android:translationZ="2dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:padding="20dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:translationZ="2dp">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
-            android:contentDescription="@null"
             android:id="@+id/arabicImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:gravity="center"
             android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/arabicTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_below="@+id/arabicImg"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:textSize="28sp" />
 
         <TextView
             android:id="@+id/meaning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dip"
+            android:layout_alignBottom="@+id/meaningInvisible"
+            android:layout_alignTop="@+id/meaningInvisible"
+            android:layout_centerHorizontal="true"
             android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#707070" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/meaningInvisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/arabicTxt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#707070"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </RelativeLayout>

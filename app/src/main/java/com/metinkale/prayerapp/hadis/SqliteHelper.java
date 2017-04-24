@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SqliteHelper extends SQLiteOpenHelper {
     private static SqliteHelper mInstance;
@@ -44,7 +45,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     private SQLiteDatabase mDB;
     @NonNull
     private List<String> categories = new ArrayList<>();
-    private volatile int mOpenCounter;
+    private AtomicInteger mOpenCounter = new AtomicInteger();
 
     private SqliteHelper(@NonNull Context context) {
         super(context, "hadis.db", null, 1);
@@ -171,7 +172,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
 
     private synchronized void openDatabase() throws SQLException {
-        mOpenCounter++;
+        mOpenCounter.incrementAndGet();
         if (mDB == null) {
             String lang = Prefs.getLanguage();
             if (!lang.equals("de") && !lang.equals("tr")) lang = "en";
@@ -181,8 +182,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     }
 
     private synchronized void closeDatabase() throws SQLException {
-        mOpenCounter--;
-        if (mOpenCounter == 0 && mDB != null) {
+        if (mOpenCounter.decrementAndGet() == 0 && mDB != null) {
             mDB.close();
             mDB = null;
         }

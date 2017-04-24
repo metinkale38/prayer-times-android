@@ -38,7 +38,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayerapp.utils.RTLViewPager;
 import com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment;

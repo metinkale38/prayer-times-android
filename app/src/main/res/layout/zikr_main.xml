@@ -16,9 +16,9 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#e0e0e0"
     android:orientation="vertical">
 
@@ -36,35 +36,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:gravity="center">
 
         <com.metinkale.prayerapp.zikr.ZikrView
             android:id="@+id/zikr"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/zikr"
-            android:layout_alignParentLeft="true"
+            android:layout_alignStart="@+id/zikr"
             android:layout_margin="10dp"
+            android:contentDescription="@null"
             app:materialIcon="backup_restore"
             app:materialIconColor="#000000"
-            app:materialIconSize="36dp" />
+            app:materialIconSize="36dp"
+            android:layout_alignLeft="@+id/zikr" />
 
         <com.metinkale.prayerapp.vakit.PrefsView
             android:id="@+id/vibration"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignBottom="@id/zikr"
-            android:layout_alignParentRight="true"
-            android:tag="Vibration2" />
+            android:layout_alignEnd="@id/zikr"
+            android:tag="Vibration2"
+            android:layout_alignRight="@id/zikr" />
 
     </RelativeLayout>
 

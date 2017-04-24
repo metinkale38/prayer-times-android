@@ -69,7 +69,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/imsak"
+                android:id="@+id/fajr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -96,7 +96,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/gunes"
+                android:id="@+id/sun"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -123,7 +123,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/ogle"
+                android:id="@+id/zuhr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -151,7 +151,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/ikindi"
+                android:id="@+id/asr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -178,7 +178,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/aksam"
+                android:id="@+id/maghrib"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -205,7 +205,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/yatsi"
+                android:id="@+id/ishaa"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

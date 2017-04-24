@@ -58,6 +58,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
+import com.metinkale.prayerapp.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -292,7 +293,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 case 5:
 
                     String lang = Prefs.getLanguage();
-
                     if (!lang.equals("de") && !lang.equals("tr")) lang = "en";
                     final String file = lang + "/hadis.db";
                     final String url = App.API_URL + "/hadis." + lang + ".db";

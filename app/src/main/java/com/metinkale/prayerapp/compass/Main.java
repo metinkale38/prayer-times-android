@@ -80,6 +80,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private Frag3D mFrag3D;
     private FragMap mFragMap;
     private Mode mMode;
+    private Mode mSingleMode;
 
     enum Mode {
         TwoDim,
@@ -111,15 +112,30 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         mFrag2D = new Frag2D();
         mList = mFrag2D;
         fragmentTransaction.add(R.id.frag2D, mFrag2D, "2d");
         fragmentTransaction.commit();
+
+        String action = getIntent().getAction();
+        switch (action) {
+            case "2d":
+                mSingleMode = Mode.TwoDim;
+                break;
+            case "3d":
+                mSingleMode = Mode.ThreeDim;
+                break;
+            case "map":
+                mSingleMode = Mode.Map;
+                break;
+        }
+        if (mSingleMode != null) {
+            updateFrag(mSingleMode);
+        }
     }
 
     private void updateFrag(Mode mode) {
-
+        if (mSingleMode != null) mode = mSingleMode;
 
         if (mMode != mode) {
             FragmentManager fragmentManager = getSupportFragmentManager();

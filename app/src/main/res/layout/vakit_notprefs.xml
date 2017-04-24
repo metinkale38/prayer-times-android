@@ -72,7 +72,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/imsak"
+                android:id="@+id/fajr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -154,7 +154,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/gunes"
+                android:id="@+id/sun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -195,7 +195,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/ogle"
+                android:id="@+id/zuhr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -236,7 +236,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/ikindi"
+                android:id="@+id/asr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -277,7 +277,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/aksam"
+                android:id="@+id/maghrib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -317,7 +317,7 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:theme="@style/MySwitch"
-                android:id="@+id/yatsi"
+                android:id="@+id/ishaa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
