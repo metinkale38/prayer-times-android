@@ -44,7 +44,7 @@ public class Cities {
             new LinkedBlockingQueue<>()) {
         @Override
         public void execute(Runnable command) {
-            if (getPoolSize() == 1) {
+            if (getMaximumPoolSize() == 1) {
                 command.run();
                 return;
             }
@@ -68,44 +68,35 @@ public class Cities {
 
     public static void main(String args[]) {
         Locale.setDefault(Locale.ENGLISH);
-        AtomicInteger counter = new AtomicInteger();
-
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             System.out.println("Start fetchIGMG()");
             long time = System.currentTimeMillis();
-          //  fetchIGMG();
+              fetchIGMG();
             System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
-            counter.decrementAndGet();
 
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchFaziletCountries()");
-     //       fetchFaziletCountries();
+                  fetchFaziletCountries();
             System.out.println("fetchFaziletCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
 
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchDitibCountries()");
-       //     fetchDitibCountries();
+                fetchDitibCountries();
             System.out.println("fetchDitibCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
 
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchSemerkand()");
@@ -113,38 +104,31 @@ public class Cities {
             System.out.println("fetchSemerkand() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
 
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchHabous()");
-          //  fetchHabous();
+            fetchHabous();
             System.out.println("fetchHabous() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchNVCCountries()");
-           // fetchNVCCountries();
+             fetchNVCCountries();
             System.out.println("fetchNVCCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-            counter.decrementAndGet();
         });
 
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchMalaysia()");
-         //   fetchMalaysia();
+               fetchMalaysia();
             System.out.println("fetchMalaysia() - finished in " + (System.currentTimeMillis() - time) + " ms");
-            counter.decrementAndGet();
         });
 
 
@@ -159,7 +143,7 @@ public class Cities {
         }
 
 
-        while (counter.get() > 0) {
+        while (mTaskCounter.get() > 0) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -183,8 +167,8 @@ public class Cities {
 
 
     private static void export() {
-        new File("../app/src/main/res/raw/cities.tsv").delete();
-        try (PrintWriter out = new PrintWriter("../app/src/main/res/raw/cities.tsv")) {
+        new File("app/src/main/res/raw/cities.tsv").delete();
+        try (PrintWriter out = new PrintWriter("app/src/main/res/raw/cities.tsv")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -566,7 +550,8 @@ public class Cities {
             String Url = "http://semerkandtakvimi.semerkandmobile.com/locations";
             String data = get(Url);
             List<Semerkand> semerkand = new Gson().fromJson(data,
-                    new TypeToken<List<Semerkand>>(){}.getType());
+                    new TypeToken<List<Semerkand>>() {
+                    }.getType());
 
 
             Entry sem = new Entry();
@@ -595,7 +580,7 @@ public class Cities {
                         Entry parent2 = new Entry();
                         parent2.id = Cities.id.incrementAndGet();
                         parent2.parent = parent.id;
-                        parent2.name = city.DisplayName;
+                        parent2.name = city.Name;
                         parent2.key = null;
                         parent2.lat = 0;
                         parent2.lng = 0;
@@ -604,8 +589,8 @@ public class Cities {
                             Entry e = new Entry();
                             e.id = Cities.id.incrementAndGet();
                             e.parent = parent2.id;
-                            e.name = county.DisplayName.equals("Merkez") ? (county.Name + " " + county.DisplayName) : county.Name;
-                            e.key = "S_" + country.ID + "_" + city.ID + "_" + county.ID;
+                            e.name = county.Name;
+                            e.key = "S_" + 'd' + county.Id;
                             e.lat = 0;
                             e.lng = 0;
                             mEntries.put(e.id, e);
@@ -615,7 +600,7 @@ public class Cities {
                         e.id = Cities.id.incrementAndGet();
                         e.parent = parent.id;
                         e.name = city.Name;
-                        e.key = "S_" + country.ID + "_" + city.ID;
+                        e.key = "S_" + 'c' + city.Id;
                         e.lat = 0;
                         e.lng = 0;
                         mEntries.put(e.id, e);
@@ -631,9 +616,8 @@ public class Cities {
     }
 
     static class Semerkand {
-        int ID;
+        int Id;
         String Name;
-        String DisplayName;
         Semerkand[] Cities = new Semerkand[0];
         Semerkand[] Districts = new Semerkand[0];
     }

@@ -371,5 +371,9 @@ public class WebTimes extends Times {
 
     }
 
+    protected void clearTimes() {
+        times.clear();
+    }
+
 
 }

@@ -50,9 +50,9 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -90,7 +90,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         public void run() {
 
             if ((mTimes != null) && !mTimes.deleted()) {
-                checkKerahat();
+                checkKerahatAndIssues();
 
                 int next = mTimes.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;
@@ -439,10 +439,16 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         if (mTimes != null) mTimes.removeOnTimesUpdatedListener(this);
     }
 
-    void checkKerahat() {
+    void checkKerahatAndIssues() {
         if (mTimes == null) return;
-        boolean k = mTimes.isKerahat();
+        String issue = mTimes.getIssue();
+        boolean k = mTimes.isKerahat() || issue != null;
         mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
+        if (issue != null) {
+            mKerahat.setText(issue);
+        } else {
+            mKerahat.setText(R.string.kerahatTime);
+        }
     }
 
     @Override

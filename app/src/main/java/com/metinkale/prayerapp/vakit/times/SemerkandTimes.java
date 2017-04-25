@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
+import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 
 import org.joda.time.LocalDate;
@@ -49,14 +50,20 @@ class SemerkandTimes extends WebTimes {
     @NonNull
     protected Builders.Any.F[] createIonBuilder() {
         String _id = getId();
-        if (_id.equals("S_2_140_0")) {
-            _id = "S_2_1052_0";
-            setId(_id);
-        }
+
         final int year = LocalDate.now().getYear();
-        final String[] id = _id.split("_");
+        final String[] ids = _id.split("_");
+        if (ids.length != 2) {
+            clearTimes();
+            setIssue(App.get().getString(R.string.pleaseDeleteAndReadd));
+            save();
+            return new Builders.Any.F[0];
+        }
+        char type = ids[1].charAt(0);
+        String id = ids[1].substring(1);
         return new Builders.Any.F[]{Ion.with(App.get())
-                .load("http://semerkandtakvimi.semerkandmobile.com/salaattimes?year=    " + year + "&" + (id.length >= 3 || "0".equals(id[3]) ? "cityID=" + id[2] : "districtId=" + id[3]))};
+                .load("http://semerkandtakvimi.semerkandmobile.com/salaattimes?year=" + year + "&"
+                + (type == 'c' ? "cityId=" : "districtId=") + id)};
 
 
     }
@@ -66,7 +73,7 @@ class SemerkandTimes extends WebTimes {
         List<Day> result = new Gson().fromJson(r, new TypeToken<List<Day>>() {
         }.getType());
         for (Day d : result) {
-            date = date.withDayOfYear(d.Day);
+            date = date.withDayOfYear(d.DayOfYear);
             setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});
         }
         return result.size() > 25;
@@ -74,7 +81,7 @@ class SemerkandTimes extends WebTimes {
 
 
     private static class Day {
-        int Day;
+        int DayOfYear;
         String Fajr;
         String Tulu;
         String Zuhr;

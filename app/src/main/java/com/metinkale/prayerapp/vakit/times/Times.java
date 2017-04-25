@@ -24,8 +24,8 @@ import android.support.annotation.Nullable;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
@@ -68,6 +68,8 @@ public abstract class Times extends TimesBase {
             .minimumPrintedDigits(2)
             .appendMinutes()
             .toFormatter();
+
+    private String issue = null;
 
     @NonNull
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
@@ -499,6 +501,14 @@ public abstract class Times extends TimesBase {
     @Override
     public String toString() {
         return "times_id_" + getID();
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
     }
 
 

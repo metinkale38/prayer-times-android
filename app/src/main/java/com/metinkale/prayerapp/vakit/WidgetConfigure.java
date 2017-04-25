@@ -71,7 +71,7 @@ public class WidgetConfigure extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
-                if (mOnlyCity) finish();
+                if (mOnlyCity) result();
                 else themeDialog();
             }
         });
