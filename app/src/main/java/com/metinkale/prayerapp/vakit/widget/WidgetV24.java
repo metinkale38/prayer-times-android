@@ -20,6 +20,7 @@ package com.metinkale.prayerapp.vakit.widget;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,7 +28,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.SystemClock;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -38,8 +42,8 @@ import android.widget.RemoteViews;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -72,7 +76,12 @@ public class WidgetV24 {
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
 
+        PendingIntent pendingIntent = Main.getPendingIntent(times);
+        PendingIntent pendingIntentClock = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT);
+
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+
+
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
@@ -280,8 +289,37 @@ public class WidgetV24 {
         int width = size.width;
         int height = size.height;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
 
+        PendingIntent pendingIntent = Main.getPendingIntent(times);
+        PendingIntent pendingIntentClock = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                new Intent(AlarmClock.ACTION_SHOW_ALARMS),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingHijri = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                new Intent(context, com.metinkale.prayerapp.calendar.Main.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        long startMillis = System.currentTimeMillis();
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        ContentUris.appendId(builder, startMillis);
+        Intent calendarIntent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+        PendingIntent pendingIntentCalendar = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                calendarIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        remoteViews.setOnClickPendingIntent(R.id.time, pendingIntentClock);
+        remoteViews.setOnClickPendingIntent(R.id.greg, pendingIntentCalendar);
+        remoteViews.setOnClickPendingIntent(R.id.hicri, pendingHijri);
+        remoteViews.setOnClickPendingIntent(R.id.lastTime, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.lastText, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.nextTime, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.nextText, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.countdown, pendingIntent);
 
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0);
 

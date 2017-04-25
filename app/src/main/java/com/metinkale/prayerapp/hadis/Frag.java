@@ -63,6 +63,7 @@ public class Frag extends Fragment {
         int nr = bdl.getInt(NUMBER);
 
         Hadis h = SqliteHelper.get().get(nr);
+        if (h == null) return;
         if (h.kaynak == null) {
             h.kaynak = "";
         }
@@ -76,10 +77,10 @@ public class Frag extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bdl = getArguments();
-        String hadis = bdl.getString("hadis");
-        String kaynak = bdl.getString("kaynak");
-        String konu = bdl.getString("konu");
-        String detay = bdl.getString("detay");
+        String hadis = bdl.getString("hadis", "");
+        String kaynak = bdl.getString("kaynak", "");
+        String konu = bdl.getString("konu", "");
+        String detay = bdl.getString("detay", "");
         View v = inflater.inflate(R.layout.hadis_frag, container, false);
         mTv = (TextView) v.findViewById(R.id.hadis);
 

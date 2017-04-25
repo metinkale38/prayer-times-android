@@ -399,8 +399,8 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
             if (object instanceof Frag) {
                 ((Frag) object).setQuery(mQuery);
-                String hadis = ((Fragment) object).getArguments().getString("hadis");
-                String kaynak = ((Fragment) object).getArguments().getString("kaynak");
+                String hadis = ((Fragment) object).getArguments().getString("hadis", "");
+                String kaynak = ((Fragment) object).getArguments().getString("kaynak", "");
                 setShareText(hadis + (kaynak.length() <= 3 ? "" : "\n\n" + kaynak));
             }
         }
