@@ -22,49 +22,65 @@ import android.graphics.Bitmap;
 import android.view.View;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by metin on 23.04.2017.
  */
 
 public class TestUtils {
-    public static void takeScreenshot(String name, Activity activity) throws IOException {
+    public static void takeScreenshot(final String name, final Activity activity) throws IOException {
+        final AtomicBoolean finished = new AtomicBoolean();
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                View scrView = activity.getWindow().getDecorView().getRootView();
+                scrView.setDrawingCacheEnabled(true);
+                Bitmap bitmap = Bitmap.createBitmap(scrView.getDrawingCache());
+                scrView.setDrawingCacheEnabled(false);
+
+                File folder = new File(activity.getExternalFilesDir(null), "screenshots");
+                if (!folder.exists()) folder.mkdirs();
+                String path = folder.getAbsolutePath() + "/" + name + "_" + bitmap.getWidth() + "x" + bitmap.getHeight() + ".png";
 
 
-        View scrView = activity.getWindow().getDecorView().getRootView();
-        scrView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(scrView.getDrawingCache());
-        scrView.setDrawingCacheEnabled(false);
+                OutputStream out = null;
+                File imageFile = new File(path);
 
-        File folder = new File(activity.getExternalFilesDir(null), "screenshots");
-        if (!folder.exists()) folder.mkdirs();
-        String path = folder.getAbsolutePath() + "/" + name + "_" + bitmap.getWidth() + "x" + bitmap.getHeight() + ".png";
+                try {
+                    out = new FileOutputStream(imageFile);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
 
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
 
-        OutputStream out = null;
-        File imageFile = new File(path);
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
 
-        try {
-            out = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-
-            try {
-                if (out != null) {
-                    out.close();
                 }
-
-            } catch (Exception exc) {
-                exc.printStackTrace();
+                finished.getAndSet(true);
             }
+        });
 
+        while (!finished.get()) {
+            try {
+                Thread.sleep(100 );
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }

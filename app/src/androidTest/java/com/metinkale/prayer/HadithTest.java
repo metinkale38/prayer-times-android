@@ -29,6 +29,7 @@ import android.util.Log;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.hadis.Main;
+import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 
@@ -81,20 +82,22 @@ public class HadithTest {
                     .write(f)
                     .get();
             try {
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            SqliteHelper.get();
+            if (SqliteHelper.get().getCount() == 0) continue;
             act = mActivityTestRule.launchActivity(null);
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             TestUtils.takeScreenshot("hadith" + lang.toUpperCase(), act);
             act.finish();
             try {
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
