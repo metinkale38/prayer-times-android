@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -39,6 +40,7 @@ public class Cities {
     private static Map<String, Geocoder> mGeocodings = new ConcurrentHashMap<>();
     private static Map<Integer, Entry> mEntries = Collections.synchronizedNavigableMap(new TreeMap<Integer, Entry>());
     private static AtomicInteger mTaskCounter = new AtomicInteger();
+    //only increase poolsize if you want to speedup network requests, but use 1 for final version to keep ids consistent
     private static Executor mWorker = new ThreadPoolExecutor(1, 1,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>()) {
@@ -66,12 +68,12 @@ public class Cities {
         String name;
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedEncodingException {
         Locale.setDefault(Locale.ENGLISH);
         mWorker.execute(() -> {
             System.out.println("Start fetchIGMG()");
             long time = System.currentTimeMillis();
-              fetchIGMG();
+            fetchIGMG();
             System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
@@ -80,9 +82,8 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchFaziletCountries()");
-                  fetchFaziletCountries();
+            fetchFaziletCountries();
             System.out.println("fetchFaziletCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
 
 
         });
@@ -90,9 +91,8 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchDitibCountries()");
-                fetchDitibCountries();
+            fetchDitibCountries();
             System.out.println("fetchDitibCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
 
 
         });
@@ -102,7 +102,6 @@ public class Cities {
             System.out.println("Start fetchSemerkand()");
             fetchSemerkand();
             System.out.println("fetchSemerkand() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
 
 
         });
@@ -119,7 +118,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchNVCCountries()");
-             fetchNVCCountries();
+            fetchNVCCountries();
             System.out.println("fetchNVCCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
         });
 
@@ -127,7 +126,7 @@ public class Cities {
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchMalaysia()");
-               fetchMalaysia();
+            fetchMalaysia();
             System.out.println("fetchMalaysia() - finished in " + (System.currentTimeMillis() - time) + " ms");
         });
 
@@ -166,9 +165,9 @@ public class Cities {
     }
 
 
-    private static void export() {
+    private static void export() throws UnsupportedEncodingException {
         new File("app/src/main/res/raw/cities.tsv").delete();
-        try (PrintWriter out = new PrintWriter("app/src/main/res/raw/cities.tsv")) {
+        try (PrintWriter out = new PrintWriter("app/src/main/res/raw/cities.tsv", "utf-8")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -180,7 +179,7 @@ public class Cities {
                 out.print('\t');
                 if (e.key != null) out.print(e.key);
                 out.print('\t');
-                out.print(e.name);
+                out.print(e.name.trim().replace("  ", " ").replace("( ", "(").replace(" )", ")"));
                 out.println();
             }
         } catch (FileNotFoundException e) {
@@ -213,9 +212,9 @@ public class Cities {
 
         Map<Integer, Entry> habous = new HashMap<>();
 
-        for (data = data.substring(data.indexOf("<option value="));
+        for (data = data.substring(data.indexOf("<option value=") + 1);
              data.contains("option value=");
-             data = data.substring(i(data.indexOf("option")))) {
+             data = data.substring(i(data.indexOf("option ")))) {
             data = data.substring(1);
             String _id = data.substring(data.indexOf("?ville=") + 7);
             _id = _id.substring(0, _id.indexOf("&"));
@@ -242,9 +241,9 @@ public class Cities {
         data = data.substring(0, data.indexOf("</select>"));
 
 
-        for (data = data.substring(data.indexOf("<option value="));
+        for (data = data.substring(data.indexOf("<option value=") + 1);
              data.contains("option value=");
-             data = data.substring(i(data.indexOf("option")))) {
+             data = data.substring(i(data.indexOf("option ")))) {
             data = data.substring(1);
             String _id = data.substring(data.indexOf("?ville=") + 7);
             _id = _id.substring(0, _id.indexOf("&"));
@@ -334,6 +333,8 @@ public class Cities {
 
         String all = ger + wor;
         all = all.replace("Hoogenzand", "Hoogezand");
+        all = all.replace("Groinchem", "Gorinchem");
+
 
         class City {
             private String name;
@@ -395,7 +396,7 @@ public class Cities {
                     parent.name = "Deutschland";
                     break;
                 case "AT":
-                    parent.name = "Österreich";
+                    parent.name = "\u00d6sterreich";
                     break;
                 case "AU":
                     parent.name = "Australien";
@@ -410,13 +411,13 @@ public class Cities {
                     parent.name = "Schweiz";
                     break;
                 case "DK":
-                    parent.name = "Dänemark";
+                    parent.name = "D\u00e4nemark";
                     break;
                 case "FR":
                     parent.name = "Frankreich";
                     break;
                 case "GB":
-                    parent.name = "Vereinigtes Königreich";
+                    parent.name = "Vereinigtes K\u00f6nigreich";
                     break;
                 case "IT":
                     parent.name = "Italien";
@@ -756,7 +757,7 @@ public class Cities {
                 Entry e = new Entry();
                 e.id = Cities.id.incrementAndGet();
                 e.parent = diyanet.id;
-                e.name = name;
+                e.name = name.replace("T&#220;RK\u0130YE", "T\u00dcRK\u0130YE");
                 e.key = null;
                 e.lat = 0;
                 e.lng = 0;
