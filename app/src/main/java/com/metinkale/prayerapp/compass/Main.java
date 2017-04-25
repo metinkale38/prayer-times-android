@@ -118,17 +118,18 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         fragmentTransaction.commit();
 
         String action = getIntent().getAction();
-        switch (action) {
-            case "2d":
-                mSingleMode = Mode.TwoDim;
-                break;
-            case "3d":
-                mSingleMode = Mode.ThreeDim;
-                break;
-            case "map":
-                mSingleMode = Mode.Map;
-                break;
-        }
+        if (action != null)
+            switch (action) {
+                case "2d":
+                    mSingleMode = Mode.TwoDim;
+                    break;
+                case "3d":
+                    mSingleMode = Mode.ThreeDim;
+                    break;
+                case "map":
+                    mSingleMode = Mode.Map;
+                    break;
+            }
         if (mSingleMode != null) {
             updateFrag(mSingleMode);
         }
