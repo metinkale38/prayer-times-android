@@ -282,4 +282,5 @@
   <string name="widget">Widget</string>
   <string name="showLegacyWidgets">Benutze altes Widget</string>
   <string name="showLegacyWidgetsSummary">Verwende diese Einstellung nur, falls du Probleme mit den WIdgets hast</string>
+  <string name="pleaseDeleteAndReadd">Bitte lösche diese Stadt und füge sie erneut hinzu.</string>
 </resources>
