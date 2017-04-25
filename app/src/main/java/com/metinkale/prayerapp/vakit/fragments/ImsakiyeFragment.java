@@ -31,7 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import org.joda.time.LocalDate;

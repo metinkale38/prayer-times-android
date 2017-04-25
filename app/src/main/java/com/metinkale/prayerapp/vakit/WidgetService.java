@@ -17,26 +17,32 @@
 
 package com.metinkale.prayerapp.vakit;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +52,13 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
+import com.metinkale.prayerapp.vakit.widget.WidgetUtils;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -64,21 +69,81 @@ public class WidgetService extends Service {
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
     @NonNull
-    private static List<Long> mOngoing = new ArrayList<>();
-    private static Bitmap mAbIcon;
-    private static Integer COLOR_1ST;
-    private static Integer COLOR_2ND;
+    private List<Long> mOngoing = new ArrayList<>();
+    private Bitmap mAbIcon;
+    private Integer mColor1st = null;
+    private Integer mColor2nd = null;
+    private IntentFilter mScreenOnOffFilter;
+    private IntentFilter mTimeTickFilter;
+    private NotificationManager mNotMan;
 
-    public static void updateOngoing() {
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mScreenOnOffFilter = new IntentFilter();
+        mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
+
+        mTimeTickFilter = new IntentFilter();
+        mTimeTickFilter.addAction(Intent.ACTION_TIME_TICK);
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= 20 && pm.isInteractive()
+                || Build.VERSION.SDK_INT < 20 && pm.isScreenOn()) {
+            registerReceiver(mBroadcastReceiver, mTimeTickFilter);
+        }
+
+        mNotMan = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         extractColors();
-        NotificationManager nm = (NotificationManager) App.get().getSystemService(Context.NOTIFICATION_SERVICE);
+        Log.e("WidgetService", "onCreate");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent,
+                              int flags, int startId) {
+        String action = intent == null ? null : intent.getAction();
+        Log.e("WidgetService", "onStartCommand: " + action);
+        if (action == null) action = Intent.ACTION_TIME_TICK;
+        switch (action) {
+            case Intent.ACTION_SCREEN_OFF: {
+                unregisterReceiver(mBroadcastReceiver);
+                registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
+                break;
+            }
+            case Intent.ACTION_SCREEN_ON: {
+                unregisterReceiver(mBroadcastReceiver);
+                registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
+                registerReceiver(mBroadcastReceiver, mTimeTickFilter);
+            }
+            case Intent.ACTION_USER_PRESENT:
+            case Intent.ACTION_TIME_TICK: {
+                WidgetUtils.updateWidgets(this);
+                updateOngoing();
+                break;
+            }
+        }
+        return START_STICKY;
+    }
+
+    public static void start(Context c) {
+        Intent i = new Intent(c, WidgetService.class);
+        c.startService(i);
+    }
+
+    public void updateOngoing() {
 
         for (int i = mOngoing.size() - 1; i >= 0; i--) {
             long id = mOngoing.get(i);
             Times t = Times.getTimes(id);
 
             if ((t == null) || !t.isOngoingNotificationActive()) {
-                nm.cancel(id + "", NotIds.ONGOING);
+                mNotMan.cancel(id + "", NotIds.ONGOING);
                 mOngoing.remove(i);
             }
         }
@@ -94,13 +159,14 @@ public class WidgetService extends Service {
 
 
         LocalDate cal = LocalDate.now();
-        String[] left_part = App.get().getResources().getStringArray(R.array.lefttext_part);
+        String[] left_part = getResources().getStringArray(R.array.lefttext_part);
         for (long id : mOngoing) {
 
 
             Times t = Times.getTimes(id);
 
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
+
             boolean icon = Prefs.showOngoingIcon();
             boolean number = Prefs.showOngoingNumber();
             Crashlytics.setBool("showIcon", icon);
@@ -108,18 +174,23 @@ public class WidgetService extends Service {
 
             Notification noti;
             if (Prefs.getAlternativeOngoing()) {
-                RemoteViews views = new RemoteViews(App.get().getPackageName(), R.layout.notification_layout);
+                RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
                 int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
-                int[] vakitIds = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+                int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
                 int next = t.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;
                 for (int i = 0; i < dt.length; i++) {
                     if ((next - 1) == i) {
-                        views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTime(dt[i]) + "</em></strong>"));
+                        if (Prefs.use12H()) {
+                            Spannable span = (Spannable) Utils.fixTimeForHTML(dt[i]);
+                            span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            views.setTextViewText(timeIds[i], span);
+                        } else
+                            views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTimeForHTML(dt[i]) + "</em></strong>"));
                     } else {
-                        views.setTextViewText(timeIds[i], Utils.fixTime(dt[i]));
+                        views.setTextViewText(timeIds[i], Utils.fixTimeForHTML(dt[i]));
                     }
                 }
 
@@ -136,38 +207,38 @@ public class WidgetService extends Service {
                 views.setTextViewText(R.id.city, t.getName());
 
 
-                views.setTextColor(R.id.imsak, COLOR_1ST);
-                views.setTextColor(R.id.gunes, COLOR_1ST);
-                views.setTextColor(R.id.ogle, COLOR_1ST);
-                views.setTextColor(R.id.ikindi, COLOR_1ST);
-                views.setTextColor(R.id.aksam, COLOR_1ST);
-                views.setTextColor(R.id.yatsi, COLOR_1ST);
+                views.setTextColor(R.id.fajr, mColor1st);
+                views.setTextColor(R.id.sun, mColor1st);
+                views.setTextColor(R.id.zuhr, mColor1st);
+                views.setTextColor(R.id.asr, mColor1st);
+                views.setTextColor(R.id.maghrib, mColor1st);
+                views.setTextColor(R.id.ishaa, mColor1st);
 
-                views.setTextColor(R.id.time0, COLOR_1ST);
-                views.setTextColor(R.id.time1, COLOR_1ST);
-                views.setTextColor(R.id.time2, COLOR_1ST);
-                views.setTextColor(R.id.time3, COLOR_1ST);
-                views.setTextColor(R.id.time4, COLOR_1ST);
-                views.setTextColor(R.id.time5, COLOR_1ST);
+                views.setTextColor(R.id.time0, mColor1st);
+                views.setTextColor(R.id.time1, mColor1st);
+                views.setTextColor(R.id.time2, mColor1st);
+                views.setTextColor(R.id.time3, mColor1st);
+                views.setTextColor(R.id.time4, mColor1st);
+                views.setTextColor(R.id.time5, mColor1st);
 
 
-                views.setTextColor(R.id.time, COLOR_1ST);
-                views.setTextColor(R.id.city, COLOR_1ST);
+                views.setTextColor(R.id.time, mColor1st);
+                views.setTextColor(R.id.city, mColor1st);
 
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.Builder(App.get())
+                    noti = new Notification.Builder(this)
                             .setContent(views)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(App.get(), R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(App.get(), R.drawable.ic_placeholder))
+                                    Icon.createWithResource(this, R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(this, R.drawable.ic_placeholder))
                             .setOngoing(true)
                             .build();
                 } else {
-                    noti = new NotificationCompat.Builder(App.get())
+                    noti = new NotificationCompat.Builder(this)
                             .setContent(views)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
@@ -176,21 +247,21 @@ public class WidgetService extends Service {
                 }
             } else {
                 int n = t.getNext();
-                String sum = App.get().getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
+                String sum = getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
 
                 if (mAbIcon == null) {
-                    mAbIcon = ((BitmapDrawable) App.get().getResources().getDrawable(R.drawable.ic_abicon)).getBitmap();
+                    mAbIcon = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_abicon)).getBitmap();
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.InboxStyle(new Notification.Builder(App.get())
+                    noti = new Notification.InboxStyle(new Notification.Builder(this)
                             .setContentTitle(t.getName() + " (" + t.getSource() + ")")
                             .setContentText("")
                             .setLargeIcon(mAbIcon)
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(App.get(), R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(App.get(), R.drawable.ic_placeholder))
+                                    Icon.createWithResource(this, R.drawable.ic_abicon)) :
+                                    Icon.createWithResource(this, R.drawable.ic_placeholder))
                             .setContentInfo(sum)
                             .setContentIntent(Main.getPendingIntent(t))
                             .setOngoing(true))
@@ -203,7 +274,7 @@ public class WidgetService extends Service {
                             .setSummaryText("")
                             .build();
                 } else {
-                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(App.get())
+                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(this)
                             .setContentTitle(t.getName() + " (" + t.getSource() + ")")
                             .setContentText("")
                             .setLargeIcon(mAbIcon)
@@ -228,7 +299,7 @@ public class WidgetService extends Service {
             }
             noti.when = icon ? System.currentTimeMillis() : 0;
             try {
-                nm.notify(id + "", NotIds.ONGOING, noti);
+                mNotMan.notify(id + "", NotIds.ONGOING, noti);
             } catch (Exception e) {
                 Crashlytics.logException(e);
             }
@@ -237,9 +308,9 @@ public class WidgetService extends Service {
 
     }
 
-    private static Bitmap getIconFromMinutes(long left) {
+    private Bitmap getIconFromMinutes(long left) {
         String text = left + "";
-        Resources r = App.get().getResources();
+        Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r.getDisplayMetrics());
         Bitmap b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_4444);
         Canvas c = new Canvas(b);
@@ -259,7 +330,7 @@ public class WidgetService extends Service {
     }
 
 
-    private static boolean recurseGroup(@NonNull ViewGroup gp) {
+    private boolean recurseGroup(@NonNull ViewGroup gp) {
         int count = gp.getChildCount();
         for (int i = 0; i < count; ++i) {
             View v = gp.getChildAt(i);
@@ -267,13 +338,13 @@ public class WidgetService extends Service {
                 TextView text = (TextView) v;
                 String szText = text.getText().toString();
                 if (COLOR_SEARCH_1ST.equals(szText)) {
-                    COLOR_1ST = text.getCurrentTextColor();
+                    mColor1st = text.getCurrentTextColor();
                 }
                 if (COLOR_SEARCH_2ND.equals(szText)) {
-                    COLOR_2ND = text.getCurrentTextColor();
+                    mColor2nd = text.getCurrentTextColor();
                 }
 
-                if ((COLOR_1ST != null) && (COLOR_2ND != null)) {
+                if ((mColor1st != null) && (mColor2nd != null)) {
                     return true;
                 }
             } else if (gp.getChildAt(i) instanceof ViewGroup) {
@@ -285,51 +356,38 @@ public class WidgetService extends Service {
         return false;
     }
 
-    private static void extractColors() {
-        if (COLOR_1ST != null) {
+    private void extractColors() {
+        if (mColor1st != null && mColor2nd != null) {
             return;
         }
 
 
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(App.get());
+                    new NotificationCompat.Builder(this);
             mBuilder.setContentTitle(COLOR_SEARCH_1ST)
                     .setContentText(COLOR_SEARCH_2ND);
             Notification ntf = mBuilder.build();
-            LinearLayout group = new LinearLayout(App.get());
-            ViewGroup event = (ViewGroup) ntf.contentView.apply(App.get(), group);
+            LinearLayout group = new LinearLayout(this);
+            ViewGroup event = (ViewGroup) ntf.contentView.apply(this, group);
             recurseGroup(event);
             group.removeAllViews();
         } catch (Exception e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
         }
-        if (COLOR_1ST == null) {
-            COLOR_1ST = Color.BLACK;
+        if (mColor1st == null) {
+            mColor1st = Color.BLACK;
         }
-        if (COLOR_2ND == null) {
-            COLOR_2ND = Color.DKGRAY;
+        if (mColor2nd == null) {
+            mColor2nd = Color.DKGRAY;
         }
     }
 
-    @Override
-    public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
-        WidgetProvider.updateWidgets(this);
-        updateOngoing();
 
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent service = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        App.setExact(am, AlarmManager.RTC, DateTime.now().withMillisOfSecond(0).withSecondOfMinute(0).plusMinutes(1).getMillis(), service);
-
-        stopSelf();
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onStartCommand(intent, 0, 0);
+        }
+    };
 }

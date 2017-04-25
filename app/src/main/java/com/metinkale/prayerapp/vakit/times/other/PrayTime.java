@@ -16,10 +16,6 @@
  */
 
 
-
-
-
-
 package com.metinkale.prayerapp.vakit.times.other;
 
 import android.support.annotation.NonNull;

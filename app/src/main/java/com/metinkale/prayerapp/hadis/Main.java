@@ -116,7 +116,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
             Crashlytics.logException(e);
             finish();
             String lang = Prefs.getLanguage();
-            if (lang.equals("ar")) lang = "en";
+            if (!lang.equals("de") && !lang.equals("tr")) lang = "en";
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
@@ -129,7 +129,6 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
         switch (state) {
             case STATE_ORDER:
-
                 for (int i = 1; i <= Shuffled.getList().size(); i++) {
                     mList.add(i);
                 }

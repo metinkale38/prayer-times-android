@@ -70,13 +70,13 @@ public class NotificationPrefs extends Fragment {
         });
 
 
-        initMain(R.id.imsak, R.id.imsakText, R.id.imsakExpanded, Vakit.IMSAK);
-        initMain(R.id.gunes, R.id.gunesText, R.id.gunesExpanded, Vakit.GUNES);
+        initMain(R.id.fajr, R.id.imsakText, R.id.imsakExpanded, Vakit.IMSAK);
+        initMain(R.id.sun, R.id.gunesText, R.id.gunesExpanded, Vakit.GUNES);
         initMain(R.id.sabah, R.id.sabahText, R.id.sabahExpanded, Vakit.SABAH);
-        initMain(R.id.ogle, R.id.ogleText, R.id.ogleExpanded, Vakit.OGLE);
-        initMain(R.id.ikindi, R.id.ikindiText, R.id.ikindiExpanded, Vakit.IKINDI);
-        initMain(R.id.aksam, R.id.aksamText, R.id.aksamExpanded, Vakit.AKSAM);
-        initMain(R.id.yatsi, R.id.yatsiText, R.id.yatsiExpanded, Vakit.YATSI);
+        initMain(R.id.zuhr, R.id.ogleText, R.id.ogleExpanded, Vakit.OGLE);
+        initMain(R.id.asr, R.id.ikindiText, R.id.ikindiExpanded, Vakit.IKINDI);
+        initMain(R.id.maghrib, R.id.aksamText, R.id.aksamExpanded, Vakit.AKSAM);
+        initMain(R.id.ishaa, R.id.yatsiText, R.id.yatsiExpanded, Vakit.YATSI);
 
         initEarly(R.id.eimsak, R.id.eimsakText, R.id.eimsakExpanded, Vakit.IMSAK);
         initEarly(R.id.egunes, R.id.egunesText, R.id.egunesExpanded, Vakit.GUNES);

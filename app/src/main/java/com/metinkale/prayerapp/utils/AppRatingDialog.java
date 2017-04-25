@@ -63,22 +63,22 @@ public class AppRatingDialog {
 
 
     public static long getInstallationTime() {
-        return getPrefs().getLong("installation", 0);
+        return getPrefs().getLong("installationTime", 0);
     }
 
     public static void setInstalltionTime(long mills) {
         if (mills == 0) mills = System.currentTimeMillis();
-        getPrefs().edit().putLong("installation", mills).apply();
+        getPrefs().edit().putLong("installationTime", mills).apply();
     }
 
-    private static long getAppStarts() {
-        return getPrefs().getInt("appStarts", 0);
+    private static int getAppStarts() {
+        return getPrefs().getInt("appStartsCount", 0);
     }
 
-    public static void increateAppStarts() {
+    public static void increaseAppStarts() {
         if (APP_STARTED) return;
         APP_STARTED = true;
-        getPrefs().edit().putLong("installation", getAppStarts() + 1).apply();
+        getPrefs().edit().putInt("appStartsCount", getAppStarts() + 1).apply();
     }
 
     private static Set<String> getOpenedMenus() {
@@ -87,7 +87,7 @@ public class AppRatingDialog {
 
 
     public static void addToOpenedMenus(String menu) {
-        ArraySet<String> set = new ArraySet<String>();
+        ArraySet<String> set = new ArraySet<>();
         set.addAll(getPrefs().getStringSet("openedMenus", new ArraySet<String>()));
         if (set.contains(menu)) return;
         set.add(menu);
@@ -108,7 +108,7 @@ public class AppRatingDialog {
         days -= getOpenedMenus().size();
 
         List<Times> times = Times.getTimes();
-        if (times == null || times.isEmpty()) return false;
+        if (times.isEmpty()) return false;
         for (Times t : times) {
             if (t.getTime(3).equals("00:00")) return false;
         }

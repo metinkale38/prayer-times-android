@@ -15,13 +15,11 @@
   ~
   -->
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#333333"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -38,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:ems="10"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
 
 
         <LinearLayout
@@ -52,19 +50,19 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fixTimezone"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
 
             <net.steamcrafted.materialiconlib.MaterialIconView
@@ -74,7 +72,7 @@
                 app:materialIconColor="#fff"
                 app:materialIconSize="40dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/timezonefix"
@@ -84,7 +82,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:inputType="number"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" />
 
             <net.steamcrafted.materialiconlib.MaterialIconView
                 android:contentDescription="@null"
@@ -93,13 +91,13 @@
                 app:materialIcon="plus_circle"
                 android:id="@+id/plus"
                 app:materialIconColor="#fff"
-                app:materialIconSize="40dp"/>
+                app:materialIconSize="40dp" />
 
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <RelativeLayout
@@ -112,11 +110,11 @@
                 android:id="@id/center"
                 android:layout_width="20dp"
                 android:layout_height="0dp"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true" />
 
 
             <RelativeLayout
-                android:id="@id/imsak"
+                android:id="@id/fajr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -132,7 +130,7 @@
                     android:layout_alignParentRight="true"
                     app:materialIcon="plus_circle"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -144,7 +142,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -153,7 +151,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/fajr"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -164,11 +162,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@id/gunes"
+                android:id="@id/sun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/center"
@@ -184,7 +182,7 @@
                     android:layout_alignParentRight="true"
                     app:materialIcon="plus_circle"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -196,7 +194,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -205,7 +203,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/sun"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -216,16 +214,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@id/ogle"
+                android:id="@id/zuhr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_alignRight="@id/imsak"
-                android:layout_below="@id/imsak">
+                android:layout_alignRight="@id/fajr"
+                android:layout_below="@id/fajr">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -236,7 +234,7 @@
                     android:layout_alignParentRight="true"
                     app:materialIcon="plus_circle"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -248,7 +246,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -257,7 +255,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/zuhr"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -268,14 +266,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@id/ikindi"
+                android:id="@id/asr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imsak"
+                android:layout_below="@id/fajr"
                 android:layout_toRightOf="@id/center">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
@@ -287,7 +285,7 @@
                     android:layout_alignParentRight="true"
                     app:materialIcon="plus_circle"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -299,7 +297,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -308,7 +306,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/asr"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -319,15 +317,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@id/aksam"
+                android:id="@id/maghrib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/ogle"
+                android:layout_below="@id/zuhr"
                 android:layout_toLeftOf="@id/center">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
@@ -339,7 +337,7 @@
                     android:layout_alignParentRight="true"
                     app:materialIcon="plus_circle"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -351,7 +349,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -360,7 +358,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/maghrib"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -371,15 +369,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@id/yatsi"
+                android:id="@id/ishaa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/aksam"
-                android:layout_alignBottom="@id/aksam"
+                android:layout_alignBaseline="@id/maghrib"
+                android:layout_alignBottom="@id/maghrib"
                 android:layout_toRightOf="@id/center">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
@@ -392,7 +390,7 @@
                     app:materialIcon="plus_circle"
                     android:id="@id/plus"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="40dp"/>
+                    app:materialIconSize="40dp" />
 
                 <EditText
                     android:id="@id/nr"
@@ -405,7 +403,7 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@id/text"
@@ -414,7 +412,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/ishaa"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:contentDescription="@null"
@@ -425,7 +423,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/text"/>
+                    android:layout_below="@id/text" />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

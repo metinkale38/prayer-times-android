@@ -34,7 +34,7 @@ import android.widget.ListView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
@@ -79,7 +79,7 @@ public class Main extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, @NonNull View v, int pos, long arg3) {
             String asset = Utils.getAssetForHolyday((Integer) v.getTag());
-            if ((asset != null) && !"en".equals(Prefs.getLanguage()) && !"ar".equals(Prefs.getLanguage())) {
+            if ((asset != null) && ("tr".equals(Prefs.getLanguage()) || "tr".equals(Prefs.getLanguage()))) {
 
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);

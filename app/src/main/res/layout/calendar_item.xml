@@ -16,9 +16,9 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -35,7 +35,7 @@
             android:layout_marginBottom="10dip"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/next"/>
+            android:layout_alignRight="@+id/next" />
 
         <TextView
             android:id="@+id/date"
@@ -44,7 +44,7 @@
             android:layout_alignStart="@+id/name"
             android:layout_below="@+id/name"
             android:textColor="#707070"
-            android:layout_alignLeft="@+id/name"/>
+            android:layout_alignLeft="@+id/name" />
 
         <TextView
             android:id="@+id/hicri"
@@ -54,14 +54,14 @@
             android:layout_alignBottom="@+id/date"
             android:layout_toStartOf="@+id/next"
             android:textColor="#707070"
-            android:layout_toLeftOf="@+id/next"/>
+            android:layout_toLeftOf="@+id/next" />
 
         <View
             android:id="@+id/end"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/next"
@@ -73,7 +73,7 @@
             app:materialIconColor="#aaaaaa"
             app:materialIconSize="24dp"
             app:materialIcon="chevron_right"
-            android:layout_toLeftOf="@id/end"/>
+            android:layout_toLeftOf="@id/end" />
     </RelativeLayout>
 
 </FrameLayout>

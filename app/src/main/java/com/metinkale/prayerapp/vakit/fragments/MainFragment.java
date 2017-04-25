@@ -50,9 +50,9 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
@@ -70,8 +70,8 @@ import java.io.IOException;
 @SuppressLint("ClickableViewAccessibility")
 public class MainFragment extends Fragment implements Times.OnTimesUpdatedListener {
 
-    private static final int[] ids = {R.id.imsaktime, R.id.gunestime, R.id.ogletime, R.id.ikinditime, R.id.aksamtime, R.id.yatsitime};
-    private static final int[] idsNames = {R.id.imsak, R.id.gunes, R.id.ogle, R.id.ikindi, R.id.aksam, R.id.yatsi};
+    private static final int[] ids = {R.id.fajrTime, R.id.sunTime, R.id.zuhrTime, R.id.asrTime, R.id.maghribTime, R.id.ishaaTime};
+    private static final int[] idsNames = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
     @NonNull
     private static Handler mHandler = new Handler();
     private View mView;
@@ -90,7 +90,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         public void run() {
 
             if ((mTimes != null) && !mTimes.deleted()) {
-                checkKerahat();
+                checkKerahatAndIssues();
 
                 int next = mTimes.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;
@@ -259,7 +259,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                         else
                                             dlg1.getDatePicker().setMaxDate(finalMaxDate);
 
-                                        dlg1.getDatePicker().setMinDate(Math.min(start, dlg1.getDatePicker().getMaxDate() - 1));
+                                        dlg1.getDatePicker().setMinDate(Math.min(start, dlg1.getDatePicker().getMaxDate()) - 1);
                                         dlg1.setTitle(R.string.to);
                                         dlg1.show();
 
@@ -324,7 +324,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 PdfDocument document = new PdfDocument();
 
-                PdfDocument.PageInfo pageInfo = null;
+                PdfDocument.PageInfo pageInfo;
                 int pw = 595;
                 int ph = 842;
                 pageInfo = new PdfDocument.PageInfo.Builder(pw, ph, 1).create();
@@ -439,10 +439,16 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         if (mTimes != null) mTimes.removeOnTimesUpdatedListener(this);
     }
 
-    void checkKerahat() {
+    void checkKerahatAndIssues() {
         if (mTimes == null) return;
-        boolean k = mTimes.isKerahat();
+        String issue = mTimes.getIssue();
+        boolean k = mTimes.isKerahat() || issue != null;
         mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
+        if (issue != null) {
+            mKerahat.setText(issue);
+        } else {
+            mKerahat.setText(R.string.kerahatTime);
+        }
     }
 
     @Override

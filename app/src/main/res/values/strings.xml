@@ -68,8 +68,6 @@
     <string name="djuma">Friday Prayer</string>
     <string name="dlHadith">Download Hadith Database?</string>
     <string name="dlSound">Download “%1$s” (%2$s)?</string>
-    <string name="donateDlg">This is just a support for the Developer :)\nAlhamdulillah, i do not need this money, but if you feel like to support me, thank you&#8230;</string>
-    <string name="donate">Donate</string>
     <string name="earlyNotification">early Notification</string>
     <string name="earlyText">%2$s minutes to %1$s</string>
     <string name="error">An error occurred</string>
@@ -207,7 +205,7 @@
     <string name="widgetCountdownType">Widget - Countdown Minutes</string>
     <string name="widgetDesign">Theme</string>
     <string name="widgetLong">Prayer Times - 4*1 Widget</string>
-    <string name="widget">Prayer Times - 2*2 Widget</string>
+    <string name="widgetLabel">Prayer Times - 2*2 Widget</string>
     <string name="widgetSilenter">Prayer Times - Silenter Widget</string>
     <string name="widgetSmall">Prayer Times - 1*1 Widget</string>
     <string name="witr">Witr</string>
@@ -234,7 +232,6 @@
     <string name="show_notification_screen">Show Notification Screen</string>
     <string name="autoremove_notification">Remove Notification after Adhan</string>
     <string name="about">About</string>
-    <string name="support_development">Support Development</string>
     <string name="report_bug">Report bug</string>
     <string name="report_bug_sum">Report bug or request new features.</string>
     <string name="translate">Translate</string>
@@ -245,7 +242,6 @@
     <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
     <string name="library_licenses">Library Licenses</string>
     <string name="library_licenses_sum">Check third-party libs used in Prayer times</string>
-    <string name="donate_sum">Consider donating us something to support development.</string>
     <string name="rate">Rate</string>
     <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
     <string name="sendMail_sum">Send me an E-Mail!</string>
@@ -270,4 +266,9 @@
     <string name="notnow">Not Now</string>
     <string name="totheplaystore">Take me to the Play Store</string>
     <string name="widget_current_vakit">Widget - Alternative Current Time indicator</string>
+    <string name="support_development">Support Development</string>
+    <string name="widget">Widget</string>
+    <string name="showLegacyWidgets">Show legacy Widgets</string>
+    <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
+    <string name="pleaseDeleteAndReadd">Please delete this City and re-add it.</string>
 </resources>

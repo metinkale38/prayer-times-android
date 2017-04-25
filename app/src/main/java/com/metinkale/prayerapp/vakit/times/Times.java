@@ -24,8 +24,8 @@ import android.support.annotation.Nullable;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
@@ -69,10 +69,12 @@ public abstract class Times extends TimesBase {
             .appendMinutes()
             .toFormatter();
 
+    private String issue = null;
+
     @NonNull
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
-    @Nullable
-    private static List<Times> sTimes = new ArrayList<Times>() {
+    @NonNull
+    private final static List<Times> sTimes = new ArrayList<Times>() {
         @Override
         public boolean add(@Nullable Times object) {
             if (object == null) {
@@ -118,7 +120,6 @@ public abstract class Times extends TimesBase {
     }
 
     private static void notifyDataSetChanged() {
-        if (sListeners == null) return;
         for (OnTimesListChangeListener list : sListeners) {
             try {
                 list.notifyDataSetChanged();
@@ -129,13 +130,11 @@ public abstract class Times extends TimesBase {
     }
 
     public static void addOnTimesListChangeListener(@NonNull OnTimesListChangeListener list) {
-        if (sListeners == null) sListeners = new ArrayList<>();
         sListeners.add(list);
         list.notifyDataSetChanged();
     }
 
     public static void removeOnTimesListChangeListener(OnTimesListChangeListener list) {
-        if (sListeners == null) return;
         sListeners.remove(list);
     }
 
@@ -155,7 +154,7 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    @Nullable
+    @NonNull
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
             SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
@@ -370,6 +369,7 @@ public abstract class Times extends TimesBase {
         return timeCal;
     }
 
+    @NonNull
     public String getTime(@Nullable LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
@@ -430,6 +430,11 @@ public abstract class Times extends TimesBase {
 
     public String getLeft(int next) {
         return getLeft(next, true);
+    }
+
+    public long getMills(int next) {
+        DateTime date = getTimeCal(null, next).toDateTime();
+        return date.getMillis();
     }
 
     public String getLeft(int next, boolean showsecs) {
@@ -496,6 +501,14 @@ public abstract class Times extends TimesBase {
     @Override
     public String toString() {
         return "times_id_" + getID();
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
     }
 
 

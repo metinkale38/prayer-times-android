@@ -61,7 +61,7 @@ class IGMGTimes extends WebTimes {
         int m = ldate.getMonthOfYear();
 
         final List<Builders.Any.B> queue = new ArrayList<>();
-        for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
+        for (int M = m; (M <= (m + 2)) && (rY == Y); M++) {
             if (M == 13) {
                 M = 1;
                 Y++;

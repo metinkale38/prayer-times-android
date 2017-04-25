@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,102 +16,102 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.metinkale.prayerapp.compass._2D.CompassView
-            android:id="@+id/compass"
-            android:translationZ="2dp"
-            android:layout_width="fill_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/infobox"
-            android:layout_margin="15dip"/>
+        android:id="@+id/compass"
+        android:translationZ="2dp"
+        android:layout_width="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/infobox"
+        android:layout_margin="15dip" />
 
 
     <RelativeLayout
-            android:id="@+id/infobox"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
+        android:id="@+id/infobox"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#ffffff">
+
+        <View
+            android:id="@+id/center"
+            android:layout_width="0dip"
             android:layout_alignParentBottom="true"
+            android:layout_height="0dip"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:background="#ffffff">
+            android:layout_above="@+id/hline"
+            android:layout_marginTop="10dip"
+            android:layout_toLeftOf="@+id/center"
+            android:gravity="center"
+            android:text="@string/angle"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#707070"
+            android:textStyle="bold" />
 
-        <View
-                android:id="@+id/center"
-                android:layout_width="0dip"
-                android:layout_alignParentBottom="true"
-                android:layout_height="0dip"
-                android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/angle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="0°"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dip"
+            android:layout_toLeftOf="@id/center"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#707070" />
 
         <TextView
             android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_above="@+id/hline"
-                android:layout_marginTop="10dip"
-                android:layout_toLeftOf="@+id/center"
-                android:gravity="center"
-                android:text="@string/angle"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#707070"
-                android:textStyle="bold"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/hline"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@id/center"
+            android:gravity="center"
+            android:text="@string/distance"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#707070"
+            android:textStyle="bold" />
 
         <TextView
-                android:id="@+id/angle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="0°"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="15dip"
-                android:layout_toLeftOf="@id/center"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#707070"/>
-
-        <TextView
+            android:id="@+id/distance"
             android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_above="@+id/hline"
-                android:layout_marginTop="10dip"
-                android:layout_toRightOf="@id/center"
-                android:gravity="center"
-                android:text="@string/distance"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#707070"
-                android:textStyle="bold"/>
-
-        <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="15dip"
-                android:layout_toRightOf="@id/center"
-                android:text="0 km"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#707070"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dip"
+            android:layout_toRightOf="@id/center"
+            android:text="0 km"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#707070" />
 
 
         <View
 
-                android:id="@+id/hline"
-                android:layout_width="fill_parent"
-                android:layout_height="3dip"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="5dip"
-                android:layout_marginEnd="5dip"
-                android:layout_marginTop="5dip"
-                android:background="#33b5e5"
-                android:layout_above="@+id/angle"/>
+            android:id="@+id/hline"
+            android:layout_width="fill_parent"
+            android:layout_height="3dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="5dip"
+            android:layout_marginEnd="5dip"
+            android:layout_marginTop="5dip"
+            android:background="#33b5e5"
+            android:layout_above="@+id/angle" />
 
     </RelativeLayout>
 

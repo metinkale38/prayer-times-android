@@ -49,12 +49,14 @@
     <string-array name="widget_countdown">
         <item>01:23:45 => 01:23</item>
         <item>01:23:45 => 01:24</item>
+        <item>01:23:45 => 01:23:45</item>
     </string-array>
 
 
     <string-array name="widget_countdown_">
         <item>default</item>
         <item>alt</item>
+        <item>secs</item>
     </string-array>
 
 
@@ -74,6 +76,7 @@
         <item>Türkçe</item>
         <item>Deutsch</item>
         <item>English</item>
+        <item>Nederlands</item>
         <item>Français</item>
         <item>Kurdish</item>
         <item>عربي</item>
@@ -85,6 +88,7 @@
         <item>tr</item>
         <item>de</item>
         <item>en</item>
+        <item>nl</item>
         <item>fr</item>
         <item>ku</item>
         <item>ar</item>
@@ -117,24 +121,7 @@
         <item>silent</item>
         <item>vibrate</item>
     </string-array>
-    <string-array name="week_days">
-        <item>@string/daySu</item>
-        <item>@string/dayMo</item>
-        <item>@string/dayTu</item>
-        <item>@string/dayWe</item>
-        <item>@string/dayTh</item>
-        <item>@string/dayFr</item>
-        <item>@string/daySa</item>
-    </string-array>
-    <string-array name="week_days_short">
-        <item>@string/dayShortSu</item>
-        <item>@string/dayShortMo</item>
-        <item>@string/dayShortTu</item>
-        <item>@string/dayShortWe</item>
-        <item>@string/dayShortTh</item>
-        <item>@string/dayShortFr</item>
-        <item>@string/dayShortSa</item>
-    </string-array>
+
     <string-array name="months">
         <item>@string/gmonth1</item>
         <item>@string/gmonth2</item>

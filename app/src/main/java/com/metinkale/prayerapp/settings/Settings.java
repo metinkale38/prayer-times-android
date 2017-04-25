@@ -31,7 +31,7 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.BaseActivity;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 
 
 public class Settings extends BaseActivity {
@@ -66,6 +66,10 @@ public class Settings extends BaseActivity {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 findPreference("ongoingNumber").setEnabled(false);
             }
+
+            if (Build.VERSION.SDK_INT < 24)
+                findPreference("showLegacyWidgets").setEnabled(false);
+
             findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
 
         }

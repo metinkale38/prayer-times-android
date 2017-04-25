@@ -33,10 +33,10 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.Utils;
 import com.metinkale.prayerapp.compass.LowPassFilter;
 import com.metinkale.prayerapp.compass.Main;
 import com.metinkale.prayerapp.compass.Main.MyCompassListener;
+import com.metinkale.prayerapp.utils.Utils;
 
 public class Frag2D extends Fragment implements MyCompassListener {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
@@ -52,6 +52,10 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
+        if(mHidden){
+            mCompassView.setScaleX(0);
+            mCompassView.setScaleY(0);
+        }
 
         mAngle = (TextView) v.findViewById(R.id.angle);
         mDist = (TextView) v.findViewById(R.id.distance);
@@ -120,22 +124,23 @@ public class Frag2D extends Fragment implements MyCompassListener {
 
     public void hide() {
         mHidden = true;
-        mCompassView.post(new Runnable() {
-            @Override
-            public void run() {
-                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
-                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
+        if (mCompassView != null)
+            mCompassView.post(new Runnable() {
+                @Override
+                public void run() {
+                    ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
+                    ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
 
-                ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
-                ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
+                    ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
+                    ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
 
-                AnimatorSet animSetXY = new AnimatorSet();
-                animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
-                animSetXY.setInterpolator(accelerateInterpolator);
-                animSetXY.setDuration(300);
-                animSetXY.start();
-            }
-        });
+                    AnimatorSet animSetXY = new AnimatorSet();
+                    animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2);
+                    animSetXY.setInterpolator(accelerateInterpolator);
+                    animSetXY.setDuration(300);
+                    animSetXY.start();
+                }
+            });
 
     }
 

@@ -29,7 +29,9 @@ import com.metinkale.prayerapp.vakit.times.Times;
 
 public class WidgetConfigure extends Activity {
 
+    public static final String ONLYCITY = "onlyCity";
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private boolean mOnlyCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class WidgetConfigure extends Activity {
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
+        mOnlyCity = extras.getBoolean("onlyCity", false);
 
         cityDialog();
 
@@ -68,7 +71,8 @@ public class WidgetConfigure extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
-                themeDialog();
+                if (mOnlyCity) result();
+                else themeDialog();
             }
         });
         builder.show();
@@ -89,7 +93,7 @@ public class WidgetConfigure extends Activity {
     }
 
     void result() {
-        WidgetProvider.updateWidgets(this);
+        WidgetService.start(this);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

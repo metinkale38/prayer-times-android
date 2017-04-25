@@ -200,21 +200,16 @@ class TimesBase {
 
         prefs.edit().remove("id" + ID).apply();
 
+        //noinspection SuspiciousMethodCalls
         getTimes().remove(this);
     }
 
-    private void apply() {
-        App.get().getHandler().removeCallbacks(mApplyPrefs);
-        App.get().getHandler().post(mApplyPrefs);
-    }
-
-    protected void save() {
+    void save() {
         if (deleted) {
             return;
         }
-        apply();
-
-
+        App.get().getHandler().removeCallbacks(mApplyPrefs);
+        App.get().getHandler().post(mApplyPrefs);
     }
 
 
@@ -626,7 +621,7 @@ class TimesBase {
     public synchronized void setOngoingNotificationActive(boolean value) {
         ongoing = value;
         save();
-        WidgetService.updateOngoing();
+        WidgetService.start(App.get());
     }
 
     public synchronized void setCumaVibration(boolean value) {

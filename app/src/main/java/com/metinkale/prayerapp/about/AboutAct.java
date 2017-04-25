@@ -20,7 +20,6 @@ package com.metinkale.prayerapp.about;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -63,43 +62,6 @@ public class AboutAct extends BaseActivity {
         }
     }
 
-
-    public void donate(View view) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.donateDlg);
-        builder.setCancelable(true);
-        builder.setPositiveButton(R.string.paypal, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dlg, int i) {
-                        dlg.cancel();
-                        String url = "http://www.paypal.me/metinkale38";
-                        openUrl(url);
-                    }
-                }
-        );
-        builder.setNegativeButton(R.string.bitcoin, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dlg, int i) {
-                dlg.cancel();
-                String url = "http://metinkale38.github.io/namaz-vakti-android/bitcoin.html";
-                openUrl(url);
-            }
-        });
-        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dlg, int i) {
-                dlg.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "donate")
-        );
-    }
 
     private void openUrl(String url) {
         try {

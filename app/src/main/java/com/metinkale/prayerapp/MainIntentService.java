@@ -32,6 +32,7 @@ import android.text.format.Time;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;

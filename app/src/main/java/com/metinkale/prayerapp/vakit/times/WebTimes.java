@@ -21,6 +21,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.util.ArraySet;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -34,25 +35,20 @@ import com.koushikdutta.ion.Response;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.utils.FastParser;
 
 import org.joda.time.LocalDate;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
 public class WebTimes extends Times {
 
     @NonNull
-    private Runnable mNotify = new Runnable() {
-        @Override
-        public void run() {
-            notifyOnUpdated();
-            App.get().getHandler().removeCallbacks(this);
-        }
-    };
-    @NonNull
-    protected Map<String, String> times = new ArrayMap<>();
+    protected ArrayMap<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
     private long lastSync;
@@ -159,8 +155,6 @@ public class WebTimes extends Times {
         if (deleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
-
-        App.get().getHandler().post(mNotify);
     }
 
     void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
@@ -168,6 +162,7 @@ public class WebTimes extends Times {
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
         }
+
     }
 
     public synchronized String getId() {
@@ -180,6 +175,7 @@ public class WebTimes extends Times {
     }
 
     public void syncAsync() {
+        cleanTimes();
         if (!App.isOnline()) {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
@@ -189,7 +185,7 @@ public class WebTimes extends Times {
         for (Builders.Any.F builder : builders) {
             builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
                 @Override
-                public void onCompleted(Exception e, Response<String> result) {
+                public void onCompleted(Exception e, final Response<String> result) {
                     if (e != null) {
                         //Crashlytics.setString("WebTimesSource", getSource().toString());
                         //Crashlytics.setString("WebTimesName", getName());
@@ -197,7 +193,6 @@ public class WebTimes extends Times {
                         //Crashlytics.logException(e);
                         return;
                     }
-
                     try {
                         parseResult(result.getResult());
                     } catch (Exception ee) {
@@ -206,6 +201,8 @@ public class WebTimes extends Times {
                         Crashlytics.setString("WebTimesId", getId());
                         Crashlytics.logException(ee);
                     }
+
+                    notifyOnUpdated();
                 }
             });
         }
@@ -341,26 +338,10 @@ public class WebTimes extends Times {
         @Override
         protected Result onRunJob(Params params) {
             if (!App.isOnline()) return Result.RESCHEDULE;
-            boolean success = false;
-            Builders.Any.F[] builders = createIonBuilder();
-            for (Builders.Any.F builder : builders) {
-                String str = null;
-                try {
-                    str = builder.asString().get();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    if (parseResult(str)) success = true;
-                } catch (Exception e) {
-                    Crashlytics.setString("WebTimesSource", getSource().toString());
-                    Crashlytics.setString("WebTimesName", getName());
-                    Crashlytics.setString("WebTimesId", getId());
-                    Crashlytics.logException(e);
-                }
-            }
-            return success ? Result.SUCCESS : Result.RESCHEDULE;
+            syncAsync();
+            return Result.SUCCESS;
         }
+
 
         @Override
         protected void onReschedule(int newJobId) {
@@ -368,6 +349,30 @@ public class WebTimes extends Times {
         }
 
 
+    }
+
+    private void cleanTimes() {
+        Set<String> keys = new ArraySet<>();
+        keys.addAll(times.keySet());
+        LocalDate date = LocalDate.now();
+        int y = date.getYear();
+        int m = date.getMonthOfYear();
+        List<String> remove = new ArrayList<>();
+        for (String key : keys) {
+            if (key == null) continue;
+            int year = FastParser.parseInt(key.substring(0, 4));
+            if (year < y) keys.remove(key);
+            else if (year == y) {
+                int month = FastParser.parseInt(key.substring(5, 7));
+                if (month < m) remove.add(key);
+            }
+        }
+        times.removeAll(remove);
+
+    }
+
+    protected void clearTimes() {
+        times.clear();
     }
 
 

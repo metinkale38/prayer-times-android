@@ -2,6 +2,7 @@ package com.metinkale.prayerapp.compass.classes;
 
 import android.support.annotation.NonNull;
 import android.view.Surface;
+
 import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.math.Util;
 import com.metinkale.prayerapp.compass.classes.math.Vector3;

@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -39,12 +40,13 @@ public class Cities {
     private static Map<String, Geocoder> mGeocodings = new ConcurrentHashMap<>();
     private static Map<Integer, Entry> mEntries = Collections.synchronizedNavigableMap(new TreeMap<Integer, Entry>());
     private static AtomicInteger mTaskCounter = new AtomicInteger();
+    //only increase poolsize if you want to speedup network requests, but use 1 for final version to keep ids consistent
     private static Executor mWorker = new ThreadPoolExecutor(1, 1,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>()) {
         @Override
         public void execute(Runnable command) {
-            if (getPoolSize() == 1) {
+            if (getMaximumPoolSize() == 1) {
                 command.run();
                 return;
             }
@@ -66,22 +68,17 @@ public class Cities {
         String name;
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedEncodingException {
         Locale.setDefault(Locale.ENGLISH);
-        AtomicInteger counter = new AtomicInteger();
-
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             System.out.println("Start fetchIGMG()");
             long time = System.currentTimeMillis();
             fetchIGMG();
             System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
-            counter.decrementAndGet();
 
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchFaziletCountries()");
@@ -89,11 +86,8 @@ public class Cities {
             System.out.println("fetchFaziletCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
-
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchDitibCountries()");
@@ -101,11 +95,8 @@ public class Cities {
             System.out.println("fetchDitibCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
-
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchSemerkand()");
@@ -113,11 +104,8 @@ public class Cities {
             System.out.println("fetchSemerkand() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
-
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchHabous()");
@@ -125,32 +113,27 @@ public class Cities {
             System.out.println("fetchHabous() - finished in " + (System.currentTimeMillis() - time) + " ms");
 
 
-            counter.decrementAndGet();
         });
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchNVCCountries()");
             fetchNVCCountries();
             System.out.println("fetchNVCCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-            counter.decrementAndGet();
         });
 
 
-        counter.incrementAndGet();
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
             System.out.println("Start fetchMalaysia()");
             fetchMalaysia();
             System.out.println("fetchMalaysia() - finished in " + (System.currentTimeMillis() - time) + " ms");
-            counter.decrementAndGet();
         });
 
 
         byte[] encoded;
         try {
-            encoded = Files.readAllBytes(Paths.get("geocodings.geo"));
+            encoded = Files.readAllBytes(Paths.get("citiesfetcher/geocodings.geo"));
             mGeocodings = new Gson().fromJson(new String(encoded, "UTF-8"), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
             }.getType());
         } catch (IOException e) {
@@ -159,7 +142,7 @@ public class Cities {
         }
 
 
-        while (counter.get() > 0) {
+        while (mTaskCounter.get() > 0) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -182,9 +165,9 @@ public class Cities {
     }
 
 
-    private static void export() {
-        new File("../app/src/main/res/raw/cities.tsv").delete();
-        try (PrintWriter out = new PrintWriter("../app/src/main/res/raw/cities.tsv")) {
+    private static void export() throws UnsupportedEncodingException {
+        new File("app/src/main/res/raw/cities.tsv").delete();
+        try (PrintWriter out = new PrintWriter("app/src/main/res/raw/cities.tsv", "utf-8")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -196,7 +179,7 @@ public class Cities {
                 out.print('\t');
                 if (e.key != null) out.print(e.key);
                 out.print('\t');
-                out.print(e.name);
+                out.print(e.name.trim().replace("  ", " ").replace("( ", "(").replace(" )", ")"));
                 out.println();
             }
         } catch (FileNotFoundException e) {
@@ -229,9 +212,9 @@ public class Cities {
 
         Map<Integer, Entry> habous = new HashMap<>();
 
-        for (data = data.substring(data.indexOf("<option value="));
+        for (data = data.substring(data.indexOf("<option value=") + 1);
              data.contains("option value=");
-             data = data.substring(i(data.indexOf("option")))) {
+             data = data.substring(i(data.indexOf("option ")))) {
             data = data.substring(1);
             String _id = data.substring(data.indexOf("?ville=") + 7);
             _id = _id.substring(0, _id.indexOf("&"));
@@ -258,9 +241,9 @@ public class Cities {
         data = data.substring(0, data.indexOf("</select>"));
 
 
-        for (data = data.substring(data.indexOf("<option value="));
+        for (data = data.substring(data.indexOf("<option value=") + 1);
              data.contains("option value=");
-             data = data.substring(i(data.indexOf("option")))) {
+             data = data.substring(i(data.indexOf("option ")))) {
             data = data.substring(1);
             String _id = data.substring(data.indexOf("?ville=") + 7);
             _id = _id.substring(0, _id.indexOf("&"));
@@ -350,6 +333,8 @@ public class Cities {
 
         String all = ger + wor;
         all = all.replace("Hoogenzand", "Hoogezand");
+        all = all.replace("Groinchem", "Gorinchem");
+
 
         class City {
             private String name;
@@ -411,7 +396,7 @@ public class Cities {
                     parent.name = "Deutschland";
                     break;
                 case "AT":
-                    parent.name = "Österreich";
+                    parent.name = "\u00d6sterreich";
                     break;
                 case "AU":
                     parent.name = "Australien";
@@ -426,13 +411,13 @@ public class Cities {
                     parent.name = "Schweiz";
                     break;
                 case "DK":
-                    parent.name = "Dänemark";
+                    parent.name = "D\u00e4nemark";
                     break;
                 case "FR":
                     parent.name = "Frankreich";
                     break;
                 case "GB":
-                    parent.name = "Vereinigtes Königreich";
+                    parent.name = "Vereinigtes K\u00f6nigreich";
                     break;
                 case "IT":
                     parent.name = "Italien";
@@ -563,9 +548,11 @@ public class Cities {
 
     private static void fetchSemerkand() {
         try {
-            String Url = "http://77.79.123.10/semerkandtakvimi/query/locations";
+            String Url = "http://semerkandtakvimi.semerkandmobile.com/locations";
             String data = get(Url);
-            Semerkand semerkand = new Gson().fromJson(data, Semerkand.class);
+            List<Semerkand> semerkand = new Gson().fromJson(data,
+                    new TypeToken<List<Semerkand>>() {
+                    }.getType());
 
 
             Entry sem = new Entry();
@@ -578,7 +565,7 @@ public class Cities {
             mEntries.put(sem.id, sem);
 
 
-            for (Semerkand country : semerkand.Countries) {
+            for (Semerkand country : semerkand) {
                 Entry parent = new Entry();
                 parent.id = Cities.id.incrementAndGet();
                 parent.parent = sem.id;
@@ -590,21 +577,21 @@ public class Cities {
 
 
                 for (Semerkand city : country.Cities) {
-                    if (city.Counties.length != 0) {
+                    if (city.Districts.length != 0) {
                         Entry parent2 = new Entry();
                         parent2.id = Cities.id.incrementAndGet();
                         parent2.parent = parent.id;
-                        parent2.name = city.DisplayName;
+                        parent2.name = city.Name;
                         parent2.key = null;
                         parent2.lat = 0;
                         parent2.lng = 0;
                         mEntries.put(parent2.id, parent2);
-                        for (Semerkand county : city.Counties) {
+                        for (Semerkand county : city.Districts) {
                             Entry e = new Entry();
                             e.id = Cities.id.incrementAndGet();
                             e.parent = parent2.id;
-                            e.name = county.DisplayName.equals("Merkez") ? (county.Name + " " + county.DisplayName) : county.Name;
-                            e.key = "S_" + country.CountryID + "_" + city.CityID + "_" + county.CountyID;
+                            e.name = county.Name;
+                            e.key = "S_" + 'd' + county.Id;
                             e.lat = 0;
                             e.lng = 0;
                             mEntries.put(e.id, e);
@@ -614,7 +601,7 @@ public class Cities {
                         e.id = Cities.id.incrementAndGet();
                         e.parent = parent.id;
                         e.name = city.Name;
-                        e.key = "S_" + country.CountryID + "_" + city.CityID;
+                        e.key = "S_" + 'c' + city.Id;
                         e.lat = 0;
                         e.lng = 0;
                         mEntries.put(e.id, e);
@@ -630,14 +617,10 @@ public class Cities {
     }
 
     static class Semerkand {
-        int CountryID;
-        int CityID;
-        int CountyID;
+        int Id;
         String Name;
-        String DisplayName;
         Semerkand[] Cities = new Semerkand[0];
-        Semerkand[] Countries = new Semerkand[0];
-        Semerkand[] Counties = new Semerkand[0];
+        Semerkand[] Districts = new Semerkand[0];
     }
 
 
@@ -774,7 +757,7 @@ public class Cities {
                 Entry e = new Entry();
                 e.id = Cities.id.incrementAndGet();
                 e.parent = diyanet.id;
-                e.name = name;
+                e.name = name.replace("T&#220;RK\u0130YE", "T\u00dcRK\u0130YE");
                 e.key = null;
                 e.lat = 0;
                 e.lng = 0;

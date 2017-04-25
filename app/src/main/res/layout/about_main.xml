@@ -16,12 +16,12 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/frag"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background2"
-            android:fillViewport="false">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background2"
+    android:fillViewport="false">
 
     <LinearLayout
         android:orientation="vertical"
@@ -36,7 +36,7 @@
                 android:layout_width="148dp"
                 android:layout_height="148dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/launcher_icon"/>
+                android:src="@drawable/launcher_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                 android:textSize="24sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content"
-                android:text="@string/appName"/>
+                android:text="@string/appName" />
 
 
             <TextView
@@ -54,7 +54,7 @@
                 android:textColor="#555555"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:text="@string/version"/>
+                android:text="@string/version" />
 
             <TextView
                 android:id="@+id/developer"
@@ -62,7 +62,7 @@
                 android:textColor="#555555"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:text="metinkale38"/>
+                android:text="metinkale38" />
 
         </LinearLayout>
 
@@ -73,7 +73,7 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:clickable="true"
@@ -92,7 +92,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@+id/icon"/>
+                    android:id="@+id/icon" />
 
                 <TextView
                     android:id="@+id/title"
@@ -101,7 +101,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/report_bug"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/summary"
@@ -112,7 +112,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/report_bug_sum"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -132,7 +132,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -141,7 +141,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/mail"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@id/summary"
@@ -152,7 +152,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/sendMail_sum"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
 
@@ -173,7 +173,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -182,7 +182,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/translate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@id/summary"
@@ -193,7 +193,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/translate_sum"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -213,7 +213,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -222,7 +222,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/rate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@id/summary"
@@ -233,7 +233,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/rate_desc"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -253,7 +253,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -262,7 +262,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/beta_tester"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@id/summary"
@@ -273,7 +273,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/beta_tester_desc"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -294,7 +294,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -303,7 +303,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/github"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@id/summary"
@@ -314,49 +314,8 @@
                     android:layout_below="@+id/title"
                     android:text="@string/github_sum"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
-
-            <RelativeLayout
-                android:clickable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="donate"
-                android:padding="5dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <net.steamcrafted.materialiconlib.MaterialIconView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:materialIcon="gift"
-                    app:materialIconColor="#555555"
-                    app:materialIconSize="24dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:scaleType="center"
-                    android:id="@id/icon"/>
-
-                <TextView
-                    android:id="@id/title"
-                    android:textStyle="bold"
-                    android:layout_toRightOf="@+id/icon"
-                    android:layout_toEndOf="@+id/icon"
-                    android:text="@string/donate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@id/summary"
-                    android:layout_toRightOf="@+id/icon"
-                    android:textSize="12sp"
-                    android:layout_toEndOf="@+id/icon"
-                    android:textColor="#555555"
-                    android:layout_below="@+id/title"
-                    android:text="@string/donate_sum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout style="@style/MyCard">
@@ -366,7 +325,7 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:clickable="true"
@@ -386,7 +345,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -395,7 +354,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/license"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="@string/license_sum"
@@ -405,7 +364,7 @@
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -425,7 +384,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    android:id="@id/icon"/>
+                    android:id="@id/icon" />
 
                 <TextView
                     android:id="@id/title"
@@ -434,7 +393,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:text="@string/library_licenses"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="@string/library_licenses_sum"
@@ -444,7 +403,7 @@
                     android:textColor="#555555"
                     android:layout_below="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
 

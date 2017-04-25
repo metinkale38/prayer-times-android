@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
@@ -48,7 +48,7 @@ public class Adapter extends ArrayAdapter<int[]> {
         days = HicriDate.getHolydays(year);
 
         String lang = Prefs.getLanguage();
-        hasInfo = !("en".equals(lang) || "ar".equals(lang));
+        hasInfo = ("de".equals(lang) || "tr".equals(lang));
     }
 
     @NonNull
@@ -86,7 +86,7 @@ public class Adapter extends ArrayAdapter<int[]> {
         return days.size();
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView name;
         TextView date;
         TextView hicri;

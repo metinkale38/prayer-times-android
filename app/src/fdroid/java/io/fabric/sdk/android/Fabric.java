@@ -1,6 +1,7 @@
 package io.fabric.sdk.android;
 
 import android.content.Context;
+
 import com.crashlytics.android.Crashlytics;
 
 /**

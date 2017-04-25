@@ -58,6 +58,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
+import com.metinkale.prayerapp.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -110,7 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppRatingDialog.increateAppStarts();
+        AppRatingDialog.increaseAppStarts();
 
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putContentName(ACTS[mNavPos]));
@@ -171,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setBackgroundResource(R.color.colorPrimary);
             toolbar.setNavigationIcon(MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.VIEW_HEADLINE)
+                    .setIcon(MaterialDrawableBuilder.IconValue.MENU)
                     .setColor(Color.WHITE)
                     .setToActionbarSize()
                     .build());
@@ -292,9 +293,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 case 5:
 
                     String lang = Prefs.getLanguage();
-
-                    if (lang.equals("ar")) lang = "en";
-                    String file = lang + "/hadis.db";
+                    if (!lang.equals("de") && !lang.equals("tr")) lang = "en";
+                    final String file = lang + "/hadis.db";
+                    final String url = App.API_URL + "/hadis." + lang + ".db";
                     File f = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 
@@ -322,16 +323,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                                        if (Prefs.getLanguage() == null) {
-                                            return;
-                                        }
-                                        String lang1 = Prefs.getLanguage();
-                                        if (lang1.equals("ar")) lang1 = "en";
+                                        File f1 = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+                                                file);
 
-                                        String file1 = lang1 + "/hadis.db";
-                                        File f1 = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file1);
-
-                                        String url = App.API_URL + "/hadis." + lang1 + ".db";
 
                                         if (!f1.getParentFile().mkdirs()) {
                                             Log.e("BaseActivity", "could not mkdirs " + f1.getParent());

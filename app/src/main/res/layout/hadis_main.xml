@@ -16,9 +16,9 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             app:materialIcon="arrow_left"
             app:materialIconColor="#fff"
-            app:materialIconSize="24dp"/>
+            app:materialIconSize="24dp" />
 
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:contentDescription="@null"
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             app:materialIcon="arrow_right"
             app:materialIconColor="#fff"
-            app:materialIconSize="24dp"/>
+            app:materialIconSize="24dp" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -16,30 +16,30 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            tools:context="com.metinkale.prayerapp.vakit.fragments.NotificationPrefs"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="@color/background2"
-            android:fillViewport="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.metinkale.prayerapp.vakit.fragments.NotificationPrefs"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/background2"
+    android:fillViewport="true">
 
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:animateLayoutChanges="true">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
 
         <android.support.v7.widget.SwitchCompat
-                android:theme="@style/MySwitch"
-                android:id="@+id/ongoing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:translationZ="2dp"
-                android:padding="15dp"
-                android:background="@color/background"
-                android:text="@string/ongoingNotification"/>
+            android:theme="@style/MySwitch"
+            android:id="@+id/ongoing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:translationZ="2dp"
+            android:padding="15dp"
+            android:background="@color/background"
+            android:text="@string/ongoingNotification" />
 
         <TextView
             android:textColor="@color/colorPrimary"
@@ -50,291 +50,291 @@
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp" />
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/imsakText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fajr"/>
+                android:id="@+id/imsakText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fajr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/imsak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/fajr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/imsakExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/imsakExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/sabahText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/morningPrayer"/>
+                android:id="@+id/sabahText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/morningPrayer" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/sabah"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/sabah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:background="@color/background"
-                android:id="@+id/sabahExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/background"
+            android:id="@+id/sabahExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/gunesText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sun"/>
+                android:id="@+id/gunesText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sun" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/gunes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/sun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/gunesExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/gunesExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/ogleText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zuhr"/>
+                android:id="@+id/ogleText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zuhr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/ogle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/zuhr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/ogleExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/ogleExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/ikindiText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/asr"/>
+                android:id="@+id/ikindiText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/asr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/ikindi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/asr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/ikindiExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/ikindiExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/aksamText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maghrib"/>
+                android:id="@+id/aksamText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maghrib" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/aksam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/maghrib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/aksamExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/aksamExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/yatsiText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ishaa"/>
+                android:id="@+id/yatsiText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ishaa" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/yatsi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/ishaa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/yatsiExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/yatsiExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
 
@@ -347,296 +347,295 @@
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp" />
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/eimsakText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fajr"/>
+                android:id="@+id/eimsakText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fajr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/eimsak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/eimsak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/eimsakExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/eimsakExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/egunesText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sun"/>
+                android:id="@+id/egunesText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sun" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/egunes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/egunes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/egunesExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/egunesExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/eogleText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zuhr"/>
+                android:id="@+id/eogleText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zuhr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/eogle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/eogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/eogleExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/eogleExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/djuma"/>
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/djuma" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/ecuma"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/ecuma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/ecumaExpand"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp"
-                >
+            android:background="@color/background"
+            android:id="@+id/ecumaExpand"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/eikindiText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/asr"/>
+                android:id="@+id/eikindiText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/asr" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/eikindi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/eikindi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
+            android:orientation="horizontal"
+            android:visibility="gone"
 
-                android:background="@color/background"
-                android:id="@+id/eikindiExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:background="@color/background"
+            android:id="@+id/eikindiExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/eaksamText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maghrib"/>
+                android:id="@+id/eaksamText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maghrib" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/eaksam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/eaksam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:background="@color/background"
-                android:id="@+id/eaksamExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/background"
+            android:id="@+id/eaksamExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
 
         <LinearLayout
-                android:translationZ="2dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="1dp"
-                android:padding="15dp"
-                android:background="@color/background">
+            android:translationZ="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="1dp"
+            android:padding="15dp"
+            android:background="@color/background">
 
             <TextView
-                    android:id="@+id/eyatsiText"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ishaa"/>
+                android:id="@+id/eyatsiText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ishaa" />
 
             <android.support.v7.widget.SwitchCompat
-                    android:theme="@style/MySwitch"
-                    android:id="@+id/eyatsi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:theme="@style/MySwitch"
+                android:id="@+id/eyatsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:background="@color/background"
-                android:id="@+id/eyatsiExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/background"
+            android:id="@+id/eyatsiExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
 
-            <include layout="@layout/vakit_notprefs_item"/>
+            <include layout="@layout/vakit_notprefs_item" />
         </LinearLayout>
 
 
         <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
     </LinearLayout>
 </ScrollView>
