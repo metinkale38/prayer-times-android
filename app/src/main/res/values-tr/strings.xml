@@ -271,4 +271,5 @@
   <string name="widget">Widget</string>
   <string name="showLegacyWidgets">Eski Widgetleri kullan</string>
   <string name="showLegacyWidgetsSummary">Sadece Widget ile sorun var ise kullanınız</string>
+  <string name="pleaseDeleteAndReadd">Lütfen bu şehir silin ve yeniden ekleyin.</string>
 </resources>
