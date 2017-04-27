@@ -263,4 +263,17 @@
   <string name="permissionNotGranted">لم يُمنح الإذن.</string>
   <string name="useOSMGeocoder">استخدام مزود الخرائط Openstreet من أجل الترميز الجغرافي</string>
   <string name="addFromCSV">إضافة من ملف CSV</string>
+  <string name="csvFromFile">تحميل CSV من الملف</string>
+  <string name="csvFromURL">تحميل CSV من رابط</string>
+  <string name="stopFacedown">إيقاف الصوت عن طريق تحويل وجه الشاشة للأسفل.</string>
+  <string name="ratingFirstDlgTitle">هل أعجبك هذا التطبيق؟</string>
+  <string name="ratingPositiveTitle">قيّم هذا التطبيق!</string>
+  <string name="ratingPositiveText">إذا أعجبك هذا التطبيق، أعطي دقيقة من وقتك لتقييم التطبيق في مخزن جوجل بلاي.</string>
+  <string name="ratingNegativeTitle">كتابة ملاحظة للمرمج!</string>
+  <string name="ratingNegativeText">أرسل لي رسال بريد إلكتروني حول ملاحظاتك و انطباعك حول هذا التطبيق وساعدنا في تتطوير التطبيق!</string>
+  <string name="notnow">ليس الآن</string>
+  <string name="totheplaystore">إفتح مخزن جوجل للتطبيقات</string>
+  <string name="widget_current_vakit">ويدجيت استخدم مؤشر بديل من أجل عرض التوقيت الحالي</string>
+  <string name="support_development">إدعم تطوير هذا التطبيق</string>
+  <string name="widget">ويدجيت</string>
 </resources>
