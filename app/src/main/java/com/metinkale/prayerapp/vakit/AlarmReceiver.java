@@ -34,6 +34,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -110,7 +111,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
-            i.putExtra("json", alarm.toString());
+            i.putExtra("alarm", alarm);
             int id = alarm.hashCode();
             PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
                     FLAG_UPDATE_CURRENT);
@@ -160,12 +161,12 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Context c = App.get();
 
-        if ((intent == null) || !intent.hasExtra("json")) {
+        if ((intent == null) || !intent.hasExtra("alarm")) {
 
             return;
         }
-        Alarm next = Alarm.fromString(intent.getStringExtra("json"));
-        intent.removeExtra("json");
+        Alarm next = intent.getParcelableExtra("alarm");
+        intent.removeExtra("alarm");
 
         if (next.city == 0) {
             return;
@@ -429,10 +430,10 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         @Override
         public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-            String json = intent.getStringExtra("json");
-            if (json != null) {
+            Parcelable alarm = intent.getParcelableExtra("alarm");
+            if (alarm != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);
-                service.putExtra("json", json);
+                service.putExtra("alarm", alarm);
                 startWakefulService(context, service);
             } else {
                 Times.setAlarms();

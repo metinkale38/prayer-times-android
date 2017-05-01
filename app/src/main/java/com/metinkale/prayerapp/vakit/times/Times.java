@@ -18,11 +18,12 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
@@ -264,14 +265,7 @@ public abstract class Times extends TimesBase {
 
                         long mills = getTimeCal(cal, vakit).toDateTime().getMillis();
                         if (System.currentTimeMillis() < mills) {
-                            Alarm a = new Alarm();
-                            a.city = getID();
-                            a.early = false;
-                            a.cuma = false;
-                            a.time = mills;
-                            a.vakit = v;
-                            a.dayOffset = ii;
-                            alarms.add(a);
+                            alarms.add(new Alarm(getID(), false, false, mills, v, ii));
                         }
                     } else {
                         long mills;
@@ -281,14 +275,7 @@ public abstract class Times extends TimesBase {
                             mills = getTimeCal(cal, 1).toDateTime().getMillis() - getSabahTime() * 60 * 1000;
                         }
                         if (System.currentTimeMillis() < mills) {
-                            Alarm a = new Alarm();
-                            a.city = getID();
-                            a.cuma = false;
-                            a.early = false;
-                            a.time = mills;
-                            a.vakit = v;
-                            a.dayOffset = ii;
-                            alarms.add(a);
+                            alarms.add(new Alarm(getID(), false, false, mills, v, ii));
                         }
                     }
                 }
@@ -303,14 +290,7 @@ public abstract class Times extends TimesBase {
                         int early = getEarlyTime(v);
                         long mills = getTimeCal(cal, vakit).toDateTime().getMillis() - early * 60 * 1000;
                         if (System.currentTimeMillis() < mills) {
-                            Alarm a = new Alarm();
-                            a.city = getID();
-                            a.early = true;
-                            a.cuma = false;
-                            a.time = mills;
-                            a.vakit = v;
-                            a.dayOffset = ii;
-                            alarms.add(a);
+                            alarms.add(new Alarm(getID(), false, true, mills, v, ii));
                         }
                     }
                 }
@@ -328,14 +308,7 @@ public abstract class Times extends TimesBase {
             long mills = getTimeCal(c.toLocalDate(), 2).toDateTime().getMillis();
             mills -= early * 60 * 1000;
             if (System.currentTimeMillis() < mills) {
-                Alarm a = new Alarm();
-                a.city = getID();
-                a.cuma = true;
-                a.early = false;
-                a.time = mills;
-                a.vakit = Vakit.OGLE;
-                a.dayOffset = 0;
-                alarms.add(a);
+                alarms.add(new Alarm(getID(), true, false, mills, Vakit.OGLE, 0));
             }
         }
 
@@ -521,21 +494,23 @@ public abstract class Times extends TimesBase {
     }
 
 
-    public static class Alarm {
-        public long city;
-        public boolean cuma;
-        public boolean early;
-        public long time;
-        public Vakit vakit;
-        public int dayOffset;
+    public static class Alarm implements Parcelable {
+        public final long city;
+        public final boolean cuma;
+        public final boolean early;
+        public final long time;
+        public final Vakit vakit;
+        public final int dayOffset;
 
-        public static Alarm fromString(String json) {
-            return new Gson().fromJson(json, Alarm.class);
+        public Alarm(long city, boolean cuma, boolean early, long time, Vakit vakit, int dayOffset) {
+            this.city = city;
+            this.cuma = cuma;
+            this.early = early;
+            this.time = time;
+            this.vakit = vakit;
+            this.dayOffset = dayOffset;
         }
 
-        public String toString() {
-            return new Gson().toJson(this);
-        }
 
         @Override
         public int hashCode() {
@@ -547,6 +522,44 @@ public abstract class Times extends TimesBase {
             result = 37 * result + dayOffset;
             return result;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeLong(this.city);
+            dest.writeByte(this.cuma ? (byte) 1 : (byte) 0);
+            dest.writeByte(this.early ? (byte) 1 : (byte) 0);
+            dest.writeLong(this.time);
+            dest.writeInt(this.vakit == null ? -1 : this.vakit.ordinal());
+            dest.writeInt(this.dayOffset);
+        }
+
+        protected Alarm(Parcel in) {
+            this.city = in.readLong();
+            this.cuma = in.readByte() != 0;
+            this.early = in.readByte() != 0;
+            this.time = in.readLong();
+            int tmpVakit = in.readInt();
+            this.vakit = tmpVakit == -1 ? null : Vakit.values()[tmpVakit];
+            this.dayOffset = in.readInt();
+        }
+
+        public static final Parcelable.Creator<Alarm> CREATOR = new Parcelable.Creator<Alarm>() {
+            @Override
+            public Alarm createFromParcel(Parcel source) {
+                return new Alarm(source);
+            }
+
+            @Override
+            public Alarm[] newArray(int size) {
+                return new Alarm[size];
+            }
+        };
     }
 
 

@@ -114,11 +114,7 @@ public class NotificationPrefs extends Fragment {
                     return false;
                 }
                 mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.cuma = true;
-                a.vakit = vakit;
+                Times.Alarm a = new Times.Alarm(mTimes.getID(), true, false, System.currentTimeMillis() + (5 * 1000), vakit, 0);
                 AlarmReceiver.setAlarm(getActivity(), a);
                 Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                 return true;
@@ -218,10 +214,12 @@ public class NotificationPrefs extends Fragment {
                     return false;
                 }
                 mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.vakit = vakit;
+                Times.Alarm a = new Times.Alarm(mTimes.getID(),
+                        false,
+                        false,
+                        System.currentTimeMillis() + (5 * 1000),
+                        vakit,
+                        0);
                 AlarmReceiver.setAlarm(getActivity(), a);
                 Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                 return true;
@@ -342,11 +340,12 @@ public class NotificationPrefs extends Fragment {
                     return false;
                 }
                 mTestAlarm = true;
-                Times.Alarm a = new Times.Alarm();
-                a.time = System.currentTimeMillis() + (5 * 1000);
-                a.city = mTimes.getID();
-                a.early = true;
-                a.vakit = vakit;
+                Times.Alarm a = new Times.Alarm(mTimes.getID(),
+                        false,
+                        true,
+                        System.currentTimeMillis() + (5 * 1000),
+                        vakit,
+                        0);
                 AlarmReceiver.setAlarm(getActivity(), a);
                 Toast.makeText(App.get(), "Will play within 5 seconds", Toast.LENGTH_LONG).show();
                 return true;

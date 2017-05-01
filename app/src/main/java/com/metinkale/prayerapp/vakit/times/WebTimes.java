@@ -21,7 +21,7 @@ package com.metinkale.prayerapp.vakit.times;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
-import android.util.ArraySet;
+import android.support.v4.util.ArraySet;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;

@@ -29,7 +29,6 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -187,7 +186,7 @@ public class Sounds {
     }
 
 
-    public static class Sound implements Serializable {
+    public static class Sound {
         public String name;
         public String uri;
         public String url;
@@ -238,7 +237,7 @@ public class Sounds {
             }
         }
 
-        public void checkMD5() {
+        void checkMD5() {
             File file = getFile();
             if (file.exists()) {
                 SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);

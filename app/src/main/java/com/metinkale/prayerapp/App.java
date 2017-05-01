@@ -36,6 +36,7 @@ import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
+import com.github.anrwatchdog.ANRError;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayerapp.settings.Prefs;
@@ -51,20 +52,18 @@ import com.squareup.leakcanary.LeakCanary;
 
 import org.joda.time.DateTimeZone;
 
-import java.lang.ref.WeakReference;
-
 import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
-    private static WeakReference<App> sApp;
+    private static App sApp;
     @NonNull
     private Handler mHandler = new Handler();
 
-    private static Thread.UncaughtExceptionHandler mDefaultUEH;
+    private Thread.UncaughtExceptionHandler mDefaultUEH;
     @NonNull
-    private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+    private Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, @NonNull Throwable ex) {
             AppRatingDialog.setInstalltionTime(0);
@@ -86,8 +85,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     @NonNull
     public static App get() {
-        if (sApp == null) return null;
-        return sApp.get();
+        return sApp;
     }
 
     public static boolean isOnline() {
@@ -123,8 +121,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     public App() {
         super();
-        sApp = new WeakReference<>(this);
+        sApp = this;
     }
+
 
     @Override
     public void onCreate() {
@@ -168,7 +167,12 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                 || "general mobile".equalsIgnoreCase(Build.MANUFACTURER)
                 || "general_mobile".equalsIgnoreCase(Build.BRAND)
                 || "general_mobile".equalsIgnoreCase(Build.MANUFACTURER)) {
-            new ANRWatchDog().start();
+            new ANRWatchDog().setANRListener(new ANRWatchDog.ANRListener() {
+                @Override
+                public void onAppNotResponding(ANRError error) {
+                    Crashlytics.logException(error);
+                }
+            }).start();
         }
 
         if (AppRatingDialog.getInstallationTime() == 0) {

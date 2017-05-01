@@ -77,7 +77,6 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     private View mView;
     @Nullable
     private Times mTimes;
-    private long mCity;
     private TextView mCountdown;
     private TextView mKerahat;
     private TextView mTitle;
@@ -120,16 +119,20 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
     @Override
     public void onCreate(Bundle bdl) {
         super.onCreate(bdl);
-        mCity = getArguments().getLong("city");
+        mTimes = Times.getTimes(getArguments().getLong("city"));
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+
+
+        if (mTimes == null) {
+            return new View(getActivity());
+        }
+
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
         setHasOptionsMenu(true);
-        if (mCity == 0) {
-            return mView;
-        }
+
 
         mCountdown = (TextView) mView.findViewById(R.id.countdown);
         mTitle = (TextView) mView.findViewById(R.id.city);
@@ -139,11 +142,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         mKerahat = (TextView) mView.findViewById(R.id.kerahat);
 
-        mTimes = Times.getTimes(mCity);
 
-        if (mTimes == null) {
-            return new View(getActivity());
-        }
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
         ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
         if (mTimes.getSource().resId != 0) {
@@ -331,7 +330,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                 PdfDocument.Page page = document.startPage(pageInfo);
                 Drawable launcher = Drawable.createFromStream(getActivity().getAssets().open("pdf/launcher.png"), null);
                 Drawable qr = Drawable.createFromStream(getActivity().getAssets().open("pdf/qrcode.png"), null);
-                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Prefs.getLanguage() + ".png"), null);
+                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Prefs.getLanguage("en", "de", "tr", "fr", "ar") + ".png"), null);
 
                 launcher.setBounds(30, 30, 30 + 65, 30 + 65);
                 qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);

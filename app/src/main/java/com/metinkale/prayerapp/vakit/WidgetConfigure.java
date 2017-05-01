@@ -43,12 +43,12 @@ public class WidgetConfigure extends Activity {
         Bundle extras = intent.getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            mOnlyCity = extras.getBoolean("onlyCity", false);
         }
 
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
-        mOnlyCity = extras.getBoolean("onlyCity", false);
 
         cityDialog();
 

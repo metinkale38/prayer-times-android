@@ -79,8 +79,7 @@ public class Main extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, @NonNull View v, int pos, long arg3) {
             String asset = Utils.getAssetForHolyday((Integer) v.getTag());
-            if ((asset != null) && ("tr".equals(Prefs.getLanguage()) || "tr".equals(Prefs.getLanguage()))) {
-
+            if ((asset != null) && ("tr".equals(Prefs.getLanguage()) || "de".equals(Prefs.getLanguage()))) {
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
                 i.putExtra("asset", asset);
                 startActivity(i);

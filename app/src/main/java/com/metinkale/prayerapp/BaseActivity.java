@@ -342,6 +342,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                                 .setCallback(new FutureCallback<File>() {
                                                     @Override
                                                     public void onCompleted(Exception e, File result) {
+
                                                         dlg.dismiss();
                                                         if (e != null) {
                                                             e.printStackTrace();
