@@ -166,7 +166,7 @@ public class WidgetV24 {
         int next = times.getNext();
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         for (int i = 0; i < 6; i++) {
-            remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1f);
+            remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
             remoteViews.setTextColor(ids[i], theme.textcolor);
 
             String name = Vakit.getByIndex(i).getString();
@@ -189,12 +189,12 @@ public class WidgetV24 {
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             }
 
-            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/>" + name));
+            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/><small>" + name+"</small>"));
 
         }
 
-        remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
-        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
+        remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
+        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
 
         remoteViews.setViewPadding(R.id.city, (int) scale / 4, (int) scale / 16, (int) scale / 4, (int) scale / 16);
@@ -208,8 +208,6 @@ public class WidgetV24 {
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
         }
-        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
-
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
     }
