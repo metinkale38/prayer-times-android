@@ -197,5 +197,10 @@
     <orderEntry type="library" exported="" name="appcompat-v7-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="iconics-core-2.8.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.3.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
+    <orderEntry type="library" exported="" name="mapbox-android-sdk-4.1.1" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-3.3.0" level="project" />
+    <orderEntry type="library" exported="" name="lost-1.1.0" level="project" />
   </component>
 </module>
