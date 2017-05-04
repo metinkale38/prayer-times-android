@@ -18,12 +18,11 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.content.SharedPreferences;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
@@ -494,7 +493,8 @@ public abstract class Times extends TimesBase {
     }
 
 
-    public static class Alarm implements Parcelable {
+    public static class Alarm{
+        private static final Gson GSON=new Gson();
         public final long city;
         public final boolean cuma;
         public final boolean early;
@@ -512,6 +512,14 @@ public abstract class Times extends TimesBase {
         }
 
 
+        public static Alarm fromJson(String json) {
+            return GSON.fromJson(json, Alarm.class);
+        }
+
+        public String toJson() {
+            return GSON.toJson(this);
+        }
+
         @Override
         public int hashCode() {
             int result = 571;
@@ -524,42 +532,7 @@ public abstract class Times extends TimesBase {
         }
 
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeLong(this.city);
-            dest.writeByte(this.cuma ? (byte) 1 : (byte) 0);
-            dest.writeByte(this.early ? (byte) 1 : (byte) 0);
-            dest.writeLong(this.time);
-            dest.writeInt(this.vakit == null ? -1 : this.vakit.ordinal());
-            dest.writeInt(this.dayOffset);
-        }
-
-        protected Alarm(Parcel in) {
-            this.city = in.readLong();
-            this.cuma = in.readByte() != 0;
-            this.early = in.readByte() != 0;
-            this.time = in.readLong();
-            int tmpVakit = in.readInt();
-            this.vakit = tmpVakit == -1 ? null : Vakit.values()[tmpVakit];
-            this.dayOffset = in.readInt();
-        }
-
-        public static final Parcelable.Creator<Alarm> CREATOR = new Parcelable.Creator<Alarm>() {
-            @Override
-            public Alarm createFromParcel(Parcel source) {
-                return new Alarm(source);
-            }
-
-            @Override
-            public Alarm[] newArray(int size) {
-                return new Alarm[size];
-            }
-        };
     }
 
 

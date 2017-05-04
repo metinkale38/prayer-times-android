@@ -34,7 +34,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -111,7 +110,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
-            i.putExtra("alarm", alarm);
+            i.putExtra("alarm", alarm.toJson());
             int id = alarm.hashCode();
             PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
                     FLAG_UPDATE_CURRENT);
@@ -165,7 +164,8 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
             return;
         }
-        Alarm next = intent.getParcelableExtra("alarm");
+        String json = intent.getStringExtra("alarm");
+        Alarm next = Alarm.fromJson(json);
         intent.removeExtra("alarm");
 
         if (next.city == 0) {
@@ -430,7 +430,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         @Override
         public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-            Parcelable alarm = intent.getParcelableExtra("alarm");
+            String alarm = intent.getStringExtra("alarm");
             if (alarm != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);
                 service.putExtra("alarm", alarm);
