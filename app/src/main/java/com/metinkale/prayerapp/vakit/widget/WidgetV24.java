@@ -67,6 +67,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         float scale = w / 10.5f;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2);
@@ -75,9 +76,6 @@ public class WidgetV24 {
         LocalDate date = LocalDate.now();
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
-
-        PendingIntent pendingIntent = Main.getPendingIntent(times);
-        PendingIntent pendingIntentClock = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT);
 
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
 
@@ -151,6 +149,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 300f / 60f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         float scale = w / 25f;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x1);
@@ -189,7 +188,7 @@ public class WidgetV24 {
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             }
 
-            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/><small>" + name+"</small>"));
+            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/><small>" + name + "</small>"));
 
         }
 
@@ -197,8 +196,8 @@ public class WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
 
-        remoteViews.setViewPadding(R.id.city, (int) scale / 4, (int) scale / 16, (int) scale / 4, (int) scale / 16);
-        remoteViews.setViewPadding(R.id.countdown, (int) scale / 4, (int) scale / 16, (int) scale / 4, (int) scale / 16);
+        remoteViews.setViewPadding(R.id.city, (int) scale / 2, (int) scale / 16, (int) scale / 4, (int) scale / 16);
+        remoteViews.setViewPadding(R.id.countdown, (int) scale / 4, (int) scale / 16, (int) scale / 2, (int) scale / 16);
 
         if (Prefs.showWidgetSeconds())
             remoteViews.setChronometer(R.id.countdown, times.getMills(next)
@@ -207,6 +206,10 @@ public class WidgetV24 {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
+        }
+
+        if (theme == Theme.Trans) {
+            remoteViews.setViewPadding(R.id.divider, (int) scale / 2, 0, (int) scale / 2, 0);
         }
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
@@ -222,6 +225,7 @@ public class WidgetV24 {
 
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
+        if (s <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
@@ -259,6 +263,7 @@ public class WidgetV24 {
         Theme theme = WidgetUtils.getTheme(widgetId);
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
+        if (s <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1_silenter);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
@@ -286,6 +291,8 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 500f / 200f);
         int width = size.width;
         int height = size.height;
+        if (width <= 0 || height <= 0) return;
+
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
 
         PendingIntent pendingIntent = Main.getPendingIntent(times);
@@ -398,6 +405,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int width = size.width;
         int height = size.height;
+        if (width <= 0 || height <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2_clock);
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));

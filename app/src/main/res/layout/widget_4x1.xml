@@ -29,9 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:paddingLeft="300dp"
         android:paddingStart="300dp"
-        android:paddingTop="60dp"
-        android:paddingLeft="300dp" />
+        android:paddingTop="60dp" />
 
     <RelativeLayout
         android:id="@+id/widget_layout"
@@ -39,28 +39,28 @@
         android:layout_height="0dp"
         android:layout_alignBottom="@+id/padder"
         android:layout_alignEnd="@+id/padder"
+        android:layout_alignLeft="@+id/padder"
+        android:layout_alignRight="@+id/padder"
         android:layout_alignStart="@+id/padder"
         android:layout_alignTop="@+id/padder"
         android:layout_gravity="center"
         android:background="@drawable/widget_dark"
-        android:padding="1dp"
-        android:layout_alignLeft="@+id/padder"
-        android:layout_alignRight="@+id/padder">
+        android:padding="1dp">
 
 
         <TextView
             android:id="@+id/city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/countdown"
             android:layout_toStartOf="@+id/countdown"
             android:lines="1"
             android:padding="2dp"
             android:text="City"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:layout_toLeftOf="@+id/countdown"
-            android:layout_alignParentLeft="true" />
+            android:textSize="16sp" />
 
         <Chronometer
             android:id="@+id/countdown"
@@ -68,17 +68,22 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/city"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:countDown="true"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:layout_alignParentRight="true" />
+            android:textSize="16sp" />
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/city"
-            android:background="#ffffff" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

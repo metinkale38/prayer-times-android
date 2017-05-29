@@ -40,7 +40,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         if (isMulticolumn) {
             String longest = "";
             for (Item i : objects) {
-                if (i.desc.length() > longest.length())
+                if (i.desc != null && i.desc.length() > longest.length())
                     longest = i.desc;
             }
             mLongest = longest;

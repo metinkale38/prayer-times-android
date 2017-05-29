@@ -258,14 +258,15 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                                         else
                                             dlg1.getDatePicker().setMaxDate(finalMaxDate);
 
-                                        dlg1.getDatePicker().setMinDate(Math.min(start, dlg1.getDatePicker().getMaxDate()) - 1);
+                                        dlg1.getDatePicker().setMinDate(Math.min(start,
+                                                dlg1.getDatePicker().getMaxDate() - 1000 * 60 * 60 * 24));
                                         dlg1.setTitle(R.string.to);
                                         dlg1.show();
 
                                     }
                                 }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
                                 dlg.getDatePicker().setMinDate(minDate);
-                                dlg.getDatePicker().setMaxDate(maxDate);
+                                dlg.getDatePicker().setMaxDate(Math.max(maxDate, minDate));
                                 dlg.setTitle(R.string.from);
                                 dlg.show();
                             }

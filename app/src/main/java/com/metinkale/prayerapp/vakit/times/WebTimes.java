@@ -196,10 +196,6 @@ public class WebTimes extends Times {
                     try {
                         parseResult(result.getResult());
                     } catch (Exception ee) {
-                        Crashlytics.setString("WebTimesSource", getSource().toString());
-                        Crashlytics.setString("WebTimesName", getName());
-                        Crashlytics.setString("WebTimesId", getId());
-                        Crashlytics.logException(ee);
                     }
 
                     notifyOnUpdated();
