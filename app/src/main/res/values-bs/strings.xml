@@ -116,4 +116,10 @@
   <string name="prayerNotification">Obznana namaza</string>
   <string name="refresh">Sinkronizacija</string>
   <string name="resetConfirmDhikr">Želite li zaista da odstranite \“%1$s\”?</string>
+  <string name="restore">Rekonstruirati</string>
+  <string name="widgetClock2">Vaktija - 2*2 sat</string>
+  <string name="numbers">Cifre</string>
+  <string name="dateFormat3">31 Decembar </string>
+  <string name="hDateFormat3">30 Muharrem </string>
+  <string name="useAlarm">Koristi alarm za obavijesti</string>
 </resources>
