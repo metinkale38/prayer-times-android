@@ -80,4 +80,16 @@
   <string name="ishaa">Jacija</string>
   <string name="juristicHanafi">Hanafi</string>
   <string name="juristicShafi">Shafi (standard)</string>
+  <string name="kerahatDuration">Mekruh vrijeme - dužina</string>
+  <string name="kerahatIstiwa">Istiva vrijeme (prije podne namaza) </string>
+  <string name="kerahatMaghrib">Zalazak sunca (prije akšam namaza)</string>
+  <string name="kerahatSun">Izlasak sunca (poslje sabaha)</string>
+  <string name="kerahatTime">Mekruh vrijeme za namaz</string>
+  <string name="language">Jezik</string>
+  <string name="leftText">%1$s | još %3$s do %2$s</string>
+  <string name="maghrib">Akšam</string>
+  <string name="missedPrayers">Propušteni namazi</string>
+  <string name="mixed">Izmješano</string>
+  <string name="monthly">Mjesečni prikaz</string>
+  <string name="morningPrayer">Sabah</string>
 </resources>
