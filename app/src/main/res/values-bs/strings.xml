@@ -114,4 +114,6 @@
   <string name="permissionStorageText">Pristup memorisanju je potreban... Bez ovog pristupa neke funkcije neće raditi</string>
   <string name="permissionStorageTitle">Pristup memorisanju</string>
   <string name="prayerNotification">Obznana namaza</string>
+  <string name="refresh">Sinkronizacija</string>
+  <string name="resetConfirmDhikr">Želite li zaista da odstranite \“%1$s\”?</string>
 </resources>
