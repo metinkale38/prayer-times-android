@@ -27,4 +27,10 @@
   <string name="angle">Ugao</string>
   <string name="angleBased">Ugao</string>
   <string name="appName">Vaktija</string>
+  <string name="asr">Ikindija</string>
+  <string name="backup">Sigurnosna kopija</string>
+  <string name="backupRestore">Backup/Restore</string>
+  <string name="beforeSun">Prije izlaska sunca</string>
+  <string name="blackWidget">Crni widget</string>
+  <string name="calcMethod">Način računanja</string>
 </resources>
