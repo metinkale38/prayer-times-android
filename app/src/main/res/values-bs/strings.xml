@@ -235,7 +235,7 @@
   <string name="translate">Prevesti</string>
   <string name="translate_sum">Pomozi nam prevesti ovu aplikaciju u još više jezika</string>
   <string name="github">GitHub</string>
-  <string name="github_sum">Forke repo i doprinesi promjene ili javi nove pogrešake.</string>
+  <string name="github_sum">Forkiraj repo i doprinesi promjene ili javi nove pogrešake.</string>
   <string name="license">Licencija</string>
   <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
   <string name="library_licenses">Licencija biblioteka</string>
@@ -262,7 +262,7 @@
   <string name="ratingNegativeTitle">Napiši feedback!</string>
   <string name="ratingNegativeText">Napiši mi e-mail sa tvojim utiskom, problemima i prjedlozima za ovu aplikaciju i pomozite mi je stalno unaprijeđivati!</string>
   <string name="notnow">Ne sada</string>
-  <string name="totheplaystore">Do Play Store</string>
+  <string name="totheplaystore">Ponesi me do Play Store</string>
   <string name="widget_current_vakit">Widget - alternativni prikaz namaskog vremena</string>
   <string name="support_development">Pomozi razvoj ove aplikacije</string>
   <string name="widget">Widget</string>
