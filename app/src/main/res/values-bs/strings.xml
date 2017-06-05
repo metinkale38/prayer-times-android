@@ -67,4 +67,17 @@
   <string name="dhikrCount">Zikr cilj</string>
   <string name="dhikr">Zikr</string>
   <string name="distance">Udaljenost</string>
+  <string name="holyday9">Lejletu-l-Kadr</string>
+  <string name="holyday10">Ramazanski Arefat </string>
+  <string name="holyday11">Ramazanski bajram, 1. dan</string>
+  <string name="holyday12">Ramazanski bajram, 2. dan</string>
+  <string name="holyday13">Ramazanski bajram, 3. dan</string>
+  <string name="holyday14">Dan Arefata</string>
+  <string name="holyday15">Kurban bajram, 1. dan</string>
+  <string name="holyday16">Kurban bajram, 2. dan</string>
+  <string name="holyday17">Kurban bajram, 3. dan</string>
+  <string name="holyday18">Kurban bajram, 4. dan</string>
+  <string name="ishaa">Jacija</string>
+  <string name="juristicHanafi">Hanafi</string>
+  <string name="juristicShafi">Shafi (standard)</string>
 </resources>
