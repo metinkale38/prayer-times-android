@@ -105,4 +105,13 @@
   <string name="ongoingIcon">Icon obznane</string>
   <string name="ongoingNotification">Widget obznane</string>
   <string name="other">Ostali</string>
+  <string name="permissionCalendarText">Ako hoćete da se islamski blagdani unesu u kalendar onda morate ovoj aplikaciji dati pristup kalendaru. Inače nemojete davati pristup kalendaru ako to ne želite.</string>
+  <string name="permissionCalendarTitle">Pristup kalendaru</string>
+  <string name="permissionCameraText">Morate dati pristup kameri ako želite koristiti 3D kompas. Inače možete samo 2D kompas koristiti.</string>
+  <string name="permissionCameraTitle">Pristup kameri</string>
+  <string name="permissionLocationText">Pristup lokalizaciji je potrebna da bi našli vaš grad. Ako ovaj pristup ne dadnete ovoj aplikaciji onda morate vaš grad sami tražiti.</string>
+  <string name="permissionLocationTitle">Pristup lokalizaciji</string>
+  <string name="permissionStorageText">Pristup memorisanju je potreban... Bez ovog pristupa neke funkcije neće raditi</string>
+  <string name="permissionStorageTitle">Pristup memorisanju</string>
+  <string name="prayerNotification">Obznana namaza</string>
 </resources>
