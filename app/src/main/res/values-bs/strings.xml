@@ -167,6 +167,19 @@
   <string name="refresh">Sinkronizacija</string>
   <string name="resetConfirmDhikr">Želite li zaista da odstranite \“%1$s\”?</string>
   <string name="restore">Rekonstruirati</string>
+  <string name="search">Potraga</string>
+  <string name="selectOther">ostali&#8230;</string>
+  <string name="mail">E-mail</string>
+  <string name="sendMail">Pošalji e-mail</string>
+  <string name="settings">Postavke</string>
+  <string name="share">Podijeliti</string>
+  <string name="shareTimes">Današnja vaktija za %1$s</string>
+  <string name="showMore">Pokaži više</string>
+  <string name="silenterDuration">Dužina prigušenog tona</string>
+  <string name="silenterType">Metoda prigušenog tona</string>
+  <string name="silent">Prigušen ton</string>
+  <string name="sorted">Sortirano</string>
+  <string name="soundPicker">Izabirač tona</string>
   <string name="widgetClock2">Vaktija - 2*2 sat</string>
   <string name="numbers">Cifre</string>
   <string name="dateFormat3">31 Decembar </string>
@@ -217,4 +230,6 @@
   <string name="support_development">Pomozi razvoj ove aplikacije</string>
   <string name="widget">Widget</string>
   <string name="showLegacyWidgets">Pokaži zastarjele widgets</string>
+  <string name="showLegacyWidgetsSummary">Koristi ovo podešavanje samo ako imaš problem sa widgetima</string>
+  <string name="pleaseDeleteAndReadd">Molimo vas izbrišite ovaj grad i dodajte ga ponovo.</string>
 </resources>
