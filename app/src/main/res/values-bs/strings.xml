@@ -122,4 +122,13 @@
   <string name="dateFormat3">31 Decembar </string>
   <string name="hDateFormat3">30 Muharrem </string>
   <string name="useAlarm">Koristi alarm za obavijesti</string>
+  <string name="useAlarmDesc">EKSPERIMENTALNO - Možete koristiti ovaj podešaj ako obavijesti nebudu pravovremenski dostavljene. Jedna         alarm sličica biće dodana statusnoj traki!    </string>
+  <string name="ongoingNumber">Pokaži minute u obavjestnoj sličici</string>
+  <string name="vakit_indicator">Namaz indikator</string>
+  <string name="vakit_indicator_next">Sljedeći vakat za namaz</string>
+  <string name="vakit_indicator_current">Sadašnji vakat</string>
+  <string name="show_notification_screen">Pokaži obavjestni ekran</string>
+  <string name="autoremove_notification">Izbriši obavjest poslje ezana</string>
+  <string name="about">O ovoj aplikaciji</string>
+  <string name="report_bug">Prijavi grešku</string>
 </resources>
