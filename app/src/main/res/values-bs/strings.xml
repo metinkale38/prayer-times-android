@@ -141,4 +141,20 @@
   <string name="library_licenses">Licencija biblioteka</string>
   <string name="library_licenses_sum">Prikaži biblioteke trećih, korištene u ovoj aplikaciji</string>
   <string name="rate">Ocijeni</string>
+  <string name="rate_desc">Ocjeni nas pozitivno ako vam se sviđa Vaktija.</string>
+  <string name="sendMail_sum">Pošalji mi e-mail!</string>
+  <string name="beta_tester_desc">Registriraj se kao beta ispitivač</string>
+  <string name="title_activity_maps">Karta</string>
+  <string name="no_internet">Bez konekcije sa internetom</string>
+  <string name="export">Eksport</string>
+  <string name="versionNotSupported">Vaša verzija androida ne podržava ovu funkciju!</string>
+  <string name="from">Od</string>
+  <string name="to">Do</string>
+  <string name="permissionNotGranted">Pristup nije omogućen.</string>
+  <string name="useOSMGeocoder">Koristi Openstreet karte za geocoding</string>
+  <string name="addFromCSV">Dodaj iz CSV fajla</string>
+  <string name="csvFromFile">Unesi CSV iz fajla</string>
+  <string name="csvFromURL">Unesi CSV iz URLa</string>
+  <string name="stopFacedown">Stopiraj zvuk sa okrećanjem ekrana na donju stranu.</string>
+  <string name="ratingFirstDlgTitle">Sviđa li vam se ova aplikacija?</string>
 </resources>
