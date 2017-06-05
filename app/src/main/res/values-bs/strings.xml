@@ -16,4 +16,15 @@
   ~ limitations under the License.
   ~
   -->
-<resources></resources>
+<resources>
+  <string name="activateForMorePrefs">Uključi za više podešavanja&#8230;</string>
+  <string name="adhanVolume">Glasnoća ezana</string>
+  <string name="adjAngle">Po uglu (ugao/60ti noći)</string>
+  <string name="adjMidnight">Ponoć</string>
+  <string name="adjTime">Po vremenu (1/7 noći)</string>
+  <string name="afterImsak">Poslje sabaha</string>
+  <string name="alternativeOngoing">Alternativni widget za poruke</string>
+  <string name="angle">Ugao</string>
+  <string name="angleBased">Ugao</string>
+  <string name="appName">Vaktija</string>
+</resources>
