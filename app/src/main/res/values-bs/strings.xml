@@ -92,4 +92,17 @@
   <string name="mixed">Izmješano</string>
   <string name="monthly">Mjesečni prikaz</string>
   <string name="morningPrayer">Sabah</string>
+  <string name="names">99 Allahovih imena</string>
+  <string name="newAddCity">Koristi novi birač gradova</string>
+  <string name="newDhikr">Novi zikr</string>
+  <string name="noConnection">Bez konekcije...</string>
+  <string name="noFavs">Bez favorita</string>
+  <string name="no">Ne</string>
+  <string name="notification">Obznana</string>
+  <string name="off">Isključen</string>
+  <string name="ok">Ok</string>
+  <string name="oldAddCity">Koristi ručni izbor grada</string>
+  <string name="ongoingIcon">Icon obznane</string>
+  <string name="ongoingNotification">Widget obznane</string>
+  <string name="other">Ostali</string>
 </resources>
