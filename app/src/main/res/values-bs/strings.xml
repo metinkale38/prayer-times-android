@@ -157,4 +157,10 @@
   <string name="csvFromURL">Unesi CSV iz URLa</string>
   <string name="stopFacedown">Stopiraj zvuk sa okrećanjem ekrana na donju stranu.</string>
   <string name="ratingFirstDlgTitle">Sviđa li vam se ova aplikacija?</string>
+  <string name="ratingPositiveTitle">Ocjeni ovu aplikaciju!</string>
+  <string name="ratingPositiveText">Ako vam se sviđa ova aplikacija, uzimte malo vremana da bi je na PlayStore ocjenili.</string>
+  <string name="ratingNegativeTitle">Napiši feedback!</string>
+  <string name="ratingNegativeText">Napiši mi e-mail sa tvojim utiskom, problemima i prjedlozima za ovu aplikaciju i pomozite mi je stalno unaprijeđivati!</string>
+  <string name="notnow">Ne sada</string>
+  <string name="totheplaystore">Do Play Store</string>
 </resources>
