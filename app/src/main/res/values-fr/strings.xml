@@ -255,5 +255,15 @@
   <string name="addFromCSV">Ajouter depuis un CSV</string>
   <string name="csvFromFile">Charger du CSV depuis un fichier</string>
   <string name="csvFromURL">Charger du CSV depuis une URL</string>
+  <string name="stopFacedown">Arrêter le son retournant le téléphone.</string>
+  <string name="ratingFirstDlgTitle">Aimez-vous cette application ?</string>
+  <string name="ratingPositiveTitle">Notez cette application !</string>
+  <string name="ratingPositiveText">Si vous aimez cette application, prenez un moment pour la noter dans le Play Store.</string>
+  <string name="ratingNegativeTitle">Écrivez vos commentaires !</string>
+  <string name="ratingNegativeText">Ecris-moi un E-Mail avec vos sentiments, vos impressions et des suggestions pour cette application et aidez-moi à l’améliorer en permanence !</string>
+  <string name="notnow">Pas maintenant</string>
+  <string name="widget_current_vakit">Widget - Indicateur horaire alternatif</string>
   <string name="widget">Widget</string>
+  <string name="showLegacyWidgetsSummary">N’utiliser que si vous avez des problèmes avec vos Widgets</string>
+  <string name="pleaseDeleteAndReadd">S’il vous plaît supprimer cette ville et ajouter la de nouveau.</string>
 </resources>
