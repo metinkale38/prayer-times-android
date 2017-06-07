@@ -45,8 +45,7 @@ public class Changelog {
 
     private static AlertDialog getDialog(@NonNull final Context c) {
         WebView wv = new WebView(c);
-        String lang = Prefs.getLanguage();
-        if (lang.equals("ar") || lang.equals("fr")) lang = "en";
+        String lang = Prefs.getLanguage("en", "de", "tr");
         wv.loadUrl("file:///android_asset/" + lang + "/changelog.htm");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(c);

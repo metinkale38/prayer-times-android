@@ -276,7 +276,7 @@ public class Utils {
 
     @Nullable
     public static String getAssetForHolyday(int pos) {
-        return Prefs.getLanguage() + ASSETS[pos - 1];
+        return Prefs.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
     }
 
 

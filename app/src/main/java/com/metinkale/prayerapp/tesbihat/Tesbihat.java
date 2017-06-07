@@ -58,7 +58,6 @@ public class Tesbihat extends BaseActivity {
 
         if ("tr".equals(mLang)) {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getSupportFragmentManager());
-
         } else {
             mSectionsPagerAdapter = new OtherPagerAdapter(getSupportFragmentManager());
             indicator.setVisibility(View.GONE);

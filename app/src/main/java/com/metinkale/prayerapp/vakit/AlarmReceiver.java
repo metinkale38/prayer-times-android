@@ -110,10 +110,9 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
-            i.putExtra("json", alarm.toString());
+            i.putExtra("alarm", alarm.toJson());
             int id = alarm.hashCode();
-            PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.
-                    FLAG_UPDATE_CURRENT);
+            PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
             am.cancel(service);
 
@@ -160,12 +159,13 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Context c = App.get();
 
-        if ((intent == null) || !intent.hasExtra("json")) {
+        if ((intent == null) || !intent.hasExtra("alarm")) {
 
             return;
         }
-        Alarm next = Alarm.fromString(intent.getStringExtra("json"));
-        intent.removeExtra("json");
+        String json = intent.getStringExtra("alarm");
+        Alarm next = Alarm.fromJson(json);
+        intent.removeExtra("alarm");
 
         if (next.city == 0) {
             return;
@@ -279,7 +279,11 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
                 }
                 if (volume != -2) {
                     int oldvalue = am.getStreamVolume(getStreamType(c));
-                    am.setStreamVolume(getStreamType(c), volume, 0);
+                    try {
+                        am.setStreamVolume(getStreamType(c), volume, 0);
+                    } catch (SecurityException e) {
+                        Crashlytics.logException(e);
+                    }
                     volume = oldvalue;
                 }
 
@@ -352,7 +356,11 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             }
 
             if (volume != -2) {
-                am.setStreamVolume(getStreamType(c), volume, 0);
+                try {
+                    am.setStreamVolume(getStreamType(c), volume, 0);
+                } catch (SecurityException e) {
+                    Crashlytics.logException(e);
+                }
             }
             sound = dua;
             dua = null;
@@ -429,10 +437,10 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         @Override
         public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-            String json = intent.getStringExtra("json");
-            if (json != null) {
+            String alarm = intent.getStringExtra("alarm");
+            if (alarm != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);
-                service.putExtra("json", json);
+                service.putExtra("alarm", alarm);
                 startWakefulService(context, service);
             } else {
                 Times.setAlarms();

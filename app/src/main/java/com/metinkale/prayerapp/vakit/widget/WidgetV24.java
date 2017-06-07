@@ -20,6 +20,7 @@ package com.metinkale.prayerapp.vakit.widget;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,7 +28,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.SystemClock;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -38,8 +42,8 @@ import android.widget.RemoteViews;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -63,6 +67,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         float scale = w / 10.5f;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2);
@@ -73,6 +78,8 @@ public class WidgetV24 {
 
 
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+
+
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
@@ -142,6 +149,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 300f / 60f);
         int w = size.width;
         int h = size.height;
+        if (w <= 0 || h <= 0) return;
         float scale = w / 25f;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x1);
@@ -157,7 +165,7 @@ public class WidgetV24 {
         int next = times.getNext();
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         for (int i = 0; i < 6; i++) {
-            remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1f);
+            remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
             remoteViews.setTextColor(ids[i], theme.textcolor);
 
             String name = Vakit.getByIndex(i).getString();
@@ -180,16 +188,16 @@ public class WidgetV24 {
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             }
 
-            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/>" + name));
+            remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/><small>" + name + "</small>"));
 
         }
 
-        remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
-        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
+        remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
+        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
 
-        remoteViews.setViewPadding(R.id.city, (int) scale / 4, (int) scale / 16, (int) scale / 4, (int) scale / 16);
-        remoteViews.setViewPadding(R.id.countdown, (int) scale / 4, (int) scale / 16, (int) scale / 4, (int) scale / 16);
+        remoteViews.setViewPadding(R.id.city, (int) scale / 2, (int) scale / 16, (int) scale / 4, (int) scale / 16);
+        remoteViews.setViewPadding(R.id.countdown, (int) scale / 4, (int) scale / 16, (int) scale / 2, (int) scale / 16);
 
         if (Prefs.showWidgetSeconds())
             remoteViews.setChronometer(R.id.countdown, times.getMills(next)
@@ -199,8 +207,10 @@ public class WidgetV24 {
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
         }
-        remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.2f);
 
+        if (theme == Theme.Trans) {
+            remoteViews.setViewPadding(R.id.divider, (int) scale / 2, 0, (int) scale / 2, 0);
+        }
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
     }
@@ -215,6 +225,7 @@ public class WidgetV24 {
 
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
+        if (s <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
@@ -252,6 +263,7 @@ public class WidgetV24 {
         Theme theme = WidgetUtils.getTheme(widgetId);
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
+        if (s <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1_silenter);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
@@ -279,9 +291,40 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 500f / 200f);
         int width = size.width;
         int height = size.height;
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+        if (width <= 0 || height <= 0) return;
 
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
+
+        PendingIntent pendingIntent = Main.getPendingIntent(times);
+        PendingIntent pendingIntentClock = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                new Intent(AlarmClock.ACTION_SHOW_ALARMS),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingHijri = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                new Intent(context, com.metinkale.prayerapp.calendar.Main.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        long startMillis = System.currentTimeMillis();
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        ContentUris.appendId(builder, startMillis);
+        Intent calendarIntent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+        PendingIntent pendingIntentCalendar = PendingIntent.getActivity(context,
+                (int) System.currentTimeMillis(),
+                calendarIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        remoteViews.setOnClickPendingIntent(R.id.time, pendingIntentClock);
+        remoteViews.setOnClickPendingIntent(R.id.greg, pendingIntentCalendar);
+        remoteViews.setOnClickPendingIntent(R.id.hicri, pendingHijri);
+        remoteViews.setOnClickPendingIntent(R.id.lastTime, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.lastText, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.nextTime, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.nextText, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.countdown, pendingIntent);
 
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0);
 
@@ -362,6 +405,7 @@ public class WidgetV24 {
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int width = size.width;
         int height = size.height;
+        if (width <= 0 || height <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2_clock);
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));

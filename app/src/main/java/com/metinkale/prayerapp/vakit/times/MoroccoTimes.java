@@ -49,7 +49,7 @@ class MoroccoTimes extends WebTimes {
     @Override
     public synchronized String getName() {
         String name = super.getName();
-        if (name.contains("(") && name.contains(")")) {
+        if (name != null && name.contains("(") && name.contains(")")) {
             if ("ar".equals(Prefs.getLanguage())) {
                 return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
             } else {

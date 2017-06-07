@@ -115,8 +115,7 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
             finish();
-            String lang = Prefs.getLanguage();
-            if (!lang.equals("de") && !lang.equals("tr")) lang = "en";
+            String lang = Prefs.getLanguage("en","de","tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(this, com.metinkale.prayerapp.vakit.Main.class));
         }
@@ -399,8 +398,8 @@ public class Main extends BaseActivity implements OnClickListener, OnQueryTextLi
 
             if (object instanceof Frag) {
                 ((Frag) object).setQuery(mQuery);
-                String hadis = ((Fragment) object).getArguments().getString("hadis");
-                String kaynak = ((Fragment) object).getArguments().getString("kaynak");
+                String hadis = ((Fragment) object).getArguments().getString("hadis", "");
+                String kaynak = ((Fragment) object).getArguments().getString("kaynak", "");
                 setShareText(hadis + (kaynak.length() <= 3 ? "" : "\n\n" + kaynak));
             }
         }

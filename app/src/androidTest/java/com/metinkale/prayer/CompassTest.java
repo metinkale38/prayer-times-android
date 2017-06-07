@@ -47,6 +47,12 @@ public class CompassTest {
             getInstrumentation().getUiAutomation().executeShellCommand(
                     "pm grant " + getTargetContext().getPackageName()
                             + " android.permission.WRITE_EXTERNAL_STORAGE");
+            getInstrumentation().getUiAutomation().executeShellCommand(
+                    "pm grant " + getTargetContext().getPackageName()
+                            + " android.permission.ACCESS_FINE_LOCATION");
+            getInstrumentation().getUiAutomation().executeShellCommand(
+                    "pm grant " + getTargetContext().getPackageName()
+                            + " android.permission.CAMERA");
         }
 
         Activity act = mActivityTestRule.getActivity();
@@ -66,11 +72,11 @@ public class CompassTest {
             }
             TestUtils.takeScreenshot("compass2D" + lang.toUpperCase(), act);
             act.finish();
-
-
+            if (true)
+                continue;
             act = mActivityTestRule.launchActivity(new Intent("map"));
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

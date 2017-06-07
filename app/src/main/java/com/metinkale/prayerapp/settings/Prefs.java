@@ -20,10 +20,13 @@ package com.metinkale.prayerapp.settings;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 
 import com.metinkale.prayerapp.App;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Prefs {
@@ -42,6 +45,18 @@ public class Prefs {
     public static String getLanguage() {
         return getPrefs().getString("language", null);
     }
+
+
+    @NonNull
+    public static String getLanguage(@Size(min = 1) String... allow) {
+        String lang = getLanguage();
+        if (lang == null|| !Arrays.asList(allow).contains(lang)) {
+            return allow[0];
+        }
+
+        return lang;
+    }
+
 
     public static void setLanguage(String language) {
         getPrefs().edit().putString("language", language).apply();

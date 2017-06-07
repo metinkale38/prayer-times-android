@@ -61,7 +61,7 @@ class TimesBase {
     }
 
     private transient final SharedPreferences prefs;
-    transient long ID;
+    private transient long ID;
     private transient final Runnable mApplyPrefs = new Runnable() {
         @Override
         public void run() {
@@ -73,20 +73,40 @@ class TimesBase {
     };
     private String name;
     private String source;
-    private String cuma_sound;
     private boolean deleted;
-    private boolean cuma_vibration;
-    private boolean sabah_afterImsak;
-    private boolean cuma;
     private boolean ongoing;
     private double timezone;
     private double lng;
     private double lat;
     private int sortId = Integer.MAX_VALUE;
+    private int[] minuteAdj = new int[6];
+
+    //cuma
+    private boolean cuma;
+    private String cuma_sound;
+    private boolean cuma_vibration;
+    private boolean sabah_afterImsak;
     private int cuma_silenter;
     private int cuma_time;
+
+    //sabah
     private int sabah_time;
-    private int[] minuteAdj = new int[6];
+
+    //vakit
+    private boolean IMSAK_vibration;
+    private boolean SABAH_vibration;
+    private boolean GUNES_vibration;
+    private boolean OGLE_vibration;
+    private boolean IKINDI_vibration;
+    private boolean AKSAM_vibration;
+    private boolean YATSI_vibration;
+    private boolean IMSAK;
+    private boolean SABAH;
+    private boolean GUNES;
+    private boolean OGLE;
+    private boolean IKINDI;
+    private boolean AKSAM;
+    private boolean YATSI;
     private String IMSAK_dua;
     private String SABAH_dua;
     private String GUNES_DUA;
@@ -108,6 +128,8 @@ class TimesBase {
     private String IKINDI_sound;
     private String AKSAM_sound;
     private String YATSI_sound;
+
+    //pre
     private String pre_IMSAK_sound;
     private String pre_SABAH_sound;
     private String pre_GUNES_sound;
@@ -122,20 +144,6 @@ class TimesBase {
     private boolean pre_IKINDI_vibration;
     private boolean pre_AKSAM_vibration;
     private boolean pre_YATSI_vibration;
-    private boolean IMSAK_vibration;
-    private boolean SABAH_vibration;
-    private boolean GUNES_vibration;
-    private boolean OGLE_vibration;
-    private boolean IKINDI_vibration;
-    private boolean AKSAM_vibration;
-    private boolean YATSI_vibration;
-    private boolean IMSAK;
-    private boolean SABAH;
-    private boolean GUNES;
-    private boolean OGLE;
-    private boolean IKINDI;
-    private boolean AKSAM;
-    private boolean YATSI;
     private boolean pre_IMSAK;
     private boolean pre_SABAH;
     private boolean pre_GUNES;
@@ -158,6 +166,18 @@ class TimesBase {
     private int pre_AKSAM_time;
     private int pre_YATSI_time;
 
+    /**
+     * idea
+    class Alarm {
+        boolean active;
+        Vakit vakit;
+        int time;
+        int silenter;
+        boolean vibration;
+        String sound;
+        String dua;
+    }*/
+
     TimesBase(long id) {
         this();
         ID = id;
@@ -172,9 +192,9 @@ class TimesBase {
     public static Times from(long id) {
         String json = App.get().getSharedPreferences("cities", 0).getString("id" + id, null);
         try {
-            Times t = GSON.fromJson(json, Times.class);
-            t.ID = id;
-            return t;
+            TimesBase t = GSON.fromJson(json, Times.class);
+            t.setID(id);
+            return (Times) t;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -902,4 +922,7 @@ class TimesBase {
         save();
     }
 
+    private void setID(long ID) {
+        this.ID = ID;
+    }
 }

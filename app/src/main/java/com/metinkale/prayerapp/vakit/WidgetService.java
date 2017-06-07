@@ -42,7 +42,6 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +52,8 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
-import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
 import com.metinkale.prayerapp.vakit.widget.WidgetUtils;
@@ -101,14 +100,12 @@ public class WidgetService extends Service {
 
         mNotMan = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         extractColors();
-        Log.e("WidgetService", "onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent,
                               int flags, int startId) {
         String action = intent == null ? null : intent.getAction();
-        Log.e("WidgetService", "onStartCommand: " + action);
         if (action == null) action = Intent.ACTION_TIME_TICK;
         switch (action) {
             case Intent.ACTION_SCREEN_OFF: {

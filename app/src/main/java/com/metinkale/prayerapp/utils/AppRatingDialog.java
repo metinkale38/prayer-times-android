@@ -55,6 +55,7 @@ import java.util.Set;
  */
 
 public class AppRatingDialog {
+    private static final long ONE_DAY = 1000 * 60 * 60 * 24;
     private static boolean APP_STARTED = false;
 
     private static SharedPreferences getPrefs() {
@@ -101,7 +102,7 @@ public class AppRatingDialog {
         if (duration < 5000) return false;
         if (!App.isOnline()) return false;
         long installTime = System.currentTimeMillis() - getInstallationTime();
-        if (installTime < 1000 * 60 * 60 * 24 * 7) return false;
+        if (installTime < ONE_DAY * 7) return false;
         if (getAppStarts() < 7) return false;
         int days = 30;
 
@@ -119,7 +120,7 @@ public class AppRatingDialog {
         if (hasWifi()) days -= 3;
         if (duration > 60000) days -= 3;
 
-        if (installTime < 1000 * 60 * 60 * days) return false;
+        if (installTime < ONE_DAY * days) return false;
         showDialog(act);
         return true;
     }
@@ -131,6 +132,7 @@ public class AppRatingDialog {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
                         act.finish();
+                        setInstalltionTime(getInstallationTime() + 3 * ONE_DAY);
                         Answers.getInstance().logCustom(new CustomEvent("RatingDialog")
                                 .putCustomAttribute("Like this App?", "cancel"));
                     }

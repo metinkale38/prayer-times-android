@@ -380,7 +380,13 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), progress, 0);
+        try {
+            mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), progress, 0);
+        } catch (SecurityException e) {
+            Crashlytics.logException(e);
+            Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            mVolumeCB.setChecked(false);
+        }
     }
 
     @Override
@@ -403,27 +409,29 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         Vakit getVakit();
     }
 
-    public class MyAdapter extends ArrayAdapter<Sound> {
+    private class MyAdapter extends ArrayAdapter<Sound> {
 
-        public MyAdapter(@NonNull Context context, @NonNull List<Sound> sounds) {
+        MyAdapter(@NonNull Context context, @NonNull List<Sound> sounds) {
             super(context, 0, 0, sounds);
             Sound silent = new Sound();
             silent.name = context.getString(R.string.silent);
             silent.uri = "silent";
             sounds.add(0, silent);
             Sound s = new Sound();
-            s.uri = mCb.getCurrent();
 
-            if (!s.uri.startsWith("silent")) {
-                try {
-                    String sound = s.uri;
-                    if (sound.contains("$")) {
-                        sound = sound.substring(0, sound.indexOf("$"));
+            if (mCb != null) {
+                s.uri = mCb.getCurrent();
+                if (!s.uri.startsWith("silent")) {
+                    try {
+                        String sound = s.uri;
+                        if (sound.contains("$")) {
+                            sound = sound.substring(0, sound.indexOf("$"));
+                        }
+                        AlarmReceiver.play(App.get(), sound).reset();
+                    } catch (Exception e) {
+                        mCb.setCurrent("silent");
+                        s.uri = "silent";
                     }
-                    AlarmReceiver.play(App.get(), sound).reset();
-                } catch (Exception e) {
-                    mCb.setCurrent("silent");
-                    s.uri = "silent";
                 }
             }
 
