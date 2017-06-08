@@ -76,10 +76,11 @@
         <item>Türkçe</item>
         <item>Deutsch</item>
         <item>English</item>
-        <item>Nederlands</item>
-        <item>Français</item>
-        <item>Kurdish</item>
         <item>عربي</item>
+        <item>Français</item>
+        <item>Bosanski</item>
+        <item>Nederlands</item>
+        <item>Kurdish</item>
         <item>русский</item>
     </string-array>
 
@@ -88,10 +89,11 @@
         <item>tr</item>
         <item>de</item>
         <item>en</item>
-        <item>nl</item>
-        <item>fr</item>
-        <item>ku</item>
         <item>ar</item>
+        <item>fr</item>
+        <item>bs</item>
+        <item>nl</item>
+        <item>ku</item>
         <item>ru</item>
     </string-array>
     <string-array name="lefttext_part">

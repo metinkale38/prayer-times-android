@@ -185,6 +185,21 @@
             </intent-filter>
         </activity-alias>
 
+
+        <activity-alias
+            android:name=".aliasBS"
+            android:enabled="false"
+            android:label="@string/appNameBS"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+
         <activity android:name="com.metinkale.prayerapp.vakit.AddCity" />
         <activity android:name="com.metinkale.prayerapp.vakit.AddCityLegacy" />
         <activity
