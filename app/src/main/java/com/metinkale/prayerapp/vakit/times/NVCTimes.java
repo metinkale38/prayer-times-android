@@ -113,6 +113,8 @@ class NVCTimes extends WebTimes {
                 String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
                 data = data.replace("*", "").replace("\t", " ");
                 List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
+                String sabah = d.get(1);
+                String asrSani = d.get(7);
                 d.remove(15);
                 d.remove(14);
                 d.remove(13);
@@ -123,7 +125,8 @@ class NVCTimes extends WebTimes {
                 d.remove(4);
                 d.remove(3);
                 d.remove(1);
-
+                d.add(sabah);
+                d.add(asrSani);
                 data = "";
                 for (String s : d) {
                     if (s.length() == 4) {

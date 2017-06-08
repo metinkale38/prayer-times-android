@@ -54,6 +54,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.WebTimes;
 import com.metinkale.prayerapp.vakit.times.other.Vakit;
@@ -187,7 +188,62 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
                 synced = true;
             }
         }
+
+        if (mTimes.getSource() == Source.Fazilet || mTimes.getSource() == Source.NVC) {
+            mHandler.removeCallbacks(mAltTimes);
+            mHandler.removeCallbacks(mNormalTimes);
+            mHandler.postDelayed(mAltTimes, 3000);
+        }
     }
+
+
+    private Runnable mNormalTimes = new Runnable() {
+        @Override
+        public void run() {
+            LocalDate greg = LocalDate.now();
+            String imsak = mTimes.getTime(greg, 0);
+            String asr = mTimes.getTime(greg, 3);
+
+            TextView time = (TextView) mView.findViewById(ids[0]);
+            time.setText(Utils.fixTimeForHTML(imsak));
+
+            time = (TextView) mView.findViewById(ids[3]);
+            time.setText(Utils.fixTimeForHTML(asr));
+
+            time = (TextView) mView.findViewById(idsNames[0]);
+            time.setText(Vakit.IMSAK.getString());
+
+            time = (TextView) mView.findViewById(idsNames[3]);
+            time.setText(Vakit.IKINDI.getString());
+
+            mHandler.postDelayed(mAltTimes, 3000);
+        }
+    };
+
+    private Runnable mAltTimes = new Runnable() {
+        @Override
+        public void run() {
+            LocalDate greg = LocalDate.now();
+            String sabah = ((WebTimes) mTimes).getSabah(greg);
+            String asr = ((WebTimes) mTimes).getAsrSani(greg);
+            if (!sabah.equals("00:00")) {
+
+                TextView time = (TextView) mView.findViewById(ids[0]);
+                time.setText(Utils.fixTimeForHTML(sabah));
+
+                time = (TextView) mView.findViewById(ids[3]);
+                time.setText(Utils.fixTimeForHTML(asr));
+
+                time = (TextView) mView.findViewById(idsNames[0]);
+                time.setText(Vakit.SABAH.getString());
+
+                time = (TextView) mView.findViewById(idsNames[3]);
+                time.setText(R.string.asrSani);
+
+            }
+            mHandler.postDelayed(mNormalTimes, 3000);
+        }
+    };
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {

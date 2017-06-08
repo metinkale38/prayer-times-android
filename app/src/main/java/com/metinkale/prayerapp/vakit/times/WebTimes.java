@@ -24,7 +24,6 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.ArraySet;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.evernote.android.job.Job;
@@ -372,4 +371,11 @@ public class WebTimes extends Times {
     }
 
 
+    public String getSabah(LocalDate date) {
+        return adj(_getTime(date, 6), 0);
+    }
+
+    public String getAsrSani(LocalDate date) {
+        return adj(_getTime(date, 7), 3);
+    }
 }

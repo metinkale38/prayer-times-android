@@ -271,4 +271,5 @@
     <string name="showLegacyWidgets">Show legacy Widgets</string>
     <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
     <string name="pleaseDeleteAndReadd">Please delete this City and re-add it.</string>
+    <string name="asrSani" translatable="false">Asr-ı Sânî</string>
 </resources>

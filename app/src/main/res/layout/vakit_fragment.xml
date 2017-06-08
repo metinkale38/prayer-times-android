@@ -160,7 +160,7 @@
             android:paddingStart="50dp"
             android:text="@string/asr"
             app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="100%" />
 
         <com.metinkale.prayerapp.utils.AutoResizeTextView
             android:id="@+id/asrTime"

@@ -371,7 +371,7 @@ public abstract class Times extends TimesBase {
     }
 
     @NonNull
-    private String adj(@NonNull String time, int t) {
+    String adj(@NonNull String time, int t) {
         try {
             double drift = getTZFix();
             int[] adj = getMinuteAdj();

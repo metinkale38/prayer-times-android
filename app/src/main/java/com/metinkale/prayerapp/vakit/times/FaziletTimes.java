@@ -107,17 +107,23 @@ class FaziletTimes extends WebTimes {
                 int d = Integer.parseInt(dd[0]);
                 int m = ay.indexOf(dd[1]) + 1;
                 int y = Integer.parseInt(dd[2]);
-                String[] times = new String[6];
+                String[] times = new String[8];
 
                 times[0] = extractLine(lines[++i]);//2
-                i++;//3
+
+                times[6] = extractLine(lines[++i]);//3
+
                 times[1] = extractLine(lines[++i]);//4
                 i++;//5
                 times[2] = extractLine(lines[++i]);//6
                 times[3] = extractLine(lines[++i]);//7
-                i++;//8
+
+                times[7] = extractLine(lines[++i]);//8
+
                 times[4] = extractLine(lines[++i]);//9
                 times[5] = extractLine(lines[++i]);//10
+
+
                 setTimes(new LocalDate(y, m, d), times);
                 c++;
 
