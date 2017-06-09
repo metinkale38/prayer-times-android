@@ -47,20 +47,6 @@
   <string name="dateFormat1">31 Aralık 2013</string>
   <string name="dateFormat2">31 Aralık 13</string>
   <string name="dateFormat">Tarih biçimi</string>
-  <string name="dayFr">Cuma</string>
-  <string name="dayMo">Pazartesi</string>
-  <string name="daySa">Cumartesi</string>
-  <string name="dayShortFr">Cum.</string>
-  <string name="dayShortMo">Pzt.</string>
-  <string name="dayShortSa">Cmt.</string>
-  <string name="dayShortSu">Paz.</string>
-  <string name="dayShortTh">Per.</string>
-  <string name="dayShortTu">Sal.</string>
-  <string name="dayShortWe">Çar.</string>
-  <string name="daySu">Pazar</string>
-  <string name="dayTh">Perşembe</string>
-  <string name="dayTu">Salı</string>
-  <string name="dayWe">Çarşamba</string>
   <string name="delConfirmDhikr">\“%1$s\” Zikri gerçekten silmek istiyormusunuz?</string>
   <string name="delConfirm">%1$s Şehrini gerçekten silmek istiyormusunuz?</string>
   <string name="delete">Sil</string>
@@ -168,7 +154,7 @@
   <string name="resetConfirmDhikr">\“%1$s\” Zikri gerçekten sifirlamak istiyormusunuz?</string>
   <string name="restore">Geri getir</string>
   <string name="search">Ara</string>
-  <string name="selectOther">Başka seç&#8230;</string>
+  <string name="selectOther">Başka seç…</string>
   <string name="mail">E-Posta</string>
   <string name="sendMail">E-posta gönder</string>
   <string name="settings">Ayarlar</string>
@@ -196,7 +182,7 @@
   <string name="useSilenter">Sessiz Modu\'na al</string>
   <string name="useVibration">Titreşim Modu\'na al</string>
   <string name="version">Versiyon</string>
-  <string name="vibrationDesc">Milisaniye - bekleme titresim bekleme....</string>
+  <string name="vibrationDesc">Milisaniye - bekleme titresim bekleme…</string>
   <string name="vibrationPattern">Titreşim deseni</string>
   <string name="volumeAlarm">Alarm Sesine göre</string>
   <string name="volumeMedia">Media Sesine göre</string>
@@ -224,8 +210,6 @@
   <string name="useAlarm">Bildirimler için Alarm kullan</string>
   <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
     </string>
-  <string name="paypal">Paypal</string>
-  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
   <string name="vakit_indicator">Vakit göstergesi</string>
   <string name="vakit_indicator_next">Gelecek Vakit</string>
@@ -237,7 +221,6 @@
   <string name="report_bug_sum">Hataları veya istediğin yeni özellikleri bildir.</string>
   <string name="translate">Çevir</string>
   <string name="translate_sum">Namaz Vakti\'ni daha fazla dile çevirmeye yardım et</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">Kaynak\'lara bak, değişiklikler yap, hatalar bildir.</string>
   <string name="license">Lisans</string>
   <string name="license_sum">Bu Uygulama için kullanılan Apache License, Version 2.0 lisansı oku</string>
@@ -247,14 +230,12 @@
   <string name="rate_desc">Eğer Namaz Vakti\'ni sevdiyseniz olumlu bir değerlendirme bırakın.</string>
   <string name="sendMail_sum">Bana bir e-posta gönder!</string>
   <string name="beta_tester_desc">Buraya tıklayarak Beta Tester olarak kayıt yaptır</string>
-  <string name="title_activity_maps">Harita</string>
   <string name="no_internet">İnternet bağlantısı yok</string>
   <string name="export">Dışarı aktar</string>
   <string name="versionNotSupported">Android sürümü bunu desteklemiyor!</string>
   <string name="from">Başlangıç</string>
   <string name="to">Bitiş</string>
   <string name="permissionNotGranted">İzin verilmedi.</string>
-  <string name="useOSMGeocoder">Coğrafi kodlamar için OpenStreetMap kullanın</string>
   <string name="addFromCSV">CSV\'den ekle</string>
   <string name="csvFromFile">CSV dosyasını Hafıza\'dan oku</string>
   <string name="csvFromURL">CSV dosyasını Internet\'den oku</string>
@@ -272,4 +253,6 @@
   <string name="showLegacyWidgets">Eski Widgetleri kullan</string>
   <string name="showLegacyWidgetsSummary">Sadece Widget ile sorun var ise kullanınız</string>
   <string name="pleaseDeleteAndReadd">Lütfen bu şehir silin ve yeniden ekleyin.</string>
+  <string name="showExtraTimes">Sabah namazı ve Asr Sani göster</string>
+  <string name="showExtraTimesSummary">Yalnızca FaziletTakvimi.com ve NamazVakti.com için</string>
 </resources>

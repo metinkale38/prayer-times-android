@@ -17,7 +17,7 @@
   ~
   -->
 <resources>
-  <string name="activateForMorePrefs">Активируйте для дополнительных настроек&#8230;</string>
+  <string name="activateForMorePrefs">Активируйте для дополнительных настроек</string>
   <string name="adhanVolume">Громкость азана</string>
   <string name="adjAngle">На основе эклиптики (угол / 60-я часть ночь)</string>
   <string name="adjMidnight">Полночь</string>
@@ -47,20 +47,6 @@
   <string name="dateFormat1">31 декабря 2013</string>
   <string name="dateFormat2">31 декабря 13</string>
   <string name="dateFormat">Формат даты</string>
-  <string name="dayFr">Пятница</string>
-  <string name="dayMo">Понедельник</string>
-  <string name="daySa">Суббота</string>
-  <string name="dayShortFr">Пт.</string>
-  <string name="dayShortMo">Пн.</string>
-  <string name="dayShortSa">Сб.</string>
-  <string name="dayShortSu">Вс.</string>
-  <string name="dayShortTh">Чт.</string>
-  <string name="dayShortTu">Вт.</string>
-  <string name="dayShortWe">Ср.</string>
-  <string name="daySu">Воскресенье</string>
-  <string name="dayTh">Четверг</string>
-  <string name="dayTu">Вторник</string>
-  <string name="dayWe">Среда</string>
   <string name="delConfirmDhikr">Вы действительно хотите удалить \“%1$s\”?</string>
   <string name="delConfirm">Вы действительно хотите удалить %1$s?</string>
   <string name="delete">Удалить</string>
@@ -145,7 +131,6 @@
   <string name="names">99 имён Аллаха</string>
   <string name="newAddCity">Выберите город</string>
   <string name="newDhikr">Новый Зикр</string>
-  <string name="noConnection">Подключение отсутствует&#8230;</string>
   <string name="noFavs">Нет избранного</string>
   <string name="no">Heт</string>
   <string name="notification">Уведомление</string>
@@ -161,14 +146,15 @@
   <string name="permissionCameraTitle">Разрешения для камеры</string>
   <string name="permissionLocationText">Доступ к геоданным необходим для определения города. В случае отсутствия доступа к геоданным, необходимо установить город вручную.</string>
   <string name="permissionLocationTitle">Доступ к геоданным</string>
-  <string name="permissionStorageText">Необходимо разрешение на хранение данных... Без этого разрешения некоторые функции будут недоступны</string>
+  <string name="permissionStorageText">Необходимо разрешение на хранение данных. Без этого разрешения некоторые функции будут недоступны.</string>
   <string name="permissionStorageTitle">Доступ к хранению данных</string>
   <string name="prayerNotification">Уведомление о молитве</string>
   <string name="refresh">Синхронизировать</string>
   <string name="resetConfirmDhikr">Вы действительно хотите сбросить \“%1$s\”?</string>
   <string name="restore">Восстановить</string>
   <string name="search">Поиск</string>
-  <string name="selectOther">другое&#8230;</string>
+  <string name="selectOther">Другое…</string>
+  <string name="mail">Электронная почта</string>
   <string name="settings">Настройки</string>
   <string name="share">Поделится</string>
   <string name="shareTimes">Расписание молитв на сегодня для %1$s</string>
@@ -194,7 +180,7 @@
   <string name="useSilenter">Беззвучный режим</string>
   <string name="useVibration">Вибрация</string>
   <string name="version">Версия</string>
-  <string name="vibrationDesc">Миллисекунды - ожидание вибрация ожидание&#8230;</string>
+  <string name="vibrationDesc">Миллисекунды - ожидание вибрация ожидание…</string>
   <string name="vibrationPattern">Тип вибрации</string>
   <string name="volumeAlarm">Громкость будильника</string>
   <string name="volumeMedia">Громкость мультимедиа</string>
@@ -205,6 +191,7 @@
   <string name="widgetCountdownType">Виджет - обратный отсчет минут</string>
   <string name="widgetDesign">Тема оформления</string>
   <string name="widgetLong">Времена молитв - 4*1 Виджет</string>
+  <string name="widgetLabel">Времена молитв - 2*2 Виджет</string>
   <string name="widgetSilenter">Времена молитв - 4*1 Беззвучный Виджет</string>
   <string name="widgetSmall">Времена молитв - 1*1 Виджет</string>
   <string name="witr">Витр</string>
@@ -231,7 +218,6 @@
   <string name="report_bug_sum">Сообщить об ошибке или запросить новые возможности.</string>
   <string name="translate">Перевести</string>
   <string name="translate_sum">Помогите нам перевести приложение на ваш язык</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">Сделайте форк репозитория, предлагайте ваши изменения, сообщайте об ошибках.</string>
   <string name="license">Лицензия</string>
   <string name="license_sum">Смотрите условия лицензии Apache 2.0 используемой приложением</string>
@@ -241,15 +227,15 @@
   <string name="rate_desc">Поставьте нам хорошую оценку, если вам понравилось приложение.</string>
   <string name="sendMail_sum">Пришлите мне e-mail!</string>
   <string name="beta_tester_desc">Зарегистрируйтесь в качестве бета-тестера, нажав здесь</string>
-  <string name="title_activity_maps">Карта</string>
   <string name="no_internet">Нет подключения к Интернету</string>
   <string name="export">Экспорт</string>
   <string name="versionNotSupported">Ваша версия Android не поддерживается!</string>
   <string name="from">От</string>
   <string name="to">Кому</string>
   <string name="permissionNotGranted">Разрешение не предоставлено.</string>
-  <string name="useOSMGeocoder">Использовать карты Openstreet Maps для геокодирования</string>
   <string name="addFromCSV">Добавить из CSV</string>
   <string name="csvFromFile">Загрузить CSV из файла</string>
   <string name="csvFromURL">Загрузить CSV по ссылке</string>
+  <string name="ratingFirstDlgTitle">Вам нравится приложение?</string>
+  <string name="support_development">Поддержать разработку</string>
 </resources>

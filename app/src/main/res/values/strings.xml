@@ -15,7 +15,7 @@
   ~
   -->
 <resources>
-    <string name="activateForMorePrefs">Activate for more Preferences&#8230;</string>
+    <string name="activateForMorePrefs">Activate for more Preferences</string>
     <string name="adhanVolume">Adhan Volume</string>
     <string name="adjAngle">Angle based (angle/60th of night)</string>
     <string name="adjMidnight">Midnight</string>
@@ -45,20 +45,6 @@
     <string name="dateFormat1">31 December 2013</string>
     <string name="dateFormat2">31 December 13</string>
     <string name="dateFormat">Date Format</string>
-    <string name="dayFr">Friday</string>
-    <string name="dayMo">Monday</string>
-    <string name="daySa">Saturday</string>
-    <string name="dayShortFr">Fri.</string>
-    <string name="dayShortMo">Mon.</string>
-    <string name="dayShortSa">Sat.</string>
-    <string name="dayShortSu">Sun.</string>
-    <string name="dayShortTh">Thu.</string>
-    <string name="dayShortTu">Tue.</string>
-    <string name="dayShortWe">Wed.</string>
-    <string name="daySu">Sunday</string>
-    <string name="dayTh">Thursday</string>
-    <string name="dayTu">Tuesday</string>
-    <string name="dayWe">Wednesday</string>
     <string name="delConfirmDhikr">Do you really want to delete \“%1$s\”?</string>
     <string name="delConfirm">Do you really want to delete %1$s?</string>
     <string name="delete">Delete</string>
@@ -143,7 +129,7 @@
     <string name="names">99 Names of Allah</string>
     <string name="newAddCity">Use new City Chooser</string>
     <string name="newDhikr">New Dhikr</string>
-    <string name="noConnection">No Connection&#8230;</string>
+    <string name="noConnection">No Connection</string>
     <string name="noFavs">No favorites</string>
     <string name="no">No</string>
     <string name="notification">Notification</string>
@@ -159,14 +145,14 @@
     <string name="permissionCameraTitle">Camera Permission</string>
     <string name="permissionLocationText">Location Permission is needed, to find your City. If you don\'t allow this App, to access your Location, you have to search for your City manually.</string>
     <string name="permissionLocationTitle">Location Permission</string>
-    <string name="permissionStorageText">Storage Permission is needed&#8230; Without that Permission some things will not work</string>
+    <string name="permissionStorageText">Storage Permission is needed. Without that Permission some things will not work.</string>
     <string name="permissionStorageTitle">Storage Permission</string>
     <string name="prayerNotification">Prayer Notification</string>
     <string name="refresh">Synchronize</string>
     <string name="resetConfirmDhikr">Do you really want to reset\“%1$s\”?</string>
     <string name="restore">Restore</string>
     <string name="search">Search</string>
-    <string name="selectOther">other&#8230;</string>
+    <string name="selectOther">Other…</string>
     <string name="mail">E-Mail</string>
     <string name="sendMail">Send E-Mail</string>
     <string name="settings">Settings</string>
@@ -194,7 +180,7 @@
     <string name="useSilenter">Silent</string>
     <string name="useVibration">Vibration</string>
     <string name="version">Version</string>
-    <string name="vibrationDesc">Miliseconds - wait vibrate wait&#8230;</string>
+    <string name="vibrationDesc">Miliseconds - wait vibrate wait…</string>
     <string name="vibrationPattern">Vibration pattern</string>
     <string name="volumeAlarm">Alarm-Volume</string>
     <string name="volumeMedia">Media-Volume</string>
@@ -223,8 +209,6 @@
   <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
-    <string name="paypal">Paypal</string>
-    <string name="bitcoin">Bitcoin</string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>
@@ -236,7 +220,7 @@
     <string name="report_bug_sum">Report bug or request new features.</string>
     <string name="translate">Translate</string>
     <string name="translate_sum">Help us to translate this App in more Languages</string>
-    <string name="github">GitHub</string>
+    <string name="github" translatable="false">GitHub</string>
     <string name="github_sum">Fork the repo and push changes or submit new issues.</string>
     <string name="license">License</string>
     <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
@@ -246,14 +230,12 @@
     <string name="rate_desc">Leave us positive rating if you like Prayer times.</string>
     <string name="sendMail_sum">Send me an E-Mail!</string>
     <string name="beta_tester_desc">Register as Beta Tester by clicking here</string>
-    <string name="title_activity_maps">Map</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="export">Export</string>
     <string name="versionNotSupported">Your Android Version does not support this!</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="permissionNotGranted">Permission not granted.</string>
-    <string name="useOSMGeocoder">Use Openstreet Maps for Geocoding</string>
     <string name="addFromCSV">Add from CSV</string>
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
@@ -272,4 +254,6 @@
     <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
     <string name="pleaseDeleteAndReadd">Please delete this City and re-add it.</string>
     <string name="asrSani" translatable="false">Asr-ı Sânî</string>
+    <string name="showExtraTimes">Show Morning Prayer and Asr Sani</string>
+    <string name="showExtraTimesSummary">Only for FaziletTakvimi.com and NamazVakti.com</string>
 </resources>

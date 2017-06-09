@@ -189,11 +189,12 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             }
         }
 
-        if (mTimes.getSource() == Source.Fazilet || mTimes.getSource() == Source.NVC) {
+        if (Prefs.showExtraTimes() && (mTimes.getSource() == Source.Fazilet || mTimes.getSource() == Source.NVC)) {
             mHandler.removeCallbacks(mAltTimes);
             mHandler.removeCallbacks(mNormalTimes);
             mHandler.postDelayed(mAltTimes, 3000);
         }
+
     }
 
 

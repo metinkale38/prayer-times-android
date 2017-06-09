@@ -79,6 +79,12 @@
             android:key="vakit_indicator"
             android:title="@string/vakit_indicator" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showExtraTimes"
+            android:title="@string/showExtraTimes"
+            android:summary="@string/showExtraTimesSummary"/>
+
 
     </PreferenceCategory>
 

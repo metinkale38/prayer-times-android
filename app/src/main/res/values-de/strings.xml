@@ -17,7 +17,7 @@
   ~
   -->
 <resources>
-  <string name="activateForMorePrefs">Für mehr Einstellungen bitte aktivieren&#8230;</string>
+  <string name="activateForMorePrefs">Für weitere Einstellungen aktivieren</string>
   <string name="adhanVolume">Adhan Lautstärke</string>
   <string name="adjAngle">Winkel basierend (angle/60th of night)</string>
   <string name="adjMidnight">Mitternacht</string>
@@ -47,20 +47,6 @@
   <string name="dateFormat1">31 Dezember 2013</string>
   <string name="dateFormat2">31 Dezember 13</string>
   <string name="dateFormat">Datumsformat</string>
-  <string name="dayFr">Freitag</string>
-  <string name="dayMo">Montag</string>
-  <string name="daySa">Samstag</string>
-  <string name="dayShortFr">Fr</string>
-  <string name="dayShortMo">Mo</string>
-  <string name="dayShortSa">Sa</string>
-  <string name="dayShortSu">So</string>
-  <string name="dayShortTh">Do</string>
-  <string name="dayShortTu">Di</string>
-  <string name="dayShortWe">Mi</string>
-  <string name="daySu">Sonntag</string>
-  <string name="dayTh">Donnerstag</string>
-  <string name="dayTu">Dienstag</string>
-  <string name="dayWe">Mittwoch</string>
   <string name="delConfirmDhikr">Willst du \“%1$s\” wirklich löschen?</string>
   <string name="delConfirm">Willst du %1$s wirklich löschen</string>
   <string name="delete">Löschen</string>
@@ -169,16 +155,14 @@
         du diese Berechtigung nicht erteilst, musst du manuell nach ihrer Stadt suchen.
     </string>
   <string name="permissionLocationTitle">Standort Berechtigung</string>
-  <string name="permissionStorageText">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Sachen
-        nicht funktionieren&#8230;
-    </string>
+  <string name="permissionStorageText">Es wird eine Speicher Berechtigung benötigt. Ohne diese werden einige Dinge nicht funktionieren.</string>
   <string name="permissionStorageTitle">Speicher Berechtigung</string>
   <string name="prayerNotification">Gebetszeit Meldung</string>
   <string name="refresh">Synchronisieren</string>
   <string name="resetConfirmDhikr">Willst du \“%1$s\” wirklich zurücksetzen?</string>
   <string name="restore">Wiederherstellen</string>
   <string name="search">Suchen</string>
-  <string name="selectOther">andere&#8230;</string>
+  <string name="selectOther">Andere…</string>
   <string name="mail">E-Mail</string>
   <string name="sendMail">E-Mail schreiben</string>
   <string name="settings">Einstellungen</string>
@@ -206,7 +190,7 @@
   <string name="useSilenter">Lautlos</string>
   <string name="useVibration">Vibration</string>
   <string name="version">Version</string>
-  <string name="vibrationDesc">Milisekunden - warten vibration warten&#8230;</string>
+  <string name="vibrationDesc">Milisekunden - warten vibration warten…</string>
   <string name="vibrationPattern">Vibrationsmuster</string>
   <string name="volumeAlarm">Alarm-Lautstärke</string>
   <string name="volumeMedia">Medien-Lautstärke</string>
@@ -235,8 +219,6 @@
   <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
     </string>
-  <string name="paypal">PayPal</string>
-  <string name="bitcoin">Bitcoin</string>
   <string name="ongoingNumber">Zeige Minuten in Notification-Icon</string>
   <string name="vakit_indicator">Gebetszeit Anzeige</string>
   <string name="vakit_indicator_next">Nächste Gebetszeit</string>
@@ -248,7 +230,6 @@
   <string name="report_bug_sum">Melden Sie Fehler oder schlagen Sie neue Funktionen vor.</string>
   <string name="translate">Übersetzen</string>
   <string name="translate_sum">Hilf uns Gebetszeiten in weitere Sprachen zu übersetzen</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">Forke das Repository und pushe Änderungen oder teile uns Probleme oder Verbesserungswünsche in Form von Issues mit.</string>
   <string name="license">Lizenz</string>
   <string name="license_sum">Prüfe die verwendete Apache License, Version 2.0 Lizenzbedingungen</string>
@@ -258,14 +239,12 @@
   <string name="rate_desc">Bewerte uns positiv falls du Gebetszeiten magst.</string>
   <string name="sendMail_sum">Sende mir eine E-Mail!</string>
   <string name="beta_tester_desc">Als Beta-Tester zu registrieren</string>
-  <string name="title_activity_maps">Karte</string>
   <string name="no_internet">Keine Internetverbindung</string>
   <string name="export">Exportieren</string>
   <string name="versionNotSupported">Diese Funktion wird nicht auf ihrer Android Version unterstützt!</string>
   <string name="from">Von</string>
   <string name="to">Bis</string>
   <string name="permissionNotGranted">Berechtigung wurde nicht erteilt.</string>
-  <string name="useOSMGeocoder">Nutze OpenStreetMaps für Geocoding</string>
   <string name="addFromCSV">Aus CSV-Datei hinzufügen</string>
   <string name="csvFromFile">Lade CSV von Datei</string>
   <string name="csvFromURL">Lade CSV von URL</string>
@@ -283,4 +262,6 @@
   <string name="showLegacyWidgets">Benutze altes Widget</string>
   <string name="showLegacyWidgetsSummary">Verwende diese Einstellung nur, falls du Probleme mit den Widgets hast</string>
   <string name="pleaseDeleteAndReadd">Bitte lösche diese Stadt und füge sie erneut hinzu.</string>
+  <string name="showExtraTimes">Zeige Morgengebet und Asr Sani</string>
+  <string name="showExtraTimesSummary">Nur für FaziletTakvimi.com und NamazVakti.com</string>
 </resources>

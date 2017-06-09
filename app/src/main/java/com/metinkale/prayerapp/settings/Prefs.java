@@ -50,7 +50,7 @@ public class Prefs {
     @NonNull
     public static String getLanguage(@Size(min = 1) String... allow) {
         String lang = getLanguage();
-        if (lang == null|| !Arrays.asList(allow).contains(lang)) {
+        if (lang == null || !Arrays.asList(allow).contains(lang)) {
             return allow[0];
         }
 
@@ -214,4 +214,7 @@ public class Prefs {
         return getPrefs().getBoolean("showAltWidgetHightlight", false);
     }
 
+    public static boolean showExtraTimes() {
+        return getPrefs().getBoolean("showExtraTimes", false);
+    }
 }

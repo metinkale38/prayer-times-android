@@ -17,7 +17,7 @@
   ~
   -->
 <resources>
-  <string name="activateForMorePrefs">Activeer voor meer voorkeuren&#8230;</string>
+  <string name="activateForMorePrefs">Activeer voor meer voorkeuren</string>
   <string name="adhanVolume">Azan Volume</string>
   <string name="adjAngle">Hoek gebaseerd (hoek/60e nacht)</string>
   <string name="adjMidnight">Middernacht</string>
@@ -47,20 +47,6 @@
   <string name="dateFormat1">31 December 2013</string>
   <string name="dateFormat2">31 December 13</string>
   <string name="dateFormat">Datumnotatie</string>
-  <string name="dayFr">Vrijdag</string>
-  <string name="dayMo">Maandag</string>
-  <string name="daySa">Zaterdag</string>
-  <string name="dayShortFr">Vr.</string>
-  <string name="dayShortMo">Ma.</string>
-  <string name="dayShortSa">Za.</string>
-  <string name="dayShortSu">Zo.</string>
-  <string name="dayShortTh">Do.</string>
-  <string name="dayShortTu">Di.</string>
-  <string name="dayShortWe">Wo.</string>
-  <string name="daySu">Zondag</string>
-  <string name="dayTh">Donderdag</string>
-  <string name="dayTu">Dinsdag</string>
-  <string name="dayWe">Woensdag</string>
   <string name="delConfirmDhikr">Weet u zeker dat u \“%1$s\” wilt verwijderen?</string>
   <string name="delConfirm">Weet u zeker dat u %1$s wilt verwijderen?</string>
   <string name="delete">Verwijderen</string>
@@ -145,7 +131,7 @@
   <string name="names">De 99 namen van Allah</string>
   <string name="newAddCity">Maak keuze uit een nieuwe stad</string>
   <string name="newDhikr">Nieuwe Dhikr</string>
-  <string name="noConnection">Geen verbinding&#8230;</string>
+  <string name="noConnection">Geen verbinding</string>
   <string name="noFavs">Geen favorieten</string>
   <string name="no">Nee</string>
   <string name="notification">Melding</string>
@@ -161,14 +147,14 @@
   <string name="permissionCameraTitle">Toegang geven tot uw Camera</string>
   <string name="permissionLocationText">Toestemming geven tot uw Locatie om te zien in welke stad u zich bevindt. Anders moet u uw stad handmatig instellen.</string>
   <string name="permissionLocationTitle">Toegang tot uw Locatie</string>
-  <string name="permissionStorageText">Toegang tot uw Opslaggeheugen is nodig... Anders zullen sommige dingen niet goed werken</string>
+  <string name="permissionStorageText">Toegang tot uw Opslaggeheugen is nodig. Anders zullen sommige dingen niet goed werken.</string>
   <string name="permissionStorageTitle">Toegang tot uw Opslag</string>
   <string name="prayerNotification">Gebedstijd-melding</string>
   <string name="refresh">Synchroniseren</string>
   <string name="resetConfirmDhikr">Weet u zeker dat u \“%1$s\” wilt resetten?</string>
   <string name="restore">Herstellen</string>
   <string name="search">Zoeken</string>
-  <string name="selectOther">anders&#8230;</string>
+  <string name="selectOther">Anders…</string>
   <string name="mail">E-mail</string>
   <string name="sendMail">Stuur e-mail</string>
   <string name="settings">Instellingen</string>
@@ -196,7 +182,7 @@
   <string name="useSilenter">Stil</string>
   <string name="useVibration">Trilstand</string>
   <string name="version">Versie</string>
-  <string name="vibrationDesc">Milliseconden - wacht voor tril&#8230;</string>
+  <string name="vibrationDesc">Milliseconden - wacht voor tril…</string>
   <string name="vibrationPattern">Trilpatroon</string>
   <string name="volumeAlarm">Alarm-Volume</string>
   <string name="volumeMedia">Media-Volume</string>
@@ -234,7 +220,6 @@
   <string name="report_bug_sum">Fout melden of verzoek om nieuwe functies.</string>
   <string name="translate">Vertalen</string>
   <string name="translate_sum">Help ons deze app te vertalen in uw eigen taal</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">Fork de repository en push veranderingen of meld nieuwe problemen.</string>
   <string name="license">Licentie</string>
   <string name="license_sum">Controleer Apache License, versie 2.0 licentievoorwaarden gebruikt op gebedstijden</string>
@@ -244,14 +229,12 @@
   <string name="rate_desc">Geef ons een positieve beoordeling als je Gebedstijden leuk vind.</string>
   <string name="sendMail_sum">Stuur mij een E-mail!</string>
   <string name="beta_tester_desc">Registreer als Beta-Testen door hier te klikken</string>
-  <string name="title_activity_maps">Kaart</string>
   <string name="no_internet">Geen internetverbinding</string>
   <string name="export">Exporteer</string>
   <string name="versionNotSupported">Dit wordt niet ondersteund door uw Android versie!</string>
   <string name="from">Van</string>
   <string name="to">Naar</string>
   <string name="permissionNotGranted">Toestemming niet verleend.</string>
-  <string name="useOSMGeocoder">Gebruik Openstreet Maps voor Geocoding</string>
   <string name="addFromCSV">Toevoegen vanuit CSV</string>
   <string name="csvFromFile">Laad CSV van bestand</string>
   <string name="csvFromURL">Laad CSV vanuit URL</string>

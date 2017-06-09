@@ -17,7 +17,7 @@
   ~
   -->
 <resources>
-  <string name="activateForMorePrefs">Uključi za više podešavanja&#8230;</string>
+  <string name="activateForMorePrefs">Uključi za više podešavanja</string>
   <string name="adhanVolume">Glasnoća ezana</string>
   <string name="adjAngle">Ugaonski način (ugao/60ti noći)</string>
   <string name="adjMidnight">Ponoć</string>
@@ -47,20 +47,6 @@
   <string name="dateFormat1">31 Decembar 2013</string>
   <string name="dateFormat2">31 Decembar 13</string>
   <string name="dateFormat">Format datuma</string>
-  <string name="dayFr">Petak</string>
-  <string name="dayMo">Ponedeljak</string>
-  <string name="daySa">Subota</string>
-  <string name="dayShortFr">Pe.</string>
-  <string name="dayShortMo">Po.</string>
-  <string name="dayShortSa">Su.</string>
-  <string name="dayShortSu">Ne.</string>
-  <string name="dayShortTh">Če.</string>
-  <string name="dayShortTu">Ut.</string>
-  <string name="dayShortWe">Sr.</string>
-  <string name="daySu">Nedelja</string>
-  <string name="dayTh">Četvrtak</string>
-  <string name="dayTu">Utorak</string>
-  <string name="dayWe">Srijeda</string>
   <string name="delConfirmDhikr">Želite li zaista da izbrišete \“%1$s\”?</string>
   <string name="delConfirm">Želite li zaista da izbrišete %1$s?</string>
   <string name="delete">Izbriši</string>
@@ -145,7 +131,7 @@
   <string name="names">99 Allahovih imena</string>
   <string name="newAddCity">Koristi novi birač gradova</string>
   <string name="newDhikr">Novi zikr</string>
-  <string name="noConnection">Bez konekcije...</string>
+  <string name="noConnection">Bez konekcije</string>
   <string name="noFavs">Bez favorita</string>
   <string name="no">Ne</string>
   <string name="notification">Obavijest</string>
@@ -161,14 +147,14 @@
   <string name="permissionCameraTitle">Pristup kameri</string>
   <string name="permissionLocationText">Pristup lokalizaciji je potrebna da bi našli vaš grad. Ako ovaj pristup ne dadnete ovoj aplikaciji onda morate vaš grad ručno tražiti.</string>
   <string name="permissionLocationTitle">Pristup lokalizaciji</string>
-  <string name="permissionStorageText">Pristup memorisanju je potreban... Bez ovog pristupa neke funkcije neće raditi</string>
+  <string name="permissionStorageText">Pristup memorisanju je potreban. Bez ovog pristupa neke funkcije neće raditi.</string>
   <string name="permissionStorageTitle">Pristup memorisanju</string>
   <string name="prayerNotification">Obavijest namaza</string>
   <string name="refresh">Sinkronizacija</string>
   <string name="resetConfirmDhikr">Želite li zaista da odstranite \“%1$s\”?</string>
   <string name="restore">Rekonstruirati</string>
   <string name="search">Potraga</string>
-  <string name="selectOther">ostali&#8230;</string>
+  <string name="selectOther">Ostali…</string>
   <string name="mail">E-mail</string>
   <string name="sendMail">Pošalji e-mail</string>
   <string name="settings">Postavke</string>
@@ -196,7 +182,7 @@
   <string name="useSilenter">Bezvučno</string>
   <string name="useVibration">Vibracije</string>
   <string name="version">Verzija</string>
-  <string name="vibrationDesc">Milisekunda - čekaj vibriraj čekaj&#8230;</string>
+  <string name="vibrationDesc">Milisekunda - čekaj vibriraj čekaj…</string>
   <string name="vibrationPattern">Mustra vibracije</string>
   <string name="volumeAlarm">Alarm jačina</string>
   <string name="volumeMedia">Medijalna jačina</string>
@@ -205,7 +191,6 @@
   <string name="whiteWidget">Bijeli widget</string>
   <string name="widgetClock">Vaktija - 4*2 sat</string>
   <string name="widgetCountdownType">Widget - Countdown minuta</string>
-  <string name="widgetDesign">Theme</string>
   <string name="widgetLong">Vaktija - 4*1 Widget</string>
   <string name="widgetLabel">Vaktija - 2*2 Widget</string>
   <string name="widgetSilenter">Vaktija - Widget za bezvučnost</string>
@@ -234,24 +219,20 @@
   <string name="report_bug_sum">Prijavi grešku ili podnesi molbu za nove funkcije.</string>
   <string name="translate">Prevesti</string>
   <string name="translate_sum">Pomozi nam prevesti ovu aplikaciju u još više jezika</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">Forkiraj repo i doprinesi promjene ili javi nove pogrešake.</string>
   <string name="license">Licencija</string>
-  <string name="license_sum">Check Apache License, Version 2.0 license terms used on Prayer times</string>
   <string name="library_licenses">Licencija biblioteka</string>
   <string name="library_licenses_sum">Prikaži biblioteke trećih, korištene u ovoj aplikaciji</string>
   <string name="rate">Ocijeni</string>
   <string name="rate_desc">Ocjeni nas pozitivno ako vam se sviđa Vaktija.</string>
   <string name="sendMail_sum">Pošalji mi e-mail!</string>
   <string name="beta_tester_desc">Registriraj se kao beta ispitivač</string>
-  <string name="title_activity_maps">Karta</string>
   <string name="no_internet">Bez konekcije sa internetom</string>
   <string name="export">Eksport</string>
   <string name="versionNotSupported">Vaša verzija androida ne podržava ovu funkciju!</string>
   <string name="from">Od</string>
   <string name="to">Do</string>
   <string name="permissionNotGranted">Pristup nije omogućen.</string>
-  <string name="useOSMGeocoder">Koristi Openstreet karte za geocoding</string>
   <string name="addFromCSV">Dodaj iz CSV fajla</string>
   <string name="csvFromFile">Unesi CSV iz fajla</string>
   <string name="csvFromURL">Unesi CSV iz URLa</string>

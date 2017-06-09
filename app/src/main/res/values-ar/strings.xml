@@ -47,20 +47,6 @@
   <string name="dateFormat1">٣١ ديسمبر ٢٠١٣</string>
   <string name="dateFormat2">٣١ ديسمبر ١٣</string>
   <string name="dateFormat">صيغة كتابة التاريخ</string>
-  <string name="dayFr">الجمعة</string>
-  <string name="dayMo">الإثنين</string>
-  <string name="daySa">السبت</string>
-  <string name="dayShortFr">ج</string>
-  <string name="dayShortMo">ن</string>
-  <string name="dayShortSa">س</string>
-  <string name="dayShortSu">ح</string>
-  <string name="dayShortTh">خ</string>
-  <string name="dayShortTu">ث</string>
-  <string name="dayShortWe">ر</string>
-  <string name="daySu">الأحد</string>
-  <string name="dayTh">الخميس</string>
-  <string name="dayTu">الثلاثاء</string>
-  <string name="dayWe">الأربعاء</string>
   <string name="delConfirmDhikr">هل تريد حذف \“%1$s\” ؟</string>
   <string name="delConfirm">هل تريد حذف %1$s ؟</string>
   <string name="delete">حذف</string>
@@ -145,7 +131,6 @@
   <string name="names">أسماء الله الحسنى </string>
   <string name="newAddCity">إختيار مدينة جديدة</string>
   <string name="newDhikr">ذِكر جديد</string>
-  <string name="noConnection">الإتصال معطل</string>
   <string name="noFavs">لا توجد مفضلة</string>
   <string name="no">كلا</string>
   <string name="notification">تنبيه</string>
@@ -168,16 +153,15 @@
         إذا لم تعط الصلاحية لذلك فيمكنك رغم ذلك اختيار مدينتك يدوياً
     \"</string>
   <string name="permissionLocationTitle">صلاحية تحديد الموقع</string>
-  <string name="permissionStorageText">\"إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
-        التطبيق بشكل مامل
-    \"</string>
+  <string name="permissionStorageText">إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
+التطبيق بشكل مامل.</string>
   <string name="permissionStorageTitle">صلاحية الحافظة</string>
   <string name="prayerNotification">تنبيه وقت الصلاة</string>
   <string name="refresh">المزامنة</string>
   <string name="resetConfirmDhikr">هل تريد فعلاً إلغاء \“%1$s\” ؟</string>
   <string name="restore">إسترجاع</string>
   <string name="search">بحث</string>
-  <string name="selectOther">أخرى &#8230;</string>
+  <string name="selectOther">أخرى…</string>
   <string name="mail">البريد الإلكتروني</string>
   <string name="sendMail">إرسال بريد إلكتروني</string>
   <string name="settings">إعدادات</string>
@@ -205,7 +189,7 @@
   <string name="useSilenter">الصامت</string>
   <string name="useVibration">الاهتزاز</string>
   <string name="version">رقم أصدار</string>
-  <string name="vibrationDesc">ملي ثانية - انتظر اهتزاز انتظر &#8230;</string>
+  <string name="vibrationDesc">ملي ثانية - انتظر اهتزاز انتظر…</string>
   <string name="vibrationPattern">نماذج الإهتزاز</string>
   <string name="volumeAlarm">حدة صوت المنبه</string>
   <string name="volumeMedia">حدة صوت التسجيلات</string>
@@ -245,7 +229,6 @@
   <string name="report_bug_sum">إبلاغ عن علة أو طلب ميزات جديدة.</string>
   <string name="translate">ترجمة</string>
   <string name="translate_sum">ساعدنا في ترجمة هذا التطبيق لمزيد من اللغات</string>
-  <string name="github">GitHub</string>
   <string name="github_sum">غيِّر في مستودع الملفات وأضف تغييراتك، أو بلغ عن علة.</string>
   <string name="license">الترخيص</string>
   <string name="license_sum">راجع رخصة أباتشي، الإصدار 2.0 شروط ترخيص استخدام برنامج أوقات الصلاة</string>
@@ -255,14 +238,12 @@
   <string name="rate_desc">أعطي التطبيق تقييم إيجابي إذا أعجبك.</string>
   <string name="sendMail_sum">أرسل لي رسالة بالبريد إلكتروني!</string>
   <string name="beta_tester_desc">إبدأ بإستخدام النسخة التحريبية</string>
-  <string name="title_activity_maps">خريطة</string>
   <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
   <string name="export">استخراج</string>
   <string name="versionNotSupported">لا تدعم نسخة الأندرويد الخاصة بك هذا التطبيق!</string>
   <string name="from">من</string>
   <string name="to">إلى</string>
   <string name="permissionNotGranted">لم يُمنح الإذن.</string>
-  <string name="useOSMGeocoder">استخدام مزود الخرائط Openstreet من أجل الترميز الجغرافي</string>
   <string name="addFromCSV">إضافة من ملف CSV</string>
   <string name="csvFromFile">تحميل CSV من الملف</string>
   <string name="csvFromURL">تحميل CSV من رابط</string>
