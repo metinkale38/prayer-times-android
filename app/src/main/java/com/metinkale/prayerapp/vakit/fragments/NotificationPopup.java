@@ -30,6 +30,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,9 +50,11 @@ import com.metinkale.prayerapp.vakit.AlarmReceiver;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-public class NotificationPopup extends Activity {
+public class NotificationPopup extends Activity implements SensorEventListener {
     @Nullable
     public static NotificationPopup instance;
+    private SensorManager mSensorManager;
+    private Sensor mProximity;
 
 
     @Override
@@ -84,18 +90,41 @@ public class NotificationPopup extends Activity {
         vakit.setText(getIntent().getStringExtra("vakit"));
         vakit.setKeepScreenOn(true);
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-
-        registerReceiver(mReceiver, filter);
-
-
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        if (mProximity == null) {
+            IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+            registerReceiver(mReceiver, filter);
+        } else {
+            mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
+        }
     }
 
     @Override
     protected void onDestroy() {
+        if (mProximity != null)
+            mSensorManager.unregisterListener(this);
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.values[0] > 0) {
+            IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+            registerReceiver(mReceiver, filter);
+
+            mSensorManager.unregisterListener(this);
+            mProximity = null;
+            mSensorManager = null;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
