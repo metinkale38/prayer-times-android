@@ -74,6 +74,7 @@ public class WidgetService extends Service {
     private Integer mColor2nd = null;
     private IntentFilter mScreenOnOffFilter;
     private IntentFilter mTimeTickFilter;
+    private IntentFilter mTimeChangedFilter;
     private NotificationManager mNotMan;
 
     @Nullable
@@ -89,6 +90,10 @@ public class WidgetService extends Service {
         mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
+        
+        mTimeChangedFilter = new IntentFilter();
+        mTimeChangedFilter.addAction(Intent.ACTION_TIME_CHANGED);
+        registerReceiver(mBroadcastReceiver, mTimeChangedFilter);
 
         mTimeTickFilter = new IntentFilter();
         mTimeTickFilter.addAction(Intent.ACTION_TIME_TICK);
@@ -119,6 +124,7 @@ public class WidgetService extends Service {
                 registerReceiver(mBroadcastReceiver, mTimeTickFilter);
             }
             case Intent.ACTION_USER_PRESENT:
+            case Intent.ACTION_TIME_CHANGED:
             case Intent.ACTION_TIME_TICK: {
                 WidgetUtils.updateWidgets(this);
                 updateOngoing();
