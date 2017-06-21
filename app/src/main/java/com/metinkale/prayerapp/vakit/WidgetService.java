@@ -122,6 +122,7 @@ public class WidgetService extends Service {
                 unregisterReceiver(mBroadcastReceiver);
                 registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
                 registerReceiver(mBroadcastReceiver, mTimeTickFilter);
+                registerReceiver(mBroadcastReceiver, mTimeChangedFilter);
             }
             case Intent.ACTION_USER_PRESENT:
             case Intent.ACTION_TIME_CHANGED:
