@@ -56,7 +56,7 @@ class CSVTimes extends WebTimes {
 
     protected boolean parseResult(@NonNull String result) {
         int i = 0;
-        String[] lines = result.replace("\"", "").split("\n");
+        String[] lines = result.replace("\"", "").replace("\r","").split("\n");
 
         FOR:
         for (String line : lines) {
@@ -72,13 +72,13 @@ class CSVTimes extends WebTimes {
                 String parts[] = line.split(sep1);
 
                 if (parts[0].contains("-")) sep2 = "-";
-                else if (parts[0].contains(".")) sep2 = ".";
-                else if (parts[0].contains("_")) sep2 = ".";
+                else if (parts[0].contains(".")) sep2 = "\\.";
+                else if (parts[0].contains("_")) sep2 = "_";
 
                 if (sep2 == null) continue;
 
-                String date[] = parts[i].split(sep2);
-                int year = Integer.parseInt(date[2]);
+                String date[] = parts[0].split(sep2);
+                int year = date.length > 2 ? Integer.parseInt(date[2]) : LocalDate.now().getYear();
                 int month = Integer.parseInt(date[1]);
                 int day = Integer.parseInt(date[0]);
                 for (int l = 1; l < 7; l++) {
