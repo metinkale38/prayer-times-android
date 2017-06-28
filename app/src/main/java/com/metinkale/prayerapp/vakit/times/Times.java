@@ -217,17 +217,19 @@ public abstract class Times extends TimesBase {
             }
             alarms.addAll(t.getAlarms());
         }
+
+        Collections.sort(alarms, new Comparator<Alarm>() {
+            @Override
+            public int compare(Alarm o1, Alarm o2) {
+                return (int) (o1.time - o2.time);
+            }
+        });
         return alarms;
     }
 
     public static void setAlarms() {
         List<Alarm> alarms = getAllAlarms();
-
-        for (Alarm a : alarms) {
-            AlarmReceiver.setAlarm(App.get(), a);
-
-        }
-
+        AlarmReceiver.setAlarm(App.get(), alarms.get(0));
     }
 
     public void addOnTimesUpdatedListener(@NonNull OnTimesUpdatedListener list) {
@@ -493,8 +495,8 @@ public abstract class Times extends TimesBase {
     }
 
 
-    public static class Alarm{
-        private static final Gson GSON=new Gson();
+    public static class Alarm {
+        private static final Gson GSON = new Gson();
         public final long city;
         public final boolean cuma;
         public final boolean early;
@@ -530,7 +532,6 @@ public abstract class Times extends TimesBase {
             result = 37 * result + dayOffset;
             return result;
         }
-
 
 
     }
