@@ -45,7 +45,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         signingConfig signingConfigs.debugKey
-        versionCode 190
+        versionCode 191
         versionName '3.6.6'
         multiDexEnabled false
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'

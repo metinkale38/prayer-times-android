@@ -229,7 +229,8 @@ public abstract class Times extends TimesBase {
 
     public static void setAlarms() {
         List<Alarm> alarms = getAllAlarms();
-        AlarmReceiver.setAlarm(App.get(), alarms.get(0));
+        if (!alarms.isEmpty())
+            AlarmReceiver.setAlarm(App.get(), alarms.get(0));
     }
 
     public void addOnTimesUpdatedListener(@NonNull OnTimesUpdatedListener list) {
