@@ -55,6 +55,7 @@ public class NotificationPopup extends Activity implements SensorEventListener {
     public static NotificationPopup instance;
     private SensorManager mSensorManager;
     private Sensor mProximity;
+    private boolean mReceiverRegistered = false;
 
 
     @Override
@@ -95,6 +96,7 @@ public class NotificationPopup extends Activity implements SensorEventListener {
         if (mProximity == null) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
             registerReceiver(mReceiver, filter);
+            mReceiverRegistered = true;
         } else {
             mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
         }
@@ -104,7 +106,10 @@ public class NotificationPopup extends Activity implements SensorEventListener {
     protected void onDestroy() {
         if (mProximity != null)
             mSensorManager.unregisterListener(this);
-        unregisterReceiver(mReceiver);
+        if (mReceiverRegistered) {
+            unregisterReceiver(mReceiver);
+            mReceiverRegistered = false;
+        }
         super.onDestroy();
     }
 
@@ -113,7 +118,7 @@ public class NotificationPopup extends Activity implements SensorEventListener {
         if (event.values[0] > 0) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
             registerReceiver(mReceiver, filter);
-
+            mReceiverRegistered = true;
             mSensorManager.unregisterListener(this);
             mProximity = null;
             mSensorManager = null;

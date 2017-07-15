@@ -229,6 +229,7 @@
 
 
     <string-array name="adjMethod">
+        <item>@string/noAdjustment</item>
         <item>@string/adjAngle</item>
         <item>@string/adjTime</item>
         <item>@string/adjMidnight</item>
@@ -242,5 +243,30 @@
         <item>@string/csvFromFile</item>
         <item>@string/csvFromURL</item>
     </string-array>
+
+
+    <string-array name="calculationMethods">
+        <item>Muslim World League</item>
+        <item>Islamic Society of North America</item>
+        <item>Egyptian General Authority of Survey</item>
+        <item>Umm al-Qura University, Makkah</item>
+        <item>University of Islamic Sciences, Karachi</item>
+        <item>Institute of Geophysics, University of Tehran</item>
+        <item>Shia Ithna Ashari, Leva Research Institute, Qum</item>
+        <item>@string/customCalc</item>
+    </string-array>
+
+
+    <string-array name="calculationMethodsDesc">
+        <item>Europe, Far East, parts of US</item>
+        <item>North America (US and Canada)</item>
+        <item>Africa, Syria, Lebanon, Malaysia</item>
+        <item>Arabian Peninsula</item>
+        <item>Pakistan, Afganistan, Bangladesh, India</item>
+        <item>Iran, Some Shia communities</item>
+        <item>Some Shia communities worldwide</item>
+        <item>@string/customCalcDesc</item>
+    </string-array>
+
 
 </resources>

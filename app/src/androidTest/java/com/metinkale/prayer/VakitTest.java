@@ -30,9 +30,6 @@ import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
-import com.metinkale.prayerapp.vakit.times.other.Juristic;
-import com.metinkale.prayerapp.vakit.times.other.Method;
 
 import org.junit.Assert;
 import org.junit.Rule;

@@ -42,8 +42,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.App.NotIds;
@@ -62,6 +60,7 @@ import static android.hardware.Sensor.TYPE_ACCELEROMETER;
 public class AlarmReceiver extends IntentService implements SensorEventListener {
 
     private static boolean sInterrupt;
+    private static Alarm sLastSchedule;
 
     public AlarmReceiver() {
         super("AlarmReceiver");
@@ -112,15 +111,26 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         Intent i = new Intent(c, WakefulReceiver.class);
         if (alarm != null) {
+            if (alarm.equals(sLastSchedule)) return;
+
+            if (!Build.MANUFACTURER.equals("samsung") || Build.VERSION.SDK_INT < 19) {
+                sLastSchedule = alarm;
+            } else {
+                PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);
+                if (pm.isInteractive()) {
+                    sLastSchedule = alarm;
+                }
+            }
+
             i.putExtra("alarm", alarm.toJson());
             int id = alarm.hashCode();
             PendingIntent service = PendingIntent.getBroadcast(c, id, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
             am.cancel(service);
             long time = alarm.time;
-            if (Build.MANUFACTURER.equals("samsung") && Build.VERSION.SDK_INT >= 19) {
-                time -= 4.5 * 60 * 1000;
-            }
+            //if (Build.MANUFACTURER.equals("samsung") && Build.VERSION.SDK_INT >= 19) {
+            //    time -= 5 * 60 * 1000;
+            //}
 
             App.setExact(am, AlarmManager.RTC_WAKEUP, time, service);
         }
@@ -172,15 +182,9 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         String json = intent.getStringExtra("alarm");
         Alarm next = Alarm.fromJson(json);
 
-        long delay = System.currentTimeMillis() - next.time;
-
-        Answers.getInstance().logCustom(
-                new CustomEvent("AlarmDelay").putCustomAttribute("minsBefore", "" + (delay / 1000 / 60))
-        );
-
         long timeLeft = next.time - System.currentTimeMillis();
 
-        if (timeLeft > 5 * 60 * 1000) {
+        if (timeLeft > 15 * 60 * 1000) {
             return; //will call Times.setAlarms in onHandleIntent
         } else if (timeLeft > 0) {
             do {
@@ -190,12 +194,6 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
                 }
             } while ((timeLeft = next.time - System.currentTimeMillis()) > 0);
         }
-
-        delay = System.currentTimeMillis() - next.time;
-
-        Answers.getInstance().logCustom(
-                new CustomEvent("AlarmDelay").putCustomAttribute("minsStr", "" + (delay / 1000 / 60))
-        );
 
 
         intent.removeExtra("alarm");

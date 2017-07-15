@@ -16,66 +16,203 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal"
+    android:gravity="center"
+    android:orientation="vertical"
     android:padding="5dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/imsak" />
+
+        <RadioGroup
+            android:id="@+id/radios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/imsakPicker"
+            android:layout_toRightOf="@+id/imsakPicker">
+
+            <RadioButton
+                android:id="@+id/imsakAngleBased"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/angleBased" />
+
+            <RadioButton
+                android:id="@+id/imsakTimeBased"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/timeBased" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/imsakPicker"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/text"
+            android:layout_toRightOf="@+id/text"
+            android:inputType="numberDecimal|numberSigned"
+            android:text="10" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/fajr" />
 
-        <RadioButton
+        <RadioGroup
+            android:id="@id/radios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/fajrPicker"
+            android:layout_toRightOf="@+id/fajrPicker">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:enabled="false"
+                android:text="@string/angleBased" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/timeBased" />
+        </RadioGroup>
 
         <EditText
-            android:id="@+id/sabahPicker"
-            android:layout_width="wrap_content"
+            android:id="@+id/fajrPicker"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/text"
+            android:layout_toRightOf="@+id/text"
             android:inputType="numberDecimal|numberSigned"
             android:text="18" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@id/text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/zuhr" />
 
         <RadioGroup
+            android:id="@id/radios"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/zuhrPicker"
+            android:layout_toRightOf="@+id/zuhrPicker">
 
             <RadioButton
-                android:id="@+id/ogleAngleBased"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/angleBased" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:enabled="false"
+                android:text="@string/timeBased" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/zuhrPicker"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/text"
+            android:layout_toRightOf="@+id/text"
+            android:inputType="numberDecimal|numberSigned"
+            android:text="0" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/maghrib" />
+
+        <RadioGroup
+            android:id="@id/radios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/maghribPicker"
+            android:layout_toRightOf="@+id/maghribPicker">
+
+            <RadioButton
+                android:id="@+id/maghribAngleBased"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/angleBased" />
 
             <RadioButton
+                android:id="@+id/maghribTimeBased"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -83,57 +220,74 @@
         </RadioGroup>
 
         <EditText
-            android:id="@+id/oglePicker"
-            android:layout_width="wrap_content"
+            android:id="@+id/maghribPicker"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/text"
+            android:layout_toRightOf="@+id/text"
             android:inputType="numberDecimal|numberSigned"
             android:text="0" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@id/text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/ishaa" />
 
         <RadioGroup
+            android:id="@id/radios"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/ishaPicker"
+            android:layout_toRightOf="@+id/ishaPicker">
 
             <RadioButton
-                android:id="@+id/yatsiAngleBased"
+                android:id="@+id/ishaAngleBased"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/angleBased" />
 
             <RadioButton
+                android:id="@+id/ishaTimeBased"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/timeBased" />
         </RadioGroup>
 
         <EditText
-            android:id="@+id/yatsiPicker"
-            android:layout_width="wrap_content"
+            android:id="@+id/ishaPicker"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radios"
+            android:layout_alignTop="@+id/radios"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/text"
+            android:layout_toRightOf="@+id/text"
             android:inputType="numberDecimal|numberSigned"
             android:text="17" />
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/ok"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/ok" />
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/ok" />
 </LinearLayout>

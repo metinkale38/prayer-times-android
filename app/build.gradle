@@ -93,7 +93,6 @@ android {
 
 
 
-
 dependencies {
     playCompile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {//excludeInFDroid
         transitive = true;//excludeInFDroid
@@ -105,6 +104,7 @@ dependencies {
         transitive = true
     }
     compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
+    compile 'org.metinkale:praytimes:0.9'
     compile 'com.android.support:percent:25.3.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:recyclerview-v7:25.3.0'

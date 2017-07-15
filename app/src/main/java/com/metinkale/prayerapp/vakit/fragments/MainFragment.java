@@ -143,6 +143,11 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         mKerahat = (TextView) mView.findViewById(R.id.kerahat);
 
+        if(Prefs.getLanguage().equals("tr")){
+            ((TextView)mView.findViewById(R.id.fajr)).setText(R.string.imsak);
+        }else{
+            ((TextView)mView.findViewById(R.id.fajr)).setText(R.string.fajr);
+        }
 
         ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
         ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
@@ -189,7 +194,9 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             }
         }
 
-        if (Prefs.showExtraTimes() && (mTimes.getSource() == Source.Fazilet || mTimes.getSource() == Source.NVC)) {
+        if (Prefs.showExtraTimes() && (mTimes.getSource() == Source.Fazilet
+                || mTimes.getSource() == Source.NVC
+                || mTimes.getSource() == Source.Calc)) {
             mHandler.removeCallbacks(mAltTimes);
             mHandler.removeCallbacks(mNormalTimes);
             mHandler.postDelayed(mAltTimes, 3000);
@@ -212,7 +219,7 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
             time.setText(Utils.fixTimeForHTML(asr));
 
             time = (TextView) mView.findViewById(idsNames[0]);
-            time.setText(Vakit.IMSAK.getString());
+            time.setText(R.string.imsak);
 
             time = (TextView) mView.findViewById(idsNames[3]);
             time.setText(Vakit.IKINDI.getString());
@@ -225,22 +232,21 @@ public class MainFragment extends Fragment implements Times.OnTimesUpdatedListen
         @Override
         public void run() {
             LocalDate greg = LocalDate.now();
-            String sabah = ((WebTimes) mTimes).getSabah(greg);
-            String asr = ((WebTimes) mTimes).getAsrSani(greg);
-            if (!sabah.equals("00:00")) {
 
+            String sabah = mTimes.getSabah(greg);
+            String asr = mTimes.getAsrSani(greg);
+            if (sabah != null && !sabah.equals("00:00")) {
                 TextView time = (TextView) mView.findViewById(ids[0]);
                 time.setText(Utils.fixTimeForHTML(sabah));
-
-                time = (TextView) mView.findViewById(ids[3]);
-                time.setText(Utils.fixTimeForHTML(asr));
-
                 time = (TextView) mView.findViewById(idsNames[0]);
-                time.setText(Vakit.SABAH.getString());
+                time.setText(R.string.fajr);
+            }
 
+            if (asr != null && !asr.equals("00:00")) {
+                TextView time = (TextView) mView.findViewById(ids[3]);
+                time.setText(Utils.fixTimeForHTML(asr));
                 time = (TextView) mView.findViewById(idsNames[3]);
                 time.setText(R.string.asrSani);
-
             }
             mHandler.postDelayed(mNormalTimes, 3000);
         }

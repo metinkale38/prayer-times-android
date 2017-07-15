@@ -29,32 +29,35 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.times.other.AdjMethod;
-import com.metinkale.prayerapp.vakit.times.other.Juristic;
-import com.metinkale.prayerapp.vakit.times.other.Method;
-import com.metinkale.prayerapp.vakit.times.other.PrayTime;
+import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
+import org.metinkale.praytimes.Constants;
+import org.metinkale.praytimes.Method;
+import org.metinkale.praytimes.PrayTimes;
 
-import java.util.List;
 import java.util.TimeZone;
 
 public class CalcTimes extends Times {
 
     private String method;
-    private double[] customMethodParams = new double[6];
     private String adjMethod;
     private String juristic;
-    private transient PrayTime mPrayTime;
+    private double[] customMethodParams = new double[6];
+    private transient PrayTimes mPrayTime;
 
 
     @SuppressWarnings("unused")
@@ -67,19 +70,75 @@ public class CalcTimes extends Times {
     }
 
 
-    private PrayTime getPrayTime() {
+    private PrayTimes getPrayTimes() {
         if (mPrayTime == null) {
-            mPrayTime = new PrayTime();
-            try {
-                if (getMethod() == Method.Custom)
-                    mPrayTime.setMethodParams(customMethodParams);
-                else
-                    mPrayTime.setMethodParams(getMethod().params);
-                mPrayTime.setAsrJuristic(getJuristic());
-                mPrayTime.setAdjustHighLats(getAdjMethod());
-            } catch (NullPointerException ignore) {
+            mPrayTime = new PrayTimes();
+            mPrayTime.setCoordinates(getLat(), getLng(), 0);
+            if (method == null) {
+                Ion.with(App.get())
+                        .load("http://api.geonames.org/timezoneJSON?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                if (e != null) Crashlytics.logException(e);
+                                if (result != null)
+                                    try {
+                                        mPrayTime.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
+                                    } catch (Exception ee) {
+                                        Crashlytics.logException(ee);
+                                    }
+                            }
+                        });
+
+                Ion.with(App.get())
+                        .load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
+                        .asString()
+                        .setCallback(new FutureCallback<String>() {
+                            @Override
+                            public void onCompleted(Exception e, String result) {
+                                if (e == null)
+                                    Crashlytics.logException(e);
+                                try {
+                                    double m = Double.parseDouble(result);
+                                    if (m < -9000) m = 0;
+                                    mPrayTime.setCoordinates(getLat(), getLng(), m);
+                                } catch (Exception ee) {
+                                    Crashlytics.logException(ee);
+                                }
+                            }
+                        });
             }
-            mPrayTime.setTimeZone(TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (1000d * 60d * 60d));
+
+            if (method != null && !"Custom".equals(method)) {
+                mPrayTime.setMethod(Method.valueOf(method));
+            } else {
+                mPrayTime.setFajrDegrees(customMethodParams[0]);
+                mPrayTime.setDhuhrMins(customMethodParams[2]);
+                mPrayTime.setIshaTime(customMethodParams[4], customMethodParams[3] == 1);
+            }
+
+            if ("Hanafi".equals(juristic))
+                mPrayTime.setAsrJuristic(Constants.JURISTIC_HANAFI);
+            else if ("Shafii".equals(juristic))
+                mPrayTime.setAsrJuristic(Constants.JURISTIC_STANDARD);
+
+            if (adjMethod != null)
+                switch (adjMethod) {
+                    case "AngleBased":
+                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
+                        break;
+                    case "OneSeventh":
+                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_ONESEVENTH);
+                        break;
+                    case "MidNight":
+                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_NIGHTMIDDLE);
+                        break;
+                }
+            method = null;
+            juristic = null;
+            adjMethod = null;
+            customMethodParams = null;
         }
         return mPrayTime;
     }
@@ -93,22 +152,27 @@ public class CalcTimes extends Times {
         final Spinner sp = (Spinner) view.findViewById(R.id.spinner);
         final Spinner sp2 = (Spinner) view.findViewById(R.id.spinner2);
 
-        lv.setAdapter(new ArrayAdapter<Method>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch, Method.values()) {
+        lv.setAdapter(new ArrayAdapter<String>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch,
+                c.getResources().getStringArray(R.array.calculationMethods)) {
+            String[] desc = c.getResources().getStringArray(R.array.calculationMethodsDesc);
+
             @NonNull
             @Override
             public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
                 ViewGroup vg = (ViewGroup) super.getView(pos, convertView, parent);
-                ((TextView) vg.getChildAt(0)).setText(getItem(pos).title);
-                ((TextView) vg.getChildAt(1)).setText(getItem(pos).desc);
+                ((TextView) vg.getChildAt(0)).setText(getItem(pos));
+                ((TextView) vg.getChildAt(1)).setText(desc[pos]);
                 return vg;
             }
 
+            @Override
+            public int getCount() {
+                return 8;
+            }
         });
-
 
         sp.setAdapter(new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, c.getResources().getStringArray(R.array.adjMethod)));
         sp2.setAdapter(new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, c.getResources().getStringArray(R.array.juristicMethod)));
-
 
         builder.setTitle(R.string.calcMethod);
         builder.setView(view);
@@ -116,9 +180,9 @@ public class CalcTimes extends Times {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                Method method1 = Method.values()[pos];
+                Method method1 = pos >= Method.values().length ? null : Method.values()[pos];
 
-                if (method1 == Method.Custom) {
+                if (method1 == null) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
                     final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
 
@@ -132,15 +196,25 @@ public class CalcTimes extends Times {
                             t.setName(bdl.getString("city"));
                             t.setLat(bdl.getDouble("lat"));
                             t.setLng(bdl.getDouble("lng"));
-                            t.setMethodParams(new double[]{
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.sabahPicker)).getText().toString()),
-                                    ((RadioButton) custom.findViewById(R.id.ogleAngleBased)).isChecked() ? 0 : 1,
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.oglePicker)).getText().toString()),
-                                    ((RadioButton) custom.findViewById(R.id.yatsiAngleBased)).isChecked() ? 0 : 1,
-                                    Integer.parseInt(((EditText) custom.findViewById(R.id.yatsiPicker)).getText().toString())
-                            });
-                            t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
-                            t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                            TextView imsakPicker = (TextView) custom.findViewById(R.id.imsakPicker);
+                            TextView fajrPicker = (TextView) custom.findViewById(R.id.fajrPicker);
+                            TextView zuhrPicker = (TextView) custom.findViewById(R.id.zuhrPicker);
+                            TextView maghribPicker = (TextView) custom.findViewById(R.id.maghribPicker);
+                            TextView ishaPicker = (TextView) custom.findViewById(R.id.ishaPicker);
+
+                            RadioButton imsakMin = (RadioButton) custom.findViewById(R.id.imsakTimeBased);
+                            RadioButton maghribMin = (RadioButton) custom.findViewById(R.id.maghribTimeBased);
+                            RadioButton ishaMin = (RadioButton) custom.findViewById(R.id.ishaTimeBased);
+
+
+                            t.getPrayTimes().setImsakTime(Double.parseDouble(imsakPicker.getText().toString()), imsakMin.isChecked());
+                            t.getPrayTimes().setFajrDegrees(Double.parseDouble(fajrPicker.getText().toString()));
+                            t.getPrayTimes().setDhuhrMins(Double.parseDouble(zuhrPicker.getText().toString()));
+                            t.getPrayTimes().setMaghribTime(Double.parseDouble(maghribPicker.getText().toString()), maghribMin.isChecked());
+                            t.getPrayTimes().setIshaTime(Double.parseDouble(ishaPicker.getText().toString()), ishaMin.isChecked());
+
+                            t.getPrayTimes().setAsrJuristic(sp2.getSelectedItemPosition() + 1);
+                            t.getPrayTimes().setHighLatsAdjustment(sp.getSelectedItemPosition());
                             t.setSortId(99);
                             c.finish();
                             dlg1.cancel();
@@ -149,8 +223,8 @@ public class CalcTimes extends Times {
                                     .putCustomAttribute("Source", Source.Calc.name())
                                     .putCustomAttribute("City", bdl.getString("city"))
                                     .putCustomAttribute("Method", "Custom")
-                                    .putCustomAttribute("Juristic", Juristic.values()[sp2.getSelectedItemPosition()].name())
-                                    .putCustomAttribute("AdjMethod", AdjMethod.values()[sp.getSelectedItemPosition()].name())
+                                    .putCustomAttribute("Juristic", sp2.getSelectedItemPosition())
+                                    .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition())
                             );
                         }
                     });
@@ -160,9 +234,9 @@ public class CalcTimes extends Times {
                     t.setName(bdl.getString("city"));
                     t.setLat(bdl.getDouble("lat"));
                     t.setLng(bdl.getDouble("lng"));
-                    t.setMethod(method1);
-                    t.setJuristic(Juristic.values()[sp2.getSelectedItemPosition()]);
-                    t.setAdjMethod(AdjMethod.values()[sp.getSelectedItemPosition()]);
+                    t.getPrayTimes().setMethod(method1);
+                    t.getPrayTimes().setAsrJuristic(sp2.getSelectedItemPosition() + 1);
+                    t.getPrayTimes().setHighLatsAdjustment(sp.getSelectedItemPosition());
                     t.setSortId(99);
                     c.finish();
 
@@ -170,9 +244,8 @@ public class CalcTimes extends Times {
                             .putCustomAttribute("Source", Source.Calc.name())
                             .putCustomAttribute("City", bdl.getString("city"))
                             .putCustomAttribute("Method", method1.name())
-                            .putCustomAttribute("Juristic", Juristic.values()[sp2.getSelectedItemPosition()].name())
-                            .putCustomAttribute("AdjMethod", AdjMethod.values()[sp.getSelectedItemPosition()].name())
-                    );
+                            .putCustomAttribute("Juristic", sp2.getSelectedItemPosition())
+                            .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition()));
                 }
                 dlg.cancel();
             }
@@ -192,47 +265,27 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(@NonNull LocalDate date, int time) {
-        List<String> times = getPrayTime().getDatePrayerTimes(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), getLat(), getLng());
-        times.remove(4);
-        return times.get(time);
-    }
-
-
-    public synchronized Method getMethod() {
-        return Method.valueOf(method);
-    }
-
-    public synchronized void setMethod(@NonNull Method value) {
-        method = value.name();
-        save();
-    }
-
-    public synchronized double[] getMethodParams() {
-        return customMethodParams;
-    }
-
-    public synchronized void setMethodParams(double[] params) {
-        method = Method.Custom.name();
-        customMethodParams = params;
-        save();
-    }
-
-    public synchronized Juristic getJuristic() {
-        return Juristic.valueOf(juristic);
-    }
-
-    public synchronized void setJuristic(@NonNull Juristic value) {
-        juristic = value.name();
-        save();
-    }
-
-    public synchronized AdjMethod getAdjMethod() {
-        return AdjMethod.valueOf(adjMethod);
-    }
-
-    public synchronized void setAdjMethod(@NonNull AdjMethod value) {
-        adjMethod = value.name();
-        save();
+        getPrayTimes().setCoordinates(getLat(), getLng(), 0);
+        getPrayTimes().setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
+        switch (time) {
+            case 0:
+                return getPrayTimes().getTime(Prefs.showExtraTimes() ? Constants.TIMES_IMSAK : Constants.TIMES_FAJR);
+            case 1:
+                return getPrayTimes().getTime(Constants.TIMES_SUNRISE);
+            case 2:
+                return getPrayTimes().getTime(Constants.TIMES_DHUHR);
+            case 3:
+                return getPrayTimes().getTime(Prefs.showExtraTimes() ? Constants.TIMES_ASR_SHAFII : Constants.TIMES_ASR);
+            case 4:
+                return getPrayTimes().getTime(Constants.TIMES_MAGHRIB);
+            case 5:
+                return getPrayTimes().getTime(Constants.TIMES_ISHA);
+            case 6:
+                return getPrayTimes().getTime(Constants.TIMES_FAJR);
+            case 7:
+                return getPrayTimes().getTime(Constants.TIMES_ASR_HANAFI);
+        }
+        return "00:00";
     }
 
 

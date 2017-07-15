@@ -57,8 +57,9 @@
     <string name="earlyNotification">early Notification</string>
     <string name="earlyText">%2$s minutes to %1$s</string>
     <string name="error">An error occurred</string>
+    <string name="imsak">Imsak</string>
     <string name="fajr">Fajr</string>
-    <string name="fajrIshaaCalculation">Fajr/Ischa Calculation:</string>
+    <string name="fajrIshaaCalculation">Fajr/Ischa Adjustment:</string>
     <string name="fasting">Fast</string>
     <string name="favorite">Favorite</string>
     <string name="filePicker">File Picker</string>
@@ -206,7 +207,7 @@
     <string name="dateFormat3">31 December </string>
     <string name="hDateFormat3">30 Muharram </string>
     <string name="useAlarm">Use Alarm for Notification</string>
-  <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
+    <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
@@ -253,7 +254,10 @@
     <string name="showLegacyWidgets">Show legacy Widgets</string>
     <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
     <string name="pleaseDeleteAndReadd">Please delete this City and re-add it.</string>
-    <string name="asrSani" translatable="false">Asr-ı Sânî</string>
+    <string name="asrSani" translatable="false">Asr Sânî</string>
     <string name="showExtraTimes">Show Morning Prayer and Asr Sani</string>
-    <string name="showExtraTimesSummary">Only for FaziletTakvimi.com and NamazVakti.com</string>
+    <string name="showExtraTimesSummary">Only for FaziletTakvimi.com, NamazVakti.com and Calculated</string>
+    <string name="noAdjustment">No adjustments</string>
+    <string name="customCalc">Custom</string>
+    <string name="customCalcDesc">Set custom calculation parameters</string>
 </resources>

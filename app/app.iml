@@ -147,6 +147,7 @@
     <orderEntry type="library" exported="" name="androidasync-2.1.9" level="project" />
     <orderEntry type="library" exported="" name="fastadapter-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.0" level="project" />
+    <orderEntry type="library" exported="" name="praytimes-0.9" level="project" />
     <orderEntry type="library" exported="" name="play-services-location-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="android-job-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-10.2.1" level="project" />

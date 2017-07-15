@@ -503,6 +503,8 @@ public abstract class Times extends TimesBase {
         public final boolean early;
         public final long time;
         public final Vakit vakit;
+
+
         public final int dayOffset;
 
         public Alarm(long city, boolean cuma, boolean early, long time, Vakit vakit, int dayOffset) {
@@ -524,6 +526,23 @@ public abstract class Times extends TimesBase {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Alarm alarm = (Alarm) o;
+
+            if (city != alarm.city) return false;
+            if (cuma != alarm.cuma) return false;
+            if (early != alarm.early) return false;
+            if (time != alarm.time) return false;
+            if (dayOffset != alarm.dayOffset) return false;
+            return vakit == alarm.vakit;
+
+        }
+
+
+        @Override
         public int hashCode() {
             int result = 571;
             result = 37 * result + (int) (city ^ (city >>> 32));
@@ -537,5 +556,11 @@ public abstract class Times extends TimesBase {
 
     }
 
+    public String getSabah(LocalDate date) {
+        return adj(_getTime(date, 6), 0);
+    }
 
+    public String getAsrSani(LocalDate date) {
+        return adj(_getTime(date, 7), 3);
+    }
 }
