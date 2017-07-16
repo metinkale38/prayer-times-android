@@ -28,15 +28,6 @@ android {
         abortOnError false
     }
 
-    signingConfigs {
-        debugKey {
-            storeFile file('D:/TU-Cloud/Dokumente/Sonstiges/debug.keystore')
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storePassword 'android'
-        }
-    }
-
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
 
@@ -44,11 +35,9 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 15
         targetSdkVersion 25
-        signingConfig signingConfigs.debugKey
         versionCode 191
         versionName '3.6.6'
         multiDexEnabled false
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     dexOptions {
@@ -59,7 +48,6 @@ android {
     buildTypes {
         debug {
             debuggable true
-            signingConfig signingConfigs.debugKey
             minifyEnabled false
             zipAlignEnabled false
         }
