@@ -90,10 +90,9 @@ public class WidgetService extends Service {
         mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mScreenOnOffFilter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(mBroadcastReceiver, mScreenOnOffFilter);
-        
+
         mTimeChangedFilter = new IntentFilter();
         mTimeChangedFilter.addAction(Intent.ACTION_TIME_CHANGED);
-        registerReceiver(mBroadcastReceiver, mTimeChangedFilter);
 
         mTimeTickFilter = new IntentFilter();
         mTimeTickFilter.addAction(Intent.ACTION_TIME_TICK);
@@ -101,6 +100,7 @@ public class WidgetService extends Service {
         if (Build.VERSION.SDK_INT >= 20 && pm.isInteractive()
                 || Build.VERSION.SDK_INT < 20 && pm.isScreenOn()) {
             registerReceiver(mBroadcastReceiver, mTimeTickFilter);
+            registerReceiver(mBroadcastReceiver, mTimeChangedFilter);
         }
 
         mNotMan = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
