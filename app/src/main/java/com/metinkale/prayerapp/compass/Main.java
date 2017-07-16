@@ -50,6 +50,7 @@ import com.metinkale.prayerapp.compass.classes.OrientationCalculatorImpl;
 import com.metinkale.prayerapp.compass.classes.math.Matrix4;
 import com.metinkale.prayerapp.compass.classes.rotation.MagAccelListener;
 import com.metinkale.prayerapp.compass.classes.rotation.RotationUpdateDelegate;
+import com.metinkale.prayerapp.compass.time.FragQiblaTime;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 
@@ -60,8 +61,8 @@ import java.util.List;
 @SuppressWarnings("MissingPermission")
 public class Main extends BaseActivity implements LocationListener, RotationUpdateDelegate {
 
-    private static double mQAngle;
-    private static float mDist;
+    private double mQAngle;
+    private float mDist;
     public MagAccelListener mMagAccel;
     @NonNull
     private Matrix4 mRotationMatrix = new Matrix4();
@@ -78,21 +79,29 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     private float[] mDerivedDeviceOrientation = {0, 0, 0};
     private Frag2D mFrag2D;
     private Frag3D mFrag3D;
+    private FragQiblaTime mFragTime;
     private FragMap mFragMap;
     private Mode mMode;
     private Mode mSingleMode;
+
+    public Location getLocation() {
+        return mLocation;
+    }
+
+    private Location mLocation;
 
     enum Mode {
         TwoDim,
         ThreeDim,
         Map,
+        Time;
     }
 
-    public static float getDistance() {
+    public float getDistance() {
         return mDist;
     }
 
-    public static double getQiblaAngle() {
+    public double getQiblaAngle() {
         return mQAngle;
     }
 
@@ -129,10 +138,13 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                 case "map":
                     mSingleMode = Mode.Map;
                     break;
+                case "time":
+                    mSingleMode = Mode.Time;
             }
         if (mSingleMode != null) {
             updateFrag(mSingleMode);
         }
+
     }
 
     private void updateFrag(Mode mode) {
@@ -175,6 +187,19 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                     fragmentTransaction.replace(R.id.frag, mFragMap, "map");
 
                     mList = mFragMap;
+                }
+
+
+            } else if (mode == Mode.Time) {
+
+
+                if (mFragTime == null) {
+                    mFragTime = new FragQiblaTime();
+                }
+
+                if (mList != mFragTime) {
+                    fragmentTransaction.replace(R.id.frag, mFragTime, "time");
+                    mList = mFragTime;
                     mFrag2D.hide();
                 }
 
@@ -212,11 +237,19 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
                 updateFrag(Mode.TwoDim);
 
                 mSwitch.setIcon(MaterialDrawableBuilder.with(this)
+                        .setIcon(MaterialDrawableBuilder.IconValue.CLOCK)
+                        .setColor(Color.WHITE)
+                        .setToActionbarSize()
+                        .build());
+            } else if (mMode != Mode.Time && PermissionUtils.get(this).pLocation) {
+                mSensorManager.unregisterListener(mMagAccel);
+                updateFrag(Mode.Time);
+                mSwitch.setIcon(MaterialDrawableBuilder.with(this)
                         .setIcon(MaterialDrawableBuilder.IconValue.MAP)
                         .setColor(Color.WHITE)
                         .setToActionbarSize()
                         .build());
-            } else if (PermissionUtils.get(this).pLocation) {
+            } else if (mMode == Mode.Time) {
                 mSensorManager.unregisterListener(mMagAccel);
                 updateFrag(Mode.Map);
                 mSwitch.setIcon(MaterialDrawableBuilder.with(this)
@@ -241,7 +274,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
         MenuItemCompat.setShowAsAction(mSwitch, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
         mSwitch.setIcon(MaterialDrawableBuilder.with(this)
-                .setIcon(MaterialDrawableBuilder.IconValue.MAP)
+                .setIcon(MaterialDrawableBuilder.IconValue.CLOCK)
                 .setColor(Color.WHITE)
                 .setToActionbarSize()
                 .build());
@@ -309,7 +342,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     // RotationUpdateDelegate methods
     @Override
     public void onRotationUpdate(@NonNull float[] newMatrix) {
-        if (mMode == Mode.Map) {
+        if (mMode == Mode.Map || mMode == Mode.Time) {
             return;
         }
         // remap matrix values according to display rotation, as in
@@ -345,6 +378,7 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
     }
 
     private void calcQiblaAngel(@NonNull Location location) {
+        mLocation = location;
         if (!"custom".equals(location.getProvider())) {
             mSelCity.setVisibility(View.GONE);
         }
@@ -356,11 +390,11 @@ public class Main extends BaseActivity implements LocationListener, RotationUpda
 
         double q = -getDirection(lat1, lng1, lat2, lng2);
 
-        Location mLoc = new Location(location);
-        mLoc.setLatitude(lat2);
-        mLoc.setLongitude(lng2);
+        Location loc = new Location(location);
+        loc.setLatitude(lat2);
+        loc.setLongitude(lng2);
         mQAngle = q;
-        mDist = location.distanceTo(mLoc) / 1000;
+        mDist = location.distanceTo(loc) / 1000;
         mList.onUpdateDirection();
 
     }

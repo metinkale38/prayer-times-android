@@ -223,8 +223,8 @@ public class CalcTimes extends Times {
                                     .putCustomAttribute("Source", Source.Calc.name())
                                     .putCustomAttribute("City", bdl.getString("city"))
                                     .putCustomAttribute("Method", "Custom")
-                                    .putCustomAttribute("Juristic", sp2.getSelectedItemPosition())
-                                    .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition())
+                                    .putCustomAttribute("Juristic", sp2.getSelectedItemPosition() + "")
+                                    .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition() + "")
                             );
                         }
                     });
@@ -244,8 +244,8 @@ public class CalcTimes extends Times {
                             .putCustomAttribute("Source", Source.Calc.name())
                             .putCustomAttribute("City", bdl.getString("city"))
                             .putCustomAttribute("Method", method1.name())
-                            .putCustomAttribute("Juristic", sp2.getSelectedItemPosition())
-                            .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition()));
+                            .putCustomAttribute("Juristic", sp2.getSelectedItemPosition() + "")
+                            .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition() + ""));
                 }
                 dlg.cancel();
             }

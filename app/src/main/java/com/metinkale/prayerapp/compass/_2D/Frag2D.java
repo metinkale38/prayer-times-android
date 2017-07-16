@@ -70,9 +70,9 @@ public class Frag2D extends Fragment implements MyCompassListener {
     @Override
     public void onUpdateDirection() {
         if (mCompassView != null) {
-            mCompassView.setQiblaAngle((int) Main.getQiblaAngle());
+            mCompassView.setQiblaAngle((int) ((Main) getActivity()).getQiblaAngle());
             mAngle.setText(Utils.toArabicNrs(Math.round(mCompassView.getQiblaAngle()) + "°"));
-            mDist.setText(Utils.toArabicNrs(Math.round(Main.getDistance()) + "km"));
+            mDist.setText(Utils.toArabicNrs(Math.round(((Main) getActivity()).getDistance()) + "km"));
         }
 
     }

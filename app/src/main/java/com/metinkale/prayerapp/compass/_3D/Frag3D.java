@@ -44,7 +44,7 @@ public class Frag3D extends Fragment implements MyCompassListener {
     @Override
     public void onUpdateDirection() {
         if (mCompassView != null) {
-            mCompassView.setQibla(Main.getQiblaAngle(), Main.getDistance());
+            mCompassView.setQibla(((Main) getActivity()).getQiblaAngle(), ((Main) getActivity()).getDistance());
         }
 
     }

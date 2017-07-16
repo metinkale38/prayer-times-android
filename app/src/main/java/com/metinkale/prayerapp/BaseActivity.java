@@ -178,6 +178,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     .build());
         }
 
+
         ViewGroup content = (ViewGroup) findViewById(R.id.basecontent);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         View v = LayoutInflater.from(this).inflate(res, content, false);
