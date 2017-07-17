@@ -110,8 +110,8 @@ public class HicriDate {
     }
 
 
-    public static int MIN_YEAR = 2012;
-    public static int MAX_YEAR = 2022;
+    public static final int MIN_YEAR = 2012;
+    public static final int MAX_YEAR = 2022;
 
     static {
         mDates = new int[][]{

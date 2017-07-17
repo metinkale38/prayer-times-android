@@ -171,19 +171,29 @@ public class SqliteHelper extends SQLiteOpenHelper {
     }
 
 
-    private synchronized void openDatabase() throws SQLException {
+    private void openDatabase() throws SQLException {
         mOpenCounter.incrementAndGet();
         if (mDB == null) {
-            String lang = Prefs.getLanguage("en", "de", "tr");
-            mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
+            synchronized (this) {
+                if (mDB == null) {
+                    String lang = Prefs.getLanguage("en", "de", "tr");
+                    mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
+                }
+            }
         }
 
     }
 
-    private synchronized void closeDatabase() throws SQLException {
-        if (mOpenCounter.decrementAndGet() == 0 && mDB != null) {
-            mDB.close();
-            mDB = null;
+    private void closeDatabase() throws SQLException {
+        if (mOpenCounter.decrementAndGet() == 0) {
+            if (mDB != null) {
+                synchronized (this) {
+                    if (mDB != null) {
+                        mDB.close();
+                        mDB = null;
+                    }
+                }
+            }
         }
     }
 

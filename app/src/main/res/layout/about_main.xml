@@ -371,7 +371,7 @@
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="LibLicences"
+                android:onClick="libLicences"
                 android:padding="5dp"
                 android:background="?android:attr/selectableItemBackground">
 

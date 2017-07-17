@@ -72,6 +72,7 @@ class NVCTimes extends WebTimes {
 
                 }
             }
+            reader.close();
         } catch (Exception ignore) {
         }
         return null;

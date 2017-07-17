@@ -253,9 +253,10 @@ public class Sounds {
         public boolean equals(Object o) {
             if (o instanceof Sound) {
                 return uri.equals(((Sound) o).uri);
-            } else {
+            } else if (o != null) {
                 return uri.equals(o.toString());
             }
+            return false;
         }
     }
 

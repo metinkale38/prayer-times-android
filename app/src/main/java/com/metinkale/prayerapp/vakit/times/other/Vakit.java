@@ -26,11 +26,11 @@ import com.metinkale.prayerapp.settings.Prefs;
 public enum Vakit {
     IMSAK(R.string.fajr, 0, "الإمساك"), SABAH(R.string.morningPrayer, 0, "فجر"), GUNES(R.string.sun, 1, "شروق"), OGLE(R.string.zuhr, 2, "ظهر"), IKINDI(R.string.asr, 3, "عصر"), AKSAM(R.string.maghrib, 4, "مغرب"), YATSI(R.string.ishaa, 5, "عشاء");
 
-    public int index;
+    public final int index;
 
-    private String arabic;
+    private final String arabic;
     private String name;
-    private int resId;
+    private final int resId;
 
     Vakit(int id, int index, String arabic) {
         resId = id;

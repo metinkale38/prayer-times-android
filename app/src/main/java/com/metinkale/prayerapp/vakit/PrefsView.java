@@ -122,7 +122,7 @@ public class PrefsView extends View implements OnClickListener {
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
-        canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2, canvas.getHeight() / 2);
+        canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2f, canvas.getHeight() / 2f);
         Object o = getValue();
         boolean active = ((o instanceof Boolean) && o.equals(true)) || ((o instanceof Integer) && !o.equals(0)) || ((o instanceof String) && !((String) o).startsWith("silent"));
         if (mPref == Pref.Vibration2) {

@@ -37,9 +37,9 @@ public enum Source {
     Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, MalaysiaTimes.class),
     CSV("CSV", 0, CSVTimes.class);
 
-    public Class<? extends Times> clz;
-    public int resId;
-    public String text;
+    public final Class<? extends Times> clz;
+    public final int resId;
+    public final String text;
 
     Source(String text, int resId, Class<? extends Times> clz) {
         this.text = text;

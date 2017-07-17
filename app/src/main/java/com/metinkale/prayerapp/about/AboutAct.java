@@ -130,7 +130,7 @@ public class AboutAct extends BaseActivity {
         );
     }
 
-    public void LibLicences(View view) {
+    public void libLicences(View view) {
         new LibsBuilder()
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withActivityTitle(getString(R.string.library_licenses))

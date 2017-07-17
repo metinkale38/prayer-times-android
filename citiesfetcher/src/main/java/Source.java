@@ -11,7 +11,7 @@ public enum Source {
     Morocco("habous.gov.ma"),
     Malaysia("e-solat.gov.my");
 
-    public String text;
+    public final String text;
 
     Source(String text) {
         this.text = text;

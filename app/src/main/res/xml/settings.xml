@@ -12,9 +12,9 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
-  -->
+  ~ -->
 
+<!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/appName">
@@ -82,8 +82,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="showExtraTimes"
-            android:title="@string/showExtraTimes"
-            android:summary="@string/showExtraTimesSummary"/>
+            android:summary="@string/showExtraTimesSummary"
+            android:title="@string/showExtraTimes" />
 
 
     </PreferenceCategory>
@@ -105,8 +105,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="showLegacyWidgets"
-            android:title="@string/showLegacyWidgets"
-            android:summary="@string/showLegacyWidgetsSummary" />
+            android:summary="@string/showLegacyWidgetsSummary"
+            android:title="@string/showLegacyWidgets" />
 
     </PreferenceCategory>
 
