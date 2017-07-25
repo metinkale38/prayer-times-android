@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -49,6 +48,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.fragments.NotificationPopup;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Times.Alarm;
 
@@ -256,7 +256,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             txt = next.vakit.getString();
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(c).setContentTitle(text).setContentText(txt).setContentIntent(Main.getPendingIntent(t)).setSmallIcon(R.drawable.ic_abicon);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(c).setContentTitle(text).setContentText(txt).setContentIntent(VakitFragment.getPendingIntent(t)).setSmallIcon(R.drawable.ic_abicon);
         Notification not = builder.build();
 
         if (vibrate) {

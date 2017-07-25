@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.compass._3D;
@@ -103,16 +102,14 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Nullable
     private Camera.Size getBestPreviewSize(int width, int height, @NonNull Camera.Parameters parameters) {
         Camera.Size result = null;
-
+        double aspect = width / (double) height;
         for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-            if ((size.width <= width) && (size.height <= height)) {
+            if ((size.width >= width) && (size.height >= height)) {
                 if (result == null) {
                     result = size;
                 } else {
-                    int resultArea = result.width * result.height;
-                    int newArea = size.width * size.height;
-
-                    if (newArea > resultArea) {
+                    if (Math.abs((result.width / (double) result.height - aspect))
+                            > Math.abs((size.width / (double) size.height - aspect))) {
                         result = size;
                     }
                 }

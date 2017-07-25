@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.widget;
@@ -42,12 +41,13 @@ import android.widget.RemoteViews;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
+import com.metinkale.prayerapp.calendar.CalendarFragment;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
-import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.other.Vakit;
+import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import org.joda.time.LocalDate;
 
@@ -77,7 +77,7 @@ public class WidgetV24 {
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
 
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget_layout, VakitFragment.getPendingIntent(times));
 
 
         remoteViews.setTextViewText(R.id.city, times.getName());
@@ -159,7 +159,7 @@ public class WidgetV24 {
         String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
 
 
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget_layout, VakitFragment.getPendingIntent(times));
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
@@ -234,7 +234,7 @@ public class WidgetV24 {
         int next = times.getNext();
 
         String name = times.getName();
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget_layout, VakitFragment.getPendingIntent(times));
         if (Prefs.showWidgetSeconds())
             remoteViews.setChronometer(R.id.countdown, times.getMills(next)
                     - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
@@ -295,14 +295,14 @@ public class WidgetV24 {
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
 
-        PendingIntent pendingIntent = Main.getPendingIntent(times);
+        PendingIntent pendingIntent = VakitFragment.getPendingIntent(times);
         PendingIntent pendingIntentClock = PendingIntent.getActivity(context,
                 (int) System.currentTimeMillis(),
                 new Intent(AlarmClock.ACTION_SHOW_ALARMS),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingHijri = PendingIntent.getActivity(context,
                 (int) System.currentTimeMillis(),
-                new Intent(context, com.metinkale.prayerapp.calendar.Main.class),
+                new Intent(context, CalendarFragment.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -408,7 +408,7 @@ public class WidgetV24 {
         if (width <= 0 || height <= 0) return;
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2_clock);
-        remoteViews.setOnClickPendingIntent(R.id.widget_layout, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget_layout, VakitFragment.getPendingIntent(times));
 
 
         Paint paint = new Paint();

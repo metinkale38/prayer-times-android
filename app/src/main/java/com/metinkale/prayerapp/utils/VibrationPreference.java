@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,24 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Vibrator;
-import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.EditTextPreference;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -44,10 +44,7 @@ import java.util.List;
  * Created by metin on 24.03.2016.
  */
 public class VibrationPreference extends EditTextPreference {
-    //Layout Fields
-    private final RelativeLayout layout = new RelativeLayout(getContext());
-    private final EditText editText = new EditText(getContext());
-    private final Button button = new Button(getContext());
+    private EditText editText;
 
     @NonNull
     public static long[] getPattern(Context c, String key) {
@@ -75,6 +72,28 @@ public class VibrationPreference extends EditTextPreference {
     public VibrationPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPersistent(true);
+
+    }
+
+
+    //persist values and disassemble views
+    protected void onDialogClosed(boolean positiveresult) {
+        if (positiveresult && shouldPersist()) {
+            String value = editText.getText().toString();
+            if (callChangeListener(value)) {
+                persistString(value);
+            }
+        }
+
+
+        notifyChanged();
+    }
+
+    @Override
+    protected void onClick() {
+        RelativeLayout layout = new RelativeLayout(getContext());
+        editText = new EditText(getContext());
+        Button button = new Button(getContext());
         button.setText(R.string.test);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,47 +119,34 @@ public class VibrationPreference extends EditTextPreference {
             }
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-    }
-
-
-    @NonNull
-    @Override
-    protected View onCreateDialogView() {
         button.setId(R.id.button5);
         layout.addView(editText);
         layout.addView(button);
-
+        editText.setText(getPersistedString("0 300 150 300 150 500"), TextView.BufferType.NORMAL);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) editText.getLayoutParams();
         params2.addRule(RelativeLayout.LEFT_OF, button.getId());
-        return layout;
-    }
 
-    //Attach persisted values to Dialog
-    @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
-        editText.setText(getPersistedString("EditText"), TextView.BufferType.NORMAL);
-    }
-
-    //persist values and disassemble views
-    @Override
-    protected void onDialogClosed(boolean positiveresult) {
-        super.onDialogClosed(positiveresult);
-        if (positiveresult && shouldPersist()) {
-            String value = editText.getText().toString();
-            if (callChangeListener(value)) {
-                persistString(value);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getContext());
+        dlg.setTitle(getDialogTitle());
+        dlg.setView(layout);
+        dlg.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onDialogClosed(true);
+                dialog.dismiss();
             }
-        }
-
-        ((ViewManager) editText.getParent()).removeView(editText);
-        ((ViewManager) button.getParent()).removeView(button);
-        ((ViewManager) layout.getParent()).removeView(layout);
-
-        notifyChanged();
+        });
+        dlg.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onDialogClosed(false);
+                dialog.dismiss();
+            }
+        });
+        dlg.show();
     }
 
     public void setValue(CharSequence value) {
@@ -152,7 +158,8 @@ public class VibrationPreference extends EditTextPreference {
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
         final SavedState myState = new SavedState(superState);
-        myState.text = editText.getText().toString();
+        if (editText != null)
+            myState.text = editText.getText().toString();
         return myState;
     }
 

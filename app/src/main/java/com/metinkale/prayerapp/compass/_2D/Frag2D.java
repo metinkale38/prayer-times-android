@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.compass._2D;
@@ -34,8 +33,8 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.compass.LowPassFilter;
-import com.metinkale.prayerapp.compass.Main;
-import com.metinkale.prayerapp.compass.Main.MyCompassListener;
+import com.metinkale.prayerapp.compass.CompassFragment;
+import com.metinkale.prayerapp.compass.CompassFragment.MyCompassListener;
 import com.metinkale.prayerapp.utils.Utils;
 
 public class Frag2D extends Fragment implements MyCompassListener {
@@ -52,7 +51,7 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
         mCompassView = (CompassView) v.findViewById(R.id.compass);
-        if(mHidden){
+        if (mHidden) {
             mCompassView.setScaleX(0);
             mCompassView.setScaleY(0);
         }
@@ -70,9 +69,9 @@ public class Frag2D extends Fragment implements MyCompassListener {
     @Override
     public void onUpdateDirection() {
         if (mCompassView != null) {
-            mCompassView.setQiblaAngle((int) ((Main) getActivity()).getQiblaAngle());
+            mCompassView.setQiblaAngle((int) ((CompassFragment) getParentFragment()).getQiblaAngle());
             mAngle.setText(Utils.toArabicNrs(Math.round(mCompassView.getQiblaAngle()) + "°"));
-            mDist.setText(Utils.toArabicNrs(Math.round(((Main) getActivity()).getDistance()) + "km"));
+            mDist.setText(Utils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
         }
 
     }
@@ -81,8 +80,8 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public void onUpdateSensors(float[] rot) {
         if (mCompassView != null && getActivity() != null) {
             // mCompassView.setAngle(rot[0]);
-            mGravity = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mAccelVals, mGravity);
-            mGeo = LowPassFilter.filter(((Main) getActivity()).mMagAccel.mMagVals, mGeo);
+            mGravity = LowPassFilter.filter(((CompassFragment) getParentFragment()).mMagAccel.mAccelVals, mGravity);
+            mGeo = LowPassFilter.filter(((CompassFragment) getParentFragment()).mMagAccel.mMagVals, mGeo);
 
             if ((mGravity != null) && (mGeo != null)) {
                 float[] R = new float[9];

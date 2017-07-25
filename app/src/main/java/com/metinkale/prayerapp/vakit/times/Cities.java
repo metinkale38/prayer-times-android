@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -24,7 +23,7 @@ import android.support.annotation.Nullable;
 
 import com.metinkale.prayerapp.utils.Geocoder;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.concurrent.Executors;
 public class Cities {
 
     @Nullable
-    private static WeakReference<Cities> mInstance = new WeakReference<>(null);
+    private static SoftReference<Cities> mInstance = new SoftReference<>(null);
     private final CitiesSet mEntries = new CitiesSet();
     @NonNull
     private Handler mHandler = new Handler();
@@ -51,7 +50,7 @@ public class Cities {
         Cities cities = mInstance.get();
         if (cities == null) {
             cities = new Cities();
-            mInstance = new WeakReference<>(cities);
+            mInstance = new SoftReference<>(cities);
         }
         return cities;
     }

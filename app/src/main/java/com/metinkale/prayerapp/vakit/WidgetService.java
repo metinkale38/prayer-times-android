@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit;
@@ -54,8 +53,9 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.other.Vakit;
+import com.metinkale.prayerapp.vakit.times.Vakit;
 import com.metinkale.prayerapp.vakit.widget.WidgetUtils;
 
 import org.joda.time.LocalDate;
@@ -234,7 +234,7 @@ public class WidgetService extends Service {
                     long left = t.getLeftMinutes(t.getNext());
                     noti = new Notification.Builder(this)
                             .setContent(views)
-                            .setContentIntent(Main.getPendingIntent(t))
+                            .setContentIntent(VakitFragment.getPendingIntent(t))
                             .setSmallIcon(icon ? (number ?
                                     Icon.createWithBitmap(getIconFromMinutes(left)) :
                                     Icon.createWithResource(this, R.drawable.ic_abicon)) :
@@ -244,7 +244,7 @@ public class WidgetService extends Service {
                 } else {
                     noti = new NotificationCompat.Builder(this)
                             .setContent(views)
-                            .setContentIntent(Main.getPendingIntent(t))
+                            .setContentIntent(VakitFragment.getPendingIntent(t))
                             .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
                             .setOngoing(true)
                             .build();
@@ -267,7 +267,7 @@ public class WidgetService extends Service {
                                     Icon.createWithResource(this, R.drawable.ic_abicon)) :
                                     Icon.createWithResource(this, R.drawable.ic_placeholder))
                             .setContentInfo(sum)
-                            .setContentIntent(Main.getPendingIntent(t))
+                            .setContentIntent(VakitFragment.getPendingIntent(t))
                             .setOngoing(true))
                             .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
                             .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
@@ -284,7 +284,7 @@ public class WidgetService extends Service {
                             .setLargeIcon(mAbIcon)
                             .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
                             .setContentInfo(sum)
-                            .setContentIntent(Main.getPendingIntent(t))
+                            .setContentIntent(VakitFragment.getPendingIntent(t))
                             .setOngoing(true))
                             .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
                             .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))

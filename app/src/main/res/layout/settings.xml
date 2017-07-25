@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2016 Metin Kale
+  ~ Copyright (c) 2013-2017 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -12,17 +12,12 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <fragment
-        android:id="@+id/setfrag"
-        android:name="com.metinkale.prayerapp.settings.Settings$SettingsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </FrameLayout>

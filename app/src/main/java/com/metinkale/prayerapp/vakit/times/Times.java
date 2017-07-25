@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -27,7 +26,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
-import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -108,14 +106,14 @@ public abstract class Times extends TimesBase {
     };
     private transient Collection<OnTimesUpdatedListener> mListeners;
 
-    Times(long id) {
+    protected Times(long id) {
         super(id);
         if (!sTimes.contains(this)) {
             sTimes.add(this);
         }
     }
 
-    Times() {
+    protected Times() {
         super();
     }
 
@@ -244,7 +242,7 @@ public abstract class Times extends TimesBase {
         mListeners.remove(list);
     }
 
-    void notifyOnUpdated() {
+    protected void notifyOnUpdated() {
         if (mListeners != null)
             for (OnTimesUpdatedListener list : mListeners)
                 list.onTimesUpdated(this);

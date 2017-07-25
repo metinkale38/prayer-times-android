@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.utils;
@@ -30,7 +29,7 @@ import android.widget.Toast;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.about.AboutAct;
+import com.metinkale.prayerapp.about.AboutFragment;
 import com.metinkale.prayerapp.settings.Prefs;
 
 public class Changelog {
@@ -62,7 +61,7 @@ public class Changelog {
         builder.setNeutralButton(c.getResources().getString(R.string.mail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                AboutAct.sendMail(c);
+                AboutFragment.sendMail(c);
                 Answers.getInstance().logCustom(new CustomEvent("ChangelogDialog")
                         .putCustomAttribute("Button", "mail"));
             }

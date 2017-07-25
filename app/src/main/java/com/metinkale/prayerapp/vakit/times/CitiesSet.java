@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -31,7 +30,7 @@ import java.util.Iterator;
  * Created by metin on 28.02.2017.
  */
 
-public class CitiesSet implements Iterable<Entry> {
+class CitiesSet implements Iterable<Entry> {
 
     @Override
     public Iterator<com.metinkale.prayerapp.vakit.times.Entry> iterator() {
@@ -91,21 +90,21 @@ public class CitiesSet implements Iterable<Entry> {
 
     }
 
-    static class MyFastTokenizer {
+    private static class MyFastTokenizer {
         @NonNull
         private final String delim;
         private final int dsize;
         private String str;
         private int start = 0;
 
-        public MyFastTokenizer(String str, @NonNull String delim) {
+        MyFastTokenizer(String str, @NonNull String delim) {
             this.str = str;
             this.delim = delim;
             this.dsize = delim.length();
         }
 
         @NonNull
-        public String nextString() {
+        String nextString() {
             int size = str.indexOf(delim, start);
             if (size < 0) {
                 size = str.length();
@@ -117,13 +116,13 @@ public class CitiesSet implements Iterable<Entry> {
             }
         }
 
-        public double nextDouble() {
+        double nextDouble() {
             String str = nextString();
             if (str.isEmpty()) return 0;
             return FastParser.parseDouble(str);
         }
 
-        public int nextInt() {
+        int nextInt() {
             String str = nextString();
             if (str.isEmpty()) return 0;
             return FastParser.parseInt(str);

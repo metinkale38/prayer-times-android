@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.fragments;
@@ -36,7 +35,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.Main;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ import java.util.List;
 public class SortFragment extends Fragment implements Times.OnTimesListChangeListener {
 
     private MyAdapter mAdapter;
-    private Main act;
+    private VakitFragment act;
     private ItemTouchHelper mItemTouchHelper;
 
     @Override
@@ -84,10 +82,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof Main) {
-            act = (Main) context;
-
-        }
+        act = (VakitFragment) getParentFragment();
     }
 
     @Override

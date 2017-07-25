@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.settings;
@@ -35,9 +34,9 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.BaseActivity;
+import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
-import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -53,7 +52,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class BackupRestoreActivity extends BaseActivity implements OnItemClickListener {
+public class BackupRestoreActivity extends MainActivity implements OnItemClickListener {
 
     private MyAdapter mAdapter;
     private File mFolder;
@@ -109,7 +108,7 @@ public class BackupRestoreActivity extends BaseActivity implements OnItemClickLi
 
                             Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
                             System.exit(0);
-                            Intent i = new Intent(BackupRestoreActivity.this, Main.class);
+                            Intent i = new Intent(BackupRestoreActivity.this, VakitFragment.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);

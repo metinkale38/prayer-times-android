@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp;
@@ -44,10 +43,10 @@ import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.utils.Utils;
-import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.WebTimes;
+import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
 import com.squareup.leakcanary.LeakCanary;
 
 import org.joda.time.DateTimeZone;
@@ -102,7 +101,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                 && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
             AlarmManager.AlarmClockInfo info =
                     new AlarmManager.AlarmClockInfo(time,
-                            PendingIntent.getActivity(App.get(), 0, new Intent(App.get(), Main.class), PendingIntent.FLAG_UPDATE_CURRENT));
+                            PendingIntent.getActivity(App.get(), 0, new Intent(App.get(), VakitFragment.class), PendingIntent.FLAG_UPDATE_CURRENT));
             am.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             am.setExactAndAllowWhileIdle(type, time, service);

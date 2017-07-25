@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -27,7 +26,6 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
 import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
-import com.metinkale.prayerapp.vakit.times.other.Vakit;
 
 import java.util.List;
 
@@ -168,15 +166,16 @@ class TimesBase {
 
     /**
      * idea
-    class Alarm {
-        boolean active;
-        Vakit vakit;
-        int time;
-        int silenter;
-        boolean vibration;
-        String sound;
-        String dua;
-    }*/
+     * class Alarm {
+     * boolean active;
+     * Vakit vakit;
+     * int time;
+     * int silenter;
+     * boolean vibration;
+     * String sound;
+     * String dua;
+     * }
+     */
 
     TimesBase(long id) {
         this();
@@ -224,8 +223,8 @@ class TimesBase {
         getTimes().remove(this);
     }
 
-    void save() {
-        if (deleted) {
+    protected void save() {
+        if (ID < 0 || deleted) {
             return;
         }
         App.get().getHandler().removeCallbacks(mApplyPrefs);

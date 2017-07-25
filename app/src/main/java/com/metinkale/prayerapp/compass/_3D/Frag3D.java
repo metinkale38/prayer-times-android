@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.compass._3D;
@@ -25,8 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.compass.Main;
-import com.metinkale.prayerapp.compass.Main.MyCompassListener;
+import com.metinkale.prayerapp.compass.CompassFragment;
+import com.metinkale.prayerapp.compass.CompassFragment.MyCompassListener;
 
 public class Frag3D extends Fragment implements MyCompassListener {
 
@@ -44,7 +43,7 @@ public class Frag3D extends Fragment implements MyCompassListener {
     @Override
     public void onUpdateDirection() {
         if (mCompassView != null) {
-            mCompassView.setQibla(((Main) getActivity()).getQiblaAngle(), ((Main) getActivity()).getDistance());
+            mCompassView.setQibla(((CompassFragment) getParentFragment()).getQiblaAngle(), ((CompassFragment) getParentFragment()).getDistance());
         }
 
     }

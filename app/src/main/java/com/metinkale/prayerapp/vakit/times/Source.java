@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.times;
@@ -20,6 +19,15 @@ package com.metinkale.prayerapp.vakit.times;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.times.sources.CSVTimes;
+import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
+import com.metinkale.prayerapp.vakit.times.sources.DiyanetTimes;
+import com.metinkale.prayerapp.vakit.times.sources.FaziletTimes;
+import com.metinkale.prayerapp.vakit.times.sources.IGMGTimes;
+import com.metinkale.prayerapp.vakit.times.sources.MalaysiaTimes;
+import com.metinkale.prayerapp.vakit.times.sources.MoroccoTimes;
+import com.metinkale.prayerapp.vakit.times.sources.NVCTimes;
+import com.metinkale.prayerapp.vakit.times.sources.SemerkandTimes;
 
 import java.util.Locale;
 

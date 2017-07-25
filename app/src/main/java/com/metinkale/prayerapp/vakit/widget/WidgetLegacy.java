@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Metin Kale
+ * Copyright (c) 2013-2017 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.metinkale.prayerapp.vakit.widget;
@@ -39,10 +38,10 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.Main;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
 import com.metinkale.prayerapp.vakit.times.Times;
-import com.metinkale.prayerapp.vakit.times.other.Vakit;
+import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -74,7 +73,7 @@ public class WidgetLegacy {
         String left = times.getLeft(next, false);
         if (Prefs.getVakitIndicator().equals("next")) next++;
 
-        remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget, VakitFragment.getPendingIntent(times));
 
         Bitmap bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bmp);
@@ -160,7 +159,7 @@ public class WidgetLegacy {
         if (Prefs.getVakitIndicator().equals("next")) next++;
 
 
-        remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget, VakitFragment.getPendingIntent(times));
 
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
@@ -303,7 +302,7 @@ public class WidgetLegacy {
         if (Prefs.getVakitIndicator().equals("next")) next++;
 
 
-        remoteViews.setOnClickPendingIntent(R.id.widget, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.widget, VakitFragment.getPendingIntent(times));
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bmp);
@@ -465,7 +464,7 @@ public class WidgetLegacy {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
 
         remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
-        remoteViews.setOnClickPendingIntent(R.id.belowPart, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.belowPart, VakitFragment.getPendingIntent(times));
 
 
         Uri.Builder builder =
@@ -602,7 +601,7 @@ public class WidgetLegacy {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
 
         remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
-        remoteViews.setOnClickPendingIntent(R.id.belowPart, Main.getPendingIntent(times));
+        remoteViews.setOnClickPendingIntent(R.id.belowPart, VakitFragment.getPendingIntent(times));
 
 
         Uri.Builder builder =

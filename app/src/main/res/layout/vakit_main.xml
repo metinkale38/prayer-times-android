@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2016 Metin Kale
+  ~ Copyright (c) 2013-2017 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -72,7 +71,7 @@
         android:layout_height="match_parent"
         app:orientation="bottom"
         app:handle="@+id/footerText"
-        app:content="@+id/content">
+        app:content="@+id/imsakiyeContainer">
 
         <TextView
             android:gravity="center"
@@ -87,19 +86,14 @@
             android:textSize="20sp" />
 
         <FrameLayout
-            android:id="@+id/content"
+            android:id="@+id/imsakiyeContainer"
             android:layout_width="match_parent"
             android:translationZ="2dp"
+            android:background="@color/background"
             android:layout_gravity="bottom"
             android:layout_height="match_parent">
 
-            <fragment
-                class="com.metinkale.prayerapp.vakit.fragments.ImsakiyeFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:tag="imsakiye"
-                tools:layout="@layout/vakit_imsakiye" />
+
 
         </FrameLayout>
     </com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer>
@@ -112,7 +106,7 @@
         android:layout_alignBottom="@+id/center"
         app:orientation="top"
         app:handle="@+id/handle"
-        app:content="@+id/content">
+        app:content="@+id/settingsContainer">
 
         <View
             android:gravity="center"
@@ -121,27 +115,16 @@
             android:layout_height="30dip" />
 
         <FrameLayout
-            android:id="@id/content"
+            android:id="@id/settingsContainer"
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
             android:translationZ="2dp"
             android:layout_height="match_parent">
 
-            <fragment
-                class="com.metinkale.prayerapp.vakit.fragments.SettingsFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:tag="settings"
-                tools:layout="@layout/vakit_settings" />
 
         </FrameLayout>
     </com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer>
 
-    <FrameLayout
-        android:translationZ="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragContainer"></FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addCity"
