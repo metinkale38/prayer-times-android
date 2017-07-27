@@ -259,12 +259,12 @@
     <string name="noAdjustment">No adjustments</string>
     <string name="customCalc">Custom</string>
     <string name="customCalcDesc">Set custom calculation parameters</string>
-    <string name="systemLang">System Language</string>
+    <string name="systemLang">System language</string>
     <string name="showIntro">Show Intro</string>
     <string name="continue_">Continue</string>
-    <string name="back">Zurück</string>
-    <string name="finish">Fertig</string>
-    <string name="shareText">Hey, check out this prayer times app: \"https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <string name="back">Back</string>
+    <string name="finish">Done</string>
+    <string name="shareText">Hey, check out this prayer times app: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
     <string name="share_sum">Share this app with others!</string>
     <string name="showIntro_sum">Show the Introductions of this App</string>
 
