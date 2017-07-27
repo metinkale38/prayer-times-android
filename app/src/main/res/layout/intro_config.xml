@@ -35,7 +35,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:theme="@style/ToolbarTheme"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

@@ -55,12 +55,17 @@
             android:showOnLockScreen="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.metinkale.prayerapp.intro.Main"
-            android:exported="true" />
+            android:name="com.metinkale.prayerapp.intro.IntroActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.metinkale.prayerapp.MainActivity"
-            android:exported="true" />
+        <activity android:name="com.metinkale.prayerapp.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
 
         <activity

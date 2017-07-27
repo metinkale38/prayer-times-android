@@ -81,7 +81,7 @@ public class Frag extends Fragment {
         String konu = bdl.getString("konu", "");
         String detay = bdl.getString("detay", "");
         View v = inflater.inflate(R.layout.hadis_frag, container, false);
-        mTv = (TextView) v.findViewById(R.id.hadis);
+        mTv = v.findViewById(R.id.hadis);
 
         if (hadis.startsWith("Narrated")) {
             hadis = "<b>" + hadis.substring(0, hadis.indexOf("\n")) + "</b><br/>" + hadis.substring(hadis.indexOf("\n"));
@@ -89,9 +89,9 @@ public class Frag extends Fragment {
         }
         mText = hadis.replace("\n", "<br/>") + (kaynak.length() <= 3 ? "" : "<br/><br/>" + kaynak);
         mTv.setText(Html.fromHtml(mText));
-        TextView category = (TextView) v.findViewById(R.id.category);
+        TextView category = v.findViewById(R.id.category);
         category.setText(Html.fromHtml(konu));
-        TextView title = (TextView) v.findViewById(R.id.title);
+        TextView title = v.findViewById(R.id.title);
         title.setText(Html.fromHtml(detay));
 
         setQuery(mQuery);

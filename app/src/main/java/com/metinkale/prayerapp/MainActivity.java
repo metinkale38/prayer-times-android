@@ -31,7 +31,6 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,13 +56,12 @@ import com.metinkale.prayerapp.calendar.CalendarFragment;
 import com.metinkale.prayerapp.compass.CompassFragment;
 import com.metinkale.prayerapp.hadis.HadithFragment;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
+import com.metinkale.prayerapp.intro.IntroActivity;
 import com.metinkale.prayerapp.kaza.KazaFragment;
 import com.metinkale.prayerapp.names.NamesFragment;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.settings.SettingsFragment;
 import com.metinkale.prayerapp.tesbihat.TesbihatFragment;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
-import com.metinkale.prayerapp.utils.Changelog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
@@ -89,10 +87,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onBackPressed() {
         if (!(mFragment instanceof MainFragment) || !((MainFragment) mFragment).onBackPressed())
-            if (!(mFragment instanceof VakitFragment))
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0
-                        || !AppRatingDialog.showDialog(this, System.currentTimeMillis() - mStartTime))
-                    super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0
+                    || !AppRatingDialog.showDialog(this, System.currentTimeMillis() - mStartTime))
+                super.onBackPressed();
     }
 
     @Override
@@ -105,9 +102,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppRatingDialog.increaseAppStarts();
-
+        IntroActivity.startIfNecessary(this);
         super.setContentView(R.layout.activity_base);
-
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
@@ -139,10 +135,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         });
 
 
-        if (!Utils.askLang(this)) {
-            Utils.init(this);
-            Changelog.start(this);
-        }
+        Utils.init(this);
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
@@ -157,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
             int id = R.mipmap.ic_launcher;
             switch (mNavPos) {
+                case 0:
+                    id = R.mipmap.ic_launcher;
+                    break;
                 case 1:
                     id = R.mipmap.ic_compass;
                     break;
@@ -334,8 +330,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             case 5:
 
-                String lang = Prefs.getLanguage();
-                if (!"de".equals(lang) && !"tr".equals(lang)) lang = "en";
+                String lang = Utils.getLanguage("en", "de", "tr");
                 final String file = lang + "/hadis.db";
                 final String url = App.API_URL + "/hadis." + lang + ".db";
                 File f = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);

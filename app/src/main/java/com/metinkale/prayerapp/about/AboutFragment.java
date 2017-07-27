@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,9 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.MainActivity;
+import com.metinkale.prayerapp.intro.IntroActivity;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
@@ -52,9 +55,9 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.about_main, container, false);
-        PackageInfo pInfo;
+
         try {
-            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
             ((TextView) v.findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
 
         } catch (PackageManager.NameNotFoundException e) {
@@ -69,6 +72,8 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
         v.findViewById(R.id.translate).setOnClickListener(this);
         v.findViewById(R.id.rate).setOnClickListener(this);
         v.findViewById(R.id.github).setOnClickListener(this);
+        v.findViewById(R.id.share).setOnClickListener(this);
+        v.findViewById(R.id.showIntro).setOnClickListener(this);
         return v;
     }
 
@@ -76,49 +81,65 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.beta:
-                beta();
+                beta(getActivity());
                 break;
             case R.id.mail:
-                mail();
+                mail(getActivity());
                 break;
             case R.id.libLicences:
-                libLicences();
+                libLicences(getActivity());
                 break;
             case R.id.licenses:
-                licenses();
+                licenses(getActivity());
                 break;
             case R.id.reportBug:
-                reportBug();
+                reportBug(getActivity());
                 break;
             case R.id.translate:
-                translate();
+                translate(getActivity());
                 break;
             case R.id.rate:
-                rate();
+                rate(getActivity());
                 break;
             case R.id.github:
-                github();
+                github(getActivity());
+                break;
+            case R.id.share:
+                share(getActivity());
+                break;
+            case R.id.showIntro:
+                Prefs.setShowIntro(true);
+                Prefs.setChangelogVersion(0);
+                IntroActivity.startIfNecessary(getActivity());
                 break;
         }
     }
 
-    private void openUrl(String url) {
+    public static void share(Context ctx) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.shareText));
+        sendIntent.setType("text/plain");
+        ctx.startActivity(sendIntent);
+    }
+
+    private static void openUrl(Context ctx, String url) {
         try {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+            builder.setToolbarColor(ctx.getResources().getColor(R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+            customTabsIntent.launchUrl(ctx, Uri.parse(url));
         } catch (ActivityNotFoundException e) {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
-            startActivity(i);
+            ctx.startActivity(i);
         }
     }
 
 
-    public void github() {
+    public static void github(@NonNull Context ctx) {
         String url = "https://github.com/metinkale38/prayer-times-android";
-        openUrl(url);
+        openUrl(ctx, url);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "github")
@@ -126,24 +147,26 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     }
 
 
-    public void rate() {
-        Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+    public static void rate(@NonNull Context ctx) {
+        Uri uri = Uri.parse("market://details?id=" + ctx.getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
-            startActivity(goToMarket);
+            ctx.startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(getActivity(), "Couldn't launch the market", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Couldn't launch the market", Toast.LENGTH_LONG).show();
         }
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "rate")
         );
+
+        AppRatingDialog.setInstalltionTime(Long.MAX_VALUE); //never show the rating dialog :)
     }
 
 
-    public void translate() {
+    public static void translate(@NonNull Context ctx) {
         String url = "https://crowdin.com/project/prayer-times-android";
-        openUrl(url);
+        openUrl(ctx, url);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "translate")
@@ -151,9 +174,9 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     }
 
 
-    public void reportBug() {
+    public static void reportBug(@NonNull Context ctx) {
         String url = "https://github.com/metinkale38/prayer-times-android/issues";
-        openUrl(url);
+        openUrl(ctx, url);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "reportBug")
@@ -161,12 +184,12 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     }
 
 
-    public void licenses() {
-        WebView wv = new WebView(getActivity());
+    public static void licenses(@NonNull Context ctx) {
+        WebView wv = new WebView(ctx);
         wv.loadUrl("file:///android_asset/license.html");
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(this.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
-        builder.setNegativeButton(getResources().getString(R.string.ok), null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle(ctx.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
+        builder.setNegativeButton(ctx.getResources().getString(R.string.ok), null);
         builder.show();
 
         Answers.getInstance().logCustom(new CustomEvent("About")
@@ -175,20 +198,20 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
     }
 
 
-    public void libLicences() {
+    public static void libLicences(@NonNull Context ctx) {
         new LibsBuilder()
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                .withActivityTitle(getString(R.string.library_licenses))
+                .withActivityTitle(ctx.getString(R.string.library_licenses))
                 .withLibraries()
-                .start(getActivity());
+                .start(ctx);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "libLicenses")
         );
     }
 
-    public void mail() {
-        sendMail(getActivity());
+    public static void mail(@NonNull Context ctx) {
+        sendMail(ctx);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "mail")
@@ -218,11 +241,11 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
         ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.mail)));
     }
 
-    public void beta() {
+    public static void beta(Context ctx) {
         String url = "https://play.google.com/apps/testing/com.metinkale.prayer";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
-        startActivity(i);
+        ctx.startActivity(i);
 
         Answers.getInstance().logCustom(new CustomEvent("About")
                 .putCustomAttribute("action", "beta")

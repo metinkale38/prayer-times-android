@@ -70,12 +70,12 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         }).setNegativeButton(R.string.cancel, null);
 
         ((TextView) v.findViewById(R.id.max)).setText("/" + (mMax - 1));
-        mEdit = (EditText) v.findViewById(R.id.nr);
+        mEdit = v.findViewById(R.id.nr);
         mEdit.addTextChangedListener(this);
         mEdit.setText(bdl.getInt("current") + "");
         int[] ids = {R.id.k0, R.id.k1, R.id.k2, R.id.k3, R.id.k4, R.id.k5, R.id.k6, R.id.k7, R.id.k8, R.id.k9};
         for (int id : ids) {
-            Button btn = (Button) v.findViewById(id);
+            Button btn = v.findViewById(id);
             btn.setTag(btn.getText());
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override

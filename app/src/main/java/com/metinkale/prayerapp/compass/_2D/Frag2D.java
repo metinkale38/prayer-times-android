@@ -50,14 +50,14 @@ public class Frag2D extends Fragment implements MyCompassListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_2d, container, false);
-        mCompassView = (CompassView) v.findViewById(R.id.compass);
+        mCompassView = v.findViewById(R.id.compass);
         if (mHidden) {
             mCompassView.setScaleX(0);
             mCompassView.setScaleY(0);
         }
 
-        mAngle = (TextView) v.findViewById(R.id.angle);
-        mDist = (TextView) v.findViewById(R.id.distance);
+        mAngle = v.findViewById(R.id.angle);
+        mDist = v.findViewById(R.id.distance);
         mInfo = v.findViewById(R.id.infobox);
 
         View info = (View) mAngle.getParent();

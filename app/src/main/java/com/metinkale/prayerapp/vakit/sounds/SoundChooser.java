@@ -126,9 +126,9 @@ public class SoundChooser extends DialogFragment implements OnItemClickListener,
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.sound_chooser, null);
-        mList = (ListView) v.findViewById(R.id.lv);
-        mVolume = (SeekBar) v.findViewById(R.id.volume);
-        mVolumeCB = (CheckBox) v.findViewById(R.id.volumeCB);
+        mList = v.findViewById(R.id.lv);
+        mVolume = v.findViewById(R.id.volume);
+        mVolumeCB = v.findViewById(R.id.volumeCB);
 
         mVolume.setMax(mAm.getStreamMaxVolume(AlarmReceiver.getStreamType(getActivity())));
 

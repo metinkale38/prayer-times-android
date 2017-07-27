@@ -24,14 +24,16 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Size;
 
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.utils.Utils;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Prefs {
 
 
-    private static SharedPreferences getPrefs() {
+    public static SharedPreferences getPrefs() {
         return PreferenceManager.getDefaultSharedPreferences(App.get());
     }
 
@@ -40,20 +42,10 @@ public class Prefs {
         return getPrefs().getBoolean("useAlarm", false);
     }
 
-    @Nullable
-    public static String getLanguage() {
-        return getPrefs().getString("language", null);
-    }
-
 
     @NonNull
-    public static String getLanguage(@Size(min = 1) String... allow) {
-        String lang = getLanguage();
-        if (lang == null || !Arrays.asList(allow).contains(lang)) {
-            return allow[0];
-        }
-
-        return lang;
+    public static String getLanguage() {
+        return getPrefs().getString("language", "system");
     }
 
 
@@ -90,7 +82,7 @@ public class Prefs {
 
 
     public static boolean useArabic() {
-        return !"ar".equals(getLanguage()) && getPrefs().getBoolean("arabicNames", false);
+        return !new Locale("ar").equals(Utils.getLocale()) && getPrefs().getBoolean("arabicNames", false);
     }
 
     public static boolean use12H() {
@@ -216,4 +208,15 @@ public class Prefs {
     public static boolean showExtraTimes() {
         return getPrefs().getBoolean("showExtraTimes", false);
     }
+
+
+    public static boolean showIntro() {
+        return getPrefs().getBoolean("showIntro", true);
+    }
+
+
+    public static void setShowIntro(boolean show) {
+        getPrefs().edit().putBoolean("showIntro", show).apply();
+    }
+
 }

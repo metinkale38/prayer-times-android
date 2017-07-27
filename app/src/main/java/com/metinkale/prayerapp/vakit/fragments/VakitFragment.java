@@ -66,16 +66,24 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
 
     }
 
+    public MultipleOrientationSlidingDrawer getTopSlider() {
+        return mTopSlider;
+    }
+
+    public MultipleOrientationSlidingDrawer getBottomSlider() {
+        return mBottomSlider;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.vakit_main, container, false);
-        mFooterText = (TextView) v.findViewById(R.id.footerText);
-        mPager = (RTLViewPager) v.findViewById(R.id.pager);
+        mFooterText = v.findViewById(R.id.footerText);
+        mPager = v.findViewById(R.id.pager);
         mAdapter = new MyAdapter(getChildFragmentManager());
 
-        mSettingsFrag = (SettingsFragment)new SettingsFragment();
-        mImsakiyeFrag = (ImsakiyeFragment) new ImsakiyeFragment();
+        mSettingsFrag = new SettingsFragment();
+        mImsakiyeFrag = new ImsakiyeFragment();
 
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.imsakiyeContainer, mImsakiyeFrag)
@@ -83,17 +91,17 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
                 .commit();
 
 
-        mTopSlider = (MultipleOrientationSlidingDrawer) v.findViewById(R.id.topSlider);
-        mBottomSlider = (MultipleOrientationSlidingDrawer) v.findViewById(R.id.bottomSlider);
+        mTopSlider = v.findViewById(R.id.topSlider);
+        mBottomSlider = v.findViewById(R.id.bottomSlider);
 
-        mAddCityFab = (FloatingActionButton) v.findViewById(R.id.addCity);
+        mAddCityFab = v.findViewById(R.id.addCity);
         mAddCityFab.setOnClickListener(this);
 
         mPager.setRTLSupportAdapter(getChildFragmentManager(), mAdapter);
 
         int holyday = HicriDate.isHolyday();
         if (holyday != 0) {
-            TextView tv = (TextView) v.findViewById(R.id.holyday);
+            TextView tv = v.findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
             tv.setText(Utils.getHolyday(holyday - 1));
         }

@@ -32,7 +32,7 @@ public class WebViewFragment extends MainActivity.MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.webview, container, false);
-        WebView wv = (WebView) v.findViewById(R.id.webview);
+        WebView wv = v.findViewById(R.id.webview);
         wv.loadUrl("file:///android_asset/" + getArguments().getString("asset"));
         return v;
     }

@@ -70,6 +70,15 @@ public class CalcTimes extends Times {
         super(id);
     }
 
+    public static void buildTemporaryTimes(String name, double lat, double lng, long id) {
+        CalcTimes t = new CalcTimes(id);
+        t.setSource(Source.Calc);
+        if (lat > 48)
+            t.getPrayTimes().setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
+        t.setName(name);
+        t.setLat(lat);
+        t.setLng(lng);
+    }
 
     private PrayTimes getPrayTimes() {
         if (mPrayTime == null) {
@@ -149,9 +158,9 @@ public class CalcTimes extends Times {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         final LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.calcmethod_dialog, null);
-        ListView lv = (ListView) view.findViewById(R.id.listView);
-        final Spinner sp = (Spinner) view.findViewById(R.id.spinner);
-        final Spinner sp2 = (Spinner) view.findViewById(R.id.spinner2);
+        ListView lv = view.findViewById(R.id.listView);
+        final Spinner sp = view.findViewById(R.id.spinner);
+        final Spinner sp2 = view.findViewById(R.id.spinner2);
 
         lv.setAdapter(new ArrayAdapter<String>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch,
                 c.getResources().getStringArray(R.array.calculationMethods)) {
@@ -197,15 +206,15 @@ public class CalcTimes extends Times {
                             t.setName(bdl.getString("city"));
                             t.setLat(bdl.getDouble("lat"));
                             t.setLng(bdl.getDouble("lng"));
-                            TextView imsakPicker = (TextView) custom.findViewById(R.id.imsakPicker);
-                            TextView fajrPicker = (TextView) custom.findViewById(R.id.fajrPicker);
-                            TextView zuhrPicker = (TextView) custom.findViewById(R.id.zuhrPicker);
-                            TextView maghribPicker = (TextView) custom.findViewById(R.id.maghribPicker);
-                            TextView ishaPicker = (TextView) custom.findViewById(R.id.ishaPicker);
+                            TextView imsakPicker = custom.findViewById(R.id.imsakPicker);
+                            TextView fajrPicker = custom.findViewById(R.id.fajrPicker);
+                            TextView zuhrPicker = custom.findViewById(R.id.zuhrPicker);
+                            TextView maghribPicker = custom.findViewById(R.id.maghribPicker);
+                            TextView ishaPicker = custom.findViewById(R.id.ishaPicker);
 
-                            RadioButton imsakMin = (RadioButton) custom.findViewById(R.id.imsakTimeBased);
-                            RadioButton maghribMin = (RadioButton) custom.findViewById(R.id.maghribTimeBased);
-                            RadioButton ishaMin = (RadioButton) custom.findViewById(R.id.ishaTimeBased);
+                            RadioButton imsakMin = custom.findViewById(R.id.imsakTimeBased);
+                            RadioButton maghribMin = custom.findViewById(R.id.maghribTimeBased);
+                            RadioButton ishaMin = custom.findViewById(R.id.ishaTimeBased);
 
 
                             t.getPrayTimes().setImsakTime(Double.parseDouble(imsakPicker.getText().toString()), imsakMin.isChecked());

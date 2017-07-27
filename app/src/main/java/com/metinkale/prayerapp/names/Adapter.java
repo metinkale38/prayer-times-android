@@ -118,11 +118,11 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         ViewHolder(View convertView) {
             super(convertView);
-            name = (TextView) convertView.findViewById(R.id.name);
-            arabicImg = (ImageView) convertView.findViewById(R.id.arabicImg);
-            arabic = (TextView) convertView.findViewById(R.id.arabicTxt);
-            meaning = (TextView) convertView.findViewById(R.id.meaning);
-            meaningInv = (TextView) convertView.findViewById(R.id.meaningInvisible);
+            name = convertView.findViewById(R.id.name);
+            arabicImg = convertView.findViewById(R.id.arabicImg);
+            arabic = convertView.findViewById(R.id.arabicTxt);
+            meaning = convertView.findViewById(R.id.meaning);
+            meaningInv = convertView.findViewById(R.id.meaningInvisible);
         }
     }
 }

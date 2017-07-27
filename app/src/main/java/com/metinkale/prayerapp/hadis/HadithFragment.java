@@ -58,6 +58,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
+import com.metinkale.prayerapp.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -100,11 +101,11 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
         ;
 
         mPrefs = getActivity().getSharedPreferences("hadis", 0);
-        mNumber = (TextView) v.findViewById(R.id.number);
-        mLeft = (ImageView) v.findViewById(R.id.left);
-        mRight = (ImageView) v.findViewById(R.id.right);
+        mNumber = v.findViewById(R.id.number);
+        mLeft = v.findViewById(R.id.left);
+        mRight = v.findViewById(R.id.right);
         mAdapter = new MyAdapter(getChildFragmentManager());
-        mPager = (ViewPager) v.findViewById(R.id.pager);
+        mPager = v.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
         mLeft.setOnClickListener(this);
@@ -118,7 +119,7 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
             Crashlytics.logException(e);
             //TODO !!!
             // finish();
-            String lang = Prefs.getLanguage("en", "de", "tr");
+            String lang = Utils.getLanguage("en", "de", "tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(getActivity(), MainActivity.class));
         }

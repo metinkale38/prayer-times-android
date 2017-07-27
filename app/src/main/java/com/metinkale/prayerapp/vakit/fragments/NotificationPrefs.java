@@ -59,7 +59,7 @@ public class NotificationPrefs extends Fragment {
 
 
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
-        SwitchCompat ongoing = (SwitchCompat) mView.findViewById(R.id.ongoing);
+        SwitchCompat ongoing = mView.findViewById(R.id.ongoing);
         ongoing.setChecked(mTimes.isOngoingNotificationActive());
         ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -90,8 +90,8 @@ public class NotificationPrefs extends Fragment {
     }
 
     private void initCuma(int switchId, int textId, int expandId, final Vakit vakit) {
-        final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
+        final SwitchCompat sw = mView.findViewById(switchId);
+        final LinearLayout expand = mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isCumaActive());
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -131,7 +131,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
+        PrefsView sound = expand.findViewById(R.id.sound);
         sound.setPrefType(PrefsView.Pref.Sela);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
@@ -146,7 +146,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
+        PrefsView vibr = expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -159,7 +159,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView silenter = (PrefsView) expand.findViewById(R.id.silenter);
+        PrefsView silenter = expand.findViewById(R.id.silenter);
         silenter.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -172,10 +172,10 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView dua = (PrefsView) expand.findViewById(R.id.dua);
+        PrefsView dua = expand.findViewById(R.id.dua);
         dua.setVisibility(View.GONE);
 
-        PrefsView time = (PrefsView) expand.findViewById(R.id.time);
+        PrefsView time = expand.findViewById(R.id.time);
         time.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -190,8 +190,8 @@ public class NotificationPrefs extends Fragment {
     }
 
     private void initMain(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
-        final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
+        final SwitchCompat sw = mView.findViewById(switchId);
+        final LinearLayout expand = mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isNotificationActive(vakit));
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -236,7 +236,7 @@ public class NotificationPrefs extends Fragment {
         });
 
 
-        PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
+        PrefsView sound = expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Nullable
@@ -251,7 +251,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
+        PrefsView vibr = expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -264,7 +264,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView silenter = (PrefsView) expand.findViewById(R.id.silenter);
+        PrefsView silenter = expand.findViewById(R.id.silenter);
         silenter.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -277,7 +277,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView dua = (PrefsView) expand.findViewById(R.id.dua);
+        PrefsView dua = expand.findViewById(R.id.dua);
         dua.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Nullable
             @Override
@@ -291,7 +291,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView time = (PrefsView) expand.findViewById(R.id.time);
+        PrefsView time = expand.findViewById(R.id.time);
         if (vakit == Vakit.SABAH) {
             time.setTag("SabahTime");
             time.setPrefFunctions(new PrefsView.PrefsFunctions() {
@@ -314,8 +314,8 @@ public class NotificationPrefs extends Fragment {
     }
 
     private void initEarly(int switchId, int textId, int expandId, @NonNull final Vakit vakit) {
-        final SwitchCompat sw = (SwitchCompat) mView.findViewById(switchId);
-        final LinearLayout expand = (LinearLayout) mView.findViewById(expandId);
+        final SwitchCompat sw = mView.findViewById(switchId);
+        final LinearLayout expand = mView.findViewById(expandId);
 
         sw.setChecked(mTimes.isEarlyNotificationActive(vakit));
 
@@ -362,7 +362,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView sound = (PrefsView) expand.findViewById(R.id.sound);
+        PrefsView sound = expand.findViewById(R.id.sound);
         sound.setVakit(vakit);
         sound.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Nullable
@@ -377,7 +377,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView vibr = (PrefsView) expand.findViewById(R.id.vibration);
+        PrefsView vibr = expand.findViewById(R.id.vibration);
         vibr.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -390,7 +390,7 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView silenter = (PrefsView) expand.findViewById(R.id.silenter);
+        PrefsView silenter = expand.findViewById(R.id.silenter);
         silenter.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {
@@ -403,10 +403,10 @@ public class NotificationPrefs extends Fragment {
             }
         });
 
-        PrefsView dua = (PrefsView) expand.findViewById(R.id.dua);
+        PrefsView dua = expand.findViewById(R.id.dua);
         dua.setVisibility(View.GONE);
 
-        PrefsView time = (PrefsView) expand.findViewById(R.id.time);
+        PrefsView time = expand.findViewById(R.id.time);
         time.setPrefFunctions(new PrefsView.PrefsFunctions() {
             @Override
             public Object getValue() {

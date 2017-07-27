@@ -94,7 +94,7 @@ public class MainIntentService extends IntentService {
 
             String id = Prefs.getCalendar();
 
-            if ("-1".equals(id) || (Prefs.getLanguage() == null)) {
+            if ("-1".equals(id)) {
                 return;
             }
             int year = LocalDate.now().getYear();

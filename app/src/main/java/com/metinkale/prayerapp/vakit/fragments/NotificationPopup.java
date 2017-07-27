@@ -84,9 +84,9 @@ public class NotificationPopup extends Activity implements SensorEventListener {
 
         setContentView(R.layout.vakit_notpopup);
 
-        TextView name = (TextView) findViewById(R.id.name);
+        TextView name = findViewById(R.id.name);
         name.setText(getIntent().getStringExtra("name"));
-        TextView vakit = (TextView) findViewById(R.id.vakit);
+        TextView vakit = findViewById(R.id.vakit);
         vakit.setText(getIntent().getStringExtra("vakit"));
         vakit.setKeepScreenOn(true);
 

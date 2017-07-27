@@ -44,7 +44,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@color/colorPrimary"
                     android:theme="@style/ToolbarTheme"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -52,22 +52,9 @@
                     android:id="@+id/basecontent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/footerText"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/toolbar" />
-
-                <TextView
-                    android:id="@+id/footerText"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dip"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:text="@string/monthly"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp" />
 
 
             </RelativeLayout>

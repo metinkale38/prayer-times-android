@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -45,6 +46,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 public class Utils {
@@ -102,10 +104,8 @@ public class Utils {
 
 
     public static void init(@NonNull Context c) {
-        String newLang = Prefs.getLanguage();
-
-
-        Crashlytics.setString("lang", newLang);
+        Locale locale = getLocale();
+        Crashlytics.setString("lang", locale.getLanguage());
         Crashlytics.setString("digits", Prefs.getDigits());
 
         int year = LocalDate.now().getYear();
@@ -116,10 +116,6 @@ public class Utils {
         }
 
 
-        if (newLang == null) {
-            return;
-        }
-        Locale locale = new Locale(newLang);
         Configuration config = new Configuration();
         Locale.setDefault(locale);
 
@@ -136,27 +132,62 @@ public class Utils {
 
     }
 
+
+    @NonNull
+    public static Locale getLocale() {
+        String language = Prefs.getLanguage();
+        if ("system".equals(language)) return App.get().getSystemLocale();
+        else return new Locale(language);
+    }
+
     public static void changeLanguage(String language) {
         Context c = App.get();
 
+        if (language == null || language.isEmpty()) language = "system";
         Prefs.setLanguage(language);
 
         sGMonths = null;
         sHMonths = null;
         sHolydays = null;
         PackageManager pm = c.getPackageManager();
+        String[] languages = App.get().getResources().getStringArray(R.array.language_val);
+        boolean hasEnabledActivity = false;
+        for (String lang : languages) {
+            if (lang.equals("system")) continue;
 
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasFR"), "fr".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasRU"), "ru".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasTR"), "tr".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasAR"), "ar".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasEN"), "en".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDE"), "de".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasNL"), "nl".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasKU"), "ku".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasBS"), "bs".equals(language) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDefault"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            if (lang.equals(language)) {
+                pm.setComponentEnabledSetting(
+                        new ComponentName(c, "com.metinkale.prayer.alias" + lang.toUpperCase(Locale.ENGLISH)),
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                hasEnabledActivity = true;
+            } else {
+                pm.setComponentEnabledSetting(
+                        new ComponentName(c, "com.metinkale.prayer.alias" + lang.toUpperCase(Locale.ENGLISH)),
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            }
+        }
 
+        pm.setComponentEnabledSetting(new ComponentName(c, "com.metinkale.prayer.aliasDefault"),
+                hasEnabledActivity ?
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED :
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+    }
+
+
+    @NonNull
+    public static String getLanguage(@Size(min = 1) String... allow) {
+        Locale lang = Utils.getLocale();
+        Locale[] locales = new Locale[allow.length];
+        for (int i = 0; i < allow.length; i++) {
+            locales[i] = new Locale(allow[i]);
+        }
+
+        for (int i = 0; i < locales.length; i++) {
+            if (lang.equals(locales[i])) return allow[i];
+        }
+
+        return allow[0];
     }
 
     @Nullable
@@ -183,29 +214,6 @@ public class Utils {
         return sHMonths[which];
     }
 
-    public static boolean askLang(@NonNull final Activity act) {
-        if (Prefs.getLanguage() != null) {
-            return false;
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(R.string.language).setItems(R.array.language, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                String lang = act.getResources().getStringArray(R.array.language_val)[which];
-                changeLanguage(lang);
-                Answers.getInstance().logCustom(new CustomEvent("Language")
-                        .putCustomAttribute("lang", lang)
-                );
-                init(act);
-                act.finish();
-                act.startActivity(new Intent(act, act.getClass()));
-            }
-        }).setCancelable(false);
-
-        builder.show();
-        return true;
-    }
 
     @NonNull
     public static String az(int i) {
@@ -276,7 +284,7 @@ public class Utils {
 
     @Nullable
     public static String getAssetForHolyday(int pos) {
-        return Prefs.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
+        return Utils.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
     }
 
 

@@ -53,9 +53,9 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_settings, container, false);
-        mName = (EditText) v.findViewById(R.id.name);
-        ViewGroup tz = (ViewGroup) v.findViewById(R.id.tz);
-        mTimeZone = (EditText) tz.findViewById(R.id.timezonefix);
+        mName = v.findViewById(R.id.name);
+        ViewGroup tz = v.findViewById(R.id.tz);
+        mTimeZone = tz.findViewById(R.id.timezonefix);
         tz.findViewById(R.id.plus).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,13 +103,13 @@ public class SettingsFragment extends Fragment {
 
             }
         });
-        ViewGroup vg = (ViewGroup) v.findViewById(R.id.minAdj);
+        ViewGroup vg = v.findViewById(R.id.minAdj);
         for (int i = 1; i < 7; i++) {
             final int ii = i - 1;
             ViewGroup time = (ViewGroup) vg.getChildAt(i);
-            mMins[ii] = (EditText) time.findViewById(R.id.nr);
-            mPlus[ii] = (ImageView) time.findViewById(R.id.plus);
-            mMinus[ii] = (ImageView) time.findViewById(R.id.minus);
+            mMins[ii] = time.findViewById(R.id.nr);
+            mPlus[ii] = time.findViewById(R.id.plus);
+            mMinus[ii] = time.findViewById(R.id.minus);
             mPlus[ii].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -19,117 +19,156 @@ package com.metinkale.prayerapp.intro;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.fragments.CityFragment;
-import com.metinkale.prayerapp.vakit.fragments.SortFragment;
+import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.fragments.NotificationPrefs;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
+
+import org.joda.time.LocalDate;
+
+import java.util.List;
 
 /**
  * Created by metin on 17.07.2017.
  */
 
-public class ConfigIntroFragment extends IntroFragment implements ViewPager.OnPageChangeListener {
+public class ConfigIntroFragment extends IntroFragment {
 
-    private ViewPager mPager;
-    private FloatingActionButton mAddCityFab;
-    private TextView mFooterText;
+    private View mView;
+    private Toolbar mToolbar;
+    private int mTask;
+    private Fragment mPrefsFrag;
+    private Runnable mDoTask = new Runnable() {
+        @Override
+        public void run() {
+            mView.postDelayed(mDoTask, 2000);
+            if (mFragment == null || mFragment.getTopSlider() == null) {
+                return;
+            }
+
+            switch (mTask % 6) {
+                case 0:
+                    mFragment.getTopSlider().animateOpen();
+                    break;
+                case 1:
+                    mFragment.getTopSlider().animateClose();
+                    break;
+                case 2:
+                    mFragment.getBottomSlider().animateOpen();
+                    break;
+                case 3:
+                    mFragment.getBottomSlider().animateClose();
+                    break;
+                case 4:
+                    mMenuItem.getIcon().setAlpha(100);
+                    mMenuItem.getIcon().invalidateSelf();
+                    FragmentManager fm = getChildFragmentManager();
+                    mFragment.setFooterText("", false);
+                    fm.beginTransaction()
+                            .replace(R.id.basecontent,
+                                    mPrefsFrag).addToBackStack("").commit();
+                    break;
+                case 5:
+                    mMenuItem.getIcon().setAlpha(255);
+                    mMenuItem.getIcon().invalidateSelf();
+                    mFragment.setFooterText(getString(R.string.monthly), false);
+                    getChildFragmentManager().popBackStack();
+                    break;
+
+            }
+            mTask++;
+        }
+    };
+    private VakitFragment mFragment;
+    private MenuItem mMenuItem;
+    private Times mTimes;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro_pager, container, false);
+        mView = inflater.inflate(R.layout.intro_pager, container, false);
 
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.appName);
-        toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
+        mToolbar = mView.findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.appName);
+        mToolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
                 .setColor(Color.WHITE)
                 .setToActionbarSize()
                 .build());
 
-        mPager = (ViewPager) v.findViewById(R.id.pager);
-        mPager.setBackgroundColor(Color.WHITE);
-        mPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                if (position == 0) return new SortFragment();
-                else {
-                    Times t = Times.getTimesAt(position - 1);
-                    Bundle bdl = new Bundle();
-                    bdl.putLong("city", t.getID());
-                    Fragment frag = new CityFragment();
-                    frag.setArguments(bdl);
-                    return frag;
-                }
+        try {
+            MaterialMenuInflater.with(getActivity(), getActivity().getMenuInflater())
+                    .setDefaultColor(Color.WHITE)
+                    .inflate(R.menu.vakit, mToolbar.getMenu());
+            mMenuItem = mToolbar.getMenu().getItem(0);
+            mMenuItem.setIcon(mMenuItem.getIcon());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
+
+
+        return mView;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mTimes = null;
+        List<Times> times = Times.getTimes();
+        for (Times time : times) {
+            if (mTimes == null) mTimes = time;
+            if (!time.getTime(LocalDate.now().withDayOfMonth(1), 3).equals("00:00")) {
+                mTimes = time;
+                break;
             }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        });
-        mPager.addOnPageChangeListener(this);
-
-
-        mPager.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPager.setCurrentItem((mPager.getCurrentItem() + 1) % 3, true);
-                mPager.postDelayed(this, 2500);
-            }
-        }, 2500);
-
-        mAddCityFab = (FloatingActionButton) v.findViewById(R.id.addCity);
-        mFooterText = (TextView) v.findViewById(R.id.footerText);
-        return v;
+        }
+        Bundle bdl = new Bundle();
+        bdl.putInt("startCity", times.indexOf(mTimes));
+        mFragment = new VakitFragment();
+        mFragment.setArguments(bdl);
+        mPrefsFrag = NotificationPrefs.create(mTimes);
+        getChildFragmentManager().beginTransaction().replace(R.id.basecontent, mFragment).commit();
     }
 
 
     @Override
     protected void onSelect() {
+        if (mView != null) {
+            mView.removeCallbacks(mDoTask);
+            mView.postDelayed(mDoTask, 500);
+        }
     }
 
     @Override
     protected void onEnter() {
+
     }
 
     @Override
     protected void onExit() {
+        if (mView != null)
+            mView.removeCallbacks(mDoTask);
 
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mAddCityFab != null)
-            if ((position == 0) && (positionOffset == 0)) {
-                mAddCityFab.show();
-                mFooterText.setText(R.string.cities);
-            } else {
-                mAddCityFab.hide();
-                mFooterText.setText(R.string.monthly);
-            }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    protected boolean shouldShow() {
+        return Prefs.showIntro();
     }
 }

@@ -38,6 +38,8 @@ import com.metinkale.prayerapp.utils.Utils;
 
 import org.joda.time.LocalDate;
 
+import java.util.Locale;
+
 
 public class CalendarFragment extends MainActivity.MainFragment implements OnItemClickListener {
 
@@ -47,7 +49,7 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
         View v = inflater.inflate(R.layout.calendar_main, container, false);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        ViewPager viewPager = (ViewPager) v.findViewById(R.id.pager);
+        ViewPager viewPager = v.findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setCurrentItem(LocalDate.now().getYear() - HicriDate.MIN_YEAR);
         return v;
@@ -56,7 +58,9 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
     @Override
     public void onItemClick(AdapterView<?> arg0, @NonNull View v, int pos, long arg3) {
         String asset = Utils.getAssetForHolyday((Integer) v.getTag());
-        if ((asset != null) && ("tr".equals(Prefs.getLanguage()) || "de".equals(Prefs.getLanguage()))) {
+
+        Locale lang = Utils.getLocale();
+        if ((asset != null) && (new Locale("de").equals(lang) || new Locale("tr").equals(lang))) {
             Bundle bdl = new Bundle();
             bdl.putString("asset", asset);
             Fragment frag = new WebViewFragment();
@@ -75,7 +79,7 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
 
             View view = inflater.inflate(R.layout.calendar_frag, container, false);
 
-            ListView listView = (ListView) view.findViewById(android.R.id.list);
+            ListView listView = view.findViewById(android.R.id.list);
 
             year = getArguments().getInt(YEAR);
             listView.setAdapter(new Adapter(getActivity(), year));
@@ -99,7 +103,7 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            if ("ar".equals(Prefs.getLanguage())) position = getCount() - position - 1;
+            if (Utils.getLocale().equals(new Locale("ar"))) position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
             args.putInt(YearFragment.YEAR, position + HicriDate.MIN_YEAR);
@@ -114,7 +118,7 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if ("ar".equals(Prefs.getLanguage())) position = getCount() - position - 1;
+            if (Utils.getLocale().equals(new Locale("ar"))) position = getCount() - position - 1;
             return Utils.toArabicNrs(position + HicriDate.MIN_YEAR);
         }
     }

@@ -35,15 +35,15 @@ public class KazaFragment extends MainActivity.MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kaza_main, container, false);
-        ViewGroup vg = (ViewGroup) view.findViewById(R.id.main);
+        ViewGroup vg = view.findViewById(R.id.main);
 
         int[] ids = {R.string.morningPrayer, R.string.zuhr, R.string.asr, R.string.maghrib, R.string.ishaa, R.string.witr, R.string.fasting};
         for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
-            TextView name = (TextView) v.findViewById(R.id.text);
-            final EditText nr = (EditText) v.findViewById(R.id.nr);
-            ImageView plus = (ImageView) v.findViewById(R.id.plus);
-            ImageView minus = (ImageView) v.findViewById(R.id.minus);
+            TextView name = v.findViewById(R.id.text);
+            final EditText nr = v.findViewById(R.id.nr);
+            ImageView plus = v.findViewById(R.id.plus);
+            ImageView minus = v.findViewById(R.id.minus);
 
             name.setText(ids[i]);
 
@@ -89,11 +89,11 @@ public class KazaFragment extends MainActivity.MainFragment {
     public void onResume() {
         super.onResume();
 
-        ViewGroup vg = (ViewGroup) getView().findViewById(R.id.main);
+        ViewGroup vg = getView().findViewById(R.id.main);
         SharedPreferences prefs = getActivity().getSharedPreferences("kaza", 0);
         for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
-            EditText nr = (EditText) v.findViewById(R.id.nr);
+            EditText nr = v.findViewById(R.id.nr);
             nr.setText(prefs.getString("count" + i, "0"));
 
         }
@@ -103,11 +103,11 @@ public class KazaFragment extends MainActivity.MainFragment {
     public void onPause() {
         super.onPause();
 
-        ViewGroup vg = (ViewGroup) getActivity().findViewById(R.id.main);
+        ViewGroup vg = getActivity().findViewById(R.id.main);
         SharedPreferences.Editor edit = getActivity().getSharedPreferences("kaza", 0).edit();
         for (int i = 0; i < 7; i++) {
             View v = vg.getChildAt(i);
-            EditText nr = (EditText) v.findViewById(R.id.nr);
+            EditText nr = v.findViewById(R.id.nr);
             edit.putString("count" + i, nr.getText().toString());
 
         }

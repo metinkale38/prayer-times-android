@@ -65,10 +65,7 @@ public enum Vakit {
         if (Prefs.useArabic()) {
             return arabic;
         }
-        if (name == null) {
-            name = App.get().getString(resId);
-        }
 
-        return name;
+        return App.get().getString(resId);
     }
 }

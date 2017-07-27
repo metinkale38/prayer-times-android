@@ -45,7 +45,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_location);
 
-        ListView list = (ListView) findViewById(R.id.listView);
+        ListView list = findViewById(R.id.listView);
         list.setOnItemClickListener(this);
 
         mAdapter = new ArrayAdapter<Geocoder.Result>(this, android.R.layout.simple_list_item_1, android.R.id.text1) {
@@ -60,7 +60,7 @@ public class LocationPicker extends Activity implements TextWatcher, OnItemClick
 
         list.setAdapter(mAdapter);
 
-        EditText city = (EditText) findViewById(R.id.location);
+        EditText city = findViewById(R.id.location);
         city.addTextChangedListener(this);
     }
 

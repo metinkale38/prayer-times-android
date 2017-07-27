@@ -72,7 +72,7 @@ public class FragMap extends Fragment implements CompassFragment.MyCompassListen
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mFab = (FloatingActionButton) v.findViewById(R.id.myLocationButton);
+        mFab = v.findViewById(R.id.myLocationButton);
 
         return v;
     }

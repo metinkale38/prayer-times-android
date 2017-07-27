@@ -63,7 +63,7 @@ public class NamesFragment extends MainActivity.MainFragment implements OnQueryT
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.names_main, container, false);
 
-        mRecyclerView = (RecyclerView) v.findViewById(android.R.id.list);
+        mRecyclerView = v.findViewById(android.R.id.list);
         DisplayMetrics dimension = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dimension);
 

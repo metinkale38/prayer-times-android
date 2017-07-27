@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.intro;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 /**
  * Created by metin on 17.07.2017.
@@ -26,22 +27,34 @@ public abstract class IntroFragment extends Fragment {
     private float mPagerPosition;
 
     public void setPagerPosition(float pagerPosition) {
-        if (mPagerPosition == 0 && pagerPosition > 0)
+        if (mPagerPosition == 0 && pagerPosition > 0) {
             onExit();
+            //  Log.e("PAGER", getClass().getName() + " onExit");
+        }
 
-        if (mPagerPosition == 1 && pagerPosition < 1)
+        if (mPagerPosition == 1 && pagerPosition < 1) {
             onEnter();
+            //  Log.e("PAGER", getClass().getName() + " onEnter");
+        }
 
         if (pagerPosition == 0) {
             onSelect();
+            //   Log.e("PAGER", getClass().getName() + " onSelect");
         }
         this.mPagerPosition = pagerPosition;
 
     }
+
 
     protected abstract void onSelect();
 
     protected abstract void onEnter();
 
     protected abstract void onExit();
+
+    protected abstract boolean shouldShow();
+
+    public boolean allowTouch() {
+        return false;
+    }
 }

@@ -73,16 +73,16 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.vakit_addcity, container, false);
-        mFab = (FloatingActionButton) v.findViewById(R.id.search);
+        mFab = v.findViewById(R.id.search);
         mFab.setOnClickListener(this);
-        ListView listView = (ListView) v.findViewById(R.id.listView);
+        ListView listView = v.findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
         listView.setOnItemClickListener(this);
         listView.addFooterView(View.inflate(getActivity(), R.layout.vakit_addcity_addcsv, null));
         mAdapter = new MyAdapter(getActivity());
         listView.setAdapter(mAdapter);
 
-        TextView legacy = (TextView) v.findViewById(R.id.legacySwitch);
+        TextView legacy = v.findViewById(R.id.legacySwitch);
         legacy.setText(R.string.oldAddCity);
         legacy.setOnClickListener(new OnClickListener() {
             @Override
@@ -335,10 +335,10 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
             if (convertView == null) {
                 convertView = View.inflate(parent.getContext(), R.layout.vakit_addcity_row, null);
                 vh = new ViewHolder();
-                vh.city = (TextView) convertView.findViewById(R.id.city);
-                vh.country = (TextView) convertView.findViewById(R.id.country);
-                vh.sourcetxt = (TextView) convertView.findViewById(R.id.sourcetext);
-                vh.source = (ImageView) convertView.findViewById(R.id.source);
+                vh.city = convertView.findViewById(R.id.city);
+                vh.country = convertView.findViewById(R.id.country);
+                vh.sourcetxt = convertView.findViewById(R.id.sourcetext);
+                vh.source = convertView.findViewById(R.id.source);
 
                 convertView.setTag(vh);
             } else {

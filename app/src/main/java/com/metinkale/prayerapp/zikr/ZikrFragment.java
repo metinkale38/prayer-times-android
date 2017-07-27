@@ -77,12 +77,12 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.zikr_main, container, false);
         mPrefs = getActivity().getSharedPreferences("zikr", 0);
-        mZikr = (ZikrView) v.findViewById(R.id.zikr);
-        mTitle = (EditText) v.findViewById(R.id.title);
+        mZikr = v.findViewById(R.id.zikr);
+        mTitle = v.findViewById(R.id.title);
         mZikr.setOnClickListener(this);
         mZikr.setOnLongClickListener(this);
         mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        mReset = (ImageView) v.findViewById(R.id.reset);
+        mReset = v.findViewById(R.id.reset);
         mReset.setOnClickListener(this);
         mVibrate = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("zikrvibrate2", 0);
 

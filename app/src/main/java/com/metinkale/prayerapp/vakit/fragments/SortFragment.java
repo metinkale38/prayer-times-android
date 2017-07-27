@@ -50,7 +50,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_sort_main, container, false);
-        RecyclerView recyclerMan = (RecyclerView) v.findViewById(R.id.list);
+        RecyclerView recyclerMan = v.findViewById(R.id.list);
         mAdapter = new MyAdapter();
         recyclerMan.setAdapter(mAdapter);
         LinearLayoutManager linLayMan = new LinearLayoutManager(getContext());
@@ -138,8 +138,8 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
 
         public ViewHolder(@NonNull View v) {
             super(v);
-            city = (TextView) v.findViewById(R.id.city);
-            source = (TextView) v.findViewById(R.id.source);
+            city = v.findViewById(R.id.city);
+            source = v.findViewById(R.id.source);
             handler = v.findViewById(R.id.handle);
         }
     }

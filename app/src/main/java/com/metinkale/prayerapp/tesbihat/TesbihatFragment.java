@@ -36,13 +36,16 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.PagerSlidingTabStrip;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
+
+import java.util.Locale;
 
 public class TesbihatFragment extends MainActivity.MainFragment {
 
     private static int mTextSize;
     @Nullable
-    private static String mLang;
+    private static Locale mLocale;
     private FragmentStatePagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
@@ -50,13 +53,13 @@ public class TesbihatFragment extends MainActivity.MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tesbihat_main, container, false);
-        mLang = Prefs.getLanguage();
+        mLocale = Utils.getLocale();
 
-        PagerSlidingTabStrip indicator = (PagerSlidingTabStrip) v.findViewById(R.id.indicator);
+        PagerSlidingTabStrip indicator = v.findViewById(R.id.indicator);
 
-        mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        mViewPager = v.findViewById(R.id.pager);
 
-        if ("tr".equals(mLang)) {
+        if (new Locale("tr").equals(mLocale)) {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getChildFragmentManager());
         } else {
             mSectionsPagerAdapter = new OtherPagerAdapter(getChildFragmentManager());
@@ -68,7 +71,7 @@ public class TesbihatFragment extends MainActivity.MainFragment {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if ((Times.getCount() != 0) && "tr".equals(mLang)) {
+        if ((Times.getCount() != 0) && new Locale("tr").equals(mLocale)) {
             int next = Times.getTimes(Times.getIds().get(0)).getNext();
 
             switch (next) {
@@ -148,10 +151,10 @@ public class TesbihatFragment extends MainActivity.MainFragment {
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.webview, container, false);
-            WebView wv = (WebView) rootView.findViewById(R.id.webview);
+            WebView wv = rootView.findViewById(R.id.webview);
             wv.getSettings().setTextZoom((int) (102.38 * Math.pow(1.41, mTextSize)));
-            if ("tr".equals(mLang)) {
-                wv.loadUrl("file:///android_asset/" + mLang + "/tesbihat/" + getAssetDir(pos));
+            if (new Locale("tr").equals(mLocale)) {
+                wv.loadUrl("file:///android_asset/tr/tesbihat/" + getAssetDir(pos));
             } else {
                 wv.loadUrl("file:///android_asset/en/tasbihat.html");
             }

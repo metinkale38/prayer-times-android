@@ -164,6 +164,7 @@ public abstract class Times extends TimesBase {
                 }
             }
 
+            clearTemporaryTimes();
             if (!sTimes.isEmpty())
                 sort();
         }
@@ -482,6 +483,14 @@ public abstract class Times extends TimesBase {
 
     public void setIssue(String issue) {
         this.issue = issue;
+    }
+
+    public static void clearTemporaryTimes() {
+        List<Times> times = getTimes();
+        for (int i = times.size() - 1; i >= 0; i--) {
+            Times t = times.get(i);
+            if (t.getID() < 0) t.delete();
+        }
     }
 
 

@@ -255,8 +255,8 @@ public class PrefsView extends View implements OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View view = inflater.inflate(R.layout.sabahtime_dialog, null);
-            final NumberPicker np = (NumberPicker) view.findViewById(R.id.number_picker);
-            final RadioGroup rg = (RadioGroup) view.findViewById(R.id.rg);
+            final NumberPicker np = view.findViewById(R.id.number_picker);
+            final RadioGroup rg = view.findViewById(R.id.rg);
 
             int val = (Integer) getValue();
             np.setMinValue(0);

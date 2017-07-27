@@ -16,43 +16,48 @@
 
 package com.metinkale.prayerapp.intro;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.fragments.CityFragment;
-import com.metinkale.prayerapp.vakit.fragments.SortFragment;
+import com.metinkale.prayerapp.MainActivity;
+import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by metin on 17.07.2017.
  */
 
-public class PagerIntroFragment extends IntroFragment implements ViewPager.OnPageChangeListener {
+public class PagerIntroFragment extends IntroFragment {
 
     private ViewPager mPager;
-    private FloatingActionButton mAddCityFab;
-    private TextView mFooterText;
+    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro_pager, container, false);
+        mView = inflater.inflate(R.layout.intro_pager, container, false);
 
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
         toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
@@ -60,46 +65,64 @@ public class PagerIntroFragment extends IntroFragment implements ViewPager.OnPag
                 .setToActionbarSize()
                 .build());
 
-        mPager = (ViewPager) v.findViewById(R.id.pager);
-        mPager.setBackgroundColor(Color.WHITE);
-        mPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                if (position == 0) return new SortFragment();
-                else {
-                    Times t = Times.getTimesAt(position - 1);
-                    Bundle bdl = new Bundle();
-                    bdl.putLong("city", t.getID());
-                    Fragment frag = new CityFragment();
-                    frag.setArguments(bdl);
-                    return frag;
-                }
-            }
 
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        });
-        mPager.addOnPageChangeListener(this);
-
-
-        mPager.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPager.setCurrentItem((mPager.getCurrentItem() + 1) % 3, true);
-                mPager.postDelayed(this, 2500);
-            }
-        }, 2500);
-
-        mAddCityFab = (FloatingActionButton) v.findViewById(R.id.addCity);
-        mFooterText = (TextView) v.findViewById(R.id.footerText);
-        return v;
+        return mView;
     }
 
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Fragment frag = new VakitFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();
+    }
+
+    private Runnable mAction = new Runnable() {
+        @Override
+        public void run() {
+            if (mPager == null) {
+                if (getView() == null) return;
+                mPager = getView().findViewById(R.id.pager);
+                if (mPager == null) return;
+                else {
+                    trySlowDownViewPager(mPager);
+
+
+                }
+            }
+
+            int item = (mPager.getCurrentItem() + 1) % mPager.getAdapter().getCount();
+            mPager.setCurrentItem(item, true);
+            mPager.postDelayed(mAction, item == 0 ? 5000 : 2000);
+        }
+    };
+
+    private static void trySlowDownViewPager(ViewPager pager) {
+        try {
+            Field scroller = ViewPager.class.getDeclaredField("mScroller");
+            scroller.setAccessible(true);
+            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
+            interpolator.setAccessible(true);
+
+            scroller.set(pager, new Scroller(pager.getContext(), (android.view.animation.Interpolator) interpolator.get(pager)) {
+                @Override
+                public void startScroll(int startX, int startY, int dx, int dy,
+                                        int duration) {
+                    super.startScroll(startX, startY, dx, dy, duration * 10);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            //ignore
+        }
+    }
+
+    @Override
     protected void onSelect() {
+        if (mView != null) {
+            mView.removeCallbacks(mAction);
+            mView.postDelayed(mAction, 500);
+        }
     }
 
     @Override
@@ -108,28 +131,13 @@ public class PagerIntroFragment extends IntroFragment implements ViewPager.OnPag
 
     @Override
     protected void onExit() {
+        if (mView != null)
+            mView.removeCallbacks(mAction);
 
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mAddCityFab != null)
-            if ((position == 0) && (positionOffset == 0)) {
-                mAddCityFab.show();
-                mFooterText.setText(R.string.cities);
-            } else {
-                mAddCityFab.hide();
-                mFooterText.setText(R.string.monthly);
-            }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    protected boolean shouldShow() {
+        return Prefs.showIntro();
     }
 }

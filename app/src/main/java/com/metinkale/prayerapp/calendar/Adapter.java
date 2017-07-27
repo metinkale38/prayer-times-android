@@ -34,6 +34,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import org.joda.time.LocalDate;
 
 import java.util.List;
+import java.util.Locale;
 
 public class Adapter extends ArrayAdapter<int[]> {
     @NonNull
@@ -46,8 +47,8 @@ public class Adapter extends ArrayAdapter<int[]> {
         this.context = context;
         days = HicriDate.getHolydays(year);
 
-        String lang = Prefs.getLanguage();
-        hasInfo = ("de".equals(lang) || "tr".equals(lang));
+        Locale lang = Utils.getLocale();
+        hasInfo = (new Locale("de").equals(lang) || new Locale("tr").equals(lang));
     }
 
     @NonNull
@@ -61,10 +62,10 @@ public class Adapter extends ArrayAdapter<int[]> {
             convertView = inflater.inflate(R.layout.calendar_item, parent, false);
 
             vh = new ViewHolder();
-            vh.name = (TextView) convertView.findViewById(R.id.name);
-            vh.date = (TextView) convertView.findViewById(R.id.date);
-            vh.hicri = (TextView) convertView.findViewById(R.id.hicri);
-            vh.next = (ImageView) convertView.findViewById(R.id.next);
+            vh.name = convertView.findViewById(R.id.name);
+            vh.date = convertView.findViewById(R.id.date);
+            vh.hicri = convertView.findViewById(R.id.hicri);
+            vh.next = convertView.findViewById(R.id.next);
             vh.next.setVisibility(hasInfo ? View.VISIBLE : View.GONE);
             convertView.setTag(R.id.viewholder, vh);
         } else {

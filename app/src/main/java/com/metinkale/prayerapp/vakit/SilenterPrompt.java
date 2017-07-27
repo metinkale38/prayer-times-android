@@ -34,7 +34,7 @@ public class SilenterPrompt extends Activity {
 
         setContentView(R.layout.vakit_silenterprompt);
 
-        final NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
+        final NumberPicker np = findViewById(R.id.numberPicker);
         np.setMinValue(1);
         np.setMaxValue(300);
         np.setValue(widgets.getInt("silenterWidget", 15));

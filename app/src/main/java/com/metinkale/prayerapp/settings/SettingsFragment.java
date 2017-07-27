@@ -33,6 +33,8 @@ import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.utils.NumberPickerPreference;
 import com.metinkale.prayerapp.utils.Utils;
 
+import java.util.Locale;
+
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
@@ -61,7 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             if (Build.VERSION.SDK_INT < 24)
                 findPreference("showLegacyWidgets").setEnabled(false);
 
-            findPreference("arabicNames").setEnabled(!Prefs.getLanguage().equals("ar"));
+            findPreference("arabicNames").setEnabled(!new Locale("ar").equals(Utils.getLocale()));
 
             PreferenceScreen screen = (PreferenceScreen) findPreference("kerahatDuration");
             screen.setOnPreferenceClickListener(this);
@@ -85,6 +87,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         return false;
     }
 
+    @SuppressWarnings("RestrictedApi")
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         if (preference instanceof NumberPickerPreference) {

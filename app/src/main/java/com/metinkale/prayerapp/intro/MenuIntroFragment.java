@@ -35,7 +35,9 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.MainActivity;
+import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.fragments.CityFragment;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -68,7 +70,7 @@ public class MenuIntroFragment extends IntroFragment {
         View v = inflater.inflate(R.layout.intro_menu, container, false);
 
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
         toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
@@ -76,10 +78,10 @@ public class MenuIntroFragment extends IntroFragment {
                 .setToActionbarSize()
                 .build());
 
-        mDrawerLayout = (DrawerLayout) v.findViewById(R.id.drawer);
+        mDrawerLayout = v.findViewById(R.id.drawer);
         mDrawerLayout.setBackgroundColor(Color.WHITE);
 
-        ListView lv = (ListView) v.findViewById(R.id.base_nav);
+        ListView lv = v.findViewById(R.id.base_nav);
         lv.setAdapter(buildNavAdapter(getActivity()));
 
         return v;
@@ -109,17 +111,13 @@ public class MenuIntroFragment extends IntroFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bdl = new Bundle();
-        Times t = Times.getTimesAt(0);
-        bdl.putLong("city", t.getID());
-        Fragment frag = new CityFragment();
-        frag.setArguments(bdl);
+        Fragment frag = new VakitFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();
     }
 
     @Override
     protected void onSelect() {
-        mDrawerLayout.postDelayed(mOpen, 2000);
+        mDrawerLayout.postDelayed(mOpen, 500);
     }
 
     @Override
@@ -132,5 +130,10 @@ public class MenuIntroFragment extends IntroFragment {
             mDrawerLayout.removeCallbacks(mOpen);
             mDrawerLayout.removeCallbacks(mClose);
         }
+    }
+
+    @Override
+    protected boolean shouldShow() {
+        return Prefs.showIntro();
     }
 }

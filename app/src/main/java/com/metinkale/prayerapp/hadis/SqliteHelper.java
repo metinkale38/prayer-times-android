@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -175,7 +176,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         if (mDB == null) {
             synchronized (this) {
                 if (mDB == null) {
-                    String lang = Prefs.getLanguage("en", "de", "tr");
+                    String lang = Utils.getLanguage("en", "de", "tr");
                     mDB = SQLiteDatabase.openDatabase(FILE.getAbsolutePath() + "/" + lang + "/hadis.db", null, SQLiteDatabase.OPEN_READWRITE);
                 }
             }

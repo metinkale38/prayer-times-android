@@ -68,10 +68,10 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
         setView(view);
-        mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
+        mNumberPicker = view.findViewById(R.id.number_picker);
 
         if (units != 0) {
-            TextView unit = (TextView) view.findViewById(R.id.unit);
+            TextView unit = view.findViewById(R.id.unit);
             unit.setText(units);
             unit.setVisibility(View.VISIBLE);
         }

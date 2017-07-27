@@ -51,6 +51,8 @@ import com.squareup.leakcanary.LeakCanary;
 
 import org.joda.time.DateTimeZone;
 
+import java.util.Locale;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -80,6 +82,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             mDefaultUEH.uncaughtException(thread, ex);
         }
     };
+    private Locale mSystemLocale;
 
 
     @NonNull
@@ -130,6 +133,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
+        mSystemLocale = Locale.getDefault();
         LeakCanary.install(this);
 
         Fabric.with(this, new Crashlytics());
@@ -222,5 +226,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             }
             return null;
         }
+    }
+
+    public Locale getSystemLocale() {
+        return mSystemLocale;
     }
 }

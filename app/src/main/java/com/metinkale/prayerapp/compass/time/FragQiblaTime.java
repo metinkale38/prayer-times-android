@@ -46,10 +46,10 @@ public class FragQiblaTime extends Fragment implements MyCompassListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_qiblatime, container, false);
-        mQiblaTimeView = (QiblaTimeView) v.findViewById(R.id.qiblatime);
+        mQiblaTimeView = v.findViewById(R.id.qiblatime);
 
-        mAngle = (TextView) v.findViewById(R.id.angle);
-        mDist = (TextView) v.findViewById(R.id.distance);
+        mAngle = v.findViewById(R.id.angle);
+        mDist = v.findViewById(R.id.distance);
         mInfo = v.findViewById(R.id.infobox);
 
         View info = (View) mAngle.getParent();

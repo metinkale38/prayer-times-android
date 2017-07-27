@@ -20,8 +20,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <com.metinkale.prayerapp.intro.MyViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/forward" />
+
+    <Button
+        android:id="@+id/back"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/center"
+        android:padding="20dp"
+        android:text="@string/back"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/forward"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/center"
+        android:padding="20dp"
+        android:text="@string/continue_"
+        android:textColor="#ffffff" />
+
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

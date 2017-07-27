@@ -271,7 +271,7 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
         mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
 
         if (mSelCity == null) {
-            mSelCity = (TextView) getView().findViewById(R.id.selcity);
+            mSelCity = getView().findViewById(R.id.selcity);
             mSelCity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

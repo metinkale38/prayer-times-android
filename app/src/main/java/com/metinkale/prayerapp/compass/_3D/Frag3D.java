@@ -34,7 +34,7 @@ public class Frag3D extends Fragment implements MyCompassListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_3d, container, false);
-        mCompassView = (CompassView) v.findViewById(R.id.compass);
+        mCompassView = v.findViewById(R.id.compass);
         onUpdateDirection();
         return v;
 

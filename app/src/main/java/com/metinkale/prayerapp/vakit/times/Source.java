@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.vakit.times;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.sources.CSVTimes;
 import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.sources.DiyanetTimes;
@@ -56,9 +57,7 @@ public enum Source {
     }
 
     Source(int resTxt, int resIcon, Class<? extends Times> clz) {
-        String lang = Prefs.getLanguage();
-        if (lang != null)
-            Locale.setDefault(new Locale(lang));
+        Locale.setDefault(Utils.getLocale());
         this.text = App.get().getString(resTxt);
         this.resId = resIcon;
         this.clz = clz;

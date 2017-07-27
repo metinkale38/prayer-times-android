@@ -59,7 +59,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
 
         v.findViewById(R.id.search).setVisibility(View.GONE);
 
-        TextView legacy = (TextView) v.findViewById(R.id.legacySwitch);
+        TextView legacy = v.findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
         legacy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
             }
         });
 
-        mListView = (ListView) v.findViewById(R.id.listView);
+        mListView = v.findViewById(R.id.listView);
         mListView.setFastScrollEnabled(true);
         mListView.setOnItemClickListener(this);
         mAdapter = new MyAdapter(getActivity());
@@ -139,7 +139,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
                 convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             }
             Entry entry = getItem(position);
-            TextView tv = ((TextView) convertView.findViewById(android.R.id.text1));
+            TextView tv = convertView.findViewById(android.R.id.text1);
             tv.setText(entry.getName());
             tv.setCompoundDrawables(null, null, entry.getKey() == null ?
                     MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CHEVRON_RIGHT).build() : null, null);

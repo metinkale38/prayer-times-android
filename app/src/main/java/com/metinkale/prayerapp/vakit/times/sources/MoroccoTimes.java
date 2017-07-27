@@ -22,12 +22,14 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Source;
 
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MoroccoTimes extends WebTimes {
 
@@ -50,7 +52,7 @@ public class MoroccoTimes extends WebTimes {
     public synchronized String getName() {
         String name = super.getName();
         if (name != null && name.contains("(") && name.contains(")")) {
-            if ("ar".equals(Prefs.getLanguage())) {
+            if (new Locale("ar").equals(Utils.getLocale())) {
                 return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
             } else {
                 return name.substring(0, name.indexOf(" ("));

@@ -66,6 +66,7 @@ import org.joda.time.LocalDate;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 @SuppressLint("ClickableViewAccessibility")
 public class CityFragment extends Fragment implements Times.OnTimesUpdatedListener {
@@ -94,7 +95,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 int next = mTimes.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;
                 for (int i = 0; i < 6; i++) {
-                    TextView time = (TextView) mView.findViewById(ids[i]);
+                    TextView time = mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
                     if (i == (next - 1)) {
                         time.setBackgroundResource(R.color.indicator);
@@ -134,23 +135,23 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         setHasOptionsMenu(true);
 
 
-        mCountdown = (TextView) mView.findViewById(R.id.countdown);
-        mTitle = (TextView) mView.findViewById(R.id.city);
-        mDate = (TextView) mView.findViewById(R.id.date);
-        mHicri = (TextView) mView.findViewById(R.id.hicri);
+        mCountdown = mView.findViewById(R.id.countdown);
+        mTitle = mView.findViewById(R.id.city);
+        mDate = mView.findViewById(R.id.date);
+        mHicri = mView.findViewById(R.id.hicri);
 
 
-        mKerahat = (TextView) mView.findViewById(R.id.kerahat);
+        mKerahat = mView.findViewById(R.id.kerahat);
 
-        if ("tr".equals(Prefs.getLanguage())) {
+        if (new Locale("tr").equals(Utils.getLocale())) {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.imsak);
         } else {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.fajr);
         }
 
         if (mTimes.getID() >= 0) {
-            ImageView source1 = (ImageView) mView.findViewById(R.id.source1);
-            ImageView source2 = (ImageView) mView.findViewById(R.id.source2);
+            ImageView source1 = mView.findViewById(R.id.source1);
+            ImageView source2 = mView.findViewById(R.id.source2);
             if (mTimes.getSource().resId != 0) {
                 source1.setImageResource(mTimes.getSource().resId);
                 source2.setImageResource(mTimes.getSource().resId);
@@ -159,7 +160,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         if (Prefs.useArabic()) {
             for (int i = 0; i < idsNames.length; i++) {
-                TextView tv = (TextView) mView.findViewById(idsNames[i]);
+                TextView tv = mView.findViewById(idsNames[i]);
                 tv.setGravity(Gravity.LEFT);
                 tv.setText(Vakit.getByIndex(i).getString());
             }
@@ -186,7 +187,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         boolean synced = false;
         for (int i = 0; i < 6; i++) {
 
-            TextView time = (TextView) mView.findViewById(ids[i]);
+            TextView time = mView.findViewById(ids[i]);
             time.setText(Utils.fixTimeForHTML(daytimes[i]));
             if (!synced && daytimes[i].equals("00:00") && mTimes instanceof WebTimes && App.isOnline()) {
                 ((WebTimes) mTimes).syncAsync();
@@ -212,16 +213,16 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
             String imsak = mTimes.getTime(greg, 0);
             String asr = mTimes.getTime(greg, 3);
 
-            TextView time = (TextView) mView.findViewById(ids[0]);
+            TextView time = mView.findViewById(ids[0]);
             time.setText(Utils.fixTimeForHTML(imsak));
 
-            time = (TextView) mView.findViewById(ids[3]);
+            time = mView.findViewById(ids[3]);
             time.setText(Utils.fixTimeForHTML(asr));
 
-            time = (TextView) mView.findViewById(idsNames[0]);
+            time = mView.findViewById(idsNames[0]);
             time.setText(R.string.imsak);
 
-            time = (TextView) mView.findViewById(idsNames[3]);
+            time = mView.findViewById(idsNames[3]);
             time.setText(Vakit.IKINDI.getString());
 
             mHandler.postDelayed(mAltTimes, 3000);
@@ -236,16 +237,16 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
             String sabah = mTimes.getSabah(greg);
             String asr = mTimes.getAsrSani(greg);
             if (sabah != null && !sabah.equals("00:00")) {
-                TextView time = (TextView) mView.findViewById(ids[0]);
+                TextView time = mView.findViewById(ids[0]);
                 time.setText(Utils.fixTimeForHTML(sabah));
-                time = (TextView) mView.findViewById(idsNames[0]);
+                time = mView.findViewById(idsNames[0]);
                 time.setText(R.string.fajr);
             }
 
             if (asr != null && !asr.equals("00:00")) {
-                TextView time = (TextView) mView.findViewById(ids[3]);
+                TextView time = mView.findViewById(ids[3]);
                 time.setText(Utils.fixTimeForHTML(asr));
-                time = (TextView) mView.findViewById(idsNames[3]);
+                time = mView.findViewById(idsNames[3]);
                 time.setText(R.string.asrSani);
             }
             mHandler.postDelayed(mNormalTimes, 3000);
@@ -393,7 +394,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 PdfDocument.Page page = document.startPage(pageInfo);
                 Drawable launcher = Drawable.createFromStream(getActivity().getAssets().open("pdf/launcher.png"), null);
                 Drawable qr = Drawable.createFromStream(getActivity().getAssets().open("pdf/qrcode.png"), null);
-                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Prefs.getLanguage("en", "de", "tr", "fr", "ar") + ".png"), null);
+                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Utils.getLanguage("en", "de", "tr", "fr", "ar") + ".png"), null);
 
                 launcher.setBounds(30, 30, 30 + 65, 30 + 65);
                 qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);
