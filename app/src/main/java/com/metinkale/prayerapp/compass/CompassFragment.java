@@ -25,6 +25,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -193,6 +195,38 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
         mMode = mode;
     }
 
+    private Handler mHandler = new Handler();
+
+    private Toast makeToast() {
+        Toast t = Toast.makeText(getActivity(), "", Toast.LENGTH_LONG);
+        t.setView(getLayoutInflater().inflate(R.layout.compass_toast_menu, null, false));
+        t.setGravity(Gravity.TOP | Gravity.RIGHT | Gravity.END, 0, 0);
+        t.show();
+        return t;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (Prefs.showCompassNote()) {
+            final Toast t = makeToast();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    t.cancel();
+                    final Toast t2 = makeToast();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            t2.cancel();
+                            makeToast();
+                        }
+                    }, 1000);
+                }
+            }, 1000);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //super.onSaveInstanceState(outState);
@@ -212,6 +246,7 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
                 }
             }
         } else if (mSwitch == item) {
+            Prefs.setShowCompassNote(false);
             if (mMode == Mode.Map) {
                 mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
                 mSensorManager.registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);

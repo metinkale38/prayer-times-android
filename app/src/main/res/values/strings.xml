@@ -271,5 +271,6 @@
     <string name="intro_pager">You can add as many cities as you want</string>
     <string name="intro_config">By swiping up/down you can access to monthly view and the city settings.</string>
     <string name="intro_config2">By pressing the Alarm Icon in the ActionBar you can access the notification settigs to configure Adhan.</string>
+    <string name="compass_type_reminder">Click here to try different methods of finding the correct Qibla direction.</string>
 
 </resources>

@@ -217,6 +217,18 @@ public class Prefs {
 
     public static void setShowIntro(boolean show) {
         getPrefs().edit().putBoolean("showIntro", show).apply();
+        if (show)
+            setShowCompassNote(true);
+    }
+
+
+    public static boolean showCompassNote() {
+        return getPrefs().getBoolean("showCompassNote", true);
+    }
+
+
+    public static void setShowCompassNote(boolean show) {
+        getPrefs().edit().putBoolean("showCompassNote", show).apply();
     }
 
 }
