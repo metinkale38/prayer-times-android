@@ -275,4 +275,8 @@
   <string name="shareText">Hey, schau dir diese Gebetszeiten App an: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
   <string name="share_sum">Teile diese App mit anderen!</string>
   <string name="showIntro_sum">Zeige die Einführung zu dieser App</string>
+  <string name="intro_menu">Über das Seitenmenü kannst du alle Funktionen der App erreichen</string>
+  <string name="intro_pager">Du kannst beliebig viele Städte hinzufügen</string>
+  <string name="intro_config">In dem du das Fester hoch/runter ziehst kannst du die Monatsansicht und die Stadtkonfiguration erreichen.</string>
+  <string name="intro_config2">Drücke das Wecker Symbol in der ActionBar um den Adhan zu konfigurieren.</string>
 </resources>
