@@ -99,7 +99,7 @@ public class ConfigIntroFragment extends IntroFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.intro_pager, container, false);
+        mView = inflater.inflate(R.layout.intro_config, container, false);
 
 
         mToolbar = mView.findViewById(R.id.toolbar);

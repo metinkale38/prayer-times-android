@@ -266,4 +266,8 @@
   <string name="shareText">Namaz Vakti Uygulamasını indir: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
   <string name="share_sum">Bu app başkalarıyla paylaş!</string>
   <string name="showIntro_sum">Bu Uygulamanın tanıtımı göster</string>
+  <string name="intro_menu">Çekmece menü aracılığıyla bu app tüm özelliklerine erişebilirsin</string>
+  <string name="intro_pager">Istediğin sayıda şehirler ekleyebilirsin</string>
+  <string name="intro_config">Yukarı/aşağı yiterek Imsakiyeyi ve ayarlarına ulaşabilirsin.</string>
+  <string name="intro_config2">Saat simgesine basarak bildirim ayarından Ezan okunmasını ayarlayabilirsiniz.</string>
 </resources>

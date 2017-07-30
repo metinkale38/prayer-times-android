@@ -164,9 +164,11 @@ public abstract class Times extends TimesBase {
                 }
             }
 
-            clearTemporaryTimes();
-            if (!sTimes.isEmpty())
+
+            if (!sTimes.isEmpty()) {
                 sort();
+                clearTemporaryTimes();
+            }
         }
         return sTimes;
 

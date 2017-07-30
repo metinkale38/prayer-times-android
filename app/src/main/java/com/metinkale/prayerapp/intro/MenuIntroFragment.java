@@ -117,7 +117,8 @@ public class MenuIntroFragment extends IntroFragment {
 
     @Override
     protected void onSelect() {
-        mDrawerLayout.postDelayed(mOpen, 500);
+        if (mDrawerLayout != null)
+            mDrawerLayout.postDelayed(mOpen, 500);
     }
 
     @Override

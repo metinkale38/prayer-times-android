@@ -19,128 +19,136 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_margin="50dp"
-        android:background="#33ffffff"
-        android:gravity="center"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:src="@drawable/launcher_icon" />
-
-        <TextView
-            android:id="@+id/appName"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img"
-            android:layout_centerHorizontal="true"
-            android:text="@string/appName"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-
-        <TextView
-            android:id="@+id/version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appName"
-            android:layout_centerHorizontal="true"
-            android:text="@string/version"
-            android:textColor="#77ffffff" />
-
-        <TextView
-            android:id="@+id/developer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/version"
-            android:layout_centerHorizontal="true"
-            android:text="metinkale38"
-            android:textColor="#77ffffff" />
-
-
-        <Button
-            android:id="@+id/showIntro"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/developer"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:drawablePadding="20dp"
+            android:background="#33ffffff"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/showIntro"
-            android:textColor="#ffffff" />
-
-        <Button
-            android:id="@+id/mail"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/showIntro"
-            android:layout_centerHorizontal="true"
-            android:drawablePadding="20dp"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/mail"
-            android:textColor="#ffffff" />
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="20dp">
 
 
-        <Button
-            android:id="@+id/vote"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mail"
-            android:layout_centerHorizontal="true"
-            android:drawablePadding="20dp"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/vote"
-            android:textColor="#ffffff" />
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:src="@drawable/launcher_icon" />
+
+            <TextView
+                android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img"
+                android:layout_centerHorizontal="true"
+                android:text="@string/appName"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
 
-        <Button
-            android:id="@+id/share"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/vote"
-            android:layout_centerHorizontal="true"
-            android:drawablePadding="20dp"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/share"
-            android:textColor="#ffffff" />
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appName"
+                android:layout_centerHorizontal="true"
+                android:text="@string/version"
+                android:textColor="#77ffffff" />
 
-        <Button
-            android:id="@+id/translate"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/share"
-            android:layout_centerHorizontal="true"
-            android:drawablePadding="20dp"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/translate"
-            android:textColor="#ffffff" />
+            <TextView
+                android:id="@+id/developer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/version"
+                android:layout_centerHorizontal="true"
+                android:text="metinkale38"
+                android:textColor="#77ffffff" />
 
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/showIntro"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/developer"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/showIntro"
+                android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/mail"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/showIntro"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/mail"
+                android:textColor="#ffffff" />
+
+
+            <Button
+                android:id="@+id/vote"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mail"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/vote"
+                android:textColor="#ffffff" />
+
+
+            <Button
+                android:id="@+id/share"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vote"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/share"
+                android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/translate"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/share"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/translate"
+                android:textColor="#ffffff" />
+
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

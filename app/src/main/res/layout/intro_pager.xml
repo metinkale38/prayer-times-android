@@ -14,11 +14,21 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        app:autoSizeTextType="uniform"
+        app:layout_heightPercent="17.5%"
+        android:padding="20dp"
+        android:gravity="center"
+        android:text="@string/intro_pager"
+        android:textColor="#ffffff"/>
 
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -51,4 +61,4 @@
     </RelativeLayout>
 
 
-</LinearLayout>
+</android.support.percent.PercentRelativeLayout>

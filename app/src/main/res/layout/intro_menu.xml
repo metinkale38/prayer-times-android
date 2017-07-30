@@ -14,14 +14,24 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/intro_menu"
+        android:textColor="#ffffff"
+        app:autoSizeTextType="uniform"
+        app:layout_heightPercent="17.5%" />
 
     <FrameLayout
+        android:id="@+id/anim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleX="0.65"
@@ -72,4 +82,4 @@
 
         </android.support.v4.widget.DrawerLayout>
     </FrameLayout>
-</LinearLayout>
+</android.support.percent.PercentRelativeLayout>

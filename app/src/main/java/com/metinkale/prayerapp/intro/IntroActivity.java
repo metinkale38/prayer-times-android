@@ -54,10 +54,8 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
             App.get().getResources().getColor(R.color.colorPrimary),
             App.get().getResources().getColor(R.color.indicator),
             App.get().getResources().getColor(R.color.colorPrimaryDark),
-            App.get().getResources().getColor(R.color.colorPrimaryLight),
             0xFF3F51B5,
-            0xFF00BCD4,
-            0xFF673AB7,
+            0xFF00BCD4
     };
     private IntroFragment[] mFragments = {
             new LanguageFragment(),
@@ -154,7 +152,7 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int color1 = mColors[position % mColors.length];
-        int color2 = mColors[position + 1 % mColors.length];
+        int color2 = mColors[(position + 1) % mColors.length];
         mMain.setBackgroundColor(blendColors(color1, color2, 1 - positionOffset));
 
         if (position > 0 && positionOffset == 0)

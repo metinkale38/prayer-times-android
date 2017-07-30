@@ -267,5 +267,9 @@
     <string name="shareText">Hey, check out this prayer times app: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
     <string name="share_sum">Share this app with others!</string>
     <string name="showIntro_sum">Show the Introductions of this App</string>
+    <string name="intro_menu">Through the Drawer Menu you can access all Features of this App</string>
+    <string name="intro_pager">You can add as many cities as you want</string>
+    <string name="intro_config">By swiping up/down you can access to monthly view and the city settings.</string>
+    <string name="intro_config2">By pressing the Alarm Icon in the ActionBar you can access the notification settigs to configure Adhan.</string>
 
 </resources>

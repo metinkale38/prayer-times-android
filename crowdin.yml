@@ -1,0 +1,10 @@
+project_identifier : prayer-times-android
+api_key : c97e84b51d71d79c1ebd505465cb5fcf
+base_path: /home/metin/Projects/prayer-times-android/app/src/main
+files:
+  -
+    source: /res/values/strings.xml
+    translation: /res/values-%two_letters_code%/strings.xml
+
+    language_mapping:
+        two_letters_code:
