@@ -15,6 +15,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -24,8 +25,9 @@
         android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_toLeftOf="@+id/source"
+        android:layout_toRightOf="@+id/gps"
         android:lines="1"
         android:textSize="16sp" />
 
@@ -33,9 +35,10 @@
         android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/country"
         android:layout_toLeftOf="@+id/source"
+        android:layout_toRightOf="@+id/gps"
         android:lines="1"
         android:textSize="24sp" />
 
@@ -59,4 +62,14 @@
         android:textSize="12sp" />
 
 
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/gps"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        app:materialIcon="crosshairs_gps"
+        app:materialIconColor="#666666"
+        app:materialIconSize="32dp" />
 </RelativeLayout>

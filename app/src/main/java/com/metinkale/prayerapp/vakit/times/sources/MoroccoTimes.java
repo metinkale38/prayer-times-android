@@ -30,6 +30,7 @@ import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class MoroccoTimes extends WebTimes {
 
@@ -52,7 +53,7 @@ public class MoroccoTimes extends WebTimes {
     public synchronized String getName() {
         String name = super.getName();
         if (name != null && name.contains("(") && name.contains(")")) {
-            if (new Locale("ar").equals(Utils.getLocale())) {
+            if (new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage())) {
                 return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
             } else {
                 return name.substring(0, name.indexOf(" ("));
@@ -61,60 +62,45 @@ public class MoroccoTimes extends WebTimes {
         return name;
     }
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
+    protected boolean sync() throws ExecutionException, InterruptedException {
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();
         int Y = rY;
         int m = ldate.getMonthOfYear();
+        int x = 0;
 
-        final List<Builders.Any.B> queue = new ArrayList<>();
         for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
             if (M == 13) {
                 M = 1;
                 Y++;
             }
-            queue.add(Ion.with(App.get())
-                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId().substring(2) + "&mois=" + M)
+            String result = Ion.with(App.get())
+                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId() + "&mois=" + M)
                     .setTimeout(3000)
-            );
-        }
+                    .asString()
+                    .get();
+            String temp = result.substring(result.indexOf("colspan=\"4\" class=\"cournt\""));
+            temp = temp.substring(temp.indexOf(">") + 1);
+            temp = temp.substring(0, temp.indexOf("<")).replace(" ", "");
+            int month = Integer.parseInt(temp.substring(0, temp.indexOf("/")));
+            int year = Integer.parseInt(temp.substring(temp.indexOf("/") + 1));
+            result = result.substring(result.indexOf("<td>") + 4);
+            result = result.replace(" ", "").replace("\t", "").replace("\n", "").replace("\r", "");
+            String[] zeiten = result.split("<td>");
+            for (int i = 0; i < zeiten.length; i++) {
+                int day = Integer.parseInt(extract(zeiten[i]));
+                String imsak = extract(zeiten[++i]);
+                String gunes = extract(zeiten[++i]);
+                String ogle = extract(zeiten[++i]);
+                String ikindi = extract(zeiten[++i]);
+                String aksam = extract(zeiten[++i]);
+                String yatsi = extract(zeiten[++i]);
+
+                setTimes(new LocalDate(year, month, day), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+                x++;
+            }
 
 
-        return queue.toArray(new Builders.Any.F[queue.size()]);
-    }
-
-    @Override
-    public synchronized String getId() {
-        String id = super.getId();
-        if (!id.contains("H_")) {
-            setId("H_" + id);
-            return "H_" + id;
-        }
-        return id;
-    }
-
-    protected boolean parseResult(@NonNull String result) {
-        String temp = result.substring(result.indexOf("colspan=\"4\" class=\"cournt\""));
-        temp = temp.substring(temp.indexOf(">") + 1);
-        temp = temp.substring(0, temp.indexOf("<")).replace(" ", "");
-        int month = Integer.parseInt(temp.substring(0, temp.indexOf("/")));
-        int year = Integer.parseInt(temp.substring(temp.indexOf("/") + 1));
-        result = result.substring(result.indexOf("<td>") + 4);
-        result = result.replace(" ", "").replace("\t", "").replace("\n", "").replace("\r", "");
-        String[] zeiten = result.split("<td>");
-        int x = 0;
-        for (int i = 0; i < zeiten.length; i++) {
-            int day = Integer.parseInt(extract(zeiten[i]));
-            String imsak = extract(zeiten[++i]);
-            String gunes = extract(zeiten[++i]);
-            String ogle = extract(zeiten[++i]);
-            String ikindi = extract(zeiten[++i]);
-            String aksam = extract(zeiten[++i]);
-            String yatsi = extract(zeiten[++i]);
-
-            setTimes(new LocalDate(year, month, day), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
-            x++;
         }
 
 

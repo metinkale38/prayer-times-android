@@ -63,7 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             if (Build.VERSION.SDK_INT < 24)
                 findPreference("showLegacyWidgets").setEnabled(false);
 
-            findPreference("arabicNames").setEnabled(!new Locale("ar").equals(Utils.getLocale()));
+            findPreference("arabicNames").setEnabled(!new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage()));
 
             PreferenceScreen screen = (PreferenceScreen) findPreference("kerahatDuration");
             screen.setOnPreferenceClickListener(this);

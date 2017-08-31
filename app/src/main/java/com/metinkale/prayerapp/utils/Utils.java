@@ -34,6 +34,7 @@ import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.util.DisplayMetrics;
+import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
@@ -184,7 +185,7 @@ public class Utils {
         }
 
         for (int i = 0; i < locales.length; i++) {
-            if (lang.equals(locales[i])) return allow[i];
+            if (lang.getLanguage().equals(locales[i].getLanguage())) return allow[i];
         }
 
         return allow[0];
@@ -341,4 +342,13 @@ public class Utils {
         float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
+
+    public static boolean isRTL(Context ctx) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Configuration config = ctx.getResources().getConfiguration();
+            return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+        }
+        return false;
+    }
+
 }

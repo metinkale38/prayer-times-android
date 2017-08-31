@@ -76,11 +76,12 @@ public class CalcTimes extends Times {
         if (lat > 48)
             t.getPrayTimes().setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
         t.setName(name);
-        t.setLat(lat);
-        t.setLng(lng);
+        t.getPrayTimes().setCoordinates(lat,lng,0);
     }
 
-    private PrayTimes getPrayTimes() {
+
+
+    public PrayTimes getPrayTimes() {
         if (mPrayTime == null) {
             mPrayTime = new PrayTimes();
             mPrayTime.setCoordinates(getLat(), getLng(), 0);
@@ -206,6 +207,7 @@ public class CalcTimes extends Times {
                             t.setName(bdl.getString("city"));
                             t.setLat(bdl.getDouble("lat"));
                             t.setLng(bdl.getDouble("lng"));
+                            t.setAutoLocation(bdl.getBoolean("autoCity"));
                             TextView imsakPicker = custom.findViewById(R.id.imsakPicker);
                             TextView fajrPicker = custom.findViewById(R.id.fajrPicker);
                             TextView zuhrPicker = custom.findViewById(R.id.zuhrPicker);
@@ -244,6 +246,7 @@ public class CalcTimes extends Times {
                     t.setName(bdl.getString("city"));
                     t.setLat(bdl.getDouble("lat"));
                     t.setLng(bdl.getDouble("lng"));
+                    t.setAutoLocation(bdl.getBoolean("autoCity"));
                     t.getPrayTimes().setMethod(method1);
                     t.getPrayTimes().setAsrJuristic(sp2.getSelectedItemPosition() + 1);
                     t.getPrayTimes().setHighLatsAdjustment(sp.getSelectedItemPosition());

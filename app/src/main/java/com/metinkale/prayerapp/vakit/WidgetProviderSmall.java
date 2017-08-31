@@ -24,11 +24,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.widget.WidgetLegacy;
 import com.metinkale.prayerapp.vakit.widget.WidgetV24;
 
 public class WidgetProviderSmall extends AppWidgetProvider {
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
+        Utils.init(context);
         if (!Prefs.showLegacyWidget())
             WidgetV24.update1x1(context, appWidgetManager, widgetId);
         else

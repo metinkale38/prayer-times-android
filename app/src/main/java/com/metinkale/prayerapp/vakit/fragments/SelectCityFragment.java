@@ -48,7 +48,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
     private ListView mListView;
     private MyAdapter mAdapter;
     @NonNull
-    private Stack<Integer> mBackStack = new Stack<>();
+    private Stack<Long> mBackStack = new Stack<>();
     @Nullable
     private Cities mCities = Cities.get();
 
@@ -58,7 +58,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
         View v = inflater.inflate(R.layout.vakit_addcity, container, false);
 
         v.findViewById(R.id.search).setVisibility(View.GONE);
-
+        v.findViewById(R.id.autoLocation).setVisibility(View.GONE);
         TextView legacy = v.findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
         legacy.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class SelectCityFragment extends MainActivity.MainFragment implements OnI
         return v;
     }
 
-    public void get(int id) {
+    public void get(long id) {
         mBackStack.add(id);
         mCities.list(id, new Cities.Callback<List<Entry>>() {
             @Override

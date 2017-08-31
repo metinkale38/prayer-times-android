@@ -43,6 +43,7 @@ import com.metinkale.prayerapp.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.utils.Utils;
+import com.metinkale.prayerapp.vakit.LocationService;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -116,6 +117,10 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     }
 
+    public static void setApp(App app) {
+        sApp = app;
+    }
+
     @NonNull
     public Handler getHandler() {
         return mHandler;
@@ -159,6 +164,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         Utils.init(this);
 
         WidgetService.start(this);
+        LocationService.start(this);
         Times.setAlarms();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);

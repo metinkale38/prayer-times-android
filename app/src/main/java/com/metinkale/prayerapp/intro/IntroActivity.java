@@ -81,22 +81,22 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
         super.onCreate(savedInstanceState);
         Utils.init(this);
         setContentView(R.layout.intro_main);
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mMain = findViewById(R.id.main);
-        mBack = (Button) findViewById(R.id.back);
-        mForward = (Button) findViewById(R.id.forward);
+        mBack = findViewById(R.id.back);
+        mForward = findViewById(R.id.forward);
         mPager.setOffscreenPageLimit(10);
         mBack.setOnClickListener(this);
         mForward.setOnClickListener(this);
 
         if (Times.getCount() < 2) {
-            if (Locale.getDefault().equals(new Locale("tr"))) {
+            if (Locale.getDefault().getLanguage().equals(new Locale("tr").getLanguage())) {
                 CalcTimes.buildTemporaryTimes("Mekke", 21.4260221, 39.8296538, -1);
                 CalcTimes.buildTemporaryTimes("Kayseri", 38.7333333333333, 35.4833333333333, -2);
-            } else if (Locale.getDefault().equals(new Locale("de"))) {
+            } else if (Locale.getDefault().getLanguage().equals(new Locale("de").getLanguage())) {
                 CalcTimes.buildTemporaryTimes("Mekka", 21.4260221, 39.8296538, -1);
                 CalcTimes.buildTemporaryTimes("Braunschweig", 52.2666666666667, 10.5166666666667, -2);
-            } else if (Locale.getDefault().equals(new Locale("fr"))) {
+            } else if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
                 CalcTimes.buildTemporaryTimes("Mecque", 21.4260221, 39.8296538, -1);
                 CalcTimes.buildTemporaryTimes("Paris", 48.8566101, 2.3514992, -2);
             } else {
@@ -200,7 +200,6 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
                     Intent.ShortcutIconResource icon = Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher);
                     Intent intent = new Intent();
                     Intent launchIntent = new Intent(this, MainActivity.class);
-                    launchIntent.setComponent(getIntent().getComponent());
                     launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     launchIntent.putExtra("duplicate", false);

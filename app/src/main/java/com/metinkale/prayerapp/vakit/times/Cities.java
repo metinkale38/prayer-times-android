@@ -33,9 +33,8 @@ import java.util.concurrent.Executors;
 
 public class Cities {
 
-    @Nullable
+    @NonNull
     private static SoftReference<Cities> mInstance = new SoftReference<>(null);
-    private final CitiesSet mEntries = new CitiesSet();
     @NonNull
     private Handler mHandler = new Handler();
     @NonNull
@@ -45,7 +44,7 @@ public class Cities {
     }
 
 
-    @Nullable
+    @NonNull
     public static synchronized Cities get() {
         Cities cities = mInstance.get();
         if (cities == null) {
@@ -56,7 +55,7 @@ public class Cities {
     }
 
 
-    public void list(final int id, @NonNull final Callback<List<Entry>> callback) {
+    public void list(final long id, @NonNull final Callback<List<Entry>> callback) {
         mThread.execute(new Runnable() {
             @Override
             public void run() {
@@ -82,7 +81,7 @@ public class Cities {
                     public void run() {
                         final List<Entry> search = search(q, result);
                         Entry calc = new Entry();
-                        calc.setKey("C_");
+                        calc.setSource(Source.Calc);
                         calc.setLat(result.lat);
                         calc.setLng(result.lng);
                         calc.setName(result.city);
@@ -113,7 +112,7 @@ public class Cities {
                                     public void run() {
                                         final List<Entry> search = cities.search(lat, lng);
                                         if (e != null) {
-                                            e.setKey("C_");
+                                            e.setSource(Source.Calc);
                                             search.add(e);
                                         }
                                         mHandler.post(new Runnable() {
@@ -136,9 +135,22 @@ public class Cities {
 
 
     @NonNull
-    private List<Entry> list(int id) {
+    private List<Entry> list(long id) {
         List<Entry> entries = new ArrayList<>();
-        for (Entry e : mEntries) {
+        if (id == 0) {
+            for (Source source : Source.values()) {
+                if (source.citiesId == 0) continue;
+                Entry e = new Entry();
+                e.setName(source.name);
+                e.setId(source.citiesId);
+                e.setSource(source);
+                entries.add(e);
+            }
+            return entries;
+        }
+        CitiesSet cities = new CitiesSet((int) ((id << 32) >> 32));
+        for (Entry e : cities) {
+
             if (e != null && e.getParent() == id)
                 entries.add((Entry) e.clone());
         }
@@ -150,18 +162,22 @@ public class Cities {
 
         List<Entry> items = new ArrayList<>();
         EnumMap<Source, Entry> map = new EnumMap<>(Source.class);
-        for (Entry entry : mEntries) {
-            if (entry == null || entry.getKey() == null) continue;
-            Source s = entry.getSource();
-            Entry e = map.get(s);
-            double latDist = Math.abs(lat - entry.getLat());
-            double lngDist = Math.abs(lng - entry.getLng());
-            if (e == null) {
-                if (latDist < 2 && lngDist < 2)
-                    map.put(s, (Entry) entry.clone());
-            } else {
-                if (latDist + lngDist < Math.abs(lat - e.getLat()) + Math.abs(lng - e.getLng())) {
-                    map.put(s, (Entry) entry.clone());
+        for (Source source : Source.values()) {
+            if (source.citiesId == 0) continue;
+            CitiesSet entries = new CitiesSet(source);
+            for (Entry entry : entries) {
+                if (entry == null || entry.getKey() == null) continue;
+                Source s = entry.getSource();
+                Entry e = map.get(s);
+                double latDist = Math.abs(lat - entry.getLat());
+                double lngDist = Math.abs(lng - entry.getLng());
+                if (e == null) {
+                    if (latDist < 2 && lngDist < 2)
+                        map.put(s, (Entry) entry.clone());
+                } else {
+                    if (latDist + lngDist < Math.abs(lat - e.getLat()) + Math.abs(lng - e.getLng())) {
+                        map.put(s, (Entry) entry.clone());
+                    }
                 }
             }
         }
@@ -178,45 +194,47 @@ public class Cities {
         EnumMap<Source, Entry> pos = new EnumMap<>(Source.class);
 
         q = Entry.normalize(q);
+        for (Source source : Source.values()) {
+            if (source.citiesId == 0) continue;
+            CitiesSet entries = new CitiesSet(source);
+            for (Entry entry : entries) {
+                if (entry == null || entry.getKey() == null) continue;
+                Source s = entry.getSource();
+                if (s == null) continue;
+                String norm = entry.getNormalized();
+                boolean contains = norm.contains(q);
 
-        for (Entry entry : mEntries) {
-            if (entry == null || entry.getKey() == null) continue;
-            Source s = entry.getSource();
-            if (s == null) continue;
-            String norm = entry.getNormalized();
-            boolean contains = norm.contains(q);
-
-            if (!contains && !name.containsKey(s)) {
-                Entry e = pos.get(s);
-                double latDist = Math.abs(r.lat - entry.getLat());
-                double lngDist = Math.abs(r.lng - entry.getLng());
-                if (e == null) {
-                    if (latDist < 2 && lngDist < 2)
-                        pos.put(s, (Entry) entry.clone());
-                } else {
-                    if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
-                        pos.put(s, (Entry) entry.clone());
+                if (!contains && !name.containsKey(s) && r.lat != 0 && r.lng != 0) {
+                    Entry e = pos.get(s);
+                    double latDist = Math.abs(r.lat - entry.getLat());
+                    double lngDist = Math.abs(r.lng - entry.getLng());
+                    if (e == null) {
+                        if (latDist < 2 && lngDist < 2)
+                            pos.put(s, (Entry) entry.clone());
+                    } else {
+                        if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
+                            pos.put(s, (Entry) entry.clone());
+                        }
                     }
                 }
+
+                if (!contains) continue;
+
+                Entry e = name.get(s);
+                if (e == null) {
+                    name.put(s, (Entry) entry.clone());
+                    continue;
+                }
+
+                double latDist = Math.abs(r.lat - entry.getLat());
+                double lngDist = Math.abs(r.lng - entry.getLng());
+                if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
+                    name.put(s, (Entry) entry.clone());
+                }
+
+
             }
-
-            if (!contains) continue;
-
-            Entry e = name.get(s);
-            if (e == null) {
-                name.put(s, (Entry) entry.clone());
-                continue;
-            }
-
-            double latDist = Math.abs(r.lat - entry.getLat());
-            double lngDist = Math.abs(r.lng - entry.getLng());
-            if (latDist + lngDist < Math.abs(r.lat - e.getLat()) + Math.abs(r.lng - e.getLng())) {
-                name.put(s, (Entry) entry.clone());
-            }
-
-
         }
-
         items.addAll(name.values());
         for (Entry e : pos.values()) {
             Source s = e.getSource();

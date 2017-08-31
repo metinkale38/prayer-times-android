@@ -119,7 +119,7 @@ public class AboutFragment extends MainActivity.MainFragment implements View.OnC
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.shareText));
-        sendIntent.setType("text/plain");
+        sendIntent.setType("name/plain");
         ctx.startActivity(sendIntent);
     }
 

@@ -26,6 +26,7 @@ import com.koushikdutta.ion.Response;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Entry;
+import com.metinkale.prayerapp.vakit.times.Source;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,34 +37,28 @@ public class Geocoder {
         void onResult(Entry e);
     }
 
-    public static void reverse(double lat, double lng, @NonNull final ReverseCallback callback) {
+    public static void reverse(final double lat, final double lng, @NonNull final ReverseCallback callback) {
         Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
                         "&lon=" + lng + "&accept-language=" + Utils.getLocale().getLanguage())
                 .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
             @Override
-            public void onCompleted(@Nullable Exception e, @NonNull Response<OSMReverse> response) {
+            public void onCompleted(@Nullable Exception e, Response<OSMReverse> response) {
                 if (e != null) e.printStackTrace();
-                if (response == null) {
-                    callback.onResult(null);
-                    return;
-                }
-                OSMReverse result = response.getResult();
-                if (result == null) {
-                    callback.onResult(null);
-                    return;
-                }
+                OSMReverse result = response == null ? null : response.getResult();
 
                 Entry entry = new Entry();
-                if (result.address != null) {
+                if (result != null && result.address != null) {
                     entry.setCountry(result.address.country);
                     entry.setName(result.address.county);
+                    entry.setLat(result.lat);
+                    entry.setLng(result.lon);
                 } else {
                     entry.setName("Unknown");
                     entry.setCountry("Unknown");
+                    entry.setLat(lat);
+                    entry.setLng(lng);
                 }
-                entry.setLat(result.lat);
-                entry.setLng(result.lon);
                 callback.onResult(entry);
             }
         });

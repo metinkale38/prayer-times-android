@@ -59,7 +59,7 @@ public class TesbihatFragment extends MainActivity.MainFragment {
 
         mViewPager = v.findViewById(R.id.pager);
 
-        if (new Locale("tr").equals(mLocale)) {
+        if (new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getChildFragmentManager());
         } else {
             mSectionsPagerAdapter = new OtherPagerAdapter(getChildFragmentManager());
@@ -71,7 +71,7 @@ public class TesbihatFragment extends MainActivity.MainFragment {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if ((Times.getCount() != 0) && new Locale("tr").equals(mLocale)) {
+        if ((Times.getCount() != 0) && new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
             int next = Times.getTimes(Times.getIds().get(0)).getNext();
 
             switch (next) {
@@ -153,7 +153,7 @@ public class TesbihatFragment extends MainActivity.MainFragment {
             View rootView = inflater.inflate(R.layout.webview, container, false);
             WebView wv = rootView.findViewById(R.id.webview);
             wv.getSettings().setTextZoom((int) (102.38 * Math.pow(1.41, mTextSize)));
-            if (new Locale("tr").equals(mLocale)) {
+            if (new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
                 wv.loadUrl("file:///android_asset/tr/tesbihat/" + getAssetDir(pos));
             } else {
                 wv.loadUrl("file:///android_asset/en/tasbihat.html");

@@ -18,10 +18,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -85,64 +88,13 @@ public class Cities {
 
     public static void main(String args[]) throws UnsupportedEncodingException {
         Locale.setDefault(Locale.ENGLISH);
-        mWorker.execute(() -> {
-            System.out.println("Start fetchIGMG()");
-            long time = System.currentTimeMillis();
-            fetchIGMG();
-            System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
-
-        });
-
-        mWorker.execute(() -> {
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchFaziletCountries()");
-            fetchFaziletCountries();
-            System.out.println("fetchFaziletCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
-
-        });
-
-        mWorker.execute(() -> {
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchDitibCountries()");
-            fetchDitibCountries();
-            System.out.println("fetchDitibCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
-
-        });
-
-        mWorker.execute(() -> {
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchSemerkand()");
-            fetchSemerkand();
-            System.out.println("fetchSemerkand() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
-
-        });
-
-        mWorker.execute(() -> {
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchHabous()");
-            fetchHabous();
-            System.out.println("fetchHabous() - finished in " + (System.currentTimeMillis() - time) + " ms");
-
-
-        });
-
-        mWorker.execute(() -> {
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchNVCCountries()");
-            fetchNVCCountries();
-            System.out.println("fetchNVCCountries() - finished in " + (System.currentTimeMillis() - time) + " ms");
-        });
 
 
         mWorker.execute(() -> {
             long time = System.currentTimeMillis();
-            System.out.println("Start fetchMalaysia()");
-            fetchMalaysia();
-            System.out.println("fetchMalaysia() - finished in " + (System.currentTimeMillis() - time) + " ms");
+            System.out.println("Start fetchIndonesia()");
+            fetchIndonesia();
+            System.out.println("fetchIndonesia() - finished in " + (System.currentTimeMillis() - time) + " ms");
         });
 
 
@@ -152,7 +104,7 @@ public class Cities {
             mGeocodings = new Gson().fromJson(new String(encoded, "UTF-8"), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
             }.getType());
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             mGeocodings = new ConcurrentHashMap<>();
         }
 
@@ -181,8 +133,9 @@ public class Cities {
 
 
     private static void export() throws UnsupportedEncodingException {
-        new File("app/src/main/res/raw/cities.tsv").delete();
-        try (PrintWriter out = new PrintWriter("app/src/main/res/raw/cities.tsv", "utf-8")) {
+
+        new File("citiesfetcher/cities.tsv").delete();
+        try (PrintWriter out = new PrintWriter("citiesfetcher/cities.tsv", "utf-8")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -206,6 +159,71 @@ public class Cities {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void fetchIndonesia() {
+        String data = get("http://sihat.kemenag.go.id/waktu-sholat#");
+        data = data.substring(data.indexOf("\"opt_lokasi_provinsi\""));
+        data = data.substring(0, data.indexOf("</select"));
+
+        Entry parent = new Entry();
+        parent.id = Cities.id.incrementAndGet();
+        parent.parent = 0;
+        parent.name = "Kemenag.go.id";
+        parent.key = null;
+        parent.lat = 0;
+        parent.lng = 0;
+        mEntries.put(parent.id, parent);
+
+        for (data = data.substring(data.indexOf("<option value='") + 1);
+             data.contains("option value=");
+             data = data.substring(i(data.indexOf("option ")))) {
+            data = data.substring(1);
+            String _id = data.substring(data.indexOf("'") + 1);
+            _id = _id.substring(0, _id.indexOf("'"));
+            Entry e = new Entry();
+            e.id = Cities.id.incrementAndGet();
+            e.parent = parent.id;
+            e.name = _id;
+            e.key = null;
+            e.lat = 0;
+            e.lng = 0;
+            mEntries.put(e.id, e);
+
+            fetchIndonesiaKota(_id, e.id);
+        }
+
+
+    }
+
+    private static void fetchIndonesiaKota(String id, int parent) {
+
+        String data = post("http://sihat.kemenag.go.id/site/get_kota_lintang", "q=" + id.replace(" ", "+"));
+
+        for (data = data.substring(data.indexOf("<option value='") + 1);
+             data.contains("option value=");
+             data = data.substring(i(data.indexOf("option ")))) {
+            data = data.substring(1);
+            String search = "'";
+            if (!data.contains("'") && data.contains("\"")) {
+                search = "\"";
+            }
+            String _id = data.substring(data.indexOf(search) + 1);
+            _id = _id.substring(0, _id.indexOf(search));
+            if (_id.isEmpty()) continue;
+            String name = data.substring(data.indexOf(">") + 1);
+            name = name.substring(0, name.indexOf("<"));
+            Entry e = new Entry();
+            e.id = Cities.id.incrementAndGet();
+            e.parent = parent;
+            e.name = name;
+            e.key = _id;
+            e.lat = 0;
+            e.lng = 0;
+            mEntries.put(e.id, e);
+        }
+
+
     }
 
 
@@ -853,12 +871,13 @@ public class Cities {
 
 
     private static void geocode(Entry e, boolean onlyCache) {
-        String name = e.name;
+        String name = e.name + "+INDONESIA";
         Entry parent = e;
-        while ((parent = mEntries.get(parent.parent)) != null && parent.parent != 0) {
+
+/*        while ((parent = mEntries.get(parent.parent)) != null && parent.parent != 0) {
             name = parent.name + ", " + name;
         }
-
+*/
         if (mGeocodings.containsKey(name)) {
             Geocoder gc = mGeocodings.get(name);
             e.lat = gc.lat;
@@ -934,8 +953,13 @@ public class Cities {
 
 
     private static void geocode() {
+        int size = mEntries.values().size();
+        AtomicInteger count = new AtomicInteger();
         for (Entry e : mEntries.values()) {
-            if ((e.lat != 0 && e.lng != 0) || e.key == null) continue;
+            if ((e.lat != 0 && e.lng != 0) || e.key == null) {
+                count.incrementAndGet();
+                continue;
+            }
 
             if (e.key.startsWith("N_")) {
                 mWorker.execute(() -> {
@@ -944,7 +968,10 @@ public class Cities {
                         geocodeNVC(e);
                 });
             } else {
-                mWorker.execute(() -> geocode(e, false));
+                mWorker.execute(() -> {
+                    geocode(e, false);
+                    System.out.println(count.incrementAndGet() + "/" + size);
+                });
 
             }
         }
@@ -989,6 +1016,52 @@ public class Cities {
         }
         return null;
     }
+
+    private static String post(String Url, String post) {
+        try {
+            String data = Cache.get(Url + post);
+            if (data == null) {
+
+
+                URL url = new URL(Url);
+                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+                hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+                hc.setRequestProperty("Referer", "http://sihat.kemenag.go.id/waktu-sholat#");
+                hc.setRequestMethod("POST");
+                hc.setDoInput(true);
+                hc.setDoOutput(true);
+
+                OutputStream os = hc.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(post);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                hc.connect();
+                int responseCode = hc.getResponseCode();
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(hc.getInputStream()));
+                String line;
+                data = "";
+                while ((line = in.readLine()) != null) {
+                    data += line + "\n";
+                }
+                in.close();
+
+                if (responseCode == 200 && !data.contains("Bad Request"))
+                    Cache.put(Url + post, data);
+
+
+            }
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     private static class Ilce {
         List<Sehir> ilceler = new ArrayList<>();

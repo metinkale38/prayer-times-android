@@ -25,6 +25,8 @@ import com.metinkale.prayerapp.vakit.times.Source;
 
 import org.joda.time.LocalDate;
 
+import java.util.concurrent.ExecutionException;
+
 public class DiyanetTimes extends WebTimes {
 
     @SuppressWarnings("unused")
@@ -43,27 +45,23 @@ public class DiyanetTimes extends WebTimes {
     }
 
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
+    protected boolean sync() throws ExecutionException, InterruptedException {
         String path = getId();
 
-        if (!path.startsWith("D_")) {
-            delete();
-            return new Builders.Any.F[0];
-        }
-        if ("D_13_1008_0".equals(path)) {
-            path = "D_13_10080_9206";
+        if ("13_1008_0".equals(path)) {
+            path = "13_10080_9206";
         }
         String[] a = path.split("_");
 
 
-        int state = Integer.parseInt(a[2]);
+        int state = Integer.parseInt(a[0]);
         int city = 0;
-        if (a.length == 4) {
-            city = Integer.parseInt(a[3]);
+        if (a.length == 2) {
+            city = Integer.parseInt(a[1]);
         }
-        Builders.Any.F builder = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
+        String result =
+                Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
+                .setHeader("Content-Type", "name/xml; charset=utf-8")
                 .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                         "<v:Header /><v:Body>" +
@@ -71,11 +69,8 @@ public class DiyanetTimes extends WebTimes {
                         "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
                         "<username i:type=\"d:string\">namazuser</username>" +
                         "<password i:type=\"d:string\">NamVak!14</password>" +
-                        "</AylikNamazVakti></v:Body></v:Envelope>");
-        return new Builders.Any.F[]{builder};
-    }
+                        "</AylikNamazVakti></v:Body></v:Envelope>").asString().get();
 
-    protected boolean parseResult(String result) {
         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
         result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
         String[] days = result.split("</a:NamazVakti><a:NamazVakti>");

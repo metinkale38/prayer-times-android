@@ -34,6 +34,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class NVCTimes extends WebTimes {
 
@@ -84,17 +85,12 @@ public class NVCTimes extends WebTimes {
         return Source.NVC;
     }
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
-        String id = getId();
-        if (id.startsWith("N_")) id = id.substring(2);
-        return new Builders.Any.F[]{
-                Ion.with(App.get())
-                        .load("http://namazvakti.com/XML.php?cityID=" + id)
-                        .setTimeout(3000)};
-    }
 
-    protected boolean parseResult(@NonNull String result) {
+    protected boolean sync() throws ExecutionException, InterruptedException {
+        String result = Ion.with(App.get())
+                .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                .setTimeout(3000)
+                .asString().get();
         int i = 0;
         String[] lines = result.split("\n");
 

@@ -26,6 +26,7 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import com.metinkale.prayerapp.vakit.LocationService;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -68,6 +69,7 @@ public abstract class Times extends TimesBase {
             .toFormatter();
 
     private String issue = null;
+    private boolean autoLocation = false;
 
     @NonNull
     private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
@@ -155,7 +157,7 @@ public abstract class Times extends TimesBase {
     @NonNull
     public static List<Times> getTimes() {
         if (sTimes.isEmpty()) {
-            SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
+            SharedPreferences prefs = App.get().getSharedPreferences("nvc", 0);
 
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {
@@ -493,6 +495,16 @@ public abstract class Times extends TimesBase {
             Times t = times.get(i);
             if (t.getID() < 0) t.delete();
         }
+    }
+
+    public void setAutoLocation(boolean autoLocation) {
+        this.autoLocation = autoLocation;
+        if (autoLocation)
+            LocationService.start(App.get());
+    }
+
+    public boolean isAutoLocation() {
+        return autoLocation;
     }
 
 

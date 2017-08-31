@@ -18,6 +18,9 @@ package com.metinkale.prayerapp.vakit.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -30,6 +33,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +44,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -62,17 +67,48 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class SearchCityFragment extends MainActivity.MainFragment implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener {
+public class SearchCityFragment extends MainActivity.MainFragment implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener, CompoundButton.OnCheckedChangeListener {
     private MyAdapter mAdapter;
     private FloatingActionButton mFab;
     private MenuItem mSearchItem;
     @Nullable
     private Cities mCities = Cities.get();
+    private SwitchCompat mAutoLocation;
+    private Location mLocation;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.vakit_addcity, container, false);
+        mAutoLocation = v.findViewById(R.id.autoLocation);
+        mAutoLocation.setOnCheckedChangeListener(this);
+
+
+        ColorStateList trackStates = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{}
+                },
+                new int[]{
+                        Color.WHITE,
+                        Color.LTGRAY
+                }
+        );
+        mAutoLocation.setThumbTintList(trackStates);
+        mAutoLocation.setThumbTintMode(PorterDuff.Mode.MULTIPLY);
+
+
+        trackStates = new ColorStateList(
+                new int[][]{
+                        new int[]{}
+                },
+                new int[]{
+                        getResources().getColor(R.color.colorPrimaryDark)}
+        );
+        mAutoLocation.setTrackTintList(trackStates);
+        mAutoLocation.setTrackTintMode(PorterDuff.Mode.MULTIPLY);
+
+
         mFab = v.findViewById(R.id.search);
         mFab.setOnClickListener(this);
         ListView listView = v.findViewById(R.id.listView);
@@ -186,9 +222,10 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
             bdl.putString("city", i.getName());
             bdl.putDouble("lat", i.getLat());
             bdl.putDouble("lng", i.getLng());
+            bdl.putBoolean("autoCity", mAutoLocation.isChecked());
             CalcTimes.add(getActivity(), bdl);
         } else {
-            WebTimes.add(i.getSource(), i.getName(), i.getKey(), i.getLat(), i.getLng());
+            WebTimes.add(i.getSource(), i.getName(), i.getKey(), i.getLat(), i.getLng()).setAutoLocation(mAutoLocation.isChecked());
             back();
         }
 
@@ -200,6 +237,7 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
         mCities.search(query == null ? query : query.trim().replace(" ", "+"), new Cities.Callback<List<Entry>>() {
             @Override
             public void onResult(@Nullable List<Entry> items) {
+                mAutoLocation.setChecked(false);
                 if ((items != null) && !items.isEmpty()) {
                     mAdapter.clear();
                     mAdapter.addAll(items);
@@ -221,30 +259,35 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
 
     @Override
     public void onLocationChanged(@NonNull Location loc) {
+        mLocation = loc;
         if ((mAdapter.getCount() <= 1)) {
-            mAdapter.clear();
-            Entry item = new Entry();
-            item.setName("GPS");
-            item.setCountry("");
-            item.setKey("C_");
-            item.setLat(loc.getLatitude());
-            item.setLng(loc.getLongitude());
-            mAdapter.add(item);
-            mAdapter.notifyDataSetChanged();
-
-            mCities.search(item.getLat(), item.getLng(), new Cities.Callback<List<Entry>>() {
-                @Override
-                public void onResult(@Nullable List<Entry> items) {
-                    if ((items != null) && !items.isEmpty()) {
-                        mAdapter.clear();
-                        mAdapter.addAll(items);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
-            });
+            autoLocation();
         }
 
 
+    }
+
+    private void autoLocation() {
+        mAdapter.clear();
+        Entry item = new Entry();
+        item.setName("GPS");
+        item.setCountry("");
+        item.setSource(Source.Calc);
+        item.setLat(mLocation.getLatitude());
+        item.setLng(mLocation.getLongitude());
+        mAdapter.add(item);
+        mAdapter.notifyDataSetChanged();
+
+        mCities.search(item.getLat(), item.getLng(), new Cities.Callback<List<Entry>>() {
+            @Override
+            public void onResult(@Nullable List<Entry> items) {
+                if ((items != null) && !items.isEmpty()) {
+                    mAdapter.clear();
+                    mAdapter.addAll(items);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -309,8 +352,15 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
         builder.show();
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (b) autoLocation();
+        mAdapter.notifyDataSetChanged();
 
-    private static class MyAdapter extends ArrayAdapter<Entry> {
+    }
+
+
+    private class MyAdapter extends ArrayAdapter<Entry> {
 
         MyAdapter(@NonNull Context context) {
             super(context, 0, 0);
@@ -339,7 +389,7 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
                 vh.country = convertView.findViewById(R.id.country);
                 vh.sourcetxt = convertView.findViewById(R.id.sourcetext);
                 vh.source = convertView.findViewById(R.id.source);
-
+                vh.gpsIcon = convertView.findViewById(R.id.gps);
                 convertView.setTag(vh);
             } else {
                 vh = (ViewHolder) convertView.getTag();
@@ -347,15 +397,19 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
             Entry i = getItem(position);
 
             vh.city.setText(i.getName());
+
             vh.country.setText(i.getCountry());
 
-            vh.sourcetxt.setText(i.getSource().text);
-            if (i.getSource().resId == 0) {
+            vh.sourcetxt.setText(i.getSource().name);
+            if (i.getSource().drawableId == 0) {
                 vh.source.setVisibility(View.GONE);
             } else {
-                vh.source.setImageResource(i.getSource().resId);
+                vh.source.setImageResource(i.getSource().drawableId);
                 vh.source.setVisibility(View.VISIBLE);
             }
+
+            if (mAutoLocation.isChecked()) vh.gpsIcon.setVisibility(View.VISIBLE);
+            else vh.gpsIcon.setVisibility(View.GONE);
             return convertView;
         }
 
@@ -364,6 +418,7 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
             TextView city;
             TextView sourcetxt;
             ImageView source;
+            ImageView gpsIcon;
         }
 
     }

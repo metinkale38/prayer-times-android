@@ -16,11 +16,13 @@
 
 package com.metinkale.prayerapp.compass.time;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
@@ -149,6 +151,7 @@ public class QiblaTimeView extends View {
         mClipPath.addCircle(w / 2, w / 2, w * 0.45f, Path.Direction.CCW);
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         int width = getWidth();
@@ -172,12 +175,12 @@ public class QiblaTimeView extends View {
         }
 
         float nightAngle = (float) -distance(mSunsetAngle, mSunriseAngle);
-        canvas.drawArc(center - center * 0.9f, center - center * 0.9f, center + center * 0.9f,
-                center + center * 0.9f, (float) -mSunsetAngle, nightAngle, true, mNightPaint);
+        canvas.drawArc(new RectF(center - center * 0.9f, center - center * 0.9f, center + center * 0.9f,
+                center + center * 0.9f), (float) -mSunsetAngle, nightAngle, true, mNightPaint);
 
         float sw = mYellowPaint.getStrokeWidth() / 2;
-        canvas.drawArc(center - center * 0.9f + sw, center - center * 0.9f + sw, center + center * 0.9f - sw,
-                center + center * 0.9f - sw,
+        canvas.drawArc(new RectF(center - center * 0.9f + sw, center - center * 0.9f + sw, center + center * 0.9f - sw,
+                        center + center * 0.9f - sw),
                 (float) -mSunsetAngle, nightAngle > 0 ? -(360 - nightAngle) : 360 + nightAngle, false, mYellowPaint);
 
 

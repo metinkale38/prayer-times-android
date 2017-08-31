@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         IntroActivity.startIfNecessary(this);
         super.setContentView(R.layout.activity_base);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             mToolbar.setBackgroundResource(R.color.colorPrimary);

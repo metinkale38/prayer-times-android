@@ -18,19 +18,16 @@ package com.metinkale.prayerapp.vakit.times.sources;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.ArraySet;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Response;
-import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.FastParser;
@@ -42,17 +39,17 @@ import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 
-public class WebTimes extends Times {
+public abstract class WebTimes extends Times {
 
     @NonNull
     protected ArrayMap<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
     private long lastSync;
-
 
     protected WebTimes(long id) {
         super(id);
@@ -74,41 +71,22 @@ public class WebTimes extends Times {
         });
     }
 
-    public static void add(@Nullable Source source, String city, String id, double lat, double lng) {
-        add(source, city, id, lat, lng, System.currentTimeMillis());
+
+    @NonNull
+    public static Times add(@NonNull Source source, String city, String id, double lat, double lng) {
+        return add(source, city, id, lat, lng, System.currentTimeMillis());
     }
 
-    public static void add(@Nullable Source source, String city, String id, double lat, double lng, long _id) {
-        if (source == null || source == Source.Calc) return;
-        WebTimes t = null;
-
-        switch (source) {
-            case Diyanet:
-                t = new DiyanetTimes(_id);
-                break;
-            case IGMG:
-                t = new IGMGTimes(_id);
-                break;
-            case Fazilet:
-                t = new FaziletTimes(_id);
-                break;
-            case NVC:
-                t = new NVCTimes(_id);
-                break;
-            case Semerkand:
-                t = new SemerkandTimes(_id);
-                break;
-            case Morocco:
-                t = new MoroccoTimes(_id);
-                break;
-            case Malaysia:
-                t = new MalaysiaTimes(_id);
-                break;
-            case CSV:
-                t = new CSVTimes(_id);
-                break;
+    @NonNull
+    public static Times add(@NonNull Source source, String city, String id, double lat, double lng, long _id) {
+        if (source == Source.Calc) throw new RuntimeException("Calc is not a WebTimes");
+        WebTimes t;
+        try {
+            t = (WebTimes) source.clz.getConstructor(long.class).newInstance(_id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        if (t == null) return;
+
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);
@@ -121,7 +99,9 @@ public class WebTimes extends Times {
                 .putCustomAttribute("Source", source.name())
                 .putCustomAttribute("City", city)
         );
+        return t;
     }
+
 
     @Override
     public void delete() {
@@ -131,8 +111,7 @@ public class WebTimes extends Times {
     }
 
     @Override
-    public synchronized String getTime(LocalDate date, int time) {
-
+    public String getTime(LocalDate date, int time) {
         return super.getTime(date, time);
     }
 
@@ -154,13 +133,13 @@ public class WebTimes extends Times {
     }
 
     private synchronized void setTime(@NonNull LocalDate date, int time, @NonNull String value) {
-        if (deleted() || value.contains("00:00")) return;
+        if (isDeleted() || value.contains("00:00")) return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
         save();
     }
 
     void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
-        if (deleted()) return;
+        if (isDeleted()) return;
         for (int i = 0; i < value.length; i++) {
             setTime(date, i, value[i]);
         }
@@ -168,6 +147,12 @@ public class WebTimes extends Times {
     }
 
     public synchronized String getId() {
+        //TODO remove if after a few updates
+        if (id.charAt(1) == '_' && 'A' <= id.charAt(0) && 'Z' >= id.charAt(0))//backwart support
+        {
+            id = id.substring(2);
+            save();
+        }
         return id;
     }
 
@@ -176,44 +161,38 @@ public class WebTimes extends Times {
         save();
     }
 
+
+    abstract boolean sync() throws ExecutionException, InterruptedException;
+
     public void syncAsync() {
         cleanTimes();
         if (!App.isOnline()) {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            scheduleJob();
             return;
         }
         if (getId() == null) return;
-        Builders.Any.F[] builders = createIonBuilder();
-        for (Builders.Any.F builder : builders) {
-            builder.asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, final Response<String> result) {
-                    if (e != null) {
-                        //Crashlytics.setString("WebTimesSource", getSource().toString());
-                        //Crashlytics.setString("WebTimesName", getName());
-                        //Crashlytics.setString("WebTimesId", getId());
-                        //Crashlytics.logException(e);
-                        return;
-                    }
-                    try {
-                        parseResult(result.getResult());
-                    } catch (Exception ee) {
-                    }
 
-                    notifyOnUpdated();
+        new Thread("SyncWebTimes" + getId()) {
+            @Override
+            public void run() {
+                try {
+                    if (sync()) {
+                        App.get().getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                notifyOnUpdated();
+                                Times.setAlarms();
+                            }
+                        });
+                    }
+                    } catch (Exception e) {
+                    Crashlytics.logException(e);
                 }
-            });
-        }
+            }
+        }.start();
     }
 
-
-    protected Builders.Any.F[] createIonBuilder() {
-        return new Builders.Any.F[0];
-    }
-
-    protected boolean parseResult(String result) {
-        return true;
-    }
 
     private int getSyncedDays() {
         LocalDate date = LocalDate.now().plusDays(1);
@@ -283,6 +262,7 @@ public class WebTimes extends Times {
             date = date.plusDays(1);
         }
     }
+
 
     private void scheduleJob() {
         int syncedDays = getSyncedDays();
@@ -372,6 +352,5 @@ public class WebTimes extends Times {
     protected void clearTimes() {
         times.clear();
     }
-
 
 }

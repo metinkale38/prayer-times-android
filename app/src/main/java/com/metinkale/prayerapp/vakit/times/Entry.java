@@ -24,8 +24,8 @@ import android.support.annotation.Nullable;
  */
 
 public class Entry implements Cloneable {
-    private int parent;
-    private int id;
+    private long parent;
+    private long id;
     private String name;
     private String normalized;
     @Nullable
@@ -33,6 +33,7 @@ public class Entry implements Cloneable {
     private float lat;
     private float lng;
     private String country;
+    private Source source = Source.Calc;
 
     public Entry() {
 
@@ -47,19 +48,19 @@ public class Entry implements Cloneable {
         return name;
     }
 
-    protected int getParent() {
+    protected long getParent() {
         return parent;
     }
 
-    protected void setParent(int parent) {
+    protected void setParent(long parent) {
         this.parent = parent;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    protected void setId(int id) {
+    protected void setId(long id) {
         this.id = id;
     }
 
@@ -101,26 +102,11 @@ public class Entry implements Cloneable {
 
     @Nullable
     public Source getSource() {
-        if (key == null || key.isEmpty()) return null;
-        switch (key.charAt(0)) {
-            case 'C':
-                return Source.Calc;
-            case 'I':
-                return Source.IGMG;
-            case 'D':
-                return Source.Diyanet;
-            case 'N':
-                return Source.NVC;
-            case 'H':
-                return Source.Morocco;
-            case 'M':
-                return Source.Malaysia;
-            case 'F':
-                return Source.Fazilet;
-            case 'S':
-                return Source.Semerkand;
-        }
-        return null;
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     public String getNormalized() {
@@ -209,6 +195,7 @@ public class Entry implements Cloneable {
         e.country = country;
         e.key = key;
         e.parent = parent;
+        e.source = source;
         return e;
     }
 }

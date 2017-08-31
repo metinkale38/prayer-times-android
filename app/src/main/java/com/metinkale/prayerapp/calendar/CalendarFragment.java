@@ -60,7 +60,8 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
         String asset = Utils.getAssetForHolyday((Integer) v.getTag());
 
         Locale lang = Utils.getLocale();
-        if ((asset != null) && (new Locale("de").equals(lang) || new Locale("tr").equals(lang))) {
+        if ((asset != null) && (new Locale("de").getLanguage().equals(lang.getLanguage())
+                || new Locale("tr").getLanguage().equals(lang.getLanguage()))) {
             Bundle bdl = new Bundle();
             bdl.putString("asset", asset);
             Fragment frag = new WebViewFragment();
@@ -103,7 +104,8 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            if (Utils.getLocale().equals(new Locale("ar"))) position = getCount() - position - 1;
+            if (Utils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+                position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
             args.putInt(YearFragment.YEAR, position + HicriDate.MIN_YEAR);
@@ -118,7 +120,8 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (Utils.getLocale().equals(new Locale("ar"))) position = getCount() - position - 1;
+            if (Utils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+                position = getCount() - position - 1;
             return Utils.toArabicNrs(position + HicriDate.MIN_YEAR);
         }
     }

@@ -82,7 +82,8 @@ public class Prefs {
 
 
     public static boolean useArabic() {
-        return !new Locale("ar").equals(Utils.getLocale()) && getPrefs().getBoolean("arabicNames", false);
+        return !new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage())
+                && getPrefs().getBoolean("arabicNames", false);
     }
 
     public static boolean use12H() {

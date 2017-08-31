@@ -48,7 +48,8 @@ public class Adapter extends ArrayAdapter<int[]> {
         days = HicriDate.getHolydays(year);
 
         Locale lang = Utils.getLocale();
-        hasInfo = (new Locale("de").equals(lang) || new Locale("tr").equals(lang));
+        hasInfo = (new Locale("de").getLanguage().equals(lang.getLanguage())
+                || new Locale("tr").getLanguage().equals(lang.getLanguage()));
     }
 
     @NonNull

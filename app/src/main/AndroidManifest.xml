@@ -12,7 +12,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.metinkale.prayer"
@@ -56,9 +56,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.metinkale.prayerapp.intro.IntroActivity"
-            android:exported="true"
             android:screenOrientation="portrait" />
-
         <activity android:name="com.metinkale.prayerapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
@@ -66,8 +64,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name="com.metinkale.prayerapp.vakit.MainStart"
             android:enabled="false">
@@ -223,7 +219,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.metinkale.prayerapp.settings.BackupRestoreActivity"
             android:label="@string/backupRestore" />
@@ -250,7 +245,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
-
         <activity-alias
             android:name="com.metinkale.prayerapp.names.Main"
             android:icon="@mipmap/ic_names"
@@ -262,7 +256,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
-
         <activity-alias
             android:name="com.metinkale.prayerapp.calendar.Main"
             android:icon="@mipmap/ic_calendar"
@@ -274,7 +267,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
-
         <activity-alias
             android:name="com.metinkale.prayerapp.tesbihat.Tesbihat"
             android:icon="@mipmap/ic_tesbihat"
@@ -286,7 +278,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
-
         <activity-alias
             android:name="com.metinkale.prayerapp.kaza.Main"
             android:label="@string/missedPrayers"
@@ -309,7 +300,6 @@
             </intent-filter>
         </activity-alias>
 
-
         <activity
             android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
@@ -319,9 +309,7 @@
 
         <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver" />
         <service android:name="com.metinkale.prayerapp.MainIntentService" />
-        <service
-            android:name="com.metinkale.prayerapp.vakit.WidgetService"
-            android:exported="true">
+        <service android:name="com.metinkale.prayerapp.vakit.WidgetService">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -453,6 +441,13 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service android:name="com.metinkale.prayerapp.vakit.LocationService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -414,7 +414,7 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(txt).toString().replace("|", "\n"));
-                shareIntent.setType("text/plain");
+                shareIntent.setType("name/plain");
                 mShareActionProvider.setShareIntent(shareIntent);
             }
         }

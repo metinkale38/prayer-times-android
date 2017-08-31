@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.vakit.times;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
@@ -24,6 +25,7 @@ import com.metinkale.prayerapp.utils.FastParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -31,6 +33,22 @@ import java.util.Iterator;
  */
 
 class CitiesSet implements Iterable<Entry> {
+
+    private final Source source;
+
+    public CitiesSet(Source source) {
+        this.source = source;
+    }
+
+    public CitiesSet(int citiesId) {
+        for (Source source : Source.values()) {
+            if (source.citiesId == citiesId) {
+                this.source = source;
+                return;
+            }
+        }
+        throw new RuntimeException("bad cities id");
+    }
 
     @Override
     public Iterator<com.metinkale.prayerapp.vakit.times.Entry> iterator() {
@@ -44,7 +62,7 @@ class CitiesSet implements Iterable<Entry> {
         private Entry cache = new Entry();
 
         MyIterator() {
-            is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.cities)));
+            is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(source.citiesId)));
         }
 
         @Override
@@ -74,13 +92,16 @@ class CitiesSet implements Iterable<Entry> {
 
                 MyFastTokenizer st = new MyFastTokenizer(line, "\t");
                 Entry e = cache;
-                e.setId(st.nextInt());
-                e.setParent(st.nextInt());
+                long id = st.nextInt();
+                e.setId(id << 32 | (long) source.citiesId);
+                long parent = st.nextInt();
+                e.setParent(parent << 32 | (long) source.citiesId);
                 e.setLat(st.nextDouble());
                 e.setLng(st.nextDouble());
                 e.setKey(st.nextString());
                 e.setName(st.nextString());
                 e.setCountry(null);
+                e.setSource(source);
                 return e;
             } catch (Exception e) {
                 e.printStackTrace();

@@ -26,37 +26,33 @@ import com.metinkale.prayerapp.vakit.times.Source;
 
 import org.joda.time.LocalDate;
 
+import java.util.concurrent.ExecutionException;
+
 public class CSVTimes extends WebTimes {
 
 
     private boolean firstSync = true;
+
+
+    CSVTimes(long id) {
+        super(id);
+    }
 
     @SuppressWarnings("unused")
     CSVTimes() {
         super();
     }
 
-    CSVTimes(long id) {
-        super(id);
-    }
-
-    @NonNull
     @Override
-    public Source getSource() {
-        return Source.CSV;
-    }
+    boolean sync() throws ExecutionException, InterruptedException {
+        String result = Ion.with(App.get())
+                .load(getId())
+                .setTimeout(3000)
+                .asString()
+                .get();
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
-        return new Builders.Any.F[]{
-                Ion.with(App.get())
-                        .load(getId())
-                        .setTimeout(3000)};
-    }
-
-    protected boolean parseResult(@NonNull String result) {
         int i = 0;
-        String[] lines = result.replace("\"", "").replace("\r","").split("\n");
+        String[] lines = result.replace("\"", "").replace("\r", "").split("\n");
 
         FOR:
         for (String line : lines) {
@@ -105,5 +101,9 @@ public class CSVTimes extends WebTimes {
         return i > 0;
     }
 
-
+    @NonNull
+    @Override
+    public Source getSource() {
+        return Source.CSV;
+    }
 }

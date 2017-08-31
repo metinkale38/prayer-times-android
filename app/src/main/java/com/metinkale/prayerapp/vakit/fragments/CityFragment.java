@@ -58,6 +58,7 @@ import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.DateTime;
@@ -89,7 +90,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         @Override
         public void run() {
 
-            if ((mTimes != null) && !mTimes.deleted()) {
+            if ((mTimes != null) && !mTimes.isDeleted()) {
                 checkKerahatAndIssues();
 
                 int next = mTimes.getNext();
@@ -143,7 +144,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         mKerahat = mView.findViewById(R.id.kerahat);
 
-        if (new Locale("tr").equals(Utils.getLocale())) {
+        if (new Locale("tr").getLanguage().equals(Utils.getLocale().getLanguage())) {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.imsak);
         } else {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.fajr);
@@ -152,9 +153,9 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         if (mTimes.getID() >= 0) {
             ImageView source1 = mView.findViewById(R.id.source1);
             ImageView source2 = mView.findViewById(R.id.source2);
-            if (mTimes.getSource().resId != 0) {
-                source1.setImageResource(mTimes.getSource().resId);
-                source2.setImageResource(mTimes.getSource().resId);
+            if (mTimes.getSource().drawableId != 0) {
+                source1.setImageResource(mTimes.getSource().drawableId);
+                source2.setImageResource(mTimes.getSource().drawableId);
             }
         }
 
@@ -169,12 +170,26 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         return mView;
     }
 
+
     public void update() {
         if ((mTimes == null) || (mView == null)) {
             return;
         }
 
         mTitle.setText(mTimes.getName());
+        if (mTimes.isAutoLocation()) {
+            Drawable icon = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS)
+                    .setSizeDp(32)
+                    .setColor(0xAA666666)
+                    .build();
+            if (Utils.isRTL(getActivity())) {
+                mTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
+            } else {
+                mTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            }
+            mTitle.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(5, getActivity()));
+        }
 
         LocalDate greg = LocalDate.now();
         HicriDate hijr = new HicriDate(greg);
@@ -351,7 +366,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 }
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
+                sharingIntent.setType("name/plain");
                 sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
                 startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
@@ -419,8 +434,8 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 canvas.drawRect(30, 30 + 60, pw - 30, 30 + 60 + 5, paint);
 
 
-                if (mTimes.getSource().resId != 0) {
-                    Drawable source = getResources().getDrawable(mTimes.getSource().resId);
+                if (mTimes.getSource().drawableId != 0) {
+                    Drawable source = getResources().getDrawable(mTimes.getSource().drawableId);
 
                     h = 65;
                     w = h * source.getIntrinsicWidth() / source.getIntrinsicHeight();
@@ -473,7 +488,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType(csvpdf == 0 ? "text/csv" : "application/pdf");
+        shareIntent.setType(csvpdf == 0 ? "name/csv" : "application/pdf");
 
         Uri uri = FileProvider.getUriForFile(getActivity(), "com.metinkale.prayer.fileprovider", outputFile);
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);

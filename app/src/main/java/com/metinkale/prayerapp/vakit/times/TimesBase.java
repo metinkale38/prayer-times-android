@@ -184,12 +184,12 @@ class TimesBase {
     }
 
     TimesBase() {
-        prefs = App.get().getSharedPreferences("cities", 0);
+        prefs = App.get().getSharedPreferences("nvc", 0);
         source = getSource().name();
     }
 
     public static Times from(long id) {
-        String json = App.get().getSharedPreferences("cities", 0).getString("id" + id, null);
+        String json = App.get().getSharedPreferences("nvc", 0).getString("id" + id, null);
         try {
             TimesBase t = GSON.fromJson(json, Times.class);
             t.setID(id);
@@ -232,7 +232,7 @@ class TimesBase {
     }
 
 
-    public synchronized boolean deleted() {
+    public synchronized boolean isDeleted() {
         return deleted;
     }
 

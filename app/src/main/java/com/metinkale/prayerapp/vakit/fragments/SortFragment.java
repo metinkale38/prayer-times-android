@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +36,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,7 +174,23 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
                 return;
             }
             vh.city.setText(c.getName());
-            vh.source.setText(c.getSource().text);
+            vh.source.setText(c.getSource().name);
+
+            if (c.isAutoLocation()) {
+                Drawable icon = MaterialDrawableBuilder.with(getActivity())
+                        .setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS)
+                        .setSizeDp(20)
+                        .setColor(0xAA666666)
+                        .build();
+                if (Utils.isRTL(getActivity())) {
+                    vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
+                } else {
+                    vh.city.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+                }
+                vh.city.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(5, getActivity()));
+            } else {
+                vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
 
             vh.handler.setOnTouchListener(new View.OnTouchListener() {
                 @Override

@@ -29,6 +29,7 @@ import com.metinkale.prayerapp.vakit.times.Source;
 import org.joda.time.LocalDate;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class SemerkandTimes extends WebTimes {
 
@@ -47,31 +48,20 @@ public class SemerkandTimes extends WebTimes {
         return Source.Semerkand;
     }
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
+    protected boolean sync() throws ExecutionException, InterruptedException {
+        LocalDate date = LocalDate.now();
         String _id = getId();
 
         final int year = LocalDate.now().getYear();
-        final String[] ids = _id.split("_");
-        if (ids.length != 2) {
-            clearTimes();
-            setIssue(App.get().getString(R.string.pleaseDeleteAndReadd));
-            save();
-            return new Builders.Any.F[0];
-        }
-        char type = ids[1].charAt(0);
-        String id = ids[1].substring(1);
-        return new Builders.Any.F[]{Ion.with(App.get())
+
+        char type = _id.charAt(0);
+        String id = _id.substring(1);
+        List<Day> result = Ion.with(App.get())
                 .load("http://semerkandtakvimi.semerkandmobile.com/salaattimes?year=" + year + "&"
-                + (type == 'c' ? "cityId=" : "districtId=") + id)};
-
-
-    }
-
-    protected boolean parseResult(String r) {
-        LocalDate date = LocalDate.now();
-        List<Day> result = new Gson().fromJson(r, new TypeToken<List<Day>>() {
-        }.getType());
+                        + (type == 'c' ? "cityId=" : "districtId=") + id)
+                .as(new TypeToken<List<Day>>() {
+                })
+                .get();
         for (Day d : result) {
             date = date.withDayOfYear(d.DayOfYear);
             setTimes(date, new String[]{d.Fajr, d.Tulu, d.Zuhr, d.Asr, d.Maghrib, d.Isha});

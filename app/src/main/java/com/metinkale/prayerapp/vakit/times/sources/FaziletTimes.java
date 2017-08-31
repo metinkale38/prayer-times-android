@@ -28,6 +28,7 @@ import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.metinkale.prayerapp.utils.Utils.az;
 
@@ -49,19 +50,18 @@ public class FaziletTimes extends WebTimes {
     }
 
 
-    @NonNull
-    protected Builders.Any.F[] createIonBuilder() {
+    protected boolean sync() throws ExecutionException, InterruptedException {
         String[] a = getId().split("_");
 
-        if (a.length < 4) {
+        if (a.length < 3) {
             Crashlytics.setString("FAZILET_ID", getId());
             Crashlytics.logException(new Exception("INVALID ID IN FAZILET"));
             this.delete();
-            return new Builders.Any.F[0];
+            return false;
         }
-        int country = Integer.parseInt(a[1]);
-        int state = Integer.parseInt(a[2]);
-        int city = Integer.parseInt(a[3]);
+        int country = Integer.parseInt(a[0]);
+        int state = Integer.parseInt(a[1]);
+        int city = Integer.parseInt(a[2]);
 
 
         LocalDate ldate = LocalDate.now();
@@ -69,20 +69,17 @@ public class FaziletTimes extends WebTimes {
         int M = ldate.getMonthOfYear();
 
 
-        return new Builders.Any.F[]{
-                Ion.with(App.get())
-                        .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
-                        .setTimeout(3000)
-                        .setBodyParameter("ulke_id", "" + country)
-                        .setBodyParameter("sehir_id", "" + state)
-                        .setBodyParameter("ilce_id", "" + city)
-                        .setBodyParameter("baslangic_tarihi", Y + "-" + az(M) + "-01")
-                        .setBodyParameter("bitis_tarihi", (Y + 5) + "-12-31")
+        String result=    Ion.with(App.get())
+                .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
+                .setTimeout(3000)
+                .setBodyParameter("ulke_id", "" + country)
+                .setBodyParameter("sehir_id", "" + state)
+                .setBodyParameter("ilce_id", "" + city)
+                .setBodyParameter("baslangic_tarihi", Y + "-" + az(M) + "-01")
+                .setBodyParameter("bitis_tarihi", (Y + 5) + "-12-31")
+                .asString().get();
 
-        };
-    }
 
-    protected boolean parseResult(@NonNull String result) {
         List<String> ay = new ArrayList<>();
         ay.add("Ocak");
         ay.add("Şubat");

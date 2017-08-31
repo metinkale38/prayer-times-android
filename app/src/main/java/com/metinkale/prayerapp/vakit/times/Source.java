@@ -16,19 +16,24 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.RawRes;
+
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.sources.CSVTimes;
 import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.sources.DiyanetTimes;
 import com.metinkale.prayerapp.vakit.times.sources.FaziletTimes;
 import com.metinkale.prayerapp.vakit.times.sources.IGMGTimes;
+import com.metinkale.prayerapp.vakit.times.sources.IndonesiaTimes;
+import com.metinkale.prayerapp.vakit.times.sources.LondonTimes;
 import com.metinkale.prayerapp.vakit.times.sources.MalaysiaTimes;
 import com.metinkale.prayerapp.vakit.times.sources.MoroccoTimes;
 import com.metinkale.prayerapp.vakit.times.sources.NVCTimes;
 import com.metinkale.prayerapp.vakit.times.sources.SemerkandTimes;
+import com.metinkale.prayerapp.vakit.times.sources.UAETimes;
 
 import java.util.Locale;
 
@@ -37,29 +42,35 @@ import java.util.Locale;
  */
 public enum Source {
     Calc(R.string.calculated, 0, CalcTimes.class),
-    Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib, DiyanetTimes.class),
-    Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet, FaziletTimes.class),
-    IGMG("IGMG.org", R.drawable.ic_igmg, IGMGTimes.class),
-    Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, SemerkandTimes.class),
-    NVC("NamazVakti.com", R.drawable.ic_namazvakticom, NVCTimes.class),
-    Morocco("habous.gov.ma", R.drawable.ic_morocco, MoroccoTimes.class),
-    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, MalaysiaTimes.class),
-    CSV("CSV", 0, CSVTimes.class);
+    Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib, R.raw.diyanet, DiyanetTimes.class),
+    Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet, R.raw.fazilet, FaziletTimes.class),
+    IGMG("IGMG.org", R.drawable.ic_igmg, R.raw.igmg, IGMGTimes.class),
+    Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, R.raw.semerkand, SemerkandTimes.class),
+    NVC("NamazVakti.com", R.drawable.ic_namazvakticom, R.raw.nvc, NVCTimes.class),
+    Morocco("habous.gov.ma", R.drawable.ic_morocco, R.raw.morocco, MoroccoTimes.class),
+    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, R.raw.malaysia, MalaysiaTimes.class),
+    UAE("Awqaf.gov.ae", R.drawable.ic_uae, R.raw.uae, UAETimes.class),
+    Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, R.raw.indonesia, IndonesiaTimes.class),
+    London("Londonprayertimes.com", 0, R.raw.london, LondonTimes.class),
+    CSV("CSV", 0, 0, CSVTimes.class);
 
     public final Class<? extends Times> clz;
-    public final int resId;
-    public final String text;
+    public final int drawableId;
+    public final String name;
+    public final int citiesId;
 
-    Source(String text, int resId, Class<? extends Times> clz) {
-        this.text = text;
-        this.resId = resId;
+    Source(String name, @DrawableRes int drawableId, @RawRes int citiesId, Class<? extends Times> clz) {
+        this.name = name;
+        this.drawableId = drawableId;
         this.clz = clz;
+        this.citiesId = citiesId;
     }
 
     Source(int resTxt, int resIcon, Class<? extends Times> clz) {
         Locale.setDefault(Utils.getLocale());
-        this.text = App.get().getString(resTxt);
-        this.resId = resIcon;
+        this.name = App.get().getString(resTxt);
+        this.drawableId = resIcon;
         this.clz = clz;
+        citiesId = 0;
     }
 }
