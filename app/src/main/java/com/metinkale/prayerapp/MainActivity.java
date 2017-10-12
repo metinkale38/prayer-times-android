@@ -64,6 +64,7 @@ import com.metinkale.prayerapp.tesbihat.TesbihatFragment;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.Utils;
+import com.metinkale.prayerapp.vakit.LocationService;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.zikr.ZikrFragment;
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onStart() {
         super.onStart();
         mStartTime = System.currentTimeMillis();
+        LocationService.triggerUpdate(this);
     }
 
     @Override
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
 
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawerLayout = findViewById(R.id.drawer);
         mNav = mDrawerLayout.findViewById(R.id.base_nav);
         ArrayAdapter<String> list = buildNavAdapter(this);
         mNav.setAdapter(list);

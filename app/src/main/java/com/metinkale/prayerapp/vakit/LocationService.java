@@ -29,6 +29,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.metinkale.prayerapp.utils.Geocoder;
 import com.metinkale.prayerapp.vakit.times.Cities;
@@ -42,6 +43,7 @@ import java.util.List;
 
 @SuppressWarnings("MissingPermission")
 public class LocationService extends Service implements LocationListener {
+    private static final String UPDATE_LOCATION = "UPDATE_LOCATION";
     private LocationManager mLocationManager;
     private boolean mHasWebTime = false;
     private boolean mHasCalcTime = false;
@@ -51,13 +53,19 @@ public class LocationService extends Service implements LocationListener {
     }
 
     public static void start(Context c) {
-        Intent i = new Intent(c, WidgetService.class);
+        Intent i = new Intent(c, LocationService.class);
         c.startService(i);
     }
 
+    public static void triggerUpdate(Context c) {
+        Intent i = new Intent(c, LocationService.class);
+        i.setAction(UPDATE_LOCATION);
+        c.startService(i);
+    }
+
+
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -95,7 +103,7 @@ public class LocationService extends Service implements LocationListener {
             stopSelf();
             return START_NOT_STICKY;
         }
-        if (System.currentTimeMillis() - mLastLocationUpdate > 60 * 60 * 1000) {
+        if (System.currentTimeMillis() - mLastLocationUpdate > 60 * 60 * 1000 || UPDATE_LOCATION.equals(intent.getAction())) {
             mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, Looper.myLooper());
         }
         return START_STICKY;
@@ -157,7 +165,9 @@ public class LocationService extends Service implements LocationListener {
                     }
                 }
                 if (updated) {
+                    Times.notifyDataSetChanged();
                     Times.setAlarms();
+                    WidgetService.start(getApplication());
                 }
             }
         });

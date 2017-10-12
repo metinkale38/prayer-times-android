@@ -126,7 +126,8 @@ public class WidgetService extends Service {
             }
             case Intent.ACTION_USER_PRESENT:
             case Intent.ACTION_TIME_CHANGED:
-            case Intent.ACTION_TIME_TICK: {
+            case Intent.ACTION_TIME_TICK:
+            default: {
                 WidgetUtils.updateWidgets(this);
                 updateOngoing();
                 break;

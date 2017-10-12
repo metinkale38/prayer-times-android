@@ -119,7 +119,7 @@ public abstract class Times extends TimesBase {
         super();
     }
 
-    private static void notifyDataSetChanged() {
+    public static void notifyDataSetChanged() {
         for (OnTimesListChangeListener list : sListeners) {
             try {
                 list.notifyDataSetChanged();

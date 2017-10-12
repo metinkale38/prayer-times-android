@@ -92,6 +92,8 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
             if ((mTimes != null) && !mTimes.isDeleted()) {
                 checkKerahatAndIssues();
+                if(mTimes.isAutoLocation())
+                    mTitle.setText(mTimes.getName());
 
                 int next = mTimes.getNext();
                 if (Prefs.getVakitIndicator().equals("next")) next++;

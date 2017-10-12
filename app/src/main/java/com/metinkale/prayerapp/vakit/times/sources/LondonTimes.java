@@ -28,8 +28,17 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by metin on 12.02.2017.
@@ -53,6 +62,27 @@ public class LondonTimes extends WebTimes {
 
 
     protected boolean sync() throws ExecutionException, InterruptedException {
+        try {
+            final Trust trust = new Trust();
+            final TrustManager[] trustmanagers = new TrustManager[]{trust};
+            SSLContext sslContext;
+
+
+            Ion ion = Ion.getDefault(App.get());
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustmanagers, new SecureRandom());
+
+            ion.configure().createSSLContext("TLS");
+
+            ion.getHttpClient().getSSLSocketMiddleware().setSSLContext(sslContext);
+            ion.getHttpClient().getSSLSocketMiddleware().setTrustManagers(trustmanagers);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+
         Result r = Ion.with(App.get())
                 .load("https://www.londonprayertimes.com/api/times/?format=json&key=1e6f7b94-542d-4ff7-94cc-e9c8e0bd2e64&year=" + LocalDate.now().getYear())
                 .setTimeout(3000)
@@ -108,6 +138,37 @@ public class LondonTimes extends WebTimes {
             return h < 10 ? "0" + 10 : "" + 10;
         }
     }
+
+    private static class Trust implements X509TrustManager {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType)
+                throws CertificateException {
+
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType)
+                throws CertificateException {
+
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+
+    }
+
 
 
 }

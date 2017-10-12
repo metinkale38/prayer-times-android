@@ -58,9 +58,9 @@ public class MalaysiaTimes extends WebTimes {
         int Y = rY;
         int m = ldate.getMonthOfYear();
         String[] split = getId().split("_");
-        if (split.length < 3) delete();
+        if (split.length < 2) delete();
+        split[0] = URLEncoder.encode(split[0]);
         split[1] = URLEncoder.encode(split[1]);
-        split[2] = URLEncoder.encode(split[2]);
 
         int x = 0;
         for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
@@ -69,7 +69,7 @@ public class MalaysiaTimes extends WebTimes {
                 Y++;
             }
             String result = Ion.with(App.get())
-                    .load("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" + split[1] + "&state=" + split[1] + "&zone=" + split[2] + "&year="
+                    .load("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" + split[0] + "&state=" + split[0] + "&zone=" + split[1] + "&year="
                             + Y + "&jenis=year&bulan=" + M)
                     .setTimeout(3000)
                     .asString()
