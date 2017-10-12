@@ -32,12 +32,13 @@ import java.util.concurrent.ExecutionException;
 
 public class IGMGTimes extends WebTimes {
 
-    @SuppressWarnings("unused")
-    IGMGTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public IGMGTimes() {
         super();
     }
 
-    IGMGTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public IGMGTimes(long id) {
         super(id);
     }
 

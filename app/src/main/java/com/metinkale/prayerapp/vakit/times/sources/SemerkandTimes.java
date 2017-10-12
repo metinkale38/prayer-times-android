@@ -33,12 +33,13 @@ import java.util.concurrent.ExecutionException;
 
 public class SemerkandTimes extends WebTimes {
 
-    @SuppressWarnings("unused")
-    SemerkandTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public SemerkandTimes() {
         super();
     }
 
-    SemerkandTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public SemerkandTimes(long id) {
         super(id);
     }
 

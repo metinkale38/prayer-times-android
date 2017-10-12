@@ -38,11 +38,12 @@ import java.util.concurrent.ExecutionException;
  * Created by metin on 12.02.2017.
  */
 public class IndonesiaTimes extends WebTimes {
-    @SuppressWarnings("unused")
-    IndonesiaTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public IndonesiaTimes() {
         super();
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public IndonesiaTimes(long id) {
         super(id);
     }

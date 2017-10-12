@@ -34,11 +34,12 @@ import java.util.concurrent.ExecutionException;
  * Created by metin on 12.02.2017.
  */
 public class MalaysiaTimes extends WebTimes {
-    @SuppressWarnings("unused")
-    MalaysiaTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public MalaysiaTimes() {
         super();
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public MalaysiaTimes(long id) {
         super(id);
     }
@@ -48,7 +49,6 @@ public class MalaysiaTimes extends WebTimes {
     public Source getSource() {
         return Source.Malaysia;
     }
-
 
 
     @NonNull

@@ -31,7 +31,7 @@
   <string name="backupRestore">Backup/Restore</string>
   <string name="beforeSun">Prije izlaska sunca</string>
   <string name="blackWidget">Crni widget</string>
-  <string name="calcMethod">Način računanja</string>
+  <string name="calcMethod">Način</string>
   <string name="calendar">Islamski blagdani</string>
   <string name="calendarIntegration">Integracija kalendara</string>
   <string name="cancel">Poništi</string>
@@ -60,7 +60,7 @@
   <string name="error">Greška nastala</string>
   <string name="imsak">Imsak</string>
   <string name="fajr">Sabah</string>
-  <string name="fajrIshaaCalculation">Sabah/Jacija podešavanje:</string>
+  <string name="highlatsAdj">Sabah/Jacija podešavanje:</string>
   <string name="fasting">Post</string>
   <string name="favorite">Favorit</string>
   <string name="filePicker">Birač fajla</string>

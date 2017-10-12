@@ -31,7 +31,7 @@
   <string name="backupRestore">Backup/Restore</string>
   <string name="beforeSun">Vor Sonnenaufgang</string>
   <string name="blackWidget">Schwarzes Widget</string>
-  <string name="calcMethod">Berechnungsmethode</string>
+  <string name="calcMethod">Methode</string>
   <string name="calendar">Isl. Feiertage</string>
   <string name="calendarIntegration">Kalendar Integration</string>
   <string name="cancel">Abbrechen</string>
@@ -60,7 +60,7 @@
   <string name="error">Es ist ein Fehler aufgetreten</string>
   <string name="imsak">Imsak</string>
   <string name="fajr">Fajr</string>
-  <string name="fajrIshaaCalculation">Fajr/Isha Anpassung:</string>
+  <string name="highlatsAdj">Fajr/Isha Anpassung:</string>
   <string name="fasting">Fasten</string>
   <string name="favorite">Favorit</string>
   <string name="filePicker">Wähle Datei</string>

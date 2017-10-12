@@ -33,7 +33,6 @@ import com.metinkale.prayerapp.vakit.times.sources.MalaysiaTimes;
 import com.metinkale.prayerapp.vakit.times.sources.MoroccoTimes;
 import com.metinkale.prayerapp.vakit.times.sources.NVCTimes;
 import com.metinkale.prayerapp.vakit.times.sources.SemerkandTimes;
-import com.metinkale.prayerapp.vakit.times.sources.UAETimes;
 
 import java.util.Locale;
 
@@ -49,7 +48,6 @@ public enum Source {
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, R.raw.nvc, NVCTimes.class),
     Morocco("habous.gov.ma", R.drawable.ic_morocco, R.raw.morocco, MoroccoTimes.class),
     Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, R.raw.malaysia, MalaysiaTimes.class),
-    UAE("Awqaf.gov.ae", R.drawable.ic_uae, R.raw.uae, UAETimes.class),
     Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, R.raw.indonesia, IndonesiaTimes.class),
     London("Londonprayertimes.com", 0, R.raw.london, LondonTimes.class),
     CSV("CSV", 0, 0, CSVTimes.class);

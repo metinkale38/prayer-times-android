@@ -39,12 +39,13 @@ import java.util.concurrent.ExecutionException;
 public class NVCTimes extends WebTimes {
 
 
-    @SuppressWarnings("unused")
-    NVCTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public NVCTimes() {
         super();
     }
 
-    NVCTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public NVCTimes(long id) {
         super(id);
     }
 

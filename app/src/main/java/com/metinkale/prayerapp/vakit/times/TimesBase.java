@@ -181,6 +181,15 @@ class TimesBase {
         this();
         ID = id;
         source = getSource().name();
+
+        boolean hasOngoing=false;
+        for(Times time: getTimes()){
+            if(time.isOngoingNotificationActive())
+                hasOngoing=true;
+        }
+
+        if(!hasOngoing)
+            setOngoingNotificationActive(true);
     }
 
     TimesBase() {

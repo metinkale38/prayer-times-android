@@ -83,7 +83,6 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
         mAutoLocation = v.findViewById(R.id.autoLocation);
         mAutoLocation.setOnCheckedChangeListener(this);
 
-
         ColorStateList trackStates = new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_checked},
@@ -94,9 +93,9 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
                         Color.LTGRAY
                 }
         );
+
         mAutoLocation.setThumbTintList(trackStates);
         mAutoLocation.setThumbTintMode(PorterDuff.Mode.MULTIPLY);
-
 
         trackStates = new ColorStateList(
                 new int[][]{
@@ -226,9 +225,8 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
             CalcTimes.add(getActivity(), bdl);
         } else {
             WebTimes.add(i.getSource(), i.getName(), i.getKey(), i.getLat(), i.getLng()).setAutoLocation(mAutoLocation.isChecked());
-            back();
         }
-
+        back();
     }
 
     @Override

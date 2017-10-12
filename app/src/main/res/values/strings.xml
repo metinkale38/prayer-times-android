@@ -29,7 +29,7 @@
     <string name="backupRestore">Backup/Restore</string>
     <string name="beforeSun">Before Sunrise</string>
     <string name="blackWidget">Black Widget</string>
-    <string name="calcMethod">Calculationmethod</string>
+    <string name="calcMethod">Method</string>
     <string name="calendar">Holy Days</string>
     <string name="calendarIntegration">Calendar Integration</string>
     <string name="cancel">Cancel</string>
@@ -58,7 +58,7 @@
     <string name="error">An error occurred</string>
     <string name="imsak">Imsak</string>
     <string name="fajr">Fajr</string>
-    <string name="fajrIshaaCalculation">Fajr/Ischa Adjustment:</string>
+    <string name="highlatsAdj">High Latitudes Adjustment:</string>
     <string name="fasting">Fast</string>
     <string name="favorite">Favorite</string>
     <string name="filePicker">File Picker</string>

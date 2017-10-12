@@ -35,11 +35,12 @@ import java.util.concurrent.ExecutionException;
  * Created by metin on 12.02.2017.
  */
 public class LondonTimes extends WebTimes {
-    @SuppressWarnings("unused")
-    LondonTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public LondonTimes() {
         super();
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public LondonTimes(long id) {
         super(id);
     }

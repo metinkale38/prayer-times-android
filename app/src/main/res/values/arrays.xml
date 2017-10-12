@@ -245,6 +245,16 @@
         <item>@string/csvFromURL</item>
     </string-array>
 
+    <string-array name="calculationMethodsShort">
+        <item>MWL</item>
+        <item>ISNA</item>
+        <item>Egypt</item>
+        <item>Makkah</item>
+        <item>Karachi</item>
+        <item>Tehran</item>
+        <item>Jafari</item>
+        <item>@string/customCalc</item>
+    </string-array>
 
     <string-array name="calculationMethods">
         <item>Muslim World League</item>

@@ -31,7 +31,7 @@
   <string name="backupRestore">Yedekle/Geri Yükle</string>
   <string name="beforeSun">Güneş\'den önce</string>
   <string name="blackWidget">Siyah Widget</string>
-  <string name="calcMethod">Hesaplama yöntemi</string>
+  <string name="calcMethod">Metot</string>
   <string name="calendar">Dini Günler</string>
   <string name="calendarIntegration">Dini Günler\'i Takvime yaz</string>
   <string name="cancel">Iptal</string>
@@ -60,7 +60,7 @@
   <string name="error">Hata oluştu</string>
   <string name="imsak">İmsak</string>
   <string name="fajr">İmsak</string>
-  <string name="fajrIshaaCalculation">Sabah/Yatsı düzenleme:</string>
+  <string name="highlatsAdj">Sabah/Yatsı düzenleme:</string>
   <string name="fasting">Oruç</string>
   <string name="favorite">Favori</string>
   <string name="filePicker">Dosyalardan seç</string>

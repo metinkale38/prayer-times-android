@@ -16,10 +16,10 @@
 
 package com.metinkale.prayerapp.vakit.times.sources;
 
+
 import android.support.annotation.NonNull;
 
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.builder.Builders;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.times.Source;
 
@@ -29,12 +29,13 @@ import java.util.concurrent.ExecutionException;
 
 public class DiyanetTimes extends WebTimes {
 
-    @SuppressWarnings("unused")
-    DiyanetTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public DiyanetTimes() {
         super();
     }
 
-    DiyanetTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public DiyanetTimes(long id) {
         super(id);
     }
 
@@ -61,15 +62,15 @@ public class DiyanetTimes extends WebTimes {
         }
         String result =
                 Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
-                .setHeader("Content-Type", "name/xml; charset=utf-8")
-                .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
-                .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                        "<v:Header /><v:Body>" +
-                        "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
-                        "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
-                        "<username i:type=\"d:string\">namazuser</username>" +
-                        "<password i:type=\"d:string\">NamVak!14</password>" +
-                        "</AylikNamazVakti></v:Body></v:Envelope>").asString().get();
+                        .setHeader("Content-Type", "text/xml; charset=utf-8")
+                        .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
+                        .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                                "<v:Header /><v:Body>" +
+                                "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
+                                "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
+                                "<username i:type=\"d:string\">namazuser</username>" +
+                                "<password i:type=\"d:string\">NamVak!14</password>" +
+                                "</AylikNamazVakti></v:Body></v:Envelope>").asString().get();
 
         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
         result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
@@ -82,11 +83,11 @@ public class DiyanetTimes extends WebTimes {
             String date = null;
             for (String part : parts) {
                 if (!part.contains(">")) continue;
-                String name = part.substring(0, part.indexOf(">"));
+                String name = part.substring(0, part.indexOf('>'));
                 if (name.contains(":"))
-                    name = name.substring(name.indexOf(":") + 1);
-                String content = part.substring(part.indexOf(">") + 1);
-                content = content.substring(0, content.indexOf("<"));
+                    name = name.substring(name.indexOf(':') + 1);
+                String content = part.substring(part.indexOf('>') + 1);
+                content = content.substring(0, content.indexOf('<'));
                 if ("Imsak".equals(name)) {
                     times[0] = content;
                 } else if ("Gunes".equals(name)) {

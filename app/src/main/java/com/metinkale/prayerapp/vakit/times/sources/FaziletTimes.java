@@ -34,12 +34,13 @@ import static com.metinkale.prayerapp.utils.Utils.az;
 
 public class FaziletTimes extends WebTimes {
 
-    @SuppressWarnings("unused")
-    FaziletTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public FaziletTimes() {
         super();
     }
 
-    FaziletTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public FaziletTimes(long id) {
         super(id);
     }
 
@@ -69,7 +70,7 @@ public class FaziletTimes extends WebTimes {
         int M = ldate.getMonthOfYear();
 
 
-        String result=    Ion.with(App.get())
+        String result = Ion.with(App.get())
                 .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
                 .setTimeout(3000)
                 .setBodyParameter("ulke_id", "" + country)

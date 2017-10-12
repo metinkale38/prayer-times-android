@@ -34,12 +34,13 @@ import java.util.concurrent.ExecutionException;
 
 public class MoroccoTimes extends WebTimes {
 
-    @SuppressWarnings("unused")
-    MoroccoTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public MoroccoTimes() {
         super();
     }
 
-    MoroccoTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public MoroccoTimes(long id) {
         super(id);
     }
 

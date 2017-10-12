@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.vakit.fragments.CalcTimeConfDialogFragment;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -59,14 +61,16 @@ public class CalcTimes extends Times {
     private String juristic;
     private double[] customMethodParams = new double[6];
     private transient PrayTimes mPrayTime;
+    private PrayTimes prayTimes;
 
 
-    @SuppressWarnings("unused")
-    CalcTimes() {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public CalcTimes() {
         super();
     }
 
-    CalcTimes(long id) {
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public CalcTimes(long id) {
         super(id);
     }
 
@@ -76,9 +80,8 @@ public class CalcTimes extends Times {
         if (lat > 48)
             t.getPrayTimes().setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
         t.setName(name);
-        t.getPrayTimes().setCoordinates(lat,lng,0);
+        t.getPrayTimes().setCoordinates(lat, lng, 0);
     }
-
 
 
     public PrayTimes getPrayTimes() {
@@ -155,119 +158,16 @@ public class CalcTimes extends Times {
     }
 
     @SuppressLint("InflateParams")
-    public static void add(@NonNull final Activity c, @NonNull final Bundle bdl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        final LayoutInflater inflater = LayoutInflater.from(c);
-        View view = inflater.inflate(R.layout.calcmethod_dialog, null);
-        ListView lv = view.findViewById(R.id.listView);
-        final Spinner sp = view.findViewById(R.id.spinner);
-        final Spinner sp2 = view.findViewById(R.id.spinner2);
+    public static void add(@NonNull final FragmentActivity c, @NonNull final Bundle bdl) {
+        CalcTimeConfDialogFragment frag = new CalcTimeConfDialogFragment();
+        frag.setArguments(bdl);
+        frag.show(c.getSupportFragmentManager(), "dlg");
 
-        lv.setAdapter(new ArrayAdapter<String>(c, R.layout.calcmethod_dlgitem, R.id.legacySwitch,
-                c.getResources().getStringArray(R.array.calculationMethods)) {
-            String[] desc = c.getResources().getStringArray(R.array.calculationMethodsDesc);
+        //  t.setName(bdl.getString("city"));
+        // t.setLat(bdl.getDouble("lat"));
+        //t.setLng(bdl.getDouble("lng"));
+        //t.setAutoLocation(bdl.getBoolean("autoCity"));
 
-            @NonNull
-            @Override
-            public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
-                ViewGroup vg = (ViewGroup) super.getView(pos, convertView, parent);
-                ((TextView) vg.getChildAt(0)).setText(getItem(pos));
-                ((TextView) vg.getChildAt(1)).setText(desc[pos]);
-                return vg;
-            }
-
-            @Override
-            public int getCount() {
-                return 8;
-            }
-        });
-
-        sp.setAdapter(new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, c.getResources().getStringArray(R.array.adjMethod)));
-        sp2.setAdapter(new ArrayAdapter<>(c, android.R.layout.simple_spinner_dropdown_item, c.getResources().getStringArray(R.array.juristicMethod)));
-
-        builder.setTitle(R.string.calcMethod);
-        builder.setView(view);
-        final AlertDialog dlg = builder.create();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                Method method1 = pos >= Method.values().length ? null : Method.values()[pos];
-
-                if (method1 == null) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
-                    final View custom = inflater.inflate(R.layout.calcmethod_custom_dialog, null);
-
-                    builder1.setView(custom);
-                    final Dialog dlg1 = builder1.show();
-                    custom.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            CalcTimes t = new CalcTimes(System.currentTimeMillis());
-                            t.setSource(Source.Calc);
-                            t.setName(bdl.getString("city"));
-                            t.setLat(bdl.getDouble("lat"));
-                            t.setLng(bdl.getDouble("lng"));
-                            t.setAutoLocation(bdl.getBoolean("autoCity"));
-                            TextView imsakPicker = custom.findViewById(R.id.imsakPicker);
-                            TextView fajrPicker = custom.findViewById(R.id.fajrPicker);
-                            TextView zuhrPicker = custom.findViewById(R.id.zuhrPicker);
-                            TextView maghribPicker = custom.findViewById(R.id.maghribPicker);
-                            TextView ishaPicker = custom.findViewById(R.id.ishaPicker);
-
-                            RadioButton imsakMin = custom.findViewById(R.id.imsakTimeBased);
-                            RadioButton maghribMin = custom.findViewById(R.id.maghribTimeBased);
-                            RadioButton ishaMin = custom.findViewById(R.id.ishaTimeBased);
-
-
-                            t.getPrayTimes().setImsakTime(Double.parseDouble(imsakPicker.getText().toString()), imsakMin.isChecked());
-                            t.getPrayTimes().setFajrDegrees(Double.parseDouble(fajrPicker.getText().toString()));
-                            t.getPrayTimes().setDhuhrMins(Double.parseDouble(zuhrPicker.getText().toString()));
-                            t.getPrayTimes().setMaghribTime(Double.parseDouble(maghribPicker.getText().toString()), maghribMin.isChecked());
-                            t.getPrayTimes().setIshaTime(Double.parseDouble(ishaPicker.getText().toString()), ishaMin.isChecked());
-
-                            t.getPrayTimes().setAsrJuristic(sp2.getSelectedItemPosition() + 1);
-                            t.getPrayTimes().setHighLatsAdjustment(sp.getSelectedItemPosition());
-                            t.setSortId(99);
-                            c.finish();
-                            dlg1.cancel();
-
-                            Answers.getInstance().logCustom(new CustomEvent("AddCity")
-                                    .putCustomAttribute("Source", Source.Calc.name())
-                                    .putCustomAttribute("City", bdl.getString("city"))
-                                    .putCustomAttribute("Method", "Custom")
-                                    .putCustomAttribute("Juristic", sp2.getSelectedItemPosition() + "")
-                                    .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition() + "")
-                            );
-                        }
-                    });
-                } else {
-                    CalcTimes t = new CalcTimes(System.currentTimeMillis());
-                    t.setSource(Source.Calc);
-                    t.setName(bdl.getString("city"));
-                    t.setLat(bdl.getDouble("lat"));
-                    t.setLng(bdl.getDouble("lng"));
-                    t.setAutoLocation(bdl.getBoolean("autoCity"));
-                    t.getPrayTimes().setMethod(method1);
-                    t.getPrayTimes().setAsrJuristic(sp2.getSelectedItemPosition() + 1);
-                    t.getPrayTimes().setHighLatsAdjustment(sp.getSelectedItemPosition());
-                    t.setSortId(99);
-                    c.finish();
-
-                    Answers.getInstance().logCustom(new CustomEvent("AddCity")
-                            .putCustomAttribute("Source", Source.Calc.name())
-                            .putCustomAttribute("City", bdl.getString("city"))
-                            .putCustomAttribute("Method", method1.name())
-                            .putCustomAttribute("Juristic", sp2.getSelectedItemPosition() + "")
-                            .putCustomAttribute("AdjMethod", sp.getSelectedItemPosition() + ""));
-                }
-                dlg.cancel();
-            }
-        });
-
-        try {
-            dlg.show();
-        } catch (WindowManager.BadTokenException ignore) {
-        }
     }
 
     @NonNull
@@ -302,4 +202,8 @@ public class CalcTimes extends Times {
     }
 
 
+    public void setPrayTimes(PrayTimes prayTimes) {
+        this.prayTimes = prayTimes;
+        save();
+    }
 }
