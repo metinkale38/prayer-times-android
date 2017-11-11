@@ -15,9 +15,10 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
     android:background="@color/background"
     android:clickable="true"
     android:focusable="true"
@@ -25,39 +26,51 @@
     android:padding="10dp">
 
 
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:padding="8dp"
+        app:materialIcon="delete"
+        app:materialIconColor="#aaa"
+        app:materialIconSize="24dp" />
+
+
     <TextView
         android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/source"
-        android:layout_marginStart="10dp"
-        android:layout_toStartOf="@+id/handle"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toLeftOf="@+id/handle"
-        android:layout_marginLeft="10dp" />
+        android:layout_alignLeft="@+id/source"
+        android:layout_alignStart="@+id/source"
+        android:layout_below="@+id/source"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
     <TextView
         android:id="@+id/source"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_toStartOf="@+id/handle"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_toEndOf="@+id/delete"
         android:layout_toLeftOf="@+id/handle"
-        android:layout_marginLeft="10dp" />
+        android:layout_toRightOf="@+id/delete"
+        android:layout_toStartOf="@+id/handle"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <net.steamcrafted.materialiconlib.MaterialIconView
         android:id="@+id/handle"
         android:layout_width="?listPreferredItemHeight"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:scaleType="center"
-        app:materialIconSize="24dp"
-        app:materialIconColor="#aaaaaa"
         app:materialIcon="reorder_horizontal"
-        android:layout_alignParentRight="true" />
+        app:materialIconColor="#aaaaaa"
+        app:materialIconSize="24dp" />
 
 </RelativeLayout>

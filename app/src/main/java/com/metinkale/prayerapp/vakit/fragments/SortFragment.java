@@ -30,6 +30,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,8 @@ import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconUtils;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +55,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     private MyAdapter mAdapter;
     private VakitFragment act;
     private ItemTouchHelper mItemTouchHelper;
+    private boolean mDeleteMode = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
@@ -65,13 +71,33 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
                 new SimpleItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerMan);
+        setHasOptionsMenu(true);
         return v;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MaterialMenuInflater.with(getActivity(), inflater).inflate(R.menu.sort_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+                mDeleteMode = !mDeleteMode;
+                item.setIcon(MaterialDrawableBuilder.with(getActivity())
+                        .setIcon(mDeleteMode ? MaterialDrawableBuilder.IconValue.DELETE_EMPTY : MaterialDrawableBuilder.IconValue.DELETE)
+                        .setColor(Color.WHITE).setToActionbarSize().build());
+                mAdapter.notifyDataSetChanged();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+        mDeleteMode = false;
         Times.addOnTimesListChangeListener(this);
 
     }
@@ -139,12 +165,14 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         public TextView city;
         public TextView source;
         public View handler;
+        public View delete;
 
         public ViewHolder(@NonNull View v) {
             super(v);
             city = v.findViewById(R.id.city);
             source = v.findViewById(R.id.source);
             handler = v.findViewById(R.id.handle);
+            delete = v.findViewById(R.id.delete);
         }
     }
 
@@ -167,7 +195,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder vh, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder vh, final int position) {
 
             Times c = getItem(position);
             if (c == null) {
@@ -192,6 +220,14 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
                 vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             }
 
+            vh.delete.setVisibility(mDeleteMode ? View.VISIBLE : View.GONE);
+
+            vh.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemDismiss(position);
+                }
+            });
             vh.handler.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {

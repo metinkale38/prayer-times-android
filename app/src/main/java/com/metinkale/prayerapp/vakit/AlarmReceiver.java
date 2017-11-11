@@ -276,6 +276,12 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
         final MPHolder mp = new MPHolder();
 
+        //also play dua, if there is no adhan
+        if (sound == null || sound.startsWith("silent")) {
+            sound = dua;
+            dua = "silent";
+        }
+
 
         if (Prefs.showNotificationScreen() && (sound != null) && !sound.startsWith("silent")) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);

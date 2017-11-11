@@ -491,10 +491,18 @@ public abstract class Times extends TimesBase {
 
     public static void clearTemporaryTimes() {
         List<Times> times = getTimes();
+
+        ArrayList<OnTimesListChangeListener> listeners = new ArrayList<OnTimesListChangeListener>();
+        listeners.addAll(sListeners);
+        sListeners.clear();
+
         for (int i = times.size() - 1; i >= 0; i--) {
             Times t = times.get(i);
             if (t.getID() < 0) t.delete();
         }
+
+        sListeners.addAll(listeners);
+        notifyDataSetChanged();
     }
 
     public void setAutoLocation(boolean autoLocation) {

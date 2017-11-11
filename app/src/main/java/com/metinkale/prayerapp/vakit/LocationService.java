@@ -111,7 +111,8 @@ public class LocationService extends Service implements LocationListener {
 
     @Override
     public void onDestroy() {
-        mLocationManager.removeUpdates(this);
+        if (mLocationManager != null)
+            mLocationManager.removeUpdates(this);
         super.onDestroy();
     }
 

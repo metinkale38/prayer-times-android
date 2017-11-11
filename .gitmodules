@@ -1,0 +1,3 @@
+[submodule "pray-times"]
+	path = pray-times
+	url = https://github.com/metinkale38/PrayTimes-Java
