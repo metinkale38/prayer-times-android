@@ -332,7 +332,6 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
 
     void storeFavs() {
         SharedPreferences.Editor edit = getActivity().getSharedPreferences("hadis", Context.MODE_PRIVATE).edit();
-        edit.clear();
         edit.putString("favs", new Gson().toJson(mFavs));
         edit.apply();
     }
@@ -346,7 +345,6 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
                 mFavs.add(prefs.getInt("fav_" + i, i) + 1);
             }
             storeFavs();
-            prefs.edit().clear().apply();
         }
 
         mFavs.addAll((HashSet<Integer>) new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {

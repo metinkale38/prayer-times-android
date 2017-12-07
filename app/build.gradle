@@ -111,8 +111,7 @@ android {
 dependencies {
     playCompile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {//excludeInFDroid
         transitive = true;//excludeInFDroid
-    }
-    //excludeInFDroid
+    }//excludeInFDroid
     fdroidCompile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar') {
         transitive = true
     }
