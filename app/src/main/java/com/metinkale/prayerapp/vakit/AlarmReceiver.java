@@ -113,7 +113,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         if (alarm != null) {
             if (alarm.equals(sLastSchedule)) return;
 
-            if (!Build.MANUFACTURER.equals("samsung") || Build.VERSION.SDK_INT < 19) {
+            if (!Build.MANUFACTURER.equals("samsung") || Build.VERSION.SDK_INT < 20) {
                 sLastSchedule = alarm;
             } else {
                 PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);

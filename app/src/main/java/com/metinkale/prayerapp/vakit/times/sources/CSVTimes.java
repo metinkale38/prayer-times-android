@@ -35,7 +35,7 @@ public class CSVTimes extends WebTimes {
 
 
     @SuppressWarnings({"unused", "WeakerAccess"})
-    public  CSVTimes(long id) {
+    public CSVTimes(long id) {
         super(id);
     }
 
@@ -58,7 +58,7 @@ public class CSVTimes extends WebTimes {
         FOR:
         for (String line : lines) {
             try {
-                String sep1 = null, sep2 = null;
+                String sep1 = null, sep2 = null, sep3 = null;
                 if (line.contains(";")) sep1 = ";";
                 else if (line.contains(",")) sep1 = ",";
                 else if (line.contains("\t")) sep1 = "\t";
@@ -78,7 +78,17 @@ public class CSVTimes extends WebTimes {
                 int year = date.length > 2 ? Integer.parseInt(date[2]) : LocalDate.now().getYear();
                 int month = Integer.parseInt(date[1]);
                 int day = Integer.parseInt(date[0]);
+
+                if (parts[1].contains(":")) sep3 = ":";
+                else if (parts[1].contains("-")) sep3 = "-";
+                else if (parts[1].contains(".")) sep3 = "\\.";
+                else if (parts[1].contains("_")) sep3 = "_";
+
+
                 for (int l = 1; l < 7; l++) {
+                    parts[i] = parts[i].replace(sep3, ":");
+                    if (parts[i].length() == 4) parts[i] = "0" + parts[i];
+
                     if (parts[l].length() != 5 ||
                             parts[l].charAt(2) != ':' ||
                             !Character.isDigit(parts[l].charAt(0)) ||
