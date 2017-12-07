@@ -273,5 +273,6 @@
     <string name="intro_config2">By pressing the Alarm Icon in the menu you can access the notification settigs to configure Adhan.</string>
     <string name="compass_type_reminder">Click here to try different methods of finding the correct Qibla direction.</string>
     <string name="autoLocation">Auto Location</string>
+    <string name="stop">Stop</string>
 
 </resources>

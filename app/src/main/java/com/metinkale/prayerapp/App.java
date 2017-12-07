@@ -215,6 +215,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public static final class NotIds {
         public static final int ALARM = 1;
         public static final int ONGOING = 2;
+        public static final int PLAYING = 3;
     }
 
     private static class MyJobCreator implements JobCreator {

@@ -38,7 +38,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.WakefulBroadcastReceiver;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
@@ -90,6 +89,16 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
 
 
         }
+    }
+
+    @Override
+    public void onStart(@Nullable Intent intent, int startId) {
+        super.onStart(intent, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @NonNull
@@ -256,12 +265,27 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             txt = next.vakit.getString();
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(c).setContentTitle(text).setContentText(txt).setContentIntent(VakitFragment.getPendingIntent(t)).setSmallIcon(R.drawable.ic_abicon);
-        Notification not = builder.build();
-
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
+                .setContentTitle(text)
+                .setContentText(txt)
+                .setContentIntent(VakitFragment.getPendingIntent(t))
+                .setSmallIcon(R.drawable.ic_abicon);
         if (vibrate) {
-            not.vibrate = VibrationPreference.getPattern(c, "vibration");
+            builder.setVibrate(VibrationPreference.getPattern(c, "vibration"));
         }
+
+        PendingIntent stopIndent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setOngoing(true).setPriority(NotificationManager.IMPORTANCE_HIGH)
+                    .addAction(R.drawable.ic_action_stop, getString(R.string.stop), stopIndent);
+            Notification not = builder.build();
+            startForeground(NotIds.PLAYING, not);
+        } else {
+            builder.setDeleteIntent(stopIndent);
+            Notification not = builder.build();
+            nm.notify(next.city + "", NotIds.ALARM, not);
+        }
+
 
         AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
 
@@ -270,9 +294,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             @Nullable
             MediaPlayer mp;
         }
-        not.deleteIntent = PendingIntent.getBroadcast(c, 0, new Intent(c, Audio.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
-        nm.notify(next.city + "", NotIds.ALARM, not);
 
         final MPHolder mp = new MPHolder();
 
@@ -405,6 +427,13 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
                 sensorManager.unregisterListener(this);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+            builder.setPriority(NotificationManager.IMPORTANCE_DEFAULT).setOngoing(false).setVibrate(null).mActions.clear();
+            Notification not = builder.build();
+            nm.notify(next.city + "", NotIds.ALARM, not);
+        }
+
         if (hasSound && Prefs.autoRemoveNotification()) {
             nm.cancel(next.city + "", NotIds.ALARM);
         }
@@ -470,7 +499,7 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
         }
     }
 
-    public static class WakefulReceiver extends WakefulBroadcastReceiver {
+    public static class WakefulReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(@NonNull Context context, @NonNull Intent intent) {
@@ -478,7 +507,11 @@ public class AlarmReceiver extends IntentService implements SensorEventListener 
             if (alarm != null) {
                 Intent service = new Intent(context, AlarmReceiver.class);
                 service.putExtra("alarm", alarm);
-                startWakefulService(context, service);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(service);
+                } else {
+                    context.startService(service);
+                }
             } else {
                 Times.setAlarms();
             }
