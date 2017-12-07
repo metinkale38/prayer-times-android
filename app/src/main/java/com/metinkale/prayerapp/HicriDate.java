@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.joda.time.chrono.IslamicChronology;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class HicriDate {
             Day = date.getDayOfMonth();
         } else {
             int[] h = {last[HD], last[HM], last[HY]};
-            h[0] += new LocalDate(y, m, d).getDayOfYear() - new LocalDate(last[GY], last[GM], last[GD]).getDayOfYear();
+            h[0] += Period.fieldDifference(new LocalDate(y, m, d), new LocalDate(last[GY], last[GM], last[GD])).getDays();
             if ((h[0] >= 30) || (h[0] <= 0)) {
                 LocalDate date = greg.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstance()).toLocalDate();
                 Year = date.getYear();

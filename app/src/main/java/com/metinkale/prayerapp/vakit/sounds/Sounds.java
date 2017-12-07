@@ -170,21 +170,6 @@ public class Sounds {
     }
 
 
-    @Nullable
-    private static String forAlarm(@NonNull Times.Alarm alarm) {
-        Times t = Times.getTimes(alarm.time);
-        String sound;
-        if (alarm.cuma) {
-            sound = t.getCumaSound();
-        } else if (alarm.early) {
-            sound = t.getEarlySound(alarm.vakit);
-        } else {
-            sound = t.getSound(alarm.vakit);
-        }
-        return sound;
-    }
-
-
     public static class Sound {
         public String name;
         public String uri;

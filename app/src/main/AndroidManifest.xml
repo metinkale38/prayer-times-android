@@ -47,7 +47,7 @@
         android:noHistory="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:label">
         <activity
             android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
             android:launchMode="singleInstance"

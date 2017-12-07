@@ -44,6 +44,8 @@ import com.metinkale.prayerapp.calendar.WebViewFragment;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 
+import us.feras.mdv.MarkdownView;
+
 /**
  * Created by metin on 25.07.17.
  */
@@ -66,10 +68,20 @@ public class ChangelogFragment extends IntroFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_changelog, container, false);
 
-        WebView wv = v.findViewById(R.id.webview);
+        final MarkdownView md = v.findViewById(R.id.markdownview);
         String lang = Utils.getLanguage("en", "de", "tr");
-        wv.loadUrl("file:///android_asset/" + lang + "/changelog.htm");
-        wv.setBackgroundColor(Color.TRANSPARENT);
+        switch (lang) {
+            case "en":
+                md.loadMarkdownFile("file:///android_asset/english.md","file:///android_asset/style.css");
+                break;
+            case "de":
+                md.loadMarkdownFile("file:///android_asset/german.md","file:///android_asset/style.css");
+                break;
+            case "tr":
+                md.loadMarkdownFile("file:///android_asset/turkish.md","file:///android_asset/style.css");
+                break;
+        }
+        md.setBackgroundColor(Color.TRANSPARENT);
         return v;
     }
 

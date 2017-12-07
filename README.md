@@ -5,8 +5,8 @@ Play Store: https://play.google.com/store/apps/details?id=com.metinkale.prayer
 
 If you want to help me translating this Application into other languages contact me under metinkale38[at]gmail.com
 
-##DESCRIPTION
-###English
+## DESCRIPTION
+### English
 يسروا ولا تعسروا, وبشروا ولا تنفروا
 “Make things easy for the people, and do not make it difficult for them, and make them calm and do not repel them. (Hadith)
 
@@ -32,7 +32,7 @@ Features
 - Arabic, Turkish, German and English language support
 - Large set of downloadable Sounds (Adhan, Du'a etc.)
 
-##Turkish
+## Turkish
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
 "Kolaylaştırınız, zorlaştırmayınız... Müjdeleyiniz, nefret ettirmeyiniz" (Hadis-i Şerif)
 
@@ -58,7 +58,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - Türkçe, Almanca ve İngilizce seçenekli
 - Çok seçenekli Ses ayarlari
 
-###عربي
+### عربي
 يسروا ولا تعسروا, وبشروا ولا تنفروا
 
 تطبيقاً لحديث رسول الله ﷺ هذا التطبيق سوف يساعد المسلمين حول العالم لقضاء فرائضهم إن شاء الله.
@@ -83,7 +83,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - دعم للغة العربية والإنجليزية والتركية والألمانية
 - الكثير من الأصوات القابلة للتحميل (أدعية وأذان)
 
-##German
+## German
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
 Macht es leicht und erschwert nicht; bringt frohe Kunde und schreckt nicht ab. (Hadith)
 
@@ -110,7 +110,7 @@ Die Inhalte der Gebetszeit-Anwendungen:
 - Große anzahl an Tönen (Adhan, Du'a usw.)
 
 
-#LICENSE
+# LICENSE
     A useful Application with a set of tools needed by any muslim.
 
     Copyright 2015 Metin Kale
