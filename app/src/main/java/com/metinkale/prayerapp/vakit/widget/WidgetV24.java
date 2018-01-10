@@ -83,6 +83,8 @@ public class WidgetV24 {
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
+        int indicator = next;
+        if ("next".equals(Prefs.getVakitIndicator())) indicator++;
         int idsText[] = {R.id.fajrText, R.id.sunText, R.id.zuhrText, R.id.asrText, R.id.maghribText, R.id.ishaaText};
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         for (int i = 0; i < 6; i++) {
@@ -98,14 +100,14 @@ public class WidgetV24 {
             }
 
             if (Prefs.showAltWidgetHightlight()) {
-                if (i + 1 == next) {
+                if (i + 1 == indicator) {
                     name = "<b><i>" + name + "</i></b>";
                     time = "<b><i>" + time + "</i></b>";
                 }
                 remoteViews.setInt(idsText[i], "setBackgroundColor", 0);
                 remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             } else {
-                if (i + 1 == next) {
+                if (i + 1 == indicator) {
                     remoteViews.setInt(idsText[i], "setBackgroundColor", theme.hovercolor);
                     remoteViews.setInt(ids[i], "setBackgroundColor", theme.hovercolor);
                 } else {
@@ -164,6 +166,9 @@ public class WidgetV24 {
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+
+        int indicator = next;
+        if ("next".equals(Prefs.getVakitIndicator())) indicator++;
         for (int i = 0; i < 6; i++) {
             remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
             remoteViews.setTextColor(ids[i], theme.textcolor);
@@ -176,13 +181,13 @@ public class WidgetV24 {
 
 
             if (Prefs.showAltWidgetHightlight()) {
-                if (i + 1 == next) {
+                if (i + 1 == indicator) {
                     name = "<b><i>" + name + "</i></b>";
                     time = "<b><i>" + time + "</i></b>";
                 }
                 remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             } else {
-                if (i + 1 == next)
+                if (i + 1 == indicator)
                     remoteViews.setInt(ids[i], "setBackgroundColor", theme.hovercolor);
                 else
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
