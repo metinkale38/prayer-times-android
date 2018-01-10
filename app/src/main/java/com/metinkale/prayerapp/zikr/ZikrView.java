@@ -20,9 +20,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class ZikrView extends View {
@@ -33,6 +36,7 @@ public class ZikrView extends View {
     private int mColor = 0xFF33B5E5;
     @NonNull
     private RectF mRectF = new RectF();
+    private MotionEvent mMotionEvent;
 
     public ZikrView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -98,9 +102,9 @@ public class ZikrView extends View {
         return mColor;
     }
 
-    public void setColor(int mColor) {
-        this.mColor = mColor;
-        if (mColor == 0) {
+    public void setColor(int color) {
+        this.mColor = color;
+        if (color == 0) {
             this.mColor = 0xFF33B5E5;
         }
 
@@ -111,8 +115,8 @@ public class ZikrView extends View {
         return mCount;
     }
 
-    public void setCount(int mCount) {
-        this.mCount = mCount;
+    public void setCount(int count) {
+        this.mCount = count;
         invalidate();
     }
 
@@ -120,8 +124,8 @@ public class ZikrView extends View {
         return mCount2;
     }
 
-    public void setCount2(int mCount) {
-        mCount2 = mCount;
+    public void setCount2(int count) {
+        mCount2 = count;
         invalidate();
     }
 
@@ -135,5 +139,22 @@ public class ZikrView extends View {
 
     public void counter() {
         mCount2++;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.mMotionEvent = event;
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean performClick() {
+        int radius = getWidth() / 2;
+        int[] coords = new int[2];
+        getLocationInWindow(coords);
+
+        float x = mMotionEvent.getRawX() - coords[0] - radius;
+        float y = mMotionEvent.getRawY() - coords[1] - radius;
+        return Math.sqrt(x * x + y * y) < radius * 0.90 && super.performClick();
     }
 }
