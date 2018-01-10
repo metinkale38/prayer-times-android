@@ -42,7 +42,7 @@ import java.util.Locale;
 public enum Source {
     Calc(R.string.calculated, 0, CalcTimes.class),
     Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib, R.raw.diyanet, DiyanetTimes.class),
-    Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet, R.raw.fazilet, FaziletTimes.class),
+    @Deprecated Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet, 0, FaziletTimes.class),
     IGMG("IGMG.org", R.drawable.ic_igmg, R.raw.igmg, IGMGTimes.class),
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, R.raw.semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, R.raw.nvc, NVCTimes.class),

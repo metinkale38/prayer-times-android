@@ -71,6 +71,7 @@ public class IGMGTimes extends WebTimes {
             String result = Ion.with(App.get())
                     .load("http://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + id + "&show_month=" + (M - 1))
                     .setTimeout(3000)
+                    .userAgent(App.getUserAgent())
                     .asString()
                     .get();
 

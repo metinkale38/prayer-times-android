@@ -60,6 +60,7 @@ public class SemerkandTimes extends WebTimes {
         List<Day> result = Ion.with(App.get())
                 .load("http://semerkandtakvimi.semerkandmobile.com/salaattimes?year=" + year + "&"
                         + (type == 'c' ? "cityId=" : "districtId=") + id)
+                .userAgent(App.getUserAgent())
                 .as(new TypeToken<List<Day>>() {
                 })
                 .get();

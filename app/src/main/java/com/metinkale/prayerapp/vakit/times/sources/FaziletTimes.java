@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.metinkale.prayerapp.utils.Utils.az;
 
+@Deprecated
 public class FaziletTimes extends WebTimes {
 
     @SuppressWarnings({"unused", "WeakerAccess"})
@@ -44,6 +45,17 @@ public class FaziletTimes extends WebTimes {
         super(id);
     }
 
+    public static String getDeprecatedText() {
+        return "Namaz Vakti Android Uygulaması ile tek Uygulamada değişik Takvimlerin Vakitlerine bakabiliyorsunuz.\n\n" +
+                "Vakitler için Fazilet Takvimini kullanan birçok kullanıcı var. Fazilet Takvimi Vakitleri için www.FaziletTakvimi.com sayfasındaki bilgiler kullanılıyordu. " +
+                "Bu sayfa malesef artık Namaz Vakitleri göstermiyor.\n\n" +
+                "Fazilet Takvimin ücretsiz Uygulaması'da artık çalısmıyor, sadece bir ücretli Uygulamaları var.\n\n" +
+                "Dolayısıyla bu uygulamadada artık Fazilet Takvimi Vakitleri indiremiyeceksiniz.\n\n" +
+                "Önceden indirilmiş Vakitler varsa bunları kullanabilirsiniz, fakat yeni Vakitler güncellenmiyecektir.\n\n" +
+                "Bu engelleme Fazilet Takvimi tarafından, benim yapabileceğim birşey yok malesef.\n" +
+                "İsterseniz Namaz Vakti Android Uygulamasında başka bir Takvim seçebilirsiniz. Fazilet Takvimi için ücretli Uygulamalarını satın almanız gerekiyor.";
+    }
+
     @NonNull
     @Override
     public Source getSource() {
@@ -51,84 +63,8 @@ public class FaziletTimes extends WebTimes {
     }
 
 
-    protected boolean sync() throws ExecutionException, InterruptedException {
-        String[] a = getId().split("_");
-
-        if (a.length < 3) {
-            Crashlytics.setString("FAZILET_ID", getId());
-            Crashlytics.logException(new Exception("INVALID ID IN FAZILET"));
-            this.delete();
-            return false;
-        }
-        int country = Integer.parseInt(a[0]);
-        int state = Integer.parseInt(a[1]);
-        int city = Integer.parseInt(a[2]);
-
-
-        LocalDate ldate = LocalDate.now();
-        int Y = ldate.getYear();
-        int M = ldate.getMonthOfYear();
-
-
-        String result = Ion.with(App.get())
-                .load("http://www.fazilettakvimi.com/tr/namaz_vakitleri.html")
-                .setTimeout(3000)
-                .setBodyParameter("ulke_id", "" + country)
-                .setBodyParameter("sehir_id", "" + state)
-                .setBodyParameter("ilce_id", "" + city)
-                .setBodyParameter("baslangic_tarihi", Y + "-" + az(M) + "-01")
-                .setBodyParameter("bitis_tarihi", (Y + 5) + "-12-31")
-                .asString().get();
-
-
-        List<String> ay = new ArrayList<>();
-        ay.add("Ocak");
-        ay.add("Şubat");
-        ay.add("Mart");
-        ay.add("Nisan");
-        ay.add("Mayıs");
-        ay.add("Haziran");
-        ay.add("Temmuz");
-        ay.add("Ağustos");
-        ay.add("Eylül");
-        ay.add("Ekim");
-        ay.add("Kasım");
-        ay.add("Aralık");
-
-        int c = 0;
-        String lines[] = result.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            if (line.contains("<tr class=\"acik\">") || line.contains("<tr class=\"koyu\">")) {
-                String date = extractLine(lines[++i]);
-                String[] dd = date.split(" ");
-                int d = Integer.parseInt(dd[0]);
-                int m = ay.indexOf(dd[1]) + 1;
-                int y = Integer.parseInt(dd[2]);
-                String[] times = new String[8];
-
-                times[0] = extractLine(lines[++i]);//2
-
-                times[6] = extractLine(lines[++i]);//3
-
-                times[1] = extractLine(lines[++i]);//4
-                i++;//5
-                times[2] = extractLine(lines[++i]);//6
-                times[3] = extractLine(lines[++i]);//7
-
-                times[7] = extractLine(lines[++i]);//8
-
-                times[4] = extractLine(lines[++i]);//9
-                times[5] = extractLine(lines[++i]);//10
-
-
-                setTimes(new LocalDate(y, m, d), times);
-                c++;
-
-            }
-        }
-
-        return c > 25;
+    protected boolean sync() {
+        return true;
     }
 
 

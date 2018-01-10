@@ -33,6 +33,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,8 +41,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,7 @@ import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
+import com.metinkale.prayerapp.vakit.times.sources.FaziletTimes;
 import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -92,7 +96,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
             if ((mTimes != null) && !mTimes.isDeleted()) {
                 checkKerahatAndIssues();
-                if(mTimes.isAutoLocation())
+                if (mTimes.isAutoLocation())
                     mTitle.setText(mTimes.getName());
 
                 int next = mTimes.getNext();
@@ -119,6 +123,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
 
     };
+
 
     @Override
     public void onCreate(Bundle bdl) {
@@ -168,6 +173,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 tv.setText(Vakit.getByIndex(i).getString());
             }
         }
+
 
         return mView;
     }
@@ -502,6 +508,35 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
     public Times getTimes() {
         return mTimes;
     }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (menuVisible && mTimes != null && mTimes.getSource() == Source.Fazilet) {
+            mHandler.postDelayed(mShowFaziletDeprecationAlert, 1000);
+        } else {
+            mHandler.removeCallbacks(mShowFaziletDeprecationAlert);
+        }
+    }
+
+    //TODO to be removed after some time
+    private static boolean FAZILETDEPRATIONALERTALREADYSHOWN = false;
+    private Runnable mShowFaziletDeprecationAlert = new Runnable() {
+        @Override
+        public void run() {
+            if (FAZILETDEPRATIONALERTALREADYSHOWN) return;
+            FAZILETDEPRATIONALERTALREADYSHOWN = true;
+            new AlertDialog.Builder(getActivity()).setTitle("Fazilet Takvimi")
+                    .setMessage(FaziletTimes.getDeprecatedText())
+                    .setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    };
 
     @Override
     public void onResume() {

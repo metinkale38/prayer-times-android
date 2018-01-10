@@ -238,4 +238,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public Locale getSystemLocale() {
         return mSystemLocale;
     }
+
+    public static String getUserAgent(){
+        return "Android/Prayer-Times com.metinkale.prayer (contact: metinkale38@gmail.com)";
+    }
 }

@@ -17,30 +17,14 @@
 package com.metinkale.prayerapp.vakit.times.sources;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.fragments.CalcTimeConfDialogFragment;
@@ -60,7 +44,6 @@ public class CalcTimes extends Times {
     private String adjMethod;
     private String juristic;
     private double[] customMethodParams = new double[6];
-    private transient PrayTimes mPrayTime;
     private PrayTimes prayTimes;
 
 
@@ -85,9 +68,9 @@ public class CalcTimes extends Times {
 
 
     public PrayTimes getPrayTimes() {
-        if (mPrayTime == null) {
-            mPrayTime = new PrayTimes();
-            mPrayTime.setCoordinates(getLat(), getLng(), 0);
+        if (prayTimes == null) {
+            prayTimes = new PrayTimes();
+            prayTimes.setCoordinates(getLat(), getLng(), 0);
             if (method == null) {
                 Ion.with(App.get())
                         .load("http://api.geonames.org/timezoneJSON?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
@@ -98,7 +81,7 @@ public class CalcTimes extends Times {
                                 if (e != null) Crashlytics.logException(e);
                                 if (result != null)
                                     try {
-                                        mPrayTime.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
+                                        prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
                                     } catch (Exception ee) {
                                         Crashlytics.logException(ee);
                                     }
@@ -116,7 +99,7 @@ public class CalcTimes extends Times {
                                 try {
                                     double m = Double.parseDouble(result);
                                     if (m < -9000) m = 0;
-                                    mPrayTime.setCoordinates(getLat(), getLng(), m);
+                                    prayTimes.setCoordinates(getLat(), getLng(), m);
                                 } catch (Exception ee) {
                                     Crashlytics.logException(ee);
                                 }
@@ -125,28 +108,28 @@ public class CalcTimes extends Times {
             }
 
             if (method != null && !"Custom".equals(method)) {
-                mPrayTime.setMethod(Method.valueOf(method));
+                prayTimes.setMethod(Method.valueOf(method));
             } else {
-                mPrayTime.setFajrDegrees(customMethodParams[0]);
-                mPrayTime.setDhuhrMins(customMethodParams[2]);
-                mPrayTime.setIshaTime(customMethodParams[4], customMethodParams[3] == 1);
+                prayTimes.setFajrDegrees(customMethodParams[0]);
+                prayTimes.setDhuhrMins(customMethodParams[2]);
+                prayTimes.setIshaTime(customMethodParams[4], customMethodParams[3] == 1);
             }
 
             if ("Hanafi".equals(juristic))
-                mPrayTime.setAsrJuristic(Constants.JURISTIC_HANAFI);
+                prayTimes.setAsrJuristic(Constants.JURISTIC_HANAFI);
             else if ("Shafii".equals(juristic))
-                mPrayTime.setAsrJuristic(Constants.JURISTIC_STANDARD);
+                prayTimes.setAsrJuristic(Constants.JURISTIC_STANDARD);
 
             if (adjMethod != null)
                 switch (adjMethod) {
                     case "AngleBased":
-                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
+                        prayTimes.setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
                         break;
                     case "OneSeventh":
-                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_ONESEVENTH);
+                        prayTimes.setHighLatsAdjustment(Constants.HIGHLAT_ONESEVENTH);
                         break;
                     case "MidNight":
-                        mPrayTime.setHighLatsAdjustment(Constants.HIGHLAT_NIGHTMIDDLE);
+                        prayTimes.setHighLatsAdjustment(Constants.HIGHLAT_NIGHTMIDDLE);
                         break;
                 }
             method = null;
@@ -154,7 +137,7 @@ public class CalcTimes extends Times {
             adjMethod = null;
             customMethodParams = null;
         }
-        return mPrayTime;
+        return prayTimes;
     }
 
     @SuppressLint("InflateParams")
@@ -162,11 +145,6 @@ public class CalcTimes extends Times {
         CalcTimeConfDialogFragment frag = new CalcTimeConfDialogFragment();
         frag.setArguments(bdl);
         frag.show(c.getSupportFragmentManager(), "dlg");
-
-        //  t.setName(bdl.getString("city"));
-        // t.setLat(bdl.getDouble("lat"));
-        //t.setLng(bdl.getDouble("lng"));
-        //t.setAutoLocation(bdl.getBoolean("autoCity"));
 
     }
 
@@ -178,7 +156,6 @@ public class CalcTimes extends Times {
 
     @Override
     public String _getTime(@NonNull LocalDate date, int time) {
-        getPrayTimes().setCoordinates(getLat(), getLng(), 0);
         getPrayTimes().setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
         switch (time) {
             case 0:
@@ -206,4 +183,5 @@ public class CalcTimes extends Times {
         this.prayTimes = prayTimes;
         save();
     }
+
 }

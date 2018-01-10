@@ -76,6 +76,7 @@ class TimesBase {
     private double timezone;
     private double lng;
     private double lat;
+    private double elv;
     private int sortId = Integer.MAX_VALUE;
     private int[] minuteAdj = new int[6];
 
@@ -182,13 +183,13 @@ class TimesBase {
         ID = id;
         source = getSource().name();
 
-        boolean hasOngoing=false;
-        for(Times time: getTimes()){
-            if(time.isOngoingNotificationActive())
-                hasOngoing=true;
+        boolean hasOngoing = false;
+        for (Times time : getTimes()) {
+            if (time.isOngoingNotificationActive())
+                hasOngoing = true;
         }
 
-        if(!hasOngoing)
+        if (!hasOngoing)
             setOngoingNotificationActive(true);
     }
 
@@ -281,11 +282,19 @@ class TimesBase {
         return lat;
     }
 
+    public synchronized double getElv() {
+        return elv;
+    }
+
     public synchronized void setLat(double value) {
         lat = value;
         save();
     }
 
+    public synchronized void setElv(double elv) {
+        this.elv = elv;
+        save();
+    }
 
     @NonNull
     public synchronized int[] getMinuteAdj() {

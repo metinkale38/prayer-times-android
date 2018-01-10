@@ -77,6 +77,7 @@ public class MoroccoTimes extends WebTimes {
             }
             String result = Ion.with(App.get())
                     .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId() + "&mois=" + M)
+                    .userAgent(App.getUserAgent())
                     .setTimeout(3000)
                     .asString()
                     .get();

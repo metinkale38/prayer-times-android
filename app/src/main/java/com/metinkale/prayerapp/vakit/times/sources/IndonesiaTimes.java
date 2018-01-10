@@ -69,6 +69,7 @@ public class IndonesiaTimes extends WebTimes {
     private int syncDate(LocalDate date) throws ExecutionException, InterruptedException {
         JsonObject result = Ion.with(App.get())
                 .load("http://sihat.kemenag.go.id/site/get_waktu_sholat")
+                .userAgent(App.getUserAgent())
                 .setHeader("Referer", "http://sihat.kemenag.go.id/waktu-sholat")
                 .setBodyParameter("tahun", date.getYear() + "")
                 .setBodyParameter("bulan", date.getMonthOfYear() + "")

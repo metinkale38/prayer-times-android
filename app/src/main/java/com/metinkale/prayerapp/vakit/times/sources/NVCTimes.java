@@ -90,6 +90,7 @@ public class NVCTimes extends WebTimes {
     protected boolean sync() throws ExecutionException, InterruptedException {
         String result = Ion.with(App.get())
                 .load("http://namazvakti.com/XML.php?cityID=" + getId())
+                .userAgent(App.getUserAgent())
                 .setTimeout(3000)
                 .asString().get();
         int i = 0;

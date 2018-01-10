@@ -327,6 +327,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements Adapte
         ct.setName(getArguments().getString("city"));
         ct.setLat(mPrayTimes.getLatitude());
         ct.setLng(mPrayTimes.getLongitude());
+        ct.setElv(mPrayTimes.getElevation());
 
         Answers.getInstance().logCustom(new CustomEvent("AddCity")
                 .putCustomAttribute("Source", Source.Calc.name())

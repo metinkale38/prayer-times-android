@@ -72,6 +72,7 @@ public class MalaysiaTimes extends WebTimes {
                     .load("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" + split[0] + "&state=" + split[0] + "&zone=" + split[1] + "&year="
                             + Y + "&jenis=year&bulan=" + M)
                     .setTimeout(3000)
+                    .userAgent(App.getUserAgent())
                     .asString()
                     .get();
             String date = result.substring(result.indexOf("muatturun"));

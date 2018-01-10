@@ -86,6 +86,7 @@ public class LondonTimes extends WebTimes {
         Result r = Ion.with(App.get())
                 .load("https://www.londonprayertimes.com/api/times/?format=json&key=1e6f7b94-542d-4ff7-94cc-e9c8e0bd2e64&year=" + LocalDate.now().getYear())
                 .setTimeout(3000)
+                .userAgent(App.getUserAgent())
                 .as(Result.class)
                 .get();
         int i = 0;
