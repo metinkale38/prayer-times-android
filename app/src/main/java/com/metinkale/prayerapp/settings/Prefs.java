@@ -87,9 +87,7 @@ public class Prefs {
     }
 
     public static boolean use12H() {
-        return !(getPrefs().getString("language", null) != null
-                && "ar".equals(getPrefs().getString("language", null)))
-                && getPrefs().getBoolean("use12h", false);
+        return getPrefs().getBoolean("use12h", false);
     }
 
     public static int getLastCalSync() {

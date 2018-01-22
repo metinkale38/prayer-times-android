@@ -21,6 +21,7 @@
     <string name="appNameFR" translatable="false">Horaires des prières</string>
     <string name="appNameRU" translatable="false">Расписание молитв</string>
     <string name="appNameNL" translatable="false">Gebedstijden</string>
+    <string name="appNameID" translatable="false">Waktu shalat</string>
     <string name="appNameKU" translatable="false">Demên Nimêjê</string>
     <string name="appNameBS" translatable="false">Vaktija</string>
 </resources>

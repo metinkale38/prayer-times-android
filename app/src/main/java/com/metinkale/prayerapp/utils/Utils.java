@@ -16,12 +16,8 @@
 
 package com.metinkale.prayerapp.utils;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -37,8 +33,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.HicriDate;
@@ -47,7 +41,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 
 import org.joda.time.LocalDate;
 
-import java.util.Arrays;
+import java.text.DateFormatSymbols;
 import java.util.Locale;
 
 public class Utils {
@@ -202,7 +196,10 @@ public class Utils {
     @Nullable
     public static String getGregMonth(int which) {
         if (sGMonths == null) {
-            sGMonths = App.get().getResources().getStringArray(R.array.months);
+            if (Prefs.getLanguage().equals("system"))
+                sGMonths = new DateFormatSymbols(getLocale()).getMonths();
+            else
+                sGMonths = App.get().getResources().getStringArray(R.array.months);
         }
         return sGMonths[which];
     }

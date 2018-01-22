@@ -171,6 +171,18 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
+            android:name=".aliasID"
+            android:enabled="false"
+            android:label="@string/appNameID"
+            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
             android:name=".aliasKU"
             android:enabled="false"
             android:label="@string/appNameKU"

@@ -44,6 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/source"
         android:layout_alignStart="@+id/source"
+        android:layout_alignRight="@+id/source"
+        android:layout_alignEnd="@+id/source"
         android:layout_below="@+id/source"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -66,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@null"
         android:scaleType="center"
         app:materialIcon="reorder_horizontal"

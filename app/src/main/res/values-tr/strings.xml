@@ -31,7 +31,7 @@
   <string name="backupRestore">Yedekle/Geri Yükle</string>
   <string name="beforeSun">Güneş\'den önce</string>
   <string name="blackWidget">Siyah Widget</string>
-  <string name="calcMethod">Metot</string>
+  <string name="calcMethod">Yöntem</string>
   <string name="calendar">Dini Günler</string>
   <string name="calendarIntegration">Dini Günler\'i Takvime yaz</string>
   <string name="cancel">Iptal</string>
@@ -60,7 +60,7 @@
   <string name="error">Hata oluştu</string>
   <string name="imsak">İmsak</string>
   <string name="fajr">İmsak</string>
-  <string name="highlatsAdj">Sabah/Yatsı düzenleme:</string>
+  <string name="highlatsAdj">Yüksek enlemlerde ayarlama:</string>
   <string name="fasting">Oruç</string>
   <string name="favorite">Favori</string>
   <string name="filePicker">Dosyalardan seç</string>
@@ -202,7 +202,7 @@
   <string name="zoomOut">Küçült</string>
   <string name="zuhr">Öğle</string>
   <string name="calculated">Hesaplanmış</string>
-  <string name="beta_tester">MyTest sürümünü kullan</string>
+  <string name="beta_tester">Test sürümünü kullan</string>
   <string name="widgetClock2">Namaz Vakti - Saat 2*2</string>
   <string name="numbers">Rakamlar</string>
   <string name="dateFormat3">31 Aralık</string>
@@ -266,8 +266,11 @@
   <string name="shareText">Namaz Vakti Uygulamasını indir: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
   <string name="share_sum">Bu app başkalarıyla paylaş!</string>
   <string name="showIntro_sum">Bu Uygulamanın tanıtımı göster</string>
-  <string name="intro_menu">Çekmece menü aracılığıyla bu app tüm özelliklerine erişebilirsin</string>
+  <string name="intro_menu">Çekmece menü aracılığıyla bu Uygulamanın tüm özelliklerine erişebilirsin</string>
   <string name="intro_pager">Istediğin sayıda şehirler ekleyebilirsin</string>
   <string name="intro_config">Yukarı/aşağı yiterek Imsakiyeyi ve ayarlarına ulaşabilirsin.</string>
   <string name="intro_config2">Saat simgesine basarak bildirim ayarından Ezan okunmasını ayarlayabilirsiniz.</string>
+  <string name="compass_type_reminder">Buraya basarak Kıble\'yi bulmak için değişik yöntemler deneyebilirsiniz.</string>
+  <string name="autoLocation">Otomatik konum</string>
+  <string name="stop">Durdur</string>
 </resources>

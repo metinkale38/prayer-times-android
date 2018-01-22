@@ -31,7 +31,6 @@
   <string name="backupRestore">Restauration de sauvegarde</string>
   <string name="beforeSun">Avant le lever du soleil</string>
   <string name="blackWidget">Widget noir</string>
-  <string name="calcMethod">Méthode</string>
   <string name="calendar">Jours saints</string>
   <string name="calendarIntegration">Intégration des jours saints dans le calendrier</string>
   <string name="cancel">Annuler</string>
@@ -58,6 +57,7 @@
   <string name="earlyNotification">notification précoce</string>
   <string name="earlyText">reste %1$s %2$s minutes</string>
   <string name="error">Une erreur est survenue</string>
+  <string name="imsak">Imsak</string>
   <string name="fajr">Fajr</string>
   <string name="fasting">Ramadan</string>
   <string name="favorite">Préféré</string>
@@ -247,6 +247,26 @@
   <string name="widget_current_vakit">Widget - Indicateur horaire alternatif</string>
   <string name="support_development">Soutenir le développement</string>
   <string name="widget">Widget</string>
+  <string name="showLegacyWidgets">Afficher les mentions des widgets</string>
   <string name="showLegacyWidgetsSummary">N’utiliser que si vous avez des problèmes avec vos Widgets</string>
   <string name="pleaseDeleteAndReadd">S’il vous plaît supprimer cette ville et ajouter la de nouveau.</string>
+  <string name="showExtraTimes">Voir les prières du matin et du \'Asr</string>
+  <string name="showExtraTimesSummary">Uniquement pour FaziletTakvimi.com, NamazVakti.com et calculées</string>
+  <string name="noAdjustment">Aucun réglage</string>
+  <string name="customCalc">Personnalisé</string>
+  <string name="customCalcDesc">Personnalisé les paramètres de calcul</string>
+  <string name="systemLang">Langue système</string>
+  <string name="showIntro">Lancer la demo</string>
+  <string name="continue_">Suivant</string>
+  <string name="back">Retour</string>
+  <string name="finish">Terminé</string>
+  <string name="shareText">Hé, Découvrez cette application pour les horaires de prières : https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+  <string name="share_sum">Partager cette application avec les autres !</string>
+  <string name="showIntro_sum">Afficher les démos de l\'application</string>
+  <string name="intro_menu">Accéder à toutes les fonctionnalités de cette application via le Menu latéral</string>
+  <string name="intro_pager">Vous pouvez ajouter autant de villes que vous souhaitez</string>
+  <string name="intro_config">En glissant vers le haut/bas, vous pouvez accéder à la vue mensuelle et les paramètres de la ville.</string>
+  <string name="intro_config2">Appuyer sur l’icône Alarme du menu pour accéder au réglages des notification et configurer l’Adhan.</string>
+  <string name="compass_type_reminder">Cliquez ici pour essayer les différentes méthodes de détection de la Qibla.</string>
+  <string name="autoLocation">Position automatique</string>
 </resources>

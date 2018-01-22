@@ -31,7 +31,6 @@
   <string name="backupRestore">Backup/Restore</string>
   <string name="beforeSun">Prije izlaska sunca</string>
   <string name="blackWidget">Crni widget</string>
-  <string name="calcMethod">Način</string>
   <string name="calendar">Islamski blagdani</string>
   <string name="calendarIntegration">Integracija kalendara</string>
   <string name="cancel">Poništi</string>
@@ -60,7 +59,6 @@
   <string name="error">Greška nastala</string>
   <string name="imsak">Imsak</string>
   <string name="fajr">Sabah</string>
-  <string name="highlatsAdj">Sabah/Jacija podešavanje:</string>
   <string name="fasting">Post</string>
   <string name="favorite">Favorit</string>
   <string name="filePicker">Birač fajla</string>
@@ -257,4 +255,18 @@
   <string name="noAdjustment">Bez podešavanja</string>
   <string name="customCalc">Prilagođeno</string>
   <string name="customCalcDesc">Koristi prilagođene parametre za proračun vremena</string>
+  <string name="systemLang">Jezik sustava</string>
+  <string name="showIntro">Pokaži uvod</string>
+  <string name="continue_">Nastavi</string>
+  <string name="back">Nazad</string>
+  <string name="finish">Završeno</string>
+  <string name="shareText">Hej, pogledaj i ovu aplikaciju za namaska vremena: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+  <string name="share_sum">Podjeli ovu aplikaciju sa drugima!</string>
+  <string name="showIntro_sum">Pokaži uvod za ovu aplikaciju</string>
+  <string name="intro_menu">Kroz meni sa strane možeš doći do svih funkcija ove aplikacije</string>
+  <string name="intro_pager">Možeš dodadati gradova koliko hoćeš</string>
+  <string name="intro_config">Sa brisanjem gore/dole možeš doći do mjesečnog prikaza i do postavki za grad.</string>
+  <string name="intro_config2">Pritisni sličicu za alarm u izborniku da bi došao do postavki za obavijest ezana.</string>
+  <string name="compass_type_reminder">Pritisnite ovdje da isprobate različite metode za pronalaženje ispravnog pravca kible.</string>
+  <string name="autoLocation">Automatska lokacija</string>
 </resources>

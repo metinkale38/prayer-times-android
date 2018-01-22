@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 <resources>
-  <string name="activateForMorePrefs">للمزيد من الإعدادات الرجاء التفعيل</string>
+  <string name="activateForMorePrefs">قم بالتفعيل للمزيد من الخصائص</string>
   <string name="adhanVolume">حدة صوت الأذان</string>
   <string name="adjAngle">إستناداً إلى درجة الميلان ( الدرجة \ ٦٠ من الليل)</string>
   <string name="adjMidnight">منتصف الليل</string>
@@ -31,7 +31,6 @@
   <string name="backupRestore">إستعادة المحفوظ</string>
   <string name="beforeSun">قبل الشروق</string>
   <string name="blackWidget">ودجيت أسود</string>
-  <string name="calcMethod">طريقة الحساب</string>
   <string name="calendar">مناسبات إسلامية</string>
   <string name="calendarIntegration">إدراج التقويم</string>
   <string name="cancel">إلغاء</string>
@@ -91,7 +90,7 @@
   <string name="hmonth7">رجب</string>
   <string name="hmonth8">شعبان</string>
   <string name="hmonth9">رمضان</string>
-  <string name="hmonth10">شول</string>
+  <string name="hmonth10">شوّال</string>
   <string name="hmonth11">ذو القعدة</string>
   <string name="hmonth12">ذو الحجة</string>
   <string name="holyday1">بداية السنة الهجرية</string>
@@ -130,6 +129,7 @@
   <string name="names">أسماء الله الحسنى </string>
   <string name="newAddCity">إختيار مدينة جديدة</string>
   <string name="newDhikr">ذِكر جديد</string>
+  <string name="noConnection">لا يوجد اتصال</string>
   <string name="noFavs">لا توجد مفضلة</string>
   <string name="no">كلا</string>
   <string name="notification">تنبيه</string>
@@ -165,7 +165,7 @@
   <string name="sendMail">إرسال بريد إلكتروني</string>
   <string name="settings">إعدادات</string>
   <string name="share">مشاركة</string>
-  <string name="shareTimes">أرسل أقوات الصلاة لهذا اليوم لـ %1$s</string>
+  <string name="shareTimes">أرسل أوقات الصلاة لهذا اليوم لـ %1$s</string>
   <string name="showMore">إظهار المزيد</string>
   <string name="silenterDuration">مدة تفعيل حالة الصامت</string>
   <string name="silenterType">الوضع الصامت</string>
@@ -205,7 +205,7 @@
   <string name="witr">الوتر</string>
   <string name="yes">نعم</string>
   <string name="zoomIn">تكبيرالصورة</string>
-  <string name="zoomOut">تغير الصورة</string>
+  <string name="zoomOut">تصغير الصورة</string>
   <string name="zuhr">الظهر</string>
   <string name="calculated">حسابياً</string>
   <string name="beta_tester">جرب الإصدارات  التجريبية من التطبيق</string>
@@ -260,4 +260,24 @@
   <string name="showLegacyWidgets">إعرض عناصر ويدجيت القديمة</string>
   <string name="showLegacyWidgetsSummary">استخدم فقط إذا كان لديك مشاكل مع عناصر الويدجيت</string>
   <string name="pleaseDeleteAndReadd">الرجاء حذف هذه المدينة وإعادة إضافتها.</string>
+  <string name="showExtraTimesSummary">تعمل فقط مع المواقيت المحسوبة ومع 
+FaziletTakvimi.com, NamazVakti.com</string>
+  <string name="noAdjustment">بدون تعديلات</string>
+  <string name="customCalc">تخصيص</string>
+  <string name="customCalcDesc">اعدادات متقدمة</string>
+  <string name="systemLang">لغة النظام</string>
+  <string name="showIntro">عرض التعريف</string>
+  <string name="continue_">مواصلة</string>
+  <string name="back">عودة</string>
+  <string name="finish">تـم</string>
+  <string name="shareText">مهلا، تحقق من هذا التطبيق الخاص بأوقات الصلاة:
+https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+  <string name="share_sum">تقاسم هذا التطبيق مع الآخرين!</string>
+  <string name="showIntro_sum">عرض التعريف بهذا التطبيق</string>
+  <string name="intro_menu">يمكنك ولوج كافة الميزات عبر القائمة الجانبية للتطبيق</string>
+  <string name="intro_pager">تستطيع اضافة ما تشاء من المدن</string>
+  <string name="intro_config">بالسحب اعلا/اسفل تستطيع ولوج القائمة الشهرية و اعدادات المدينة.</string>
+  <string name="intro_config2">يمكنك الوصول إلى اعدادات الاشعارات لتعديل الاذان بالنقر على ايقونة المنبه في القائمة.</string>
+  <string name="compass_type_reminder">انقر هنا للبحث عن الجهة الصحيحة للقبلة.</string>
+  <string name="autoLocation">تحديد الموقع تلقائيا</string>
 </resources>
