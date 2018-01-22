@@ -1,3 +1,14 @@
+### Version 3.7
+- added auto location support
+- added Introduction
+- added Indonesian support
+- added Indonesian prayer times
+- added Qibla Time
+- added Londonprayertimes.com prayer times
+- improved custom calculation settings
+- better support CSV Prayer times
+- some fixes and improvements
+
 ### Version 3.6.6
 - added Bosnian Support
 - added additional morning prayer and Asr-Sani for Fazilet ve NamazVakti.com

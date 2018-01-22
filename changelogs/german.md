@@ -1,3 +1,13 @@
+### Version 3.7
+- Automatischer Standort wurde hinzugefügt
+- Qibla Ermittlung durch Uhrzeit wurde hinzugefügt
+- Einführung wurde hinzugefügt
+- Indonesiche Sprache und Gebetszeiten wurden hinzugefügt
+- Zeiten aus Londonprayertimes.com wurden hinzugefügt
+- Einstellungen für berechnete Zeiten wurden verbessert
+- CSV Unterstützung wurde verbessert
+- einige Fehlerbehebungen und Verbesserungen wurden durchgeführt
+
 ### Version 3.6.6
 - Bosnische Sprachunterstützung
 - Morgengebet und Asr-Sani für für Fazilet ve NamazVakti.com hinzugefügt

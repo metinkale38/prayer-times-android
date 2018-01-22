@@ -1,3 +1,13 @@
+### Version 3.7
+- otomatik konum değistirme eklendi
+- Tanıtım eklendi
+- Endonezya Dili ve Namaz Vakitleri eklendi
+- Kıble Saati eklendi
+- Londonprayertimes.com Vakitleri eklendi
+- Hesaplanmiş Vakitler Ayarları değiştirildi
+- CSV okuması geliştirildi
+- hatalar düzeltildi ve birkaç değişiklik yapıldı
+
 ### Version 3.6.6
 - Bosnaca eklendi
 - Fazilet ve NamazVakti.com için Asr-Sanı ve Sabah Namazı eklendi

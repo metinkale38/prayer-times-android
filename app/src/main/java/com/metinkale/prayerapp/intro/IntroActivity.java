@@ -32,14 +32,10 @@ import android.widget.Button;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.MainActivity;
-import com.metinkale.prayerapp.compass.classes.math.Util;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
-import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
-import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
-import com.squareup.haha.perflib.Main;
 
 import java.lang.reflect.Field;
 import java.util.Locale;
