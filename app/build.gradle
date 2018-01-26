@@ -118,7 +118,7 @@ dependencies {
     implementation('com.mikepenz:aboutlibraries:5.8.5@aar') {
         transitive = true
     }
-    implementation project(':pray-times')
+    implementation 'org.metinkale:praytimes:0.9.3'
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.android.support:percent:26.1.0'

@@ -17,7 +17,7 @@
 apply plugin: 'java'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
 
 sourceCompatibility = "1.8"
