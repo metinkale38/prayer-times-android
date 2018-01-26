@@ -41,7 +41,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.metinkale.prayer.R;
 
 @SuppressWarnings("MissingPermission")
-public class FragMap extends Fragment implements Main.MyCompassListener, MapboxMap.OnMyLocationChangeListener {
+public class FragMap extends Fragment implements CompassFragment.MyCompassListener, MapboxMap.OnMyLocationChangeListener {
 
     private MapView mMapView;
     private LocationServices mLocService;
