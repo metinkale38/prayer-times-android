@@ -189,7 +189,7 @@ class TimesBase {
                 hasOngoing = true;
         }
 
-        if (!hasOngoing)
+        if (!hasOngoing && id > 0)
             setOngoingNotificationActive(true);
     }
 

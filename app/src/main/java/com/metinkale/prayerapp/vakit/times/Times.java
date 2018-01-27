@@ -121,9 +121,16 @@ public abstract class Times extends TimesBase {
     }
 
     public static void notifyDataSetChanged() {
-        Iterator<OnTimesListChangeListener> iterator = sListeners.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().notifyDataSetChanged();
+        Iterator<OnTimesListChangeListener> iter = sListeners.iterator();
+        //noinspection WhileLoopReplaceableByForEach
+        while (iter.hasNext()) {
+            OnTimesListChangeListener list = iter.next();
+
+            try {
+                list.notifyDataSetChanged();
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+            }
         }
     }
 

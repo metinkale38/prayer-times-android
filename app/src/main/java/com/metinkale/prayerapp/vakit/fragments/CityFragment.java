@@ -205,17 +205,8 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         mHicri.setText(Utils.format(hijr));
         mDate.setText(Utils.format(greg));
 
-        String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
-
-        boolean synced = false;
-        for (int i = 0; i < 6; i++) {
-
-            TextView time = mView.findViewById(ids[i]);
-            time.setText(Utils.fixTimeForHTML(daytimes[i]));
-            if (!synced && daytimes[i].equals("00:00") && mTimes instanceof WebTimes && App.isOnline()) {
-                ((WebTimes) mTimes).syncAsync();
-                synced = true;
-            }
+        if (!updateTimes() && mTimes instanceof WebTimes && App.isOnline()) {
+            ((WebTimes) mTimes).syncAsync();
         }
 
         if (Prefs.showExtraTimes() && (mTimes.getSource() == Source.Fazilet
@@ -226,6 +217,32 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
             mHandler.postDelayed(mAltTimes, 3000);
         }
 
+    }
+
+    private boolean updateTimes() {
+        LocalDate greg = LocalDate.now();
+        String[] daytimes = {mTimes.getTime(greg, 0), mTimes.getTime(greg, 1), mTimes.getTime(greg, 2), mTimes.getTime(greg, 3), mTimes.getTime(greg, 4), mTimes.getTime(greg, 5)};
+
+        boolean hasTimes = false;
+        for (int i = 0; i < 6; i++) {
+
+            TextView time = mView.findViewById(ids[i]);
+            time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            if (!daytimes[i].equals("00:00")) {
+                hasTimes = true;
+            }
+        }
+
+        if (!hasTimes) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    updateTimes();
+                }
+            }, 1000);
+        }
+
+        return hasTimes;
     }
 
 

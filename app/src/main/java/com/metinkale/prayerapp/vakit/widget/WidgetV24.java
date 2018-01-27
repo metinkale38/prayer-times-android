@@ -387,8 +387,8 @@ public class WidgetV24 {
 
         remoteViews.setViewPadding(R.id.progresscontainer, width / 10, 0, width / 10, 0);
         remoteViews.setViewPadding(R.id.time, 0, -height / 6, 0, -height / 7);
-        remoteViews.setViewPadding(R.id.greg, width / 10, 0, width / 10, 0);
-        remoteViews.setViewPadding(R.id.hicri, width / 10, 0, width / 10, 0);
+        remoteViews.setViewPadding(R.id.greg, width / 10, 0, 0, 0);
+        remoteViews.setViewPadding(R.id.hicri, 0, 0, width / 10, 0);
         remoteViews.setViewPadding(R.id.lastTime, width / 10, 0, width / 10, -width / 60);
         remoteViews.setViewPadding(R.id.lastText, width / 10, 0, width / 10, 0);
         remoteViews.setViewPadding(R.id.nextTime, width / 10, 0, width / 10, -width / 60);

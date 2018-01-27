@@ -54,7 +54,7 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 192
+        versionCode 193
         versionName '3.7'
         multiDexEnabled false
         vectorDrawables.useSupportLibrary = true
