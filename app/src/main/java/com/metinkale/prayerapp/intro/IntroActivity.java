@@ -19,6 +19,7 @@ package com.metinkale.prayerapp.intro;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -87,17 +88,17 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
 
         if (Times.getCount() < 2) {
             if (Locale.getDefault().getLanguage().equals(new Locale("tr").getLanguage())) {
-                CalcTimes.buildTemporaryTimes("Mekke", 21.4260221, 39.8296538, -1);
-                CalcTimes.buildTemporaryTimes("Kayseri", 38.7333333333333, 35.4833333333333, -2);
+                CalcTimes.buildTemporaryTimes("Mekke", 21.4260221, 39.8296538, -1).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Asia/Riyadh"));
+                CalcTimes.buildTemporaryTimes("Kayseri", 38.7333333333333, 35.4833333333333, -2).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Turkey"));
             } else if (Locale.getDefault().getLanguage().equals(new Locale("de").getLanguage())) {
-                CalcTimes.buildTemporaryTimes("Mekka", 21.4260221, 39.8296538, -1);
-                CalcTimes.buildTemporaryTimes("Braunschweig", 52.2666666666667, 10.5166666666667, -2);
+                CalcTimes.buildTemporaryTimes("Mekka", 21.4260221, 39.8296538, -1).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Asia/Riyadh"));
+                CalcTimes.buildTemporaryTimes("Braunschweig", 52.2666666666667, 10.5166666666667, -2).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Europe/Berlin"));
             } else if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
-                CalcTimes.buildTemporaryTimes("Mecque", 21.4260221, 39.8296538, -1);
-                CalcTimes.buildTemporaryTimes("Paris", 48.8566101, 2.3514992, -2);
+                CalcTimes.buildTemporaryTimes("Mecque", 21.4260221, 39.8296538, -1).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Asia/Riyadh"));
+                CalcTimes.buildTemporaryTimes("Paris", 48.8566101, 2.3514992, -2).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Europe/Paris"));
             } else {
-                CalcTimes.buildTemporaryTimes("Mecca", 21.4260221, 39.8296538, -1);
-                CalcTimes.buildTemporaryTimes("London", 51.5073219, -0.1276473, -2);
+                CalcTimes.buildTemporaryTimes("Mecca", 21.4260221, 39.8296538, -1).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Asia/Riyadh"));
+                CalcTimes.buildTemporaryTimes("London", 51.5073219, -0.1276473, -2).getPrayTimes().setTimezone(java.util.TimeZone.getTimeZone("Europe/London"));
             }
         }
 

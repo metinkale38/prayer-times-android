@@ -131,6 +131,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes-jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -171,7 +172,6 @@
     <orderEntry type="library" name="com.android.support:appcompat-v7-26.1.0" level="project" />
     <orderEntry type="library" name="com.koushikdutta.async:androidasync-2.1.9" level="project" />
     <orderEntry type="library" name="com.android.support:support-annotations:26.1.0@jar" level="project" />
-    <orderEntry type="library" name="org.metinkale:praytimes:0.9.3@jar" level="project" />
     <orderEntry type="library" name="com.android.support.constraint:constraint-layout-solver:1.0.2@jar" level="project" />
     <orderEntry type="library" name="com.google.guava:guava:18.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-core-utils-26.1.0" level="project" />
@@ -190,6 +190,7 @@
     <orderEntry type="library" name="com.squareup.okhttp3:okhttp:3.3.0@jar" level="project" />
     <orderEntry type="library" name="com.squareup.haha:haha:2.0.3@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-v4-26.1.0" level="project" />
+    <orderEntry type="library" name="org.metinkale:praytimes:0.9.3.1@jar" level="project" />
     <orderEntry type="library" name="com.squareup.leakcanary:leakcanary-android-1.5" level="project" />
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" name="net.vrallev.android:cat-1.0.5" level="project" />

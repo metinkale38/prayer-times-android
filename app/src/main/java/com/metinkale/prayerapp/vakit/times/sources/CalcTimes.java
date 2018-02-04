@@ -57,13 +57,14 @@ public class CalcTimes extends Times {
         super(id);
     }
 
-    public static void buildTemporaryTimes(String name, double lat, double lng, long id) {
+    public static CalcTimes buildTemporaryTimes(String name, double lat, double lng, long id) {
         CalcTimes t = new CalcTimes(id);
         t.setSource(Source.Calc);
         if (lat > 48)
             t.getPrayTimes().setHighLatsAdjustment(Constants.HIGHLAT_ANGLEBASED);
         t.setName(name);
         t.getPrayTimes().setCoordinates(lat, lng, 0);
+        return t;
     }
 
 

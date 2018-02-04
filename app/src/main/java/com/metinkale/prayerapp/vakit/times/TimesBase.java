@@ -26,8 +26,10 @@ import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
 import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
+import com.metinkale.prayerapp.vakit.times.gson.TimezoneSerializer;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.metinkale.prayerapp.vakit.times.Times.getIds;
 import static com.metinkale.prayerapp.vakit.times.Times.getTimes;
@@ -43,6 +45,7 @@ class TimesBase {
     static {
         GsonBuilder b = new GsonBuilder();
         BooleanSerializer booleanSerializer = new BooleanSerializer();
+        TimezoneSerializer tzSerializer = new TimezoneSerializer();
 
 
         RuntimeTypeAdapterFactory<Times> subTypeFactory = RuntimeTypeAdapterFactory
@@ -54,6 +57,8 @@ class TimesBase {
         b.registerTypeAdapterFactory(subTypeFactory);
         b.registerTypeAdapter(Boolean.class, booleanSerializer);
         b.registerTypeAdapter(boolean.class, booleanSerializer);
+        b.registerTypeAdapter(TimeZone.class, booleanSerializer);
+        b.registerTypeAdapter(TimeZone.class, tzSerializer);
 
         GSON = b.create();
     }
