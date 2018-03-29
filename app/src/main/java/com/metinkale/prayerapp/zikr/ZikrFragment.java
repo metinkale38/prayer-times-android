@@ -287,6 +287,10 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
         load(mCurrent);
     }
 
+    @Override
+    public boolean onlyPortrait() {
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

@@ -198,6 +198,8 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
     private Handler mHandler = new Handler();
 
     private Toast makeToast() {
+        if (getActivity() == null)
+            return null;
         Toast t = Toast.makeText(getActivity(), "", Toast.LENGTH_LONG);
         t.setView(getLayoutInflater().inflate(R.layout.compass_toast_menu, null, false));
         t.setGravity(Gravity.TOP | Gravity.RIGHT | Gravity.END, 0, 0);
@@ -215,13 +217,14 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
                 public void run() {
                     t.cancel();
                     final Toast t2 = makeToast();
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            t2.cancel();
-                            makeToast();
-                        }
-                    }, 1000);
+                    if (t2 != null)
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                t2.cancel();
+                                makeToast();
+                            }
+                        }, 1000);
                 }
             }, 1000);
         }
@@ -385,8 +388,13 @@ public class CompassFragment extends MainActivity.MainFragment implements Locati
     }
 
     @Override
+    public boolean onlyPortrait() {
+        return true;
+    }
+
+    @Override
     public void onLocationChanged(@NonNull Location location) {
-        if ((System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
+        if (getActivity() != null && (System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }

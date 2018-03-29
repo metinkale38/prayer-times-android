@@ -22,6 +22,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -141,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
+        if (savedInstanceState != null)
+            mNavPos = savedInstanceState.getInt("navPos", 0);
+
         String comp = getIntent().getComponent().getClassName();
         for (int i = 0; i < ACTS.length; i++) {
             if (comp.contains(ACTS[i])) {
@@ -191,6 +195,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("navPos", mNavPos);
+    }
+
     public void clearBackStack() {
         FragmentManager fm = getSupportFragmentManager();
 
@@ -207,6 +218,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 .beginTransaction()
                 .replace(R.id.basecontent, frag)
                 .commit();
+        if (frag instanceof MainFragment)
+            setRequestedOrientation(((MainFragment)frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
     public void moveToFrag(Fragment frag) {
@@ -216,6 +231,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 .replace(R.id.basecontent, frag)
                 .addToBackStack(null)
                 .commit();
+        if (frag instanceof MainFragment)
+            setRequestedOrientation(((MainFragment)frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
 
@@ -444,6 +463,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             super();
             setHasOptionsMenu(true);
         }
+
+        public boolean onlyPortrait() {
+            return false;
+        }
+
 
         public boolean onBackPressed() {
             return false;

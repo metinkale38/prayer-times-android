@@ -86,6 +86,11 @@ public class KazaFragment extends MainActivity.MainFragment {
     }
 
     @Override
+    public boolean onlyPortrait() {
+        return true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
