@@ -54,10 +54,10 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.utils.FileChooser;
 import com.metinkale.prayerapp.utils.PermissionUtils;
-import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.Cities;
 import com.metinkale.prayerapp.vakit.times.Entry;
 import com.metinkale.prayerapp.vakit.times.Source;
+import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
 import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -267,6 +267,10 @@ public class SearchCityFragment extends MainActivity.MainFragment implements OnI
 
     private void autoLocation() {
         mAdapter.clear();
+        if (mLocation == null) {
+            mAdapter.notifyDataSetChanged();
+            return;
+        }
         Entry item = new Entry();
         item.setName("GPS");
         item.setCountry("");

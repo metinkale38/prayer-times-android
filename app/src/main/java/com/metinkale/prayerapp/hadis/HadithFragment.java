@@ -59,6 +59,7 @@ import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.NumberDialog;
 import com.metinkale.prayerapp.utils.Utils;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -98,7 +99,6 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.hadis_main, container, false);
-        ;
 
         mPrefs = getActivity().getSharedPreferences("hadis", 0);
         mNumber = v.findViewById(R.id.number);
@@ -117,8 +117,7 @@ public class HadithFragment extends MainActivity.MainFragment implements OnClick
             setState(STATE_SHUFFLED);
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
-            //TODO !!!
-            // finish();
+            getBaseActivity().moveToFrag(new VakitFragment());
             String lang = Utils.getLanguage("en", "de", "tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             startActivity(new Intent(getActivity(), MainActivity.class));

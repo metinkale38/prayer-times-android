@@ -771,8 +771,6 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
                     region.union(frame.left, frame.top - deltaY, frame.right, frame.bottom - deltaY);
                     region.union(0, frame.bottom - deltaY, getWidth(), (frame.bottom - deltaY) + mContent.getHeight());
 
-                    // todo fix the region calc.
-                    // invalidate( region );
                     invalidate();
                 }
                 if (mOnDrawerScrollListener != null) {

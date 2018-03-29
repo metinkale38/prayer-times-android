@@ -119,7 +119,7 @@ public class VibrationPreference extends EditTextPreference {
             }
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        button.setId(R.id.button5);
+        button.setId(R.id.color5);
         layout.addView(editText);
         layout.addView(button);
         editText.setText(getPersistedString("0 300 150 300 150 500"), TextView.BufferType.NORMAL);

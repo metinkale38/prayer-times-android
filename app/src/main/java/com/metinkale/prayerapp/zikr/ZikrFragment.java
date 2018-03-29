@@ -26,7 +26,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar.OnNavigationListener;
+import android.support.v4.util.ArrayMap;
+import android.support.v4.view.MenuItemCompat;
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -37,9 +38,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.crashlytics.android.Crashlytics;
@@ -59,7 +62,7 @@ import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("deprecation")
-public class ZikrFragment extends MainActivity.MainFragment implements OnClickListener, OnNavigationListener, OnLongClickListener {
+public class ZikrFragment extends MainActivity.MainFragment implements OnClickListener, OnLongClickListener, AdapterView.OnItemSelectedListener {
 
     private SharedPreferences mPrefs;
     private ZikrView mZikr;
@@ -68,9 +71,10 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
     @Nullable
     private Zikr mCurrent;
     @NonNull
-    private List<Zikr> mZikrList = new ArrayList<>();
+    private ArrayMap<String, Zikr> mZikrList = new ArrayMap<>();
     private ImageView mReset;
     private int mVibrate;
+    private Spinner mSpinner;
 
     @Nullable
     @Override
@@ -85,10 +89,6 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
         mReset = v.findViewById(R.id.reset);
         mReset.setOnClickListener(this);
         mVibrate = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("zikrvibrate2", 0);
-
-        //TODO !!!!
-        //  getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //  getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         ((PrefsView) v.findViewById(R.id.vibration)).setPrefFunctions(new PrefsFunctions() {
 
@@ -105,6 +105,21 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
             }
 
         });
+
+        OnClickListener colorlist = new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeColor(view);
+            }
+        };
+        v.findViewById(R.id.color1).setOnClickListener(colorlist);
+        v.findViewById(R.id.color2).setOnClickListener(colorlist);
+        v.findViewById(R.id.color3).setOnClickListener(colorlist);
+        v.findViewById(R.id.color4).setOnClickListener(colorlist);
+        v.findViewById(R.id.color5).setOnClickListener(colorlist);
+        v.findViewById(R.id.color6).setOnClickListener(colorlist);
+        v.findViewById(R.id.color7).setOnClickListener(colorlist);
+        v.findViewById(R.id.color8).setOnClickListener(colorlist);
         return v;
     }
 
@@ -127,7 +142,7 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
 
         Map<String, Set<String>> map = (Map<String, Set<String>>) mPrefs.getAll();
         Set<String> keys = map.keySet();
-        mZikrList = new ArrayList<>();
+        mZikrList.clear();
         for (String key : keys) {
             if (key == null) {
                 continue;
@@ -146,16 +161,18 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
                 zikr.count2 = Integer.parseInt(list.get(3).substring(1));
                 zikr.max = Integer.parseInt(list.get(4).substring(1));
                 zikr.key = key;
-                mZikrList.add(zikr);
+                mZikrList.put(key, zikr);
             } catch (Exception e) {
-                e.printStackTrace();
+                Crashlytics.logException(e);
             }
         }
 
         createDefault();
-
+        updateSpinner();
         load(mCurrent);
 
+        if (mCurrent != null && mSpinner != null)
+            mSpinner.setSelection(mZikrList.indexOfKey(mCurrent.key));
     }
 
     @Override
@@ -164,52 +181,55 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
         saveCurrent();
     }
 
-    private void createDefault() {
-        if (mZikrList.isEmpty()) {
-            mZikrList = new ArrayList<>();
+    private Zikr createDefault() {
+        if (!mZikrList.containsKey("default")) {
             mCurrent = new Zikr();
             mCurrent.title = getString(R.string.tasbih);
             mCurrent.max = 33;
             mCurrent.key = "default";
-            mZikrList.add(mCurrent);
+            mZikrList.put("default", mCurrent);
             saveCurrent();
+            updateSpinner();
+            return mCurrent;
         }
+        return mZikrList.get("default");
     }
 
     private void load(@Nullable Zikr z) {
-        if (!mZikrList.contains(z) && (z != null)) {
-            mZikrList.add(z);
+        if (z == null) {
+            z = createDefault();
         }
 
         if (mCurrent != z) {
             saveCurrent();
             mCurrent = z;
         }
-        if (z != null) {
-            mTitle.setText(z.title);
-            mZikr.setColor(z.color);
-            mZikr.setCount(z.count);
-            mZikr.setCount2(z.count2);
-            mZikr.setMax(z.max);
-        }
+        mTitle.setText(z.title);
+        mZikr.setColor(z.color);
+        mZikr.setCount(z.count);
+        mZikr.setCount2(z.count2);
+        mZikr.setMax(z.max);
 
-        if ((z != null) && "default".equals(z.key)) {
+        if ("default".equals(z.key)) {
             mTitle.setEnabled(false);
             mTitle.setText(getString(R.string.tasbih));
         } else {
             mTitle.setEnabled(true);
         }
-        ArrayList<String> itemList = new ArrayList<>();
-        for (Zikr zi : mZikrList) {
-            itemList.add(zi.title);
+    }
+
+    private void updateSpinner() {
+        if (mSpinner != null) {
+            ArrayList<String> itemList = new ArrayList<>();
+            for (Zikr zi : mZikrList.values()) {
+                itemList.add(zi.title);
+            }
+            Context c = new ContextThemeWrapper(getActivity(), R.style.ToolbarTheme);
+            SpinnerAdapter adap = new ArrayAdapter<>(c, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
+
+            mSpinner.setAdapter(adap);
+            mSpinner.setOnItemSelectedListener(this);
         }
-        Context c = new ContextThemeWrapper(getActivity(), R.style.ToolbarTheme);
-        SpinnerAdapter aAdpt = new ArrayAdapter<>(c, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
-
-        //TODO !!!
-        //   getSupportActionBar().setListNavigationCallbacks(aAdpt, this);
-        //   getSupportActionBar().setSelectedNavigationItem(mZikrList.indexOf(z));
-
     }
 
     public void changeColor(@NonNull View v) {
@@ -231,7 +251,7 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
             } else if (mVibrate == 0) {
                 mVibrator.vibrate(10);
             }
-
+            saveCurrent();
         } else if (v == mReset) {
             AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
             dialog.setTitle(R.string.dhikr);
@@ -241,6 +261,7 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     mZikr.setCount(0);
+                    saveCurrent();
                 }
             });
             dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -253,20 +274,17 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
     }
 
     @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (mZikrList.indexOf(mCurrent) != itemPosition) {
-            load(mZikrList.get(itemPosition));
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater)
                 .setDefaultColor(0xFFFFFFFF)
                 .inflate(R.menu.zikr, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_spinner);
+        mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+
+        updateSpinner();
+        load(mCurrent);
     }
 
 
@@ -277,8 +295,12 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
                 Zikr z = new Zikr();
                 z.key = System.currentTimeMillis() + "";
                 z.title = getString(R.string.newDhikr);
-                mZikrList.add(z);
+                mZikrList.put(z.key, z);
+                saveCurrent();
                 load(z);
+                updateSpinner();
+                if (mCurrent != null && mSpinner != null)
+                    mSpinner.setSelection(mZikrList.indexOfKey(mCurrent.key));
                 onLongClick(null);
                 return true;
 
@@ -293,9 +315,10 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mZikrList.remove(mCurrent);
+                        mZikrList.remove(mCurrent.key);
                         mPrefs.edit().remove(mCurrent.key).apply();
                         mCurrent = null;
+                        updateSpinner();
                         createDefault();
                         load(mZikrList.get(0));
                     }
@@ -314,7 +337,7 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
 
     @Override
     public boolean onLongClick(View arg0) {
-        if (mZikrList.indexOf(mCurrent) == 0) {
+        if (mZikrList.indexOfKey(mCurrent.key) == 0) {
             return false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -347,6 +370,16 @@ public class ZikrFragment extends MainActivity.MainFragment implements OnClickLi
 
         builder.show();
         return false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+        load(mZikrList.valueAt(pos));
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
 

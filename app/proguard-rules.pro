@@ -13,6 +13,10 @@
 -keep class com.metinkale.prayerapp.utils.Geocoder$* {*;}
 
 
+-keepclassmembers public class * extends com.metinkale.prayerapp.vakit.times.source.WebTimes {
+   public <init>(...);
+}
+
 -keepclassmembers class * extends java.lang.Enum {
     <fields>;
     public static **[] values();

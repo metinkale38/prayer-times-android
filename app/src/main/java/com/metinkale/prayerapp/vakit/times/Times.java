@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -121,11 +120,9 @@ public abstract class Times extends TimesBase {
     }
 
     public static void notifyDataSetChanged() {
-        Iterator<OnTimesListChangeListener> iter = sListeners.iterator();
-        //noinspection WhileLoopReplaceableByForEach
-        while (iter.hasNext()) {
-            OnTimesListChangeListener list = iter.next();
 
+        for (OnTimesListChangeListener list : new ArrayList<>(sListeners))//avoid concurrentmodificationexception
+        {
             try {
                 list.notifyDataSetChanged();
             } catch (Exception e) {
