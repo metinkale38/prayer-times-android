@@ -16,6 +16,7 @@
 
 package com.metinkale.prayerapp.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +35,6 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.MainActivity;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 
@@ -52,7 +52,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class BackupRestoreActivity extends MainActivity implements OnItemClickListener {
+public class BackupRestoreActivity extends Activity implements OnItemClickListener {
 
     private MyAdapter mAdapter;
     private File mFolder;
@@ -73,6 +73,7 @@ public class BackupRestoreActivity extends MainActivity implements OnItemClickLi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.get(this).onRequestPermissionResult(permissions, grantResults);
         if (!PermissionUtils.get(this).pStorage) {
             finish();
         }
@@ -88,22 +89,24 @@ public class BackupRestoreActivity extends MainActivity implements OnItemClickLi
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         if (which == 0) {
+                            boolean success = true;
                             File files = getFilesDir();
                             for (File file1 : files.listFiles()) {
-                                file1.delete();
+                                success &= file1.delete();
                             }
-                            files.delete();
+                            success &= files.delete();
                             files = new File(files.getParentFile(), "databases");
                             for (File file1 : files.listFiles()) {
-                                file1.delete();
+                                success &= file1.delete();
                             }
-                            files.delete();
+                            success &= files.delete();
                             files = new File(files.getParentFile(), "shared_prefs");
                             for (File file1 : files.listFiles()) {
-                                file1.delete();
+                                success &= file1.delete();
                             }
-                            files.delete();
+                            success &= files.delete();
 
+                            if (!success) Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG);
                             files = files.getParentFile();
 
                             Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
@@ -136,7 +139,7 @@ public class BackupRestoreActivity extends MainActivity implements OnItemClickLi
             File files = getFilesDir();
             if (files.exists() && files.isDirectory())
                 for (String file : files.list()) {
-                    if (new File(file).isDirectory() || file.contains(".Fabric")
+                    if (new File(file).isDirectory() || file.contains(".Fabric") || file.contains("leakcanary")
                             || file.contains("ion")) {
                         continue;
                     }

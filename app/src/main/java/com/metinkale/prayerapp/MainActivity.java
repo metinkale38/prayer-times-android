@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
                 String lang = Utils.getLanguage("en", "de", "tr");
                 final String file = lang + "/hadis.db";
-                final String url = App.API_URL + "/hadis." + lang + ".db";
+                final String url = App.API_URL + "/files/hadis." + lang + ".db";
                 File f = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
 
 

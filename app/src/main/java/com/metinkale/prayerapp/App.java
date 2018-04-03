@@ -58,7 +58,7 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static final String API_URL = "http://metinkale38.github.io/prayer-times-android/files";
+    public static final String API_URL = "http://metinkale38.github.io/prayer-times-android";
     private static App sApp;
     @NonNull
     private Handler mHandler = new Handler();

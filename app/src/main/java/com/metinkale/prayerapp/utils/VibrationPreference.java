@@ -174,7 +174,9 @@ public class VibrationPreference extends EditTextPreference {
 
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-        editText.setText(myState.text);
+        if (editText != null) {
+            editText.setText(myState.text);
+        }
     }
 
     private static class SavedState extends BaseSavedState {
