@@ -1,0 +1,503 @@
+{
+ "name": "sounds",
+ "files": [
+  {
+   "name": "Abdulkadir Şehitoğlu",
+   "files": [
+    {
+     "size": 2050748,
+     "name": "Abdulkadir Şehitoğlu - Asr.mp3",
+     "md5": "22cadc571e08154603f72a0c304d54d4"
+    },
+    {
+     "size": 1123808,
+     "name": "Abdulkadir Şehitoğlu - Dua.mp3",
+     "md5": "897176030ad190f4b7e1004b826a9ff9"
+    },
+    {
+     "size": 541162,
+     "name": "Abdulkadir Şehitoğlu - Fajr - Short.mp3",
+     "md5": "80a2fdc1fc52aad5b3241606581354b6"
+    },
+    {
+     "size": 2550836,
+     "name": "Abdulkadir Şehitoğlu - Fajr.mp3",
+     "md5": "8d48299f59b58505e8a8249623a8856b"
+    },
+    {
+     "size": 2356067,
+     "name": "Abdulkadir Şehitoğlu - Isha.mp3",
+     "md5": "32d2657397de21c49fd65663ba9f2182"
+    },
+    {
+     "size": 1152345,
+     "name": "Abdulkadir Şehitoğlu - Magrib.mp3",
+     "md5": "e97b6ed856147cade52b740ee05eb218"
+    },
+    {
+     "size": 2127648,
+     "name": "Abdulkadir Şehitoğlu - Sela.mp3",
+     "md5": "0a3bb9687b520eec3d730a2e1e4b87f2"
+    },
+    {
+     "size": 495423,
+     "name": "Abdulkadir Şehitoğlu - Short.mp3",
+     "md5": "125c54bdca0837d13df3cd538ba00f99"
+    },
+    {
+     "size": 1992443,
+     "name": "Abdulkadir Şehitoğlu - Zuhr.mp3",
+     "md5": "bea071848000a77d5dec6eb2a066b26e"
+    }
+   ]
+  },
+  {
+   "name": "Abdulmajed al-Surahi",
+   "files": [
+    {
+     "size": 3180640,
+     "name": "Abdulmajed al-Surahi - Asr.mp3",
+     "md5": "a6e64a9277fe5f182fc7a7f82865d870"
+    },
+    {
+     "size": 502800,
+     "name": "Abdulmajed al-Surahi - Fajr - Short.mp3",
+     "md5": "2ccaeb17a5eb3ab537ab7fee91507b5b"
+    },
+    {
+     "size": 4269686,
+     "name": "Abdulmajed al-Surahi - Fajr.mp3",
+     "md5": "5ee6cd2b1b4c622778d6bfe9c0b29339"
+    },
+    {
+     "size": 4318793,
+     "name": "Abdulmajed al-Surahi - Isha.mp3",
+     "md5": "12d2359ac3d82abc1ed1bce63f727eca"
+    },
+    {
+     "size": 3566909,
+     "name": "Abdulmajed al-Surahi - Magrib.mp3",
+     "md5": "545bc1aa4de20c0cab06ed1675bceca2"
+    },
+    {
+     "size": 477311,
+     "name": "Abdulmajed al-Surahi - Short.mp3",
+     "md5": "aa3747736e4faec954abffe957630a9d"
+    },
+    {
+     "size": 3843403,
+     "name": "Abdulmajed al-Surahi - Zuhr.mp3",
+     "md5": "6f0a2092bc8d378f30c8ac2895f11f9c"
+    }
+   ]
+  },
+  {
+   "name": "Ahmet Şahin",
+   "files": [
+    {
+     "size": 2173001,
+     "name": "Ahmet Şahin - Asr.mp3",
+     "md5": "0092371a9b045b1f5b7ae36699cd2848"
+    },
+    {
+     "size": 594850,
+     "name": "Ahmet Şahin - Fajr - Short.mp3",
+     "md5": "27e6b7a9e33c45235441116a58fb7535"
+    },
+    {
+     "size": 2537044,
+     "name": "Ahmet Şahin - Fajr.mp3",
+     "md5": "96be5a612aeca2c5bb1d74b2d4df5109"
+    },
+    {
+     "size": 2364845,
+     "name": "Ahmet Şahin - Isha.mp3",
+     "md5": "d0eb5da50421961d164e28a3ba1b576f"
+    },
+    {
+     "size": 1253909,
+     "name": "Ahmet Şahin - Magrib.mp3",
+     "md5": "179437c60ceb119c3c1fa187c8bf376e"
+    },
+    {
+     "size": 413066,
+     "name": "Ahmet Şahin - Short.mp3",
+     "md5": "e38defba78eb427a89f0c3aabc242f41"
+    },
+    {
+     "size": 2070183,
+     "name": "Ahmet Şahin - Zuhr.mp3",
+     "md5": "657c21bd0088446b9c47d12e5286d8d0"
+    }
+   ]
+  },
+  {
+   "name": "Bekir Büyükbaş",
+   "files": [
+    {
+     "size": 2012087,
+     "name": "Bekir Büyükbaş - Asr.mp3",
+     "md5": "3fb1636456a636824c969f97a4af5db4"
+    },
+    {
+     "size": 342106,
+     "name": "Bekir Büyükbaş - Fajr - Short.mp3",
+     "md5": "b767374d6b83efea9d9756f3964a4089"
+    },
+    {
+     "size": 2304658,
+     "name": "Bekir Büyükbaş - Fajr.mp3",
+     "md5": "a850d723ede0c321a074939cdad1d355"
+    },
+    {
+     "size": 2363591,
+     "name": "Bekir Büyükbaş - Isha.mp3",
+     "md5": "495fb37b8b8b3abe35fc6cc625a2c667"
+    },
+    {
+     "size": 1493818,
+     "name": "Bekir Büyükbaş - Magrib.mp3",
+     "md5": "c961238c5f0d05ad28af5fa3015d8abc"
+    },
+    {
+     "size": 317512,
+     "name": "Bekir Büyükbaş - Short.mp3",
+     "md5": "ba18f797224ee62fd6a7e2dffc3d2f2e"
+    },
+    {
+     "size": 1758804,
+     "name": "Bekir Büyükbaş - Zuhr.mp3",
+     "md5": "ddbe16f8975ab106082e0d739b82702e"
+    }
+   ]
+  },
+  {
+   "size": 130168,
+   "name": "createJson.jar",
+   "md5": "ca072af0c61cb71cd30f3eb9ead66276"
+  },
+  {
+   "name": "Ebubekir Atalay",
+   "files": [
+    {
+     "size": 1973394,
+     "name": "Ebubekir Atalay - Asr.mp3",
+     "md5": "996d728373b89a556ac7595c20f63942"
+    },
+    {
+     "size": 2401384,
+     "name": "Ebubekir Atalay - Isha.mp3",
+     "md5": "92ce38ce94da3e2670d99dfe7d4bedc6"
+    },
+    {
+     "size": 916793,
+     "name": "Ebubekir Atalay - Magrib.mp3",
+     "md5": "ec8809998f6db202cd825596aaf93f0b"
+    },
+    {
+     "size": 3233332,
+     "name": "Ebubekir Atalay - Sala.mp3",
+     "md5": "77590654ae3689c1da12ac280bba6b8e"
+    },
+    {
+     "size": 2133263,
+     "name": "Ebubekir Atalay - Zuhr.mp3",
+     "md5": "5ca8d5160d10831dcdcc85c7baed5635"
+    }
+   ]
+  },
+  {
+   "name": "Fatih Koca",
+   "files": [
+    {
+     "size": 2277250,
+     "name": "Fatih Koca - Asr.mp3",
+     "md5": "1ed0e6531208c381d61c7ac6034d7b78"
+    },
+    {
+     "size": 502503,
+     "name": "Fatih Koca - Fajr - Short.mp3",
+     "md5": "f95bb21a2d40f2456148912b5a5e4ffc"
+    },
+    {
+     "size": 2431686,
+     "name": "Fatih Koca - Fajr.mp3",
+     "md5": "f499ed1ea4549e3e71f9f2724bbc7133"
+    },
+    {
+     "size": 1896489,
+     "name": "Fatih Koca - Isha.mp3",
+     "md5": "549c95e593251f69a2bec72ed72f8b3f"
+    },
+    {
+     "size": 1150223,
+     "name": "Fatih Koca - Magrib.mp3",
+     "md5": "fd53bf596d7f0466ca1780b51bf83404"
+    },
+    {
+     "size": 452599,
+     "name": "Fatih Koca - Short.mp3",
+     "md5": "c2c9363227a6bdcbc59b8629832123b4"
+    },
+    {
+     "size": 2130128,
+     "name": "Fatih Koca - Zuhr.mp3",
+     "md5": "aacddb1f52b0a23eb0eaaec172e0d628"
+    }
+   ]
+  },
+  {
+   "name": "Ghazi A-Sa-adoni",
+   "files": [
+    {
+     "size": 607766,
+     "name": "Ghazi A-Sa-adoni - Short.mp3",
+     "md5": "e2745281d42db3cfdb0bcf3241b67ee1"
+    },
+    {
+     "size": 1130371,
+     "name": "Ghazi A-Sa-adoni.mp3",
+     "md5": "4306ff8fdcbdc6f0665b80bd6781ccf7"
+    }
+   ]
+  },
+  {
+   "name": "Hamad Deghreri",
+   "files": [
+    {
+     "size": 574710,
+     "name": "Hamad Deghreri - Short.mp3",
+     "md5": "9ceab669cda0fbddc4e277012099bf30"
+    },
+    {
+     "size": 1233607,
+     "name": "Hamad Deghreri.mp3",
+     "md5": "79a17f1e86b814521392ba74757c5b91"
+    }
+   ]
+  },
+  {
+   "name": "Ibrahim Al-Arkani",
+   "files": [
+    {
+     "size": 966007,
+     "name": "Ibrahim Al-Arkani - Short.mp3",
+     "md5": "738369ad21b4a908e42ba6beb117eb88"
+    },
+    {
+     "size": 1862218,
+     "name": "Ibrahim Al-Arkani.mp3",
+     "md5": "8c028ce1e380e1c815b06ad3888564db"
+    }
+   ]
+  },
+  {
+   "name": "Majed Al-hamathani",
+   "files": [{
+    "size": 1745189,
+    "name": "Majed Al-hamathani.mp3",
+    "md5": "c5da4ec8b3103d0c8f18317c6ced887f"
+   }]
+  },
+  {
+   "name": "Malek chebae",
+   "files": [
+    {
+     "size": 212950,
+     "name": "Malek chebae - Short.mp3",
+     "md5": "a1dd3bc743fd871141d6eb9b645afb59"
+    },
+    {
+     "size": 1055974,
+     "name": "Malek chebae.mp3",
+     "md5": "80c6fae95832695884133451e5e6fb19"
+    }
+   ]
+  },
+  {
+   "name": "Mansoor Az-Zahrani",
+   "files": [
+    {
+     "size": 474525,
+     "name": "Mansoor Az-Zahrani - Fajr - Short.mp3",
+     "md5": "d8bbbded6e52ab13061926de397aea11"
+    },
+    {
+     "size": 414993,
+     "name": "Mansoor Az-Zahrani - Short.mp3",
+     "md5": "d43c9f0f16047130267d81f042df934d"
+    },
+    {
+     "size": 1472261,
+     "name": "Mansoor Az-Zahrani.mp3",
+     "md5": "651c5084e3bded889675ade74f8ba3e1"
+    }
+   ]
+  },
+  {
+   "name": "Mishary Alafasi",
+   "files": [
+    {
+     "size": 683179,
+     "name": "Mishary Alafasi - Short.mp3",
+     "md5": "b126b184c6cff122f90fe023b289c788"
+    },
+    {
+     "size": 1860964,
+     "name": "Mishary Alafasi.mp3",
+     "md5": "b991cb2f358d023c43dac45ec12604cb"
+    }
+   ]
+  },
+  {
+   "name": "Nasser Alqatami",
+   "files": [
+    {
+     "size": 445759,
+     "name": "Nasser Alqatami - Fajr - Short.mp3",
+     "md5": "3468e8830004a85c4b11d7f266c72865"
+    },
+    {
+     "size": 552372,
+     "name": "Nasser Alqatami - Short.mp3",
+     "md5": "3defccb1a297fc7b96c8de0d71831f85"
+    },
+    {
+     "size": 1940585,
+     "name": "Nasser Alqatami.mp3",
+     "md5": "1450580e08c0314ffe90f17f9345350e"
+    }
+   ]
+  },
+  {
+   "name": "Nurettin Okumuş",
+   "files": [
+    {
+     "size": 2026716,
+     "name": "Nurettin Okumuş - Asr.mp3",
+     "md5": "24dcdf1c56424f0ed510ea3fe1e57dc7"
+    },
+    {
+     "size": 577549,
+     "name": "Nurettin Okumuş - Fajr - Short.mp3",
+     "md5": "d35795a26804bcfec073f30a3fa22653"
+    },
+    {
+     "size": 2510294,
+     "name": "Nurettin Okumuş - Fajr.mp3",
+     "md5": "38815763c0a296010466f40e422a8053"
+    },
+    {
+     "size": 2238203,
+     "name": "Nurettin Okumuş - Isha.mp3",
+     "md5": "f9f7a16b5d6b5b871eee39b929bac858"
+    },
+    {
+     "size": 1299885,
+     "name": "Nurettin Okumuş - Magrib.mp3",
+     "md5": "ab4fa062a2f9fd956317a1fe8a62da4f"
+    },
+    {
+     "size": 402940,
+     "name": "Nurettin Okumuş - Short.mp3",
+     "md5": "dce6f34e17e2326398dab612d3042c1a"
+    },
+    {
+     "size": 1866219,
+     "name": "Nurettin Okumuş - Zuhr.mp3",
+     "md5": "01469681d901994d94f507050cab8b37"
+    }
+   ]
+  },
+  {
+   "size": 13471,
+   "name": "sounds.json",
+   "md5": "be9f06f748be34ceb37af20b341bb958"
+  },
+  {
+   "name": "İlhan Tok",
+   "files": [
+    {
+     "size": 1841351,
+     "name": "İlhan Tok - Asr.mp3",
+     "md5": "04134f0d3394d9a0fd0d0e22177b03d5"
+    },
+    {
+     "size": 279020,
+     "name": "İlhan Tok - Fajr - Short.mp3",
+     "md5": "39d59ac4b3e7a3ed9bf75a8832f11c9b"
+    },
+    {
+     "size": 2201423,
+     "name": "İlhan Tok - Fajr.mp3",
+     "md5": "9bf021f5d32ac8821d4b93982a5281a7"
+    },
+    {
+     "size": 1561318,
+     "name": "İlhan Tok - Isha.mp3",
+     "md5": "5713d0a0615a3efaf76bf1361740cec5"
+    },
+    {
+     "size": 881507,
+     "name": "İlhan Tok - Magrib.mp3",
+     "md5": "50c08a0396fa1becead670e16b0a1549"
+    },
+    {
+     "size": 2025462,
+     "name": "İlhan Tok - Sala.mp3",
+     "md5": "5b6a8a9db13f56ef4b2645e79660299d"
+    },
+    {
+     "size": 535575,
+     "name": "İlhan Tok - Short.mp3",
+     "md5": "f931238093d30ada89cbae82e28b1618"
+    },
+    {
+     "size": 1561318,
+     "name": "İlhan Tok - Zuhr.mp3",
+     "md5": "da6d9eefb5a1003dd494357ec3fbc765"
+    }
+   ]
+  },
+  {
+   "name": "İsmail Coşar",
+   "files": [
+    {
+     "size": 2665357,
+     "name": "İsmail Coşar - Asr.mp3",
+     "md5": "9d347dbc649e6bfc509e271596f95b19"
+    },
+    {
+     "size": 783110,
+     "name": "İsmail Coşar - Fajr - Short.mp3",
+     "md5": "aedeae5662c33e5d7af7b67c8619dea2"
+    },
+    {
+     "size": 2521370,
+     "name": "İsmail Coşar - Fajr.mp3",
+     "md5": "23058ef4ddc6fd211ae7b238d0560e62"
+    },
+    {
+     "size": 1569468,
+     "name": "İsmail Coşar - Isha.mp3",
+     "md5": "d3907f0b677b531229db692dfb85b4ee"
+    },
+    {
+     "size": 1321409,
+     "name": "İsmail Coşar - Magrib.mp3",
+     "md5": "9d1355c2df5e52d3d33e2e8ba9250ade"
+    },
+    {
+     "size": 589114,
+     "name": "İsmail Coşar - Short.mp3",
+     "md5": "84572b56f8c96ae48d2ca7ea86b124d4"
+    },
+    {
+     "size": 2113442,
+     "name": "İsmail Coşar - Zuhr.mp3",
+     "md5": "4950d6e9153051307a99848c6fe12f82"
+    }
+   ]
+  }
+ ]
+}
