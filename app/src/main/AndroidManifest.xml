@@ -237,6 +237,7 @@
 
         <activity-alias
             android:name="com.metinkale.prayerapp.hadis.Main"
+            android:icon="@mipmap/ic_hadith"
             android:label="@string/hadith"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
@@ -303,7 +304,7 @@
         <activity-alias
             android:name="com.metinkale.prayerapp.zikr.Main"
             android:label="@string/dhikr"
-            android:logo="@mipmap/ic_zikr"
+            android:logo="@mipmap/ic_dhikr"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
@@ -334,8 +335,7 @@
 
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/widgetLabel">
+           android:label="@string/widgetLabel">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -346,7 +346,6 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-            android:icon="@mipmap/ic_launcher"
             android:label="@string/widgetClock">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -358,7 +357,6 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
-            android:icon="@mipmap/ic_launcher"
             android:label="@string/widgetClock2">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -370,8 +368,7 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/widgetLong">
+           android:label="@string/widgetLong">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -382,7 +379,6 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
-            android:icon="@mipmap/ic_launcher"
             android:label="@string/widgetSmall">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -394,7 +390,6 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
-            android:icon="@mipmap/ic_launcher"
             android:label="@string/widgetSilenter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

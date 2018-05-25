@@ -170,9 +170,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     break;
                 case 4:
                     id = R.mipmap.ic_tesbihat;
+                case 5:
+                    id = R.mipmap.ic_hadith;
                     break;
                 case 7:
-                    id = R.mipmap.ic_zikr;
+                    id = R.mipmap.ic_dhikr;
                     break;
             }
 
