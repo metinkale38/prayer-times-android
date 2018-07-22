@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.kaza;
+package com.metinkale.prayerapp.missedprayers;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.MainActivity;
 
-public class KazaFragment extends MainActivity.MainFragment {
+public class MissedPrayersFragment extends MainActivity.MainFragment {
 
     @Nullable
     @Override

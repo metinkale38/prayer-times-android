@@ -58,7 +58,7 @@ import com.metinkale.prayerapp.compass.CompassFragment;
 import com.metinkale.prayerapp.hadis.HadithFragment;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.intro.IntroActivity;
-import com.metinkale.prayerapp.kaza.KazaFragment;
+import com.metinkale.prayerapp.missedprayers.MissedPrayersFragment;
 import com.metinkale.prayerapp.names.NamesFragment;
 import com.metinkale.prayerapp.settings.SettingsFragment;
 import com.metinkale.prayerapp.tesbihat.TesbihatFragment;
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
                 break;
             case 6:
-                openFrag(new KazaFragment());
+                openFrag(new MissedPrayersFragment());
                 break;
             case 7:
                 openFrag(new ZikrFragment());
