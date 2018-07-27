@@ -67,7 +67,7 @@ import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.LocationService;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
-import com.metinkale.prayerapp.zikr.ZikrFragment;
+import com.metinkale.prayerapp.dhikr.DhikrFragment;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -433,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 openFrag(new MissedPrayersFragment());
                 break;
             case 7:
-                openFrag(new ZikrFragment());
+                openFrag(new DhikrFragment());
                 break;
             case 8:
                 openFrag(new SettingsFragment());

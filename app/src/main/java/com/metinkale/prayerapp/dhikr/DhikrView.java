@@ -14,42 +14,46 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.zikr;
+package com.metinkale.prayerapp.dhikr;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class ZikrView extends View {
+import com.metinkale.prayerapp.dhikr.data.Dhikr;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+public class DhikrView extends View {
     private final Paint mPaint = new Paint();
-    private int mMax = 33;
-    private int mCount;
-    private int mCount2;
-    private int mColor = 0xFF33B5E5;
+    @Getter @Setter @Accessors(prefix = "m")
+    private Dhikr mDhikr;
+
     @NonNull
     private RectF mRectF = new RectF();
     private MotionEvent mMotionEvent;
 
-    public ZikrView(Context context, AttributeSet attrs, int defStyle) {
+    public DhikrView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
     }
 
-    public ZikrView(Context context, AttributeSet attrs) {
+    public DhikrView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ZikrView(Context context) {
+    public DhikrView(Context context) {
         this(context, null);
     }
+
 
     @Override
     public void onMeasure(int widthSpec, int heightSpec) {
@@ -61,6 +65,7 @@ public class ZikrView extends View {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+        if (mDhikr == null) return;
         int width = getWidth();
         int center = width / 2;
         canvas.scale(0.95f, 0.95f, center, center);
@@ -76,9 +81,9 @@ public class ZikrView extends View {
         canvas.drawCircle(center, center, center, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
-        mPaint.setColor(getColor());
-        if ((getCount() * getMax()) != 0) {
-            canvas.drawArc(mRectF, -90, (getCount() * 360) / getMax(), false, mPaint);
+        mPaint.setColor(mDhikr.getColor());
+        if (mDhikr.getMax() != 0) {
+            canvas.drawArc(mRectF, -90, (((mDhikr.getValue() % mDhikr.getMax()) / (float) mDhikr.getMax()) * 360), false, mPaint);
         }
         mPaint.setStrokeWidth(1);
 
@@ -86,59 +91,16 @@ public class ZikrView extends View {
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize((center * 2) / 5);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(Math.round(mCount) + "", center, center, mPaint);
+        canvas.drawText((mDhikr.getValue() % mDhikr.getMax()) + "", center, center, mPaint);
 
         mPaint.setTextSize((center * 2) / 20);
-        canvas.drawText(getCount2() + "", center / 10, center * 0.13f, mPaint);
+        canvas.drawText((mDhikr.getValue() / mDhikr.getMax()) + "", center / 10, center * 0.13f, mPaint);
 
 
         mPaint.setTextSize((center * 2) / 10);
         mPaint.setColor(Color.GRAY);
-        canvas.drawText("/" + Math.round(getMax()), center, (width * 2) / 3, mPaint);
+        canvas.drawText("/" + mDhikr.getMax(), center, (width * 2) / 3, mPaint);
 
-    }
-
-    public int getColor() {
-        return mColor;
-    }
-
-    public void setColor(int color) {
-        this.mColor = color;
-        if (color == 0) {
-            this.mColor = 0xFF33B5E5;
-        }
-
-        invalidate();
-    }
-
-    public int getCount() {
-        return mCount;
-    }
-
-    public void setCount(int count) {
-        this.mCount = count;
-        invalidate();
-    }
-
-    public int getCount2() {
-        return mCount2;
-    }
-
-    public void setCount2(int count) {
-        mCount2 = count;
-        invalidate();
-    }
-
-    public int getMax() {
-        return mMax;
-    }
-
-    public void setMax(int mMax) {
-        this.mMax = mMax;
-    }
-
-    public void counter() {
-        mCount2++;
     }
 
     @Override
