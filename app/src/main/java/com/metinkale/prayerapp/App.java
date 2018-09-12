@@ -44,8 +44,8 @@ import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.TimeZoneChangedReceiver;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.LocationService;
-import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.WidgetService;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
 import com.squareup.leakcanary.LeakCanary;
@@ -187,6 +187,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         if (AppRatingDialog.getInstallationTime() == 0) {
             AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
         }
+
+
     }
 
     @Override
@@ -239,7 +241,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         return mSystemLocale;
     }
 
-    public static String getUserAgent(){
+    public static String getUserAgent() {
         return "Android/Prayer-Times com.metinkale.prayer (contact: metinkale38@gmail.com)";
     }
 }

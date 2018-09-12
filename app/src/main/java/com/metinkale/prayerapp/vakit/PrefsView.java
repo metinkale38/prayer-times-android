@@ -16,10 +16,7 @@
 
 package com.metinkale.prayerapp.vakit;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -33,23 +30,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.NumberPicker;
-import android.widget.RadioGroup;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.utils.NumberPickerDialog;
-import com.metinkale.prayerapp.utils.PermissionUtils;
-import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
-import com.metinkale.prayerapp.vakit.sounds.SoundChooser.Callback;
-import com.metinkale.prayerapp.vakit.sounds.Sounds;
-import com.metinkale.prayerapp.vakit.sounds.Sounds.Sound;
 import com.metinkale.prayerapp.vakit.times.Vakit;
-
-import java.util.List;
 
 public class PrefsView extends View implements OnClickListener {
     private static final ColorFilter sCFActive = new PorterDuffColorFilter(0xffffffff, Mode.SRC_ATOP);
@@ -214,7 +199,7 @@ public class PrefsView extends View implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Object o = getValue();
+      /*  Object o = getValue();
         if ((mPref == Pref.Sound) || (mPref == Pref.Dua) || (mPref == Pref.Sela)) {
             new SoundChooser().showExpanded(((Activity) getContext()).getFragmentManager(), new Callback() {
 
@@ -304,7 +289,7 @@ public class PrefsView extends View implements OnClickListener {
                 }
             }, (Integer) o, 0, 300, titleId, 0, 0);
             npd.show();
-        }
+        }*/
 
     }
 

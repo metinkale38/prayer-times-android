@@ -35,7 +35,7 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.HicriDate;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.MainIntentService;
 import com.metinkale.prayerapp.settings.Prefs;
 
@@ -227,21 +227,23 @@ public class Utils {
     }
 
     @Nullable
-    public static String format(@NonNull HicriDate date) {
+    public static String format(@NonNull HijriDate date) {
         String format = getDateFormat(true);
-        format = format.replace("DD", az(date.Day, 2));
+        format = format.replace("DD", az(date.getDay(), 2));
 
-        try {
-            format = format.replace("MMM", getHijriMonth(date.Month - 1));
+        if (format.contains("MMM")) {
+            try {
+                format = format.replace("MMM", getHijriMonth(date.getMonth() - 1));
 
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            Crashlytics.logException(ex);
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                Crashlytics.logException(ex);
 
-            return "";
+                return "";
+            }
         }
-        format = format.replace("MM", az(date.Month, 2));
-        format = format.replace("YYYY", az(date.Year, 4));
-        format = format.replace("YY", az(date.Year, 2));
+        format = format.replace("MM", az(date.getMonth(), 2));
+        format = format.replace("YYYY", az(date.getYear(), 4));
+        format = format.replace("YY", az(date.getYear(), 2));
         return toArabicNrs(format);
     }
 
@@ -348,4 +350,11 @@ public class Utils {
         return false;
     }
 
+    public static String readableSize(int bytes) {
+        int unit = 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        char pre = "kMGTPE".charAt(exp - 1);
+        return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
 }

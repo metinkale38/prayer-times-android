@@ -19,17 +19,17 @@ package com.metinkale.prayerapp.vakit.times;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
-import com.metinkale.prayerapp.vakit.AlarmReceiver;
-import com.metinkale.prayerapp.vakit.LocationService;
+import com.metinkale.prayerapp.utils.livedata.LiveDataAwareList;
+import com.metinkale.prayerapp.vakit.alarm.Alarm;
+import com.metinkale.prayerapp.vakit.alarm.AlarmReceiver;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -40,7 +40,6 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -68,45 +67,10 @@ public abstract class Times extends TimesBase {
             .appendMinutes()
             .toFormatter();
 
-    private String issue = null;
-    private boolean autoLocation = false;
 
     @NonNull
-    private static Collection<OnTimesListChangeListener> sListeners = new ArrayList<>();
-    @NonNull
-    private final static List<Times> sTimes = new ArrayList<Times>() {
-        @Override
-        public boolean add(@Nullable Times object) {
-            if (object == null) {
-                return false;
-            }
+    private final static LiveDataAwareList<Times> sTimes = new LiveDataAwareList<>();
 
-            boolean ret = super.add(object);
-            Times.sort();
-            return ret;
-        }
-
-        @Override
-        public Times remove(int index) {
-            Times ret = super.remove(index);
-            notifyDataSetChanged();
-            return ret;
-        }
-
-        @Override
-        public boolean remove(Object object) {
-            boolean ret = super.remove(object);
-            notifyDataSetChanged();
-            return ret;
-        }
-
-        @Override
-        public void clear() {
-            super.clear();
-            notifyDataSetChanged();
-        }
-    };
-    private transient Collection<OnTimesUpdatedListener> mListeners;
 
     protected Times(long id) {
         super(id);
@@ -119,26 +83,6 @@ public abstract class Times extends TimesBase {
         super();
     }
 
-    public static void notifyDataSetChanged() {
-
-        for (OnTimesListChangeListener list : new ArrayList<>(sListeners))//avoid concurrentmodificationexception
-        {
-            try {
-                list.notifyDataSetChanged();
-            } catch (Exception e) {
-                Crashlytics.logException(e);
-            }
-        }
-    }
-
-    public static void addOnTimesListChangeListener(@NonNull OnTimesListChangeListener list) {
-        sListeners.add(list);
-        list.notifyDataSetChanged();
-    }
-
-    public static void removeOnTimesListChangeListener(OnTimesListChangeListener list) {
-        sListeners.remove(list);
-    }
 
     public static Times getTimesAt(int index) {
         return getTimes().get(index);
@@ -157,7 +101,7 @@ public abstract class Times extends TimesBase {
     }
 
     @NonNull
-    public static List<Times> getTimes() {
+    public static LiveDataAwareList<Times> getTimes() {
         if (sTimes.isEmpty()) {
             SharedPreferences prefs = App.get().getSharedPreferences("nvc", 0);
 
@@ -191,8 +135,6 @@ public abstract class Times extends TimesBase {
                 }
             }
         });
-
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -211,120 +153,46 @@ public abstract class Times extends TimesBase {
         return getTimes().size();
     }
 
-    @NonNull
-    private static List<Alarm> getAllAlarms() {
-        List<Alarm> alarms = new ArrayList<>();
-        List<Long> ids = getIds();
-        for (long id : ids) {
-            Times t = getTimes(id);
-            if (t == null) {
-                continue;
-            }
-            alarms.addAll(t.getAlarms());
-        }
-
-        Collections.sort(alarms, new Comparator<Alarm>() {
-            @Override
-            public int compare(Alarm o1, Alarm o2) {
-                return (int) (o1.time - o2.time);
-            }
-        });
-        return alarms;
-    }
 
     public static void setAlarms() {
-        List<Alarm> alarms = getAllAlarms();
-        if (!alarms.isEmpty())
-            AlarmReceiver.setAlarm(App.get(), alarms.get(0));
+        Pair<Alarm, LocalDateTime> nextAlarm = getNextAlarm();
+        if (nextAlarm != null && nextAlarm.first != null && nextAlarm.second != null)
+            AlarmReceiver.setAlarm(App.get(), nextAlarm);
     }
 
-    public void addOnTimesUpdatedListener(@NonNull OnTimesUpdatedListener list) {
-        if (mListeners == null) mListeners = new ArrayList<>();
-        mListeners.add(list);
-        list.onTimesUpdated(this);
-    }
 
-    public void removeOnTimesUpdatedListener(OnTimesUpdatedListener list) {
-        if (mListeners == null) return;
-        mListeners.remove(list);
-    }
-
-    protected void notifyOnUpdated() {
-        if (mListeners != null)
-            for (OnTimesUpdatedListener list : mListeners)
-                list.onTimesUpdated(this);
-    }
-
-    @NonNull
-    private Collection<Alarm> getAlarms() {
-        Collection<Alarm> alarms = new ArrayList<>();
-
-
-        LocalDate cal = LocalDate.now();
-        for (int ii = 0; ii <= 1/* next day */; ii++) {
-            for (Vakit v : Vakit.values()) {
-                if (isNotificationActive(v)) {
-                    if (v != Vakit.SABAH) {
-                        int vakit = v.ordinal();
-                        if (vakit != 0) {
-                            vakit--;
-                        }
-
-                        long mills = getTimeCal(cal, vakit).toDateTime().getMillis();
-                        if (System.currentTimeMillis() < mills) {
-                            alarms.add(new Alarm(getID(), false, false, mills, v, ii));
-                        }
-                    } else {
-                        long mills;
-                        if (isAfterImsak()) {
-                            mills = getTimeCal(cal, 0).toDateTime().getMillis() + getSabahTime() * 60 * 1000;
-                        } else {
-                            mills = getTimeCal(cal, 1).toDateTime().getMillis() - getSabahTime() * 60 * 1000;
-                        }
-                        if (System.currentTimeMillis() < mills) {
-                            alarms.add(new Alarm(getID(), false, false, mills, v, ii));
-                        }
-                    }
-                }
-
-                if (isEarlyNotificationActive(v)) {
-                    if (v != Vakit.SABAH) {
-                        int vakit = v.ordinal();
-                        if (vakit != 0) {
-                            vakit--;
-                        }
-
-                        int early = getEarlyTime(v);
-                        long mills = getTimeCal(cal, vakit).toDateTime().getMillis() - early * 60 * 1000;
-                        if (System.currentTimeMillis() < mills) {
-                            alarms.add(new Alarm(getID(), false, true, mills, v, ii));
-                        }
-                    }
-                }
-            }
-            cal = cal.plusDays(1);
-        }
-        if (isCumaActive()) {
-
-            int early = getCumaTime();
-
-            DateTime c = DateTime.now().withDayOfWeek(DateTimeConstants.FRIDAY);
-            if ((c.getMillis() + 1000) < System.currentTimeMillis()) {
-                c = c.plusWeeks(1);
-            }
-            long mills = getTimeCal(c.toLocalDate(), 2).toDateTime().getMillis();
-            mills -= early * 60 * 1000;
-            if (System.currentTimeMillis() < mills) {
-                alarms.add(new Alarm(getID(), true, false, mills, Vakit.OGLE, 0));
+    @Nullable
+    private static Pair<Alarm, LocalDateTime> getNextAlarm(Times t) {
+        Alarm alarm = null;
+        LocalDateTime time = null;
+        for (Alarm a : t.getUserAlarms()) {
+            LocalDateTime nextAlarm = a.getNextAlarm();
+            if (time == null || time.isAfter(nextAlarm)) {
+                alarm = a;
+                time = nextAlarm;
             }
         }
-
-
-        return alarms;
+        if (alarm == null || time == null) return null;
+        return new Pair<>(alarm, time);
     }
 
+    @Nullable
+    private static Pair<Alarm, LocalDateTime> getNextAlarm() {
+        Pair<Alarm, LocalDateTime> pair = null;
+        for (Times t : Times.getTimes()) {
+            Pair<Alarm, LocalDateTime> nextAlarm = getNextAlarm(t);
+            if (pair == null || pair.second == null ||
+                    (nextAlarm != null && nextAlarm.second != null
+                            && pair.second.isAfter(nextAlarm.second))) {
+                pair = nextAlarm;
+            }
+        }
+        return pair;
+    }
+
+
     @NonNull
-    private LocalDateTime getTimeCal(@Nullable LocalDate date, int time) {
+    public LocalDateTime getLocalDateTime(@Nullable LocalDate date, int time) {
         if (date == null) {
             date = LocalDate.now();
         }
@@ -413,12 +281,12 @@ public abstract class Times extends TimesBase {
     }
 
     public long getMills(int next) {
-        DateTime date = getTimeCal(null, next).toDateTime();
+        DateTime date = getLocalDateTime(null, next).toDateTime();
         return date.getMillis();
     }
 
     public String getLeft(int next, boolean showsecs) {
-        LocalDateTime date = getTimeCal(null, next);
+        LocalDateTime date = getLocalDateTime(null, next);
         Period period = new Period(LocalDateTime.now(), date, PeriodType.dayTime());
 
         if (showsecs) {
@@ -433,7 +301,7 @@ public abstract class Times extends TimesBase {
     }
 
     public int getLeftMinutes(int which) {
-        LocalDateTime date = getTimeCal(null, which);
+        LocalDateTime date = getLocalDateTime(null, which);
         Period period = new Period(LocalDateTime.now(), date, PeriodType.minutes());
         return period.getMinutes();
     }
@@ -441,8 +309,8 @@ public abstract class Times extends TimesBase {
 
     public float getPassedPart() {
         int i = getNext();
-        LocalDateTime date1 = getTimeCal(null, i - 1);
-        LocalDateTime date2 = getTimeCal(null, i);
+        LocalDateTime date1 = getLocalDateTime(null, i - 1);
+        LocalDateTime date2 = getLocalDateTime(null, i);
         Period period = new Period(date1, date2, PeriodType.minutes());
         float total = period.getMinutes();
         float passed = total - getLeftMinutes(i);
@@ -454,7 +322,7 @@ public abstract class Times extends TimesBase {
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
         for (int i = 0; i < 6; i++) {
-            if (getTimeCal(today, i).isAfter(now)) {
+            if (getLocalDateTime(today, i).isAfter(now)) {
                 return i;
             }
         }
@@ -483,109 +351,15 @@ public abstract class Times extends TimesBase {
         return "times_id_" + getID();
     }
 
-    public String getIssue() {
-        return issue;
-    }
-
-    public void setIssue(String issue) {
-        this.issue = issue;
-    }
 
     public static void clearTemporaryTimes() {
         List<Times> times = getTimes();
-
-        ArrayList<OnTimesListChangeListener> listeners = new ArrayList<OnTimesListChangeListener>();
-        listeners.addAll(sListeners);
-        sListeners.clear();
-
         for (int i = times.size() - 1; i >= 0; i--) {
             Times t = times.get(i);
             if (t.getID() < 0) t.delete();
         }
-
-        sListeners.addAll(listeners);
-        notifyDataSetChanged();
     }
 
-    public void setAutoLocation(boolean autoLocation) {
-        this.autoLocation = autoLocation;
-        if (autoLocation)
-            LocationService.start(App.get());
-    }
-
-    public boolean isAutoLocation() {
-        return autoLocation;
-    }
-
-
-    public interface OnTimesListChangeListener {
-        void notifyDataSetChanged();
-    }
-
-    public interface OnTimesUpdatedListener {
-        void onTimesUpdated(Times t);
-    }
-
-
-    public static class Alarm {
-        private static final Gson GSON = new Gson();
-        public final long city;
-        public final boolean cuma;
-        public final boolean early;
-        public final long time;
-        public final Vakit vakit;
-
-
-        public final int dayOffset;
-
-        public Alarm(long city, boolean cuma, boolean early, long time, Vakit vakit, int dayOffset) {
-            this.city = city;
-            this.cuma = cuma;
-            this.early = early;
-            this.time = time;
-            this.vakit = vakit;
-            this.dayOffset = dayOffset;
-        }
-
-
-        public static Alarm fromJson(String json) {
-            return GSON.fromJson(json, Alarm.class);
-        }
-
-        public String toJson() {
-            return GSON.toJson(this);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Alarm alarm = (Alarm) o;
-
-            if (city != alarm.city) return false;
-            if (cuma != alarm.cuma) return false;
-            if (early != alarm.early) return false;
-            if (time != alarm.time) return false;
-            if (dayOffset != alarm.dayOffset) return false;
-            return vakit == alarm.vakit;
-
-        }
-
-
-        @Override
-        public int hashCode() {
-            int result = 571;
-            result = 37 * result + (int) (city ^ (city >>> 32));
-            result = 37 * result + (cuma ? 1 : 0);
-            result = 37 * result + (early ? 1 : 0);
-            result = 37 * result + vakit.ordinal();
-            result = 37 * result + dayOffset;
-            return result;
-        }
-
-
-    }
 
     public String getSabah(LocalDate date) {
         return adj(_getTime(date, 6), 0);

@@ -30,7 +30,7 @@ import android.view.ViewGroup;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.fragments.NotificationPrefs;
+import com.metinkale.prayerapp.vakit.fragments.AlarmsFragment;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -142,7 +142,7 @@ public class ConfigIntroFragment extends IntroFragment {
         bdl.putInt("startCity", times.indexOf(mTimes));
         mFragment = new VakitFragment();
         mFragment.setArguments(bdl);
-        mPrefsFrag = NotificationPrefs.create(mTimes);
+        mPrefsFrag = AlarmsFragment.create(mTimes);
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, mFragment).commit();
     }
 

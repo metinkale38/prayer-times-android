@@ -35,11 +35,12 @@ import android.widget.RemoteViews;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.utils.Utils;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.settings.Prefs;
-import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
+import com.metinkale.prayerapp.utils.UUID;
+import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -463,7 +464,7 @@ public class WidgetLegacy {
         if (w <= 0 || h <= 0) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget_clock);
 
-        remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
+        remoteViews.setOnClickPendingIntent(R.id.abovePart, PendingIntent.getActivity(context, UUID.asInt(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT));
         remoteViews.setOnClickPendingIntent(R.id.belowPart, VakitFragment.getPendingIntent(times));
 
 
@@ -473,7 +474,7 @@ public class WidgetLegacy {
         builder.appendPath(Long.toString(System.currentTimeMillis()));
         Intent intent =
                 new Intent(Intent.ACTION_VIEW, builder.build());
-        remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
+        remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 
         int next = times.getNext();
@@ -509,10 +510,8 @@ public class WidgetLegacy {
             canvas.drawText(Utils.toArabicNrs(time), w / 2, h * 0.4f, paint);
         }
 
-
-        LocalDate date = LocalDate.now();
-        String greg = Utils.format(date);
-        String hicri = Utils.format(new HicriDate(date));
+        String greg = Utils.format(LocalDate.now());
+        String hicri = Utils.format(HijriDate.now());
 
         paint.setTextSize(h * 0.12f);
         float m = paint.measureText(greg + "  " + hicri);
@@ -610,7 +609,7 @@ public class WidgetLegacy {
         builder.appendPath(Long.toString(System.currentTimeMillis()));
         Intent intent =
                 new Intent(Intent.ACTION_VIEW, builder.build());
-        remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
+        remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);

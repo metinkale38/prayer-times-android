@@ -40,12 +40,13 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.HicriDate;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.calendar.CalendarFragment;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.UUID;
 import com.metinkale.prayerapp.utils.Utils;
-import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.SilenterPrompt;
+import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -302,11 +303,11 @@ public class WidgetV24 {
 
         PendingIntent pendingIntent = VakitFragment.getPendingIntent(times);
         PendingIntent pendingIntentClock = PendingIntent.getActivity(context,
-                (int) System.currentTimeMillis(),
+                UUID.asInt(),
                 new Intent(AlarmClock.ACTION_SHOW_ALARMS),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingHijri = PendingIntent.getActivity(context,
-                (int) System.currentTimeMillis(),
+                UUID.asInt(),
                 new Intent(context, CalendarFragment.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -317,7 +318,7 @@ public class WidgetV24 {
         ContentUris.appendId(builder, startMillis);
         Intent calendarIntent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
         PendingIntent pendingIntentCalendar = PendingIntent.getActivity(context,
-                (int) System.currentTimeMillis(),
+                UUID.asInt(),
                 calendarIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -357,9 +358,8 @@ public class WidgetV24 {
         remoteViews.setTextViewText(R.id.lastTime, Utils.fixTimeForHTML(times.getTime(next - 1)));
         remoteViews.setTextViewText(R.id.nextTime, Utils.fixTimeForHTML(times.getTime(next)));
 
-        LocalDate date = LocalDate.now();
-        remoteViews.setTextViewText(R.id.greg, Utils.format(date));
-        remoteViews.setTextViewText(R.id.hicri, Utils.format(new HicriDate(date)));
+        remoteViews.setTextViewText(R.id.greg, Utils.format(LocalDate.now()));
+        remoteViews.setTextViewText(R.id.hicri, Utils.format(HijriDate.now()));
 
         if (times.isKerahat()) {
             remoteViews.setInt(R.id.progress, "setBackgroundColor", 0xffbf3f5b);

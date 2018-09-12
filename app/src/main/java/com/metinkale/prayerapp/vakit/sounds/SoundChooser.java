@@ -16,457 +16,105 @@
 
 package com.metinkale.prayerapp.vakit.sounds;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.utils.FileChooser;
-import com.metinkale.prayerapp.utils.MD5;
-import com.metinkale.prayerapp.utils.PermissionUtils;
-import com.metinkale.prayerapp.vakit.AlarmReceiver;
-import com.metinkale.prayerapp.vakit.sounds.Sounds.Sound;
-import com.metinkale.prayerapp.vakit.times.Vakit;
+import com.metinkale.prayerapp.vakit.fragments.AlarmConfigFragment;
+import com.metinkale.prayerapp.vakit.alarm.Alarm;
+import com.metinkale.prayerapp.vakit.times.Times;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+public class SoundChooser extends DialogFragment {
 
-public class SoundChooser extends DialogFragment implements OnItemClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
-    private ListView mList;
-    private CheckBox mVolumeCB;
-    private SeekBar mVolume;
-    private MyAdapter mAdapter;
-    @Nullable
-    private MediaPlayer mMp;
-    private Callback mCb;
-    private int mStartVolume;
-    private AudioManager mAm;
-    @Nullable
-    private Runnable onResume;
+    private SoundChooserAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
-    public static String getRingtonePathFromContentUri(@NonNull Context context, @NonNull Uri contentUri) {
-        String[] proj = {MediaStore.Audio.Media.DATA};
-        Cursor ringtoneCursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-        ringtoneCursor.moveToFirst();
 
-        String path = ringtoneCursor.getString(ringtoneCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
-
-        ringtoneCursor.close();
-        return path;
+    public static SoundChooser create(Alarm alarm) {
+        Bundle bdl = new Bundle();
+        bdl.putLong("city", alarm.getCity().getID());
+        bdl.putInt("id", alarm.getId());
+        SoundChooser frag = new SoundChooser();
+        frag.setArguments(bdl);
+        return frag;
     }
 
+    @NonNull
     @Override
-    public void onResume() {
-        super.onResume();
-        if (onResume != null) {
-            onResume.run();
-            onResume = null;
-        }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle bdl = getArguments();
+        final Alarm alarm = Times.getTimes(bdl.getLong("city")).getAlarm(bdl.getInt("id"));
+
+
+        AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.soundPicker)
+                .setPositiveButton(R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Sound selected = mAdapter.getSelected();
+                                if (selected != null) {
+                                    alarm.getSounds().add(selected);
+                                }
+                                ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                dialog.dismiss();
+                            }
+                        }
+                )
+                .setNegativeButton(R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        }
+                );
+
+        b.setView(createView(getActivity().getLayoutInflater(), null, null));
+        return b.create();
     }
 
-    public void showExpanded(FragmentManager fm, Callback cb) {
-        mCb = cb;
-        show(fm, "tag");
+    @Nullable
+    public View createView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.sound_chooser, container, false);
+        mRecyclerView = view.findViewById(R.id.list);
+        if (Sounds.getSounds().isEmpty()) {
+            Sounds.downloadData(getActivity(), new Runnable() {
+                @Override
+                public void run() {
+                    init();
+                }
+            });
+        }
+
+        init();
+        return view;
+    }
+
+    private void init() {
+        mAdapter = new SoundChooserAdapter(mRecyclerView, Sounds.getRootSounds());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), mStartVolume, 0);
-        if (mMp != null) {
-            mMp.stop();
-            mMp.release();
-            mMp = null;
-        }
+        if (mAdapter != null) mAdapter.resetAudios();
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mAm = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-        mStartVolume = mAm.getStreamVolume(AlarmReceiver.getStreamType(getActivity()));
-        if (Sounds.getSounds().isEmpty()) {
-            dismiss();
-            return new AlertDialog.Builder(getActivity()).create();
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.sound_chooser, null);
-        mList = v.findViewById(R.id.lv);
-        mVolume = v.findViewById(R.id.volume);
-        mVolumeCB = v.findViewById(R.id.volumeCB);
-
-        mVolume.setMax(mAm.getStreamMaxVolume(AlarmReceiver.getStreamType(getActivity())));
-
-        mVolume.setOnSeekBarChangeListener(this);
-        mVolumeCB.setOnCheckedChangeListener(this);
-
-
-        mList.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-        if (mCb == null)
-            mAdapter = new MyAdapter(getActivity(), new ArrayList<Sound>());
-        mAdapter = new MyAdapter(getActivity(), mCb.getSounds());
-        mList.setAdapter(mAdapter);
-
-        mList.setOnItemClickListener(this);
-        builder.setView(v).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (mMp != null) {
-                            mMp.stop();
-                            mMp.release();
-                            mMp = null;
-                        }
-                        if (mList.getTag() != null) {
-                            if (mVolumeCB.isChecked()) {
-                                mCb.setCurrent(((Sound) mList.getTag()).uri + "$volume" + mVolume.getProgress());
-                            } else {
-                                mCb.setCurrent(((Sound) mList.getTag()).uri);
-                            }
-                        }
-                    }
-                }
-        ).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (mMp != null) {
-                            mMp.stop();
-                            mMp.release();
-                            mMp = null;
-                        }
-                        getDialog().cancel();
-                    }
-                }
-        );
-
-        Sound s = new Sound();
-        s.uri = mCb.getCurrent();
-        mList.setTag(s);
-        if ((s.uri != null) && s.uri.contains("$volume"))
-
-        {
-            mVolumeCB.setChecked(true);
-            mVolume.setEnabled(true);
-            int progress = Integer.parseInt(s.uri.substring(s.uri.indexOf("$volume") + 7));
-            mVolume.setProgress(progress);
-            mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), progress, 0);
-            s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
-
-        } else
-
-        {
-            mVolume.setEnabled(false);
-            mVolume.setProgress(0);
-            mVolumeCB.setChecked(false);
-
-        }
-
-
-        mList.setItemChecked(mAdapter.getPosition(s), true);
-
-        return builder.create();
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow()
+                .setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> v, View item, int pos, long arg3) {
-
-        if (mMp != null) {
-            mMp.stop();
-            mMp.release();
-            mMp = null;
-        }
-
-        final Sound s = mAdapter.getItem(pos);
-        if ("picker".equals(s.uri)) {
-            onResume = new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle(R.string.other)
-                            .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    if (which == 0) {
-                                        FileChooser chooser = new FileChooser(getActivity());
-                                        chooser.showDialog();
-                                        chooser.setFileListener(new FileChooser.FileSelectedListener() {
-                                            @Override
-                                            public void fileSelected(File file) {
-                                                onSelect(Uri.fromFile(file));
-                                            }
-                                        });
-                                    } else {
-                                        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-                                        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                        Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                                        startActivityForResult(chooserIntent, 0);
-                                    }
-                                }
-                            });
-                    builder.show();
-                }
-            };
-            if (PermissionUtils.get(getActivity()).pStorage) {
-                onResume.run();
-                onResume = null;
-            } else {
-                PermissionUtils.get(getActivity()).needStorage(getActivity());
-            }
-        } else if (!"silent".equals(s.uri)) {
-            if (Sounds.isDownloaded(s)) {
-                try {
-                    mMp = AlarmReceiver.play(App.get(), s.uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mList.setTag(s);
-            } else if (!App.isOnline()) {
-                Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_SHORT).show();
-            } else {
-                AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
-                dialog.setTitle(R.string.sound);
-                dialog.setMessage(getString(R.string.dlSound, s.name, s.size));
-                dialog.setCancelable(false);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final ProgressDialog dlg = new ProgressDialog(getActivity());
-                        dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                        dlg.show();
-                        File f = s.getFile();
-                        f.getParentFile().mkdirs();
-                        Ion.with(getActivity())
-                                .load(s.url)
-                                .progressDialog(dlg)
-                                .write(f)
-                                .setCallback(new FutureCallback<File>() {
-                                    @Override
-                                    public void onCompleted(Exception e, File result) {
-                                        if (e != null || result == null || !result.exists()) {
-                                            if (e != null) {
-                                                e.printStackTrace();
-                                                Crashlytics.logException(e);
-                                            }
-                                            dlg.cancel();
-                                            Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-
-                                        Ion.with(App.get()).load(s.url + ".md5")
-                                                .setTimeout(3000)
-                                                .asString()
-                                                .setCallback(new FutureCallback<String>() {
-                                                    @Override
-                                                    public void onCompleted(Exception e, String md5) {
-                                                        dlg.cancel();
-                                                        if (e != null) {
-                                                            e.printStackTrace();
-                                                            Crashlytics.logException(e);
-                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                                            return;
-                                                        }
-                                                        if (!MD5.isValidMD5(md5)) return;
-                                                        SharedPreferences preferences = App.get().getSharedPreferences("md5", 0);
-                                                        preferences.edit().putString(s.name, md5).apply();
-                                                        s.checkMD5();
-
-                                                        try {
-                                                            mMp = AlarmReceiver.play(App.get(), s.uri);
-                                                        } catch (IOException ee) {
-                                                            ee.printStackTrace();
-                                                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                                                        }
-                                                        mList.setTag(s);
-                                                    }
-                                                });
-                                    }
-                                });
-
-                    }
-                });
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.cancel();
-                        Sound s1 = new Sound();
-                        s1.uri = mCb.getCurrent();
-
-                        mList.setItemChecked(mAdapter.getPosition(s1), true);
-                    }
-                });
-                dialog.show();
-
-            }
-        } else {
-            mList.setTag(s);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (data != null) {
-            Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            try {
-                uri = Uri.parse(getRingtonePathFromContentUri(App.get(), uri));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            onSelect(uri);
-        }
-    }
-
-    private void onSelect(@NonNull Uri uri) {
-        try {
-            MediaPlayer mp = new MediaPlayer();
-            mp.setDataSource(getActivity(), uri);
-            mp.prepare();
-            mp.start();
-            mp.reset();
-        } catch (Exception e) {
-            Toast.makeText(App.get(), R.string.corruptAudio, Toast.LENGTH_LONG).show();
-            dismiss();
-            new SoundChooser().showExpanded(getFragmentManager(), mCb);
-            return;
-        }
-        if (uri != null) {
-            mCb.setCurrent(uri.toString());
-            dismiss();
-            new SoundChooser().showExpanded(getFragmentManager(), mCb);
-
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        mVolume.setEnabled(isChecked);
-    }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        try {
-            mAm.setStreamVolume(AlarmReceiver.getStreamType(getActivity()), progress, 0);
-        } catch (SecurityException e) {
-            Crashlytics.logException(e);
-            Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            mVolumeCB.setChecked(false);
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    public interface Callback {
-        String getCurrent();
-
-        void setCurrent(String current);
-
-        List<Sound> getSounds();
-
-        Vakit getVakit();
-    }
-
-    private class MyAdapter extends ArrayAdapter<Sound> {
-
-        MyAdapter(@NonNull Context context, @NonNull List<Sound> sounds) {
-            super(context, 0, 0, sounds);
-            Sound silent = new Sound();
-            silent.name = context.getString(R.string.silent);
-            silent.uri = "silent";
-            sounds.add(0, silent);
-            Sound s = new Sound();
-
-            if (mCb != null) {
-                s.uri = mCb.getCurrent();
-                if (!s.uri.startsWith("silent")) {
-                    try {
-                        String sound = s.uri;
-                        if (sound.contains("$")) {
-                            sound = sound.substring(0, sound.indexOf("$"));
-                        }
-                        AlarmReceiver.play(App.get(), sound).reset();
-                    } catch (Exception e) {
-                        mCb.setCurrent("silent");
-                        s.uri = "silent";
-                    }
-                }
-            }
-
-            if ((s.uri != null) && s.uri.contains("$volume")) {
-                s.uri = s.uri.substring(0, s.uri.indexOf("$volume"));
-            }
-            if (!sounds.contains(s)) {
-                Ringtone r = RingtoneManager.getRingtone(getContext(), Uri.parse(s.uri));
-                if (r != null) {
-                    s.name = r.getTitle(App.get());
-                } else {
-                    s.name = "Unknown";
-                }
-                sounds.add(s);
-            }
-
-            Sound other = new Sound();
-            other.name = context.getString(R.string.selectOther);
-            other.uri = "picker";
-            sounds.add(other);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = View.inflate(getActivity(), android.R.layout.simple_list_item_single_choice, null);
-            }
-
-            Sound s = getItem(pos);
-            ((TextView) convertView).setText(s.name);
-
-            return convertView;
-        }
-
-    }
-
 
 }

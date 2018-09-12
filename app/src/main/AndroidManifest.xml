@@ -292,7 +292,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.metinkale.prayerapp.kaza.Main"
+            android:name="com.metinkale.prayerapp.missedprayers.Main"
             android:label="@string/missedPrayers"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
             <intent-filter>
@@ -302,7 +302,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.metinkale.prayerapp.zikr.Main"
+            android:name="com.metinkale.prayerapp.dhikr.Main"
             android:label="@string/dhikr"
             android:logo="@mipmap/ic_dhikr"
             android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
@@ -320,7 +320,7 @@
             android:name="com.metinkale.prayerapp.compass.LocationPicker"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
-        <service android:name="com.metinkale.prayerapp.vakit.AlarmReceiver" />
+        <service android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver" />
         <service android:name="com.metinkale.prayerapp.MainIntentService" />
         <service android:name="com.metinkale.prayerapp.vakit.WidgetService">
             <intent-filter>
@@ -335,7 +335,7 @@
 
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-           android:label="@string/widgetLabel">
+            android:label="@string/widgetLabel">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -368,7 +368,7 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-           android:label="@string/widgetLong">
+            android:label="@string/widgetLong">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -400,7 +400,7 @@
                 android:resource="@xml/vakit_widget_silenter" />
         </receiver>
         <receiver
-            android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$WakefulReceiver"
+            android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver$WakefulReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
@@ -409,9 +409,9 @@
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$Audio" />
-        <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setNormal" />
-        <receiver android:name="com.metinkale.prayerapp.vakit.AlarmReceiver$setVibrate" />
+        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver$StopAlarmPlayerReceiver" />
+
+        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.SilenterReceiver" />
 
         <uses-library
             android:name="com.sec.android.app.multiwindow"
@@ -435,7 +435,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.metinkale.prayer.fileprovider"
+            android:authorities="@string/FILE_PROVIDER_AUTHORITIES"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

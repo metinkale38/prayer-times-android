@@ -53,7 +53,7 @@ public class FaziletTimes extends WebTimes {
                 "Dolayısıyla bu uygulamadada artık Fazilet Takvimi Vakitleri indiremiyeceksiniz.\n\n" +
                 "Önceden indirilmiş Vakitler varsa bunları kullanabilirsiniz, fakat yeni Vakitler güncellenmiyecektir.\n\n" +
                 "Bu engelleme Fazilet Takvimi tarafından, benim yapabileceğim birşey yok malesef.\n" +
-                "İsterseniz Namaz Vakti Android Uygulamasında başka bir Takvim seçebilirsiniz. Fazilet Takvimi için ücretli Uygulamalarını satın almanız gerekiyor.";
+                "İsterseniz Namaz Vakti Android Uygulamasında başka bir Takvim seçebilirsiniz. Fazilet Takvimi Vakitleri için ücretli Uygulamalarını satın almanız gerekiyor.";
     }
 
     @NonNull

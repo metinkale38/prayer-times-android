@@ -274,5 +274,25 @@
     <string name="compass_type_reminder">Click here to try different methods of finding the correct Qibla direction.</string>
     <string name="autoLocation">Auto Location</string>
     <string name="stop">Stop</string>
+    <string name="onTime">On time</string>
+    <string name="beforeTime">%1$d minutes before</string>
+    <string name="afterTime">%1$d minutes later</string>
+    <string name="addAudio">Add new sound</string>
+    <string name="fajrShort">Assalatu Khairum Minan Naum</string>
+    <string name="takbir">Takbir</string>
+    <string name="adhanDua">Adhan Dua</string>
+    <string name="salavat">Salawat</string>
+    <string name="volume">Volume</string>
+    <string name="volumeNotification">Notification-Volume</string>
+
+
+    <string name="noti_beforeTime">%1$d minutes before %2$s</string>
+    <string name="noti_afterTime">%1$d minutes after %2$s</string>
+    <string name="noti_exactTime">at %2$s</string>
+    <string name="noti_exactAll">at each prayer time</string>
+    <string name="noti_beforeAll">%1$s minutes before each prayer time</string>
+    <string name="noti_afterAll">%1$s minutes after each prayer time</string>
+    <string name="noti_eachDay">Every day %2$s</string>
+    <string name="noti_weekday">Each %1$s %2$s</string>
 
 </resources>

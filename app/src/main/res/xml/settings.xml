@@ -162,13 +162,6 @@
             android:title="@string/alternativeOngoing" />
 
         <ListPreference
-            android:defaultValue="noti"
-            android:dialogTitle="@string/adhanVolume"
-            android:entries="@array/ezan_volume"
-            android:entryValues="@array/ezan_volume_val"
-            android:key="ezanvolume"
-            android:title="@string/adhanVolume" />
-        <ListPreference
             android:defaultValue="silent"
             android:dialogTitle="@string/silenterType"
             android:entries="@array/silenterType"

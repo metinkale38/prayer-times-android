@@ -31,9 +31,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.metinkale.prayer.R;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.MainActivity;
-import com.metinkale.prayerapp.HicriDate;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 
 import org.joda.time.LocalDate;
@@ -51,7 +50,7 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
 
         ViewPager viewPager = v.findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(LocalDate.now().getYear() - HicriDate.MIN_YEAR);
+        viewPager.setCurrentItem(LocalDate.now().getYear() - HijriDate.getMIN_YEAR());
         return v;
     }
 
@@ -108,21 +107,21 @@ public class CalendarFragment extends MainActivity.MainFragment implements OnIte
                 position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
-            args.putInt(YearFragment.YEAR, position + HicriDate.MIN_YEAR);
+            args.putInt(YearFragment.YEAR, position + HijriDate.getMIN_YEAR());
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return HicriDate.MAX_YEAR - HicriDate.MIN_YEAR;
+            return HijriDate.getMAX_YEAR() - HijriDate.getMIN_YEAR();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if (Utils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
-            return Utils.toArabicNrs(position + HicriDate.MIN_YEAR);
+            return Utils.toArabicNrs(position + HijriDate.getMIN_YEAR());
         }
     }
 

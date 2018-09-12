@@ -26,6 +26,8 @@ import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 
@@ -33,12 +35,10 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class MainIntentService extends IntentService {
@@ -98,20 +98,20 @@ public class MainIntentService extends IntentService {
                 return;
             }
             int year = LocalDate.now().getYear();
-            Collection<int[]> days = new ArrayList<>();
-            days.addAll(HicriDate.getHolydays(year));
-            days.addAll(HicriDate.getHolydays(year + 1));
+            ArrayMap<HijriDate, Integer> holidays = new ArrayMap<>();
+            holidays.putAll((SimpleArrayMap<? extends HijriDate, ? extends Integer>) HijriDate.getHolydaysForGregYear(year));
+            holidays.putAll((SimpleArrayMap<? extends HijriDate, ? extends Integer>) HijriDate.getHolydaysForGregYear(year + 1));
 
             int i = 0;
-            ContentValues[] events = new ContentValues[days.size()];
-            for (int[] date : days) {
+            ContentValues[] events = new ContentValues[holidays.size()];
+            for (Map.Entry<HijriDate, Integer> date : holidays.entrySet()) {
                 ContentValues event = new ContentValues();
 
                 event.put(CalendarContract.Events.CALENDAR_ID, id);
-                event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date[HicriDate.DAY] - 1));
+                event.put(CalendarContract.Events.TITLE, Utils.getHolyday(date.getValue() - 1));
                 event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
-
-                ReadableInstant cal = new DateTime(date[HicriDate.GY], date[HicriDate.GM], date[HicriDate.GD], 0, 0, 0);
+                LocalDate ld = date.getKey().getLocalDate();
+                ReadableInstant cal = ld.toDateTimeAtStartOfDay();
 
                 long dtstart = cal.getMillis();
                 long dtend = dtstart + DateUtils.DAY_IN_MILLIS;

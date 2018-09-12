@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -43,6 +42,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.utils.UUID;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.sources.CalcTimes;
 
@@ -322,7 +322,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements Adapte
 
     @Override
     public void onClick(View view) {
-        CalcTimes ct=new CalcTimes(System.currentTimeMillis());
+        CalcTimes ct=new CalcTimes( UUID.asInt());
         ct.setPrayTimes(mPrayTimes);
         ct.setName(getArguments().getString("city"));
         ct.setLat(mPrayTimes.getLatitude());

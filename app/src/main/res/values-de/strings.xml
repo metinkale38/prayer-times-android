@@ -282,4 +282,14 @@
   <string name="compass_type_reminder">Klicke hier, um verschiedene Methoden zur Qibla-Ermittlung auszuprobieren.</string>
   <string name="autoLocation">Auto-Standort</string>
   <string name="stop">Abbrechen</string>
+
+  <string name="noti_beforeTime">%1$d Minuten vor %2$s</string>
+  <string name="noti_afterTime">%1$d Minuten nach %2$s</string>
+  <string name="noti_exactTime">zu %2$s</string>
+  <string name="noti_exactAll">zu jeder Gebetszeit</string>
+  <string name="noti_beforeAll">%1$s Minuten vor jeder Gebetszeit</string>
+  <string name="noti_afterAll">%1$s Minuten nach jeder Gebetszeit</string>
+  <string name="noti_eachDay">Täglich %2$s</string>
+  <string name="noti_weekday">Jeden %1$s %2$s</string>
+
 </resources>

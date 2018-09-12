@@ -18,6 +18,7 @@ package com.metinkale.prayerapp.vakit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -33,7 +34,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,26 +41,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.MainActivity;
-import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
+import com.metinkale.prayerapp.vakit.times.Vakit;
 import com.metinkale.prayerapp.vakit.times.sources.FaziletTimes;
 import com.metinkale.prayerapp.vakit.times.sources.WebTimes;
-import com.metinkale.prayerapp.vakit.times.Vakit;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -74,7 +72,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 @SuppressLint("ClickableViewAccessibility")
-public class CityFragment extends Fragment implements Times.OnTimesUpdatedListener {
+public class CityFragment extends Fragment implements Observer<Times> {
 
     private static final int[] ids = {R.id.fajrTime, R.id.sunTime, R.id.zuhrTime, R.id.asrTime, R.id.maghribTime, R.id.ishaaTime};
     private static final int[] idsNames = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
@@ -95,7 +93,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         public void run() {
 
             if ((mTimes != null) && !mTimes.isDeleted()) {
-                checkKerahatAndIssues();
+                checkKerahat();
                 if (mTimes.isAutoLocation())
                     mTitle.setText(mTimes.getName());
 
@@ -126,15 +124,8 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
 
     @Override
-    public void onCreate(Bundle bdl) {
-        super.onCreate(bdl);
-        mTimes = Times.getTimes(getArguments().getLong("city"));
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
-
-
+        mTimes = Times.getTimes(getArguments().getLong("city"));
         if (mTimes == null) {
             return new View(getActivity());
         }
@@ -150,6 +141,9 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
 
         mKerahat = mView.findViewById(R.id.kerahat);
+
+        mTimes.observe(this, this);
+        onChanged(mTimes);
 
         if (new Locale("tr").getLanguage().equals(Utils.getLocale().getLanguage())) {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.imsak);
@@ -178,6 +172,11 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         return mView;
     }
 
+    @Override
+    public void onChanged(@Nullable Times times) {
+        update();
+    }
+
 
     public void update() {
         if ((mTimes == null) || (mView == null)) {
@@ -200,7 +199,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         }
 
         LocalDate greg = LocalDate.now();
-        HicriDate hijr = new HicriDate(greg);
+        HijriDate hijr = HijriDate.now();
 
         mHicri.setText(Utils.format(hijr));
         mDate.setText(Utils.format(greg));
@@ -314,7 +313,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
                 Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
                 if (frag == null) {
                     ((VakitFragment) getParentFragment()).setFooterText("", false);
-                    ((MainActivity.MainFragment) getParentFragment()).moveToFrag(NotificationPrefs.create(mTimes));
+                    ((MainActivity.MainFragment) getParentFragment()).moveToFrag(AlarmsFragment.create(mTimes));
                 } else {
                     ((VakitFragment) getParentFragment()).setFooterText(getString(R.string.monthly), true);
                     ((MainActivity.MainFragment) getParentFragment()).back();
@@ -409,7 +408,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
 
         outputStream = new FileOutputStream(outputFile);
         if (csvpdf == 0) {
-            outputStream.write("Date;Fajr;Shuruq;Dhuhr;Asr;Maghrib;Ishaa\n".getBytes());
+            outputStream.write("HijriDate;Fajr;Shuruq;Dhuhr;Asr;Maghrib;Ishaa\n".getBytes());
 
             do {
                 outputStream.write((from.toString("yyyy-MM-dd") + ";").getBytes());
@@ -515,7 +514,7 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType(csvpdf == 0 ? "name/csv" : "application/pdf");
 
-        Uri uri = FileProvider.getUriForFile(getActivity(), "com.metinkale.prayer.fileprovider", outputFile);
+        Uri uri = FileProvider.getUriForFile(getActivity(), getString(R.string.FILE_PROVIDER_AUTHORITIES), outputFile);
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
         startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.export)));
@@ -560,31 +559,19 @@ public class CityFragment extends Fragment implements Times.OnTimesUpdatedListen
         super.onResume();
         mHandler.removeCallbacks(onSecond);
         mHandler.post(onSecond);
-        if (mTimes != null)
-            mTimes.addOnTimesUpdatedListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mHandler.removeCallbacks(onSecond);
-        if (mTimes != null) mTimes.removeOnTimesUpdatedListener(this);
     }
 
-    void checkKerahatAndIssues() {
+    void checkKerahat() {
         if (mTimes == null || mTimes.getID() < 0) return;
-        String issue = mTimes.getIssue();
-        boolean k = mTimes.isKerahat() || issue != null;
-        mKerahat.setVisibility(k ? View.VISIBLE : View.GONE);
-        if (issue != null) {
-            mKerahat.setText(issue);
-        } else {
-            mKerahat.setText(R.string.kerahatTime);
-        }
+        mKerahat.setVisibility(mTimes.isKerahat() ? View.VISIBLE : View.GONE);
+        mKerahat.setText(R.string.kerahatTime);
     }
 
-    @Override
-    public void onTimesUpdated(Times t) {
-        update();
-    }
+
 }

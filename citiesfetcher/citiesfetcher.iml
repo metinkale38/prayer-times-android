@@ -28,5 +28,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gson-2.8.2" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="gson-2.8.2" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="gson-2.8.2" level="project" />
   </component>
 </module>

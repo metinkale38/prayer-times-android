@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.vakit.fragments;
 
 import android.app.PendingIntent;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,12 +36,15 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.HijriDate;
 import com.metinkale.prayerapp.MainActivity;
-import com.metinkale.prayerapp.HicriDate;
 import com.metinkale.prayerapp.utils.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayerapp.utils.RTLViewPager;
+import com.metinkale.prayerapp.utils.UUID;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
+
+import java.util.List;
 
 public class VakitFragment extends MainActivity.MainFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
@@ -62,7 +66,7 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
         Context context = App.get();
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("startCity", Times.getTimes().indexOf(t));
-        return PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
 
@@ -81,6 +85,8 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
         mFooterText = v.findViewById(R.id.footerText);
         mPager = v.findViewById(R.id.pager);
         mAdapter = new MyAdapter(getChildFragmentManager());
+        Times.getTimes().observe(this, mAdapter);
+        mAdapter.onChanged(Times.getTimes());
 
         mSettingsFrag = new SettingsFragment();
         mImsakiyeFrag = new ImsakiyeFragment();
@@ -99,7 +105,7 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
 
         mPager.setRTLSupportAdapter(getChildFragmentManager(), mAdapter);
 
-        int holyday = HicriDate.isHolyday();
+        int holyday = HijriDate.isHolyday();
         if (holyday != 0) {
             TextView tv = v.findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
@@ -212,20 +218,6 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Times.addOnTimesListChangeListener(mAdapter);
-
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Times.removeOnTimesListChangeListener(mAdapter);
-    }
-
 
     @Override
     public boolean onBackPressed() {
@@ -291,7 +283,9 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
 
     }
 
-    public class MyAdapter extends FragmentPagerAdapter implements Times.OnTimesListChangeListener {
+    public class MyAdapter extends FragmentPagerAdapter implements Observer<List<Times>> {
+
+        private List<Times> mTimes;
 
         MyAdapter(FragmentManager fm) {
             super(fm);
@@ -300,8 +294,15 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
 
 
         @Override
+        public void onChanged(@Nullable List<Times> times) {
+            mTimes = times;
+            notifyDataSetChanged();
+
+        }
+
+        @Override
         public int getCount() {
-            return Times.getCount() + 1;
+            return mTimes.size() + 1;
         }
 
         @Override
@@ -310,7 +311,7 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
                 return 0;
             }
 
-            return Times.getTimesAt(position - 1).getID();
+            return mTimes.get(position - 1).getID();
         }
 
         @Override
@@ -319,7 +320,7 @@ public class VakitFragment extends MainActivity.MainFragment implements ViewPage
                 return 0;
             } else {
                 CityFragment frag = (CityFragment) object;
-                int pos = Times.getTimes().indexOf(frag.getTimes());
+                int pos = mTimes.indexOf(frag.getTimes());
                 if (pos >= 0) {
                     return pos + 1;
                 }

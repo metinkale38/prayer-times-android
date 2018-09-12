@@ -31,6 +31,7 @@ import com.evernote.android.job.JobRequest;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.FastParser;
+import com.metinkale.prayerapp.utils.UUID;
 import com.metinkale.prayerapp.vakit.times.Source;
 import com.metinkale.prayerapp.vakit.times.Times;
 
@@ -74,15 +75,10 @@ public abstract class WebTimes extends Times {
 
     @NonNull
     public static Times add(@NonNull Source source, String city, String id, double lat, double lng) {
-        return add(source, city, id, lat, lng, System.currentTimeMillis());
-    }
-
-    @NonNull
-    public static Times add(@NonNull Source source, String city, String id, double lat, double lng, long _id) {
         if (source == Source.Calc) throw new RuntimeException("Calc is not a WebTimes");
         WebTimes t;
         try {
-            t = (WebTimes) source.clz.getConstructor(long.class).newInstance(_id);
+            t = (WebTimes) source.clz.getConstructor(long.class).newInstance(UUID.asInt());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -181,12 +177,11 @@ public abstract class WebTimes extends Times {
                         App.get().getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                notifyOnUpdated();
                                 Times.setAlarms();
                             }
                         });
                     }
-                    } catch (Exception e) {
+                } catch (Exception e) {
                     Crashlytics.logException(e);
                 }
             }

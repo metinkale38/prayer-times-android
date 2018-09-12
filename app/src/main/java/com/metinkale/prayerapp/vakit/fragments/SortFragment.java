@@ -17,6 +17,7 @@
 package com.metinkale.prayerapp.vakit.fragments;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -43,14 +44,13 @@ import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialIconUtils;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SortFragment extends Fragment implements Times.OnTimesListChangeListener {
+public class SortFragment extends Fragment {
 
     private MyAdapter mAdapter;
     private VakitFragment act;
@@ -72,6 +72,9 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerMan);
         setHasOptionsMenu(true);
+
+        Times.getTimes().observe(this, mAdapter);
+        mAdapter.onChanged(Times.getTimes());
         return v;
     }
 
@@ -98,14 +101,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
     public void onResume() {
         super.onResume();
         mDeleteMode = false;
-        Times.addOnTimesListChangeListener(this);
 
-    }
-
-    @Override
-    public void onPause() {
-        Times.removeOnTimesListChangeListener(this);
-        super.onPause();
     }
 
     @Override
@@ -115,12 +111,6 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         act = (VakitFragment) getParentFragment();
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        if (mAdapter.getItemCount() != Times.getCount()) {
-            mAdapter.dataChanged();
-        }
-    }
 
     public void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
@@ -176,7 +166,7 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
+    private class MyAdapter extends RecyclerView.Adapter<ViewHolder> implements Observer<List<Times>> {
 
         @NonNull
         private List<Long> ids = new ArrayList<>();
@@ -184,7 +174,6 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         private int hide = -1;
 
         public MyAdapter() {
-            dataChanged();
         }
 
         @NonNull
@@ -249,13 +238,6 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
 
-        public void dataChanged() {
-            ids.clear();
-            ids.addAll(Times.getIds());
-            notifyDataSetChanged();
-        }
-
-
         @Nullable
         public Times getItem(int pos) {
             return Times.getTimes(ids.get(pos));
@@ -272,6 +254,12 @@ public class SortFragment extends Fragment implements Times.OnTimesListChangeLis
         }
 
 
+        @Override
+        public void onChanged(@Nullable List<Times> times) {
+            ids.clear();
+            ids.addAll(Times.getIds());
+            notifyDataSetChanged();
+        }
     }
 
     public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {

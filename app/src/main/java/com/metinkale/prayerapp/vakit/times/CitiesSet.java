@@ -16,16 +16,11 @@
 
 package com.metinkale.prayerapp.vakit.times;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.RawRes;
-
-import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.utils.FastParser;
+import com.metinkale.prayerapp.utils.FastTokenizer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -90,7 +85,7 @@ class CitiesSet implements Iterable<Entry> {
                     }
                 } while (line.isEmpty());
 
-                MyFastTokenizer st = new MyFastTokenizer(line, "\t");
+                FastTokenizer st = new FastTokenizer(line, "\t");
                 Entry e = cache;
                 long id = st.nextInt();
                 e.setId(id << 32 | (long) source.citiesId);
@@ -108,47 +103,6 @@ class CitiesSet implements Iterable<Entry> {
                 return null;
             }
         }
-
-    }
-
-    private static class MyFastTokenizer {
-        @NonNull
-        private final String delim;
-        private final int dsize;
-        private String str;
-        private int start = 0;
-
-        MyFastTokenizer(String str, @NonNull String delim) {
-            this.str = str;
-            this.delim = delim;
-            this.dsize = delim.length();
-        }
-
-        @NonNull
-        String nextString() {
-            int size = str.indexOf(delim, start);
-            if (size < 0) {
-                size = str.length();
-            }
-            try {
-                return str.substring(start, size);
-            } finally {
-                start = size + dsize;
-            }
-        }
-
-        double nextDouble() {
-            String str = nextString();
-            if (str.isEmpty()) return 0;
-            return FastParser.parseDouble(str);
-        }
-
-        int nextInt() {
-            String str = nextString();
-            if (str.isEmpty()) return 0;
-            return FastParser.parseInt(str);
-        }
-
 
     }
 

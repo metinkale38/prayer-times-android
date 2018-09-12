@@ -166,7 +166,6 @@ public class LocationService extends Service implements LocationListener {
                     }
                 }
                 if (updated) {
-                    Times.notifyDataSetChanged();
                     Times.setAlarms();
                     WidgetService.start(getApplication());
                 }
