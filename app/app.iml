@@ -138,14 +138,11 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-verifier" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-main-apk-res" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifest-checker" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/prebuild" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/processing-tools" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/resources" />
@@ -163,7 +160,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.evernote:android-job-1.1.11" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-v4-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.mikepenz:iconics-core-2.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.haha:haha:2.0.3@jar" level="project" />
@@ -184,7 +180,6 @@
     <orderEntry type="library" name="Gradle: com.android.support:design-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: us.feras.mdv:markdownview-1.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: net.vrallev.android:cat-1.0.5" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.3@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.github.anrwatchdog:anrwatchdog:1.3.0@jar" level="project" />
@@ -219,5 +214,6 @@
     <orderEntry type="library" name="Gradle: com.android.support:preference-v14-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.mikepenz:aboutlibraries-5.8.5" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.3.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.evernote:android-job-1.2.6" level="project" />
   </component>
 </module>

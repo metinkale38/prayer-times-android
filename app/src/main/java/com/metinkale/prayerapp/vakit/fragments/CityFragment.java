@@ -195,7 +195,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             } else {
                 mTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             }
-            mTitle.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(5, getActivity()));
+            mTitle.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(getActivity(), 5));
         }
 
         LocalDate greg = LocalDate.now();

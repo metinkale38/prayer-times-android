@@ -67,7 +67,7 @@ public class NamesFragment extends MainActivity.MainFragment implements OnQueryT
         DisplayMetrics dimension = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dimension);
 
-        float w = Utils.convertPixelsToDp(dimension.widthPixels, getActivity());
+        float w = Utils.convertPixelsToDp(getActivity(), dimension.widthPixels);
 
         mCols = (int) (w / 300);
         mLayoutManager = new GridLayoutManager(getActivity(), mCols);

@@ -37,7 +37,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
-import com.mikepenz.iconics.utils.Utils;
+import com.metinkale.prayerapp.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
@@ -150,7 +150,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
         if (mRootSounds.contains(sound)) {
             vh.getView().setPadding(0, 0, 0, 0);
         } else {
-            int padding = Utils.convertDpToPx(App.get(), 32);
+            int padding = (int) Utils.convertDpToPixel(App.get(), 32);
             vh.getView().setPadding(padding, 0, padding, 0);
         }
 

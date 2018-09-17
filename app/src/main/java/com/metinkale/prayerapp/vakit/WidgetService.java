@@ -30,7 +30,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
@@ -50,8 +49,8 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App.NotIds;
 import com.metinkale.prayerapp.settings.Prefs;
+import com.metinkale.prayerapp.utils.NotificationUtils;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
 import com.metinkale.prayerapp.vakit.times.Times;
@@ -69,7 +68,6 @@ public class WidgetService extends Service {
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
     @NonNull
     private List<Long> mOngoing = new ArrayList<>();
-    private Bitmap mAbIcon;
     private Integer mColor1st = null;
     private Integer mColor2nd = null;
     private IntentFilter mScreenOnOffFilter;
@@ -148,7 +146,7 @@ public class WidgetService extends Service {
             Times t = Times.getTimes(id);
 
             if ((t == null) || !t.isOngoingNotificationActive()) {
-                mNotMan.cancel(id + "", NotIds.ONGOING);
+                mNotMan.cancel(id + "", NotificationUtils.ONGOING);
                 mOngoing.remove(i);
             }
         }
@@ -178,133 +176,91 @@ public class WidgetService extends Service {
             Crashlytics.setBool("showNumber", number);
 
             Notification noti;
-            if (Prefs.getAlternativeOngoing()) {
-                RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification_layout);
+            RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
-                int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
-                int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+            int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
+            int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
-                int next = t.getNext();
-                if (Prefs.getVakitIndicator().equals("next")) next++;
-                for (int i = 0; i < dt.length; i++) {
-                    if ((next - 1) == i) {
-                        if (Prefs.use12H()) {
-                            Spannable span = (Spannable) Utils.fixTimeForHTML(dt[i]);
-                            span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            views.setTextViewText(timeIds[i], span);
-                        } else
-                            views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTimeForHTML(dt[i]) + "</em></strong>"));
-                    } else {
-                        views.setTextViewText(timeIds[i], Utils.fixTimeForHTML(dt[i]));
-                    }
-                }
-
-
-                for (int i = 0; i < dt.length; i++) {
-                    if ((next - 1) == i) {
-                        views.setTextViewText(vakitIds[i], Html.fromHtml("<strong><em>" + Vakit.getByIndex(i).getString() + "</em></strong>"));
-                    } else {
-                        views.setTextViewText(vakitIds[i], Vakit.getByIndex(i).getString());
-                    }
-                }
-
-                views.setTextViewText(R.id.time, t.getLeft(t.getNext(), false));
-                views.setTextViewText(R.id.city, t.getName());
-
-
-                views.setTextColor(R.id.fajr, mColor1st);
-                views.setTextColor(R.id.sun, mColor1st);
-                views.setTextColor(R.id.zuhr, mColor1st);
-                views.setTextColor(R.id.asr, mColor1st);
-                views.setTextColor(R.id.maghrib, mColor1st);
-                views.setTextColor(R.id.ishaa, mColor1st);
-
-                views.setTextColor(R.id.time0, mColor1st);
-                views.setTextColor(R.id.time1, mColor1st);
-                views.setTextColor(R.id.time2, mColor1st);
-                views.setTextColor(R.id.time3, mColor1st);
-                views.setTextColor(R.id.time4, mColor1st);
-                views.setTextColor(R.id.time5, mColor1st);
-
-
-                views.setTextColor(R.id.time, mColor1st);
-                views.setTextColor(R.id.city, mColor1st);
-
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.Builder(this)
-                            .setContent(views)
-                            .setContentIntent(VakitFragment.getPendingIntent(t))
-                            .setSmallIcon(icon ? (number ?
-                                    Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(this, R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(this, R.drawable.ic_placeholder))
-                            .setOngoing(true)
-                            .build();
+            int next = t.getNext();
+            if (Prefs.getVakitIndicator().equals("next")) next++;
+            for (int i = 0; i < dt.length; i++) {
+                if ((next - 1) == i) {
+                    if (Prefs.use12H()) {
+                        Spannable span = (Spannable) Utils.fixTimeForHTML(dt[i]);
+                        span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        views.setTextViewText(timeIds[i], span);
+                    } else
+                        views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + Utils.fixTimeForHTML(dt[i]) + "</em></strong>"));
                 } else {
-                    noti = new NotificationCompat.Builder(this)
-                            .setContent(views)
-                            .setContentIntent(VakitFragment.getPendingIntent(t))
-                            .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
-                            .setOngoing(true)
-                            .build();
+                    views.setTextViewText(timeIds[i], Utils.fixTimeForHTML(dt[i]));
                 }
-            } else {
-                int n = t.getNext();
-                String sum = getString(R.string.leftText, Vakit.getByIndex(n - 1).getString(), left_part[n], t.getLeft().substring(0, 5));
-
-                if (mAbIcon == null) {
-                    mAbIcon = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_abicon)).getBitmap();
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    long left = t.getLeftMinutes(t.getNext());
-                    noti = new Notification.InboxStyle(new Notification.Builder(this)
-                            .setContentTitle(t.getName() + " (" + t.getSource() + ")")
-                            .setContentText("")
-                            .setLargeIcon(mAbIcon)
-                            .setSmallIcon(icon ? (number ?
-                                    Icon.createWithBitmap(getIconFromMinutes(left)) :
-                                    Icon.createWithResource(this, R.drawable.ic_abicon)) :
-                                    Icon.createWithResource(this, R.drawable.ic_placeholder))
-                            .setContentInfo(sum)
-                            .setContentIntent(VakitFragment.getPendingIntent(t))
-                            .setOngoing(true))
-                            .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
-                            .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
-                            .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
-                            .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
-                            .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
-                            .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
-                            .setSummaryText("")
-                            .build();
-                } else {
-                    noti = new NotificationCompat.InboxStyle(new NotificationCompat.Builder(this)
-                            .setContentTitle(t.getName() + " (" + t.getSource() + ")")
-                            .setContentText("")
-                            .setLargeIcon(mAbIcon)
-                            .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
-                            .setContentInfo(sum)
-                            .setContentIntent(VakitFragment.getPendingIntent(t))
-                            .setOngoing(true))
-                            .addLine(Vakit.getByIndex(0).getString() + ": " + Utils.fixTime(dt[0]))
-                            .addLine(Vakit.GUNES.getString() + ": " + Utils.fixTime(dt[1]))
-                            .addLine(Vakit.OGLE.getString() + ": " + Utils.fixTime(dt[2]))
-                            .addLine(Vakit.IKINDI.getString() + ": " + Utils.fixTime(dt[3]))
-                            .addLine(Vakit.AKSAM.getString() + ": " + Utils.fixTime(dt[4]))
-                            .addLine(Vakit.YATSI.getString() + ": " + Utils.fixTime(dt[5]))
-                            .setSummaryText("")
-                            .build();
-                }
-
             }
+
+
+            for (int i = 0; i < dt.length; i++) {
+                if ((next - 1) == i) {
+                    views.setTextViewText(vakitIds[i], Html.fromHtml("<strong><em>" + Vakit.getByIndex(i).getString() + "</em></strong>"));
+                } else {
+                    views.setTextViewText(vakitIds[i], Vakit.getByIndex(i).getString());
+                }
+            }
+
+            views.setTextViewText(R.id.time, t.getLeft(t.getNext(), false));
+            views.setTextViewText(R.id.city, t.getName());
+
+
+            views.setTextColor(R.id.fajr, mColor1st);
+            views.setTextColor(R.id.sun, mColor1st);
+            views.setTextColor(R.id.zuhr, mColor1st);
+            views.setTextColor(R.id.asr, mColor1st);
+            views.setTextColor(R.id.maghrib, mColor1st);
+            views.setTextColor(R.id.ishaa, mColor1st);
+
+            views.setTextColor(R.id.time0, mColor1st);
+            views.setTextColor(R.id.time1, mColor1st);
+            views.setTextColor(R.id.time2, mColor1st);
+            views.setTextColor(R.id.time3, mColor1st);
+            views.setTextColor(R.id.time4, mColor1st);
+            views.setTextColor(R.id.time5, mColor1st);
+
+
+            views.setTextColor(R.id.time, mColor1st);
+            views.setTextColor(R.id.city, mColor1st);
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                long left = t.getLeftMinutes(t.getNext());
+                Notification.Builder notBuilder = new Notification.Builder(this)
+                        .setContent(views)
+                        .setContentIntent(VakitFragment.getPendingIntent(t))
+                        .setSmallIcon(icon ? (number ?
+                                Icon.createWithBitmap(getIconFromMinutes(left)) :
+                                Icon.createWithResource(this, R.drawable.ic_abicon)) :
+                                Icon.createWithResource(this, R.drawable.ic_placeholder))
+                        .setOngoing(true);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notBuilder.setChannelId(NotificationUtils.getOngoingChannel(this).getId());
+                }
+
+                noti = notBuilder.build();
+            } else {
+                noti = new NotificationCompat.Builder(this)
+                        .setContent(views)
+                        .setContentIntent(VakitFragment.getPendingIntent(t))
+                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder)
+                        .setOngoing(true)
+                        .build();
+            }
+
 
             if (Build.VERSION.SDK_INT >= 16) {
                 noti.priority = Notification.PRIORITY_LOW;
             }
             noti.when = icon ? System.currentTimeMillis() : 0;
+
             try {
-                mNotMan.notify(id + "", NotIds.ONGOING, noti);
+                mNotMan.notify(id + "", NotificationUtils.ONGOING, noti);
             } catch (Exception e) {
                 Crashlytics.logException(e);
             }

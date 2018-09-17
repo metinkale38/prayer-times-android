@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times.gson;
+package com.metinkale.prayerapp.vakit.gson;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

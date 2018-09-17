@@ -105,9 +105,6 @@ public class Prefs {
         getPrefs().edit().putString("calendarIntegration", cal).apply();
     }
 
-    public static boolean getAlternativeOngoing() {
-        return getPrefs().getBoolean("alternativeOngoing", true);
-    }
 
     public static boolean isDefaultWidgetMinuteType() {
         return !"alt".equals(getPrefs().getString("widget_countdown", "default"));
@@ -173,8 +170,9 @@ public class Prefs {
         return getPrefs().getString("vakit_indicator", "current");
     }
 
+
     public static boolean showOngoingIcon() {
-        return getPrefs().getBoolean("ongoingIcon", true);
+        return getPrefs().getBoolean("ongoingIcon", showOngoingNumber());
     }
 
     @Deprecated

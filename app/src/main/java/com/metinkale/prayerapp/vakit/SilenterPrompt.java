@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.alarm.AlarmReceiver;
+import com.metinkale.prayerapp.vakit.alarm.SilenterReceiver;
 
 public class SilenterPrompt extends Activity {
     private SharedPreferences widgets;
@@ -51,7 +51,7 @@ public class SilenterPrompt extends Activity {
             @Override
             public void onClick(View v) {
                 widgets.edit().putInt("silenterWidget", np.getValue()).apply();
-                AlarmReceiver.silenter(v.getContext(), np.getValue());
+                SilenterReceiver.silent(v.getContext(), np.getValue());
                 finish();
             }
         });

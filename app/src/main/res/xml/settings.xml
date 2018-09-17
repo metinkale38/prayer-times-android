@@ -156,10 +156,6 @@
             android:key="ongoingNumber"
             android:title="@string/ongoingNumber" />
 
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="alternativeOngoing"
-            android:title="@string/alternativeOngoing" />
 
         <ListPreference
             android:defaultValue="silent"

@@ -157,7 +157,7 @@ public class SortFragment extends Fragment {
         public View handler;
         public View delete;
 
-        public ViewHolder(@NonNull View v) {
+        ViewHolder(@NonNull View v) {
             super(v);
             city = v.findViewById(R.id.city);
             source = v.findViewById(R.id.source);
@@ -178,13 +178,13 @@ public class SortFragment extends Fragment {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder vh, final int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder vh, int position) {
 
             Times c = getItem(position);
             if (c == null) {
@@ -204,7 +204,7 @@ public class SortFragment extends Fragment {
                 } else {
                     vh.city.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 }
-                vh.city.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(5, getActivity()));
+                vh.city.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(getActivity(), 5));
             } else {
                 vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             }
@@ -214,7 +214,7 @@ public class SortFragment extends Fragment {
             vh.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemDismiss(position);
+                    onItemDismiss(vh.getAdapterPosition());
                 }
             });
             vh.handler.setOnTouchListener(new View.OnTouchListener() {

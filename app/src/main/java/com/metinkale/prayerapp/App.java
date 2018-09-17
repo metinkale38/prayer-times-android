@@ -100,22 +100,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         return activeNetwork != null && activeNetwork.isConnected();
     }
 
-    public static void setExact(@NonNull AlarmManager am, int type, long time, PendingIntent service) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
-                && type == AlarmManager.RTC_WAKEUP && Prefs.useAlarm()) {
-            AlarmManager.AlarmClockInfo info =
-                    new AlarmManager.AlarmClockInfo(time,
-                            PendingIntent.getActivity(App.get(), 0, new Intent(App.get(), VakitFragment.class), PendingIntent.FLAG_UPDATE_CURRENT));
-            am.setAlarmClock(info, service);
-        } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
-            am.setExactAndAllowWhileIdle(type, time, service);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            am.setExact(type, time, service);
-        } else {
-            am.set(type, time, service);
-        }
 
-    }
 
     public static void setApp(App app) {
         sApp = app;
@@ -212,12 +197,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         }
 
 
-    }
-
-    public static final class NotIds {
-        public static final int ALARM = 1;
-        public static final int ONGOING = 2;
-        public static final int PLAYING = 3;
     }
 
     private static class MyJobCreator implements JobCreator {

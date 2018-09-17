@@ -27,7 +27,7 @@ import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.utils.livedata.LiveDataAwareList;
 import com.metinkale.prayerapp.vakit.alarm.Alarm;
-import com.metinkale.prayerapp.vakit.alarm.AlarmReceiver;
+import com.metinkale.prayerapp.vakit.alarm.AlarmService;
 
 import org.joda.time.DateTime;
 import org.joda.time.DurationFieldType;
@@ -157,7 +157,7 @@ public abstract class Times extends TimesBase {
     public static void setAlarms() {
         Pair<Alarm, LocalDateTime> nextAlarm = getNextAlarm();
         if (nextAlarm != null && nextAlarm.first != null && nextAlarm.second != null)
-            AlarmReceiver.setAlarm(App.get(), nextAlarm);
+            AlarmService.setAlarm(App.get(), nextAlarm);
     }
 
 

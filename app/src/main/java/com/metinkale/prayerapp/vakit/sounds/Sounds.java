@@ -43,22 +43,14 @@ import java.util.List;
 import lombok.Cleanup;
 
 public class Sounds {
+    private static final List<Sound> sSounds = new ArrayList<>();
 
-    private static List<Sound> sSounds = new ArrayList<>();
-
-    public static void loadAsync() {
-        if (sSounds.isEmpty()) {
-            new Thread() {
-                @Override
-                public void run() {
-                    loadSounds();
-                }
-            }.start();
-        }
+    static {
+        loadSounds();
     }
 
+
     public static List<Sound> getSounds() {
-        if (sSounds.isEmpty()) loadSounds();
         return sSounds;
     }
 
@@ -67,7 +59,6 @@ public class Sounds {
     }
 
     public static List<Sound> getRootSounds() {
-        if (sSounds.isEmpty()) loadSounds();
         ArrayList<Sound> sounds = new ArrayList<>();
         for (Sound sound : sSounds) {
             if (sound instanceof BundledSound || sound instanceof UserSound) {
@@ -115,11 +106,8 @@ public class Sounds {
             @Override
             public void onCompleted(Exception exp, String result) {
                 if (exp != null) {
-                    loadSounds();
                     Crashlytics.logException(exp);
                 } else {
-
-
                     try {
                         if (!new JSONObject(result).getString("name").equals("sounds")) return;
 

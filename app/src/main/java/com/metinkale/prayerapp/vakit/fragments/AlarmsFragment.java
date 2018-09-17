@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,18 +32,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.metinkale.prayer.BuildConfig;
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.vakit.sounds.Sounds;
 import com.metinkale.prayerapp.vakit.alarm.Alarm;
+import com.metinkale.prayerapp.vakit.alarm.AlarmService;
 import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
+
+import org.joda.time.LocalDateTime;
 
 public class AlarmsFragment extends Fragment implements Observer<Times> {
     private Times mTimes;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private AlarmsAdapter mAdapter;
+    private boolean mManuallyTriggered = false;
 
     @NonNull
     public static AlarmsFragment create(@NonNull Times t) {
@@ -55,7 +60,6 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sounds.loadAsync();
         mRecyclerView = (RecyclerView) inflater.inflate(R.layout.vakit_notprefs, container, false);
 
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
@@ -98,6 +102,10 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         super.onPause();
 
         getActivity().setTitle(getString(R.string.appName));
+        if (BuildConfig.DEBUG && !mManuallyTriggered) {
+            mManuallyTriggered = false;
+            Times.setAlarms();
+        }
     }
 
     @Override
@@ -155,6 +163,16 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                     } else {
                         AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
                     }
+                }
+
+                @Override
+                public boolean onLongClick() {
+                    if (BuildConfig.DEBUG) {
+                        AlarmService.setAlarm(getActivity(), new Pair<>(alarm, LocalDateTime.now().plusSeconds(5)));
+                        mManuallyTriggered = true;
+                        return true;
+                    }
+                    return super.onLongClick();
                 }
             });
         }

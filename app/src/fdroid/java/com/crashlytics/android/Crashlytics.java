@@ -5,7 +5,7 @@ package com.crashlytics.android;
  */
 public class Crashlytics {
     public static void logException(Throwable e) {
-
+        e.printStackTrace();
     }
 
     public static void setDouble(String key, double value) {

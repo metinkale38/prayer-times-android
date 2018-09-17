@@ -19,31 +19,21 @@ package com.metinkale.prayerapp.vakit.times;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.vakit.LocationService;
 import com.metinkale.prayerapp.vakit.WidgetService;
 import com.metinkale.prayerapp.vakit.alarm.Alarm;
-import com.metinkale.prayerapp.vakit.sounds.Sound;
-import com.metinkale.prayerapp.vakit.times.gson.BooleanSerializer;
-import com.metinkale.prayerapp.vakit.times.gson.RuntimeTypeAdapterFactory;
-import com.metinkale.prayerapp.vakit.times.gson.SoundSerializer;
-import com.metinkale.prayerapp.vakit.times.gson.TimezoneSerializer;
+import com.metinkale.prayerapp.vakit.gson.GSONFactory;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 
 /**
  * Created by metin on 03.04.2016.
  */
 public abstract class TimesBase extends TimesDeprecatedLayer {
-
-    @NonNull
-    private transient static final Gson GSON;
 
     private transient final SharedPreferences prefs;
     private transient long ID;//all ids created since 07.04.2018 fit into int, consider switching to int at sometime
@@ -64,32 +54,11 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     private final transient Runnable mApplyPrefs = new Runnable() {
         @Override
         public void run() {
-            String json = GSON.toJson(TimesBase.this);
+            String json = GSONFactory.build().toJson(TimesBase.this);
             prefs.edit().putString("id" + ID, json).apply();
             setValue((Times) TimesBase.this);
         }
     };
-
-
-    static {
-        GsonBuilder b = new GsonBuilder();
-        BooleanSerializer booleanSerializer = new BooleanSerializer();
-
-
-        RuntimeTypeAdapterFactory<Times> subTypeFactory = RuntimeTypeAdapterFactory
-                .of(Times.class, "source");
-        for (Source source : Source.values()) {
-            subTypeFactory = subTypeFactory.registerSubtype(source.clz, source.name());
-        }
-
-        b.registerTypeAdapterFactory(subTypeFactory);
-        b.registerTypeAdapter(Boolean.class, booleanSerializer);
-        b.registerTypeAdapter(boolean.class, booleanSerializer);
-        b.registerTypeAdapter(TimeZone.class, new TimezoneSerializer());
-        b.registerTypeAdapter(Sound.class, new SoundSerializer());
-
-        GSON = b.create();
-    }
 
 
     private Set<Alarm> alarms = new HashSet<>();
@@ -148,7 +117,7 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     protected static Times from(long id) {
         String json = App.get().getSharedPreferences("nvc", 0).getString("id" + id, null);
         try {
-            TimesBase t = GSON.fromJson(json, Times.class);
+            TimesBase t = GSONFactory.build().fromJson(json, Times.class);
             t.setID(id);
             return (Times) t;
         } catch (Exception e) {

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times.gson;
+package com.metinkale.prayerapp.vakit.gson;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -35,8 +34,8 @@ public class SoundSerializer implements JsonSerializer<Sound>, JsonDeserializer<
 
     @Override
     public JsonElement serialize(Sound sound, Type arg1, JsonSerializationContext arg2) {
-        if(sound==null)return null;
-        if(sound instanceof UserSound){
+        if (sound == null) return null;
+        if (sound instanceof UserSound) {
             return new JsonPrimitive(((UserSound) sound).getUri().toString());
         }
         return new JsonPrimitive(sound.getId());

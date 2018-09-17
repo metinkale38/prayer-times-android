@@ -95,7 +95,7 @@ public class CalcTimes extends Times {
                         .setCallback(new FutureCallback<String>() {
                             @Override
                             public void onCompleted(Exception e, String result) {
-                                if (e == null)
+                                if (e != null)
                                     Crashlytics.logException(e);
                                 try {
                                     double m = Double.parseDouble(result);

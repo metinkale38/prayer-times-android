@@ -18,6 +18,9 @@ package com.metinkale.prayerapp.vakit.alarm;
 
 
 import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArraySet;
@@ -25,6 +28,7 @@ import android.support.v4.util.ArraySet;
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
 import com.metinkale.prayerapp.utils.UUID;
+import com.metinkale.prayerapp.utils.VibrationPreference;
 import com.metinkale.prayerapp.vakit.sounds.Sound;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
@@ -190,4 +194,15 @@ public class Alarm implements Comparable<Alarm> {
     }
 
 
+    public void vibrate(Context c) {
+        if (!isVibrate()) return;
+        Vibrator v = (Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createWaveform(VibrationPreference.getPattern(c, "vibration"), -1));
+        } else {
+            v.vibrate(VibrationPreference.getPattern(c, "vibration"), -1);
+        }
+
+
+    }
 }

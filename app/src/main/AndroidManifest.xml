@@ -320,7 +320,7 @@
             android:name="com.metinkale.prayerapp.compass.LocationPicker"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
-        <service android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver" />
+        <service android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService" />
         <service android:name="com.metinkale.prayerapp.MainIntentService" />
         <service android:name="com.metinkale.prayerapp.vakit.WidgetService">
             <intent-filter>
@@ -400,7 +400,7 @@
                 android:resource="@xml/vakit_widget_silenter" />
         </receiver>
         <receiver
-            android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver$WakefulReceiver"
+            android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService$AlarmReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
@@ -409,7 +409,7 @@
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.AlarmReceiver$StopAlarmPlayerReceiver" />
+        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService$StopAlarmPlayerReceiver" />
 
         <receiver android:name="com.metinkale.prayerapp.vakit.alarm.SilenterReceiver" />
 

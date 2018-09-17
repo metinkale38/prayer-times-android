@@ -33,7 +33,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -44,8 +46,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.metinkale.prayer.R;
-import com.metinkale.prayerapp.App.NotIds;
-import com.metinkale.prayerapp.vakit.AlarmReceiver;
+import com.metinkale.prayerapp.utils.NotificationUtils;
+import com.metinkale.prayerapp.vakit.alarm.Alarm;
+import com.metinkale.prayerapp.vakit.alarm.AlarmService;
+import com.metinkale.prayerapp.vakit.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -134,16 +138,30 @@ public class NotificationPopup extends Activity implements SensorEventListener {
 
         @Override
         public void onReceive(@NonNull Context context, Intent intent) {
-            context.sendBroadcast(new Intent(context, AlarmReceiver.Audio.class));
+            context.sendBroadcast(new Intent(context, AlarmService.StopAlarmPlayerReceiver.class));
             finish();
         }
     };
 
     void onDismiss() {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(getIntent().getIntExtra("city", 0) + "", NotIds.ALARM);
-        sendBroadcast(new Intent(this, AlarmReceiver.Audio.class));
+        nm.cancel(getIntent().getIntExtra("city", 0) + "", NotificationUtils.ALARM);
+        sendBroadcast(new Intent(this, AlarmService.StopAlarmPlayerReceiver.class));
         finish();
+    }
+
+    public static void start(Context c, Alarm alarm) {
+        Times t = alarm.getCity();
+        PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= 20 && !pm.isInteractive()
+                || Build.VERSION.SDK_INT < 20 && !pm.isScreenOn()) {
+            Intent i = new Intent(c, NotificationPopup.class);
+            i.putExtra("city", t.getID());
+            i.putExtra("name", t.getName() + " (" + t.getSource() + ")");
+            i.putExtra("vakit", alarm.getTitle());
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            c.startActivity(i);
+        }
     }
 
 

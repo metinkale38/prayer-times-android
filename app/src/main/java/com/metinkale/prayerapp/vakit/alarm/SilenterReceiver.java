@@ -18,7 +18,7 @@ public class SilenterReceiver extends BroadcastReceiver {
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
         if ((ringermode != AudioManager.RINGER_MODE_SILENT) && ((ringermode != AudioManager.RINGER_MODE_VIBRATE) || silent)) {
-            AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+            MyAlarmManager am = MyAlarmManager.with(c);
 
             Intent i = new Intent(c, SilenterReceiver.class);
             i.putExtra("mode", ringermode);

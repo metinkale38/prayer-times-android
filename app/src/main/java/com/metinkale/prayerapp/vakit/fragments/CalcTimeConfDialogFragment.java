@@ -181,7 +181,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements Adapte
                 .setCallback(new FutureCallback<String>() {
                     @Override
                     public void onCompleted(Exception e, String result) {
-                        if (e == null)
+                        if (e != null)
                             Crashlytics.logException(e);
                         try {
                             double m = Double.parseDouble(result);
@@ -322,7 +322,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements Adapte
 
     @Override
     public void onClick(View view) {
-        CalcTimes ct=new CalcTimes( UUID.asInt());
+        CalcTimes ct = new CalcTimes(UUID.asInt());
         ct.setPrayTimes(mPrayTimes);
         ct.setName(getArguments().getString("city"));
         ct.setLat(mPrayTimes.getLatitude());

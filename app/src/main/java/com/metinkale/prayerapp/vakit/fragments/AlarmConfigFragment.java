@@ -39,10 +39,10 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.App;
+import com.metinkale.prayerapp.vakit.alarm.Alarm;
 import com.metinkale.prayerapp.vakit.sounds.Sound;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooser;
 import com.metinkale.prayerapp.vakit.sounds.SoundChooserAdapter;
-import com.metinkale.prayerapp.vakit.alarm.Alarm;
 import com.metinkale.prayerapp.vakit.times.Times;
 import com.metinkale.prayerapp.vakit.times.Vakit;
 
@@ -432,6 +432,7 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
 
     @Override
     public void onPause() {
+        mAdapter.resetAudios();
         mAlarm.getCity().save();
         super.onPause();
     }

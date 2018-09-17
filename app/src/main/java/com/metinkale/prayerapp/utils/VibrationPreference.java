@@ -19,8 +19,10 @@ package com.metinkale.prayerapp.utils;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -115,7 +117,11 @@ public class VibrationPreference extends EditTextPreference {
                 for (int i = 0; i < pattern.length; i++) {
                     pattern[i] = mills.get(i);
                 }
-                vib.vibrate(pattern, -1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                } else {
+                    vib.vibrate(pattern, -1);
+                }
             }
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);

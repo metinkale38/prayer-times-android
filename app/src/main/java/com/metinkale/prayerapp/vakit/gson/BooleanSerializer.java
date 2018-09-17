@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayerapp.vakit.times.gson;
+package com.metinkale.prayerapp.vakit.gson;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,24 +22,24 @@ import android.support.annotation.Nullable;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
-import java.util.TimeZone;
 
-public class TimezoneSerializer implements JsonSerializer<TimeZone>, JsonDeserializer<TimeZone> {
+public class BooleanSerializer implements JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
 
     @Nullable
     @Override
-    public JsonElement serialize(TimeZone tz, Type arg1, JsonSerializationContext arg2) {
-        return tz == null ? null : new JsonPrimitive(tz.getID());
+    public JsonElement serialize(Boolean arg0, Type arg1, JsonSerializationContext arg2) {
+        return arg0 ? new JsonPrimitive(1) : null;
     }
 
     @NonNull
     @Override
-    public TimeZone deserialize(@NonNull JsonElement jtz, Type arg1, JsonDeserializationContext arg2) {
-        return jtz.isJsonNull() ? TimeZone.getDefault() : TimeZone.getTimeZone(jtz.getAsString());
+    public Boolean deserialize(@NonNull JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+        return arg0.getAsInt() == 1;
     }
 }

@@ -104,6 +104,10 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
         public void onClick() {
             onChange(!getChecked());
         }
+
+        public boolean onLongClick() {
+            return false;
+        }
     }
 
     static class SwitchVH extends MyViewHolder {
@@ -133,6 +137,15 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
                     item.onClick();
                 }
             });
+
+            mTitle.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return item.onLongClick();
+                }
+            });
+
+
         }
 
 
