@@ -43,8 +43,7 @@ public final class NotificationUtils {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static NotificationChannel getPlayingChannel(Context c) {
         CharSequence name = c.getString(R.string.sound);
-        int importance = NotificationManager.IMPORTANCE_MAX;
-        NotificationChannel channel = new NotificationChannel("sound", name, importance);
+        NotificationChannel channel = new NotificationChannel("sound", name, NotificationManager.IMPORTANCE_HIGH);
 
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this

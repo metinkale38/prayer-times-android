@@ -19,7 +19,6 @@ package com.metinkale.prayerapp.intro;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -186,7 +185,10 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
                     finish();
                     Prefs.setChangelogVersion(ChangelogFragment.CHANGELOG_VERSION);
                     Prefs.setShowIntro(false);
-                    startActivity(new Intent(this, MainActivity.class));
+
+                    Intent i = new Intent(this, MainActivity.class);
+                    if (Times.getCount() == 0) i.putExtra("openCitySearch", true);
+                    startActivity(i);
 
                     String appName = "appName";
                     String lang = Prefs.getLanguage();

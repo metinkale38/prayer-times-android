@@ -55,6 +55,7 @@ import com.metinkale.prayer.R;
 import com.metinkale.prayerapp.about.AboutFragment;
 import com.metinkale.prayerapp.calendar.CalendarFragment;
 import com.metinkale.prayerapp.compass.CompassFragment;
+import com.metinkale.prayerapp.dhikr.DhikrFragment;
 import com.metinkale.prayerapp.hadis.HadithFragment;
 import com.metinkale.prayerapp.hadis.SqliteHelper;
 import com.metinkale.prayerapp.intro.IntroActivity;
@@ -66,8 +67,8 @@ import com.metinkale.prayerapp.utils.AppRatingDialog;
 import com.metinkale.prayerapp.utils.PermissionUtils;
 import com.metinkale.prayerapp.utils.Utils;
 import com.metinkale.prayerapp.vakit.LocationService;
+import com.metinkale.prayerapp.vakit.fragments.SearchCityFragment;
 import com.metinkale.prayerapp.vakit.fragments.VakitFragment;
-import com.metinkale.prayerapp.dhikr.DhikrFragment;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -195,6 +196,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             setResult(RESULT_OK, intent);
             finish();
         }
+
+        if (getIntent().getBooleanExtra("openCitySearch", false)) {
+            moveToFrag(new SearchCityFragment());
+        }
     }
 
 
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 .replace(R.id.basecontent, frag)
                 .commit();
         if (frag instanceof MainFragment)
-            setRequestedOrientation(((MainFragment)frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+            setRequestedOrientation(((MainFragment) frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         else
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
@@ -234,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 .addToBackStack(null)
                 .commit();
         if (frag instanceof MainFragment)
-            setRequestedOrientation(((MainFragment)frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+            setRequestedOrientation(((MainFragment) frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         else
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }

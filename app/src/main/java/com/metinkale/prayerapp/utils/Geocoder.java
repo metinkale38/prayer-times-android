@@ -24,9 +24,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.metinkale.prayerapp.App;
-import com.metinkale.prayerapp.settings.Prefs;
 import com.metinkale.prayerapp.vakit.times.Entry;
-import com.metinkale.prayerapp.vakit.times.Source;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,7 @@ public class Geocoder {
                 Entry entry = new Entry();
                 if (result != null && result.address != null) {
                     entry.setCountry(result.address.country);
-                    entry.setName(result.address.county);
+                    entry.setName(result.address.county != null ? result.address.county : result.address.city);
                     entry.setLat(result.lat);
                     entry.setLng(result.lon);
                 } else {
@@ -91,17 +89,14 @@ public class Geocoder {
                 }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
             @Override
             public void onCompleted(@Nullable Exception e, @NonNull Response<List<OSMPlace>> response) {
-                if (response == null) {
+                List<OSMPlace> result = response.getResult();
+                if (response == null || (result = response.getResult()) == null || result.isEmpty()) {
                     callback.onResult(new ArrayList<Result>());
                     return;
                 }
-                List<OSMPlace> result = response.getResult();
+
                 List<Result> allresults = new ArrayList<>();
                 if (e != null) e.printStackTrace();
-                if (result == null || result.size() == 0) {
-                    callback.onResult(allresults);
-                    return;
-                }
 
                 for (OSMPlace res : result) {
                     Result r = new Result();
