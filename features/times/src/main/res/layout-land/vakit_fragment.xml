@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2013-2017 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/kerahat"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/kerahat"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/kerahatTime"
+        android:textColor="@color/background"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <androidx.percentlayout.widget.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/kerahat">
+
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/date"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lines="1"
+            android:textStyle="italic"
+            app:layout_heightPercent="11%"
+            app:layout_marginTopPercent="1%"
+            app:layout_widthPercent="100%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/city"
+            android:layout_below="@id/date"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lines="1"
+            app:layout_heightPercent="17%"
+            app:layout_widthPercent="100%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/hicri"
+            android:layout_below="@id/city"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lines="1"
+            android:textStyle="italic"
+            app:layout_heightPercent="11%"
+            app:layout_marginBottomPercent="2%"
+            app:layout_widthPercent="100%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/fajr"
+            android:layout_below="@id/hicri"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/fajr"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/fajrTime"
+            android:layout_below="@id/fajr"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/sun"
+            android:layout_below="@id/hicri"
+            android:layout_toEndOf="@id/fajrTime"
+            android:layout_toRightOf="@id/fajrTime"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/sun"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/sunTime"
+            android:layout_below="@id/sun"
+            android:layout_toEndOf="@id/fajr"
+            android:layout_toRightOf="@id/fajr"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/zuhr"
+            android:layout_below="@id/hicri"
+            android:layout_toEndOf="@id/sun"
+            android:layout_toRightOf="@id/sun"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/zuhr"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/zuhrTime"
+            android:layout_below="@id/zuhr"
+            android:layout_toEndOf="@id/sunTime"
+            android:layout_toRightOf="@id/sunTime"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/asr"
+            android:layout_below="@id/fajrTime"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/asr"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/asrTime"
+            android:layout_below="@id/asr"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/maghrib"
+            android:layout_below="@id/fajrTime"
+            android:layout_toEndOf="@id/asr"
+            android:layout_toRightOf="@id/asr"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/maghrib"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/maghribTime"
+            android:layout_below="@id/maghrib"
+            android:layout_toEndOf="@id/asrTime"
+            android:layout_toRightOf="@id/asrTime"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/ishaa"
+            android:layout_below="@id/fajrTime"
+            android:layout_toEndOf="@id/maghribTime"
+            android:layout_toRightOf="@id/maghribTime"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/ishaa"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/ishaaTime"
+            android:layout_below="@id/ishaa"
+            android:layout_toEndOf="@id/maghrib"
+            android:layout_toRightOf="@id/maghrib"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="00:00"
+            app:layout_heightPercent="11%"
+            app:layout_widthPercent="33.3%" />
+
+
+        <com.metinkale.prayer.utils.AutoResizeTextView
+            android:id="@+id/countdown"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/ishaaTime"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            app:layout_heightPercent="11%"
+            app:layout_marginTopPercent="2%" />
+
+        <ImageView
+            android:id="@+id/source2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/appName"
+            android:cropToPadding="true" />
+
+        <ImageView
+            android:id="@+id/source1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/appName"
+            android:cropToPadding="true" />
+
+
+    </androidx.percentlayout.widget.PercentRelativeLayout>
+</RelativeLayout>

@@ -1,84 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2013-2017 Metin Kale
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
--->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.metinkale.prayer"
     android:installLocation="internalOnly">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <application>
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <application
-        android:name="com.metinkale.prayerapp.App"
-        android:allowBackup="false"
-        android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/appName"
-        android:noHistory="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup,android:label">
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.fragments.NotificationPopup"
-            android:launchMode="singleInstance"
-            android:screenOrientation="nosensor"
-            android:showOnLockScreen="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.metinkale.prayerapp.intro.IntroActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.metinkale.prayerapp.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.MainStart"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ShortcutActivity"/>
 
         <activity-alias
             android:name=".aliasDefault"
             android:label="@string/appName"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:logo="@mipmap/ic_launcher"
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -90,7 +23,7 @@
             android:name=".aliasTR"
             android:enabled="false"
             android:label="@string/appNameTR"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,7 +35,7 @@
             android:name=".aliasFR"
             android:enabled="false"
             android:label="@string/appNameFR"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -114,7 +47,7 @@
             android:name=".aliasRU"
             android:enabled="false"
             android:label="@string/appNameRU"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -126,7 +59,7 @@
             android:name=".aliasAR"
             android:enabled="false"
             android:label="@string/appNameAR"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -138,7 +71,7 @@
             android:name=".aliasDE"
             android:enabled="false"
             android:label="@string/appNameDE"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -150,7 +83,7 @@
             android:name=".aliasEN"
             android:enabled="false"
             android:label="@string/appNameEN"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -162,7 +95,7 @@
             android:name=".aliasNL"
             android:enabled="false"
             android:label="@string/appNameNL"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -174,7 +107,7 @@
             android:name=".aliasID"
             android:enabled="false"
             android:label="@string/appNameID"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -186,7 +119,7 @@
             android:name=".aliasKU"
             android:enabled="false"
             android:label="@string/appNameKU"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -198,7 +131,7 @@
             android:name=".aliasBS"
             android:enabled="false"
             android:label="@string/appNameBS"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
+            android:targetActivity=".ShortcutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -207,254 +140,6 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
-            android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
-            android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
-            android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.metinkale.prayerapp.settings.BackupRestoreActivity"
-            android:label="@string/backupRestore" />
 
-        <activity-alias
-            android:name="com.metinkale.prayerapp.hadis.Main"
-            android:icon="@mipmap/ic_hadith"
-            android:label="@string/hadith"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.compass.Main"
-            android:icon="@mipmap/ic_compass"
-            android:label="@string/compass"
-            android:screenOrientation="portrait"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.names.Main"
-            android:icon="@mipmap/ic_names"
-            android:label="@string/names"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.calendar.Main"
-            android:icon="@mipmap/ic_calendar"
-            android:label="@string/calendar"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.tesbihat.Tesbihat"
-            android:icon="@mipmap/ic_tesbihat"
-            android:label="@string/tesbihat"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.missedprayers.Main"
-            android:label="@string/missedPrayers"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name="com.metinkale.prayerapp.dhikr.Main"
-            android:label="@string/dhikr"
-            android:logo="@mipmap/ic_dhikr"
-            android:targetActivity="com.metinkale.prayerapp.vakit.MainStart">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
-
-        <activity
-            android:name="com.metinkale.prayerapp.vakit.SilenterPrompt"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name="com.metinkale.prayerapp.compass.LocationPicker"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-
-        <service android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService" />
-        <service android:name="com.metinkale.prayerapp.MainIntentService" />
-        <service android:name="com.metinkale.prayerapp.vakit.WidgetService">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.DATE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-            android:label="@string/widgetLabel">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-            android:label="@string/widgetClock">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget_clock" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
-            android:label="@string/widgetClock2">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget_clock2" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-            android:label="@string/widgetLong">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget_long" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
-            android:label="@string/widgetSmall">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget_small" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
-            android:label="@string/widgetSilenter">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/vakit_widget_silenter" />
-        </receiver>
-        <receiver
-            android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService$AlarmReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.DATE_CHANGED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.AlarmService$StopAlarmPlayerReceiver" />
-
-        <receiver android:name="com.metinkale.prayerapp.vakit.alarm.SilenterReceiver" />
-
-        <uses-library
-            android:name="com.sec.android.app.multiwindow"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
-        <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-            android:resource="@dimen/app_defaultsize_w" />
-        <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-            android:resource="@dimen/app_defaultsize_h" />
-        <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-            android:resource="@dimen/app_minimumsize_w" />
-        <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-            android:resource="@dimen/app_minimumsize_h" />
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="@string/FILE_PROVIDER_AUTHORITIES"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
-
-        <receiver
-            android:name="com.metinkale.prayerapp.utils.TimeZoneChangedReceiver"
-            android:enabled="true"
-            android:exported="true" />
-
-        <service android:name="com.metinkale.prayerapp.vakit.LocationService">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
-            </intent-filter>
-        </service>
     </application>
-
 </manifest>

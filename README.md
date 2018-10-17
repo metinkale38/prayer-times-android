@@ -48,7 +48,7 @@ Features
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
 "Kolaylaştırınız, zorlaştırmayınız... Müjdeleyiniz, nefret ettirmeyiniz" (Hadis-i Şerif)
 
-Bu Hadisten yola çıkarak bu Uygulama Allahın izniyle sizin hayatınızı kolaylaştıracaktır: Namaz Vakti Uygulaması ile Namaz'inizi İnşaAllah bir daha kaçırmayacaksınız, Kıble'yi kolayca bulacaksınız ve daha fazla özellikleriyle sizlere yardımcı olacaktır.
+Bu Hadisten yola çıkarak bu Uygulama Allahın izniyle sizin hayatınızı kolaylaştıracaktır: Namaz Vakti Uygulaması ile Namazınızı İnşaAllah bir daha kaçırmayacaksınız, Kıble'yi kolayca bulacaksınız ve daha fazla özellikleriyle sizlere yardımcı olacaktır.
 
 Namaz Vakti Uygulamasının içerikleri:
 

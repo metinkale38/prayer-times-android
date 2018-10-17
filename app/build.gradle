@@ -13,25 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
-    }
-
-    dependencies {
-        //noinspection GradleDynamicVersion
-        classpath 'io.fabric.tools:gradle:+' //excludeInFDroid
-    }
-
-
-}
-
-
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'  //excludeInFDroid
+
 
 android {
+
     sourceSets {
         main.assets.srcDirs += ['../changelogs']
     }
@@ -42,49 +28,24 @@ android {
         exclude '.readme'
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.2'
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
         minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 194
-        versionName '3.7'
-        multiDexEnabled false
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    dexOptions {
-        javaMaxHeapSize "2g"
-        preDexLibraries = false
+        multiDexEnabled true
     }
 
     buildTypes {
         debug {
             applicationIdSuffix '.debug'
             versionNameSuffix ' DEBUG'
-            resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.debug.fileprovider"
-
-            debuggable true
-            minifyEnabled false
-            zipAlignEnabled false
             ext.enableCrashlytics = false
         }
         release {
-            resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.fileprovider"
-
-
-            debuggable false
             minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                    'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -96,9 +57,6 @@ android {
         }
         play {
             versionNameSuffix " Play Store"
-            repositories {
-                maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
-            }
             dimension "store"
         }
     }
@@ -108,47 +66,25 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
     }
 
+    dynamicFeatures = [":features:times", ":features:compass", ":features:widget", ":features:intro",
+                       ":features:tesbihat", ':features:about', ':features:calendar', ':features:dhikr',
+                       ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings']
+
+
 }
 
 dependencies {
-    playImplementation 'com.google.android.gms:play-services-maps:11.8.0' //excludeInFDroid
-    playImplementation 'com.google.android.gms:play-services-gcm:11.8.0' //excludeInFDroid
-    playImplementation 'com.google.android.gms:play-services-location:11.8.0' //excludeInFDroid
-    playImplementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {//excludeInFDroid
-        transitive = true;//excludeInFDroid
-    }//excludeInFDroid
-    fdroidImplementation('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar') {
-        transitive = true
-    }
-
-    implementation('com.mikepenz:aboutlibraries:5.8.5@aar') {
-        transitive = true
-    }
-    implementation 'org.metinkale:praytimes:0.9.3.1'
-    implementation 'joda-time:joda-time:2.9.6:no-tzdb'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.android.support:percent:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:customtabs:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support:preference-v14:27.1.1'
-    implementation 'com.koushikdutta.ion:ion:2.2.1'
-    implementation 'net.steamcrafted:materialiconlib:1.1.5'
-    implementation 'com.evernote:android-job:1.2.6'
-    implementation 'com.github.anrwatchdog:anrwatchdog:1.3.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'us.feras.mdv:markdownview:1.1.0'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    implementation project(':features:base')
+    implementation project(':features:times')
+    implementation project(':features:compass')
+    implementation project(':features:widget')
+    implementation project(':features:intro')
+    implementation project(':features:tesbihat')
+    implementation project(':features:about')
+    implementation project(':features:calendar')
+    implementation project(':features:dhikr')
+    implementation project(':features:hadith')
+    implementation project(':features:missedprayers')
+    implementation project(':features:names')
+    implementation project(':features:settings')
 }
-

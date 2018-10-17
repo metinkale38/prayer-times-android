@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.metinkale.prayer.hadith">
+
+    <dist:module
+        dist:onDemand="true"
+        dist:title="@string/hadith">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:icon="@mipmap/ic_hadith"
+            android:label="@string/hadith">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="prayerapp.page.link"
+                    android:path="/hadith"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+    </application>
+
+</manifest>

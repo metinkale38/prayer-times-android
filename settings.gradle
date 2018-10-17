@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-include ':app', ':citiesfetcher', ':alarmhelper'
+include ':features:base', ':citiesfetcher', ':alarmhelper', ':features:compass', ':app', ':features:times', ':features:widget', ':features:intro', ':features:tesbihat', ':features:about', ':features:calendar', ':features:dhikr', ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings'

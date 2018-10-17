@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2013-2017 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.metinkale.prayer.base">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name="com.metinkale.prayer.App"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/appName"
+        android:noHistory="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+
+
+        <service android:name="com.metinkale.prayer.MainIntentService" />
+
+
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:resource="@dimen/app_defaultsize_w" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:resource="@dimen/app_defaultsize_h" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:resource="@dimen/app_minimumsize_w" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:resource="@dimen/app_minimumsize_h" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="@string/FILE_PROVIDER_AUTHORITIES"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <receiver
+            android:name="com.metinkale.prayer.utils.TimeZoneChangedReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.metinkale.prayer.times">
+
+    <dist:module
+        dist:onDemand="true"
+        dist:title="@string/title_times">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <activity
+            android:name="MainActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/appName">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="prayerapp.page.link"
+                    android:path="/times"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".fragments.NotificationPopup"
+            android:launchMode="singleInstance"
+            android:screenOrientation="nosensor"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+
+        <activity
+            android:name=".SilenterPrompt"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <service android:name=".alarm.AlarmService" />
+
+        <service android:name=".WidgetService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
+            </intent-filter>
+        </service>
+
+
+        <receiver
+            android:name=".alarm.AlarmService$AlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".alarm.AlarmService$StopAlarmPlayerReceiver" />
+
+        <receiver android:name=".alarm.SilenterReceiver" />
+
+        <service android:name=".LocationService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
+            </intent-filter>
+        </service>
+
+
+
+
+
+    </application>
+
+</manifest>

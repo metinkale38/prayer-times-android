@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2013-2017 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources translatable="false">
+
+
+    <string-array name="language_val">
+        <item>system</item>
+        <item>tr</item>
+        <item>de</item>
+        <item>en</item>
+        <item>ar</item>
+        <item>id</item>
+        <item>fr</item>
+        <item>bs</item>
+        <item>nl</item>
+        <item>ku</item>
+        <item>ru</item>
+    </string-array>
+
+
+    <string-array name="dropdown">
+        <item>@string/appName</item>
+        <item>@string/compass</item>
+        <item>@string/names</item>
+        <item>@string/calendar</item>
+        <item>@string/tesbihat</item>
+        <item>@string/hadith</item>
+        <item>@string/missedPrayers</item>
+        <item>@string/dhikr</item>
+        <item>@string/settings</item>
+        <item>@string/about</item>
+    </string-array>
+
+
+
+</resources>

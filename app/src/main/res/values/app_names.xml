@@ -14,14 +14,5 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="appNameEN" translatable="false">Prayer Times</string>
-    <string name="appNameTR" translatable="false">Namaz Vakti</string>
-    <string name="appNameDE" translatable="false">Gebetszeiten</string>
-    <string name="appNameAR" translatable="false">أوقات الصلاة</string>
-    <string name="appNameFR" translatable="false">Horaires des prières</string>
-    <string name="appNameRU" translatable="false">Расписание молитв</string>
-    <string name="appNameNL" translatable="false">Gebedstijden</string>
-    <string name="appNameID" translatable="false">Waktu shalat</string>
-    <string name="appNameKU" translatable="false">Demên Nimêjê</string>
-    <string name="appNameBS" translatable="false">Vaktija</string>
+
 </resources>

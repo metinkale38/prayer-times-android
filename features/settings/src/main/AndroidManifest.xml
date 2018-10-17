@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.metinkale.prayer.settings">
+
+    <dist:module
+        dist:onDemand="true"
+        dist:title="@string/settings">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <activity android:name=".MainActivity">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="prayerapp.page.link"
+                    android:path="/settings"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.metinkale.prayer.settings.BackupRestoreActivity"
+            android:label="@string/backupRestore" />
+
+
+    </application>
+
+</manifest>

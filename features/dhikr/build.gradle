@@ -1,0 +1,42 @@
+apply plugin: 'com.android.feature'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        debug {
+        }
+        release {
+        }
+    }
+
+    flavorDimensions "store"
+    productFlavors {
+        fdroid {
+            dimension "store"
+        }
+        play {
+            dimension "store"
+        }
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':features:base')
+
+    compileOnly "org.projectlombok:lombok:1.18.2"
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha01"
+}

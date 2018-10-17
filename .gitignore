@@ -1,3 +1,7 @@
+/build
+/.idea
+*.iml
+
 /app/src/main/res/values/keys.xml
 .gradle
 /local.properties
@@ -16,6 +20,7 @@
 /app/src/google-services.json
 /.idea
 google_maps_api.xml
-/fabric.properties
+fabric.properties
 /citiesfetcher/cache
 /crowdin.properties
+

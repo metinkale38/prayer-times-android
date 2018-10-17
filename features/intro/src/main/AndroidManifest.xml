@@ -1,0 +1,32 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.metinkale.prayer.intro">
+
+    <dist:module
+        dist:onDemand="true"
+        dist:title="@string/title_intro">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="prayerapp.page.link"
+                    android:path="/intro"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+
+    </application>
+</manifest>
+
