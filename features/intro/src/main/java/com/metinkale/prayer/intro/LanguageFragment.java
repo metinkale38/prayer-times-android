@@ -52,7 +52,7 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
             RadioButton button = new RadioButton(getContext());
             button.setTag(id);
             button.setText(name);
-            button.setTextColor(Color.WHITE);
+            button.setTextColor(getResources().getColor(R.color.background));
             button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
             int padding = (int) (button.getTextSize() / 2);
             button.setPadding(padding, padding, padding, padding);

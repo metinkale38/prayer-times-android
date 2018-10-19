@@ -22,5 +22,5 @@
     android:minHeight="50sp"
     android:padding="10dp"
     android:drawablePadding="20dp"
-    android:textColor="#000"
+    android:textColor="@color/foreground"
     android:textSize="16sp" />

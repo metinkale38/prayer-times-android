@@ -24,7 +24,7 @@
         android:id="@+id/kerahat"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@color/kerahat"
+        android:background="@color/alert"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/kerahatTime"

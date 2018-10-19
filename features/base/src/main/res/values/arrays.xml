@@ -15,8 +15,6 @@
   -->
 
 <resources translatable="false">
-
-
     <string-array name="language_val">
         <item>system</item>
         <item>tr</item>
@@ -30,21 +28,5 @@
         <item>ku</item>
         <item>ru</item>
     </string-array>
-
-
-    <string-array name="dropdown">
-        <item>@string/appName</item>
-        <item>@string/compass</item>
-        <item>@string/names</item>
-        <item>@string/calendar</item>
-        <item>@string/tesbihat</item>
-        <item>@string/hadith</item>
-        <item>@string/missedPrayers</item>
-        <item>@string/dhikr</item>
-        <item>@string/settings</item>
-        <item>@string/about</item>
-    </string-array>
-
-
 
 </resources>

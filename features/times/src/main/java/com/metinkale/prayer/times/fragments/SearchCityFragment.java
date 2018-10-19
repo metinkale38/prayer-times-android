@@ -19,7 +19,6 @@ package com.metinkale.prayer.times.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Criteria;
 import android.location.Location;
@@ -89,8 +88,8 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
                         new int[]{}
                 },
                 new int[]{
-                        Color.WHITE,
-                        Color.LTGRAY
+                        getResources().getColor(R.color.background),
+                        getResources().getColor(R.color.backgroundSecondary)
                 }
         );
 
@@ -205,7 +204,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColor(0xFFFFFFFF)
+                .setDefaultColorResource(R.color.background)
                 .inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);

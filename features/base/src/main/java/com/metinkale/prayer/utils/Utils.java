@@ -16,15 +16,12 @@
 
 package com.metinkale.prayer.utils;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Size;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -44,6 +41,13 @@ import org.joda.time.LocalDate;
 import java.text.DateFormatSymbols;
 import java.util.Locale;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
+
+import static android.content.Context.UI_MODE_SERVICE;
+
 public class Utils {
     
     private static int[] GMONTHS =
@@ -60,6 +64,11 @@ public class Utils {
                     R.string.holyday13, R.string.holyday14, R.string.holyday15, R.string.holyday16, R.string.holyday17, R.string.holyday18};
     
     public static void init(@NonNull Context c) {
+        UiModeManager systemService = (UiModeManager) c.getSystemService(UI_MODE_SERVICE);
+        if (systemService != null)
+            systemService.setNightMode(UiModeManager.MODE_NIGHT_NO);
+        
+        
         Locale locale = Utils.getLocale();
         Crashlytics.setString("lang", locale.getLanguage());
         Crashlytics.setString("digits", Prefs.getDigits());

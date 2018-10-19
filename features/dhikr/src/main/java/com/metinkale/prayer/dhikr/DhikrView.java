@@ -74,7 +74,7 @@ public class DhikrView extends View {
 
         mPaint.setStrokeWidth(center / 15);
 
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(getResources().getColor(R.color.background));
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         canvas.drawCircle(center / 10, center / 10, center / 10, mPaint);
 
@@ -87,7 +87,7 @@ public class DhikrView extends View {
         }
         mPaint.setStrokeWidth(1);
 
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(getResources().getColor(R.color.foreground));
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize((center * 2) / 5);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -98,7 +98,7 @@ public class DhikrView extends View {
 
 
         mPaint.setTextSize((center * 2) / 10);
-        mPaint.setColor(Color.GRAY);
+        mPaint.setColor(getResources().getColor(R.color.foregroundSecondary));
         canvas.drawText("/" + mDhikr.getMax(), center, (width * 2) / 3, mPaint);
 
     }

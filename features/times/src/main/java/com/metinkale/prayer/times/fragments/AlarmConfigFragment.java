@@ -65,7 +65,8 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
     private RecyclerView mSounds;
     private boolean mMinuteExact = false;
     private Alarm mAlarm;
-    private int mDefaultColor = App.get().getResources().getColor(R.color.theme_default_primary);
+    private int mColorOn = App.get().getResources().getColor(R.color.theme_default_primary);
+    private int mColorOff = App.get().getResources().getColor(R.color.foregroundSecondary);
     private Button mAddSound;
     private SeekBar mVolumeBar;
     private Spinner mVolumeSpinner;
@@ -373,7 +374,7 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
             return;
         }
 
-        mWeekdays[weekday - 1].setTextColor(enable ? mDefaultColor : Color.GRAY);
+        mWeekdays[weekday - 1].setTextColor(enable ? mColorOn : mColorOff);
     }
 
     private void setTime(final Vakit time, boolean enable) {
@@ -385,7 +386,7 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
             return;
         }
 
-        mTimesViews[time.index].setColor(enable ? mDefaultColor : Color.GRAY);
+        mTimesViews[time.index].setColor(enable ? mColorOn : mColorOff);
     }
 
 

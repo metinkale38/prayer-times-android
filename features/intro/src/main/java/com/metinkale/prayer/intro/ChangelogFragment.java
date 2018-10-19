@@ -61,7 +61,7 @@ public class ChangelogFragment extends IntroFragment {
                 md.loadMarkdownFile("file:///android_asset/turkish.md","file:///android_asset/style.css");
                 break;
         }
-        md.setBackgroundColor(Color.TRANSPARENT);
+        md.setBackgroundResource(R.color.transparent);
         return v;
     }
 

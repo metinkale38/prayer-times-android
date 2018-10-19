@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:textColor="#000000"
+        android:textColor="@color/foreground"
         android:lines="1"
         android:maxLines="1">
 

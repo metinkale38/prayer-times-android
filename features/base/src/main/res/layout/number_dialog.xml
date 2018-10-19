@@ -33,7 +33,7 @@
             android:ems="10"
             android:enabled="false"
             android:inputType="number"
-            android:textColor="#000000" />
+            android:textColor="@color/foreground" />
 
         <TextView
             android:id="@+id/max"

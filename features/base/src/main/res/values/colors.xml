@@ -16,11 +16,20 @@
 
 <resources>
 
-    <color name="colorPrimary">#0288d1</color>
     <color name="colorPrimaryDark">#01579b</color>
+    <color name="colorPrimary">#0288d1</color>
+    <color name="accent">#4fc3f7</color>
     <color name="colorPrimaryLight">#b3e5fc</color>
+
+    <color name="background20pTrans">#33ffffff</color>
     <color name="background">#ffffff</color>
-    <color name="background2">#e0e0e0</color>
-    <color name="indicator">#4fc3f7</color>
-    <color name="kerahat">#e51c23</color>
+    <color name="backgroundSecondary">#eeeeee</color>
+    <color name="divider">#bdbdbd</color>
+    <color name="foregroundSecondary">#757575</color>
+    <color name="foreground">#212121</color>
+
+    <color name="alert">#f44336</color>
+    <color name="transparent">#00000000</color>-
+
+
 </resources>

@@ -72,6 +72,6 @@
         android:layout_centerVertical="true"
         android:padding="8dp"
         app:materialIcon="crosshairs_gps"
-        app:materialIconColor="#666666"
+        app:materialIconColor="@color/foregroundSecondary"
         app:materialIconSize="32dp" />
 </RelativeLayout>

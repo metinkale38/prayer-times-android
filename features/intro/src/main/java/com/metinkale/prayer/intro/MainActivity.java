@@ -45,7 +45,7 @@ import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private ViewPager mPager;
-    private int[] mColors = {App.get().getResources().getColor(R.color.colorPrimary), App.get().getResources().getColor(R.color.indicator),
+    private int[] mColors = {App.get().getResources().getColor(R.color.colorPrimary), App.get().getResources().getColor(R.color.accent),
             App.get().getResources().getColor(R.color.colorPrimaryDark), 0xFF3F51B5, 0xFF00BCD4};
     private IntroFragment[] mFragments =
             {new LanguageFragment(), new ChangelogFragment(), new MenuIntroFragment(), new PagerIntroFragment(), new ConfigIntroFragment()};

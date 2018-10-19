@@ -131,7 +131,7 @@ public class ImsakiyeFragment extends Fragment {
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);
             } else if (position == 0) {
-                v.setBackgroundResource(R.color.indicator);
+                v.setBackgroundResource(R.color.accent);
             } else if ((position % 2) == 0) {
                 v.setBackgroundResource(R.color.colorPrimaryLight);
             } else {

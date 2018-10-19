@@ -27,7 +27,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#33ffffff"
+            android:background="@color/background20pTrans"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="20dp"
@@ -51,7 +51,7 @@
                 android:layout_below="@+id/img"
                 android:layout_centerHorizontal="true"
                 android:text="@string/appName"
-                android:textColor="#ffffff"
+                android:textColor="@color/background"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -88,7 +88,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/showIntro"
-                android:textColor="#ffffff" />
+                android:textColor="@color/background" />
 
             <Button
                 android:id="@+id/mail"
@@ -102,7 +102,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/mail"
-                android:textColor="#ffffff" />
+                android:textColor="@color/background" />
 
 
             <Button
@@ -117,7 +117,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/vote"
-                android:textColor="#ffffff" />
+                android:textColor="@color/background" />
 
 
             <Button
@@ -132,7 +132,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/share"
-                android:textColor="#ffffff" />
+                android:textColor="@color/background" />
 
             <Button
                 android:id="@+id/translate"
@@ -146,7 +146,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/translate"
-                android:textColor="#ffffff" />
+                android:textColor="@color/background" />
 
 
         </RelativeLayout>

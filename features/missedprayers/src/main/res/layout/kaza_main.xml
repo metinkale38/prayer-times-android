@@ -20,11 +20,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#e0e0e0">
+    android:background="@color/backgroundSecondary">
 
 
     <RelativeLayout
-        android:background="#ffffff"
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -84,7 +84,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="#ffffff"
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -145,192 +145,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:layout_weight="1"
-        android:paddingStart="50dp"
-        android:paddingEnd="50dp">
-
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            android:id="@id/minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
-            android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            android:id="@id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
-
-        <EditText
-            android:id="@id/nr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@id/plus"
-            android:layout_toRightOf="@id/minus"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            android:id="@id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:layout_weight="1"
-        android:paddingStart="50dp"
-        android:paddingEnd="50dp">
-
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
-            android:id="@id/minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            android:id="@id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
-
-        <EditText
-            android:id="@id/nr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@id/plus"
-            android:layout_toRightOf="@id/minus"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            android:id="@id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:layout_weight="1"
-        android:paddingStart="50dp"
-        android:paddingEnd="50dp">
-
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-            android:contentDescription="@null"
-
-            android:id="@id/minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            android:id="@id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
-
-        <EditText
-            android:id="@id/nr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/minus"
-            android:layout_alignBottom="@id/minus"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@id/plus"
-            android:layout_toRightOf="@id/minus"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            android:id="@id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:background="#ffffff"
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -392,7 +207,192 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="#ffffff"
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:contentDescription="@null"
+
+            app:materialIcon="minus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp"
+
+            android:id="@id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/text"
+            android:layout_centerVertical="true" />
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:contentDescription="@null"
+
+            android:id="@id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_alignParentRight="true"
+            app:materialIcon="plus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp" />
+
+        <EditText
+            android:id="@id/nr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@id/plus"
+            android:layout_toRightOf="@id/minus"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            app:materialIcon="minus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp"
+            android:contentDescription="@null"
+
+            android:id="@id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/text"
+            android:layout_centerVertical="true" />
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:contentDescription="@null"
+
+            android:id="@id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_alignParentRight="true"
+            app:materialIcon="plus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp" />
+
+        <EditText
+            android:id="@id/nr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@id/plus"
+            android:layout_toRightOf="@id/minus"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:contentDescription="@null"
+
+            android:id="@id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            app:materialIcon="minus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp"
+
+            android:layout_below="@id/text"
+            android:layout_centerVertical="true" />
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:contentDescription="@null"
+
+            android:id="@id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_alignParentRight="true"
+            app:materialIcon="plus_circle"
+            app:materialIconColor="@color/colorPrimaryDark"
+            app:materialIconSize="48dp" />
+
+        <EditText
+            android:id="@id/nr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/minus"
+            android:layout_alignBottom="@id/minus"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@id/plus"
+            android:layout_toRightOf="@id/minus"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"

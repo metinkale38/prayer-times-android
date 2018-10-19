@@ -33,7 +33,7 @@
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:text="@string/autoLocation"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         android:textSize="20sp" />
 
     <ListView
@@ -51,7 +51,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#aaaaaa"
+        android:background="@color/foregroundSecondary"
         android:gravity="center"
         android:padding="5dp" />
 
@@ -66,7 +66,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:src="@drawable/ic_search_white_24dp"
-        app:backgroundTint="#ff0000"
+        app:backgroundTint="@color/alert"
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"

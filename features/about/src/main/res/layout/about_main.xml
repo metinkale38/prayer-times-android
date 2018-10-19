@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background2"
+    android:background="@color/backgroundSecondary"
     android:fillViewport="false">
 
     <LinearLayout
@@ -52,14 +52,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="@string/version"
-                android:textColor="#555555" />
+                android:textColor="@color/foregroundSecondary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="metinkale38"
-                android:textColor="#555555" />
+                android:textColor="@color/foregroundSecondary" />
 
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="bug"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -108,7 +108,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/report_bug_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -128,7 +128,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="email"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/sendMail_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -169,7 +169,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="flag"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/translate_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -209,7 +209,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="star"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -229,7 +229,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/rate_desc"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -249,7 +249,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="test_tube"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -269,7 +269,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/beta_tester_desc"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -290,7 +290,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="github_circle"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -310,7 +310,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/github_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -332,7 +332,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="share"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -352,7 +352,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/share_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -377,7 +377,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="window_restore"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -397,7 +397,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/showIntro_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
@@ -428,7 +428,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="file"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -447,7 +447,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/license_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -467,7 +467,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
                     app:materialIcon="file"
-                    app:materialIconColor="#555555"
+                    app:materialIconColor="@color/foregroundSecondary"
                     app:materialIconSize="24dp" />
 
                 <TextView
@@ -486,7 +486,7 @@
                     android:layout_toEndOf="@+id/icon"
                     android:layout_toRightOf="@+id/icon"
                     android:text="@string/library_licenses_sum"
-                    android:textColor="#555555"
+                    android:textColor="@color/foregroundSecondary"
                     android:textSize="12sp" />
             </RelativeLayout>
 

@@ -21,12 +21,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,14 +63,16 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @Data
     public static class Item {
         final String key;
-        final int icon;
+        final int iconRes;
+        final int titleRes;
     }
     
-    public static final Item[] MENU_ITEMS = {new Item("times", R.drawable.ic_menu_times), new Item("compass", R.drawable.ic_menu_compass),
-            new Item("names", R.drawable.ic_menu_names), new Item("calendar", R.drawable.ic_menu_calendar),
-            new Item("tesbihat", R.drawable.ic_menu_tesbihat), new Item("hadith", R.drawable.ic_menu_hadith),
-            new Item("missedprayers", R.drawable.ic_menu_missed), new Item("dhikr", R.drawable.ic_menu_dhikr),
-            new Item("settings", R.drawable.ic_menu_settings), new Item("about", R.drawable.ic_menu_about)};
+    public static final Item[] MENU_ITEMS = new Item[]{new Item("times", R.drawable.ic_menu_times, R.string.appName),
+            new Item("compass", R.drawable.ic_menu_compass, R.string.compass), new Item("names", R.drawable.ic_menu_names, R.string.names),
+            new Item("calendar", R.drawable.ic_menu_calendar, R.string.calendar),
+            new Item("tesbihat", R.drawable.ic_menu_tesbihat, R.string.tesbihat), new Item("hadith", R.drawable.ic_menu_hadith, R.string.hadith),
+            new Item("missedprayers", R.drawable.ic_menu_missed, R.string.missedPrayers), new Item("dhikr", R.drawable.ic_menu_dhikr, R.string.dhikr),
+            new Item("settings", R.drawable.ic_menu_settings, R.string.settings), new Item("about", R.drawable.ic_menu_about, R.string.about)};
     
     
     private final int mTitleRes;
@@ -126,14 +128,14 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
             setSupportActionBar(mToolbar);
             mToolbar.setBackgroundResource(R.color.colorPrimary);
             mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColor(Color.WHITE).setToActionbarSize()
-                            .build());
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                            .setToActionbarSize().build());
         }
         
         
         mDrawerLayout = findViewById(R.id.drawer);
         mNav = mDrawerLayout.findViewById(R.id.base_nav);
-        ArrayAdapter<String> list = buildNavAdapter(this);
+        ArrayAdapter<Item> list = buildNavAdapter(this);
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(this);
         
@@ -202,12 +204,16 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     }
     
     
-    public ArrayAdapter<String> buildNavAdapter(final Context c) {
-        return new ArrayAdapter<String>(c, R.layout.drawer_list_item, c.getResources().getStringArray(R.array.dropdown)) {
+    public ArrayAdapter<Item> buildNavAdapter(final Context c) {
+        return new ArrayAdapter<Item>(c, 0, BaseActivity.MENU_ITEMS) {
             @NonNull
             @Override
             public View getView(int pos, View v, @NonNull ViewGroup p) {
-                v = super.getView(pos, v, p);
+                if (v == null) {
+                    v = LayoutInflater.from(c).inflate(R.layout.drawer_list_item, p, false);
+                }
+                Item item = getItem(pos);
+                ((TextView) v).setText(item.getTitleRes());
                 if (pos == mNavPos) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 } else
@@ -215,9 +221,9 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                         c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, MENU_ITEMS[pos].getIcon(), 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconRes(), 0);
                 } else {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(MENU_ITEMS[pos].getIcon(), 0, 0, 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(item.getIconRes(), 0, 0, 0);
                 }
                 
                 
@@ -267,12 +273,13 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            mToolbar.setNavigationIcon(MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT).setColor(Color.WHITE)
-                    .setToActionbarSize().build());
+            mToolbar.setNavigationIcon(
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT).setColorResource(R.color.background)
+                            .setToActionbarSize().build());
         } else {
             mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColor(Color.WHITE).setToActionbarSize()
-                            .build());
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                            .setToActionbarSize().build());
         }
     }
     

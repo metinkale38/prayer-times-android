@@ -28,7 +28,7 @@
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         android:textSize="18sp"
         android:visibility="gone" />
 
@@ -81,7 +81,7 @@
             android:background="@color/colorPrimary"
             android:fontFamily="sans-serif-light"
             android:text="@string/monthly"
-            android:textColor="#ffffff"
+            android:textColor="@color/background"
             android:textSize="20sp" />
 
         <FrameLayout
@@ -135,7 +135,7 @@
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_add_white_24dp"
         app:borderWidth="0dp"
-        app:backgroundTint="#ff0000"
+        app:backgroundTint="@color/alert"
         app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"

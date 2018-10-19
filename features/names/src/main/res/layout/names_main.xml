@@ -19,5 +19,5 @@
     android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e3e3e3"
-    android:divider="#00000000" />
+    android:background="@color/backgroundSecondary"
+    android:divider="@color/transparent" />

@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_margin="20dp"
-        android:background="#33ffffff"
+        android:background="@color/background20pTrans"
         android:orientation="vertical">
 
 
@@ -35,7 +35,7 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/changelog"
-            android:textColor="#ffffff"
+            android:textColor="@color/background"
             android:textSize="24sp"
             android:textStyle="bold" />
 

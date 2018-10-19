@@ -29,7 +29,7 @@
         android:padding="20dp"
         android:gravity="center"
         android:text="@string/intro_config"
-        android:textColor="#ffffff"/>
+        android:textColor="@color/background"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -39,13 +39,13 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="@string/intro_config2"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         />
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/background"
         android:scaleX="0.65"
         android:scaleY="0.65">
 

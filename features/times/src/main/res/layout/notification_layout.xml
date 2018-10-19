@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Braunschweig"
-            android:textColor="#ff000000"
+            android:textColor="@color/foreground"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
-            android:textColor="#ff000000"
+            android:textColor="@color/foreground"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -74,7 +74,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/fajr"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -91,7 +91,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/sun"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -118,7 +118,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -128,7 +128,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/zuhr"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -146,7 +146,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -173,7 +173,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -183,7 +183,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -200,7 +200,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="14sp" />
 
             <TextView
@@ -210,7 +210,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ishaa"
-                android:textColor="#ff000000"
+                android:textColor="@color/foreground"
                 android:textSize="12sp" />
         </LinearLayout>
 

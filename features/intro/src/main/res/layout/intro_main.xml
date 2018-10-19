@@ -35,7 +35,7 @@
         android:layout_toLeftOf="@+id/center"
         android:padding="20dp"
         android:text="@string/back"
-        android:textColor="#ffffff" />
+        android:textColor="@color/background" />
 
     <Button
         android:id="@+id/forward"
@@ -46,7 +46,7 @@
         android:layout_toRightOf="@+id/center"
         android:padding="20dp"
         android:text="@string/continue_"
-        android:textColor="#ffffff" />
+        android:textColor="@color/background" />
 
 
     <View

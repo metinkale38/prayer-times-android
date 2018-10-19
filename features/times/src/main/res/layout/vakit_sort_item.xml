@@ -36,7 +36,7 @@
         android:padding="8dp"
         android:visibility="gone"
         app:materialIcon="delete"
-        app:materialIconColor="#aaa"
+        app:materialIconColor="@color/foregroundSecondary"
         app:materialIconSize="24dp" />
 
 
@@ -75,7 +75,7 @@
         android:padding="8dp"
         android:scaleType="center"
         app:materialIcon="reorder_horizontal"
-        app:materialIconColor="#aaaaaa"
+        app:materialIconColor="@color/foregroundSecondary"
         app:materialIconSize="24dp" />
 
 </RelativeLayout>

@@ -21,7 +21,7 @@
         android:id="@+id/notification"
         android:title="@string/notification"
         app:materialIcon="alarm"
-        app:materialIconColor="#FFFFFF"
+        app:materialIconColor="@color/background"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/refresh"

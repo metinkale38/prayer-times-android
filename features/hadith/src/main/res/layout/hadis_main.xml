@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff">
+        android:background="@color/background">
 
     </androidx.viewpager.widget.ViewPager>
 
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:materialIcon="arrow_left"
-            app:materialIconColor="#fff"
+            app:materialIconColor="@color/background"
             app:materialIconSize="24dp" />
 
 
@@ -53,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@color/background"
             android:textSize="18sp" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:materialIcon="arrow_right"
-            app:materialIconColor="#fff"
+            app:materialIconColor="@color/background"
             app:materialIconSize="24dp" />
     </LinearLayout>
 

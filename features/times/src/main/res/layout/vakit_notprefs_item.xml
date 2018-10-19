@@ -33,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/date"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="M"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/monday"
@@ -65,7 +65,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="D"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tuesday"
@@ -83,7 +83,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="M"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/wednesday"
@@ -100,7 +100,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="D"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/thursday"
@@ -117,7 +117,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="F"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/friday"
@@ -134,7 +134,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="S"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/saturday"
@@ -151,7 +151,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="S"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +168,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="sunday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/monday"
 
@@ -183,7 +183,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="monday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/tuesday"
 
@@ -198,7 +198,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="tuesday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/wednesday"
 
@@ -213,7 +213,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="wednesday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/thursday"
 
@@ -228,7 +228,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="thursday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/friday"
 
@@ -243,7 +243,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="friday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/saturday"
 
@@ -258,7 +258,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="saturday"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -273,7 +273,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:text="@string/time"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sundayText" />
@@ -291,7 +291,7 @@
             app:layout_constraintStart_toEndOf="@+id/fajr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
             app:materialIcon="weather_sunset_up"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <TextView
@@ -302,7 +302,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/zuhr"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/asrText"
 
@@ -322,7 +322,7 @@
             app:layout_constraintStart_toEndOf="@+id/zuhr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
             app:materialIcon="weather_sunny"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <TextView
@@ -363,7 +363,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/ishaa"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -384,7 +384,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timesTitle"
             app:materialIcon="equal"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
@@ -400,7 +400,7 @@
             app:layout_constraintStart_toEndOf="@+id/asr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
             app:materialIcon="weather_sunset_down"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
@@ -416,7 +416,7 @@
             app:layout_constraintStart_toEndOf="@+id/magrib"
             app:layout_constraintTop_toTopOf="@+id/fajr"
             app:materialIcon="weather_night"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <TextView
@@ -427,7 +427,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/sun"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/zuhrText"
 
@@ -443,7 +443,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/fajr"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/sunText"
 
@@ -461,7 +461,7 @@
             app:layout_constraintStart_toEndOf="@+id/sunrise"
             app:layout_constraintTop_toTopOf="@+id/fajr"
             app:materialIcon="white_balance_sunny"
-            app:materialIconColor="#000"
+            app:materialIconColor="@color/foreground"
             app:materialIconSize="32dp" />
 
         <SeekBar
@@ -552,7 +552,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/settings"
-            android:textColor="#000"
+            android:textColor="@color/foreground"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/audioCont" />
@@ -626,7 +626,7 @@
         <Button
             android:id="@+id/delete"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:backgroundTint="#ff0000"
+            android:backgroundTint="@color/alert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

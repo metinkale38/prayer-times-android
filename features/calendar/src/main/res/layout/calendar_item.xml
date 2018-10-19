@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/name"
             android:layout_below="@+id/name"
-            android:textColor="#707070"
+            android:textColor="@color/foregroundSecondary"
             android:layout_alignLeft="@+id/name" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_alignBaseline="@+id/date"
             android:layout_alignBottom="@+id/date"
             android:layout_toStartOf="@+id/next"
-            android:textColor="#707070"
+            android:textColor="@color/foregroundSecondary"
             android:layout_toLeftOf="@+id/next" />
 
         <View
@@ -69,7 +69,7 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/end"
             android:contentDescription="@null"
-            app:materialIconColor="#aaaaaa"
+            app:materialIconColor="@color/foregroundSecondary"
             app:materialIconSize="24dp"
             app:materialIcon="chevron_right"
             android:layout_toLeftOf="@id/end" />

@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#33ffffff">
+        android:background="@color/background20pTrans">
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -38,7 +38,7 @@
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:text="@string/language"
-                android:textColor="#ffffff"
+                android:textColor="@color/background"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

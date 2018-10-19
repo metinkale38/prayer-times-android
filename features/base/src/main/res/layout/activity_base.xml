@@ -44,9 +44,9 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#fff"
+        android:background="@color/background"
         android:choiceMode="singleChoice"
-        android:divider="#0000"
+        android:divider="@color/transparent"
         android:dividerHeight="0dp"
         android:padding="5dp" />
 

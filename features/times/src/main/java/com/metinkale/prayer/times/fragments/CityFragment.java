@@ -102,11 +102,11 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     TextView time = mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
                     if (i == (next - 1)) {
-                        time.setBackgroundResource(R.color.indicator);
-                        parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.indicator);
+                        time.setBackgroundResource(R.color.accent);
+                        parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.accent);
                     } else {
-                        time.setBackgroundColor(Color.TRANSPARENT);
-                        parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundColor(Color.TRANSPARENT);
+                        time.setBackgroundResource(R.color.transparent);
+                        parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.transparent);
                     }
                 }
 

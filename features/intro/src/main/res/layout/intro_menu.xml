@@ -26,7 +26,7 @@
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/intro_menu"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         app:autoSizeTextType="uniform"
         app:layout_heightPercent="17.5%" />
 
@@ -74,9 +74,9 @@
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:background="#fff"
+                android:background="@color/background"
                 android:choiceMode="singleChoice"
-                android:divider="#0000"
+                android:divider="@color/transparent"
                 android:dividerHeight="0dp"
                 android:padding="5dp" />
 

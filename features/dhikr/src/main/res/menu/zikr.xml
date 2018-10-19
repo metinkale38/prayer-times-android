@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/menu_spinner"
-        android:background="#ff00"
+        android:background="@color/alert"
         android:title="@string/dhikr"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />

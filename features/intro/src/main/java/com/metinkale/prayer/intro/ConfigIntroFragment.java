@@ -105,13 +105,13 @@ public class ConfigIntroFragment extends IntroFragment {
         mToolbar.setTitle(R.string.appName);
         mToolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
-                .setColor(Color.WHITE)
+                .setColorResource(R.color.background)
                 .setToActionbarSize()
                 .build());
 
         try {
             MaterialMenuInflater.with(getActivity(), getActivity().getMenuInflater())
-                    .setDefaultColor(Color.WHITE)
+                    .setDefaultColorResource(R.color.background)
                     .inflate(R.menu.vakit, mToolbar.getMenu());
             mMenuItem = mToolbar.getMenu().getItem(0);
             mMenuItem.setIcon(mMenuItem.getIcon());

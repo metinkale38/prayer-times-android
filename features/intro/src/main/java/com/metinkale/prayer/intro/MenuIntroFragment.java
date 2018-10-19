@@ -17,7 +17,6 @@
 package com.metinkale.prayer.intro;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,6 +38,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import static com.metinkale.prayer.BaseActivity.MENU_ITEMS;
 
 /**
  * Created by metin on 17.07.2017.
@@ -71,11 +72,11 @@ public class MenuIntroFragment extends IntroFragment {
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
         toolbar.setNavigationIcon(
-                MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColor(Color.WHITE).setToActionbarSize()
-                        .build());
+                MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                        .setToActionbarSize().build());
         
         mDrawerLayout = v.findViewById(R.id.drawer);
-        mDrawerLayout.setBackgroundColor(Color.WHITE);
+        mDrawerLayout.setBackgroundResource(R.color.background);
         
         ListView lv = v.findViewById(R.id.base_nav);
         lv.setAdapter(buildNavAdapter(getActivity()));
@@ -83,21 +84,22 @@ public class MenuIntroFragment extends IntroFragment {
         return v;
     }
     
-    public ArrayAdapter<String> buildNavAdapter(final Context c) {
-        return new ArrayAdapter<String>(c, R.layout.drawer_list_item, c.getResources().getStringArray(R.array.dropdown)) {
+    public ArrayAdapter<BaseActivity.Item> buildNavAdapter(final Context c) {
+        return new ArrayAdapter<BaseActivity.Item>(c, R.layout.drawer_list_item, MENU_ITEMS) {
             @NonNull
             @Override
             public View getView(int pos, View v, @NonNull ViewGroup p) {
-                v = super.getView(pos, v, p);
-                
+                if (v == null) {
+                    v = LayoutInflater.from(c).inflate(com.metinkale.prayer.base.R.layout.drawer_list_item, p, false);
+                }
+                BaseActivity.Item item = getItem(pos);
+                ((TextView) v).setText(item.getTitleRes());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                         c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, BaseActivity.MENU_ITEMS[pos].getIcon(), 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconRes(), 0);
                 } else {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(BaseActivity.MENU_ITEMS[pos].getIcon(), 0, 0, 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(item.getIconRes(), 0, 0, 0);
                 }
-                
-                
                 return v;
             }
         };

@@ -17,7 +17,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#aaaaaa">
+    android:background="@color/foregroundSecondary">
 
     <TextView
         android:id="@+id/category"
@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:textAllCaps="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/category"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         android:textSize="16sp"
         android:textStyle="italic" />
 
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="#ffffff"
+                android:background="@color/background"
                 android:lineSpacingMultiplier="1.25"
                 android:paddingBottom="60dp"
                 android:paddingStart="20dp"

@@ -27,16 +27,22 @@
         <item name="windowActionBar">false</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupMenuStyle">@style/ToolbarTheme.Popup</item>
-        <item name="android:textColor">#ff000000</item>
+        <item name="android:textColor">@color/foreground</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="actionOverflowMenuStyle">@style/ToolbarTheme.Popup</item>
-        <item name="materialIconColor">#ffffff</item>
+        <item name="materialIconColor">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:colorForeground">@color/foreground</item>
+        <item name="android:textColorPrimary">@color/foreground</item>
+        <item name="android:textColorPrimaryInverse">@color/background</item>
+        <item name="android:textColorSecondary">@color/foregroundSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/backgroundSecondary</item>
 
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlNormal">#FFFFFF</item>
-        <item name="android:textColor">#ffffffff</item>
+        <item name="colorControlNormal">@color/background</item>
+        <item name="android:textColor">@color/background</item>
         <item name="actionDropDownStyle">@style/ToolbarTheme.DropDown</item>
     </style>
 

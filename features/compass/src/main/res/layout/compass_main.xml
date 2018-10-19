@@ -17,17 +17,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#e3e3e3"
+    android:background="@color/backgroundSecondary"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/selcity"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#00bbff"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center"
         android:text="@string/touchToSelectCity"
-        android:textColor="#ffffff"
+        android:textColor="@color/background"
         android:textSize="18sp" />
 
     <FrameLayout

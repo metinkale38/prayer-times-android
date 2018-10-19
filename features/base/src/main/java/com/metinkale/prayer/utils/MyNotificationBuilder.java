@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.metinkale.prayer.base.R;
+
 
 public class MyNotificationBuilder {
 
@@ -39,7 +41,7 @@ public class MyNotificationBuilder {
         paint.getTextBounds(text.length() == 1 ? "0" + text : text, 0, text.length() == 1 ? 2 : text.length(), bounds);
         float desiredTextSize = testTextSize * (px * 0.9f) / bounds.width();
         paint.setTextSize(desiredTextSize);
-        paint.setColor(0xFFFFFFFF);
+        paint.setColor(r.getColor(R.color.background));
         paint.setTextAlign(Paint.Align.CENTER);
         int yPos = (int) ((c.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
         c.drawText(text, px / 2, yPos, paint);

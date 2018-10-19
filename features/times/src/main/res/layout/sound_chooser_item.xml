@@ -30,7 +30,7 @@
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:materialIcon="play"
-        app:materialIconColor="#000"
+        app:materialIconColor="@color/foreground"
         app:materialIconSize="32dp" />
 
     <TextView
@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toStartOf="@+id/radioButton"
         app:layout_constraintTop_toTopOf="@+id/action"
         app:materialIcon="chevron_down"
-        app:materialIconColor="#000"
+        app:materialIconColor="@color/foreground"
         app:materialIconSize="32dp" />
 
 

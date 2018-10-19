@@ -39,5 +39,5 @@
         android:background="@drawable/bubble"
         android:padding="10dp"
         android:text="@string/compass_type_reminder"
-        android:textColor="#ffffff" />
+        android:textColor="@color/background" />
 </RelativeLayout>

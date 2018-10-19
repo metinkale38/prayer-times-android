@@ -186,12 +186,12 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
             super.onSizeChanged(w, h, oldw, oldh);
             silent = drawableToBitmap(MaterialDrawableBuilder.with(getContext())
                     .setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF)
-                    .setColor(Color.WHITE)
+                    .setColorResource(R.color.background)
                     .setSizePx(w / 5)
                     .build(), w / 5);
             close = drawableToBitmap(MaterialDrawableBuilder.with(getContext())
                     .setIcon(MaterialDrawableBuilder.IconValue.CLOSE)
-                    .setColor(Color.WHITE)
+                    .setColorResource(R.color.background)
                     .setSizePx(w / 5)
                     .build(), w / 5);
 

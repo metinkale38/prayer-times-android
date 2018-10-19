@@ -122,6 +122,11 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
         
+        
+        mSystemLocale = Locale.getDefault();
+        Utils.init(getBaseContext());
+        
+        
         DateTimeZone.setProvider(new AndroidTimeZoneProvider());
         registerReceiver(new TimeZoneChangedReceiver(), new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
         
@@ -140,8 +145,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        mSystemLocale = Locale.getDefault();
-        Utils.init(this);
+        
         MultiDex.install(this);
         SplitCompat.install(this);
     }
@@ -153,6 +157,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             case "calendarIntegration":
                 MainIntentService.startCalendarIntegration(App.get());
                 break;
+            case "language":
+                Utils.init(getBaseContext());
             
         }
         
