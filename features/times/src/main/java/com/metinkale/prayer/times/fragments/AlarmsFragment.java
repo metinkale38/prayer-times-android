@@ -16,14 +16,7 @@
 
 package com.metinkale.prayer.times.fragments;
 
-import androidx.lifecycle.Observer;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.core.util.Pair;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +34,14 @@ import com.metinkale.prayer.times.times.Times;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.LocalDateTime;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AlarmsFragment extends Fragment implements Observer<Times> {
     private Times mTimes;

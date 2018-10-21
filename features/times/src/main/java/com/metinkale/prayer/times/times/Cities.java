@@ -18,8 +18,6 @@ package com.metinkale.prayer.times.times;
 
 import android.database.SQLException;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.metinkale.prayer.utils.Geocoder;
 
@@ -29,6 +27,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 public class Cities {

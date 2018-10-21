@@ -18,8 +18,6 @@ package com.metinkale.prayer.compass;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -33,6 +31,9 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.utils.Geocoder;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LocationPicker extends AppCompatActivity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;

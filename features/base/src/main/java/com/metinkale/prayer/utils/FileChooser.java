@@ -19,9 +19,6 @@ package com.metinkale.prayer.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Environment;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
@@ -33,6 +30,9 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class FileChooser {
     private static final String PARENT_DIR = "..";

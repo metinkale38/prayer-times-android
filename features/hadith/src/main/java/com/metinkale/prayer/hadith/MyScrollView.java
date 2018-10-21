@@ -19,9 +19,6 @@ package com.metinkale.prayer.hadith;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.FocusFinder;
 import android.view.Gravity;
@@ -41,6 +38,10 @@ import android.widget.Scroller;
 
 import java.lang.reflect.Field;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class MyScrollView extends FrameLayout implements OnTouchListener {
 

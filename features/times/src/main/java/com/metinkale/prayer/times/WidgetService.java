@@ -34,9 +34,6 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.StyleSpan;
@@ -53,13 +50,16 @@ import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
-import com.metinkale.prayer.utils.NotificationUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 public class WidgetService extends Service {
 

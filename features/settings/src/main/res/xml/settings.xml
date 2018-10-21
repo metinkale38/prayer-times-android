@@ -43,20 +43,22 @@
             android:key="calendarIntegration"
             android:title="@string/calendarIntegration" />
 
-        <PreferenceScreen android:key="kerahatDuration" android:title="@string/kerahatDuration">
+        <PreferenceScreen
+            android:key="kerahatDuration"
+            android:title="@string/kerahatDuration">
             <com.metinkale.prayer.utils.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_sunrise"
                 android:title="@string/kerahatSun"
                 app:maxValue="120"
-                app:minValue="0"/>
+                app:minValue="0" />
 
             <com.metinkale.prayer.utils.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_istiva"
                 android:title="@string/kerahatIstiwa"
                 app:maxValue="120"
-                app:minValue="0"/>
+                app:minValue="0" />
 
 
             <com.metinkale.prayer.utils.NumberPickerPreference
@@ -165,11 +167,6 @@
             android:key="silenterType"
             android:title="@string/silenterType" />
 
-
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="autoRemoveNotification"
-            android:title="@string/autoremove_notification" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"

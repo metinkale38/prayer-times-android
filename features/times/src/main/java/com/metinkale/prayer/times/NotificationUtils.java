@@ -1,32 +1,31 @@
-package com.metinkale.prayer.utils;
+package com.metinkale.prayer.times;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 
-import com.metinkale.prayer.base.R;
+import androidx.annotation.RequiresApi;
 
 
 public final class NotificationUtils {
     public static final int ALARM = 1;
     public static final int ONGOING = 2;
     public static final int PLAYING = 3;
-
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static NotificationChannel getAlarmChannel(Context c) {
         CharSequence name = c.getString(R.string.prayerNotification);
         int importance = NotificationManager.IMPORTANCE_LOW;
         NotificationChannel channel = new NotificationChannel("alarm", name, importance);
-
+        
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         NotificationManager notificationManager = c.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
         return channel;
     }
-
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static NotificationChannel getOngoingChannel(Context c) {
         CharSequence name = c.getString(R.string.ongoingNotification);
@@ -39,18 +38,18 @@ public final class NotificationUtils {
         notificationManager.createNotificationChannel(channel);
         return channel;
     }
-
-
+    
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static NotificationChannel getPlayingChannel(Context c) {
         CharSequence name = c.getString(R.string.sound);
         NotificationChannel channel = new NotificationChannel("sound", name, NotificationManager.IMPORTANCE_HIGH);
-
+        
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         NotificationManager notificationManager = c.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
         return channel;
     }
-
+    
 }

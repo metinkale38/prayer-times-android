@@ -5,13 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import androidx.core.app.NotificationCompat;
 
 import com.metinkale.prayer.base.BuildConfig;
+import com.metinkale.prayer.times.NotificationUtils;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.NotificationUtils;
+
+import androidx.core.app.NotificationCompat;
 
 public class AlarmUtils {
 

@@ -18,9 +18,7 @@ package com.metinkale.prayer.intro;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +28,10 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.utils.AboutShortcuts;
-import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by metin on 25.07.17.

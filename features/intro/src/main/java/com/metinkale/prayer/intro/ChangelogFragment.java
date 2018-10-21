@@ -16,15 +16,14 @@
 
 package com.metinkale.prayer.intro;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.metinkale.prayer.utils.Utils;
 
+import androidx.annotation.Nullable;
 import us.feras.mdv.MarkdownView;
 
 /**

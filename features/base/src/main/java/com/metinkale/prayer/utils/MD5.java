@@ -16,8 +16,6 @@
 
 package com.metinkale.prayer.utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,6 +29,9 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class MD5 {
     private static final String TAG = "MD5";

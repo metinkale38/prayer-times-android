@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.times;
 
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.LocationService;
@@ -28,6 +27,8 @@ import com.metinkale.prayer.times.gson.GSONFactory;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
 
 
 /**

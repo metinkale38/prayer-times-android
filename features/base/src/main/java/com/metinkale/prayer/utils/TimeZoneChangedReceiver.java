@@ -19,12 +19,13 @@ package com.metinkale.prayer.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.joda.time.DateTimeZone;
 
 import java.util.TimeZone;
+
+import androidx.annotation.NonNull;
 
 /**
  * Listens for android.intent.action.TIMEZONE_CHANGED and adjusts

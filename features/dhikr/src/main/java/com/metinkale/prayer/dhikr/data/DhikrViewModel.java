@@ -1,11 +1,12 @@
 package com.metinkale.prayer.dhikr.data;
 
 import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import java.util.List;
+
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 public class DhikrViewModel extends AndroidViewModel {
     private final LiveData<List<Dhikr>> dhikrs;

@@ -23,12 +23,13 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 
 
 

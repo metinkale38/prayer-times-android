@@ -18,9 +18,6 @@ package com.metinkale.prayer.times.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +31,10 @@ import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.LocalDate;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by Metin on 21.07.2015.

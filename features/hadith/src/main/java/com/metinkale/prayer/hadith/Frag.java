@@ -17,9 +17,6 @@
 package com.metinkale.prayer.hadith;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +27,10 @@ import com.metinkale.prayer.hadith.SqliteHelper.Hadis;
 
 import java.text.Normalizer;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class Frag extends Fragment {
 

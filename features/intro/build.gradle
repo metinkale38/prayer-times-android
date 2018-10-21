@@ -2,7 +2,7 @@ apply plugin: 'com.android.feature'
 
 android {
     compileSdkVersion 28
-    
+
 
 
     defaultConfig {
@@ -35,8 +35,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:times')
     implementation project(':features:base')
-    implementation project(path: ':features:about')
-
+    implementation project(':features:about')
     compileOnly "org.projectlombok:lombok:1.18.2"
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
 }

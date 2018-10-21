@@ -22,8 +22,6 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.collection.ArraySet;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -45,6 +43,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.collection.ArraySet;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

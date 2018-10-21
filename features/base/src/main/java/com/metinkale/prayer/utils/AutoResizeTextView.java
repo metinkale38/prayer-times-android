@@ -17,9 +17,10 @@
 package com.metinkale.prayer.utils;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 
 public class AutoResizeTextView extends AppCompatTextView {

@@ -21,12 +21,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+
 
 
 public class ShadowContainer extends ViewGroup {

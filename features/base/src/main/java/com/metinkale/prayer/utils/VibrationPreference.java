@@ -25,10 +25,6 @@ import android.os.Parcelable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.preference.EditTextPreference;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,6 +37,11 @@ import com.metinkale.prayer.base.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.EditTextPreference;
 
 /**
  * Created by metin on 24.03.2016.

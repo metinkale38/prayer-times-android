@@ -8,8 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+
+
 
 
 public class MyNotificationBuilder {

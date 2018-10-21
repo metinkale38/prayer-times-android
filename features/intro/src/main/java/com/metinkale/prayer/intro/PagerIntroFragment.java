@@ -16,12 +16,7 @@
 
 package com.metinkale.prayer.intro;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +28,11 @@ import com.metinkale.prayer.times.fragments.TimesFragment;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.lang.reflect.Field;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by metin on 17.07.2017.

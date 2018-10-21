@@ -16,9 +16,6 @@
 
 package com.metinkale.prayer.dhikr;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -26,12 +23,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
-import androidx.appcompat.app.AlertDialog;
-
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -62,6 +53,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 @SuppressWarnings("deprecation")
 public class DhikrFragment extends BaseActivity.MainFragment

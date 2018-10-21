@@ -16,10 +16,10 @@
 
 package com.metinkale.prayer.compass.classes.math;
 
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.io.Serializable;
 
 /**
  * Encapsulates a 3D vector. Allows chaining operations by returning a reference

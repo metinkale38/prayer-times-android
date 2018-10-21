@@ -27,7 +27,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
-import androidx.core.app.ActivityCompat;
 
 import com.metinkale.prayer.times.times.Cities;
 import com.metinkale.prayer.times.times.Entry;
@@ -37,6 +36,8 @@ import com.metinkale.prayer.times.times.sources.CalcTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
 
 @SuppressWarnings("MissingPermission")
 public class LocationService extends Service implements LocationListener {

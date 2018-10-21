@@ -16,8 +16,6 @@
 
 package com.metinkale.prayer.times.fragments;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +26,9 @@ import com.metinkale.prayer.times.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     private static final int TYPE_SWITCH = 0;

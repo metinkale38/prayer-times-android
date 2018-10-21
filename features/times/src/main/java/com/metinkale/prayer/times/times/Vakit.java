@@ -16,11 +16,11 @@
 
 package com.metinkale.prayer.times.times;
 
-import androidx.annotation.NonNull;
-
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.times.R;
+
+import androidx.annotation.NonNull;
 
 public enum Vakit {
     IMSAK(R.string.fajr, 0, "الإمساك"),

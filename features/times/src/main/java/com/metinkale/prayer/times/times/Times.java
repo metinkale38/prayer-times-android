@@ -17,9 +17,6 @@
 package com.metinkale.prayer.times.times;
 
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
@@ -44,6 +41,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 public abstract class Times extends TimesBase {
 

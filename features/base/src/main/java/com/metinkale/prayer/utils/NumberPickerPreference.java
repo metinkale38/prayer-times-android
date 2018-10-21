@@ -19,14 +19,17 @@ package com.metinkale.prayer.utils;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
+
+
 
 
 //from: https://github.com/google/walt/blob/master/android/WALT/app/src/main/java/org/chromium/latency/walt/NumberPickerPreference.java

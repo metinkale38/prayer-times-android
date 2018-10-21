@@ -16,9 +16,6 @@
 
 package com.metinkale.prayer.times.times;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.RawRes;
-
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.sources.CSVTimes;
@@ -35,6 +32,9 @@ import com.metinkale.prayer.times.times.sources.SemerkandTimes;
 import com.metinkale.prayer.utils.Utils;
 
 import java.util.Locale;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RawRes;
 
 /**
  * Created by metin on 03.04.2016.

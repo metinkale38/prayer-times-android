@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -15,6 +13,10 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
+
 
 public class AboutShortcuts {
     public static void share(Context ctx) {

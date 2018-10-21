@@ -16,11 +16,6 @@
 
 package com.metinkale.prayer.utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
-import androidx.collection.SimpleArrayMap;
-
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
 
@@ -29,6 +24,11 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Set;
 import java.util.TimeZone;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
+import androidx.collection.SimpleArrayMap;
 
 /**
  * Created by metin on 13.02.2017.

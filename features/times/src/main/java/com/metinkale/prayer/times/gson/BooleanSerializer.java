@@ -16,9 +16,6 @@
 
 package com.metinkale.prayer.times.gson;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -28,6 +25,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class BooleanSerializer implements JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
 

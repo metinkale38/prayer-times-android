@@ -24,10 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.collection.ArrayMap;
-import androidx.collection.SimpleArrayMap;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 
@@ -39,6 +35,11 @@ import org.joda.time.ReadableInstant;
 
 import java.util.Map;
 import java.util.TimeZone;
+
+import androidx.annotation.NonNull;
+import androidx.collection.ArrayMap;
+import androidx.collection.SimpleArrayMap;
+import androidx.core.app.ActivityCompat;
 
 public class MainIntentService extends IntentService {
 

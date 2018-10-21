@@ -17,13 +17,14 @@
 package com.metinkale.prayer.calendar;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.metinkale.prayer.BaseActivity;
+
+import androidx.annotation.Nullable;
 
 public class WebViewFragment extends BaseActivity.MainFragment {
 

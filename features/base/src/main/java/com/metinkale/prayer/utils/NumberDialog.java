@@ -19,9 +19,6 @@ package com.metinkale.prayer.utils;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -30,6 +27,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+
+
 
 
 public class NumberDialog extends DialogFragment implements TextWatcher {

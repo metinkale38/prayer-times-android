@@ -18,11 +18,12 @@ package com.metinkale.prayer.times;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.times.alarm.SilenterReceiver;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SilenterPrompt extends AppCompatActivity {
     private SharedPreferences widgets;

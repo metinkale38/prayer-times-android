@@ -26,22 +26,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.PowerManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.base.BuildConfig;
+import com.metinkale.prayer.times.NotificationUtils;
 import com.metinkale.prayer.times.fragments.NotificationPopup;
 import com.metinkale.prayer.times.sounds.MyPlayer;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.NotificationUtils;
 
 import org.joda.time.LocalDateTime;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 
 public class AlarmService extends IntentService {

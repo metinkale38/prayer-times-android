@@ -16,12 +16,7 @@
 
 package com.metinkale.prayer.intro;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +34,11 @@ import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 import org.joda.time.LocalDate;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by metin on 17.07.2017.

@@ -18,7 +18,7 @@
 
 
     <string-array name="language">
-        <item>@string/systemLang</item>
+        <item>@string/systemLanguage</item>
         <item>Türkçe</item>
         <item>Deutsch</item>
         <item>English</item>

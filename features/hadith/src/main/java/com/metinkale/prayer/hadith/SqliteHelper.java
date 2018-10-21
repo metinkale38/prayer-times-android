@@ -22,8 +22,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.utils.Utils;
@@ -35,6 +33,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class SqliteHelper extends SQLiteOpenHelper {
     private static SqliteHelper mInstance;

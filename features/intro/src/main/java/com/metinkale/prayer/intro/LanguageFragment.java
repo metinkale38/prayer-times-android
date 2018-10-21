@@ -16,9 +16,7 @@
 
 package com.metinkale.prayer.intro;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.metinkale.prayer.Prefs;
-import com.metinkale.prayer.utils.Utils;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by metin on 25.07.17.

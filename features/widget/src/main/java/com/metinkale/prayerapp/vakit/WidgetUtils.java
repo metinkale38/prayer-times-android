@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -33,6 +32,8 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.widgets.R;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by metin on 24.03.2017.

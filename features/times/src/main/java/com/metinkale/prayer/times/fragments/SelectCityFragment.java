@@ -18,8 +18,6 @@ package com.metinkale.prayer.times.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +40,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class SelectCityFragment extends BaseActivity.MainFragment implements OnItemClickListener {
 

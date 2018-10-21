@@ -18,16 +18,15 @@ package com.metinkale.prayer.dhikr;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.metinkale.prayer.dhikr.data.Dhikr;
 
+import androidx.annotation.NonNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

@@ -16,9 +16,6 @@
 
 package com.metinkale.prayer;
 
-import androidx.annotation.NonNull;
-import androidx.collection.ArrayMap;
-
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.FastTokenizer;
@@ -36,6 +33,8 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.TreeMap;
 
+import androidx.annotation.NonNull;
+import androidx.collection.ArrayMap;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;

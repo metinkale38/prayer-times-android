@@ -22,9 +22,6 @@ import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.ListPreference;
 import android.util.AttributeSet;
 
 import com.metinkale.prayer.utils.PermissionUtils;
@@ -32,6 +29,10 @@ import com.metinkale.prayer.utils.PermissionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
 
 public class CalendarPreference extends ListPreference {
 

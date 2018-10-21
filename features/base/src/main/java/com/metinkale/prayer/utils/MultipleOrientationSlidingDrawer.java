@@ -25,8 +25,6 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -36,6 +34,11 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.metinkale.prayer.base.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+
 
 
 public class MultipleOrientationSlidingDrawer extends ViewGroup {

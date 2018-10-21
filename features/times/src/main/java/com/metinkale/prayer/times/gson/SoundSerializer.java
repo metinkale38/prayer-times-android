@@ -16,8 +16,6 @@
 
 package com.metinkale.prayer.times.gson;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -29,6 +27,8 @@ import com.metinkale.prayer.times.sounds.Sounds;
 import com.metinkale.prayer.times.sounds.UserSound;
 
 import java.lang.reflect.Type;
+
+import androidx.annotation.NonNull;
 
 public class SoundSerializer implements JsonSerializer<Sound>, JsonDeserializer<Sound> {
 

@@ -74,6 +74,8 @@ android {
 
 }
 
+crashlytics { instantAppSupport true }
+
 dependencies {
     application project(":app")
     feature project(':features:compass')

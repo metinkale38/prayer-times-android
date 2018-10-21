@@ -1,13 +1,13 @@
 package com.metinkale.prayer.utils.livedata;
 
-import androidx.lifecycle.LiveData;
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
 

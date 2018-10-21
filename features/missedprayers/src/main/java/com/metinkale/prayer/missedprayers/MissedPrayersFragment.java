@@ -18,7 +18,6 @@ package com.metinkale.prayer.missedprayers;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.metinkale.prayer.BaseActivity;
+
+import androidx.annotation.Nullable;
 
 public class MissedPrayersFragment extends BaseActivity.MainFragment {
 

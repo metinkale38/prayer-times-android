@@ -2,7 +2,6 @@ package com.metinkale.prayer.dhikr.data;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;

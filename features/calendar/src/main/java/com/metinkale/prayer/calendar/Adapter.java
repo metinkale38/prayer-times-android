@@ -17,9 +17,6 @@
 package com.metinkale.prayer.calendar;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +30,10 @@ import com.metinkale.prayer.utils.Utils;
 import org.joda.time.LocalDate;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 public class Adapter extends ArrayAdapter<int[]> {
     @NonNull

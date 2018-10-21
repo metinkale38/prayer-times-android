@@ -5,11 +5,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.utils.Utils;
+
+import androidx.annotation.NonNull;
 
 public class MyAlarmManager {
     private final AlarmManager alarmManager;
