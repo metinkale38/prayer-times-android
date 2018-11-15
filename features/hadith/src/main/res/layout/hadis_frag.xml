@@ -41,7 +41,7 @@
         android:textSize="16sp"
         android:textStyle="italic" />
 
-    <com.metinkale.prayer.hadith.MyScrollView
+    <com.metinkale.prayer.hadith.utils.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -52,7 +52,7 @@
 
             <view
                 android:id="@+id/hadis"
-                class="com.metinkale.prayer.hadith.MyScrollView$MyTextView"
+                class="com.metinkale.prayer.hadith.utils.MyScrollView$MyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -64,6 +64,6 @@
                 android:paddingTop="20dp"
                 android:textSize="18sp" />
         </RelativeLayout>
-    </com.metinkale.prayer.hadith.MyScrollView>
+    </com.metinkale.prayer.hadith.utils.MyScrollView>
 
 </RelativeLayout>

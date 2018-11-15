@@ -29,7 +29,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.Module;
 import com.metinkale.prayer.utils.PermissionUtils;
 
 import java.io.BufferedInputStream;
@@ -111,7 +111,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
                             
                             Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
                             System.exit(0);
-                            BaseActivity.launch(BackupRestoreActivity.this, "times", null);
+                            Module.TIMES.launch(BackupRestoreActivity.this);
                         } else {
                             file.delete();
                             mAdapter.notifyDataSetChanged();

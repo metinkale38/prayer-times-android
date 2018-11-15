@@ -35,7 +35,7 @@ import com.metinkale.prayer.compass.CompassFragment;
 import com.metinkale.prayer.compass.CompassFragment.MyCompassListener;
 import com.metinkale.prayer.compass.LowPassFilter;
 import com.metinkale.prayer.compass.R;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 public class Frag2D extends Fragment implements MyCompassListener {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
@@ -70,8 +70,8 @@ public class Frag2D extends Fragment implements MyCompassListener {
     public void onUpdateDirection() {
         if (mCompassView != null) {
             mCompassView.setQiblaAngle((int) ((CompassFragment) getParentFragment()).getQiblaAngle());
-            mAngle.setText(Utils.toArabicNrs(Math.round(mCompassView.getQiblaAngle()) + "°"));
-            mDist.setText(Utils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
+            mAngle.setText(LocaleUtils.toArabicNrs(Math.round(mCompassView.getQiblaAngle()) + "°"));
+            mDist.setText(LocaleUtils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
         }
 
     }

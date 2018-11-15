@@ -1,6 +1,12 @@
 apply plugin: 'com.android.feature'
 
 android {
+    sourceSets {
+        main {
+            res.srcDirs += 'src/main/translations'
+        }
+    }
+
     compileSdkVersion 28
     
 

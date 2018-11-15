@@ -87,6 +87,7 @@
             android:exported="true" />
 
 
+        <service android:name="com.metinkale.prayer.utils.ForegroundService" />
     </application>
 
 </manifest>

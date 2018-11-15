@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
 
@@ -50,7 +50,7 @@ public class MoroccoTimes extends WebTimes {
     public synchronized String getName() {
         String name = super.getName();
         if (name != null && name.contains("(") && name.contains(")")) {
-            if (new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage())) {
+            if (new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage())) {
                 return name.substring(name.indexOf("(") + 1, name.indexOf(")"));
             } else {
                 return name.substring(0, name.indexOf(" ("));

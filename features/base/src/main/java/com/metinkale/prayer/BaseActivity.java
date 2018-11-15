@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -37,12 +36,9 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
-import com.google.android.play.core.splitinstall.SplitInstallManager;
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
-import com.google.android.play.core.splitinstall.SplitInstallRequest;
-import com.google.android.play.core.tasks.OnSuccessListener;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -54,25 +50,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 public class BaseActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, AdapterView.OnItemClickListener {
-    @Data
-    public static class Item {
-        final String key;
-        final int iconRes;
-        final int titleRes;
-    }
-    
-    public static final Item[] MENU_ITEMS = new Item[]{new Item("times", R.drawable.ic_menu_times, R.string.appName),
-            new Item("compass", R.drawable.ic_menu_compass, R.string.compass), new Item("names", R.drawable.ic_menu_names, R.string.names),
-            new Item("calendar", R.drawable.ic_menu_calendar, R.string.calendar),
-            new Item("tesbihat", R.drawable.ic_menu_tesbihat, R.string.tesbihat), new Item("hadith", R.drawable.ic_menu_hadith, R.string.hadith),
-            new Item("missedprayers", R.drawable.ic_menu_missed, R.string.missedPrayers), new Item("dhikr", R.drawable.ic_menu_dhikr, R.string.dhikr),
-            new Item("settings", R.drawable.ic_menu_settings, R.string.settings), new Item("about", R.drawable.ic_menu_about, R.string.about)};
     
     
     private final int mTitleRes;
@@ -115,10 +97,11 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleUtils.initLocale(this);
         //AppRatingDialog.increaseAppStarts();
         
         if (Prefs.showIntro() || Prefs.getChangelogVersion() < BuildConfig.CHANGELOG_VERSION) {
-            launch("intro");
+            Module.INTRO.launch(this);
         }
         
         super.setContentView(R.layout.activity_base);
@@ -135,7 +118,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         
         mDrawerLayout = findViewById(R.id.drawer);
         mNav = mDrawerLayout.findViewById(R.id.base_nav);
-        ArrayAdapter<Item> list = buildNavAdapter(this);
+        ArrayAdapter<Module> list = buildNavAdapter(this);
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(this);
         
@@ -155,8 +138,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
             mNavPos = savedInstanceState.getInt("navPos", 0);
         
         String comp = getIntent().getComponent().getClassName();
-        for (int i = 0; i < MENU_ITEMS.length; i++) {
-            if (comp.contains(MENU_ITEMS[i].getKey())) {
+        for (int i = 0; i < Module.values().length; i++) {
+            if (comp.contains(Module.values()[i].getKey())) {
                 mNavPos = i;
             }
         }
@@ -204,15 +187,20 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     }
     
     
-    public ArrayAdapter<Item> buildNavAdapter(final Context c) {
-        return new ArrayAdapter<Item>(c, 0, BaseActivity.MENU_ITEMS) {
+    public ArrayAdapter<Module> buildNavAdapter(final Context c) {
+        return new ArrayAdapter<Module>(c, 0, Module.values()) {
             @NonNull
             @Override
             public View getView(int pos, View v, @NonNull ViewGroup p) {
                 if (v == null) {
                     v = LayoutInflater.from(c).inflate(R.layout.drawer_list_item, p, false);
                 }
-                Item item = getItem(pos);
+                Module item = getItem(pos);
+                if (item.getIconRes() == 0 && item.getTitleRes() == 0) {
+                    v.setVisibility(View.GONE);
+                    return v;
+                }
+                v.setVisibility(View.VISIBLE);
                 ((TextView) v).setText(item.getTitleRes());
                 if (pos == mNavPos) {
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
@@ -290,46 +278,11 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
             mDrawerLayout.closeDrawers();
             return;
         }
-        launch(MENU_ITEMS[pos].getKey());
+        Module.values()[pos].launch(this);
         mDrawerLayout.closeDrawers();
-        Answers.getInstance().logContentView(new ContentViewEvent().putContentName(MENU_ITEMS[mNavPos].getKey()));
+        Answers.getInstance().logContentView(new ContentViewEvent().putContentName(Module.values()[mNavPos].getKey()));
         //AppRatingDialog.addToOpenedMenus(ACTS[pos]);
         
-    }
-    
-    public void launch(String module) {
-        launch(this, module, getIntent().getExtras());
-    }
-    
-    public static void launch(final Context c, final String module, final Bundle extras) {
-        SplitInstallManager sim;
-        if (hasModule(module) || (sim = SplitInstallManagerFactory.create(c)).getInstalledModules().contains(module)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://prayerapp.page.link/" + module));
-            intent.setPackage(c.getPackageName());
-            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-            if (extras != null)
-                intent.putExtras(extras);
-            c.startActivity(intent);
-            return;
-        }
-        
-        SplitInstallRequest request = SplitInstallRequest.newBuilder().addModule(module).build();
-        
-        sim.startInstall(request).addOnSuccessListener(new OnSuccessListener<Integer>() {
-            @Override
-            public void onSuccess(Integer integer) {
-                launch(c, module, extras);
-            }
-        });
-    }
-    
-    private static boolean hasModule(String module) {
-        try {
-            Class.forName("com.metinkale.prayer." + module + ".R");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
     }
     
     

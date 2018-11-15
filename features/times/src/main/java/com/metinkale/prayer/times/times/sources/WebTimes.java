@@ -262,7 +262,7 @@ public abstract class WebTimes extends Times {
     private void scheduleJob() {
         int syncedDays = getSyncedDays();
 
-
+        JobManager.create(App.get());
         if (syncedDays == 0 && System.currentTimeMillis() - lastSync < 1000 * 60 * 60) {
             lastSync = System.currentTimeMillis();
             if (App.isOnline()) syncAsync();

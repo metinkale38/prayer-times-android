@@ -30,7 +30,9 @@ import android.widget.RemoteViews;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.utils.ForegroundService;
 import com.metinkale.prayer.widgets.R;
 
 import androidx.annotation.NonNull;
@@ -38,9 +40,15 @@ import androidx.annotation.NonNull;
 /**
  * Created by metin on 24.03.2017.
  */
-
-public class WidgetUtils {
-
+public class WidgetUtils extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener {
+    
+    public static final String WIDGETS_FOREGROUND_NEEDY = "widgets";
+    
+    @Override
+    public void onTimeTick() {
+        updateWidgets(getContext());
+    }
+    
     static Theme getTheme(int widgetId) {
         SharedPreferences widgets = App.get().getSharedPreferences("widgets", 0);
         int t = widgets.getInt(widgetId + "_theme", 0);
@@ -63,7 +71,7 @@ public class WidgetUtils {
         }
         return theme;
     }
-
+    
     static Times getTimes(int widgetId) {
         SharedPreferences widgets = App.get().getSharedPreferences("widgets", 0);
         long id = widgets.getLong(widgetId + "", 0L);
@@ -75,8 +83,9 @@ public class WidgetUtils {
             widgets.edit().remove(widgetId + "").apply();
         return t;
     }
-
+    
     static void showNoCityWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_city_removed);
         Intent i = new Intent(context, WidgetConfigure.class);
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
@@ -84,78 +93,88 @@ public class WidgetUtils {
         remoteViews.setOnClickPendingIntent(R.id.image, PendingIntent.getActivity(context, widgetId, i, PendingIntent.FLAG_CANCEL_CURRENT));
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
-
+    
     static class Size {
         final int width;
         final int height;
-
+        
         private Size(int w, int h, float aspectRatio) {
             Resources r = App.get().getResources();
             w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, w, r.getDisplayMetrics());
             h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, h, r.getDisplayMetrics());
-
+            
             int w1 = (int) (h * aspectRatio);
             int h1 = (int) (w / aspectRatio);
             width = Math.min(w, w1);
             height = Math.min(h, h1);
         }
     }
-
+    
     static Size getSize(Context context, AppWidgetManager appWidgetManager, int widgetId, float aspectRatio) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
             boolean isPort = context.getResources().getBoolean(R.bool.isPort);
-            int w = options.getInt(isPort ?
-                    AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-            int h = options.getInt(isPort ?
-                    AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            int w = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+            int h = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
             return new Size(w, h, aspectRatio);
         } else {
             AppWidgetProviderInfo info = appWidgetManager.getAppWidgetInfo(widgetId);
             return new Size(info.minWidth, info.minHeight, aspectRatio);
         }
     }
-
+    
     public static void updateWidgets(@NonNull Context c) {
         try {
+            boolean hasWidgets = false;
+            
             AppWidgetManager manager = AppWidgetManager.getInstance(App.get());
-
+            
             ComponentName thisWidget = new ComponentName(c, WidgetProvider.class);
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProvider.updateAppWidget(c, manager, i);
+                hasWidgets = true;
             }
-
+            
             thisWidget = new ComponentName(c, WidgetProviderSmall.class);
-
+            
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProviderSmall.updateAppWidget(c, manager, i);
+                hasWidgets = true;
             }
-
+            
             thisWidget = new ComponentName(c, WidgetProviderLong.class);
-
+            
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProviderLong.updateAppWidget(c, manager, i);
+                hasWidgets = true;
             }
-
+            
             thisWidget = new ComponentName(c, WidgetProviderSilenter.class);
-
+            
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProviderSilenter.updateAppWidget(c, manager, i);
             }
-
+            
             thisWidget = new ComponentName(c, WidgetProviderClock.class);
-
+            
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProviderClock.updateAppWidget(c, manager, i);
+                hasWidgets = true;
             }
-
+            
             thisWidget = new ComponentName(c, WidgetProviderClock2.class);
-
+            
             for (int i : manager.getAppWidgetIds(thisWidget)) {
                 WidgetProviderClock2.updateAppWidget(c, manager, i);
+                hasWidgets = true;
             }
-
-
+            
+            if (hasWidgets) {
+                ForegroundService.addNeedy(c, WIDGETS_FOREGROUND_NEEDY);
+            } else {
+                ForegroundService.removeNeedy(c, WIDGETS_FOREGROUND_NEEDY);
+            }
+            
         } catch (Exception e) {
             Crashlytics.logException(e);
         }

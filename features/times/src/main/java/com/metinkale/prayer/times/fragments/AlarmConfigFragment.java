@@ -35,9 +35,9 @@ import android.widget.TextView;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.times.sounds.Sound;
-import com.metinkale.prayer.times.sounds.SoundChooser;
-import com.metinkale.prayer.times.sounds.SoundChooserAdapter;
+import com.metinkale.prayer.times.alarm.sounds.Sound;
+import com.metinkale.prayer.times.alarm.sounds.SoundChooser;
+import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 
@@ -386,7 +386,7 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
             return;
         }
 
-        mTimesViews[time.index].setColor(enable ? mColorOn : mColorOff);
+        mTimesViews[time.ordinal()].setColor(enable ? mColorOn : mColorOff);
     }
 
 

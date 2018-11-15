@@ -33,10 +33,15 @@ apply plugin: 'com.android.feature'
 apply plugin: 'io.fabric'  //excludeInFDroid
 
 android {
+    sourceSets {
+        main {
+            res.srcDirs += 'src/main/translations'
+        }
+    }
     baseFeature true
 
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 15
@@ -49,7 +54,6 @@ android {
 
     buildTypes {
         debug {
-
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.debug.fileprovider"
             ext.enableCrashlytics = false
         }
@@ -90,7 +94,6 @@ dependencies {
     feature project(':features:missedprayers')
     feature project(':features:names')
     feature project(':features:settings')
-
 
     implementation 'androidx.multidex:multidex:2.0.0'
     api 'org.metinkale:praytimes:0.9.3.1'

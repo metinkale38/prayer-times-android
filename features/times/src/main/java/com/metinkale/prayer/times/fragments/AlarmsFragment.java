@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.metinkale.prayer.InternalBroadcastReceiver;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
@@ -49,7 +50,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
     private LinearLayoutManager mLayoutManager;
     private AlarmsAdapter mAdapter;
     private boolean mManuallyTriggered = false;
-
+    
     @NonNull
     public static AlarmsFragment create(@NonNull Times t) {
         Bundle bdl = new Bundle();
@@ -58,32 +59,32 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         frag.setArguments(bdl);
         return frag;
     }
-
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRecyclerView = (RecyclerView) inflater.inflate(R.layout.vakit_notprefs, container, false);
-
+        
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
-
+        
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        
         mAdapter = new AlarmsAdapter();
         mRecyclerView.setAdapter(mAdapter);
-
+        
         mTimes.observe(this, this);
         onChanged(mTimes);
-
+        
         setHasOptionsMenu(true);
         return mRecyclerView;
     }
-
+    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity()).inflate(R.menu.alarms, menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
@@ -95,27 +96,27 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
             return true;
         }
         return super.onOptionsItemSelected(item);
-
+        
     }
-
+    
     @Override
     public void onPause() {
         super.onPause();
-
+        
         getActivity().setTitle(getString(R.string.appName));
         if (BuildConfig.DEBUG && !mManuallyTriggered) {
             mManuallyTriggered = false;
             Times.setAlarms();
         }
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle(mTimes.getName());
     }
-
-
+    
+    
     @Override
     public void onChanged(Times times) {
         mAdapter.clearAllItems();
@@ -124,39 +125,39 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
             public String getName() {
                 return getString(R.string.ongoingNotification);
             }
-
+            
             @Override
             public void onChange(boolean checked) {
                 mTimes.setOngoingNotificationActive(checked);
+                InternalBroadcastReceiver.sender(getActivity()).sendTimeTick();
             }
-
+            
             @Override
             public boolean getChecked() {
                 return mTimes.isOngoingNotificationActive();
             }
         });
-
-
+        
+        
         mAdapter.add(getString(R.string.notification));
-
-
+        
         for (final Alarm alarm : times.getUserAlarms()) {
             mAdapter.add(new AlarmsAdapter.SwitchItem() {
                 @Override
                 public String getName() {
                     return alarm.getTitle();
                 }
-
+                
                 @Override
                 public void onChange(boolean checked) {
                     alarm.setEnabled(checked);
                 }
-
+                
                 @Override
                 public boolean getChecked() {
                     return alarm.isEnabled();
                 }
-
+                
                 @Override
                 public void onClick() {
                     if (!getChecked()) {
@@ -165,7 +166,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                         AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
                     }
                 }
-
+                
                 @Override
                 public boolean onLongClick() {
                     if (BuildConfig.DEBUG) {

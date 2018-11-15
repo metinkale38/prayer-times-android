@@ -16,6 +16,7 @@
 <resources>
     <string name="fasting">Fast</string>
     <string name="witr">Witr</string>
+    <string name="morningPrayer">Morning Prayer</string>
 
 
 </resources>

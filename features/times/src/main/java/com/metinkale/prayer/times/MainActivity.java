@@ -15,7 +15,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LocationService.triggerUpdate(this);
+        LocationReceiver.triggerUpdate(this);
     }
 
 

@@ -7,7 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.times.sounds.MyPlayer;
+import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
 
 import androidx.annotation.NonNull;
 

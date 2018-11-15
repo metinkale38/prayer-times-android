@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 
@@ -39,7 +40,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import static com.metinkale.prayer.BaseActivity.MENU_ITEMS;
 
 /**
  * Created by metin on 17.07.2017.
@@ -84,15 +84,21 @@ public class MenuIntroFragment extends IntroFragment {
         return v;
     }
     
-    public ArrayAdapter<BaseActivity.Item> buildNavAdapter(final Context c) {
-        return new ArrayAdapter<BaseActivity.Item>(c, R.layout.drawer_list_item, MENU_ITEMS) {
+    public ArrayAdapter<Module> buildNavAdapter(final Context c) {
+        return new ArrayAdapter<Module>(c, R.layout.drawer_list_item, Module.values()) {
             @NonNull
             @Override
             public View getView(int pos, View v, @NonNull ViewGroup p) {
                 if (v == null) {
                     v = LayoutInflater.from(c).inflate(com.metinkale.prayer.base.R.layout.drawer_list_item, p, false);
                 }
-                BaseActivity.Item item = getItem(pos);
+                Module item = getItem(pos);
+                if (item.getIconRes() == 0 && item.getTitleRes() == 0) {
+                    v.setVisibility(View.GONE);
+                    return v;
+                }
+                v.setVisibility(View.VISIBLE);
+                
                 ((TextView) v).setText(item.getTitleRes());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                         c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {

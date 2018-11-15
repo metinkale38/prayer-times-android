@@ -26,7 +26,7 @@ import android.widget.ListView;
 
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.HijriDate;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
 
@@ -57,7 +57,7 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
 
     @Nullable
     public static String getAssetForHolyday(int pos) {
-        return Utils.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
+        return LocaleUtils.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
     }
 
 
@@ -66,7 +66,7 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
     public void onItemClick(AdapterView<?> arg0, @NonNull View v, int pos, long arg3) {
         String asset = getAssetForHolyday((Integer) v.getTag());
 
-        Locale lang = Utils.getLocale();
+        Locale lang = LocaleUtils.getLocale();
         if ((asset != null) && (new Locale("de").getLanguage().equals(lang.getLanguage())
                 || new Locale("tr").getLanguage().equals(lang.getLanguage()))) {
             Bundle bdl = new Bundle();
@@ -111,7 +111,7 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            if (Utils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+            if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
@@ -127,9 +127,9 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (Utils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+            if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
-            return Utils.toArabicNrs(position + HijriDate.getMIN_YEAR());
+            return LocaleUtils.toArabicNrs(position + HijriDate.getMIN_YEAR());
         }
     }
 

@@ -29,8 +29,7 @@ import android.webkit.WebView;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.PagerSlidingTabStrip;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
 
@@ -53,7 +52,7 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tesbihat_main, container, false);
-        mLocale = Utils.getLocale();
+        mLocale = LocaleUtils.getLocale();
 
         PagerSlidingTabStrip indicator = v.findViewById(R.id.indicator);
 

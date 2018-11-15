@@ -41,7 +41,7 @@ import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.widgets.R;
 
 import org.joda.time.LocalDate;
@@ -237,7 +237,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                String time = Utils.fixTime(daytimes[i]);
+                String time = LocaleUtils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
                 paint.setTextSize((h * 2) / 9);
@@ -253,7 +253,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * (1 + (2 * i))) / 12, h * 3 / 5, paint);
+                canvas.drawText(LocaleUtils.toArabicNrs(daytimes[i]), (w * (1 + (2 * i))) / 12, h * 3 / 5, paint);
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
                 }
@@ -352,7 +352,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                String time = Utils.fixTime(daytimes[i]);
+                String time = LocaleUtils.fixTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
                 paint.setTextSize((int) ((l * 8) / 10));
@@ -368,7 +368,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                canvas.drawText(Utils.toArabicNrs(daytimes[i]), (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
+                canvas.drawText(LocaleUtils.toArabicNrs(daytimes[i]), (w * 5) / 6, (int) (l * 3.2 + i * l), paint);
                 if (i == next - 1 && Prefs.showAltWidgetHightlight()) {
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
                 }
@@ -500,18 +500,18 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.55f);
         String time = ltime.toString("HH:mm");
         if (Prefs.use12H()) {
-            time = Utils.fixTime(time);
+            time = LocaleUtils.fixTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);
             time = time.substring(0, time.indexOf(" "));
             canvas.drawText(time, (w / 2) - (paint.measureText(suffix) / 4), h * 0.4f, paint);
             paint.setTextSize(h * 0.275f);
             canvas.drawText(suffix, (w / 2) + paint.measureText(time), h * 0.2f, paint);
         } else {
-            canvas.drawText(Utils.toArabicNrs(time), w / 2, h * 0.4f, paint);
+            canvas.drawText(LocaleUtils.toArabicNrs(time), w / 2, h * 0.4f, paint);
         }
 
-        String greg = Utils.format(LocalDate.now());
-        String hicri = Utils.format(HijriDate.now());
+        String greg = LocaleUtils.format(LocalDate.now());
+        String hicri = LocaleUtils.format(HijriDate.now());
 
         paint.setTextSize(h * 0.12f);
         float m = paint.measureText(greg + "  " + hicri);
@@ -539,7 +539,7 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Paint.Align.LEFT);
         if (Prefs.use12H()) {
-            String l = Utils.fixTime(times.getTime(last));
+            String l = LocaleUtils.fixTime(times.getTime(last));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
             canvas.drawText(l, w * 0.1f, h * 0.82f, paint);
@@ -547,7 +547,7 @@ public class WidgetLegacy {
             canvas.drawText(s, (w * 0.1f) + (2 * paint.measureText(l)), h * 0.72f, paint);
 
         } else {
-            canvas.drawText(Utils.fixTime(times.getTime(last)), w * 0.1f, h * 0.82f, paint);
+            canvas.drawText(LocaleUtils.fixTime(times.getTime(last)), w * 0.1f, h * 0.82f, paint);
 
         }
         paint.setTextSize(h * 0.12f);
@@ -557,7 +557,7 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Paint.Align.RIGHT);
         if (Prefs.use12H()) {
-            String l = Utils.fixTime(times.getTime(next));
+            String l = LocaleUtils.fixTime(times.getTime(next));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
             canvas.drawText(l, (w * 0.9f) - (paint.measureText(s) / 2), h * 0.82f, paint);
@@ -565,7 +565,7 @@ public class WidgetLegacy {
             canvas.drawText(s, w * 0.9f, h * 0.72f, paint);
 
         } else {
-            canvas.drawText(Utils.fixTime(times.getTime(next)), w * 0.9f, h * 0.82f, paint);
+            canvas.drawText(LocaleUtils.fixTime(times.getTime(next)), w * 0.9f, h * 0.82f, paint);
         }
         paint.setTextSize(h * 0.12f);
         canvas.drawText(Vakit.getByIndex(next).getString(), w * 0.9f, h * 0.95f, paint);
@@ -650,7 +650,7 @@ public class WidgetLegacy {
         paint.setStrokeWidth(1);
         LocalDateTime ltime = LocalDateTime.now();
 
-        String[] time = Utils.fixTime(ltime.toString("HH:mm")).replace(":", " ").split(" ");
+        String[] time = LocaleUtils.fixTime(ltime.toString("HH:mm")).replace(":", " ").split(" ");
         paint.setTextSize(h * 0.50f);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
@@ -675,7 +675,7 @@ public class WidgetLegacy {
             paint.setColor(0xFFFFFFFF);
             paint.setTextSize(h * 0.07f);
 
-            canvas.drawText(Utils.toArabicNrs(ltime.toString("d'.' MMM'.'")), w * 0.60f, h * 0.55f, paint);
+            canvas.drawText(LocaleUtils.toArabicNrs(ltime.toString("d'.' MMM'.'")), w * 0.60f, h * 0.55f, paint);
             canvas.drawText(Vakit.getByIndex(last).getString(), w * 0.60f, h * 0.65f, paint);
         } else {
 
@@ -694,7 +694,7 @@ public class WidgetLegacy {
             paint.setColor(0xFFFFFFFF);
             paint.setTextSize(h * 0.07f);
 
-            canvas.drawText(Utils.toArabicNrs(ltime.toString("d'.' MMM'.'")), w * 0.63f, h * 0.55f, paint);
+            canvas.drawText(LocaleUtils.toArabicNrs(ltime.toString("d'.' MMM'.'")), w * 0.63f, h * 0.55f, paint);
             canvas.drawText(Vakit.getByIndex(last).getString(), w * 0.63f, h * 0.65f, paint);
         }
 

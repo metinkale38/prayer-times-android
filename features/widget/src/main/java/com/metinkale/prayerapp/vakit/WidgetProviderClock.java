@@ -23,14 +23,16 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.metinkale.prayer.Prefs;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.ForegroundService;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import androidx.annotation.NonNull;
 
 public class WidgetProviderClock extends AppWidgetProvider {
 
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
-        Utils.init(context);
+        ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY);
+        LocaleUtils.init(context);
         if (!Prefs.showLegacyWidget())
             WidgetV24.update4x2Clock(context, appWidgetManager, widgetId);
         else

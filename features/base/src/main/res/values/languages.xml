@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources translatable="false">
+    <string-array name="languages">
+        <item>ar|99</item>
+        <item>bn|5</item>
+        <item>bs|93</item>
+        <item>zh-CN|3</item>
+        <item>nl|78</item>
+        <item>en|100</item>
+        <item>fr|93</item>
+        <item>de|100</item>
+        <item>id|91</item>
+        <item>kur|43</item>
+        <item>ru|75</item>
+        <item>tr|100</item>
+        <item>uk|64</item>
+        <item>ur-PK|2</item>
+    </string-array>
+</resources>

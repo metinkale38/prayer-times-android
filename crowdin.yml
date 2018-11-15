@@ -1,10 +1,79 @@
-project_identifier : prayer-times-android
-api_key : c97e84b51d71d79c1ebd505465cb5fcf
-base_path: app/src/main
-files:
-  -
-    source: /res/values/strings.xml
-    translation: /res/values-%two_letters_code%/strings.xml
+"project_identifier": "prayer-times-android"
+"api_key": "c97e84b51d71d79c1ebd505465cb5fcf"
+"base_path": "features"
 
-    language_mapping:
-        two_letters_code:
+"files" : [
+  {
+    "source" : "base/src/main/res/values/strings.xml",
+    "translation" : "base/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "base.xml"
+  },
+  {
+    "source" : "about/src/main/res/values/strings.xml",
+    "translation" : "about/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "about.xml"
+  },
+  {
+    "source" : "calendar/src/main/res/values/strings.xml",
+    "translation" : "calendar/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "calendar.xml"
+  },
+  {
+    "source" : "compass/src/main/res/values/strings.xml",
+    "translation" : "compass/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "compass.xml"
+  },
+  {
+    "source" : "dhikr/src/main/res/values/strings.xml",
+    "translation" : "dhikr/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "dhikr.xml"
+  },
+  {
+    "source" : "hadith/src/main/res/values/strings.xml",
+    "translation" : "hadith/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "hadith.xml"
+  },
+  {
+    "source" : "intro/src/main/res/values/strings.xml",
+    "translation" : "intro/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "intro.xml"
+  },
+  {
+    "source" : "missedprayers/src/main/res/values/strings.xml",
+    "translation" : "missedprayers/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "missedprayers.xml"
+  },
+  {
+    "source" : "names/src/main/res/values/strings.xml",
+    "translation" : "names/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "names.xml"
+  },
+  {
+    "source" : "settings/src/main/res/values/strings.xml",
+    "translation" : "settings/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "settings.xml"
+  },
+  {
+    "source" : "tesbihat/src/main/res/values/strings.xml",
+    "translation" : "tesbihat/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "tesbihat.xml"
+  },
+  {
+    "source" : "times/src/main/res/values/strings.xml",
+    "translation" : "times/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "times.xml"
+  },
+  {
+    "source" : "widget/src/main/res/values/strings.xml",
+    "translation" : "widget/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest" : "widget.xml"
+  }
+  
+]
+
+
+
+
+
+
+

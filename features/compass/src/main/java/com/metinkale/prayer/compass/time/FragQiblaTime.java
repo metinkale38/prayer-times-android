@@ -31,7 +31,7 @@ import android.widget.TextView;
 import com.metinkale.prayer.compass.CompassFragment;
 import com.metinkale.prayer.compass.CompassFragment.MyCompassListener;
 import com.metinkale.prayer.compass.R;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 public class FragQiblaTime extends Fragment implements MyCompassListener {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
@@ -65,8 +65,8 @@ public class FragQiblaTime extends Fragment implements MyCompassListener {
             if (angle < 0) {
                 angle += 360;
             }
-            mAngle.setText(Utils.toArabicNrs(Math.round(angle) + "°"));
-            mDist.setText(Utils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
+            mAngle.setText(LocaleUtils.toArabicNrs(Math.round(angle) + "°"));
+            mDist.setText(LocaleUtils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
             mQiblaTimeView.setLocation(((CompassFragment) getParentFragment()).getLocation(), ((CompassFragment) getParentFragment()).getQiblaAngle());
         }
 

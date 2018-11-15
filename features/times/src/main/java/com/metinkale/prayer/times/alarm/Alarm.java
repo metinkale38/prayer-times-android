@@ -25,7 +25,7 @@ import android.preference.PreferenceManager;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.sounds.Sound;
+import com.metinkale.prayer.times.alarm.sounds.Sound;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
@@ -51,37 +51,48 @@ import lombok.Setter;
 
 @EqualsAndHashCode(of = "id")
 public class Alarm implements Comparable<Alarm> {
-    private static final Set<Vakit> ALL_TIMES = Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.IMSAK, Vakit.OGLE, Vakit.IKINDI, Vakit.AKSAM, Vakit.YATSI)));
-    public static final Collection<Integer> ALL_WEEKDAYS = Collections.unmodifiableCollection(Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY,
-            Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY));
+    public static final Set<Vakit> ALL_TIMES =
+            Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.IMSAK, Vakit.OGLE, Vakit.IKINDI, Vakit.AKSAM, Vakit.YATSI)));
+    public static final Collection<Integer> ALL_WEEKDAYS = Collections.unmodifiableCollection(
+            Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY,
+                    Calendar.SUNDAY));
     public static final int VOLUME_MODE_RINGTONE = -1;
     public static final int VOLUME_MODE_NOTIFICATION = -2;
     public static final int VOLUME_MODE_ALARM = -3;
     public static final int VOLUME_MODE_MEDIA = -4;
-
-    @Getter @Setter
+    
+    @Getter
     private int id;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean enabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Set<Integer> weekdays = new ArraySet<>(ALL_WEEKDAYS);
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<Sound> sounds = new ArrayList<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private Set<Vakit> times = new ArraySet<>(ALL_TIMES);
-    @Getter @Setter
+    @Getter
+    @Setter
     private int mins;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean vibrate;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean removeNotification;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int silenter;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int volume = getLegacyVolumeMode(App.get());
-
+    
     private long cityId;
-
+    
     public static Alarm fromId(int id) {
         for (Times t : Times.getTimes()) {
             for (Alarm a : t.getUserAlarms()) {
@@ -92,66 +103,100 @@ public class Alarm implements Comparable<Alarm> {
         }
         return null;
     }
-
+    
     public LocalDateTime getNextAlarm() {
-
+        
         Times city = getCity();
-
+        
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
-
+        
         for (int i = 0; i <= 7; i++) {
             LocalDate date = today.plusDays(i);
-            if (!weekdays.contains(date.getDayOfWeek())) continue;
-
+            if (!weekdays.contains(date.getDayOfWeek()))
+                continue;
+            
             for (Vakit vakit : Vakit.values()) {
-                if (!times.contains(vakit)) continue;
-                LocalDateTime time = city.getLocalDateTime(date, vakit.index);
-                if (time.isAfter(now)) return time;
+                if (!times.contains(vakit))
+                    continue;
+                LocalDateTime time = city.getLocalDateTime(date, vakit.ordinal());
+                if (time.isAfter(now))
+                    return time;
             }
         }
-
+        
         return null;
     }
-
+    
     public Alarm() {
         id = UUID.asInt();
     }
-
+    
     public void setCity(Times times) {
         cityId = times.getID();
     }
-
+    
     public Times getCity() {
         return Times.getTimes(cityId);
     }
-
+    
+    
+    public String getCurrentTitle() {
+        Times city = getCity();
+        
+        Vakit time = getCity().getTime();
+        int left = city.getLeftMinutes();
+        int passed = city.getPassedMinutes();
+        int minutes = Math.abs(left) < Math.abs(passed) ? -left : passed;
+        int minuteThreshold = 2;
+        if (mins == 0 && left < minuteThreshold) {
+            minutes = 0;
+            time = time.nextTime();
+        } else if (mins == 0 && passed < minuteThreshold) {
+            minutes = 0;
+        }
+    
+        int strRes2;
+        if (minutes < 0) {
+            strRes2 = R.string.noti_beforeTime;
+        } else if (getMins() > 0) {
+            strRes2 = R.string.noti_afterTime;
+        } else {
+            strRes2 = R.string.noti_exactTime;
+        }
+        
+        Context ctx = App.get();
+        return ctx.getString(strRes2, Math.abs(minutes), time.getString());
+    }
+    
+    
     public String getTitle() {
-
+        
         boolean eachDay = getWeekdays().size() == 7;
         int strRes1 = eachDay ? R.string.noti_eachDay : R.string.noti_weekday;
-
+        
         String days = null;
         if (!eachDay) {
             StringBuilder daysBuilder = new StringBuilder();
-            String[] namesOfDays = DateFormatSymbols.getInstance().getShortWeekdays();
+            String[] namesOfDays =
+                    getWeekdays().size() == 1 ? DateFormatSymbols.getInstance().getWeekdays() : DateFormatSymbols.getInstance().getShortWeekdays();
             for (int i : getWeekdays()) {
                 daysBuilder.append("/").append(namesOfDays[i]);
             }
             days = daysBuilder.toString().substring(1);
         }
-
-
+        
+        
         boolean eachPrayerTime = ALL_TIMES.equals(getTimes());
         int strRes2;
         if (getMins() < 0) {
             strRes2 = eachPrayerTime ? R.string.noti_beforeAll : R.string.noti_beforeTime;
         } else if (getMins() > 0) {
-            strRes2 = eachPrayerTime ? R.string.noti_afterAll : R.string.noti_afterAll;
+            strRes2 = eachPrayerTime ? R.string.noti_afterAll : R.string.noti_afterTime;
         } else {
             strRes2 = eachPrayerTime ? R.string.noti_exactAll : R.string.noti_exactTime;
         }
-
+        
         String times = null;
         if (!eachPrayerTime) {
             StringBuilder timesBuilder = new StringBuilder();
@@ -161,24 +206,26 @@ public class Alarm implements Comparable<Alarm> {
             if (timesBuilder.length() > 0)
                 times = timesBuilder.toString().substring(1);
         }
-
-
+        
+        
         Context ctx = App.get();
         return ctx.getString(strRes1, days, ctx.getString(strRes2, Math.abs(getMins()), times));
-
+        
     }
-
+    
     @Override
     public int compareTo(@NonNull Alarm o) {
         int comp;
         comp = Collections.min(getTimes()).ordinal() - Collections.min(o.getTimes()).ordinal();
-        if (comp != 0) return comp;
+        if (comp != 0)
+            return comp;
         comp = getMins() - o.getMins();
-        if (comp != 0) return comp;
+        if (comp != 0)
+            return comp;
         comp = Collections.min(getWeekdays()) - Collections.min(o.getWeekdays());
         return comp;
     }
-
+    
     private static int getLegacyVolumeMode(Context c) {
         String ezanvolume = PreferenceManager.getDefaultSharedPreferences(c).getString("ezanvolume", "noti");
         switch (ezanvolume) {
@@ -189,20 +236,21 @@ public class Alarm implements Comparable<Alarm> {
             case "noti":
             default:
                 return VOLUME_MODE_RINGTONE;
-
+            
         }
     }
-
-
+    
+    
     public void vibrate(Context c) {
-        if (!isVibrate()) return;
+        if (!isVibrate())
+            return;
         Vibrator v = (Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createWaveform(VibrationPreference.getPattern(c, "vibration"), -1));
         } else {
             v.vibrate(VibrationPreference.getPattern(c, "vibration"), -1);
         }
-
-
+        
+        
     }
 }

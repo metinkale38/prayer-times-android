@@ -23,57 +23,49 @@ import com.metinkale.prayer.times.R;
 import androidx.annotation.NonNull;
 
 public enum Vakit {
-    IMSAK(R.string.fajr, 0, "الإمساك"),
-    SABAH(R.string.morningPrayer, 0, "فجر"),
-    GUNES(R.string.sun, 1, "شروق"),
-    OGLE(R.string.zuhr, 2, "ظهر"),
-    IKINDI(R.string.asr, 3, "عصر"),
-    AKSAM(R.string.maghrib, 4, "مغرب"),
-    YATSI(R.string.ishaa, 5, "عشاء");
-
-    public final int index;
-
+    IMSAK(R.string.fajr, "فجر"), GUNES(R.string.sun, "شروق"), OGLE(R.string.zuhr, "ظهر"), IKINDI(R.string.asr, "عصر"),
+    AKSAM(R.string.maghrib, "مغرب"), YATSI(R.string.ishaa, "عشاء");
+    
+    
+    private static int SIZE = values().length;
+    
     private final String arabic;
     private String name;
     private final int resId;
-
-    Vakit(int id, int index, String arabic) {
+    
+    Vakit(int id, String arabic) {
         resId = id;
-        this.index = index;
         this.arabic = arabic;
     }
-
+    
     @NonNull
     public static Vakit getByIndex(int index) {
-        switch (index) {
-            case 0:
-                if (Prefs.useArabic()) {
-                    return SABAH;
-                }
-                return IMSAK;
-            case 1:
-                return GUNES;
-            case 2:
-                return OGLE;
-            case 3:
-                return IKINDI;
-            case 4:
-                return AKSAM;
-            case 5:
-            case -1:
-
-                return YATSI;
+        while (index < 0) {
+            index += SIZE;
         }
-        return IMSAK;
+        
+        while (index >= SIZE) {
+            index -= SIZE;
+        }
+        return values()[index];
     }
-
+    
     public String getString() {
         if (Prefs.useArabic()) {
             return arabic;
         }
-
+        
         return App.get().getString(resId);
     }
-
-
+    
+    
+    
+    public Vakit nextTime() {
+        return Vakit.values()[(ordinal() + 1) % 6];
+    }
+    
+    
+    public Vakit prevTime() {
+        return Vakit.values()[(ordinal() + 5) % 6];
+    }
 }

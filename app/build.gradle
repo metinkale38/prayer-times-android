@@ -28,7 +28,7 @@ android {
     }
 
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
@@ -47,6 +47,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        preDexLibraries true
+    }
+
 
     flavorDimensions "store"
     productFlavors {

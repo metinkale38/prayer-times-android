@@ -16,7 +16,8 @@
 
 <!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
 
     <PreferenceCategory android:title="@string/appName">
 
@@ -46,14 +47,14 @@
         <PreferenceScreen
             android:key="kerahatDuration"
             android:title="@string/kerahatDuration">
-            <com.metinkale.prayer.utils.NumberPickerPreference
+            <com.metinkale.prayer.settings.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_sunrise"
                 android:title="@string/kerahatSun"
                 app:maxValue="120"
                 app:minValue="0" />
 
-            <com.metinkale.prayer.utils.NumberPickerPreference
+            <com.metinkale.prayer.settings.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_istiva"
                 android:title="@string/kerahatIstiwa"
@@ -61,7 +62,7 @@
                 app:minValue="0" />
 
 
-            <com.metinkale.prayer.utils.NumberPickerPreference
+            <com.metinkale.prayer.settings.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_sunset"
                 android:title="@string/kerahatMaghrib"

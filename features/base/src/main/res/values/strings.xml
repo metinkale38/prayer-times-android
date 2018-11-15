@@ -28,7 +28,7 @@
 
     <!--Permission dialogs-->
     <string name="permissionCalendarText">If you want, that the Holy Days appear in your Phone Calendar, you have to allow Calendar Access. Otherwise do not.</string>
-    <string name="permissionCalendarTitle">Calendar Berechtigung</string>
+    <string name="permissionCalendarTitle">Calendar Permission</string>
     <string name="permissionCameraText">To use 3D-Compass, you need to allow Camera access. Otherwise you will only be able to use the 2D-Compass.</string>
     <string name="permissionCameraTitle">Camera Permission</string>
     <string name="permissionLocationText">Location Permission is needed, to find your City. If you don\'t allow this App, to access your Location, you have to search for your City manually.</string>
@@ -93,6 +93,8 @@
     <string name="back">Back</string>
     <string name="finish">Done</string>
     <string name="continue_">Continue</string>
+    <string name="vote">Vote</string>
+
 
     <string name="mail">E-Mail</string>
     <string name="test">Try</string>
@@ -112,4 +114,13 @@
     <string name="delete">Delete</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="error">An error occurred</string>
+
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Morning Prayer</string>
+    <string name="imsak">Imsak</string>
+    <string name="fajr">Fajr</string>
+    <string name="zuhr">Zuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Ishaa</string>
 </resources>

@@ -29,7 +29,7 @@ import com.metinkale.prayer.times.times.sources.MalaysiaTimes;
 import com.metinkale.prayer.times.times.sources.MoroccoTimes;
 import com.metinkale.prayer.times.times.sources.NVCTimes;
 import com.metinkale.prayer.times.times.sources.SemerkandTimes;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
 
@@ -40,35 +40,36 @@ import androidx.annotation.RawRes;
  * Created by metin on 03.04.2016.
  */
 public enum Source {
-    Calc(R.string.calculated, 0, CalcTimes.class),
-    Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib, R.raw.diyanet, DiyanetTimes.class),
+    Calc(R.string.calculated, 0, CalcTimes.class), Diyanet("Diyanet.gov.tr", R.drawable.ic_ditib, R.raw.diyanet, DiyanetTimes.class, "tr"),
     @Deprecated Fazilet("FaziletTakvimi.com", R.drawable.ic_fazilet, 0, FaziletTimes.class),
     IGMG("IGMG.org", R.drawable.ic_igmg, R.raw.igmg, IGMGTimes.class),
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, R.raw.semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, R.raw.nvc, NVCTimes.class),
-    Morocco("habous.gov.ma", R.drawable.ic_morocco, R.raw.morocco, MoroccoTimes.class),
-    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, R.raw.malaysia, MalaysiaTimes.class),
-    Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, R.raw.indonesia, IndonesiaTimes.class),
-    London("Londonprayertimes.com", 0, R.raw.london, LondonTimes.class),
-    CSV("CSV", 0, 0, CSVTimes.class);
-
+    Morocco("habous.gov.ma", R.drawable.ic_morocco, R.raw.morocco, MoroccoTimes.class, "ma"),
+    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, R.raw.malaysia, MalaysiaTimes.class, "my"),
+    Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, R.raw.indonesia, IndonesiaTimes.class, "id"),
+    London("Londonprayertimes.com", 0, R.raw.london, LondonTimes.class, "gb"), CSV("CSV", 0, 0, CSVTimes.class);
+    
     public final Class<? extends Times> clz;
     public final int drawableId;
     public final String name;
     public final int citiesId;
-
-    Source(String name, @DrawableRes int drawableId, @RawRes int citiesId, Class<? extends Times> clz) {
+    public final String[] prioCountries;
+    
+    Source(String name, @DrawableRes int drawableId, @RawRes int citiesId, Class<? extends Times> clz, String... prio) {
         this.name = name;
         this.drawableId = drawableId;
         this.clz = clz;
         this.citiesId = citiesId;
+        this.prioCountries = prio;
     }
-
-    Source(int resTxt, int resIcon, Class<? extends Times> clz) {
-        Locale.setDefault(Utils.getLocale());
+    
+    Source(int resTxt, int resIcon, Class<? extends Times> clz, String... prio) {
+        Locale.setDefault(LocaleUtils.getLocale());
         this.name = App.get().getString(resTxt);
         this.drawableId = resIcon;
         this.clz = clz;
+        this.prioCountries = prio;
         citiesId = 0;
     }
 }

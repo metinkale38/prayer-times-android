@@ -23,44 +23,47 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.metinkale.prayer.Prefs;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.ForegroundService;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import androidx.annotation.NonNull;
 
 public class WidgetProvider extends AppWidgetProvider {
-
+    
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
-        Utils.init(context);
+        ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY);
+        LocaleUtils.init(context);
         if (!Prefs.showLegacyWidget())
             WidgetV24.update2x2(context, appWidgetManager, widgetId);
         else
             WidgetLegacy.update2x2(context, appWidgetManager, widgetId);
     }
-
+    
     @Override
     public void onEnabled(@NonNull Context context) {
         ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         onUpdate(context, manager, manager.getAppWidgetIds(thisWidget));
-
+        
     }
-
+    
     @Override
     public void onUpdate(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, @NonNull int[] appWidgetIds) {
-
+        
         for (int widgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, widgetId);
         }
-
+        
     }
-
+    
     @Override
     public void onDisabled(Context context) {
-
+    
     }
-
+    
     @Override
-    public void onAppWidgetOptionsChanged(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int appWidgetId, @NonNull Bundle newOptions) {
+    public void onAppWidgetOptionsChanged(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int appWidgetId,
+                                          @NonNull Bundle newOptions) {
         updateAppWidget(context, appWidgetManager, appWidgetId);
     }
 }

@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Prefs;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -99,7 +100,7 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
         } else if (i == R.id.showIntro) {
             Prefs.setShowIntro(true);
             Prefs.setChangelogVersion(0);
-            getBaseActivity().launch("intro");
+            Module.INTRO.launch(getActivity());
         }
     }
 

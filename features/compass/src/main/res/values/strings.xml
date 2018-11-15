@@ -21,8 +21,4 @@
     <string name="touchToSelectCity">Touch here to select City</string>
     <string name="permissionNotGranted">Permission not granted.</string>
     <string name="compass_type_reminder">Click here to try different methods of finding the correct Qibla direction.</string>
-
-
-    <string name="title_compass">Qibla Compass</string>
-
 </resources>

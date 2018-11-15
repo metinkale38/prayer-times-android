@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
 
@@ -125,9 +125,9 @@ public class ImsakiyeFragment extends Fragment {
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
                 if (i != 0)
-                    tv.setText(Utils.fixTimeForHTML(a[i]));
+                    tv.setText(LocaleUtils.fixTimeForHTML(a[i]));
                 else
-                    tv.setText(Utils.toArabicNrs(a[i]));
+                    tv.setText(LocaleUtils.toArabicNrs(a[i]));
             }
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);

@@ -36,11 +36,11 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time"
+        <Chronometer
+            android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00"
+            android:countDown="true"
             android:textColor="@color/foreground"
             android:textSize="14sp"
             android:textStyle="bold" />

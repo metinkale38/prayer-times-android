@@ -24,12 +24,15 @@ import android.widget.Button;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Prefs;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleUtils.initLocale(this);
         setContentView(R.layout.intro_main);
         mPager = findViewById(R.id.pager);
         mMain = findViewById(R.id.main);
@@ -89,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 CalcTimes.buildTemporaryTimes("London", 51.5073219, -0.1276473, -2).getPrayTimes()
                         .setTimezone(java.util.TimeZone.getTimeZone("Europe/London"));
             }
+            
+            
         }
         
         int doNotShow = 0;
@@ -127,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
     
-    private static int blendColors(int color1, int color2, float ratio) {
+    public static int blendColors(int color1, int color2, float ratio) {
         final float inverseRation = 1f - ratio;
         float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
         float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
@@ -177,8 +183,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 Prefs.setShowIntro(false);
                 
                 Bundle bdl = new Bundle();
-                bdl.putBoolean("openCitySearch", true);
-                BaseActivity.launch(this, "times", bdl);
+                if (Times.getCount() == 0) {
+                    bdl.putBoolean("openCitySearch", true);
+                }
+                Module.TIMES.launch(this, bdl);
                 
                 String appName = "appName";
                 String lang = Prefs.getLanguage();
@@ -210,6 +218,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         } catch (NoSuchFieldException e) {
             return def;
         }
+    }
+    
+    public int getBackgroundColor(IntroFragment frag) {
+        return mColors[Arrays.asList(mFragments).indexOf(frag)];
     }
     
     

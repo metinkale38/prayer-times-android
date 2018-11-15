@@ -22,9 +22,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.metinkale.prayer.times.sounds.Sound;
-import com.metinkale.prayer.times.sounds.Sounds;
-import com.metinkale.prayer.times.sounds.UserSound;
+import com.metinkale.prayer.times.alarm.sounds.Sound;
+import com.metinkale.prayer.times.alarm.sounds.Sounds;
+import com.metinkale.prayer.times.alarm.sounds.UserSound;
 
 import java.lang.reflect.Type;
 

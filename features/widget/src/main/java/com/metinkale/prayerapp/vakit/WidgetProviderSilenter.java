@@ -23,14 +23,14 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.metinkale.prayer.Prefs;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import androidx.annotation.NonNull;
 
 public class WidgetProviderSilenter extends AppWidgetProvider {
 
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
-        Utils.init(context);
+        LocaleUtils.init(context);
         if (!Prefs.showLegacyWidget())
             WidgetV24.updateSilenter(context, appWidgetManager, widgetId);
         else

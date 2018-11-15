@@ -46,7 +46,7 @@ import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.widgets.R;
 
 import org.joda.time.LocalDate;
@@ -94,7 +94,7 @@ public class WidgetV24 {
             remoteViews.setTextColor(ids[i], theme.textcolor);
 
             String name = Vakit.getByIndex(i).getString();
-            String time = Utils.fixTime(daytimes[i]);
+            String time = LocaleUtils.fixTime(daytimes[i]);
             if (Prefs.use12H()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
@@ -174,7 +174,7 @@ public class WidgetV24 {
             remoteViews.setTextColor(ids[i], theme.textcolor);
 
             String name = Vakit.getByIndex(i).getString();
-            String time = Utils.fixTime(daytimes[i]);
+            String time = LocaleUtils.fixTime(daytimes[i]);
             if (Prefs.use12H()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
@@ -358,11 +358,11 @@ public class WidgetV24 {
 
         remoteViews.setTextViewText(R.id.lastText, Vakit.getByIndex(next - 1).getString());
         remoteViews.setTextViewText(R.id.nextText, Vakit.getByIndex(next).getString());
-        remoteViews.setTextViewText(R.id.lastTime, Utils.fixTimeForHTML(times.getTime(next - 1)));
-        remoteViews.setTextViewText(R.id.nextTime, Utils.fixTimeForHTML(times.getTime(next)));
+        remoteViews.setTextViewText(R.id.lastTime, LocaleUtils.fixTimeForHTML(times.getTime(next - 1)));
+        remoteViews.setTextViewText(R.id.nextTime, LocaleUtils.fixTimeForHTML(times.getTime(next)));
 
-        remoteViews.setTextViewText(R.id.greg, Utils.format(LocalDate.now()));
-        remoteViews.setTextViewText(R.id.hicri, Utils.format(HijriDate.now()));
+        remoteViews.setTextViewText(R.id.greg, LocaleUtils.format(LocalDate.now()));
+        remoteViews.setTextViewText(R.id.hicri, LocaleUtils.format(HijriDate.now()));
 
         if (times.isKerahat()) {
             remoteViews.setInt(R.id.progress, "setBackgroundColor", 0xffbf3f5b);

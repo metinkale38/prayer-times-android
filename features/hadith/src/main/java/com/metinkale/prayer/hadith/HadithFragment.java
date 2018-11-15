@@ -43,8 +43,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.utils.NumberDialog;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.Module;
+import com.metinkale.prayer.hadith.utils.NumberDialog;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -114,9 +115,9 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
             setState(STATE_SHUFFLED);
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
-            String lang = Utils.getLanguage("en", "de", "tr");
+            String lang = LocaleUtils.getLanguage("en", "de", "tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
-            getBaseActivity().launch("times");
+            Module.TIMES.launch(getActivity());
         }
         return v;
     }

@@ -21,7 +21,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -36,6 +36,43 @@ allprojects {
         google()
     }
 }
+
+task updateCrowdinInfo() {
+    def crowdinkey = ""
+    file("crowdin.yml").eachLine { line ->
+        if (line.contains("api_key")) {
+            line = line.substring(line.indexOf(":"))
+            line = line.substring(line.indexOf("\"") + 1)
+            crowdinkey = line.substring(0, line.indexOf("\""))
+        }
+    }
+    def lang
+    def progress
+    file("features/base/src/main/res/values/languages.xml").withWriter { out ->
+        out.println "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        out.println "<resources translatable=\"false\">"
+        out.println "    <string-array name=\"languages\">"
+
+        new URL('https://api.crowdin.com/api/project/prayer-times-android/status?key=' + crowdinkey).eachLine { line ->
+            if (line.contains("<code>")) {
+                lang = line.substring(line.indexOf(">") + 1)
+                lang = lang.substring(0, lang.indexOf("<"))
+            }
+            if (line.contains("<translated_progress>")) {
+                progress = line.substring(line.indexOf(">") + 1)
+                progress = progress.substring(0, progress.indexOf("<"))
+
+                if (!progress.equals("0")) {
+                    out.println "        <item>" + lang + "|" + progress + "</item>"
+                }
+            }
+        }
+
+        out.println "    </string-array>"
+        out.println "</resources>"
+    }
+}
+
 
 task findDuplicateStrings {
     doLast {
@@ -69,16 +106,16 @@ task findDuplicateResources {
         def resources = [:];
         new File("features").eachFile { feature ->
             def res = new File(feature, "src/main/res/");
-            if(!res.exists()) return
+            if (!res.exists()) return
             res.eachFile { file ->
-                if(file.name.startsWith("values")) return
+                if (file.name.startsWith("values")) return
                 file.eachFile { r ->
                     def name = r.name;
                     if (resources.containsKey(name) && !resources.get(name).equals(feature.getName())) {
                         System.err.printf("[findDuplicateResources] String %s in %s also exists in %s\n", name, feature.getName(),
-                                resources.get(name));
+                                resources.get(name))
                     } else {
-                        resources.put(name, feature.getName());
+                        resources.put(name, feature.getName())
                     }
                 }
 

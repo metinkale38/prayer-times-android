@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.names.Adapter.Item;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;

@@ -15,8 +15,6 @@
   -->
 <resources>
     <string name="changelog">What\'s new?</string>
-    <string name="vote">Vote</string>
-
 
     <string name="intro_menu">Through the Drawer Menu you can access all Features of this App</string>
     <string name="intro_pager">You can add as many cities as you want</string>

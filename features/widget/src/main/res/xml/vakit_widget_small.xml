@@ -15,7 +15,7 @@
   -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.metinkale.prayer.times.WidgetConfigure"
+    android:configure="com.metinkale.prayerapp.vakit.WidgetConfigure"
     android:initialLayout="@layout/vakit_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"

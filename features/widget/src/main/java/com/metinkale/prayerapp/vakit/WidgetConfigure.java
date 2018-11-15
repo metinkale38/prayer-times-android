@@ -21,7 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.metinkale.prayer.times.WidgetService;
+import com.metinkale.prayer.times.TimeTickReceiver;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.widgets.R;
 
@@ -94,7 +94,7 @@ public class WidgetConfigure extends AppCompatActivity {
     }
 
     void result() {
-        WidgetService.start(this);
+        TimeTickReceiver.start(this);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

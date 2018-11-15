@@ -24,7 +24,7 @@ import android.preference.PreferenceManager;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.times.sounds.Sounds;
+import com.metinkale.prayer.times.alarm.sounds.Sounds;
 import com.metinkale.prayer.utils.livedata.TransientLiveData;
 
 import java.util.ArrayList;

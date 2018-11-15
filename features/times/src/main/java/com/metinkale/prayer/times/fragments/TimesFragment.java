@@ -30,12 +30,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.Module;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.MultipleOrientationSlidingDrawer;
-import com.metinkale.prayer.utils.RTLViewPager;
+import com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer;
+import com.metinkale.prayer.times.utils.RTLViewPager;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.UUID;
-import com.metinkale.prayer.utils.Utils;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 public class TimesFragment extends BaseActivity.MainFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
-
+    
     public MyAdapter mAdapter;
     public FloatingActionButton mAddCityFab;
     private RTLViewPager mPager;
@@ -58,27 +59,27 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
     private TextView mFooterText;
     private MultipleOrientationSlidingDrawer mTopSlider;
     private MultipleOrientationSlidingDrawer mBottomSlider;
-
+    
     @Nullable
     public static PendingIntent getPendingIntent(@Nullable Times t) {
         if (t == null) {
             return null;
         }
         Context context = App.get();
-        Intent intent = new Intent(context, BaseActivity.class);
+        Intent intent = Module.TIMES.buildIntent(context);
         intent.putExtra("startCity", Times.getTimes().indexOf(t));
         return PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        
     }
-
+    
     public MultipleOrientationSlidingDrawer getTopSlider() {
         return mTopSlider;
     }
-
+    
     public MultipleOrientationSlidingDrawer getBottomSlider() {
         return mBottomSlider;
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,50 +89,48 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
         mAdapter = new MyAdapter(getChildFragmentManager());
         Times.getTimes().observe(this, mAdapter);
         mAdapter.onChanged(Times.getTimes());
-
+        
         mSettingsFrag = new SettingsFragment();
         mImsakiyeFrag = new ImsakiyeFragment();
-
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.imsakiyeContainer, mImsakiyeFrag)
-                .replace(R.id.settingsContainer, mSettingsFrag)
+        
+        getChildFragmentManager().beginTransaction().replace(R.id.imsakiyeContainer, mImsakiyeFrag).replace(R.id.settingsContainer, mSettingsFrag)
                 .commit();
-
-
+        
+        
         mTopSlider = v.findViewById(R.id.topSlider);
         mBottomSlider = v.findViewById(R.id.bottomSlider);
-
+        
         mAddCityFab = v.findViewById(R.id.addCity);
         mAddCityFab.setOnClickListener(this);
-
+        
         mPager.setRTLSupportAdapter(getChildFragmentManager(), mAdapter);
-
+        
         int holyday = HijriDate.isHolyday();
         if (holyday != 0) {
             TextView tv = v.findViewById(R.id.holyday);
             tv.setVisibility(View.VISIBLE);
-            tv.setText(Utils.getHolyday(holyday - 1));
+            tv.setText(LocaleUtils.getHolyday(holyday));
         }
-
+        
         mPager.addOnPageChangeListener(this);
-
-
+        
+        
         mTopSlider.setOnDrawerScrollListener(new MultipleOrientationSlidingDrawer.OnDrawerScrollListener() {
             @Override
             public void onScrollStarted() {
             }
-
+            
             @Override
             public void onScrolling(int pos) {
                 mPager.setTranslationY(pos);
             }
-
+            
             @Override
             public void onScrollEnded() {
-
+            
             }
         });
-
+        
         mTopSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
@@ -143,27 +142,28 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
                 mBottomSlider.lock();
             }
         });
-
+        
         mTopSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
                 mBottomSlider.unlock();
-
-                Fragment page = getChildFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
+                
+                Fragment page = getChildFragmentManager()
+                        .findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
                 if (page instanceof CityFragment) {
                     ((CityFragment) page).update();
                 }
             }
         });
-
-
+        
+        
         mBottomSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
                 mTopSlider.lock();
             }
         });
-
+        
         mBottomSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
@@ -180,8 +180,8 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
                 return false;
             }
         });
-
-
+        
+        
         v.findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -192,34 +192,35 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
                 return false;
             }
         });
-
+        
         if (getArguments() != null) {
             mStartPos = getArguments().getInt("startCity", -1) + 1;
-        } else mStartPos = 1;
-
+        } else
+            mStartPos = 1;
+        
         if (mStartPos <= 0) {
             mStartPos = 1;
         }
         mStartPos = Math.min(mStartPos, mAdapter.getCount() - 1);
-
+        
         mPager.setCurrentItem(mStartPos);
         onPageScrolled(mStartPos, 0, 0);
         onPageSelected(mStartPos);
         onPageScrollStateChanged(ViewPager.SCROLL_STATE_IDLE);
-
+        
         return v;
     }
-
-
+    
+    
     @Override
     public void onClick(View v) {
         if (v == mAddCityFab) {
             moveToFrag(new SearchCityFragment());
         }
-
+        
     }
-
-
+    
+    
     @Override
     public boolean onBackPressed() {
         Fragment frag = getChildFragmentManager().findFragmentByTag("notPrefs");
@@ -236,8 +237,8 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
         }
         return false;
     }
-
-
+    
+    
     @Override
     public void onPageScrollStateChanged(int state) {
         if (state == ViewPager.SCROLL_STATE_IDLE) {
@@ -248,7 +249,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
             }
         }
     }
-
+    
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position == 0) {
@@ -258,63 +259,64 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
             mTopSlider.unlock();
             mBottomSlider.unlock();
         }
-        if (mAddCityFab != null) if ((position == 0) && (positionOffset == 0)) {
-            mAddCityFab.show();
-        } else {
-            mAddCityFab.hide();
-        }
-
-
+        if (mAddCityFab != null)
+            if ((position == 0) && (positionOffset == 0)) {
+                mAddCityFab.show();
+            } else {
+                mAddCityFab.hide();
+            }
+        
+        
     }
-
+    
     public void setFooterText(@NonNull CharSequence txt, boolean enablePane) {
         mFooterText.setVisibility(txt.toString().isEmpty() ? View.GONE : View.VISIBLE);
         mFooterText.setText(txt);
         mPager.setSwipeLocked(!enablePane);
-
+        
     }
-
+    
     @Override
     public void onPageSelected(int pos) {
         mFooterText.setText((pos == 0) ? R.string.cities : R.string.monthly);
     }
-
+    
     public void onItemClick(int pos) {
         mPager.setCurrentItem(pos + 1, true);
-
+        
     }
-
+    
     public class MyAdapter extends FragmentPagerAdapter implements Observer<List<Times>> {
-
+        
         private List<Times> mTimes;
-
+        
         MyAdapter(FragmentManager fm) {
             super(fm);
-
+            
         }
-
-
+        
+        
         @Override
         public void onChanged(@Nullable List<Times> times) {
             mTimes = times;
             notifyDataSetChanged();
-
+            
         }
-
+        
         @Override
         public int getCount() {
             return mTimes.size() + 1;
         }
-
+        
         @Override
         public long getItemId(int position) {
             if (position == 0) {
                 return 0;
             }
-
+            
             return mTimes.get(position - 1).getID();
         }
-
+        
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof SortFragment) {
@@ -328,8 +330,8 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
             }
             return POSITION_NONE;
         }
-
-
+        
+        
         @NonNull
         @Override
         public Fragment getItem(int position) {
@@ -338,7 +340,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
                 Bundle bdl = new Bundle();
                 bdl.putLong("city", getItemId(position));
                 frag.setArguments(bdl);
-
+                
                 if (position == mStartPos) {
                     mStartPos = 0;
                 }
@@ -347,7 +349,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
                 return new SortFragment();
             }
         }
-
-
+        
+        
     }
 }

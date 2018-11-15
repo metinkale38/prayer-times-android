@@ -28,7 +28,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.metinkale.prayer.compass.R;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 public class CompassView extends View {
     private final Path mPath = new Path();
@@ -101,7 +101,7 @@ public class CompassView extends View {
         mPaint.setTextSize((center * 2) / 5);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(Utils.toArabicNrs(Math.round(getAngle())) + "°", center, center + (center / 5), mPaint);
+        canvas.drawText(LocaleUtils.toArabicNrs(Math.round(getAngle())) + "°", center, center + (center / 5), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(-mAngle, center, center);

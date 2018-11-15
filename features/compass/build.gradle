@@ -1,8 +1,13 @@
 apply plugin: 'com.android.feature'
 
 android {
+    sourceSets {
+        main {
+            res.srcDirs += 'src/main/translations'
+        }
+    }
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 
 
     defaultConfig {

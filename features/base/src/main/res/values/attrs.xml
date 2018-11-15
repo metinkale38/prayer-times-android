@@ -21,16 +21,6 @@
     </declare-styleable>
 
 
-    <declare-styleable name="ShadowContainer">
-        <attr name="shadowSize" format="float" />
-        <attr name="maxShadowSize" format="dimension" />
-        <attr name="shadow" format="boolean" />
-        <attr name="shadowTop" format="boolean" />
-        <attr name="shadowBottom" format="boolean" />
-        <attr name="shadowLeft" format="boolean" />
-        <attr name="shadowRight" format="boolean" />
-    </declare-styleable>
-
     <declare-styleable name="MultipleOrientationSlidingDrawer">
         <attr name="orientation">
             <enum name="top" value="0" />

@@ -25,13 +25,16 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Prefs;
-import com.metinkale.prayer.utils.NumberPickerPreference;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
@@ -47,16 +50,26 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if (getArguments() != null && getArguments().getBoolean("showKerahatDuration"))
             setPreferenceScreen((PreferenceScreen) findPreference("kerahatDuration"));
         else {
-            findPreference("language").setOnPreferenceChangeListener(this);
+       /*     findPreference("language").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.TRANSLATE)
+                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
+            findPreference("arabicNames").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK_OUT)
+                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
+            findPreference("digits").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.NUMERIC)
+                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
+            findPreference("calendarIntegration").setIcon(
+                    MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
+                            .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
+            findPreference("kerahatDuration").setIcon(
+                    MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK_ALERT)
+                            .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
+         */
+            
             findPreference("numbers").setOnPreferenceChangeListener(this);
-            
             findPreference("backupRestore").setOnPreferenceClickListener(this);
-            
             findPreference("calendarIntegration").setOnPreferenceChangeListener(this);
-            
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
-            
             findPreference("ongoingNumber").setOnPreferenceClickListener(this);
+            findPreference("kerahatDuration").setOnPreferenceClickListener(this);
             
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 findPreference("ongoingNumber").setEnabled(false);
@@ -65,12 +78,25 @@ public class SettingsFragment extends PreferenceFragmentCompat
             if (Build.VERSION.SDK_INT < 24)
                 findPreference("showLegacyWidgets").setEnabled(false);
             
-            findPreference("arabicNames").setEnabled(!new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage()));
+            findPreference("arabicNames").setEnabled(!new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage()));
             
-            PreferenceScreen screen = (PreferenceScreen) findPreference("kerahatDuration");
-            screen.setOnPreferenceClickListener(this);
+            ListPreference lang = (ListPreference) findPreference("language");
+            lang.setOnPreferenceChangeListener(this);
+            
+            List<LocaleUtils.Translation> languages = LocaleUtils.getSupportedLanguages(getActivity());
+            CharSequence entries[] = new CharSequence[languages.size()];
+            CharSequence values[] = new CharSequence[languages.size()];
+            for (int i = 0; i < languages.size(); i++) {
+                LocaleUtils.Translation trans = languages.get(i);
+                entries[i] = trans.getDisplayText();
+                values[i] = trans.getLanguage();
+            }
+            lang.setEntries(entries);
+            lang.setEntryValues(values);
         }
+        
     }
+    
     
     @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {

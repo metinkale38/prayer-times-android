@@ -19,24 +19,18 @@
     <string name="adjMidnight">Midnight</string>
     <string name="adjTime">Time based (1/7th of night)</string>
     <string name="angleBased">Angle</string>
-    <string name="asr">Asr</string>
     <string name="calcMethod">Method</string>
     <string name="cities">Cities</string>
     <string name="customVolume">Choose Volume</string>
     <string name="date">Date</string>
     <string name="delConfirm">Do you really want to delete %1$s?</string>
     <string name="dlSound">Download “%1$s” (%2$s)?</string>
-    <string name="imsak">Imsak</string>
-    <string name="fajr">Fajr</string>
     <string name="highlatsAdj">High Latitudes Adjustment:</string>
     <string name="fixTimezone">Timezone +/-:</string>
-    <string name="ishaa">Ishaa</string>
     <string name="juristicHanafi">Hanafi</string>
     <string name="juristicShafi">Shafi (Default)</string>
     <string name="kerahatTime">Makruh Praying Time</string>
-    <string name="maghrib">Maghrib</string>
     <string name="monthly">Month View</string>
-    <string name="morningPrayer">Morning Prayer</string>
     <string name="newAddCity">Use new City Chooser</string>
     <string name="oldAddCity">Use manuel City Chooser</string>
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
@@ -48,7 +42,6 @@
     <string name="volumeAlarm">Alarm-Volume</string>
     <string name="volumeMedia">Media-Volume</string>
     <string name="volumeRingtone">Ringtone-Volume</string>
-    <string name="zuhr">Zuhr</string>
     <string name="calculated">Calculated</string>
     <string name="autoremove_notification">Remove Notification after Adhan</string>
     <string name="export">Export</string>
@@ -74,8 +67,6 @@
     <string name="salavat">Salawat</string>
     <string name="volume">Volume</string>
     <string name="volumeNotification">Notification-Volume</string>
-
-
     <string name="noti_beforeTime">%1$d minutes before %2$s</string>
     <string name="noti_exactTime">at %2$s</string>
     <string name="noti_exactAll">at each prayer time</string>
@@ -88,4 +79,5 @@
     <string name="prayerNotification">Prayer Notification</string>
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
+    <string name="noti_afterTime">%1$s minutes before %2$s</string>
 </resources>

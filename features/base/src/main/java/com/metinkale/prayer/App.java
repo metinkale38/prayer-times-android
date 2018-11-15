@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -31,8 +32,8 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.play.core.splitcompat.SplitCompat;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.TimeZoneChangedReceiver;
-import com.metinkale.prayer.utils.Utils;
 import com.squareup.leakcanary.LeakCanary;
 
 import org.joda.time.DateTimeZone;
@@ -70,7 +71,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             mDefaultUEH.uncaughtException(thread, ex);
         }
     };
-    private Locale mSystemLocale;
     
     
     @NonNull
@@ -105,9 +105,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     @Override
     public void onCreate() {
         super.onCreate();
-        InternalBroadcast.with(this).registerClass("com.metinkale.prayer.times.InternalBroadcastReceiver")
-                .registerClass("com.metinkale.prayerapp.vakit.InternalBroadcastReceiver")
-                .registerClass("com.metinkale.prayer.InternalBroadcastReceiver");
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
@@ -123,11 +120,10 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
         
         
-        mSystemLocale = Locale.getDefault();
-        Utils.init(getBaseContext());
-        
-        
         DateTimeZone.setProvider(new AndroidTimeZoneProvider());
+        LocaleUtils.init(getBaseContext());
+        
+        
         registerReceiver(new TimeZoneChangedReceiver(), new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
         
         
@@ -138,9 +134,12 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
         }*/
         
-        InternalBroadcast.with(this).sendOnStart();
+        InternalBroadcastReceiver.loadAll();
+        InternalBroadcastReceiver.sender(this).sendOnStart();
         
     }
+    
+    
     
     @Override
     protected void attachBaseContext(Context base) {
@@ -152,25 +151,25 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        InternalBroadcast.with(this).sendOnPrefsChanged(key);
+        if (key == null)
+            return;
+        
+        InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key);
         switch (key) {
             case "calendarIntegration":
                 MainIntentService.startCalendarIntegration(App.get());
                 break;
             case "language":
-                Utils.init(getBaseContext());
+                LocaleUtils.init(getBaseContext());
             
         }
         
         
     }
     
-    public Locale getSystemLocale() {
-        return mSystemLocale;
-    }
-    
     public static String getUserAgent() {
-        return "Android/Prayer-Times com.metinkale.prayer (contact: metinkale38@gmail.com)";
+        return String.format(Locale.ENGLISH, "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)", Build.VERSION.SDK_INT,
+                BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME);
     }
     
     

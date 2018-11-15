@@ -3,7 +3,7 @@ package com.metinkale.prayer.times.gson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.metinkale.prayer.base.BuildConfig;
-import com.metinkale.prayer.times.sounds.Sound;
+import com.metinkale.prayer.times.alarm.sounds.Sound;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
 

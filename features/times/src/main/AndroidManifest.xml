@@ -40,14 +40,15 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
 
-
         <activity
             android:name=".SilenterPrompt"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <service android:name=".alarm.AlarmService" />
 
-        <service android:name=".WidgetService">
+
+
+        <receiver android:name=".TimeTickReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -56,7 +57,7 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
                 <action android:name="android.intent.action.ACTION_USER_PRESENT" />
             </intent-filter>
-        </service>
+        </receiver>
 
 
         <receiver
@@ -73,16 +74,13 @@
 
         <receiver android:name=".alarm.SilenterReceiver" />
 
-        <service android:name=".LocationService">
+        <service android:name=".LocationReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.ACTION_USER_PRESENT" />
             </intent-filter>
         </service>
-
-
-
 
 
     </application>

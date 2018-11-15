@@ -51,6 +51,7 @@ import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.times.sources.FaziletTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -145,7 +146,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         mTimes.observe(this, this);
         onChanged(mTimes);
 
-        if (new Locale("tr").getLanguage().equals(Utils.getLocale().getLanguage())) {
+        if (new Locale("tr").getLanguage().equals(LocaleUtils.getLocale().getLanguage())) {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.imsak);
         } else {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.fajr);
@@ -201,8 +202,8 @@ public class CityFragment extends Fragment implements Observer<Times> {
         LocalDate greg = LocalDate.now();
         HijriDate hijr = HijriDate.now();
 
-        mHicri.setText(Utils.format(hijr));
-        mDate.setText(Utils.format(greg));
+        mHicri.setText(LocaleUtils.format(hijr));
+        mDate.setText(LocaleUtils.format(greg));
 
         if (!updateTimes() && mTimes instanceof WebTimes && App.isOnline()) {
             ((WebTimes) mTimes).syncAsync();
@@ -226,7 +227,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         for (int i = 0; i < 6; i++) {
 
             TextView time = mView.findViewById(ids[i]);
-            time.setText(Utils.fixTimeForHTML(daytimes[i]));
+            time.setText(LocaleUtils.fixTimeForHTML(daytimes[i]));
             if (!daytimes[i].equals("00:00")) {
                 hasTimes = true;
             }
@@ -253,10 +254,10 @@ public class CityFragment extends Fragment implements Observer<Times> {
             String asr = mTimes.getTime(greg, 3);
 
             TextView time = mView.findViewById(ids[0]);
-            time.setText(Utils.fixTimeForHTML(imsak));
+            time.setText(LocaleUtils.fixTimeForHTML(imsak));
 
             time = mView.findViewById(ids[3]);
-            time.setText(Utils.fixTimeForHTML(asr));
+            time.setText(LocaleUtils.fixTimeForHTML(asr));
 
             time = mView.findViewById(idsNames[0]);
             time.setText(R.string.imsak);
@@ -277,14 +278,14 @@ public class CityFragment extends Fragment implements Observer<Times> {
             String asr = mTimes.getAsrSani(greg);
             if (sabah != null && !sabah.equals("00:00")) {
                 TextView time = mView.findViewById(ids[0]);
-                time.setText(Utils.fixTimeForHTML(sabah));
+                time.setText(LocaleUtils.fixTimeForHTML(sabah));
                 time = mView.findViewById(idsNames[0]);
                 time.setText(R.string.fajr);
             }
 
             if (asr != null && !asr.equals("00:00")) {
                 TextView time = mView.findViewById(ids[3]);
-                time.setText(Utils.fixTimeForHTML(asr));
+                time.setText(LocaleUtils.fixTimeForHTML(asr));
                 time = mView.findViewById(idsNames[3]);
                 time.setText(R.string.asrSani);
             }
@@ -430,7 +431,8 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 PdfDocument.Page page = document.startPage(pageInfo);
                 Drawable launcher = Drawable.createFromStream(getActivity().getAssets().open("pdf/launcher.png"), null);
                 Drawable qr = Drawable.createFromStream(getActivity().getAssets().open("pdf/qrcode.png"), null);
-                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + Utils.getLanguage("en", "de", "tr", "fr", "ar") + ".png"), null);
+                Drawable badge = Drawable.createFromStream(getActivity().getAssets().open("pdf/badge_" + LocaleUtils
+                        .getLanguage("en", "de", "tr", "fr", "ar") + ".png"), null);
 
                 launcher.setBounds(30, 30, 30 + 65, 30 + 65);
                 qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);

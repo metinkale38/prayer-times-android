@@ -20,7 +20,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -80,7 +80,7 @@ public class Prefs {
     
     
     public static boolean useArabic() {
-        return !new Locale("ar").getLanguage().equals(Utils.getLocale().getLanguage()) && getPrefs().getBoolean("arabicNames", false);
+        return !new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage()) && getPrefs().getBoolean("arabicNames", false);
     }
     
     public static boolean use12H() {

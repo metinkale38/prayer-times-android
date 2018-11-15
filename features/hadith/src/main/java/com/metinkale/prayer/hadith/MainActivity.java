@@ -12,7 +12,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.utils.Utils;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.io.File;
 
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        String lang = Utils.getLanguage("en", "de", "tr");
+        String lang = LocaleUtils.getLanguage("en", "de", "tr");
         final String file = lang + "/hadis.db";
         final String url = App.API_URL + "/files/hadis." + lang + ".db";
         File f = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);

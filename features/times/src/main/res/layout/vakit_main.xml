@@ -32,7 +32,7 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-    <com.metinkale.prayer.utils.RTLViewPager
+    <com.metinkale.prayer.times.utils.RTLViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_below="@+id/topSlider"
         android:id="@+id/topSliderCloseHandler" />
 
-    <com.metinkale.prayer.utils.MultipleOrientationSlidingDrawer
+    <com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer
         android:id="@+id/bottomSlider"
         android:layout_alignTop="@+id/center"
         android:layout_alignParentBottom="true"
@@ -95,9 +95,9 @@
 
 
         </FrameLayout>
-    </com.metinkale.prayer.utils.MultipleOrientationSlidingDrawer>
+    </com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer>
 
-    <com.metinkale.prayer.utils.MultipleOrientationSlidingDrawer
+    <com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer
         android:id="@+id/topSlider"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
 
 
         </FrameLayout>
-    </com.metinkale.prayer.utils.MultipleOrientationSlidingDrawer>
+    </com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

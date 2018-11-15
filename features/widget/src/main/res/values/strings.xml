@@ -14,19 +14,22 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="blackWidget">Black Widget</string>
     <string name="silent">Silent</string>
+    <string name="widgetDesign">Theme</string>
+
+    <!-- Widget Themes -->
     <string name="transWhiteWidget">Transparent White Widget</string>
     <string name="transWidget">Transparent Widget</string>
     <string name="whiteWidget">White Widget</string>
+    <string name="blackWidget">Black Widget</string>
+
+    <!-- Widget Types -->
     <string name="widgetClock">Prayer Times - 4*2 Clock</string>
-    <string name="widgetDesign">Theme</string>
     <string name="widgetLong">Prayer Times - 4*1 Widget</string>
     <string name="widgetLabel">Prayer Times - 2*2 Widget</string>
     <string name="widgetSilenter">Prayer Times - Silenter Widget</string>
     <string name="widgetSmall">Prayer Times - 1*1 Widget</string>
     <string name="widgetClock2">Prayer Times - 2*2 Clock</string>
-
 
 
 </resources>

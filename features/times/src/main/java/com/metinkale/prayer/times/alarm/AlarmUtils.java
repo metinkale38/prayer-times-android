@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.metinkale.prayer.base.BuildConfig;
-import com.metinkale.prayer.times.NotificationUtils;
+import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
@@ -21,7 +21,7 @@ public class AlarmUtils {
         Times t = alarm.getCity();
         String text = t.getName() + " (" + t.getSource() + ")";
 
-        String txt = alarm.getTitle();
+        String txt = alarm.getCurrentTitle();
 
         if (BuildConfig.DEBUG) {
             long difference = System.currentTimeMillis() - time;
@@ -59,7 +59,7 @@ public class AlarmUtils {
         Times t = alarm.getCity();
         String text = t.getName() + " (" + t.getSource() + ")";
 
-        String txt = alarm.getTitle();
+        String txt = alarm.getCurrentTitle();
 
         if (BuildConfig.DEBUG) {
             long difference = System.currentTimeMillis() - time;
