@@ -22,7 +22,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
 
@@ -33,7 +33,7 @@ public class WidgetProviderSmall extends AppWidgetProvider {
         ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY);
         
         LocaleUtils.init(context);
-        if (!Prefs.showLegacyWidget())
+        if (!Preferences.SHOW_LEGACY_WIDGET.get())
             WidgetV24.update1x1(context, appWidgetManager, widgetId);
         else
             WidgetLegacy.update1x1(context, appWidgetManager, widgetId);

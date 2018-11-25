@@ -30,7 +30,7 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
@@ -98,8 +98,8 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
         } else if (i == R.id.share) {
             share(getActivity());
         } else if (i == R.id.showIntro) {
-            Prefs.setShowIntro(true);
-            Prefs.setChangelogVersion(0);
+            Preferences.SHOW_INTRO.set(true);
+            Preferences.CHANGELOG_VERSION.set(0);
             Module.INTRO.launch(getActivity());
         }
     }

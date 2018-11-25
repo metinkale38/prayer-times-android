@@ -26,9 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -139,6 +138,6 @@ public class MenuIntroFragment extends IntroFragment {
     
     @Override
     protected boolean shouldShow() {
-        return Prefs.showIntro();
+        return Preferences.SHOW_INTRO.get();
     }
 }

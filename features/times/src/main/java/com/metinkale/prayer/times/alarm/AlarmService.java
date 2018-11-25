@@ -29,7 +29,7 @@ import android.os.PowerManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
 import com.metinkale.prayer.times.fragments.NotificationPopup;
@@ -157,7 +157,7 @@ public class AlarmService extends IntentService {
             nm.notify(notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
         }
         
-        if (Prefs.showNotificationScreen()) {
+        if (Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
             NotificationPopup.start(c, alarm);
             Thread.sleep(1000);
         }
@@ -166,7 +166,7 @@ public class AlarmService extends IntentService {
         try {
             player.play();
             
-            if (Prefs.stopByFacedown()) {
+            if (Preferences.STOP_ALARM_ON_FACEDOWN.get()) {
                 StopByFacedownMgr.start(this, player);
             }
             
@@ -194,7 +194,7 @@ public class AlarmService extends IntentService {
             SilenterReceiver.silent(c, alarm.getSilenter());
         }
         
-        if (NotificationPopup.instance != null && Prefs.showNotificationScreen()) {
+        if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
             NotificationPopup.instance.finish();
         }
         

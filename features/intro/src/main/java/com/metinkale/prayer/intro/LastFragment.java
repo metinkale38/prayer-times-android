@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.AboutShortcuts;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -93,15 +93,15 @@ public class LastFragment extends IntroFragment implements CompoundButton.OnChec
 
     @Override
     protected boolean shouldShow() {
-        return Prefs.showIntro();
+        return Preferences.SHOW_INTRO.get();
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (!b) return;
         String newlang = (String) compoundButton.getTag();
-        if (Prefs.getLanguage().equals(newlang)) return;
-        Prefs.setLanguage(newlang);
+        if (Preferences.LANGUAGE.get().equals(newlang)) return;
+        Preferences.LANGUAGE.set(newlang);
         getActivity().recreate();
     }
 
@@ -118,8 +118,8 @@ public class LastFragment extends IntroFragment implements CompoundButton.OnChec
             AboutShortcuts.rate(getActivity());
 
         } else if (i == R.id.showIntro) {
-            Prefs.setShowIntro(true);
-            Prefs.setChangelogVersion(0);
+            Preferences.SHOW_INTRO.set(true);
+            Preferences.CHANGELOG_VERSION.set(0);
             getActivity().recreate();
 
             AboutShortcuts.share(getActivity());

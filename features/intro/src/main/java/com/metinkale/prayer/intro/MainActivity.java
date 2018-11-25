@@ -25,7 +25,7 @@ import android.widget.Button;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             else {
                 Times.clearTemporaryTimes();
                 finish();
-                Prefs.setChangelogVersion(BuildConfig.CHANGELOG_VERSION);
-                Prefs.setShowIntro(false);
+                Preferences.CHANGELOG_VERSION.set(BuildConfig.CHANGELOG_VERSION);
+                Preferences.SHOW_INTRO.set(false);
                 
                 Bundle bdl = new Bundle();
                 if (Times.getCount() == 0) {
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 Module.TIMES.launch(this, bdl);
                 
                 String appName = "appName";
-                String lang = Prefs.getLanguage();
+                String lang = Preferences.LANGUAGE.get();
                 if (!lang.isEmpty() && !lang.equals("system")) {
                     appName += Character.toUpperCase(lang.charAt(0)) + lang.substring(1);
                 }

@@ -44,7 +44,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.HijriDate;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
@@ -99,7 +99,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     mTitle.setText(mTimes.getName());
 
                 int next = mTimes.getNext();
-                if (Prefs.getVakitIndicator().equals("next")) next++;
+                if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next")) next++;
                 for (int i = 0; i < 6; i++) {
                     TextView time = mView.findViewById(ids[i]);
                     ViewGroup parent = (ViewGroup) time.getParent();
@@ -161,7 +161,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             }
         }
 
-        if (Prefs.useArabic()) {
+        if (Preferences.USE_ARABIC.get()) {
             for (int i = 0; i < idsNames.length; i++) {
                 TextView tv = mView.findViewById(idsNames[i]);
                 tv.setGravity(Gravity.LEFT);
@@ -209,7 +209,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             ((WebTimes) mTimes).syncAsync();
         }
 
-        if (Prefs.showExtraTimes() && (mTimes.getSource() == Source.Fazilet
+        if (Preferences.SHOW_EXTRA_TIMES.get() && (mTimes.getSource() == Source.Fazilet
                 || mTimes.getSource() == Source.NVC
                 || mTimes.getSource() == Source.Calc)) {
             mHandler.removeCallbacks(mAltTimes);

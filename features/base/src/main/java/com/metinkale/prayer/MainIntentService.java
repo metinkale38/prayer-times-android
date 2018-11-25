@@ -80,7 +80,7 @@ public class MainIntentService extends IntentService {
     
     private void handleCalendarIntegration() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            Prefs.setCalendar("-1");
+            Preferences.CALENDAR_INTEGRATION.set("-1");
             return;
         }
         Context context = App.get();
@@ -91,7 +91,7 @@ public class MainIntentService extends IntentService {
             cr.delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events.DESCRIPTION + "=\"com.metinkale.prayer\"", null);
             
             
-            String id = Prefs.getCalendar();
+            String id = Preferences.CALENDAR_INTEGRATION.get();
             
             if ("-1".equals(id)) {
                 return;
@@ -128,7 +128,7 @@ public class MainIntentService extends IntentService {
             }
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events);
         } catch (Exception e) {
-            Prefs.setCalendar("-1");
+            Preferences.CALENDAR_INTEGRATION.set("-1");
             Crashlytics.logException(e);
         }
     }

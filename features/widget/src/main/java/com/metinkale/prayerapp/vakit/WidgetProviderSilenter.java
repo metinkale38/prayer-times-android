@@ -22,7 +22,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import androidx.annotation.NonNull;
@@ -31,7 +31,7 @@ public class WidgetProviderSilenter extends AppWidgetProvider {
 
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {
         LocaleUtils.init(context);
-        if (!Prefs.showLegacyWidget())
+        if (!Preferences.SHOW_LEGACY_WIDGET.get())
             WidgetV24.updateSilenter(context, appWidgetManager, widgetId);
         else
             WidgetLegacy.updateSilenter(context, appWidgetManager, widgetId);

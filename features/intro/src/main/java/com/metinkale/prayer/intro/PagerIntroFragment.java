@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -130,6 +130,6 @@ public class PagerIntroFragment extends IntroFragment {
 
     @Override
     protected boolean shouldShow() {
-        return Prefs.showIntro();
+        return Preferences.SHOW_INTRO.get();
     }
 }

@@ -31,7 +31,7 @@ import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.HijriDate;
 import com.metinkale.prayer.MainIntentService;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
 import org.joda.time.LocalDate;
@@ -82,16 +82,16 @@ public class LocaleUtils {
         
         int year = LocalDate.now().getYear();
         
-        if (year != Prefs.getLastCalSync()) {
+        if (year != Preferences.LAST_CAL_SYNC.get()) {
             MainIntentService.startCalendarIntegration(c);
-            Prefs.setLastCalSync(year);
+            Preferences.LAST_CAL_SYNC.set(year);
         }
         
     }
     
     public static void initLocale(Context c) {
-        Crashlytics.setString("lang", Prefs.getLanguage());
-        Crashlytics.setString("digits", Prefs.getDigits());
+        Crashlytics.setString("lang", Preferences.LANGUAGE.get());
+        Crashlytics.setString("digits", Preferences.DIGITS.get());
         Configuration config = new Configuration();
         
         
@@ -115,7 +115,7 @@ public class LocaleUtils {
     
     public static CharSequence fixTimeForHTML(String time) {
         time = fixTime(time);
-        if (!Prefs.use12H()) {
+        if (!Preferences.CLOCK_12H.get()) {
             return time;
         }
         int d = time.indexOf(" ");
@@ -133,7 +133,7 @@ public class LocaleUtils {
     
     @NonNull
     public static String fixTime(@NonNull String time) {
-        if (Prefs.use12H() && time.contains(":")) {
+        if (Preferences.CLOCK_12H.get() && time.contains(":")) {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
                 String suffix = time.substring(time.indexOf(":"));
@@ -167,7 +167,7 @@ public class LocaleUtils {
     
     @NonNull
     public static LocaleListCompat getLocalesCompat() {
-        if ("system".equals(Prefs.getLanguage()))
+        if ("system".equals(Preferences.LANGUAGE.get()))
             return DEFAULT_LOCALES;
         
         Locale locale = LocaleUtils.getLocale();
@@ -184,7 +184,7 @@ public class LocaleUtils {
     
     @NonNull
     public static Locale getLocale() {
-        String language = Prefs.getLanguage();
+        String language = Preferences.LANGUAGE.get();
         if ("system".equals(language))
             return DEFAULT_LOCALES.get(0);
         else
@@ -215,7 +215,7 @@ public class LocaleUtils {
     
     @NonNull
     public static String getGregMonth(@IntRange(from = 0, to = 11) int which) {
-        if (Prefs.getLanguage().equals("system"))
+        if (Preferences.LANGUAGE.get().equals("system"))
             return new DateFormatSymbols(getLocale()).getMonths()[which];
         else
             return App.get().getResources().getString(GMONTHS[which]);
@@ -237,7 +237,7 @@ public class LocaleUtils {
     
     @NonNull
     private static String getDateFormat(boolean hicri) {
-        return hicri ? Prefs.getHijriDateFormat() : Prefs.getDateFormat();
+        return hicri ? Preferences.HIJRI_DATE_FORMAT.get() : Preferences.DATE_FORMAT.get();
     }
     
     @NonNull
@@ -299,10 +299,10 @@ public class LocaleUtils {
     
     @NonNull
     public static String toArabicNrs(@NonNull String str) {
-        if (Prefs.getDigits().equals("normal"))
+        if (Preferences.DIGITS.get().equals("normal"))
             return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
-        if (Prefs.getDigits().equals("farsi")) {
+        if (Preferences.DIGITS.get().equals("farsi")) {
             arabicChars[4] = '۴';
             arabicChars[5] = '۵';
             arabicChars[6] = '۶';

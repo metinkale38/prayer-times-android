@@ -20,7 +20,7 @@ import android.content.SharedPreferences;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.AlarmService;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -301,7 +301,7 @@ public abstract class Times extends TimesBase {
         
         if (showsecs) {
             return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
-        } else if (Prefs.isDefaultWidgetMinuteType()) {
+        } else if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_FLOOR)) {
             return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
         } else {
             period = period.withFieldAdded(DurationFieldType.minutes(), 1);
@@ -375,17 +375,17 @@ public abstract class Times extends TimesBase {
     
     public boolean isKerahat() {
         long m = getLeftMinutes(1);
-        if ((m <= 0) && (m > (-Prefs.getKerahatSunrise()))) {
+        if ((m <= 0) && (m > (-Preferences.KERAHAT_SUNRISE.get()))) {
             return true;
         }
         
         m = getLeftMinutes(2);
-        if ((m >= 0) && (m < (Prefs.getKerahatIstiwa()))) {
+        if ((m >= 0) && (m < (Preferences.KERAHAT_ISTIWA.get()))) {
             return true;
         }
         
         m = getLeftMinutes(4);
-        return (m >= 0) && (m < (Prefs.getKerahatSunet()));
+        return (m >= 0) && (m < (Preferences.KERAHAT_SUNSET.get()));
         
     }
     

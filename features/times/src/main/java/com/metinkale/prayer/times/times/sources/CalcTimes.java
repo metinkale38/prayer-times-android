@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.CalcTimeConfDialogFragment;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
@@ -160,13 +160,13 @@ public class CalcTimes extends Times {
         getPrayTimes().setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
         switch (time) {
             case 0:
-                return getPrayTimes().getTime(Prefs.showExtraTimes() ? Constants.TIMES_IMSAK : Constants.TIMES_FAJR);
+                return getPrayTimes().getTime(Preferences.SHOW_EXTRA_TIMES.get() ? Constants.TIMES_IMSAK : Constants.TIMES_FAJR);
             case 1:
                 return getPrayTimes().getTime(Constants.TIMES_SUNRISE);
             case 2:
                 return getPrayTimes().getTime(Constants.TIMES_DHUHR);
             case 3:
-                return getPrayTimes().getTime(Prefs.showExtraTimes() ? Constants.TIMES_ASR_SHAFII : Constants.TIMES_ASR);
+                return getPrayTimes().getTime(Preferences.SHOW_EXTRA_TIMES.get() ? Constants.TIMES_ASR_SHAFII : Constants.TIMES_ASR);
             case 4:
                 return getPrayTimes().getTime(Constants.TIMES_MAGHRIB);
             case 5:

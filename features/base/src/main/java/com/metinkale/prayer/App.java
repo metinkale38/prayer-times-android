@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -60,7 +59,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             //AppRatingDialog.setInstalltionTime(0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
-                    Prefs.setShowOngoingNumber(false);
+                    Preferences.SHOW_ONGOING_NUMBER.set(false);
                     //Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
                     Crashlytics.setBool("WORKAROUND#1", true);
                     Crashlytics.logException(ex);
@@ -111,7 +110,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         LeakCanary.install(this);
         
         Fabric.with(this, new Crashlytics());
-        Crashlytics.setUserIdentifier(Prefs.getUUID());
+        Crashlytics.setUserIdentifier(Preferences.UUID.get());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
         

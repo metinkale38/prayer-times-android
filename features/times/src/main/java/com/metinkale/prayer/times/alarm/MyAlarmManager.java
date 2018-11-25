@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.Utils;
 
 import androidx.annotation.NonNull;
@@ -33,7 +33,7 @@ public class MyAlarmManager {
     }
     
     public static boolean useHelper(Context c) {
-        return Utils.isPackageInstalled(c, MyAlarmManagerHelper.HELPER_PKG) && !Prefs.useAlarm();
+        return Utils.isPackageInstalled(c, MyAlarmManagerHelper.HELPER_PKG) && !Preferences.USE_ALARM.get();
     }
     
     
@@ -42,7 +42,7 @@ public class MyAlarmManager {
     }
     
     public void setExact(int type, long time, PendingIntent service) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && Prefs.useAlarm()) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && Preferences.USE_ALARM.get()) {
             AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time,
                     PendingIntent.getActivity(context, 0, Module.TIMES.buildIntent(context), PendingIntent.FLAG_UPDATE_CURRENT));
             alarmManager.setAlarmClock(info, service);

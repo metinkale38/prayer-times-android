@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.metinkale.prayer.utils.ForegroundService;
-
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -21,6 +19,7 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
         loadClass("com.metinkale.prayer.times.TimesBroadcastReceiver");
         loadClass("com.metinkale.prayer.times.OngoingNotificationsReceiver");
         loadClass("com.metinkale.prayerapp.vakit.WidgetUtils");
+        loadClass("com.metinkale.prayer.AliasManager");
     }
     
     private static void loadClass(Class<? extends InternalBroadcastReceiver> clz) {

@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.InternalBroadcastReceiver;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
@@ -66,8 +66,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             
             String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
             
-            boolean icon = Prefs.showOngoingIcon();
-            boolean number = Prefs.showOngoingNumber();
+            boolean icon = Preferences.SHOW_ONGOING_ICON.get();
+            boolean number = Preferences.SHOW_ONGOING_NUMBER.get();
             Crashlytics.setBool("showIcon", icon);
             Crashlytics.setBool("showNumber", number);
             
@@ -78,11 +78,11 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
             
             int next = t.getNext();
-            if (Prefs.getVakitIndicator().equals("next"))
+            if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
                 next++;
             for (int i = 0; i < dt.length; i++) {
                 if ((next - 1) == i) {
-                    if (Prefs.use12H()) {
+                    if (Preferences.CLOCK_12H.get()) {
                         Spannable span = (Spannable) LocaleUtils.fixTimeForHTML(dt[i]);
                         span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         views.setTextViewText(timeIds[i], span);
@@ -102,7 +102,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 }
             }
             
-            if (Build.VERSION.SDK_INT >= 24 && Prefs.showWidgetSeconds()) {
+            if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS)) {
                 views.setChronometer(R.id.countdown, t.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
             } else {
                 String txt = t.getLeft(t.getNext(), false);

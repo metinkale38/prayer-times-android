@@ -25,7 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
         RadioGroup radioGroup = v.findViewById(R.id.radioGroup);
         
         List<LocaleUtils.Translation> langs = LocaleUtils.getSupportedLanguages(getActivity());
-        String currentLang = Prefs.getLanguage();
+        String currentLang = Preferences.LANGUAGE.get();
         int pos = 0;
         for (int i = 0; i < langs.size(); i++) {
             LocaleUtils.Translation lang = langs.get(i);
@@ -92,7 +92,7 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
     
     @Override
     protected boolean shouldShow() {
-        return Prefs.showIntro();
+        return Preferences.SHOW_INTRO.get();
     }
     
     @Override
@@ -100,9 +100,9 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
         if (!b)
             return;
         String newlang = (String) compoundButton.getTag();
-        if (Prefs.getLanguage().equals(newlang))
+        if (Preferences.LANGUAGE.get().equals(newlang))
             return;
-        Prefs.setLanguage(newlang);
+        Preferences.LANGUAGE.set(newlang);
     
         getActivity().finish();
         getActivity().overridePendingTransition( 0, 0);

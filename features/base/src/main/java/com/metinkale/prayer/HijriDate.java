@@ -174,7 +174,7 @@ public class HijriDate {
         HijriDate last = fromHijri.floorEntry(hijri).getValue();
         if (last == null || fromHijri.ceilingKey(hijri) == null) {
             LocalDate gregorian = ld.toDateTimeAtStartOfDay().withChronology(ISOChronology.getInstanceUTC()).toLocalDate();
-            int hfix = Prefs.getHijriFix();
+            int hfix = Preferences.HIJRI_FIX.get();
             if (hfix != 0) {
                 gregorian = gregorian.plusDays(hfix);
             }
@@ -182,7 +182,7 @@ public class HijriDate {
             return create(hijri, greg);
         } else {
             LocalDate gregLd = last.getLocalDate().plusDays(hijri.day - 1);
-            int hfix = Prefs.getHijriFix();
+            int hfix = Preferences.HIJRI_FIX.get();
             if (hfix != 0) {
                 gregLd = gregLd.plusDays(hfix);
             }
@@ -198,7 +198,7 @@ public class HijriDate {
         }
         init();
         
-        int hfix = Prefs.getHijriFix();
+        int hfix = Preferences.HIJRI_FIX.get();
         if (hfix != 0) {
             ld = ld.plusDays(hfix);
         }

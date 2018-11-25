@@ -17,7 +17,7 @@
 package com.metinkale.prayer.times.times;
 
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.R;
 
 import androidx.annotation.NonNull;
@@ -51,7 +51,7 @@ public enum Vakit {
     }
     
     public String getString() {
-        if (Prefs.useArabic()) {
+        if (Preferences.USE_ARABIC.get()) {
             return arabic;
         }
         

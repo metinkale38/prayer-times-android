@@ -100,7 +100,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         LocaleUtils.initLocale(this);
         //AppRatingDialog.increaseAppStarts();
         
-        if (Prefs.showIntro() || Prefs.getChangelogVersion() < BuildConfig.CHANGELOG_VERSION) {
+        if (Preferences.SHOW_INTRO.get() || Preferences.CHANGELOG_VERSION.get() < BuildConfig.CHANGELOG_VERSION) {
             Module.INTRO.launch(this);
         }
         

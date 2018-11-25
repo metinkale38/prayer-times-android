@@ -29,7 +29,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.Geocoder;
 
 import androidx.annotation.NonNull;
@@ -37,61 +37,64 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LocationPicker extends AppCompatActivity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_location);
-
+        
         ListView list = findViewById(R.id.listView);
         list.setOnItemClickListener(this);
-
+        
         mAdapter = new ArrayAdapter<Geocoder.Result>(this, android.R.layout.simple_list_item_1, android.R.id.text1) {
             @NonNull
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                if (v instanceof TextView) ((TextView) v).setTextColor(Color.BLACK);
+                if (v instanceof TextView)
+                    ((TextView) v).setTextColor(Color.BLACK);
                 return v;
             }
         };
-
+        
         list.setAdapter(mAdapter);
-
+        
         EditText city = findViewById(R.id.location);
         city.addTextChangedListener(this);
     }
-
+    
     @Override
     public void afterTextChanged(@NonNull Editable txt) {
         Geocoder.search(txt.toString(), new Geocoder.GeocoderCallback() {
             @Override
             public void onResult(Geocoder.Result result) {
-                if (result == null) return;
+                if (result == null)
+                    return;
                 mAdapter.clear();
                 mAdapter.add(result);
             }
         });
-
+        
     }
-
+    
     @Override
     public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+    
     }
-
+    
     @Override
     public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+    
     }
-
+    
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
         Geocoder.Result a = mAdapter.getItem(pos);
-        Prefs.setCompassPos((float) a.getLat(), (float) a.getLon());
-
+        Preferences.COMPASS_LAT.set((float) a.getLat());
+        Preferences.COMPASS_LNG.set((float) a.getLon());
+        
         finish();
-
+        
     }
-
+    
 }

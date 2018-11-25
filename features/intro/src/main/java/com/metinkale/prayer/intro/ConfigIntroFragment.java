@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.AlarmsFragment;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
@@ -168,6 +168,6 @@ public class ConfigIntroFragment extends IntroFragment {
 
     @Override
     protected boolean shouldShow() {
-        return Prefs.showIntro();
+        return Preferences.SHOW_INTRO.get();
     }
 }

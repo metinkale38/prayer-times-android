@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.compass._2D.Frag2D;
 import com.metinkale.prayer.compass._3D.Frag3D;
 import com.metinkale.prayer.compass.classes.OrientationCalculator;
@@ -208,7 +208,7 @@ public class CompassFragment extends BaseActivity.MainFragment implements Locati
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (Prefs.showCompassNote()) {
+        if (Preferences.SHOW_COMPASS_NOTE.get()) {
             final Toast t = makeToast();
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -247,7 +247,7 @@ public class CompassFragment extends BaseActivity.MainFragment implements Locati
                 }
             }
         } else if (mSwitch == item) {
-            Prefs.setShowCompassNote(false);
+            Preferences.SHOW_COMPASS_NOTE.set(false);
             if (mMode == Mode.Map) {
                 mSensorManager
                         .registerListener(mMagAccel, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
@@ -324,10 +324,10 @@ public class CompassFragment extends BaseActivity.MainFragment implements Locati
             }
         }
         
-        if (Prefs.getCompassLat() != 0) {
+        if (Preferences.COMPASS_LAT.get() != 0) {
             Location loc = new Location("custom");
-            loc.setLatitude(Prefs.getCompassLat());
-            loc.setLongitude(Prefs.getCompassLng());
+            loc.setLatitude(Preferences.COMPASS_LAT.get());
+            loc.setLongitude(Preferences.COMPASS_LNG.get());
             calcQiblaAngel(loc);
         }
     }

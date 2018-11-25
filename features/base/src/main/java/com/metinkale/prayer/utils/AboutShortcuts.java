@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
 import androidx.annotation.NonNull;
@@ -110,7 +110,7 @@ public class AboutShortcuts {
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT,
                 "===Device Information===" +
-                        "\nUUID: " + Prefs.getUUID() +
+                        "\nUUID: " + Preferences.UUID.get() +
                         "\nManufacturer: " + Build.MANUFACTURER +
                         "\nModel: " + Build.MODEL +
                         "\nAndroid Version: " + Build.VERSION.RELEASE +

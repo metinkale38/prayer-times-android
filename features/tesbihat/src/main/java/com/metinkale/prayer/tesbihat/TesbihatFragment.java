@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.utils.LocaleUtils;
 
@@ -95,7 +95,7 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
             }
         }
 
-        mTextSize = Prefs.getTesbihatTextSize();
+        mTextSize = Preferences.TESBIHAT_TEXTSIZE.get();
 
         return v;
     }
@@ -112,7 +112,7 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
         int i1 = item.getItemId();
         if (i1 == R.id.zoomIn) {
             mTextSize++;
-            Prefs.setTesbihatTextSize(mTextSize);
+            Preferences.TESBIHAT_TEXTSIZE.set(mTextSize);
             int i = mViewPager.getCurrentItem();
             mViewPager.invalidate();
             mViewPager.setAdapter(mSectionsPagerAdapter);

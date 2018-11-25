@@ -22,7 +22,7 @@ public class TimesBroadcastReceiver extends InternalBroadcastReceiver
             case "use12h":
             case "ongoingIcon":
             case "ongoingNumber":
-            case "showAltWidgetHightlight":
+            case "SHOW_ALT_WIDGET_HIGHLIGHT":
             case "widget_countdown":
             case "alternativeOngoing":
             case "showLegacyWidgets":

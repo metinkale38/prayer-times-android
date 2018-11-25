@@ -26,7 +26,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
 import androidx.annotation.NonNull;
@@ -147,7 +147,7 @@ public class PermissionUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
             return;
         
-        if (!pCalendar && (!"-1".equals(Prefs.getCalendar()) || force)) {
+        if (!pCalendar && (!"-1".equals(Preferences.CALENDAR_INTEGRATION.get()) || force)) {
             
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
             
@@ -198,7 +198,7 @@ public class PermissionUtils {
                 case Manifest.permission.WRITE_CALENDAR:
                     pCalendar = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                     if (!pCalendar)
-                        Prefs.setCalendar("-1");
+                        Preferences.CALENDAR_INTEGRATION.set("-1");
                     break;
                 case Manifest.permission.ACCESS_NOTIFICATION_POLICY:
                     pNotPolicy = grantResults[i] == PackageManager.PERMISSION_GRANTED;

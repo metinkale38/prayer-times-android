@@ -24,10 +24,8 @@ import android.os.Bundle;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
-
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 import java.util.Locale;
@@ -147,7 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         
         if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
             if ("language".equals(pref.getKey()))
-                Prefs.setLanguage((String) newValue);
+                Preferences.LANGUAGE.set((String) newValue);
             Activity act = getActivity();
             act.finish();
             Intent i = new Intent(act, act.getClass());

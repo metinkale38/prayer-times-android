@@ -40,13 +40,13 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import com.metinkale.prayer.HijriDate;
-import com.metinkale.prayer.Prefs;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.SilenterPrompt;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
-import com.metinkale.prayer.utils.UUID;
 import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.UUID;
 import com.metinkale.prayer.widgets.R;
 
 import org.joda.time.LocalDate;
@@ -63,28 +63,31 @@ public class WidgetV24 {
             WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId);
             return;
         }
-
+        
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f);
         int w = size.width;
         int h = size.height;
-        if (w <= 0 || h <= 0) return;
+        if (w <= 0 || h <= 0)
+            return;
         float scale = w / 10.5f;
-
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, w / 2, h / 2, w / 2, h / 2);
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
-
-
+        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
+                times.getTime(date, 5)};
+        
+        
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
-
-
+        
+        
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
         int indicator = next;
-        if ("next".equals(Prefs.getVakitIndicator())) indicator++;
+        if ("next".equals(Preferences.VAKIT_INDICATOR_TYPE.get()))
+            indicator++;
         int idsText[] = {R.id.fajrText, R.id.sunText, R.id.zuhrText, R.id.asrText, R.id.maghribText, R.id.ishaaText};
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         for (int i = 0; i < 6; i++) {
@@ -92,14 +95,14 @@ public class WidgetV24 {
             remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1f);
             remoteViews.setTextColor(idsText[i], theme.textcolor);
             remoteViews.setTextColor(ids[i], theme.textcolor);
-
+            
             String name = Vakit.getByIndex(i).getString();
             String time = LocaleUtils.fixTime(daytimes[i]);
-            if (Prefs.use12H()) {
+            if (Preferences.CLOCK_12H.get()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
-
-            if (Prefs.showAltWidgetHightlight()) {
+            
+            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
                 if (i + 1 == indicator) {
                     name = "<b><i>" + name + "</i></b>";
                     time = "<b><i>" + time + "</i></b>";
@@ -115,22 +118,22 @@ public class WidgetV24 {
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
                 }
             }
-
+            
             remoteViews.setTextViewText(idsText[i], Html.fromHtml(name));
             remoteViews.setTextViewText(ids[i], Html.fromHtml(time));
-
-            remoteViews.setViewPadding(idsText[i], (int) ((Prefs.use12H() ? 1.25 : 1.75) * scale), 0, (int) scale / 4, 0);
-            remoteViews.setViewPadding(ids[i], 0, 0, (int) ((Prefs.use12H() ? 1.25 : 1.75) * scale), 0);
-
+            
+            remoteViews.setViewPadding(idsText[i], (int) ((Preferences.CLOCK_12H.get() ? 1.25 : 1.75) * scale), 0, (int) scale / 4, 0);
+            remoteViews.setViewPadding(ids[i], 0, 0, (int) ((Preferences.CLOCK_12H.get() ? 1.25 : 1.75) * scale), 0);
+            
         }
-
+        
         remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.3f);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
         remoteViews.setViewPadding(R.id.city, (int) scale / 2, 0, (int) scale / 2, (int) scale / 4);
-
-        if (Prefs.showWidgetSeconds())
-            remoteViews.setChronometer(R.id.countdown, times.getMills(next)
-                    - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+        
+        if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS))
+            remoteViews
+                    .setChronometer(R.id.countdown, times.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
         else {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
@@ -139,7 +142,7 @@ public class WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.3f);
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
-
+    
     public static void update4x1(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         Theme theme = WidgetUtils.getTheme(widgetId);
         Times times = WidgetUtils.getTimes(widgetId);
@@ -147,40 +150,43 @@ public class WidgetV24 {
             WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId);
             return;
         }
-
+        
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 300f / 60f);
         int w = size.width;
         int h = size.height;
-        if (w <= 0 || h <= 0) return;
+        if (w <= 0 || h <= 0)
+            return;
         float scale = w / 25f;
-
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x1);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, w / 2, h / 2, w / 2, h / 2);
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4), times.getTime(date, 5)};
-
-
+        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
+                times.getTime(date, 5)};
+        
+        
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int next = times.getNext();
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
-
+        
         int indicator = next;
-        if ("next".equals(Prefs.getVakitIndicator())) indicator++;
+        if ("next".equals(Preferences.VAKIT_INDICATOR_TYPE.get()))
+            indicator++;
         for (int i = 0; i < 6; i++) {
             remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
             remoteViews.setTextColor(ids[i], theme.textcolor);
-
+            
             String name = Vakit.getByIndex(i).getString();
             String time = LocaleUtils.fixTime(daytimes[i]);
-            if (Prefs.use12H()) {
+            if (Preferences.CLOCK_12H.get()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
-
-
-            if (Prefs.showAltWidgetHightlight()) {
+            
+            
+            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
                 if (i + 1 == indicator) {
                     name = "<b><i>" + name + "</i></b>";
                     time = "<b><i>" + time + "</i></b>";
@@ -192,34 +198,34 @@ public class WidgetV24 {
                 else
                     remoteViews.setInt(ids[i], "setBackgroundColor", 0);
             }
-
+            
             remoteViews.setTextViewText(ids[i], Html.fromHtml(time + "<br/><small>" + name + "</small>"));
-
+            
         }
-
+        
         remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, scale * 1.25f);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
-
+        
         remoteViews.setViewPadding(R.id.city, (int) scale / 2, (int) scale / 16, (int) scale / 4, (int) scale / 16);
         remoteViews.setViewPadding(R.id.countdown, (int) scale / 4, (int) scale / 16, (int) scale / 2, (int) scale / 16);
-
-        if (Prefs.showWidgetSeconds())
-            remoteViews.setChronometer(R.id.countdown, times.getMills(next)
-                    - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+        
+        if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS))
+            remoteViews
+                    .setChronometer(R.id.countdown, times.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
         else {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
         }
-
+        
         if (theme == Theme.Trans) {
             remoteViews.setViewPadding(R.id.divider, (int) scale / 2, 0, (int) scale / 2, 0);
         }
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
-
+        
     }
-
+    
     public static void update1x1(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         Theme theme = WidgetUtils.getTheme(widgetId);
         Times times = WidgetUtils.getTimes(widgetId);
@@ -227,22 +233,23 @@ public class WidgetV24 {
             WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId);
             return;
         }
-
+        
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
-        if (s <= 0) return;
-
+        if (s <= 0)
+            return;
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, s / 2, s / 2, s / 2, s / 2);
-
+        
         int next = times.getNext();
-
+        
         String name = times.getName();
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
-        if (Prefs.showWidgetSeconds())
-            remoteViews.setChronometer(R.id.countdown, times.getMills(next)
-                    - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+        if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS))
+            remoteViews
+                    .setChronometer(R.id.countdown, times.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
         else {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
@@ -251,81 +258,75 @@ public class WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, s / 4);
         remoteViews.setTextViewText(R.id.city, name);
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).getString());
-
+        
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         remoteViews.setTextColor(R.id.countdown, theme.textcolor);
         remoteViews.setTextColor(R.id.time, theme.textcolor);
-
+        
         remoteViews.setTextViewTextSize(R.id.city, TypedValue.COMPLEX_UNIT_PX, (float) Math.min(s / 5, 1.5 * s / name.length()));
         remoteViews.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_PX, s / 5);
-
+        
         remoteViews.setViewPadding(R.id.countdown, 0, -s / 16, 0, -s / 16);
-
+        
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
-
+    
     public static void updateSilenter(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         Theme theme = WidgetUtils.getTheme(widgetId);
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1);
         int s = size.width;
-        if (s <= 0) return;
-
+        if (s <= 0)
+            return;
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_1x1_silenter);
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, s / 2, s / 2, s / 2, s / 2);
-
-
+        
+        
         Intent i = new Intent(context, SilenterPrompt.class);
         remoteViews.setOnClickPendingIntent(R.id.widget, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT));
-
+        
         remoteViews.setTextViewText(R.id.text, context.getString(R.string.silent));
         remoteViews.setTextViewTextSize(R.id.text, TypedValue.COMPLEX_UNIT_PX, s / 4);
         remoteViews.setTextColor(R.id.text, theme.textcolor);
-
+        
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
-
+        
     }
-
+    
     public static void update4x2Clock(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         Times times = WidgetUtils.getTimes(widgetId);
         if (times == null) {
             WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId);
             return;
         }
-
+        
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 500f / 200f);
         int width = size.width;
         int height = size.height;
-        if (width <= 0 || height <= 0) return;
-
+        if (width <= 0 || height <= 0)
+            return;
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_4x2_clock);
-
+        
         PendingIntent pendingIntent = TimesFragment.getPendingIntent(times);
-        PendingIntent pendingIntentClock = PendingIntent.getActivity(context,
-                UUID.asInt(),
-                new Intent(AlarmClock.ACTION_SHOW_ALARMS),
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://prayerapp.page.link/calendar"));
+        PendingIntent pendingIntentClock =
+                PendingIntent.getActivity(context, UUID.asInt(), new Intent(AlarmClock.ACTION_SHOW_ALARMS), PendingIntent.FLAG_UPDATE_CURRENT);
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://prayerapp.page.link/calendar"));
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-
-        PendingIntent pendingHijri = PendingIntent.getActivity(context,
-                UUID.asInt(), intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-
+        
+        PendingIntent pendingHijri = PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        
+        
         long startMillis = System.currentTimeMillis();
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
         builder.appendPath("time");
         ContentUris.appendId(builder, startMillis);
         Intent calendarIntent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
-        PendingIntent pendingIntentCalendar = PendingIntent.getActivity(context,
-                UUID.asInt(),
-                calendarIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-
+        PendingIntent pendingIntentCalendar = PendingIntent.getActivity(context, UUID.asInt(), calendarIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        
+        
         remoteViews.setOnClickPendingIntent(R.id.time, pendingIntentClock);
         remoteViews.setOnClickPendingIntent(R.id.greg, pendingIntentCalendar);
         remoteViews.setOnClickPendingIntent(R.id.hicri, pendingHijri);
@@ -334,10 +335,10 @@ public class WidgetV24 {
         remoteViews.setOnClickPendingIntent(R.id.nextTime, pendingIntent);
         remoteViews.setOnClickPendingIntent(R.id.nextText, pendingIntent);
         remoteViews.setOnClickPendingIntent(R.id.countdown, pendingIntent);
-
+        
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0);
-
-        if (Prefs.use12H()) {
+        
+        if (Preferences.CLOCK_12H.get()) {
             Calendar cal = Calendar.getInstance();
             String ampm = "AM";
             if (cal.get(Calendar.AM_PM) == Calendar.PM) {
@@ -346,7 +347,7 @@ public class WidgetV24 {
             Spannable span = new SpannableString("hh:mm'" + ampm + "'");
             span.setSpan(new SuperscriptSpan(), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             span.setSpan(new RelativeSizeSpan(0.3f), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+            
             remoteViews.setCharSequence(R.id.time, "setFormat12Hour", span);
             remoteViews.setCharSequence(R.id.time, "setFormat24Hour", span);
         } else {
@@ -354,23 +355,23 @@ public class WidgetV24 {
             remoteViews.setCharSequence(R.id.time, "setFormat24Hour", "HH:mm");
         }
         int next = times.getNext();
-
-
+        
+        
         remoteViews.setTextViewText(R.id.lastText, Vakit.getByIndex(next - 1).getString());
         remoteViews.setTextViewText(R.id.nextText, Vakit.getByIndex(next).getString());
         remoteViews.setTextViewText(R.id.lastTime, LocaleUtils.fixTimeForHTML(times.getTime(next - 1)));
         remoteViews.setTextViewText(R.id.nextTime, LocaleUtils.fixTimeForHTML(times.getTime(next)));
-
+        
         remoteViews.setTextViewText(R.id.greg, LocaleUtils.format(LocalDate.now()));
         remoteViews.setTextViewText(R.id.hicri, LocaleUtils.format(HijriDate.now()));
-
+        
         if (times.isKerahat()) {
             remoteViews.setInt(R.id.progress, "setBackgroundColor", 0xffbf3f5b);
         } else {
             remoteViews.setInt(R.id.progress, "setBackgroundColor", Theme.Light.strokecolor);
         }
-
-
+        
+        
         remoteViews.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_PX, height * 0.6f);
         remoteViews.setTextViewTextSize(R.id.greg, TypedValue.COMPLEX_UNIT_PX, height / 9);
         remoteViews.setTextViewTextSize(R.id.hicri, TypedValue.COMPLEX_UNIT_PX, height / 9);
@@ -379,15 +380,15 @@ public class WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.lastText, TypedValue.COMPLEX_UNIT_PX, height / 9);
         remoteViews.setTextViewTextSize(R.id.nextText, TypedValue.COMPLEX_UNIT_PX, height / 9);
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, height / 5);
-        if (Prefs.showWidgetSeconds())
-            remoteViews.setChronometer(R.id.countdown, times.getMills(next)
-                    - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+        if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS))
+            remoteViews
+                    .setChronometer(R.id.countdown, times.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
         else {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
         }
-
+        
         remoteViews.setViewPadding(R.id.progresscontainer, width / 10, 0, width / 10, 0);
         remoteViews.setViewPadding(R.id.time, 0, -height / 6, 0, -height / 7);
         remoteViews.setViewPadding(R.id.greg, width / 10, 0, 0, 0);
@@ -399,39 +400,40 @@ public class WidgetV24 {
         int w = width * 10 / 8;
         remoteViews.setViewPadding(R.id.progress, (int) (w * times.getPassedPart()), width / 75, 0, 0);
         remoteViews.setViewPadding(R.id.progressBg, (int) (w * (1 - times.getPassedPart())), width / 75, 0, 0);
-
+        
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
-
+    
     public static void update2x2Clock(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         Times times = WidgetUtils.getTimes(widgetId);
         if (times == null) {
             WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId);
             return;
         }
-
+        
         WidgetUtils.Size size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f);
         int width = size.width;
         int height = size.height;
-        if (width <= 0 || height <= 0) return;
-
+        if (width <= 0 || height <= 0)
+            return;
+        
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_2x2_clock);
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
-
-
+        
+        
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setFilterBitmap(true);
         paint.setStyle(Paint.Style.STROKE);
-
+        
         Bitmap bmp1 = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
         Canvas canvas1 = new Canvas(bmp1);
-
+        
         paint.setColor(0xFFFFFFFF);
         paint.setStrokeWidth(width / 100);
         canvas1.drawArc(new RectF(width / 100, width / 100, width - width / 100, height - width / 100), 0, 360, false, paint);
-
+        
         if (times.isKerahat()) {
             remoteViews.setInt(R.id.progress, "setColorFilter", 0xffbf3f5b);
             remoteViews.setInt(R.id.minute, "setTextColor", 0xffbf3f5b);
@@ -439,20 +441,21 @@ public class WidgetV24 {
             remoteViews.setInt(R.id.progress, "setColorFilter", Theme.Light.strokecolor);
             remoteViews.setInt(R.id.minute, "setTextColor", Theme.Light.strokecolor);
         }
-
-
+        
+        
         Bitmap bmp2 = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
         Canvas canvas2 = new Canvas(bmp2);
-        canvas2.drawArc(new RectF(width / 100, width / 100, width - width / 100, height - width / 100), -90, times.getPassedPart() * 360, false, paint);
-
-
+        canvas2.drawArc(new RectF(width / 100, width / 100, width - width / 100, height - width / 100), -90, times.getPassedPart() * 360, false,
+                paint);
+        
+        
         remoteViews.setImageViewBitmap(R.id.progressBG, bmp1);
         remoteViews.setImageViewBitmap(R.id.progress, bmp2);
-
-
+        
+        
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0);
-
-        if (Prefs.use12H()) {
+        
+        if (Preferences.CLOCK_12H.get()) {
             Calendar cal = Calendar.getInstance();
             String ampm = "AM";
             if (cal.get(Calendar.AM_PM) == Calendar.PM) {
@@ -461,7 +464,7 @@ public class WidgetV24 {
             Spannable span = new SpannableString("mm'" + ampm + "'");
             span.setSpan(new SuperscriptSpan(), 2, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             span.setSpan(new RelativeSizeSpan(0.3f), 2, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+            
             remoteViews.setCharSequence(R.id.hour, "setFormat12Hour", "hh");
             remoteViews.setCharSequence(R.id.hour, "setFormat24Hour", "hh");
             remoteViews.setCharSequence(R.id.minute, "setFormat12Hour", span);
@@ -473,31 +476,31 @@ public class WidgetV24 {
             remoteViews.setCharSequence(R.id.minute, "setFormat24Hour", "mm");
         }
         int next = times.getNext();
-
+        
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).getString());
-
+        
         LocalDate date = LocalDate.now();
         remoteViews.setTextViewText(R.id.date, date.toString("d.MMM"));
         String wd = date.toString("EEEE");
         remoteViews.setTextViewText(R.id.weekDay, wd);
-
-        if (Prefs.showWidgetSeconds())
-            remoteViews.setChronometer(R.id.countdown, times.getMills(next)
-                    - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+        
+        if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS))
+            remoteViews
+                    .setChronometer(R.id.countdown, times.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
         else {
             String txt = times.getLeft(next, false);
             remoteViews.setString(R.id.countdown, "setFormat", txt);
             remoteViews.setChronometer(R.id.countdown, 0, txt, false);
         }
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, (float) (height * 0.15));
-
+        
         height *= 1.2f;
         remoteViews.setTextViewTextSize(R.id.weekDay, TypedValue.COMPLEX_UNIT_PX, (float) Math.min(height * 0.15, height / wd.length()));
         remoteViews.setTextViewTextSize(R.id.hour, TypedValue.COMPLEX_UNIT_PX, (float) (height * 0.4));
         remoteViews.setTextViewTextSize(R.id.minute, TypedValue.COMPLEX_UNIT_PX, (float) (height * 0.15));
         remoteViews.setTextViewTextSize(R.id.date, TypedValue.COMPLEX_UNIT_PX, (float) (height * 0.075));
         remoteViews.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_PX, (float) (height * 0.075));
-
+        
         remoteViews.setViewPadding(R.id.minute, 0, (int) (-height * 0.05), 0, (int) (-height * 0.03));
         remoteViews.setViewPadding(R.id.hour, 0, (int) (-height * 0.13), 0, (int) (-height * 0.10));
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
