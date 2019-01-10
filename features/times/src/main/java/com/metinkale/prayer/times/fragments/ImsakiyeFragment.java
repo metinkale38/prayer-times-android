@@ -117,7 +117,7 @@ public class ImsakiyeFragment extends Fragment {
             } else {
                 LocalDate cal = (LocalDate) getItem(position - 1);
 
-                String[] daytimes = {times.getTime(cal, 0), times.getTime(cal, 1), times.getTime(cal, 2), times.getTime(cal, 3), times.getTime(cal, 4), times.getTime(cal, 5)};
+                String[] daytimes = {times.getCurrentTime(cal, 0), times.getCurrentTime(cal, 1), times.getCurrentTime(cal, 2), times.getCurrentTime(cal, 3), times.getCurrentTime(cal, 4), times.getCurrentTime(cal, 5)};
 
                 a = new String[]{cal.toString("dd.MM"), daytimes[0], daytimes[1], daytimes[2], daytimes[3], daytimes[4], daytimes[5]};
             }
@@ -125,7 +125,7 @@ public class ImsakiyeFragment extends Fragment {
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
                 if (i != 0)
-                    tv.setText(LocaleUtils.fixTimeForHTML(a[i]));
+                    tv.setText(LocaleUtils.formatTimeForHTML(a[i]));
                 else
                     tv.setText(LocaleUtils.toArabicNrs(a[i]));
             }

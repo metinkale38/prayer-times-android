@@ -34,7 +34,14 @@ import com.metinkale.prayer.MainIntentService;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
+import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+import org.joda.time.ReadableInstant;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -113,8 +120,8 @@ public class LocaleUtils {
     }
     
     
-    public static CharSequence fixTimeForHTML(String time) {
-        time = fixTime(time);
+    public static CharSequence formatTimeForHTML(LocalTime localTime) {
+        String time = formatTime(localTime);
         if (!Preferences.CLOCK_12H.get()) {
             return time;
         }
@@ -132,7 +139,8 @@ public class LocaleUtils {
     
     
     @NonNull
-    public static String fixTime(@NonNull String time) {
+    public static String formatTime(LocalTime localTime) {
+        String time = localTime == null ? "00:00" : localTime.toString("HH:mm");
         if (Preferences.CLOCK_12H.get() && time.contains(":")) {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
@@ -370,5 +378,38 @@ public class LocaleUtils {
         return translations;
     }
     
+    private static final PeriodFormatter PERIOD_FORMATTER_HMS =
+            new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
+                    .appendMinutes().appendLiteral(":").appendSeconds().toFormatter();
+    private static final PeriodFormatter PERIOD_FORMATTER_HM =
+            new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
+                    .appendMinutes().toFormatter();
+    
+    
+    public static String formatPeriod(ReadableInstant from, ReadableInstant to, boolean showSecs) {
+        return formatPeriod(new Period(from, to, PeriodType.dayTime()), showSecs);
+    }
+    
+    public static String formatPeriod(Period period, boolean showsecs) {
+        if (showsecs) {
+            
+            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
+        } else if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_FLOOR)) {
+            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
+        } else {
+            period = period.withFieldAdded(DurationFieldType.minutes(), 1);
+            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
+        }
+        
+    }
+    
+    public static String readableSize(int bytes) {
+        int unit = 1024;
+        if (bytes < unit)
+            return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        char pre = "kMGTPE".charAt(exp - 1);
+        return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
     
 }

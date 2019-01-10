@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.compass.classes.math;
+package com.metinkale.prayer.compass.magnetic.utils.rotation;
 
-class NumberUtils {
-    static int floatToIntBits(float value) {
-        return Float.floatToIntBits(value);
-    }
+/**
+ * Delegate to receive updates when rotation of device changes
+ *
+ * @author Adam
+ */
+public interface RotationUpdateDelegate {
+    /**
+     * @param newMatrix - 4x4 matrix
+     */
+    void onRotationUpdate(float[] newMatrix);
+    
+    void onAccuracyChanged(int accuracy);
 }

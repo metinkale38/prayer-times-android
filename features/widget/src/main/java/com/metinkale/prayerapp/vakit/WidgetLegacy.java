@@ -71,7 +71,7 @@ public class WidgetLegacy {
             return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         String left = times.getLeft(next, false);
         if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
             next++;
@@ -156,10 +156,10 @@ public class WidgetLegacy {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.vakit_widget);
         
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
-                times.getTime(date, 5)};
+        String[] daytimes = {times.getCurrentTime(date, 0), times.getCurrentTime(date, 1), times.getCurrentTime(date, 2), times.getCurrentTime(date, 3), times.getCurrentTime(date, 4),
+                times.getCurrentTime(date, 5)};
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         String left = times.getLeft(next, false);
         if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
             next++;
@@ -213,8 +213,8 @@ public class WidgetLegacy {
         
         boolean fits = true;
         String[] vakits =
-                {Vakit.getByIndex(0).getString(), Vakit.GUNES.getString(), Vakit.OGLE.getString(), Vakit.IKINDI.getString(), Vakit.AKSAM.getString(),
-                        Vakit.YATSI.getString()};
+                {Vakit.getByIndex(0).getString(), Vakit.SUN.getString(), Vakit.DHUHR.getString(), Vakit.ASR_THANI.getString(), Vakit.MAGHRIB.getString(),
+                        Vakit.ISHAA.getString()};
         do {
             if (!fits) {
                 paint.setTextSize((float) (paint.getTextSize() * 0.95));
@@ -244,7 +244,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()){
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                String time = LocaleUtils.fixTime(daytimes[i]);
+                String time = LocaleUtils.formatTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
                 paint.setTextSize((h * 2) / 9);
@@ -304,10 +304,10 @@ public class WidgetLegacy {
         
         
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
-                times.getTime(date, 5)};
+        String[] daytimes = {times.getCurrentTime(date, 0), times.getCurrentTime(date, 1), times.getCurrentTime(date, 2), times.getCurrentTime(date, 3), times.getCurrentTime(date, 4),
+                times.getCurrentTime(date, 5)};
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         String left = times.getLeft(next, false);
         if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
             next++;
@@ -361,7 +361,7 @@ public class WidgetLegacy {
                 if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()){
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
                 }
-                String time = LocaleUtils.fixTime(daytimes[i]);
+                String time = LocaleUtils.formatTime(daytimes[i]);
                 String suffix = time.substring(time.indexOf(" ") + 1);
                 time = time.substring(0, time.indexOf(" "));
                 paint.setTextSize((int) ((l * 8) / 10));
@@ -486,7 +486,7 @@ public class WidgetLegacy {
         remoteViews.setOnClickPendingIntent(R.id.center, PendingIntent.getActivity(context, UUID.asInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
         
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         int last = next - 1;
         
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
@@ -509,7 +509,7 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.55f);
         String time = ltime.toString("HH:mm");
         if (Preferences.CLOCK_12H.get()) {
-            time = LocaleUtils.fixTime(time);
+            time = LocaleUtils.formatTime(time);
             String suffix = time.substring(time.indexOf(" ") + 1);
             time = time.substring(0, time.indexOf(" "));
             canvas.drawText(time, (w / 2) - (paint.measureText(suffix) / 4), h * 0.4f, paint);
@@ -548,7 +548,7 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Paint.Align.LEFT);
         if (Preferences.CLOCK_12H.get()) {
-            String l = LocaleUtils.fixTime(times.getTime(last));
+            String l = LocaleUtils.formatTime(times.getCurrentTime(last));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
             canvas.drawText(l, w * 0.1f, h * 0.82f, paint);
@@ -556,7 +556,7 @@ public class WidgetLegacy {
             canvas.drawText(s, (w * 0.1f) + (2 * paint.measureText(l)), h * 0.72f, paint);
             
         } else {
-            canvas.drawText(LocaleUtils.fixTime(times.getTime(last)), w * 0.1f, h * 0.82f, paint);
+            canvas.drawText(LocaleUtils.formatTime(times.getCurrentTime(last)), w * 0.1f, h * 0.82f, paint);
             
         }
         paint.setTextSize(h * 0.12f);
@@ -566,7 +566,7 @@ public class WidgetLegacy {
         paint.setTextSize(h * 0.2f);
         paint.setTextAlign(Paint.Align.RIGHT);
         if (Preferences.CLOCK_12H.get()) {
-            String l = LocaleUtils.fixTime(times.getTime(next));
+            String l = LocaleUtils.formatTime(times.getCurrentTime(next));
             String s = l.substring(l.indexOf(" ") + 1);
             l = l.substring(0, l.indexOf(" "));
             canvas.drawText(l, (w * 0.9f) - (paint.measureText(s) / 2), h * 0.82f, paint);
@@ -574,7 +574,7 @@ public class WidgetLegacy {
             canvas.drawText(s, w * 0.9f, h * 0.72f, paint);
             
         } else {
-            canvas.drawText(LocaleUtils.fixTime(times.getTime(next)), w * 0.9f, h * 0.82f, paint);
+            canvas.drawText(LocaleUtils.formatTime(times.getCurrentTime(next)), w * 0.9f, h * 0.82f, paint);
         }
         paint.setTextSize(h * 0.12f);
         canvas.drawText(Vakit.getByIndex(next).getString(), w * 0.9f, h * 0.95f, paint);
@@ -650,7 +650,7 @@ public class WidgetLegacy {
             paint.setColor(Theme.Light.strokecolor);
         }
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         int last = next - 1;
         if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
             last++;
@@ -661,7 +661,7 @@ public class WidgetLegacy {
         paint.setStrokeWidth(1);
         LocalDateTime ltime = LocalDateTime.now();
         
-        String[] time = LocaleUtils.fixTime(ltime.toString("HH:mm")).replace(":", " ").split(" ");
+        String[] time = LocaleUtils.formatTime(ltime.toString("HH:mm")).replace(":", " ").split(" ");
         paint.setTextSize(h * 0.50f);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);

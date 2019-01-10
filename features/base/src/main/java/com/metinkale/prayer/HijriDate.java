@@ -249,7 +249,7 @@ public class HijriDate {
     }
     
     @NonNull
-    public static List<Pair<HijriDate, Integer>>    getHolydaysForGregYear(int year) {
+    public static List<Pair<HijriDate, Integer>> getHolydaysForGregYear(int year) {
         int hijriYear = fromGreg(year, 1, 1).getYear();
         List<Pair<HijriDate, Integer>> holydays = new ArrayList<>();
         for (Pair<HijriDate, Integer> entry : getHolydaysForHijriYear(hijriYear)) {

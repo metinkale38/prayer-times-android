@@ -76,11 +76,9 @@ public class Preferences {
     public static Preference<String> VAKIT_INDICATOR_TYPE = new StringPreference("vakit_indicator", "current");
     public static Preference<Boolean> SHOW_COMPASS_NOTE = new BooleanPreference("showCompassNote", true);
     public static Preference<Boolean> SHOW_ONGOING_ICON = new BooleanPreference("ongoingIcon", true);
-    public static Preference<Boolean> AUTO_REMOVE_NOTIFICATION = new BooleanPreference("autoRemoveNotification", false);
-    public static Preference<Boolean> SHOW_ONGOING_NUMBER = new BooleanPreference("ongoingNumber", false);
+    public static Preference<Boolean> SHOW_ONGOING_NUMBER = new BooleanPreference("ongoingNumber", true);
     public static Preference<Boolean> SHOW_NOTIFICATIONSCREEN = new BooleanPreference("notificationScreen", true);
     public static Preference<Boolean> SHOW_ALT_WIDGET_HIGHLIGHT = new BooleanPreference("showAltWidgetHightlight", false);
-    public static Preference<Boolean> SHOW_EXTRA_TIMES = new BooleanPreference("showExtraTimes", false);
     public static Preference<Boolean> SHOW_INTRO = new BooleanPreference("showIntro", true) {
         @Override
         public void set(Boolean obj) {
@@ -120,7 +118,7 @@ public class Preferences {
         
     }
     
-    private static class StringPreference extends Preference<String> {
+    public static class StringPreference extends Preference<String> {
         public StringPreference(String key, String def) {
             super(key, def);
         }
@@ -136,7 +134,7 @@ public class Preferences {
         }
     }
     
-    private static class IntPreference extends Preference<Integer> {
+    public static class IntPreference extends Preference<Integer> {
         public IntPreference(String key, Integer def) {
             super(key, def);
         }
@@ -152,7 +150,7 @@ public class Preferences {
         }
     }
     
-    private static class BooleanPreference extends Preference<Boolean> {
+    public static class BooleanPreference extends Preference<Boolean> {
         public BooleanPreference(String key, Boolean def) {
             super(key, def);
         }
@@ -168,7 +166,7 @@ public class Preferences {
         }
     }
     
-    private static class FloatPreference extends Preference<Float> {
+    public static class FloatPreference extends Preference<Float> {
         public FloatPreference(String key, Float def) {
             super(key, def);
         }

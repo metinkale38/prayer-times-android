@@ -23,41 +23,68 @@ import com.metinkale.prayer.times.R;
 import androidx.annotation.NonNull;
 
 public enum Vakit {
-    IMSAK(R.string.fajr, "فجر"), GUNES(R.string.sun, "شروق"), OGLE(R.string.zuhr, "ظهر"), IKINDI(R.string.asr, "عصر"),
-    AKSAM(R.string.maghrib, "مغرب"), YATSI(R.string.ishaa, "عشاء");
+    FAJR(new int[]{R.string.imsak, R.string.fajr}, new String[]{"الفجر", "الإمساك"}),
+    SUN(R.string.sun, "الشروق"),
+    DHUHR(R.string.zuhr, "الظهر"),
+    ASR(new int[]{R.string.asr, R.string.asrSani}, new String[]{"العصر الثاني", "العصر"}),
+    MAGHRIB(R.string.maghrib, "المغرب"),
+    ISHAA(R.string.ishaa, "العِشاء");
     
     
-    private static int SIZE = values().length;
+    private final String[] arabic;
+    private final int[] resId;
     
-    private final String arabic;
-    private String name;
-    private final int resId;
-    
-    Vakit(int id, String arabic) {
+    Vakit(int id[], String[] arabic) {
         resId = id;
         this.arabic = arabic;
     }
     
-    @NonNull
-    public static Vakit getByIndex(int index) {
-        while (index < 0) {
-            index += SIZE;
-        }
-        
-        while (index >= SIZE) {
-            index -= SIZE;
-        }
-        return values()[index];
+    Vakit(int id, String arabic) {
+        resId = new int[]{id};
+        this.arabic = new String[]{arabic};
     }
+    
+    @NonNull
+    public static Vakit getByIndex(int i) {
+        while (i < 0) {
+            i += 6;
+        }
+        while (i > 5) {
+            i -= 6;
+        }
+        switch (i) {
+            case 0:
+                return FAJR;
+            case 1:
+                return SUN;
+            case 2:
+                return DHUHR;
+            case 3:
+                return ASR;
+            case 4:
+                return MAGHRIB;
+            case 5:
+            default:
+                return ISHAA;
+        }
+    }
+    
     
     public String getString() {
-        if (Preferences.USE_ARABIC.get()) {
-            return arabic;
+        int index = 0;
+        if (this == FAJR && !Preferences.USE_ARABIC.get() && Preferences.LANGUAGE.get().equals("tr")) {
+            index++;
         }
-        
-        return App.get().getString(resId);
+        return getString(index);
     }
     
+    public String getString(int index) {
+        if (Preferences.USE_ARABIC.get()) {
+            return arabic[index];
+        }
+        
+        return App.get().getString(resId[index]);
+    }
     
     
     public Vakit nextTime() {

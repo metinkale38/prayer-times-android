@@ -20,24 +20,21 @@
     android:background="@color/backgroundSecondary"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/frag3D"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frag2D"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </FrameLayout>
+    <TextView
+        android:id="@+id/selcity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryLight"
+        android:gravity="center"
+        android:text="@string/touchToSelectCity"
+        android:textColor="@color/background"
+        android:textSize="18sp" />
 
     <FrameLayout
-        android:id="@+id/calib"
+        android:id="@+id/frag"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/selcity">
 
     </FrameLayout>
 

@@ -286,7 +286,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     }
     
     
-    public static abstract class MainFragment extends Fragment {
+    public static class MainFragment extends Fragment {
         public MainFragment() {
             super();
             setHasOptionsMenu(true);

@@ -14,12 +14,16 @@
   ~ limitations under the License.
   -->
 
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:paddingStart="16dp"
+    android:paddingLeft="16dp"
+    android:paddingTop="72dp"
     android:paddingEnd="66dp"
-    android:paddingRight="66dp"
-    android:paddingTop="48dp">
+    android:paddingRight="66dp">
 
     <View
         android:layout_width="30dp"
@@ -35,6 +39,8 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"
         android:background="@drawable/bubble"
         android:padding="10dp"

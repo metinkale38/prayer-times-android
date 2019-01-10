@@ -94,6 +94,7 @@ public class MoroccoTimes extends WebTimes {
                 String aksam = extract(zeiten[++i]);
                 String yatsi = extract(zeiten[++i]);
 
+                
                 setTimes(new LocalDate(year, month, day), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
                 x++;
             }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.compass._2D;
+package com.metinkale.prayer.compass.magnetic.compass2D;
 
 import android.content.Context;
 import android.graphics.Canvas;

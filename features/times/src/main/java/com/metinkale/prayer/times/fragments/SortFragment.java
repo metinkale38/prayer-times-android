@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.times.times.sources.CalcTimes;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -53,12 +53,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SortFragment extends Fragment {
-
+    
     private MyAdapter mAdapter;
     private TimesFragment act;
     private ItemTouchHelper mItemTouchHelper;
     private boolean mDeleteMode = false;
-
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.vakit_sort_main, container, false);
@@ -68,24 +68,23 @@ public class SortFragment extends Fragment {
         LinearLayoutManager linLayMan = new LinearLayoutManager(getContext());
         recyclerMan.setLayoutManager(linLayMan);
         recyclerMan.setHasFixedSize(true);
-
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback();
+        
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerMan);
         setHasOptionsMenu(true);
-
+        
         Times.getTimes().observe(this, mAdapter);
         mAdapter.onChanged(Times.getTimes());
         return v;
     }
-
+    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater).inflate(R.menu.sort_fragment, menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
@@ -98,22 +97,23 @@ public class SortFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
         mDeleteMode = false;
-
+        
     }
-
+    
+    
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        
         act = (TimesFragment) getParentFragment();
     }
-
-
+    
+    
     public void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
@@ -125,13 +125,13 @@ public class SortFragment extends Fragment {
             }
         }
         mAdapter.notifyItemMoved(fromPosition, toPosition);
-
+        
         Times.drop(fromPosition, toPosition);
     }
-
+    
     public void onItemDismiss(final int position) {
         final Times times = Times.getTimesAt(position);
-
+        
         AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         dialog.setTitle(R.string.delete);
         dialog.setMessage(getString(R.string.delConfirm, times.getName()));
@@ -152,13 +152,13 @@ public class SortFragment extends Fragment {
         });
         dialog.show();
     }
-
+    
     static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView city;
         public TextView source;
         public View handler;
         public View delete;
-
+        
         ViewHolder(@NonNull View v) {
             super(v);
             city = v.findViewById(R.id.city);
@@ -167,40 +167,37 @@ public class SortFragment extends Fragment {
             delete = v.findViewById(R.id.delete);
         }
     }
-
+    
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> implements Observer<List<Times>> {
-
+        
         @NonNull
         private List<Long> ids = new ArrayList<>();
-
+        
         private int hide = -1;
-
+        
         public MyAdapter() {
         }
-
+        
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.vakit_sort_item, parent, false);
             return new ViewHolder(v);
         }
-
+        
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder vh, int position) {
-
-            Times c = getItem(position);
+            
+            final Times c = getItem(position);
             if (c == null) {
                 return;
             }
             vh.city.setText(c.getName());
             vh.source.setText(c.getSource().name);
-
+            
             if (c.isAutoLocation()) {
-                Drawable icon = MaterialDrawableBuilder.with(getActivity())
-                        .setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS)
-                        .setSizeDp(20)
-                        .setColor(0xAA666666)
-                        .build();
+                Drawable icon = MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS).setSizeDp(20)
+                        .setColor(0xAA666666).build();
                 if (Utils.isRTL(getActivity())) {
                     vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
                 } else {
@@ -210,9 +207,9 @@ public class SortFragment extends Fragment {
             } else {
                 vh.city.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             }
-
+            
             vh.delete.setVisibility(mDeleteMode ? View.VISIBLE : View.GONE);
-
+            
             vh.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -222,40 +219,46 @@ public class SortFragment extends Fragment {
             vh.handler.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) ==
-                            MotionEvent.ACTION_DOWN) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                         mItemTouchHelper.startDrag(vh);
                     }
-
+                    
                     return false;
                 }
             });
-
+            
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     act.onItemClick(vh.getAdapterPosition());
                 }
             });
+            vh.itemView.setOnLongClickListener(c instanceof CalcTimes ? new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    CalcTimeConfDialogFragment.forCity((CalcTimes) c).show(getChildFragmentManager(), "calcconfig");
+                    return true;
+                }
+            } : null);
         }
-
-
+        
+        
         @Nullable
         public Times getItem(int pos) {
             return Times.getTimes(ids.get(pos));
         }
-
+        
         @Override
         public long getItemId(int position) {
             return getItem(position).getID();
         }
-
+        
         @Override
         public int getItemCount() {
             return ids.size();
         }
-
-
+        
+        
         @Override
         public void onChanged(@Nullable List<Times> times) {
             ids.clear();
@@ -263,64 +266,57 @@ public class SortFragment extends Fragment {
             notifyDataSetChanged();
         }
     }
-
+    
     public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
-
-
+        
+        
         @Override
-        public int getMovementFlags(RecyclerView recyclerView,
-                                    RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
             int swipeFlags = ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, swipeFlags);
         }
-
+        
         @Override
-        public boolean onMove(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder
-                target) {
-            onItemMove(viewHolder.getAdapterPosition(),
-                    target.getAdapterPosition());
+        public boolean onMove(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
             return true;
         }
-
+        
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             onItemDismiss(viewHolder.getAdapterPosition());
         }
-
+        
         @Override
         public boolean isLongPressDragEnabled() {
             return false;
         }
-
+        
         @Override
         public boolean isItemViewSwipeEnabled() {
             return true;
         }
-
+        
         @Override
-        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder,
-                                      int actionState) {
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             // We only want the active item
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
                 if (viewHolder instanceof ViewHolder) {
-                    ViewHolder itemViewHolder =
-                            (ViewHolder) viewHolder;
+                    ViewHolder itemViewHolder = (ViewHolder) viewHolder;
                     itemViewHolder.itemView.setBackgroundColor(Color.LTGRAY);
                 }
             }
-
+            
             super.onSelectedChanged(viewHolder, actionState);
         }
-
+        
         @Override
-        public void clearView(RecyclerView recyclerView,
-                              @NonNull RecyclerView.ViewHolder viewHolder) {
+        public void clearView(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
-
+            
             if (viewHolder instanceof ViewHolder) {
-                ViewHolder itemViewHolder =
-                        (ViewHolder) viewHolder;
+                ViewHolder itemViewHolder = (ViewHolder) viewHolder;
                 itemViewHolder.itemView.setBackgroundColor(Color.WHITE);
             }
         }

@@ -104,11 +104,11 @@ public class LocationReceiver extends BroadcastReceiver {
                             if (t.getSource() == e.getSource()) {
                                 if (e.getSource() == Source.Calc) {
                                     String oldtimes[] =
-                                            {t.getTime(0), t.getTime(1), t.getTime(2), t.getTime(3), t.getTime(4), t.getTime(5), t.getTime(6)};
+                                            {t.getCurrentTime(0), t.getCurrentTime(1), t.getCurrentTime(2), t.getCurrentTime(3), t.getCurrentTime(4), t.getCurrentTime(5), t.getCurrentTime(6)};
                                     ((CalcTimes) t).getPrayTimes().setCoordinates(lat, lng, elv);
                                     t.setName(e.getName());
                                     for (int i = 0; i < oldtimes.length; i++) {
-                                        if (oldtimes[i].equals(t.getTime(i))) {
+                                        if (oldtimes[i].equals(t.getCurrentTime(i))) {
                                             updated = true;
                                             break;
                                         }

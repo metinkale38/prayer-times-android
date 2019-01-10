@@ -75,8 +75,8 @@ public class WidgetV24 {
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, w / 2, h / 2, w / 2, h / 2);
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
-                times.getTime(date, 5)};
+        String[] daytimes = {times.getCurrentTime(date, 0), times.getCurrentTime(date, 1), times.getCurrentTime(date, 2), times.getCurrentTime(date, 3), times.getCurrentTime(date, 4),
+                times.getCurrentTime(date, 5)};
         
         
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
@@ -84,7 +84,7 @@ public class WidgetV24 {
         
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
-        int next = times.getNext();
+        int next = times.getNextTime();
         int indicator = next;
         if ("next".equals(Preferences.VAKIT_INDICATOR_TYPE.get()))
             indicator++;
@@ -97,7 +97,7 @@ public class WidgetV24 {
             remoteViews.setTextColor(ids[i], theme.textcolor);
             
             String name = Vakit.getByIndex(i).getString();
-            String time = LocaleUtils.fixTime(daytimes[i]);
+            String time = LocaleUtils.formatTime(daytimes[i]);
             if (Preferences.CLOCK_12H.get()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
@@ -162,14 +162,14 @@ public class WidgetV24 {
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, w / 2, h / 2, w / 2, h / 2);
         LocalDate date = LocalDate.now();
-        String[] daytimes = {times.getTime(date, 0), times.getTime(date, 1), times.getTime(date, 2), times.getTime(date, 3), times.getTime(date, 4),
-                times.getTime(date, 5)};
+        String[] daytimes = {times.getCurrentTime(date, 0), times.getCurrentTime(date, 1), times.getCurrentTime(date, 2), times.getCurrentTime(date, 3), times.getCurrentTime(date, 4),
+                times.getCurrentTime(date, 5)};
         
         
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
         remoteViews.setTextViewText(R.id.city, times.getName());
         remoteViews.setTextColor(R.id.city, theme.textcolor);
-        int next = times.getNext();
+        int next = times.getNextTime();
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         
         int indicator = next;
@@ -180,7 +180,7 @@ public class WidgetV24 {
             remoteViews.setTextColor(ids[i], theme.textcolor);
             
             String name = Vakit.getByIndex(i).getString();
-            String time = LocaleUtils.fixTime(daytimes[i]);
+            String time = LocaleUtils.formatTime(daytimes[i]);
             if (Preferences.CLOCK_12H.get()) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>";
             }
@@ -243,7 +243,7 @@ public class WidgetV24 {
         remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background);
         remoteViews.setViewPadding(R.id.padder, s / 2, s / 2, s / 2, s / 2);
         
-        int next = times.getNext();
+        int next = times.getNextTime();
         
         String name = times.getName();
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, TimesFragment.getPendingIntent(times));
@@ -354,13 +354,13 @@ public class WidgetV24 {
             remoteViews.setCharSequence(R.id.time, "setFormat12Hour", "HH:mm");
             remoteViews.setCharSequence(R.id.time, "setFormat24Hour", "HH:mm");
         }
-        int next = times.getNext();
+        int next = times.getNextTime();
         
         
         remoteViews.setTextViewText(R.id.lastText, Vakit.getByIndex(next - 1).getString());
         remoteViews.setTextViewText(R.id.nextText, Vakit.getByIndex(next).getString());
-        remoteViews.setTextViewText(R.id.lastTime, LocaleUtils.fixTimeForHTML(times.getTime(next - 1)));
-        remoteViews.setTextViewText(R.id.nextTime, LocaleUtils.fixTimeForHTML(times.getTime(next)));
+        remoteViews.setTextViewText(R.id.lastTime, LocaleUtils.formatTimeForHTML(times.getCurrentTime(next - 1)));
+        remoteViews.setTextViewText(R.id.nextTime, LocaleUtils.formatTimeForHTML(times.getCurrentTime(next)));
         
         remoteViews.setTextViewText(R.id.greg, LocaleUtils.format(LocalDate.now()));
         remoteViews.setTextViewText(R.id.hicri, LocaleUtils.format(HijriDate.now()));
@@ -475,7 +475,7 @@ public class WidgetV24 {
             remoteViews.setCharSequence(R.id.minute, "setFormat12Hour", "mm");
             remoteViews.setCharSequence(R.id.minute, "setFormat24Hour", "mm");
         }
-        int next = times.getNext();
+        int next = times.getNextTime();
         
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).getString());
         

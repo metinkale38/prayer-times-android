@@ -14,42 +14,47 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.compass;
+package com.metinkale.prayer.compass.magnetic;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 public class LowPassFilter {
-
+    
     /*
-     * com.metinkale.calendar.Time smoothing constant for low-pass filter 0 ≤ α ≤ 1 ; a smaller
+     * smoothing constant for low-pass filter 0 ≤ α ≤ 1 ; a smaller
      * value basically means more smoothing See:
      * http://en.wikipedia.org/wiki/Low-pass_filter#Discrete-time_realization
      */
-    private static final float ALPHA = 0.1f;
-
-    private LowPassFilter() {
+    private final float alpha;
+    protected float[] last;
+    
+    public LowPassFilter() {
+        alpha = 0.1f;
     }
-
+    
+    public LowPassFilter(float alpha) {
+        this.alpha = alpha;
+    }
+    
+    
     /**
      * Filter the given input against the previous values and return a low-pass
      * filtered result.
      *
      * @param input float array to smooth.
-     * @param prev  float array representing the previous values.
      * @return float array smoothed with a low-pass filter.
      */
-    @Nullable
-    public static float[] filter(@Nullable float[] input, @Nullable float[] prev) {
-        if ((input == null) || (prev == null)) {
-            throw new NullPointerException("input and prev float arrays must be non-NULL");
+    @NonNull
+    public float[] filter(@NonNull float... input) {
+        if (last == null) {
+            last = new float[input.length];
+            System.arraycopy(input, 0, last, 0, input.length);
+            return input;
         }
-        if (input.length != prev.length) {
-            throw new IllegalArgumentException("input and prev must be the same length");
-        }
-
+        
         for (int i = 0; i < input.length; i++) {
-            prev[i] += ALPHA * (input[i] - prev[i]);
+            last[i] += alpha * (input[i] - last[i]);
         }
-        return prev;
+        return last;
     }
 }

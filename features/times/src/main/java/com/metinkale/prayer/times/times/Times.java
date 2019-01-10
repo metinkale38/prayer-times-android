@@ -23,18 +23,13 @@ import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.AlarmService;
-import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.livedata.LiveDataAwareList;
 
-import org.joda.time.DateTime;
-import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,14 +43,6 @@ import androidx.collection.ArraySet;
 import androidx.core.util.Pair;
 
 public abstract class Times extends TimesBase {
-    
-    
-    private static final PeriodFormatter PERIOD_FORMATTER_HMS =
-            new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
-                    .appendMinutes().appendLiteral(":").appendSeconds().toFormatter();
-    private static final PeriodFormatter PERIOD_FORMATTER_HM =
-            new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
-                    .appendMinutes().toFormatter();
     
     
     @NonNull
@@ -197,196 +184,76 @@ public abstract class Times extends TimesBase {
     }
     
     @NonNull
-    public LocalDateTime getLocalDateTime(@Nullable LocalDate date, Vakit time) {
-        return getLocalDateTime(date, time.ordinal());
+    public LocalDateTime getSabahTime(@NonNull LocalDate date) {
+        return parseTime(date, getSabah(date));
     }
     
     @NonNull
-    public LocalDateTime getLocalDateTime(@Nullable LocalDate date, int time) {
-        if (date == null) {
-            date = LocalDate.now();
+    public LocalDateTime getAsrSaniTime(@NonNull LocalDate date) {
+        return parseTime(date, getAsrThani(date));
+    }
+    
+    @NonNull
+    public LocalDateTime getTime(@NonNull LocalDate date, Vakit time) {
+        LocalDateTime dt = parseTime(date, getStrTime(date, time)).plusMinutes(getMinuteAdj()[time.ordinal()]);
+        int h = dt.getHourOfDay();
+        if ((time.ordinal() >= Vakit.DHUHR.ordinal()) && (h < 5)) {
+            dt = dt.plusDays(1);
         }
-        if ((time < 0) || (time > 5)) {
-            while (time >= 6) {
-                date = date.plusDays(1);
-                time -= 6;
-            }
-            
-            while (time <= -1) {
-                date = date.minusDays(1);
-                time += 6;
-            }
+        return dt;
+    }
+    
+    private LocalDateTime parseTime(@NonNull LocalDate date, String str) {
+        if (str == null || str.equals("00:00")) {
+            return LocalDate.now().toLocalDateTime(LocalTime.MIDNIGHT);
         }
         
+        LocalDateTime timeCal = date.toLocalDateTime(new LocalTime(str));
         
-        LocalDateTime timeCal = date.toLocalDateTime(new LocalTime(getTime(date, time)));
-        int h = timeCal.getHourOfDay();
-        if ((time >= 3) && (h < 5)) {
-            timeCal = timeCal.plusDays(1);
-        }
+        // add timezone drift
+        double drift = getTZFix();
+        timeCal = timeCal.plusMinutes((int) Math.round(drift * 60));
+        
+        
         return timeCal;
     }
     
+    
     @NonNull
-    public String getTime(@Nullable LocalDate date, int time) {
-        if (date == null) {
-            date = LocalDate.now();
-        }
-        if ((time < 0) || (time > 5)) {
-            while (time >= 6) {
-                date = date.plusDays(1);
-                time -= 6;
-            }
-            
-            while (time == -1) {
-                date = date.minusDays(1);
-                time += 6;
-            }
-            
-            
-        }
-        return adj(_getTime(date, time), time);
-    }
-    
-    protected String _getTime(LocalDate date, int time) {
-        throw new RuntimeException("You must override _getTime()");
-    }
-    
-    public String getTime(int time) {
-        return getTime(null, time);
+    public Vakit getCurrentTime() {
+        return getNextTime().prevTime();
     }
     
     @NonNull
-    String adj(@NonNull String time, int t) {
-        try {
-            double drift = getTZFix();
-            int[] adj = getMinuteAdj();
-            if ((drift == 0) && (adj[t] == 0)) {
-                return time;
-            }
-            
-            int h = (int) Math.round(drift - 0.5);
-            int m = (int) ((drift - h) * 60);
-            
-            String[] s = time.split(":");
-            LocalTime lt = new LocalTime(Integer.parseInt(s[0]), Integer.parseInt(s[1]), 0);
-            lt = lt.plusHours(h).plusMinutes(m).plusMinutes(adj[t]);
-            time = lt.toString("HH:mm");
-            
-            
-            return time;
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            return "00:00";
-        }
-    }
-    
-    public String getLeft() {
-        return getLeft(getNext(), true);
-        
-    }
-    
-    public String getLeft(int next) {
-        return getLeft(next, true);
-    }
-    
-    public long getMills(int next) {
-        DateTime date = getLocalDateTime(null, next).toDateTime();
-        return date.getMillis();
-    }
-    
-    public String getLeft(int next, boolean showsecs) {
-        LocalDateTime date = getLocalDateTime(null, next);
-        Period period = new Period(LocalDateTime.now(), date, PeriodType.dayTime());
-        
-        if (showsecs) {
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
-        } else if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_FLOOR)) {
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
-        } else {
-            period = period.withFieldAdded(DurationFieldType.minutes(), 1);
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
-        }
-        
-    }
-    
-    public int getLeftMinutes(int which) {
-        LocalDateTime date = getLocalDateTime(null, which);
-        Period period = new Period(LocalDateTime.now(), date, PeriodType.minutes());
-        return period.getMinutes();
-    }
-    
-    public int getPassedMinutes() {
+    public Vakit getNextTime() {
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
-        for (int i = 5; i >= -1; i++) {
-            LocalDateTime time = getLocalDateTime(today, i);
-            if (time.isBefore(now)) {
-                return new Period(time, now, PeriodType.minutes()).getMinutes();
-            }
+        Vakit vakit = Vakit.FAJR;
+        while (getTime(today, vakit).isAfter(now)) {
+            vakit = vakit.nextTime();
         }
-        //
-        return new Period(getLocalDateTime(today, Vakit.YATSI), now, PeriodType.minutes()).getMinutes();
-    }
-    
-    public int getLeftMinutes() {
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
-        for (int i = 0; i < 7; i++) {
-            LocalDateTime time = getLocalDateTime(today, i);
-            if (time.isAfter(now)) {
-                return new Period(now, time, PeriodType.minutes()).getMinutes();
-            }
-        }
-        return new Period(getLocalDateTime(today.plusDays(1), 0), now, PeriodType.minutes()).getMinutes();
-    }
-    
-    public float getPassedPart() {
-        int i = getNext();
-        LocalDateTime date1 = getLocalDateTime(null, i - 1);
-        LocalDateTime date2 = getLocalDateTime(null, i);
-        Period period = new Period(date1, date2, PeriodType.minutes());
-        float total = period.getMinutes();
-        float passed = total - getLeftMinutes(i);
-        return passed / total;
-    }
-    
-    public Vakit getTime() {
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
-        for (int i = 0; i < 6; i++) {
-            if (getLocalDateTime(today, i).isAfter(now)) {
-                return Vakit.getByIndex(i - 1);
-            }
-        }
-        return Vakit.YATSI;
-    }
-    
-    public int getNext() {
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
-        for (int i = 0; i < 6; i++) {
-            if (getLocalDateTime(today, i).isAfter(now)) {
-                return i;
-            }
-        }
-        return 6;
+        return vakit;
     }
     
     public boolean isKerahat() {
-        long m = getLeftMinutes(1);
-        if ((m <= 0) && (m > (-Preferences.KERAHAT_SUNRISE.get()))) {
+        LocalDateTime now = LocalDateTime.now();
+        
+        int untilSun = new Period(getTime(now.toLocalDate(), Vakit.SUN), now, PeriodType.minutes()).getMinutes();
+        if (untilSun >= 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
             return true;
         }
         
-        m = getLeftMinutes(2);
-        if ((m >= 0) && (m < (Preferences.KERAHAT_ISTIWA.get()))) {
+        int untilDhuhr = new Period(now, getTime(now.toLocalDate(), Vakit.DHUHR), PeriodType.minutes()).getMinutes();
+        if ((untilDhuhr >= 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
             return true;
         }
         
-        m = getLeftMinutes(4);
-        return (m >= 0) && (m < (Preferences.KERAHAT_SUNSET.get()));
+        int untilMaghrib = new Period(now, getTime(now.toLocalDate(), Vakit.MAGHRIB), PeriodType.minutes()).getMinutes();
+        if ((untilMaghrib >= 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))) {
+            return true;
+        }
         
+        return false;
     }
     
     @NonNull
@@ -406,11 +273,35 @@ public abstract class Times extends TimesBase {
     }
     
     
-    public String getSabah(LocalDate date) {
-        return adj(_getTime(date, 6), 0);
+    /**
+     * @param date Date
+     * @param time Time
+     * @return time in format "HH:mm"
+     */
+    @Nullable
+    protected abstract String getStrTime(LocalDate date, Vakit time);
+    
+    
+    /**
+     * if the Times source has seperate Imsak/Fajr times, this can be used to provide the extra Fajr value
+     *
+     * @param date Date
+     * @return time in format "HH:mm"
+     */
+    @Nullable
+    protected String getSabah(LocalDate date) {
+        return null;
     }
     
-    public String getAsrSani(LocalDate date) {
-        return adj(_getTime(date, 7), 3);
+    /**
+     * if the Times source has an extra time for Asr (which is not the default) it can be provided with that one
+     *
+     * @param date Date
+     * @return time in format "HH:mm"
+     */
+    @Nullable
+    protected String getAsrThani(LocalDate date) {
+        return null;
     }
+    
 }

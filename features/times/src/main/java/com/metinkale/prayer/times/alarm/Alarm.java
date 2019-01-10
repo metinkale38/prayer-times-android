@@ -52,7 +52,7 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "id")
 public class Alarm implements Comparable<Alarm> {
     public static final Set<Vakit> ALL_TIMES =
-            Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.IMSAK, Vakit.OGLE, Vakit.IKINDI, Vakit.AKSAM, Vakit.YATSI)));
+            Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.IMSAK, Vakit.DHUHR, Vakit.ASR_THANI, Vakit.MAGHRIB, Vakit.ISHAA)));
     public static final Collection<Integer> ALL_WEEKDAYS = Collections.unmodifiableCollection(
             Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY,
                     Calendar.SUNDAY));
@@ -119,7 +119,7 @@ public class Alarm implements Comparable<Alarm> {
             for (Vakit vakit : Vakit.values()) {
                 if (!times.contains(vakit))
                     continue;
-                LocalDateTime time = city.getLocalDateTime(date, vakit.ordinal());
+                LocalDateTime time = city.getTime(date, vakit.ordinal());
                 if (time.isAfter(now))
                     return time;
             }
@@ -144,7 +144,7 @@ public class Alarm implements Comparable<Alarm> {
     public String getCurrentTitle() {
         Times city = getCity();
         
-        Vakit time = getCity().getTime();
+        Vakit time = getCity().getCurrentTime();
         int left = city.getLeftMinutes();
         int passed = city.getPassedMinutes();
         int minutes = Math.abs(left) < Math.abs(passed) ? -left : passed;

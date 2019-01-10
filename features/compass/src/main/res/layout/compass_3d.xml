@@ -21,20 +21,23 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.metinkale.prayer.compass._3D.CameraSurfaceView
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" />
 
-    <com.metinkale.prayer.compass._3D.CompassView
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
+
+
+    <com.metinkale.prayer.compass.magnetic.compass3D.CompassView
         android:id="@id/compass"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

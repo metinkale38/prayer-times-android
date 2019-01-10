@@ -24,9 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Build;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,12 +32,14 @@ import com.metinkale.prayer.compass.R;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.metinkale.praytimes.Constants;
 import org.metinkale.praytimes.PrayTimes;
 import org.metinkale.praytimes.QiblaTime;
+import org.metinkale.praytimes.Times;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import androidx.annotation.NonNull;
 
 public class QiblaTimeView extends View {
     private final Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -63,7 +63,10 @@ public class QiblaTimeView extends View {
     private Path mBottomPath = new Path();
     private Path mClipPath = new Path();
     private double mQiblaAngle;
-
+    private double mLat;
+    private double mLng;
+    private double mAlt;
+    
     public QiblaTimeView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -71,9 +74,9 @@ public class QiblaTimeView extends View {
         } else {
             mKaabe = context.getResources().getDrawable(R.drawable.kaabe);
         }
-
+        
         int blue = 0xFF33B5E5;
-
+        
         mTrianglePaint.setColor(blue);
         mTrianglePaint.setStyle(Paint.Style.FILL);
         mBackgroundPaint.setColor(Color.WHITE);
@@ -90,145 +93,159 @@ public class QiblaTimeView extends View {
         mTextPaint.setColor(Color.WHITE);
         mSunPaint.setColor(Color.YELLOW);
         mSunPaint.setStyle(Paint.Style.FILL);
-
-
+        
+        
         LocalDate date = LocalDate.now();
         mPrayTimes.setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
     }
-
+    
     public QiblaTimeView(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-
+        
     }
-
+    
     public QiblaTimeView(@NonNull Context context) {
         this(context, null);
-
+        
     }
-
+    
     @Override
     public void onMeasure(int widthSpec, int heightSpec) {
         int size = Math.min(MeasureSpec.getSize(widthSpec), MeasureSpec.getSize(heightSpec));
-
+        
         setMeasuredDimension(size, size);
     }
-
+    
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
+        
         mOuterStrokePaint.setStrokeWidth(w / 30);
         mTextPaint.setTextSize(w / 20);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
         mYellowPaint.setStrokeWidth(w / 50);
-
-
+        
+        
         mTopPath.reset();
         mTopPath.moveTo(w / 2, w / 6);
         mTopPath.lineTo(w / 2 + w / 10, w / 30);
         mTopPath.lineTo(w / 2 - w / 10, w / 30);
         mTopPath.lineTo(w / 2, w / 6);
-
+        
         mRightPath.reset();
         mRightPath.moveTo(w - w / 6, w / 2);
         mRightPath.lineTo(w - w / 30, w / 2 + w / 10);
         mRightPath.lineTo(w - w / 30, w / 2 - w / 10);
         mRightPath.lineTo(w - w / 6, w / 2);
-
+        
         mLeftPath.reset();
         mLeftPath.moveTo(w / 6, w / 2);
         mLeftPath.lineTo(w / 30, w / 2 + w / 10);
         mLeftPath.lineTo(w / 30, w / 2 - w / 10);
         mLeftPath.lineTo(w / 6, w / 2);
-
+        
         mBottomPath.reset();
         mBottomPath.moveTo(w / 2, w - w / 6);
         mBottomPath.lineTo(w / 2 + w / 10, w - w / 30);
         mBottomPath.lineTo(w / 2 - w / 10, w - w / 30);
         mBottomPath.lineTo(w / 2, w - w / 6);
-
+        
         mClipPath.reset();
         mClipPath.addCircle(w / 2, w / 2, w * 0.45f, Path.Direction.CCW);
     }
-
+    
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         int width = getWidth();
         int center = width / 2;
-
+        
         canvas.drawCircle(center, center, (center * 19) / 20, mBackgroundPaint);
-
+        
         int size = center / 10;
         //sun line
         if (mShowSun) {
-            canvas.drawLine(center, center,
-                    (float) (center - 0.9 * center * Math.cos(Math.toRadians(mCurrentAngle))),
-                    (float) (center - 0.9 * center * Math.sin(Math.toRadians(mCurrentAngle))),
-                    mYellowPaint);
+            canvas.drawLine(center, center, (float) (center - 0.9 * center * Math.cos(Math.toRadians(mCurrentAngle))),
+                    (float) (center - 0.9 * center * Math.sin(Math.toRadians(mCurrentAngle))), mYellowPaint);
             canvas.save();
             canvas.clipPath(mClipPath);
             canvas.drawCircle((float) (center - 0.85 * center * Math.cos(Math.toRadians(mCurrentAngle))),
-                    (float) (center - 0.85 * center * Math.sin(Math.toRadians(mCurrentAngle))),
-                    size, mSunPaint);
+                    (float) (center - 0.85 * center * Math.sin(Math.toRadians(mCurrentAngle))), size, mSunPaint);
             canvas.restore();
         }
-
+        
         float nightAngle = (float) -distance(mSunsetAngle, mSunriseAngle);
-        canvas.drawArc(new RectF(center - center * 0.9f, center - center * 0.9f, center + center * 0.9f,
-                center + center * 0.9f), (float) -mSunsetAngle, nightAngle, true, mNightPaint);
-
+        canvas.drawArc(new RectF(center - center * 0.9f, center - center * 0.9f, center + center * 0.9f, center + center * 0.9f),
+                (float) -mSunsetAngle, nightAngle, true, mNightPaint);
+        
         float sw = mYellowPaint.getStrokeWidth() / 2;
-        canvas.drawArc(new RectF(center - center * 0.9f + sw, center - center * 0.9f + sw, center + center * 0.9f - sw,
-                        center + center * 0.9f - sw),
+        canvas.drawArc(new RectF(center - center * 0.9f + sw, center - center * 0.9f + sw, center + center * 0.9f - sw, center + center * 0.9f - sw),
                 (float) -mSunsetAngle, nightAngle > 0 ? -(360 - nightAngle) : 360 + nightAngle, false, mYellowPaint);
-
-
+        
+        
         canvas.drawCircle(center, center, center / 10, mCenterPaint);
-
+        
         int y = center - center / 2;
         mKaabe.setBounds(center - size, y - size, center + size, y + size);
         mKaabe.draw(canvas);
-
+        
         canvas.drawCircle(center, center, (center * 19) / 20, mOuterStrokePaint);
-
+        
         float textShift = center / 30;
-        if (mQiblaTime.getFront() != null) {
-            canvas.drawPath(mTopPath, mTrianglePaint);
-            canvas.drawText(mQiblaTime.getFront(), center, center - center * 0.9f + textShift, mTextPaint);
+        if (mQiblaTime != null) {
+            if (mQiblaTime.getFront() != null) {
+                canvas.drawPath(mTopPath, mTrianglePaint);
+                canvas.drawText(mQiblaTime.getFront(), center, center - center * 0.9f + textShift, mTextPaint);
+            }
+            if (mQiblaTime.getLeft() != null) {
+                canvas.drawPath(mLeftPath, mTrianglePaint);
+                canvas.drawText(mQiblaTime.getLeft(), center - center * 0.84f, center + textShift, mTextPaint);
+            }
+            if (mQiblaTime.getRight() != null) {
+                canvas.drawPath(mRightPath, mTrianglePaint);
+                canvas.drawText(mQiblaTime.getRight(), center + center * 0.84f, center + textShift, mTextPaint);
+            }
+            if (mQiblaTime.getBack() != null) {
+                canvas.drawPath(mBottomPath, mTrianglePaint);
+                canvas.drawText(mQiblaTime.getBack(), center, center + center * 0.9f + textShift, mTextPaint);
+            }
         }
-        if (mQiblaTime.getLeft() != null) {
-            canvas.drawPath(mLeftPath, mTrianglePaint);
-            canvas.drawText(mQiblaTime.getLeft(), center - center * 0.84f, center + textShift, mTextPaint);
-        }
-        if (mQiblaTime.getRight() != null) {
-            canvas.drawPath(mRightPath, mTrianglePaint);
-            canvas.drawText(mQiblaTime.getRight(), center + center * 0.84f, center + textShift, mTextPaint);
-        }
-        if (mQiblaTime.getBack() != null) {
-            canvas.drawPath(mBottomPath, mTrianglePaint);
-            canvas.drawText(mQiblaTime.getBack(), center, center + center * 0.9f + textShift, mTextPaint);
-        }
-
-
+        
+        
     }
-
-    public void setLocation(Location location, double qiblaAngle) {
-        if (location == null) return;
-        mPrayTimes.setCoordinates(location.getLatitude(), location.getLongitude(), 0);
-        mQiblaAngle = qiblaAngle;
-        mQiblaTime = mPrayTimes.getQiblaTime();
-        LocalTime sunrise = LocalTime.parse(mPrayTimes.getTime(Constants.TIMES_SUNRISE));
-        LocalTime sunset = LocalTime.parse(mPrayTimes.getTime(Constants.TIMES_SUNSET));
-        LocalTime current = LocalTime.now();
-
-        mShowSun = !(sunset.isBefore(current) || sunrise.isAfter(current));
-
-        mSunriseAngle = Math.toDegrees(getAzimuth(sunrise.toDateTimeToday().getMillis(), location.getLatitude(), location.getLongitude())) - qiblaAngle - 90;
-        mSunsetAngle = Math.toDegrees(getAzimuth(sunset.toDateTimeToday().getMillis(), location.getLatitude(), location.getLongitude())) - qiblaAngle - 90;
-        mCurrentAngle = Math.toDegrees(getAzimuth(current.toDateTimeToday().getMillis(), location.getLatitude(), location.getLongitude())) - qiblaAngle - 90;
+    
+    public void setAngle(double angle) {
+        mQiblaAngle = angle;
+        post(mUpdate);
     }
-
+    
+    public void setLocation(double lat, double lng, double alt) {
+        mLat = lat;
+        mLng = lng;
+        mAlt = alt;
+        post(mUpdate);
+    }
+    
+    private Runnable mUpdate = new Runnable() {
+        @Override
+        public void run() {
+            removeCallbacks(this);
+            mPrayTimes.setCoordinates(mLat, mLng, mAlt);
+            mQiblaTime = mPrayTimes.getQiblaTime();
+            LocalTime sunrise = LocalTime.parse(mPrayTimes.getTime(Times.Sunrise));
+            LocalTime sunset = LocalTime.parse(mPrayTimes.getTime(Times.Sunset));
+            LocalTime current = LocalTime.now();
+            
+            mShowSun = !(sunset.isBefore(current) || sunrise.isAfter(current));
+            
+            mSunriseAngle = Math.toDegrees(getAzimuth(sunrise.toDateTimeToday().getMillis(), mLat, mLng)) - mQiblaAngle - 90;
+            mSunsetAngle = Math.toDegrees(getAzimuth(sunset.toDateTimeToday().getMillis(), mLat, mLng)) - mQiblaAngle - 90;
+            mCurrentAngle = Math.toDegrees(getAzimuth(current.toDateTimeToday().getMillis(), mLat, mLng)) - mQiblaAngle - 90;
+            
+            invalidate();
+        }
+    };
+    
     /**
      * Length (angular) of a shortest way between two angles.
      * It will be in range [0, 180].
@@ -237,16 +254,16 @@ public class QiblaTimeView extends View {
     private double distance(double a, double b) {
         double d = Math.abs(a - b) % 360;
         double r = d > 180 ? 360 - d : d;
-
+        
         int sign = (a - b >= 0 && a - b <= 180) || (a - b <= -180 && a - b >= -360) ? 1 : -1;
         r *= sign;
         return r;
     }
-
-
+    
+    
     public static double getAzimuth(long mills, double lat, double lng) {
         //yes it's my library, but i did not want to make this class public for everyone :)
-        //alternatively SunCalc library could be used
+        //alternatively SunCalc library could be used, if prayer times are not needed
         try {
             Method m = Class.forName("org.metinkale.praytimes.QiblaTimeCalculator")
                     .getDeclaredMethod("getAzimuth", long.class, double.class, double.class);

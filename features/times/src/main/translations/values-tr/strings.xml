@@ -29,7 +29,7 @@
   <string name="delConfirm">%1$s Şehrini gerçekten silmek istiyormusunuz?</string>
   <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
   <string name="imsak">İmsak</string>
-  <string name="fajr">İmsak</string>
+  <string name="fajr">Sabah</string>
   <string name="highlatsAdj">Yüksek enlemlerde ayarlama:</string>
   <string name="fixTimezone">Zaman dilimi +/-:</string>
   <string name="ishaa">Yatsı</string>
@@ -38,7 +38,6 @@
   <string name="kerahatTime">Kerahat Vakti</string>
   <string name="maghrib">Akşam</string>
   <string name="monthly">İmsakiye</string>
-  <string name="morningPrayer">Sabah</string>
   <string name="newAddCity">Yeni Şehir seçmesini kullan</string>
   <string name="oldAddCity">Şehri elle seç</string>
   <string name="shareTimes">%1$s için bugün ki Namaz Vakitleri</string>

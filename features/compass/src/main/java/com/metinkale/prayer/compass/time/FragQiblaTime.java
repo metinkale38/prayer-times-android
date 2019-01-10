@@ -16,66 +16,79 @@
 
 package com.metinkale.prayer.compass.time;
 
-import android.animation.TimeInterpolator;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
-import com.metinkale.prayer.compass.CompassFragment;
-import com.metinkale.prayer.compass.CompassFragment.MyCompassListener;
+import com.metinkale.prayer.compass.QiblaListener;
 import com.metinkale.prayer.compass.R;
 import com.metinkale.prayer.utils.LocaleUtils;
 
-public class FragQiblaTime extends Fragment implements MyCompassListener {
-    private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();
-    private static final TimeInterpolator accelerateInterpolator = new AccelerateInterpolator();
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 
+public class FragQiblaTime extends Fragment implements QiblaListener {
+    
     private QiblaTimeView mQiblaTimeView;
-    private TextView mAngle;
-    private TextView mDist;
-    private View mInfo;
-
-
+    private TextView mQiblaAngle;
+    private TextView mQiblaDistance;
+    private double mLat;
+    private double mLng;
+    private double mAlt;
+    private double mDistance;
+    private double mAngle;
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         View v = inflater.inflate(R.layout.compass_qiblatime, container, false);
         mQiblaTimeView = v.findViewById(R.id.qiblatime);
-
-        mAngle = v.findViewById(R.id.angle);
-        mDist = v.findViewById(R.id.distance);
-        mInfo = v.findViewById(R.id.infobox);
-
-        View info = (View) mAngle.getParent();
+        
+        mQiblaAngle = v.findViewById(R.id.angle);
+        mQiblaDistance = v.findViewById(R.id.distance);
+        
+        View info = (View) mQiblaAngle.getParent();
         ViewCompat.setElevation(info, info.getPaddingTop());
-        onUpdateDirection();
+        
+        
+        setQiblaAngle(mAngle);
+        setQiblaDistance(mDistance);
+        setUserLocation(mLat,mLng,mAlt);
         return v;
     }
-
+    
+    
     @Override
-    public void onUpdateDirection() {
-        if (mQiblaTimeView != null) {
-            double angle = ((CompassFragment) getParentFragment()).getQiblaAngle();
-            if (angle < 0) {
-                angle += 360;
-            }
-            mAngle.setText(LocaleUtils.toArabicNrs(Math.round(angle) + "°"));
-            mDist.setText(LocaleUtils.toArabicNrs(Math.round(((CompassFragment) getParentFragment()).getDistance()) + "km"));
-            mQiblaTimeView.setLocation(((CompassFragment) getParentFragment()).getLocation(), ((CompassFragment) getParentFragment()).getQiblaAngle());
+    public void setUserLocation(double lat, double lng, double alt) {
+        mLat = lat;
+        mLng = lng;
+        mAlt = alt;
+        if (mQiblaTimeView != null)
+            mQiblaTimeView.setLocation(lat, lng, alt);
+    }
+    
+    @Override
+    public void setQiblaAngle(double angle) {
+        mAngle=angle;
+        if (mQiblaAngle == null)
+            return;
+        if (angle < 0) {
+            angle += 360;
         }
-
+        mQiblaAngle.setText(LocaleUtils.toArabicNrs(Math.round(angle) + "°"));
+        mQiblaTimeView.setAngle(angle);
+        
     }
-
+    
     @Override
-    public void onUpdateSensors(float[] rot) {
-        mQiblaTimeView.invalidate();
+    public void setQiblaDistance(double distance) {
+        mDistance=distance;
+        if (mQiblaDistance == null)
+            return;
+        mQiblaDistance.setText(LocaleUtils.toArabicNrs(Math.round(distance) + "km"));
+        
     }
-
-
 }

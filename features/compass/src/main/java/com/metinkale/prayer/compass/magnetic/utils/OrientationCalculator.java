@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.compass.classes;
+package com.metinkale.prayer.compass.magnetic.utils;
 
 import androidx.annotation.NonNull;
 import android.view.Surface;
 
-import com.metinkale.prayer.compass.classes.math.Matrix4;
-import com.metinkale.prayer.compass.classes.math.Util;
-import com.metinkale.prayer.compass.classes.math.Vector3;
-import com.metinkale.prayer.compass.classes.math.Vector4;
+import com.metinkale.prayer.compass.magnetic.utils.math.Matrix4;
+import com.metinkale.prayer.compass.magnetic.utils.math.Util;
+import com.metinkale.prayer.compass.magnetic.utils.math.Vector3;
+import com.metinkale.prayer.compass.magnetic.utils.math.Vector4;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OrientationCalculatorImpl implements OrientationCalculator {
+public class OrientationCalculator {
     private static final float DEGREES_TO_RADIANS = (float) (Math.PI / 180.0f);
     private static final float RADIANS_TO_DEGREES = (float) (180.0f / Math.PI);
 
@@ -72,7 +72,7 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
     @NonNull
     private Vector4 vTemp = new Vector4();
 
-    public OrientationCalculatorImpl() {
+    public OrientationCalculator() {
         mOrthographicProjectionMatrix.setToOrtho2D(0, 0, 1, -1);
 
         for (int i = 0; i < NUM_POINTS; i++) {
@@ -84,7 +84,6 @@ public class OrientationCalculatorImpl implements OrientationCalculator {
         mOrthographicVertexBatch.add(mNorthReference);
     }
 
-    @Override
     public void getOrientation(@NonNull Matrix4 rotationMatrix, int screenRotation, float[] out) {
         rotatePoints(rotationMatrix, screenRotation);
 

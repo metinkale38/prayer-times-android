@@ -13,511 +13,68 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="8dp">
+
 
         <TextView
             android:id="@+id/calcMethodTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/calcMethod"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/calcMethod"
+            android:layout_height="0dp"
             android:gravity="center_vertical"
-            android:text="@string/calcMethod" />
+            android:text="@string/calcMethod"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
             android:id="@+id/calcMethod"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/calcMethodTitle"
-            android:layout_toRightOf="@+id/calcMethodTitle" />
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toEndOf="@+id/calcMethodTitle" />
 
         <TextView
-            android:id="@+id/asrJurTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/asrJur"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/asrJur"
-            android:layout_margin="5dp"
+            android:id="@+id/highLats"
+            android:layout_height="0dp"
             android:gravity="center_vertical"
-            android:text="@string/asr" />
+            android:text="@string/highlatsAdj"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment" />
 
         <Spinner
-            android:id="@+id/asrJur"
+            android:id="@+id/highLatsSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toEndOf="@+id/highLats"
+            app:layout_constraintTop_toBottomOf="@id/fragment" />
+
+        <FrameLayout
+            android:id="@+id/fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/calcMethod"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/asrJurTitle"
-            android:layout_toRightOf="@+id/asrJurTitle" />
-
-        <TextView
-            android:id="@+id/highlatsAdjTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/highlatsAdj"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/highlatsAdj"
-            android:layout_margin="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/highlatsAdj" />
-
-        <Spinner
-            android:id="@+id/highlatsAdj"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/ishaaRadio"
-            android:layout_toEndOf="@+id/highlatsAdjTitle"
-            android:layout_toRightOf="@+id/highlatsAdjTitle" />
-
-        <TextView
-            android:id="@+id/imsakTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imsakValue"
-            android:layout_alignTop="@+id/imsakValue"
-            android:gravity="center"
-            android:text="@string/imsak"
-            android:textSize="18sp" />
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calcMethodTitle" />
 
 
-        <EditText
-            android:id="@+id/imsakValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imsakRadio"
-            android:layout_alignTop="@+id/imsakRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/imsakTitle"
-            android:layout_toRightOf="@+id/imsakTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10" />
-
-
-        <RadioGroup
-            android:id="@+id/imsakRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/asrJur"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:id="@+id/imsakTimeBased"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/imsakTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imsakRadio"
-            android:layout_alignTop="@+id/imsakRadio"
-            android:layout_toEndOf="@+id/imsakRadio"
-            android:layout_toRightOf="@+id/imsakRadio"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="00:00" />
-
-
-        <TextView
-            android:id="@+id/fajrTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fajrValue"
-            android:layout_alignTop="@+id/fajrValue"
-            android:gravity="center"
-            android:text="@string/fajr"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/fajrValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fajrRadio"
-            android:layout_alignTop="@+id/fajrRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/fajrTitle"
-            android:layout_toRightOf="@+id/fajrTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10" />
-
-        <RadioGroup
-            android:id="@+id/fajrRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imsakRadio"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:enabled="false"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/fajrTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fajrRadio"
-            android:layout_alignTop="@+id/fajrRadio"
-            android:layout_toEndOf="@+id/fajrRadio"
-            android:layout_toRightOf="@+id/fajrRadio"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="00:00" />
-
-        <TextView
-            android:id="@+id/sunTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/fajrRadio"
-            android:gravity="center"
-            android:text="@string/sun"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/sunValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/sunRadio"
-            android:layout_alignTop="@+id/sunRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/sunTitle"
-            android:layout_toRightOf="@+id/sunTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10"
-            android:visibility="gone" />
-
-        <RadioGroup
-            android:id="@+id/sunRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dhuhrRadio"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-
-        <TextView
-            android:id="@+id/sunTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fajrRadio"
-            android:layout_toEndOf="@+id/maghribRadio"
-            android:layout_toRightOf="@+id/maghribRadio"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="00:00" />
-
-        <TextView
-            android:id="@+id/dhuhrTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/dhuhrValue"
-            android:layout_alignTop="@+id/dhuhrValue"
-            android:gravity="center"
-            android:text="@string/zuhr"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/dhuhrValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/dhuhrRadio"
-            android:layout_alignTop="@+id/dhuhrRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/dhuhrTitle"
-            android:layout_toRightOf="@+id/dhuhrTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10" />
-
-        <RadioGroup
-            android:id="@+id/dhuhrRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sunTitle"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:enabled="false"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/dhuhrTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/dhuhrRadio"
-            android:layout_alignTop="@+id/dhuhrRadio"
-            android:layout_toEndOf="@+id/dhuhrRadio"
-            android:layout_toRightOf="@+id/dhuhrRadio"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="00:00" />
-
-        <TextView
-            android:id="@+id/asrTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/dhuhrRadio"
-            android:gravity="center"
-            android:text="@string/asr"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/asrValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/asrRadio"
-            android:layout_alignTop="@+id/asrRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/asrTitle"
-            android:layout_toRightOf="@+id/asrTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10"
-            android:visibility="gone" />
-
-        <RadioGroup
-            android:id="@+id/asrRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dhuhrRadio"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-
-        <TextView
-            android:id="@+id/asrTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/asrTitle"
-            android:layout_alignTop="@+id/asrTitle"
-            android:layout_toEndOf="@+id/maghribRadio"
-            android:layout_toRightOf="@+id/maghribRadio"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="00:00" />
-
-
-        <TextView
-            android:id="@+id/maghribTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/maghribValue"
-            android:layout_alignTop="@+id/maghribValue"
-            android:gravity="center"
-            android:text="@string/maghrib"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/maghribValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/maghribRadio"
-            android:layout_alignTop="@+id/maghribRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/maghribTitle"
-            android:layout_toRightOf="@+id/maghribTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10" />
-
-
-        <RadioGroup
-            android:id="@+id/maghribRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/asrTitle"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:id="@+id/maghribTimeBased"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-
-        <TextView
-            android:id="@+id/maghribTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/maghribRadio"
-            android:layout_alignTop="@+id/maghribRadio"
-            android:layout_toEndOf="@+id/maghribRadio"
-            android:layout_toRightOf="@+id/maghribRadio"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="00:00" />
-
-
-        <TextView
-            android:id="@+id/ishaaTitle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ishaaValue"
-            android:layout_alignTop="@+id/ishaaValue"
-            android:gravity="center"
-            android:text="@string/ishaa"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/ishaaValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ishaaRadio"
-            android:layout_alignTop="@+id/ishaaRadio"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@+id/ishaaTitle"
-            android:layout_toRightOf="@+id/ishaaTitle"
-            android:gravity="center"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="10" />
-
-        <RadioGroup
-            android:id="@+id/ishaaRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/maghribRadio"
-
-            android:layout_toEndOf="@+id/fajrValue"
-            android:layout_toRightOf="@+id/fajrValue">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/angleBased" />
-
-            <RadioButton
-                android:id="@+id/ishaTimeBased"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/timeBased" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/ishaaTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ishaaRadio"
-            android:layout_alignTop="@+id/ishaaRadio"
-            android:layout_toEndOf="@+id/ishaaRadio"
-            android:layout_toRightOf="@+id/ishaaRadio"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="00:00" />
-
-        <Button
-            android:id="@+id/ok"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/highlatsAdj"
-            android:text="@string/ok" />
-
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

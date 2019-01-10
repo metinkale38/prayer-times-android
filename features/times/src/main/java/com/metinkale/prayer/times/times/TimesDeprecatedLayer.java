@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.sounds.Sounds;
 import com.metinkale.prayer.utils.livedata.TransientLiveData;
@@ -34,10 +35,13 @@ import java.util.List;
 /**
  * deprecated member variables moved here to be able to migrate
  */
+@SuppressWarnings("unused")
 @Deprecated
 public class TimesDeprecatedLayer extends TransientLiveData<Times> {
-
-
+    
+    
+    private static Preferences.Preference<Boolean> AUTO_REMOVE_NOTIFICATION = new Preferences.BooleanPreference("autoRemoveNotification", false);
+    
     TimesDeprecatedLayer() {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             setValue((Times) this);
@@ -45,9 +49,9 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
             postValue((Times) this);
         }
     }
-
-
-    public static int getStreamType(Context c) {
+    
+    
+    private static int getStreamType(Context c) {
         String ezanvolume = PreferenceManager.getDefaultSharedPreferences(c).getString("ezanvolume", "noti");
         switch (ezanvolume) {
             case "alarm":
@@ -56,219 +60,233 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
                 return AudioManager.STREAM_MUSIC;
             default:
                 return AudioManager.STREAM_RING;
-
+            
         }
     }
-
+    
     private void addSound(Alarm alarm, String sound) {
         if (sound != null && !sound.startsWith("silent")) {
-
+            
             int volume = 0;
             if (sound.contains("$volume")) {
                 volume = Integer.parseInt(sound.substring(sound.indexOf("$volume") + 7));
                 sound = sound.substring(0, sound.indexOf("$volume"));
             }
-
+            
             if (volume > 0) {
                 try {
                     AudioManager am = (AudioManager) App.get().getSystemService(Context.AUDIO_SERVICE);
                     float oldmax = am.getStreamMaxVolume(getStreamType(App.get()));
                     float newmax = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC); //music volume should be the finest
-
+                    
                     volume = (int) (volume / oldmax * newmax);
                 } catch (Exception e) {
                     Crashlytics.logException(e);
                 }
                 alarm.setVolume(volume);
             }
-
-
+            
+            
             alarm.getSounds().add(Sounds.getSound(sound));
         }
     }
-
-    public List<Alarm> migrateAlarms() {
+    
+    List<Alarm> migrateAlarms() {
         List<Alarm> alarms = new ArrayList<>();
-        boolean force = false;
-
-        if (cuma || force) {
+        
+        if (cuma) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.OGLE);
+            alarm.getTimes().add(Vakit.DHUHR);
             alarm.setVibrate(cuma_vibration);
             alarm.setSilenter(cuma_silenter);
             alarm.setMins(-(cuma_time == 0 ? 15 : cuma_time));
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, cuma_sound);
             alarm.getWeekdays().add(Calendar.FRIDAY);
             alarms.add(alarm);
             cuma = false;
         }
-
-        if (SABAH || force) {
+        
+        if (SABAH) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(sabah_afterImsak ? Vakit.IMSAK : Vakit.GUNES);
+            alarm.getTimes().add(sabah_afterImsak ? Vakit.IMSAK : Vakit.SUN);
             alarm.setVibrate(SABAH_vibration);
             alarm.setSilenter(SABAH_silenter);
-            if (sabah_time == 0) sabah_time = 30;
+            if (sabah_time == 0)
+                sabah_time = 30;
             alarm.setMins(sabah_afterImsak ? sabah_time : -sabah_time);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, SABAH_sound);
             addSound(alarm, SABAH_dua);
             alarms.add(alarm);
             SABAH = false;
         }
-
-        if (IMSAK || force) {
+        
+        if (IMSAK) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
             alarm.getTimes().add(Vakit.IMSAK);
             alarm.setVibrate(IMSAK_vibration);
             alarm.setSilenter(IMSAK_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, IMSAK_sound);
             addSound(alarm, IMSAK_dua);
             alarms.add(alarm);
             IMSAK = false;
         }
-
-        if (GUNES || force) {
+        
+        if (GUNES) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.GUNES);
+            alarm.getTimes().add(Vakit.SUN);
             alarm.setVibrate(GUNES_vibration);
             alarm.setSilenter(GUNES_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, GUNES_sound);
             addSound(alarm, GUNES_DUA);
             alarms.add(alarm);
             GUNES = false;
         }
-
-        if (OGLE || force) {
+        
+        if (OGLE) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.OGLE);
+            alarm.getTimes().add(Vakit.DHUHR);
             alarm.setVibrate(OGLE_vibration);
             alarm.setSilenter(OGLE_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, OGLE_sound);
             addSound(alarm, OGLE_dua);
             alarms.add(alarm);
             OGLE = false;
         }
-
-        if (IKINDI || force) {
+        
+        if (IKINDI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.IKINDI);
+            alarm.getTimes().add(Vakit.ASR_THANI);
             alarm.setVibrate(IKINDI_vibration);
             alarm.setSilenter(IKINDI_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, IKINDI_sound);
             addSound(alarm, IKINDI_dua);
             alarms.add(alarm);
             IKINDI = false;
         }
-
-
-        if (AKSAM || force) {
+        
+        
+        if (AKSAM) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.AKSAM);
+            alarm.getTimes().add(Vakit.MAGHRIB);
             alarm.setVibrate(AKSAM_vibration);
             alarm.setSilenter(AKSAM_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, AKSAM_sound);
             addSound(alarm, AKSAM_dua);
             alarms.add(alarm);
             AKSAM = false;
         }
-
-        if (YATSI || force) {
+        
+        if (YATSI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.YATSI);
+            alarm.getTimes().add(Vakit.ISHAA);
             alarm.setVibrate(YATSI_vibration);
             alarm.setSilenter(YATSI_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, YATSI_sound);
             addSound(alarm, YATSI_dua);
             alarms.add(alarm);
             YATSI = false;
         }
-
-
-        if (pre_IMSAK || force) {
+        
+        
+        if (pre_IMSAK) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
             alarm.getTimes().add(Vakit.IMSAK);
             alarm.setVibrate(pre_IMSAK_vibration);
             alarm.setSilenter(pre_IMSAK_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_IMSAK_sound);
             alarm.setMins(-(pre_IMSAK_time == 0 ? 15 : pre_IMSAK_time));
             alarms.add(alarm);
             pre_IMSAK = false;
         }
-
-        if (pre_GUNES || force) {
+        
+        if (pre_GUNES) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.GUNES);
+            alarm.getTimes().add(Vakit.SUN);
             alarm.setVibrate(pre_GUNES_vibration);
             alarm.setSilenter(pre_GUNES_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_GUNES_sound);
             alarm.setMins(-(pre_GUNES_time == 0 ? 15 : pre_GUNES_time));
             alarms.add(alarm);
             pre_GUNES = false;
         }
-
-        if (pre_OGLE || force) {
+        
+        if (pre_OGLE) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.OGLE);
+            alarm.getTimes().add(Vakit.DHUHR);
             alarm.setVibrate(pre_OGLE_vibration);
             alarm.setSilenter(pre_OGLE_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_OGLE_sound);
             alarm.setMins(-(pre_OGLE_time == 0 ? 15 : pre_OGLE_time));
             alarms.add(alarm);
             pre_OGLE = false;
         }
-
-        if (pre_IKINDI || force) {
+        
+        if (pre_IKINDI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.IKINDI);
+            alarm.getTimes().add(Vakit.ASR_THANI);
             alarm.setVibrate(pre_IKINDI_vibration);
             alarm.setSilenter(pre_IKINDI_silenter);
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_IKINDI_sound);
             alarm.setMins(-(pre_IKINDI_time == 0 ? 15 : pre_IKINDI_time));
             alarms.add(alarm);
             pre_IKINDI = false;
         }
-
-
-        if (pre_AKSAM || force) {
+        
+        
+        if (pre_AKSAM) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.AKSAM);
+            alarm.getTimes().add(Vakit.MAGHRIB);
             alarm.setVibrate(pre_AKSAM_vibration);
             alarm.setSilenter(pre_AKSAM_silenter);
             alarm.setMins(-(pre_AKSAM_time == 0 ? 15 : pre_AKSAM_time));
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_AKSAM_sound);
             alarms.add(alarm);
             pre_AKSAM = false;
         }
-
-        if (pre_YATSI || force) {
+        
+        if (pre_YATSI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.YATSI);
+            alarm.getTimes().add(Vakit.ISHAA);
             alarm.setVibrate(pre_YATSI_vibration);
             alarm.setSilenter(pre_YATSI_silenter);
             alarm.setMins(-(pre_YATSI_time == 0 ? 15 : pre_YATSI_time));
+            alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
             addSound(alarm, pre_YATSI_sound);
             alarms.add(alarm);
             pre_YATSI = false;
         }
-
+        
         return alarms;
     }
-
-
+    
+    
     private boolean cuma;
     private String cuma_sound;
     private boolean cuma_vibration;
@@ -341,5 +359,5 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
     private int pre_IKINDI_time;
     private int pre_AKSAM_time;
     private int pre_YATSI_time;
-
+    
 }

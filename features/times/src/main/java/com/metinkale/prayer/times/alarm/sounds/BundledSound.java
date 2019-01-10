@@ -41,7 +41,16 @@ public class BundledSound extends Sound {
     }
     
     enum SoundType {
-        Default, Fajr, FajrShort, Zuhr, Asr, Magrib, Ishaa, Dua, Takbir, Sela
+        Default,
+        Fajr,
+        FajrShort,
+        Zuhr,
+        Asr,
+        Magrib,
+        Ishaa,
+        Dua,
+        Takbir,
+        Sela
     }
     
     private EnumMap<SoundType, Sound> subSounds = new EnumMap<>(SoundType.class);
@@ -83,25 +92,27 @@ public class BundledSound extends Sound {
                                                                     subSounds.values().iterator().next();
             return sound.createMediaPlayer(alarm);
         } else {
-            switch (Vakit.getByIndex(alarm.getCity().getNext() - 1)) {
+            switch (Vakit.getByIndex(alarm.getCity().getNextTime() - 1)) {
                 case IMSAK:
+                case FAJR:
                     if (subSounds.containsKey(SoundType.Fajr)) {
                         return subSounds.get(SoundType.Fajr).createMediaPlayer(alarm);
                     }
-                case GUNES:
-                case OGLE:
+                case SUN:
+                case DHUHR:
                     if (subSounds.containsKey(SoundType.Zuhr)) {
                         return subSounds.get(SoundType.Zuhr).createMediaPlayer(alarm);
                     }
-                case IKINDI:
+                case ASR_THANI:
+                case ASR:
                     if (subSounds.containsKey(SoundType.Asr)) {
                         return subSounds.get(SoundType.Asr).createMediaPlayer(alarm);
                     }
-                case AKSAM:
+                case MAGHRIB:
                     if (subSounds.containsKey(SoundType.Magrib)) {
                         return subSounds.get(SoundType.Magrib).createMediaPlayer(alarm);
                     }
-                case YATSI:
+                case ISHAA:
                     if (subSounds.containsKey(SoundType.Ishaa)) {
                         return subSounds.get(SoundType.Ishaa).createMediaPlayer(alarm);
                     }

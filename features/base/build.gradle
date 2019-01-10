@@ -95,18 +95,19 @@ dependencies {
     feature project(':features:names')
     feature project(':features:settings')
 
-    implementation 'androidx.multidex:multidex:2.0.0'
-    api 'org.metinkale:praytimes:0.9.3.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    api 'org.metinkale:praytimes:0.9.3.5'
 
     playApi('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {//excludeInFDroid
         transitive = true//excludeInFDroid
     }//excludeInFDroid
-    api 'com.google.android.play:core:1.3.4'
+    api 'com.google.android.play:core:1.3.6'
     api('com.mikepenz:aboutlibraries:5.8.5@aar') {
         transitive = true
     }
     api 'joda-time:joda-time:2.9.6:no-tzdb'
     api 'com.google.code.gson:gson:2.8.2'
+    api 'androidx.core:core:1.0.0'
     api 'androidx.percentlayout:percentlayout:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
     api 'androidx.appcompat:appcompat:1.0.0'
@@ -117,10 +118,10 @@ dependencies {
     api 'com.koushikdutta.ion:ion:2.2.1'
     api 'net.steamcrafted:materialiconlib:1.1.5'
     api 'com.evernote:android-job:1.2.6'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     api 'us.feras.mdv:markdownview:1.1.0'
     api "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    api "androidx.room:room-runtime:2.1.0-alpha01"
+    api "androidx.room:room-runtime:2.1.0-alpha03"
     api 'androidx.media:media:1.0.0'
 
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
@@ -129,5 +130,5 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.18.2"
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha01"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha02"// alpha03 is buggy!
 }

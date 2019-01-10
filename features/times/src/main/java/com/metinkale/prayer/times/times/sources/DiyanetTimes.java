@@ -17,73 +17,71 @@
 package com.metinkale.prayer.times.times.sources;
 
 
-import androidx.annotation.NonNull;
-
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
 
 import java.util.concurrent.ExecutionException;
 
-public class DiyanetTimes extends WebTimes {
+import androidx.annotation.NonNull;
 
+public class DiyanetTimes extends WebTimes {
+    
     @SuppressWarnings({"unused", "WeakerAccess"})
     public DiyanetTimes() {
         super();
     }
-
+    
     @SuppressWarnings({"unused", "WeakerAccess"})
     public DiyanetTimes(long id) {
         super(id);
     }
-
+    
     @NonNull
     @Override
     public Source getSource() {
         return Source.Diyanet;
     }
-
-
+    
+    
     protected boolean sync() throws ExecutionException, InterruptedException {
         String path = getId();
-
+        
         if ("13_1008_0".equals(path)) {
             path = "13_10080_9206";
         }
         String[] a = path.split("_");
-
-
+        
+        
         int state = Integer.parseInt(a[0]);
         int city = 0;
         if (a.length == 2) {
             city = Integer.parseInt(a[1]);
         }
-        String result =
-                Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc")
-                        .userAgent(App.getUserAgent())
-                        .setHeader("Content-Type", "text/xml; charset=utf-8")
-                        .setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
-                        .setStringBody("<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                                "<v:Header /><v:Body>" +
-                                "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
+        String result = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc").userAgent(App.getUserAgent())
+                .setHeader("Content-Type", "text/xml; charset=utf-8").setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
+                .setStringBody(
+                        "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                                "<v:Header /><v:Body>" + "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
                                 "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
-                                "<username i:type=\"d:string\">namazuser</username>" +
-                                "<password i:type=\"d:string\">NamVak!14</password>" +
+                                "<username i:type=\"d:string\">namazuser</username>" + "<password i:type=\"d:string\">NamVak!14</password>" +
                                 "</AylikNamazVakti></v:Body></v:Envelope>").asString().get();
-
+        
         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
         result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
         String[] days = result.split("</a:NamazVakti><a:NamazVakti>");
         int i = 0;
         for (String day : days) {
             String[] parts = day.split("><a:");
-
+            
             String[] times = new String[6];
             String date = null;
             for (String part : parts) {
-                if (!part.contains(">")) continue;
+                if (!part.contains(">"))
+                    continue;
                 String name = part.substring(0, part.indexOf('>'));
                 if (name.contains(":"))
                     name = name.substring(name.indexOf(':') + 1);
@@ -106,11 +104,16 @@ public class DiyanetTimes extends WebTimes {
                 }
             }
             String[] d = date.split("\\.");
-            setTimes(new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0])), times);
+            LocalDate ld = new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0]));
+            setTime(ld, Vakit.FAJR, times[0]);
+            setTime(ld, Vakit.SUN, times[1]);
+            setTime(ld, Vakit.DHUHR, times[2]);
+            setTime(ld, Vakit.ASR, times[3]);
+            setTime(ld, Vakit.MAGHRIB, times[4]);
+            setTime(ld, Vakit.ISHAA, times[5]);
             i++;
-        }
-        return i > 25;
+        } return i > 25;
     }
-
-
+    
+    
 }

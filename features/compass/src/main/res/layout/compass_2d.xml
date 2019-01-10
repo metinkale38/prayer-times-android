@@ -19,37 +19,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.metinkale.prayer.compass._2D.CompassView
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundSecondary" />
+
+    <com.metinkale.prayer.compass.magnetic.compass2D.CompassView
         android:id="@+id/compass"
-        android:translationZ="2dp"
         android:layout_width="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_height="fill_parent"
         android:layout_above="@+id/infobox"
-        android:layout_margin="15dip" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dip"
+        android:translationZ="2dp" />
 
 
     <RelativeLayout
         android:id="@+id/infobox"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:background="@color/background">
 
         <View
             android:id="@+id/center"
             android:layout_width="0dip"
-            android:layout_alignParentBottom="true"
             android:layout_height="0dip"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_above="@+id/hline"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="10dip"
             android:layout_toLeftOf="@+id/center"
             android:gravity="center"
@@ -63,20 +69,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="0°"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="15dip"
+            android:layout_marginBottom="20dp"
             android:layout_toLeftOf="@id/center"
             android:gravity="center"
+            android:text="0°"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/foregroundSecondary" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_above="@+id/hline"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="10dip"
             android:layout_toRightOf="@id/center"
             android:gravity="center"
@@ -91,11 +97,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="15dip"
+            android:layout_marginBottom="20dp"
             android:layout_toRightOf="@id/center"
-            android:text="0 km"
             android:gravity="center"
+            android:text="0 km"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/foregroundSecondary" />
 
@@ -105,12 +111,12 @@
             android:id="@+id/hline"
             android:layout_width="fill_parent"
             android:layout_height="3dip"
+            android:layout_above="@+id/angle"
             android:layout_alignParentRight="true"
             android:layout_marginStart="5dip"
-            android:layout_marginEnd="5dip"
             android:layout_marginTop="5dip"
-            android:background="@color/colorPrimary"
-            android:layout_above="@+id/angle" />
+            android:layout_marginEnd="5dip"
+            android:background="@color/colorPrimary" />
 
     </RelativeLayout>
 

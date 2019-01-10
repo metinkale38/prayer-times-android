@@ -27,6 +27,7 @@
     <color name="divider">#bdbdbd</color>
     <color name="foregroundSecondary">#757575</color>
     <color name="foreground">#212121</color>
+    <color name="foreground20pTrans">#33000000</color>
 
     <color name="alert">#f44336</color>
     <color name="transparent">#00000000</color>-

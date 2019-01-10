@@ -33,7 +33,11 @@ import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.utils.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +68,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 continue;
             }
             
-            String[] dt = {t.getTime(cal, 0), t.getTime(cal, 1), t.getTime(cal, 2), t.getTime(cal, 3), t.getTime(cal, 4), t.getTime(cal, 5)};
             
             boolean icon = Preferences.SHOW_ONGOING_ICON.get();
             boolean number = Preferences.SHOW_ONGOING_NUMBER.get();
@@ -77,35 +80,32 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
             int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
             
-            int next = t.getNext();
+            Vakit marker = t.getCurrentTime();
             if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
-                next++;
-            for (int i = 0; i < dt.length; i++) {
-                if ((next - 1) == i) {
+                marker = marker.nextTime();
+            for (Vakit vakit : Vakit.values()) {
+                LocalTime time = t.getTime(cal, vakit).toLocalTime();
+                if (marker == vakit) {
+                    views.setTextViewText(vakitIds[vakit.ordinal()], Html.fromHtml("<strong><em>" + vakit.getString() + "</em></strong>"));
                     if (Preferences.CLOCK_12H.get()) {
-                        Spannable span = (Spannable) LocaleUtils.fixTimeForHTML(dt[i]);
+                        Spannable span = (Spannable) LocaleUtils.formatTimeForHTML(time);
                         span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        views.setTextViewText(timeIds[i], span);
+                        views.setTextViewText(timeIds[vakit.ordinal()], span);
                     } else
-                        views.setTextViewText(timeIds[i], Html.fromHtml("<strong><em>" + LocaleUtils.fixTimeForHTML(dt[i]) + "</em></strong>"));
+                        views.setTextViewText(timeIds[vakit.ordinal()],
+                                Html.fromHtml("<strong><em>" + LocaleUtils.formatTimeForHTML(time) + "</em></strong>"));
                 } else {
-                    views.setTextViewText(timeIds[i], LocaleUtils.fixTimeForHTML(dt[i]));
+                    views.setTextViewText(vakitIds[vakit.ordinal()], vakit.getString());
+                    views.setTextViewText(timeIds[vakit.ordinal()], LocaleUtils.formatTimeForHTML(time));
                 }
             }
             
             
-            for (int i = 0; i < dt.length; i++) {
-                if ((next - 1) == i) {
-                    views.setTextViewText(vakitIds[i], Html.fromHtml("<strong><em>" + Vakit.getByIndex(i).getString() + "</em></strong>"));
-                } else {
-                    views.setTextViewText(vakitIds[i], Vakit.getByIndex(i).getString());
-                }
-            }
-            
+            DateTime nextTime = t.getTime(cal, t.getNextTime()).toDateTime();
             if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS)) {
-                views.setChronometer(R.id.countdown, t.getMills(next) - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
+                views.setChronometer(R.id.countdown, nextTime.getMillis() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
             } else {
-                String txt = t.getLeft(t.getNext(), false);
+                String txt = LocaleUtils.formatPeriod(DateTime.now(), nextTime, false);
                 views.setString(R.id.countdown, "setFormat", txt);
                 views.setChronometer(R.id.countdown, 0, txt, false);
             }
@@ -133,7 +133,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             
             
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                long left = t.getLeftMinutes(t.getNext());
+                long left = new Period(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime())).getMinutes();
                 Notification.Builder notBuilder =
                         new Notification.Builder(getContext()).setContent(views).setContentIntent(TimesFragment.getPendingIntent(t)).setSmallIcon(
                                 icon ? (number ? Icon.createWithBitmap(getIconFromMinutes(left)) :

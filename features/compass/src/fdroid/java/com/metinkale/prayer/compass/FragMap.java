@@ -41,7 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 @SuppressWarnings("MissingPermission")
-public class FragMap extends Fragment implements CompassFragment.MyCompassListener, MapboxMap.OnMyLocationChangeListener {
+public class FragMap extends Fragment implements CompassFragment.MyCompassListener, MapboxMap.OnMyLocationChangeListener, QiblaListener {
 
     private MapView mMapView;
     private LocationServices mLocService;
@@ -162,5 +162,20 @@ public class FragMap extends Fragment implements CompassFragment.MyCompassListen
                 .width(3));
 
 
+    }
+    
+    @Override
+    public void setUserLocation(double lat, double lng) {
+    
+    }
+    
+    @Override
+    public void setQiblaAngle(double angle) {
+    
+    }
+    
+    @Override
+    public void setQiblaDistance(double distance) {
+    
     }
 }

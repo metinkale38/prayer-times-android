@@ -132,7 +132,7 @@ public class ConfigIntroFragment extends IntroFragment {
         List<Times> times = Times.getTimes();
         for (Times time : times) {
             if (mTimes == null) mTimes = time;
-            if (!time.getTime(LocalDate.now().withDayOfMonth(1), 3).equals("00:00")) {
+            if (!time.getCurrentTime(LocalDate.now().withDayOfMonth(1), 3).equals("00:00")) {
                 mTimes = time;
                 break;
             }

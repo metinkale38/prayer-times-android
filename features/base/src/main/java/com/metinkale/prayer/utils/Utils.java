@@ -8,6 +8,13 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.metinkale.prayer.Preferences;
+
+import org.joda.time.DurationFieldType;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 import java.util.Locale;
 
 public class Utils {
@@ -47,14 +54,7 @@ public class Utils {
         return false;
     }
     
-    public static String readableSize(int bytes) {
-        int unit = 1024;
-        if (bytes < unit)
-            return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        char pre = "kMGTPE".charAt(exp - 1);
-        return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exp), pre);
-    }
+  
     
     public static boolean isPackageInstalled(Context c, String packagename) {
         try {
@@ -64,6 +64,8 @@ public class Utils {
             return false;
         }
     }
+    
+  
     
     
 }

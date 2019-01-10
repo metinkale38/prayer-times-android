@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.compass.classes.math;
+package com.metinkale.prayer.compass.magnetic.utils.math;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

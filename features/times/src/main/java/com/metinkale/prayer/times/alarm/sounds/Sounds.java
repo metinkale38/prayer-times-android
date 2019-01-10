@@ -188,16 +188,16 @@ public class Sounds {
                         sound.setShortName(Vakit.IMSAK.getString());
                     } else if (params.contains("Zuhr")) {
                         bundledSound.addSound(BundledSound.SoundType.Zuhr, sound);
-                        sound.setShortName(Vakit.OGLE.getString());
+                        sound.setShortName(Vakit.DHUHR.getString());
                     } else if (params.contains("Asr")) {
                         bundledSound.addSound(BundledSound.SoundType.Asr, sound);
-                        sound.setShortName(Vakit.IKINDI.getString());
+                        sound.setShortName(Vakit.ASR_THANI.getString());
                     } else if (params.contains("Magrib")) {
                         bundledSound.addSound(BundledSound.SoundType.Magrib, sound);
-                        sound.setShortName(Vakit.AKSAM.getString());
+                        sound.setShortName(Vakit.MAGHRIB.getString());
                     } else if (params.contains("Isha")) {
                         bundledSound.addSound(BundledSound.SoundType.Ishaa, sound);
-                        sound.setShortName(Vakit.YATSI.getString());
+                        sound.setShortName(Vakit.ISHAA.getString());
                     } else if (params.contains("Dua")) {
                         bundledSound.addSound(BundledSound.SoundType.Dua, sound);
                         sound.setShortName(App.get().getString(R.string.adhanDua));

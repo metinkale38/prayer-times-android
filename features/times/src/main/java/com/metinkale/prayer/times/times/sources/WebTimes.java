@@ -17,9 +17,6 @@
 package com.metinkale.prayer.times.times.sources;
 
 
-import androidx.annotation.NonNull;
-import androidx.collection.ArrayMap;
-import androidx.collection.ArraySet;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -32,6 +29,7 @@ import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.FastParser;
 import com.metinkale.prayer.utils.UUID;
 
@@ -43,15 +41,20 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.collection.ArraySet;
+
 
 public abstract class WebTimes extends Times {
-
+    
     @NonNull
     protected ArrayMap<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
     private long lastSync;
-
+    
     protected WebTimes(long id) {
         super(id);
         App.get().getHandler().post(new Runnable() {
@@ -61,7 +64,7 @@ public abstract class WebTimes extends Times {
             }
         });
     }
-
+    
     protected WebTimes() {
         super();
         App.get().getHandler().post(new Runnable() {
@@ -71,18 +74,19 @@ public abstract class WebTimes extends Times {
             }
         });
     }
-
-
+    
+    
     @NonNull
     public static Times add(@NonNull Source source, String city, String id, double lat, double lng) {
-        if (source == Source.Calc) throw new RuntimeException("Calc is not a WebTimes");
+        if (source == Source.Calc)
+            throw new RuntimeException("Calc is not a WebTimes");
         WebTimes t;
         try {
             t = (WebTimes) source.clz.getConstructor(long.class).newInstance(UUID.asInt());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);
@@ -90,59 +94,69 @@ public abstract class WebTimes extends Times {
         t.setId(id);
         t.setSortId(99);
         t.scheduleJob();
-
-        Answers.getInstance().logCustom(new CustomEvent("AddCity")
-                .putCustomAttribute("Source", source.name())
-                .putCustomAttribute("City", city)
-        );
+        
+        Answers.getInstance().logCustom(new CustomEvent("AddCity").putCustomAttribute("Source", source.name()).putCustomAttribute("City", city));
         return t;
     }
-
-
+    
+    
     @Override
     public void delete() {
         super.delete();
         if (jobId != -1)
             JobManager.instance().cancel(jobId);
     }
-
-    @Override
-    public String getTime(LocalDate date, int time) {
-        return super.getTime(date, time);
-    }
-
-
+    
+    
     String extractLine(String str) {
         str = str.substring(str.indexOf(">") + 1);
         str = str.substring(0, str.indexOf("</"));
         return str;
     }
-
-
-    @Override
-    protected synchronized String _getTime(@NonNull LocalDate date, int time) {
-        String str = times.get(date.toString("yyyy-MM-dd") + "-" + time);
+    
+    @Nullable
+    protected String getStrTime(LocalDate date, Vakit time) {
+        String str = times.get(date.toString("yyyy-MM-dd") + "-" + time.ordinal());
         if (str == null || str.isEmpty() || str.contains("00:00")) {
             return "00:00";
         }
         return str.replace("*", "");
     }
-
-    private synchronized void setTime(@NonNull LocalDate date, int time, @NonNull String value) {
-        if (isDeleted() || value.contains("00:00")) return;
-        times.put(date.toString("yyyy-MM-dd") + "-" + time, value.replace("*", ""));
+    
+    @Nullable
+    @Override
+    protected String getSabah(LocalDate date) {
+        return times.get(date.toString("yyyy-MM-dd") + "-SABAH");
+    }
+    
+    @Nullable
+    @Override
+    protected String getAsrThani(LocalDate date) {
+        return times.get(date.toString("yyyy-MM-dd") + "-ASRSANI");
+    }
+    
+    protected void setTime(@NonNull LocalDate date, Vakit time, @NonNull String value) {
+        if (isDeleted() || value.contains("00:00"))
+            return;
+        times.put(date.toString("yyyy-MM-dd") + "-" + time.ordinal(), value.replace("*", ""));
         save();
     }
-
-    void setTimes(@NonNull LocalDate date, @NonNull String[] value) {
-        if (isDeleted()) return;
-        for (int i = 0; i < value.length; i++) {
-            setTime(date, i, value[i]);
-        }
-
+    
+    protected void setSabah(@NonNull LocalDate date, @NonNull String value) {
+        if (isDeleted() || value.contains("00:00"))
+            return;
+        times.put(date.toString("yyyy-MM-dd") + "-SABAH", value.replace("*", ""));
+        save();
     }
-
-    public synchronized String getId() {
+    
+    protected void setAsrThani(@NonNull LocalDate date, @NonNull String value) {
+        if (isDeleted() || value.contains("00:00"))
+            return;
+        times.put(date.toString("yyyy-MM-dd") + "-ASRTHANI", value.replace("*", ""));
+        save();
+    }
+    
+    public String getId() {
         //TODO remove if after a few updates
         if (id.charAt(1) == '_' && 'A' <= id.charAt(0) && 'Z' >= id.charAt(0))//backwart support
         {
@@ -151,24 +165,26 @@ public abstract class WebTimes extends Times {
         }
         return id;
     }
-
-    public synchronized void setId(String id) {
+    
+    public void setId(String id) {
         this.id = id;
         save();
     }
-
-
+    
+    
     abstract boolean sync() throws ExecutionException, InterruptedException;
-
+    
     public void syncAsync() {
+        
         cleanTimes();
         if (!App.isOnline()) {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             scheduleJob();
             return;
         }
-        if (getId() == null) return;
-
+        if (getId() == null)
+            return;
+        
         new Thread("SyncWebTimes" + getId()) {
             @Override
             public void run() {
@@ -187,45 +203,34 @@ public abstract class WebTimes extends Times {
             }
         }.start();
     }
-
-
+    
+    
     private int getSyncedDays() {
         LocalDate date = LocalDate.now().plusDays(1);
         int i = 0;
         while (i < 45) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {
-                    this.times.get(prefix + 0),
-                    this.times.get(prefix + 1),
-                    this.times.get(prefix + 2),
-                    this.times.get(prefix + 3),
-                    this.times.get(prefix + 4),
-                    this.times.get(prefix + 5)
-            };
+            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+                    this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
-                if (time == null || time.contains("00:00")) return i;
+                if (time == null || time.contains("00:00"))
+                    return i;
             }
             i++;
             date = date.plusDays(1);
         }
         return i;
-
+        
     }
-
+    
     @NonNull
     public LocalDate getFirstSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;
         while (true) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {
-                    this.times.get(prefix + 0),
-                    this.times.get(prefix + 1),
-                    this.times.get(prefix + 2),
-                    this.times.get(prefix + 3),
-                    this.times.get(prefix + 4),
-                    this.times.get(prefix + 5)
-            };
+            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+                    this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
                 if (time == null || time.contains("00:00") || i > this.times.size())
                     return date.plusDays(1);
@@ -234,21 +239,15 @@ public abstract class WebTimes extends Times {
             date = date.minusDays(1);
         }
     }
-
+    
     @NonNull
     public LocalDate getLastSyncedDay() {
         LocalDate date = LocalDate.now();
         int i = 0;
         while (true) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {
-                    this.times.get(prefix + 0),
-                    this.times.get(prefix + 1),
-                    this.times.get(prefix + 2),
-                    this.times.get(prefix + 3),
-                    this.times.get(prefix + 4),
-                    this.times.get(prefix + 5)
-            };
+            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+                    this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
                 if (time == null || time.contains("00:00") || i > this.times.size())
                     return date.minusDays(1);
@@ -257,73 +256,59 @@ public abstract class WebTimes extends Times {
             date = date.plusDays(1);
         }
     }
-
-
+    
+    
     private void scheduleJob() {
         int syncedDays = getSyncedDays();
-
+        
         JobManager.create(App.get());
         if (syncedDays == 0 && System.currentTimeMillis() - lastSync < 1000 * 60 * 60) {
             lastSync = System.currentTimeMillis();
-            if (App.isOnline()) syncAsync();
+            if (App.isOnline())
+                syncAsync();
             else
-                jobId = new JobRequest.Builder(SyncJob.TAG + getID())
-                        .setExecutionWindow(1, TimeUnit.MINUTES.toMillis(3))
+                jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.MINUTES.toMillis(3))
                         .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                        .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL)
-                        .setUpdateCurrent(true)
-                        .build()
+                        .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL).setUpdateCurrent(true).build()
                         .schedule();
-
+            
         } else if (syncedDays < 3)
-            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
-                    .setExecutionWindow(1, TimeUnit.HOURS.toMillis(3))
-                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                    .setUpdateCurrent(true)
-                    .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobRequest.BackoffPolicy.EXPONENTIAL)
-                    .build()
-                    .schedule();
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.HOURS.toMillis(3))
+                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED).setUpdateCurrent(true)
+                    .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobRequest.BackoffPolicy.EXPONENTIAL).build().schedule();
         else if (syncedDays < 10)
-            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
-                    .setExecutionWindow(1, TimeUnit.DAYS.toMillis(3))
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.DAYS.toMillis(3))
                     .setBackoffCriteria(TimeUnit.DAYS.toMillis(1), JobRequest.BackoffPolicy.LINEAR)
-                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                    .setRequiresCharging(true)
-                    .setUpdateCurrent(true)
-                    .build()
-                    .schedule();
+                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED).setRequiresCharging(true).setUpdateCurrent(true).build().schedule();
         else if (syncedDays < 20)
-            jobId = new JobRequest.Builder(SyncJob.TAG + getID())
-                    .setExecutionWindow(1, TimeUnit.DAYS.toMillis(10))
+            jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.DAYS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
-                    .setBackoffCriteria(TimeUnit.DAYS.toMillis(3), JobRequest.BackoffPolicy.LINEAR)
-                    .setUpdateCurrent(true)
-                    .build()
-                    .schedule();
-
+                    .setBackoffCriteria(TimeUnit.DAYS.toMillis(3), JobRequest.BackoffPolicy.LINEAR).setUpdateCurrent(true).build().schedule();
+        
     }
-
-
+    
+    
     public class SyncJob extends Job {
         public static final String TAG = "WebTimesSyncJob";
-
+        
         @NonNull
         @Override
         protected Result onRunJob(Params params) {
-            if (!App.isOnline()) return Result.RESCHEDULE;
+            if (!App.isOnline())
+                return Result.RESCHEDULE;
             syncAsync();
             return Result.SUCCESS;
         }
-
-
+        
+        
         @Override
         protected void onReschedule(int newJobId) {
             jobId = newJobId;
         }
-
-
+        
+        
     }
-
+    
     private void cleanTimes() {
         Set<String> keys = new ArraySet<>();
         keys.addAll(times.keySet());
@@ -332,20 +317,23 @@ public abstract class WebTimes extends Times {
         int m = date.getMonthOfYear();
         List<String> remove = new ArrayList<>();
         for (String key : keys) {
-            if (key == null) continue;
+            if (key == null)
+                continue;
             int year = FastParser.parseInt(key.substring(0, 4));
-            if (year < y) keys.remove(key);
+            if (year < y)
+                keys.remove(key);
             else if (year == y) {
                 int month = FastParser.parseInt(key.substring(5, 7));
-                if (month < m) remove.add(key);
+                if (month < m)
+                    remove.add(key);
             }
         }
         times.removeAll(remove);
-
+        
     }
-
+    
     protected void clearTimes() {
         times.clear();
     }
-
+    
 }

@@ -39,8 +39,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    implementation 'com.otaliastudios:cameraview:1.6.0'
     playImplementation 'com.google.android.gms:play-services-maps:11.8.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-gcm:11.8.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-location:11.8.0' //excludeInFDroid

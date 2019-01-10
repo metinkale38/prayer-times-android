@@ -21,4 +21,10 @@
     <string name="touchToSelectCity">Touch here to select City</string>
     <string name="permissionNotGranted">Permission not granted.</string>
     <string name="compass_type_reminder">Click here to try different methods of finding the correct Qibla direction.</string>
+    <string name="compassCalibrationTitle">Calibrate your compass</string>
+    <string name="compassCalibrationSubTitle">Tilt and move your phone 3 times like this:</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="accuracy_low">Low</string>
+    <string name="accuracy_medium">Medium</string>
+    <string name="accuracy_high">High</string>
 </resources>

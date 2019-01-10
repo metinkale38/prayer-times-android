@@ -51,7 +51,7 @@
     <string name="addFromCSV">Add from CSV</string>
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
-    <string name="asrSani" translatable="false">Asr Sânî</string>
+    <string name="asrSani">Asr Sânî</string>
     <string name="noAdjustment">No adjustments</string>
     <string name="customCalc">Custom</string>
     <string name="customCalcDesc">Set custom calculation parameters</string>
@@ -80,4 +80,5 @@
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
     <string name="noti_afterTime">%1$s minutes before %2$s</string>
+    <string name="midnight">Midnight</string>
 </resources>

@@ -48,6 +48,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static sun.net.NetProperties.get;
+
 /**
  * ATTENTION: THIS CLASS IS VERY BAD WRITTEN
  */
@@ -198,7 +200,7 @@ public class Cities {
 
     private static void fetchIndonesiaKota(String id, int parent) {
 
-        String data = post("http://sihat.kemenag.go.id/site/get_kota_lintang", "q=" + id.replace(" ", "+"));
+        String data = HTTP.post("http://sihat.kemenag.go.id/site/get_kota_lintang", "q=" + id.replace(" ", "+"));
 
         for (data = data.substring(data.indexOf("<option value='") + 1);
              data.contains("option value=");
@@ -889,14 +891,14 @@ public class Cities {
                 + URLEncoder.encode(name.replace("+", " ")
                 .replace("ABD,", "USA,"))
                 + "&format=json&limit=1&email=" + MAIL_ADRESS + "&namedetails=1";
-        String data = onlyCache ? Cache.get(url) : get(url);
+        String data =get(url);
 
         List<Geocoder> result = null;
         try {
             result = new Gson().fromJson(data, new TypeToken<List<Geocoder>>() {
             }.getType());
         } catch (Exception exception) {
-            Cache.remove(url);
+        
         }
         if (result != null && result.size() != 0) {
             Geocoder gc = result.get(0);
@@ -929,7 +931,7 @@ public class Cities {
         }
 
         try {
-            String data = get("http://namazvakti.com/XML.php?cityID=" + entry.key.substring(2));
+            String data = HTTP.get("http://namazvakti.com/XML.php?cityID=" + entry.key.substring(2));
             String arzDer = extract(data, "arzDer");
             String arzDak = extract(data, "arzDak");
             String arzYon = extract(data, "arzYon");
@@ -984,85 +986,6 @@ public class Cities {
             }
         }
     }
-
-    private static String get(String Url) {
-        try {
-            String data = Cache.get(Url);
-            if (data == null) {
-
-
-                URL url = new URL(Url);
-                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
-                hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-                hc.connect();
-                int responseCode = hc.getResponseCode();
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(hc.getInputStream()));
-                String line;
-                data = "";
-                while ((line = in.readLine()) != null) {
-                    data += line + "\n";
-                }
-                in.close();
-
-                if (responseCode == 200 && !data.contains("Bad Request"))
-                    Cache.put(Url, data);
-
-
-            }
-            return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private static String post(String Url, String post) {
-        try {
-            String data = Cache.get(Url + post);
-            if (data == null) {
-
-
-                URL url = new URL(Url);
-                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
-                hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-                hc.setRequestProperty("Referer", "http://sihat.kemenag.go.id/waktu-sholat#");
-                hc.setRequestMethod("POST");
-                hc.setDoInput(true);
-                hc.setDoOutput(true);
-
-                OutputStream os = hc.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(post);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                hc.connect();
-                int responseCode = hc.getResponseCode();
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(hc.getInputStream()));
-                String line;
-                data = "";
-                while ((line = in.readLine()) != null) {
-                    data += line + "\n";
-                }
-                in.close();
-
-                if (responseCode == 200 && !data.contains("Bad Request"))
-                    Cache.put(Url + post, data);
-
-
-            }
-            return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     private static class Ilce {
         List<Sehir> ilceler = new ArrayList<>();
     }
