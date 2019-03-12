@@ -40,6 +40,7 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -56,52 +57,54 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.Size;
 import androidx.core.os.LocaleListCompat;
-import lombok.Data;
-import lombok.Getter;
 
 import static android.content.Context.UI_MODE_SERVICE;
 
 public class LocaleUtils {
-    
+
     private static int[] GMONTHS =
             new int[]{R.string.gmonth1, R.string.gmonth2, R.string.gmonth3, R.string.gmonth4, R.string.gmonth5, R.string.gmonth6, R.string.gmonth7,
                     R.string.gmonth8, R.string.gmonth9, R.string.gmonth10, R.string.gmonth11, R.string.gmonth12};
-    
+
     private static int[] HMONTHS =
             new int[]{R.string.hmonth1, R.string.hmonth2, R.string.hmonth3, R.string.hmonth4, R.string.hmonth5, R.string.hmonth6, R.string.hmonth7,
                     R.string.hmonth8, R.string.hmonth9, R.string.hmonth10, R.string.hmonth11, R.string.hmonth12};
-    
+
     private static int[] HOLYDAYS =
             new int[]{R.string.holyday1, R.string.holyday2, R.string.holyday3, R.string.holyday4, R.string.holyday5, R.string.holyday6,
                     R.string.holyday7, R.string.holyday8, R.string.holyday9, R.string.holyday10, R.string.holyday11, R.string.holyday12,
                     R.string.holyday13, R.string.holyday14, R.string.holyday15, R.string.holyday16, R.string.holyday17, R.string.holyday18};
-    
-    @Getter
+
+
     private static final LocaleListCompat DEFAULT_LOCALES = LocaleListCompat.getDefault();
-    
+
+    public static LocaleListCompat getDefaultLocales() {
+        return DEFAULT_LOCALES;
+    }
+
     public static void init(@NonNull Context c) {
         initLocale(c);
-        
+
         UiModeManager systemService = (UiModeManager) c.getSystemService(UI_MODE_SERVICE);
         if (systemService != null)
             systemService.setNightMode(UiModeManager.MODE_NIGHT_NO);
-        
-        
+
+
         int year = LocalDate.now().getYear();
-        
+
         if (year != Preferences.LAST_CAL_SYNC.get()) {
             MainIntentService.startCalendarIntegration(c);
             Preferences.LAST_CAL_SYNC.set(year);
         }
-        
+
     }
-    
-    public static void initLocale(Context c) {
+
+    private static void initLocale(Context c) {
         Crashlytics.setString("lang", Preferences.LANGUAGE.get());
         Crashlytics.setString("digits", Preferences.DIGITS.get());
         Configuration config = new Configuration();
-        
-        
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             LocaleList localeList = getLocales();
             LocaleList.setDefault(localeList);
@@ -115,11 +118,11 @@ public class LocaleUtils {
             config.locale = locale;
             Locale.setDefault(locale);
         }
-        
+
         c.getResources().updateConfiguration(config, c.getResources().getDisplayMetrics());
     }
-    
-    
+
+
     public static CharSequence formatTimeForHTML(LocalTime localTime) {
         String time = formatTime(localTime);
         if (!Preferences.CLOCK_12H.get()) {
@@ -129,15 +132,15 @@ public class LocaleUtils {
         if (d < 0)
             return time;
         time = time.replace(" ", "");
-        
+
         int s = time.length();
         Spannable span = new SpannableString(time);
         span.setSpan(new SuperscriptSpan(), d, s, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new RelativeSizeSpan(0.5f), d, s, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return span;
     }
-    
-    
+
+
     @NonNull
     public static String formatTime(LocalTime localTime) {
         String time = localTime == null ? "00:00" : localTime.toString("HH:mm");
@@ -145,8 +148,8 @@ public class LocaleUtils {
             try {
                 String fix = time.substring(0, time.indexOf(":"));
                 String suffix = time.substring(time.indexOf(":"));
-                
-                
+
+
                 int hour = Integer.parseInt(fix);
                 if (hour == 0) {
                     time = "00" + suffix + " AM";
@@ -163,21 +166,21 @@ public class LocaleUtils {
             }
         }
         return toArabicNrs(time);
-        
+
     }
-    
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     public static LocaleList getLocales() {
         return LocaleList.forLanguageTags(getLocalesCompat().toLanguageTags());
     }
-    
-    
+
+
     @NonNull
     public static LocaleListCompat getLocalesCompat() {
         if ("system".equals(Preferences.LANGUAGE.get()))
             return DEFAULT_LOCALES;
-        
+
         Locale locale = LocaleUtils.getLocale();
         ArrayList<Locale> locales = new ArrayList<>(DEFAULT_LOCALES.size() + 1);
         locales.add(LocaleUtils.getLocale());
@@ -189,7 +192,7 @@ public class LocaleUtils {
         }
         return LocaleListCompat.create(locales.toArray(new Locale[0]));
     }
-    
+
     @NonNull
     public static Locale getLocale() {
         String language = Preferences.LANGUAGE.get();
@@ -198,8 +201,8 @@ public class LocaleUtils {
         else
             return new Locale(language);
     }
-    
-    
+
+
     @NonNull
     public static String getLanguage(@Size(min = 1) String... allow) {
         Locale lang = LocaleUtils.getLocale();
@@ -207,34 +210,34 @@ public class LocaleUtils {
         for (int i = 0; i < allow.length; i++) {
             locales[i] = new Locale(allow[i]);
         }
-        
+
         for (int i = 0; i < locales.length; i++) {
             if (lang.getLanguage().equals(locales[i].getLanguage()))
                 return allow[i];
         }
-        
+
         return allow[0];
     }
-    
+
     @NonNull
     public static String getHolyday(@IntRange(from = 1, to = 18) int which) {
         return App.get().getResources().getString(HOLYDAYS[which - 1]);
     }
-    
+
     @NonNull
-    public static String getGregMonth(@IntRange(from = 0, to = 11) int which) {
+    private static String getGregMonth(@IntRange(from = 0, to = 11) int which) {
         if (Preferences.LANGUAGE.get().equals("system"))
             return new DateFormatSymbols(getLocale()).getMonths()[which];
         else
             return App.get().getResources().getString(GMONTHS[which]);
     }
-    
+
     @NonNull
-    public static String getHijriMonth(@IntRange(from = 0, to = 11) int which) {
+    private static String getHijriMonth(@IntRange(from = 0, to = 11) int which) {
         return App.get().getResources().getString(HMONTHS[which]);
     }
-    
-    
+
+
     @NonNull
     public static String az(int i) {
         if (i < 10) {
@@ -242,24 +245,24 @@ public class LocaleUtils {
         }
         return i + "";
     }
-    
+
     @NonNull
     private static String getDateFormat(boolean hicri) {
         return hicri ? Preferences.HIJRI_DATE_FORMAT.get() : Preferences.DATE_FORMAT.get();
     }
-    
+
     @NonNull
-    public static String format(@NonNull HijriDate date) {
+    public static String formatDate(@NonNull HijriDate date) {
         String format = getDateFormat(true);
         format = format.replace("DD", az(date.getDay(), 2));
-        
+
         if (format.contains("MMM")) {
             try {
                 format = format.replace("MMM", getHijriMonth(date.getMonth() - 1));
-                
+
             } catch (ArrayIndexOutOfBoundsException ex) {
                 Crashlytics.logException(ex);
-                
+
                 return "";
             }
         }
@@ -268,20 +271,20 @@ public class LocaleUtils {
         format = format.replace("YY", az(date.getYear(), 2));
         return toArabicNrs(format);
     }
-    
-    
-    @Nullable
-    public static String format(@NonNull LocalDate date) {
+
+
+    @NonNull
+    public static String formatDate(@NonNull LocalDate date) {
         String format = getDateFormat(false);
         format = format.replace("DD", az(date.getDayOfMonth(), 2));
-        
+
         try {
             format = format.replace("MMM", getGregMonth(date.getMonthOfYear() - 1));
-            
-            
+
+
         } catch (ArrayIndexOutOfBoundsException ex) {
             Crashlytics.logException(ex);
-            
+
             return "";
         }
         format = format.replace("MM", az(date.getMonthOfYear(), 2));
@@ -289,7 +292,7 @@ public class LocaleUtils {
         format = format.replace("YY", az(date.getYear(), 2));
         return toArabicNrs(format);
     }
-    
+
     @NonNull
     private static String az(int Int, int num) {
         String ret = Int + "";
@@ -300,11 +303,11 @@ public class LocaleUtils {
         } else if (ret.length() > num) {
             ret = ret.substring(ret.length() - num, ret.length());
         }
-        
+
         return ret;
     }
-    
-    
+
+
     @NonNull
     public static String toArabicNrs(@NonNull String str) {
         if (Preferences.DIGITS.get().equals("normal"))
@@ -325,17 +328,29 @@ public class LocaleUtils {
         }
         return builder.toString();
     }
-    
+
     @NonNull
     public static String toArabicNrs(int nr) {
         return toArabicNrs(nr + "");
     }
-    
-    @Data
+
     public static class Translation {
         private final String language;
         private final int progress;
-        
+
+        public Translation(String language, int progress) {
+            this.language = language;
+            this.progress = progress;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public int getProgress() {
+            return progress;
+        }
+
         public String getDisplayLanguage() {
             if (language.equals("system"))
                 return App.get().getResources().getString(R.string.systemLanguage);
@@ -344,7 +359,7 @@ public class LocaleUtils {
             Locale locale = new Locale(language);
             return locale.getDisplayLanguage(locale);
         }
-        
+
         public CharSequence getDisplayText() {
             if (getProgress() < 0)
                 return getDisplayLanguage();
@@ -352,7 +367,7 @@ public class LocaleUtils {
                 return Html.fromHtml(getDisplayLanguage() + "&nbsp;<small>(" + getProgress() + "%)</small>");
         }
     }
-    
+
     public static List<Translation> getSupportedLanguages(Context c) {
         String[] languages = c.getResources().getStringArray(R.array.languages);
         List<Translation> translations = new ArrayList<>();
@@ -366,33 +381,48 @@ public class LocaleUtils {
                 translations.add(new Translation(lang, progress));
             }
         }
-        
+
         Collections.sort(translations, new Comparator<Translation>() {
             @Override
             public int compare(Translation t1, Translation t2) {
                 return t1.getProgress() <= t2.getProgress() ? 1 : -1;
             }
         });
-        
+
         translations.add(0, new Translation("system", -1));
         return translations;
     }
-    
+
     private static final PeriodFormatter PERIOD_FORMATTER_HMS =
             new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
                     .appendMinutes().appendLiteral(":").appendSeconds().toFormatter();
     private static final PeriodFormatter PERIOD_FORMATTER_HM =
             new PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours().appendLiteral(":").minimumPrintedDigits(2)
                     .appendMinutes().toFormatter();
-    
-    
+
+
+    public static String formatPeriod(ReadableInstant from, ReadableInstant to) {
+        return formatPeriod(new Period(from, to, PeriodType.dayTime()), false);
+    }
+
+
+    public static String formatPeriod(ReadablePartial from, ReadablePartial to) {
+        return formatPeriod(new Period(from, to, PeriodType.dayTime()), false);
+    }
+
+
     public static String formatPeriod(ReadableInstant from, ReadableInstant to, boolean showSecs) {
         return formatPeriod(new Period(from, to, PeriodType.dayTime()), showSecs);
     }
-    
+
+
+    public static String formatPeriod(ReadablePartial from, ReadablePartial to, boolean showSecs) {
+        return formatPeriod(new Period(from, to, PeriodType.dayTime()), showSecs);
+    }
+
     public static String formatPeriod(Period period, boolean showsecs) {
         if (showsecs) {
-            
+
             return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
         } else if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_FLOOR)) {
             return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
@@ -400,9 +430,9 @@ public class LocaleUtils {
             period = period.withFieldAdded(DurationFieldType.minutes(), 1);
             return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
         }
-        
+
     }
-    
+
     public static String readableSize(int bytes) {
         int unit = 1024;
         if (bytes < unit)
@@ -411,5 +441,5 @@ public class LocaleUtils {
         char pre = "kMGTPE".charAt(exp - 1);
         return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
-    
+
 }

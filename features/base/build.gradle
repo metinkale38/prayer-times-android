@@ -29,7 +29,7 @@ buildscript {
 }
 
 
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 apply plugin: 'io.fabric'  //excludeInFDroid
 
 android {
@@ -38,14 +38,13 @@ android {
             res.srcDirs += 'src/main/translations'
         }
     }
-    baseFeature true
 
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 194
         versionName '3.7'
         vectorDrawables.useSupportLibrary = true
@@ -81,24 +80,11 @@ android {
 crashlytics { instantAppSupport true }
 
 dependencies {
-    application project(":app")
-    feature project(':features:compass')
-    feature project(':features:times')
-    feature project(':features:intro')
-    feature project(':features:tesbihat')
-    feature project(':features:widget')
-    feature project(':features:about')
-    feature project(':features:calendar')
-    feature project(':features:dhikr')
-    feature project(':features:hadith')
-    feature project(':features:missedprayers')
-    feature project(':features:names')
-    feature project(':features:settings')
 
-    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.multidex:multidex:2.0.0'
     api 'org.metinkale:praytimes:0.9.3.5'
 
-    playApi('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {//excludeInFDroid
+    playApi('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {//excludeInFDroid
         transitive = true//excludeInFDroid
     }//excludeInFDroid
     api 'com.google.android.play:core:1.3.6'
@@ -118,17 +104,15 @@ dependencies {
     api 'com.koushikdutta.ion:ion:2.2.1'
     api 'net.steamcrafted:materialiconlib:1.1.5'
     api 'com.evernote:android-job:1.2.6'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     api 'us.feras.mdv:markdownview:1.1.0'
     api "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    api "androidx.room:room-runtime:2.1.0-alpha03"
+    api "androidx.room:room-runtime:2.1.0-alpha04"
     api 'androidx.media:media:1.0.0'
 
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha02"// alpha03 is buggy!
 }

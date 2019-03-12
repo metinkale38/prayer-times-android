@@ -34,6 +34,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -53,9 +54,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapter.ItemVH> {
     private final RecyclerView mRecyclerView;
@@ -66,9 +64,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     private Sound mSelected;
     private int volume = -1;
     private MyPlayer mPlayer;
-    @Setter @Accessors(prefix = "m")
     private OnClickListener mOnItemClickListener;
-    @Setter @Accessors(prefix = "m")
     private boolean mShowRadioButton = true;
 
     public interface OnClickListener {
@@ -268,7 +264,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
         final Context ctx = v.getContext();
         AlertDialog dialog = new AlertDialog.Builder(ctx).create();
         dialog.setTitle(R.string.sound);
-        dialog.setMessage(ctx.getString(R.string.dlSound, name, Utils.readableSize(size)));
+        dialog.setMessage(ctx.getString(R.string.dlSound, name, LocaleUtils.readableSize(size)));
         dialog.setCancelable(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, ctx.getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
@@ -330,9 +326,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
             }
         });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, ctx.getString(R.string.no), new DialogInterface.OnClickListener()
-
-        {
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, ctx.getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
@@ -389,22 +383,22 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
             mPlayer.volume(volume);
     }
 
+    public void setOnItemClickListener(OnClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    public void setShowRadioButton(boolean mShowRadioButton) {
+        this.mShowRadioButton = mShowRadioButton;
+    }
+
     public static class ItemVH extends RecyclerView.ViewHolder {
-        @Getter
         private View view;
-        @Getter
         private MaterialIconView action;
-        @Getter
         private MaterialIconView expand;
-        @Getter
         private SeekBar seekbar;
-        @Getter
         private RadioButton radio;
-        @Getter
         private RadioButton staticRadio;
-        @Getter
         private TextView text;
-        @Getter @Setter
         private MyPlayer player;
 
         ItemVH(ViewGroup parent) {
@@ -433,6 +427,42 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                 }
                 setPlayer(null);
             }
+        }
+
+        public MyPlayer getPlayer() {
+            return player;
+        }
+
+        public void setPlayer(MyPlayer player) {
+            this.player = player;
+        }
+
+        public View getView() {
+            return view;
+        }
+
+        public MaterialIconView getAction() {
+            return action;
+        }
+
+        public MaterialIconView getExpand() {
+            return expand;
+        }
+
+        public SeekBar getSeekbar() {
+            return seekbar;
+        }
+
+        public RadioButton getRadio() {
+            return radio;
+        }
+
+        public RadioButton getStaticRadio() {
+            return staticRadio;
+        }
+
+        public TextView getText() {
+            return text;
         }
     }
 }

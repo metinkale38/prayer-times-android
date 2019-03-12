@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
 
@@ -79,14 +80,16 @@ public class IndonesiaTimes extends WebTimes {
         for (Map.Entry<String, JsonElement> entry : result.entrySet()) {
             LocalDate ld = LocalDate.parse(entry.getKey());
             JsonObject day = entry.getValue().getAsJsonObject();
-            setTimes(ld, new String[]{day.get("imsak").getAsString(),
-                    day.get("terbit").getAsString(),
-                    day.get("dzuhur").getAsString(),
-                    day.get("ashar").getAsString(),
-                    day.get("maghrib").getAsString(),
-                    day.get("isya").getAsString(),
-                    day.get("subuh").getAsString()});
+            setTime(ld, Vakit.FAJR, day.get("imsak").getAsString());
+            setTime(ld, Vakit.SUN, day.get("terbit").getAsString());
+            setTime(ld, Vakit.DHUHR, day.get("dzuhur").getAsString());
+            setTime(ld, Vakit.ASR, day.get("ashar").getAsString());
+            setTime(ld, Vakit.MAGHRIB, day.get("maghrib").getAsString());
+            setTime(ld, Vakit.ISHAA, day.get("isya").getAsString());
+            setSabah(ld, day.get("subuh").getAsString());
             i++;
+
+
         }
 
         return i;

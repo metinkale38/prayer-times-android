@@ -31,8 +31,12 @@ import com.metinkale.prayer.times.times.Cities;
 import com.metinkale.prayer.times.times.Entry;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -43,15 +47,15 @@ import static android.location.LocationManager.KEY_LOCATION_CHANGED;
 @SuppressWarnings("MissingPermission")
 public class LocationReceiver extends BroadcastReceiver {
     private static long sLastLocationUpdate;
-    
+
     public LocationReceiver() {
     }
-    
+
     private static boolean hasPermission(Context c) {
         return ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
-    
+
     private static boolean useAutoLocation() {
         List<Times> times = Times.getTimes();
         for (Times t : times) {
@@ -61,21 +65,21 @@ public class LocationReceiver extends BroadcastReceiver {
         }
         return false;
     }
-    
+
     public static void start(Context c) {
         if (!hasPermission(c) || !useAutoLocation())
             return;
-        
+
         LocationManager lm = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
         lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000 * 60 * 30, 5000, getPendingIntent(c));
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 60 * 30, 5000, getPendingIntent(c));
     }
-    
+
     private static PendingIntent getPendingIntent(Context c) {
         Intent i = new Intent(c, LocationReceiver.class);
         return PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-    
+
     public static void triggerUpdate(Context c) {
         if (!hasPermission(c) || !useAutoLocation())
             return;
@@ -84,7 +88,7 @@ public class LocationReceiver extends BroadcastReceiver {
             lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, getPendingIntent(c));
         }
     }
-    
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Location location = intent.getParcelableExtra(KEY_LOCATION_CHANGED);
@@ -92,7 +96,7 @@ public class LocationReceiver extends BroadcastReceiver {
         final double lat = location.getLatitude();
         final double lng = location.getLongitude();
         final double elv = location.getAltitude();
-        
+
         Cities.get().search(lat, lng, new Cities.Callback<List<Entry>>() {
             @Override
             public void onResult(List<Entry> result) {
@@ -103,16 +107,26 @@ public class LocationReceiver extends BroadcastReceiver {
                         for (Entry e : result) {
                             if (t.getSource() == e.getSource()) {
                                 if (e.getSource() == Source.Calc) {
-                                    String oldtimes[] =
-                                            {t.getCurrentTime(0), t.getCurrentTime(1), t.getCurrentTime(2), t.getCurrentTime(3), t.getCurrentTime(4), t.getCurrentTime(5), t.getCurrentTime(6)};
+
+
+                                    LocalDate today = LocalDate.now();
+                                    LocalDateTime oldtimes[] =
+                                            {t.getTime(today, Vakit.FAJR.ordinal()),
+                                                    t.getTime(today, Vakit.SUN.ordinal()),
+                                                    t.getTime(today, Vakit.DHUHR.ordinal()),
+                                                    t.getTime(today, Vakit.ASR.ordinal()),
+                                                    t.getTime(today, Vakit.MAGHRIB.ordinal()),
+                                                    t.getTime(today, Vakit.ISHAA.ordinal())};
                                     ((CalcTimes) t).getPrayTimes().setCoordinates(lat, lng, elv);
                                     t.setName(e.getName());
-                                    for (int i = 0; i < oldtimes.length; i++) {
-                                        if (oldtimes[i].equals(t.getCurrentTime(i))) {
+                                    for (Vakit v : Vakit.values()) {
+                                        if (oldtimes[v.ordinal()].equals(t.getTime(today, v.ordinal()))) {
                                             updated = true;
                                             break;
                                         }
                                     }
+
+
                                 } else {
                                     t.setName(e.getName());
                                     if (!((WebTimes) t).getId().equals(e.getKey())) {
@@ -135,6 +149,6 @@ public class LocationReceiver extends BroadcastReceiver {
             }
         });
     }
-    
-    
+
+
 }

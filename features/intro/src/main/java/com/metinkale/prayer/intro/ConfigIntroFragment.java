@@ -27,6 +27,7 @@ import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.AlarmsFragment;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.times.Vakit;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -132,7 +133,7 @@ public class ConfigIntroFragment extends IntroFragment {
         List<Times> times = Times.getTimes();
         for (Times time : times) {
             if (mTimes == null) mTimes = time;
-            if (!time.getCurrentTime(LocalDate.now().withDayOfMonth(1), 3).equals("00:00")) {
+            if (!time.getTime(LocalDate.now().withDayOfMonth(1), Vakit.DHUHR.ordinal()).equals("00:00")) {
                 mTimes = time;
                 break;
             }

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 
 android {
     sourceSets {
@@ -41,8 +41,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
 
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha01"
 }

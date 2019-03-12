@@ -26,6 +26,7 @@ import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Vakit;
+import com.metinkale.prayer.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +40,6 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Cleanup;
 
 public class Sounds {
     private static final List<Sound> sSounds = new ArrayList<>();
@@ -108,16 +107,18 @@ public class Sounds {
                 if (exp != null) {
                     Crashlytics.logException(exp);
                 } else {
+                    FileOutputStream outputStream = null;
                     try {
                         if (!new JSONObject(result).getString("name").equals("sounds")) return;
 
-                        @Cleanup
-                        FileOutputStream outputStream = App.get().openFileOutput("sounds.json", Context.MODE_PRIVATE);
+                        outputStream = App.get().openFileOutput("sounds.json", Context.MODE_PRIVATE);
                         outputStream.write(result.getBytes());
 
                         loadSounds();
                     } catch (Exception e) {
                         Crashlytics.logException(e);
+                    } finally {
+                        Utils.close(outputStream);
                     }
                 }
                 onFinish2.run();
@@ -129,9 +130,9 @@ public class Sounds {
         if (!sSounds.isEmpty()) return;
         String json = null;
 
+        BufferedReader br = null;
         try {
-            @Cleanup
-            BufferedReader br = new BufferedReader(new InputStreamReader(App.get().openFileInput("sounds.json")));
+            br = new BufferedReader(new InputStreamReader(App.get().openFileInput("sounds.json")));
             StringBuilder text = new StringBuilder();
             String line;
 
@@ -142,6 +143,8 @@ public class Sounds {
             json = text.toString();
         } catch (IOException e) {
             Crashlytics.logException(e);
+        } finally {
+            Utils.close(br);
         }
         if (json == null) {
             return;
@@ -185,13 +188,13 @@ public class Sounds {
                         sound.setShortName(App.get().getString(R.string.takbir));
                     } else if (params.contains("Fajr")) {
                         bundledSound.addSound(BundledSound.SoundType.Fajr, sound);
-                        sound.setShortName(Vakit.IMSAK.getString());
+                        sound.setShortName(Vakit.FAJR.getString());
                     } else if (params.contains("Zuhr")) {
                         bundledSound.addSound(BundledSound.SoundType.Zuhr, sound);
                         sound.setShortName(Vakit.DHUHR.getString());
                     } else if (params.contains("Asr")) {
                         bundledSound.addSound(BundledSound.SoundType.Asr, sound);
-                        sound.setShortName(Vakit.ASR_THANI.getString());
+                        sound.setShortName(Vakit.ASR.getString());
                     } else if (params.contains("Magrib")) {
                         bundledSound.addSound(BundledSound.SoundType.Magrib, sound);
                         sound.setShortName(Vakit.MAGHRIB.getString());

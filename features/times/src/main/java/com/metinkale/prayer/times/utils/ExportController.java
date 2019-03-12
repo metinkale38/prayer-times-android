@@ -108,12 +108,12 @@ public class ExportController {
             do {
                 y += 20;
                 canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, FAJR).toLocalTime().toString(), 30 + (1.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, SUN).toLocalTime().toString(), 30 + (2.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, DHUHR).toLocalTime().toString(), 30 + (3.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, ASR).toLocalTime().toString(), 30 + (4.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, MAGHRIB).toLocalTime().toString(), 30 + (5.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, ISHAA).toLocalTime().toString(), 30 + (6.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, FAJR.ordinal()).toLocalTime().toString(), 30 + (1.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, SUN.ordinal()).toLocalTime().toString(), 30 + (2.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, DHUHR.ordinal()).toLocalTime().toString(), 30 + (3.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, ASR.ordinal()).toLocalTime().toString(), 30 + (4.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, MAGHRIB.ordinal()).toLocalTime().toString(), 30 + (5.5f * cw), y, paint);
+                canvas.drawText(times.getTime(from, ISHAA.ordinal()).toLocalTime().toString(), 30 + (6.5f * cw), y, paint);
             } while (!(from = from.plusDays(1)).isAfter(to));
             document.finishPage(page);
             
@@ -155,12 +155,12 @@ public class ExportController {
         
         do {
             outputStream.write((from.toString("yyyy-MM-dd") + ";").getBytes());
-            outputStream.write((times.getTime(from, FAJR).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, SUN).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, DHUHR).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, ASR).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, MAGHRIB).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, ISHAA).toLocalTime().toString() + "\n").getBytes());
+            outputStream.write((times.getTime(from, FAJR.ordinal()).toLocalTime().toString() + ";").getBytes());
+            outputStream.write((times.getTime(from, SUN.ordinal()).toLocalTime().toString() + ";").getBytes());
+            outputStream.write((times.getTime(from, DHUHR.ordinal()).toLocalTime().toString() + ";").getBytes());
+            outputStream.write((times.getTime(from, ASR.ordinal()).toLocalTime().toString() + ";").getBytes());
+            outputStream.write((times.getTime(from, MAGHRIB.ordinal()).toLocalTime().toString() + ";").getBytes());
+            outputStream.write((times.getTime(from, ISHAA.ordinal()).toLocalTime().toString() + "\n").getBytes());
         } while (!(from = from.plusDays(1)).isAfter(to));
         outputStream.close();
         

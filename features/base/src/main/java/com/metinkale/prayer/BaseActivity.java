@@ -50,17 +50,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 public class BaseActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, AdapterView.OnItemClickListener {
     
     
     private final int mTitleRes;
-    @Getter
-    @Setter
-    @Accessors(prefix = "m")
     private Fragment mDefaultFragment;
     private final int mIconRes;
     
@@ -97,7 +90,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleUtils.initLocale(this);
+        LocaleUtils.init(this);
         //AppRatingDialog.increaseAppStarts();
         
         if (Preferences.SHOW_INTRO.get() || Preferences.CHANGELOG_VERSION.get() < BuildConfig.CHANGELOG_VERSION) {
@@ -121,13 +114,12 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         ArrayAdapter<Module> list = buildNavAdapter(this);
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(this);
-        
-        final int title = mTitleRes;
+
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
                 if (mToolbar != null) {
-                    mToolbar.setTitle(title);
+                    mToolbar.setTitle(mTitleRes);
                 }
             }
         });
@@ -326,5 +318,13 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         public void moveToFrag(Fragment frag) {
             getBaseActivity().moveToFrag(frag);
         }
+    }
+
+    public Fragment getDefaultFragment() {
+        return mDefaultFragment;
+    }
+
+    public void setDefaultFragment(Fragment mDefaultFragment) {
+        this.mDefaultFragment = mDefaultFragment;
     }
 }

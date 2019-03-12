@@ -15,7 +15,6 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
     
     
     public static void loadAll() {
-        loadClass("com.metinkale.prayer.LanguageChangeReceiver");
         loadClass("com.metinkale.prayer.times.TimesBroadcastReceiver");
         loadClass("com.metinkale.prayer.times.OngoingNotificationsReceiver");
         loadClass("com.metinkale.prayerapp.vakit.WidgetUtils");

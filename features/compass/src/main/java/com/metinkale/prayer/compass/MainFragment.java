@@ -144,11 +144,12 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             }
         } else if (mSwitch == item) {
             Preferences.SHOW_COMPASS_NOTE.set(false);
+            // compass >> time >> map
             if (mMode == Mode.Map) {
                 updateFrag(Mode.Compass);
                 mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK).setColor(Color.WHITE)
                         .setToActionbarSize().build());
-            } else if (mMode != Mode.Time && PermissionUtils.get(getActivity()).pLocation) {
+            } else if (mMode == Mode.Compass) {
                 updateFrag(Mode.Time);
                 mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MAP).setColor(Color.WHITE)
                         .setToActionbarSize().build());
@@ -183,10 +184,12 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         if (mMode != mode) {
             FragmentManager fragmentManager = getChildFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (mode == Mode.Compass) {
+            //noinspection ConstantConditions
+            if (mode == Mode.Compass ||(mode == Mode.Map && !BuildConfig.FLAVOR.equals("play"))) {
                 MagneticCompass frag = new MagneticCompass();
                 mList = frag;
                 fragmentTransaction.replace(R.id.frag, frag, "compass");
+                mode = Mode.Compass;
             } else if (mode == Mode.Map) {
                 com.metinkale.prayer.compass.FragMap frag = new com.metinkale.prayer.compass.FragMap();
                 mList = null;

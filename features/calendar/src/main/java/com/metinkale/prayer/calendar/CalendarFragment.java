@@ -51,7 +51,7 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
 
         ViewPager viewPager = v.findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(LocalDate.now().getYear() - HijriDate.getMIN_YEAR());
+        viewPager.setCurrentItem(LocalDate.now().getYear() - HijriDate.getMinYear());
         return v;
     }
 
@@ -115,21 +115,21 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
                 position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
-            args.putInt(YearFragment.YEAR, position + HijriDate.getMIN_YEAR());
+            args.putInt(YearFragment.YEAR, position + HijriDate.getMaxYear());
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return HijriDate.getMAX_YEAR() - HijriDate.getMIN_YEAR();
+            return HijriDate.getMaxYear() - HijriDate.getMinYear();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
-            return LocaleUtils.toArabicNrs(position + HijriDate.getMIN_YEAR());
+            return LocaleUtils.toArabicNrs(position + HijriDate.getMinYear());
         }
     }
 

@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
@@ -94,8 +95,13 @@ public class MoroccoTimes extends WebTimes {
                 String aksam = extract(zeiten[++i]);
                 String yatsi = extract(zeiten[++i]);
 
-                
-                setTimes(new LocalDate(year, month, day), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
+                LocalDate localDate = new LocalDate(year, month, day);
+                setTime(localDate, Vakit.FAJR, imsak);
+                setTime(localDate, Vakit.SUN, gunes);
+                setTime(localDate, Vakit.DHUHR, ogle);
+                setTime(localDate, Vakit.ASR, ikindi);
+                setTime(localDate, Vakit.MAGHRIB, aksam);
+                setTime(localDate, Vakit.ISHAA, yatsi);
                 x++;
             }
 

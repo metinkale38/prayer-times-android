@@ -30,20 +30,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 
 public class AppSound extends Sound {
 
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+
     private String name;
-    @Getter @Setter(AccessLevel.PACKAGE)
     private String shortName;
-    @Getter
     private final String md5;
-    @Getter
     private final int size;
     private final String url;
 
@@ -115,4 +109,30 @@ public class AppSound extends Sound {
     }
 
 
+    void setName(String name) {
+        this.name = name;
+    }
+
+    void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getShortName() {
+        return shortName;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
 }

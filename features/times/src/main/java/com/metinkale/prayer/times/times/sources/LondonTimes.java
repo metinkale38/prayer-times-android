@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -81,7 +82,7 @@ public class LondonTimes extends WebTimes {
         }
 
         Result r = Ion.with(App.get())
-                .load("https://www.londonprayertimes.com/api/times/?format=json&key=1e6f7b94-542d-4ff7-94cc-e9c8e0bd2e64&year=" + LocalDate.now().getYear())
+                .load("https://www.londonprayertimes.com/api/times/?formatDate=json&key=1e6f7b94-542d-4ff7-94cc-e9c8e0bd2e64&year=" + LocalDate.now().getYear())
                 .setTimeout(3000)
                 .userAgent(App.getUserAgent())
                 .as(Result.class)
@@ -92,8 +93,14 @@ public class LondonTimes extends WebTimes {
         for (Times t : r.times.values()) {
             t.fixTimes();
 
-            setTimes(LocalDate.parse(t.date, pattern),
-                    new String[]{t.fajr, t.sunrise, t.dhuhr, t.asr, t.magrib, t.isha, t.fajr, t.asr_2});
+            LocalDate ld = LocalDate.parse(t.date, pattern);
+            setTime(ld, Vakit.FAJR, t.fajr);
+            setTime(ld, Vakit.SUN, t.sunrise);
+            setTime(ld, Vakit.DHUHR, t.dhuhr);
+            setTime(ld, Vakit.ASR, t.asr);
+            setTime(ld, Vakit.MAGHRIB, t.magrib);
+            setTime(ld, Vakit.ISHAA, t.isha);
+            setAsrThani(ld, t.asr_2);
             i++;
         }
 
@@ -164,7 +171,6 @@ public class LondonTimes extends WebTimes {
         }
 
     }
-
 
 
 }

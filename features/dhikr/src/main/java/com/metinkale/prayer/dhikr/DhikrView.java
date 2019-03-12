@@ -27,13 +27,10 @@ import android.view.View;
 import com.metinkale.prayer.dhikr.data.Dhikr;
 
 import androidx.annotation.NonNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 public class DhikrView extends View {
     private final Paint mPaint = new Paint();
-    @Getter @Setter @Accessors(prefix = "m")
+
     private Dhikr mDhikr;
 
     @NonNull
@@ -117,5 +114,13 @@ public class DhikrView extends View {
         float x = mMotionEvent.getRawX() - coords[0] - radius;
         float y = mMotionEvent.getRawY() - coords[1] - radius;
         return Math.sqrt(x * x + y * y) < radius * 0.90 && super.performClick();
+    }
+
+    public Dhikr getDhikr() {
+        return mDhikr;
+    }
+
+    public void setDhikr(Dhikr mDhikr) {
+        this.mDhikr = mDhikr;
     }
 }

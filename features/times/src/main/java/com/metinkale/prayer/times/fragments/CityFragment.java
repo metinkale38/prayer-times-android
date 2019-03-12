@@ -91,13 +91,13 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 if (mTimes.isAutoLocation())
                     mTitle.setText(mTimes.getName());
                 
-                Vakit next = mTimes.getNextTime();
+                int next = mTimes.getNextTime();
                 if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
-                    next = next.nextTime();
+                    next = next + 1;
                 for (int i = 0; i < 6; i++) {
                     TextView time = mPrayerTimes[i];
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == next.ordinal() - 1) {
+                    if (i == next - 1) {
                         time.setBackgroundResource(R.color.accent);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.accent);
                     } else {
@@ -117,7 +117,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     if (!(sabah.toLocalTime().equals(LocalTime.MIDNIGHT))) {
                         if (mThreeSecondCounter % 6 == 0) {
                             mPrayerTitles[Vakit.FAJR.ordinal()].setText(Vakit.FAJR.getString(0));
-                            mPrayerTimes[Vakit.FAJR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(date, Vakit.FAJR).toLocalTime()));
+                            mPrayerTimes[Vakit.FAJR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(date, Vakit.FAJR.ordinal()).toLocalTime()));
                         } else {
                             mPrayerTitles[Vakit.FAJR.ordinal()].setText(Vakit.FAJR.getString(1));
                             mPrayerTimes[Vakit.FAJR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getSabahTime(date).toLocalTime()));
@@ -127,7 +127,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     if (!(asr.toLocalTime().equals(LocalTime.MIDNIGHT))) {
                         if (mThreeSecondCounter % 6 == 0) {
                             mPrayerTitles[Vakit.ASR.ordinal()].setText(Vakit.ASR.getString(0));
-                            mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(date, Vakit.ASR).toLocalTime()));
+                            mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(date, Vakit.ASR.ordinal()).toLocalTime()));
                         } else {
                             mPrayerTitles[Vakit.ASR.ordinal()].setText(Vakit.ASR.getString(1));
                             mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getAsrSaniTime(date).toLocalTime()));
@@ -231,8 +231,8 @@ public class CityFragment extends Fragment implements Observer<Times> {
         LocalDate greg = LocalDate.now();
         HijriDate hijr = HijriDate.now();
         
-        mHicri.setText(LocaleUtils.format(hijr));
-        mDate.setText(LocaleUtils.format(greg));
+        mHicri.setText(LocaleUtils.formatDate(hijr));
+        mDate.setText(LocaleUtils.formatDate(greg));
         
         if (!updateTimes() && mTimes instanceof WebTimes && App.isOnline()) {
             ((WebTimes) mTimes).syncAsync();
@@ -248,7 +248,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         for (int i = 0; i < 6; i++) {
             
             TextView time = mPrayerTimes[i];
-            time.setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(greg, Vakit.getByIndex(i)).toLocalTime()));
+            time.setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(greg, i).toLocalTime()));
             if (!time.getText().equals("00:00")) {
                 hasTimes = true;
             }
@@ -307,7 +307,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             LocalDate date = LocalDate.now();
             
             for (Vakit v : Vakit.values()) {
-                txt += "\n   " + v.getString() + ": " + LocaleUtils.formatTime(mTimes.getTime(date, v).toLocalTime());
+                txt += "\n   " + v.getString() + ": " + LocaleUtils.formatTime(mTimes.getTime(date, v.ordinal()).toLocalTime());
             }
             
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);

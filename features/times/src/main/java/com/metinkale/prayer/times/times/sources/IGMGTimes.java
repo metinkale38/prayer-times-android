@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
@@ -90,9 +91,15 @@ public class IGMGTimes extends WebTimes {
                 int _m = Integer.parseInt(tarih.substring(3, 5));
                 int _y = Integer.parseInt(tarih.substring(6, 10));
                 try {
-                    setTimes(new LocalDate(_y, _m, _d), new String[]{imsak, gunes, ogle, ikindi, aksam, yatsi});
-                } catch (IllegalFieldValueException ignore) {
+                    LocalDate localDate = new LocalDate(_y, _m, _d);
+                    setTime(localDate, Vakit.FAJR, imsak);
+                    setTime(localDate, Vakit.SUN, gunes);
+                    setTime(localDate, Vakit.DHUHR, ogle);
+                    setTime(localDate, Vakit.ASR, ikindi);
+                    setTime(localDate, Vakit.MAGHRIB, aksam);
+                    setTime(localDate, Vakit.ISHAA, yatsi);
                     i++;
+                } catch (IllegalFieldValueException ignore) {
                 }
             }
 

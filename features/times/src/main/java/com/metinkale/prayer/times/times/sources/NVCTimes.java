@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
 
@@ -133,7 +134,17 @@ public class NVCTimes extends WebTimes {
                         data += " " + s;
                     }
                 }
-                setTimes(new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day)), data.substring(1).split(" "));
+
+                String[] array = data.substring(1).split(" ");
+                LocalDate localDate = new LocalDate(y, Integer.parseInt(month), Integer.parseInt(day));
+                setTime(localDate, Vakit.FAJR, array[0]);
+                setTime(localDate, Vakit.SUN, array[1]);
+                setTime(localDate, Vakit.DHUHR, array[2]);
+                setTime(localDate, Vakit.ASR, array[3]);
+                setTime(localDate, Vakit.MAGHRIB, array[4]);
+                setTime(localDate, Vakit.ISHAA, array[5]);
+                setSabah(localDate, sabah);
+                setAsrThani(localDate, asrSani);
                 i++;
             }
 

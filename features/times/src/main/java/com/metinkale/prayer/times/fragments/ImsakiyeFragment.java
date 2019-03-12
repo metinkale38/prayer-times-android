@@ -28,9 +28,11 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,7 +111,7 @@ public class ImsakiyeFragment extends Fragment {
                 convertView = inflater.inflate(R.layout.vakit_imsakiye, parent, false);
             }
             ViewGroup v = (ViewGroup) convertView;
-            String[] a;
+            CharSequence[] a;
             if (position == 0) {
                 a = new String[]{getString(R.string.date), getString(R.string.fajr), getString(R.string.sun), getString(R.string.zuhr), getString(R.string.asr), getString(R.string.maghrib), getString(R.string.ishaa)};
             } else if (times == null) {
@@ -117,17 +119,26 @@ public class ImsakiyeFragment extends Fragment {
             } else {
                 LocalDate cal = (LocalDate) getItem(position - 1);
 
-                String[] daytimes = {times.getCurrentTime(cal, 0), times.getCurrentTime(cal, 1), times.getCurrentTime(cal, 2), times.getCurrentTime(cal, 3), times.getCurrentTime(cal, 4), times.getCurrentTime(cal, 5)};
+                LocalDateTime[] daytimes = {
+                        times.getTime(cal, Vakit.FAJR.ordinal()),
+                        times.getTime(cal, Vakit.SUN.ordinal()),
+                        times.getTime(cal, Vakit.DHUHR.ordinal()),
+                        times.getTime(cal, Vakit.ASR.ordinal()),
+                        times.getTime(cal, Vakit.MAGHRIB.ordinal()),
+                        times.getTime(cal, Vakit.ISHAA.ordinal())};
 
-                a = new String[]{cal.toString("dd.MM"), daytimes[0], daytimes[1], daytimes[2], daytimes[3], daytimes[4], daytimes[5]};
+                a = new CharSequence[]{cal.toString("dd.MM"),
+                        LocaleUtils.formatTimeForHTML(daytimes[0].toLocalTime()),
+                        LocaleUtils.formatTimeForHTML(daytimes[1].toLocalTime()),
+                        LocaleUtils.formatTimeForHTML(daytimes[2].toLocalTime()),
+                        LocaleUtils.formatTimeForHTML(daytimes[3].toLocalTime()),
+                        LocaleUtils.formatTimeForHTML(daytimes[4].toLocalTime()),
+                        LocaleUtils.formatTimeForHTML(daytimes[5].toLocalTime())};
             }
 
             for (int i = 0; i < 7; i++) {
                 TextView tv = (TextView) v.getChildAt(i);
-                if (i != 0)
-                    tv.setText(LocaleUtils.formatTimeForHTML(a[i]));
-                else
-                    tv.setText(LocaleUtils.toArabicNrs(a[i]));
+                tv.setText(a[i]);
             }
             if (position == today) {
                 v.setBackgroundResource(R.color.colorPrimary);

@@ -52,40 +52,40 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
     private static final String FOREGROUND_NEEDY_ONGOING = "ongoing";
     private Integer mColor1st = null;
     private Integer mColor2nd = null;
-    
+
     @Override
     public void onTimeTick() {
         NotificationManager notMan = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         extractColors();
-        
-        
+
+
         LocalDate cal = LocalDate.now();
-        
+
         List<Pair<Integer, Notification>> notifications = new ArrayList<>();
         for (Times t : Times.getTimes()) {
             if (!t.isOngoingNotificationActive()) {
                 notMan.cancel(t.getIntID());
                 continue;
             }
-            
-            
+
+
             boolean icon = Preferences.SHOW_ONGOING_ICON.get();
             boolean number = Preferences.SHOW_ONGOING_NUMBER.get();
             Crashlytics.setBool("showIcon", icon);
             Crashlytics.setBool("showNumber", number);
-            
+
             Notification noti;
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
-            
+
             int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
             int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
-            
-            Vakit marker = t.getCurrentTime();
+
+            int marker = t.getCurrentTime();
             if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
-                marker = marker.nextTime();
+                marker = marker + 1;
             for (Vakit vakit : Vakit.values()) {
-                LocalTime time = t.getTime(cal, vakit).toLocalTime();
-                if (marker == vakit) {
+                LocalTime time = t.getTime(cal, vakit.ordinal()).toLocalTime();
+                if (marker == vakit.ordinal()) {
                     views.setTextViewText(vakitIds[vakit.ordinal()], Html.fromHtml("<strong><em>" + vakit.getString() + "</em></strong>"));
                     if (Preferences.CLOCK_12H.get()) {
                         Spannable span = (Spannable) LocaleUtils.formatTimeForHTML(time);
@@ -99,8 +99,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                     views.setTextViewText(timeIds[vakit.ordinal()], LocaleUtils.formatTimeForHTML(time));
                 }
             }
-            
-            
+
+
             DateTime nextTime = t.getTime(cal, t.getNextTime()).toDateTime();
             if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS)) {
                 views.setChronometer(R.id.countdown, nextTime.getMillis() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()), null, true);
@@ -109,29 +109,29 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 views.setString(R.id.countdown, "setFormat", txt);
                 views.setChronometer(R.id.countdown, 0, txt, false);
             }
-            
+
             views.setTextViewText(R.id.city, t.getName());
-            
-            
+
+
             views.setTextColor(R.id.fajr, mColor1st);
             views.setTextColor(R.id.sun, mColor1st);
             views.setTextColor(R.id.zuhr, mColor1st);
             views.setTextColor(R.id.asr, mColor1st);
             views.setTextColor(R.id.maghrib, mColor1st);
             views.setTextColor(R.id.ishaa, mColor1st);
-            
+
             views.setTextColor(R.id.time0, mColor1st);
             views.setTextColor(R.id.time1, mColor1st);
             views.setTextColor(R.id.time2, mColor1st);
             views.setTextColor(R.id.time3, mColor1st);
             views.setTextColor(R.id.time4, mColor1st);
             views.setTextColor(R.id.time5, mColor1st);
-            
-            
+
+
             views.setTextColor(R.id.time, mColor1st);
             views.setTextColor(R.id.city, mColor1st);
-            
-            
+
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 long left = new Period(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime())).getMinutes();
                 Notification.Builder notBuilder =
@@ -139,26 +139,26 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                                 icon ? (number ? Icon.createWithBitmap(getIconFromMinutes(left)) :
                                         Icon.createWithResource(getContext(), R.drawable.ic_abicon)) :
                                         Icon.createWithResource(getContext(), R.drawable.ic_placeholder)).setOngoing(true);
-                
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     notBuilder.setChannelId(NotificationUtils.getOngoingChannel(getContext()).getId());
                 }
-                
+
                 noti = notBuilder.build();
             } else {
                 noti = new NotificationCompat.Builder(getContext()).setContent(views).setContentIntent(TimesFragment.getPendingIntent(t))
                         .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder).setOngoing(true).build();
             }
-            
-            
+
+
             if (Build.VERSION.SDK_INT >= 16) {
                 noti.priority = Notification.PRIORITY_LOW;
             }
             noti.when = icon ? System.currentTimeMillis() : 0;
-            
+
             notifications.add(new Pair<>(t.getIntID(), noti));
         }
-        
+
         if (!notifications.isEmpty()) {
             for (int i = 0; i < notifications.size(); i++) {
                 Pair<Integer, Notification> pair = notifications.get(i);
@@ -171,15 +171,15 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         } else {
             ForegroundService.removeNeedy(getContext(), FOREGROUND_NEEDY_ONGOING);
         }
-        
+
     }
-    
-    
+
+
     private Bitmap getIconFromMinutes(long left) {
         String hour = String.format(Locale.ENGLISH, "%02d", left / 60);
         String minute = String.format(Locale.ENGLISH, "%02d", left % 60);
-        
-        
+
+
         Resources r = getContext().getResources();
         float size = 24;
         float twoLineTextSize = size * 1f;
@@ -194,7 +194,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         if (!hour.equals("00")) {
             paint.setTextSize(twoLineTextSize);
             int yPos = (int) ((c.getHeight() / 4) - ((paint.descent() + paint.ascent()) / 2));
-            
+
             c.drawText(hour, px / 2, yPos, paint);
             c.drawText(minute, px / 2, yPos + c.getHeight() / 2, paint);
         } else {
@@ -204,8 +204,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         }
         return b;
     }
-    
-    
+
+
     private boolean recurseGroup(@NonNull ViewGroup gp) {
         int count = gp.getChildCount();
         for (int i = 0; i < count; ++i) {
@@ -219,7 +219,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 if (COLOR_SEARCH_2ND.equals(szText)) {
                     mColor2nd = text.getCurrentTextColor();
                 }
-                
+
                 if ((mColor1st != null) && (mColor2nd != null)) {
                     return true;
                 }
@@ -231,13 +231,13 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         }
         return false;
     }
-    
+
     private void extractColors() {
         if (mColor1st != null && mColor2nd != null) {
             return;
         }
-        
-        
+
+
         try {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext());
             mBuilder.setContentTitle(COLOR_SEARCH_1ST).setContentText(COLOR_SEARCH_2ND);
@@ -256,5 +256,5 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             mColor2nd = Color.DKGRAY;
         }
     }
-    
+
 }

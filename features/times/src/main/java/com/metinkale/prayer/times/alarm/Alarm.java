@@ -33,6 +33,7 @@ import com.metinkale.prayer.utils.VibrationPreference;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.Period;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -45,14 +46,10 @@ import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@EqualsAndHashCode(of = "id")
 public class Alarm implements Comparable<Alarm> {
     public static final Set<Vakit> ALL_TIMES =
-            Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.IMSAK, Vakit.DHUHR, Vakit.ASR_THANI, Vakit.MAGHRIB, Vakit.ISHAA)));
+            Collections.unmodifiableSet(new ArraySet<>(Arrays.asList(Vakit.FAJR, Vakit.DHUHR, Vakit.ASR, Vakit.MAGHRIB, Vakit.ISHAA)));
     public static final Collection<Integer> ALL_WEEKDAYS = Collections.unmodifiableCollection(
             Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY,
                     Calendar.SUNDAY));
@@ -60,39 +57,21 @@ public class Alarm implements Comparable<Alarm> {
     public static final int VOLUME_MODE_NOTIFICATION = -2;
     public static final int VOLUME_MODE_ALARM = -3;
     public static final int VOLUME_MODE_MEDIA = -4;
-    
-    @Getter
+
     private int id;
-    @Getter
-    @Setter
+
     private boolean enabled = true;
-    @Getter
-    @Setter
     private Set<Integer> weekdays = new ArraySet<>(ALL_WEEKDAYS);
-    @Getter
-    @Setter
     private List<Sound> sounds = new ArrayList<>();
-    @Getter
-    @Setter
     private Set<Vakit> times = new ArraySet<>(ALL_TIMES);
-    @Getter
-    @Setter
     private int mins;
-    @Getter
-    @Setter
     private boolean vibrate;
-    @Getter
-    @Setter
     private boolean removeNotification;
-    @Getter
-    @Setter
     private int silenter;
-    @Getter
-    @Setter
     private int volume = getLegacyVolumeMode(App.get());
-    
+
     private long cityId;
-    
+
     public static Alarm fromId(int id) {
         for (Times t : Times.getTimes()) {
             for (Alarm a : t.getUserAlarms()) {
@@ -103,19 +82,19 @@ public class Alarm implements Comparable<Alarm> {
         }
         return null;
     }
-    
+
     public LocalDateTime getNextAlarm() {
-        
+
         Times city = getCity();
-        
+
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
-        
+
         for (int i = 0; i <= 7; i++) {
             LocalDate date = today.plusDays(i);
             if (!weekdays.contains(date.getDayOfWeek()))
                 continue;
-            
+
             for (Vakit vakit : Vakit.values()) {
                 if (!times.contains(vakit))
                     continue;
@@ -124,38 +103,38 @@ public class Alarm implements Comparable<Alarm> {
                     return time;
             }
         }
-        
+
         return null;
     }
-    
+
     public Alarm() {
         id = UUID.asInt();
     }
-    
+
     public void setCity(Times times) {
         cityId = times.getID();
     }
-    
+
     public Times getCity() {
         return Times.getTimes(cityId);
     }
-    
-    
+
+
     public String getCurrentTitle() {
         Times city = getCity();
-        
-        Vakit time = getCity().getCurrentTime();
-        int left = city.getLeftMinutes();
-        int passed = city.getPassedMinutes();
+
+        int time = getCity().getCurrentTime();
+        int left = new Period(LocalDateTime.now(), city.getTime(LocalDate.now(), city.getNextTime())).getMinutes();
+        int passed = new Period(city.getTime(LocalDate.now(), city.getCurrentTime()), LocalDateTime.now()).getMinutes();
         int minutes = Math.abs(left) < Math.abs(passed) ? -left : passed;
         int minuteThreshold = 2;
         if (mins == 0 && left < minuteThreshold) {
             minutes = 0;
-            time = time.nextTime();
+            time = time + 1;
         } else if (mins == 0 && passed < minuteThreshold) {
             minutes = 0;
         }
-    
+
         int strRes2;
         if (minutes < 0) {
             strRes2 = R.string.noti_beforeTime;
@@ -164,17 +143,17 @@ public class Alarm implements Comparable<Alarm> {
         } else {
             strRes2 = R.string.noti_exactTime;
         }
-        
+
         Context ctx = App.get();
-        return ctx.getString(strRes2, Math.abs(minutes), time.getString());
+        return ctx.getString(strRes2, Math.abs(minutes), Vakit.getByIndex(time).getString());
     }
-    
-    
+
+
     public String getTitle() {
-        
+
         boolean eachDay = getWeekdays().size() == 7;
         int strRes1 = eachDay ? R.string.noti_eachDay : R.string.noti_weekday;
-        
+
         String days = null;
         if (!eachDay) {
             StringBuilder daysBuilder = new StringBuilder();
@@ -185,8 +164,8 @@ public class Alarm implements Comparable<Alarm> {
             }
             days = daysBuilder.toString().substring(1);
         }
-        
-        
+
+
         boolean eachPrayerTime = ALL_TIMES.equals(getTimes());
         int strRes2;
         if (getMins() < 0) {
@@ -196,7 +175,7 @@ public class Alarm implements Comparable<Alarm> {
         } else {
             strRes2 = eachPrayerTime ? R.string.noti_exactAll : R.string.noti_exactTime;
         }
-        
+
         String times = null;
         if (!eachPrayerTime) {
             StringBuilder timesBuilder = new StringBuilder();
@@ -206,13 +185,13 @@ public class Alarm implements Comparable<Alarm> {
             if (timesBuilder.length() > 0)
                 times = timesBuilder.toString().substring(1);
         }
-        
-        
+
+
         Context ctx = App.get();
         return ctx.getString(strRes1, days, ctx.getString(strRes2, Math.abs(getMins()), times));
-        
+
     }
-    
+
     @Override
     public int compareTo(@NonNull Alarm o) {
         int comp;
@@ -225,7 +204,7 @@ public class Alarm implements Comparable<Alarm> {
         comp = Collections.min(getWeekdays()) - Collections.min(o.getWeekdays());
         return comp;
     }
-    
+
     private static int getLegacyVolumeMode(Context c) {
         String ezanvolume = PreferenceManager.getDefaultSharedPreferences(c).getString("ezanvolume", "noti");
         switch (ezanvolume) {
@@ -236,11 +215,11 @@ public class Alarm implements Comparable<Alarm> {
             case "noti":
             default:
                 return VOLUME_MODE_RINGTONE;
-            
+
         }
     }
-    
-    
+
+
     public void vibrate(Context c) {
         if (!isVibrate())
             return;
@@ -250,7 +229,98 @@ public class Alarm implements Comparable<Alarm> {
         } else {
             v.vibrate(VibrationPreference.getPattern(c, "vibration"), -1);
         }
-        
-        
+
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Integer> getWeekdays() {
+        return weekdays;
+    }
+
+    public void setWeekdays(Set<Integer> weekdays) {
+        this.weekdays = weekdays;
+    }
+
+    public List<Sound> getSounds() {
+        return sounds;
+    }
+
+    public void setSounds(List<Sound> sounds) {
+        this.sounds = sounds;
+    }
+
+    public Set<Vakit> getTimes() {
+        return times;
+    }
+
+    public void setTimes(Set<Vakit> times) {
+        this.times = times;
+    }
+
+    public int getMins() {
+        return mins;
+    }
+
+    public void setMins(int mins) {
+        this.mins = mins;
+    }
+
+    public boolean isVibrate() {
+        return vibrate;
+    }
+
+    public void setVibrate(boolean vibrate) {
+        this.vibrate = vibrate;
+    }
+
+    public boolean isRemoveNotification() {
+        return removeNotification;
+    }
+
+    public void setRemoveNotification(boolean removeNotification) {
+        this.removeNotification = removeNotification;
+    }
+
+    public int getSilenter() {
+        return silenter;
+    }
+
+    public void setSilenter(int silenter) {
+        this.silenter = silenter;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Alarm alarm = (Alarm) o;
+        return id == alarm.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

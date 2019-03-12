@@ -70,10 +70,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
     }
 
-    dynamicFeatures = [":features:times", ":features:compass", ":features:widget", ":features:intro",
-                       ":features:tesbihat", ':features:about', ':features:calendar', ':features:dhikr',
-                       ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings']
-
 
 }
 

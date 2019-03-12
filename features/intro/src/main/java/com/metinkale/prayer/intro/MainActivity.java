@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private View mMain;
     private Button mForward;
     private Button mBack;
-    
-    
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleUtils.initLocale(this);
+        LocaleUtils.init(this);
         setContentView(R.layout.intro_main);
         mPager = findViewById(R.id.pager);
         mMain = findViewById(R.id.main);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mPager.setOffscreenPageLimit(10);
         mBack.setOnClickListener(this);
         mForward.setOnClickListener(this);
-        
+
         if (Times.getCount() < 2) {
             if (Locale.getDefault().getLanguage().equals(new Locale("tr").getLanguage())) {
                 CalcTimes.buildTemporaryTimes("Mekke", 21.4260221, 39.8296538, -1).getPrayTimes()
@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 CalcTimes.buildTemporaryTimes("London", 51.5073219, -0.1276473, -2).getPrayTimes()
                         .setTimezone(java.util.TimeZone.getTimeZone("Europe/London"));
             }
-            
-            
+
+
         }
-        
+
         int doNotShow = 0;
         for (int i = 0; i < mFragments.length; i++) {
             if (!mFragments[i].shouldShow()) {
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 doNotShow++;
             }
         }
-        
+
         IntroFragment[] newArray = new IntroFragment[mFragments.length - doNotShow + 1];
         if (newArray.length == 1)
             startActivity(new Intent(this, BaseActivity.class));
@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         newArray[i] = new LastFragment();
         mFragments = newArray;
-        
+
         mAdapter = new MyAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
         mPager.addOnPageChangeListener(this);
-        
-        
+
+
     }
-    
+
     @Override
     public void recreate() {
         try {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             super.recreate();
         }
     }
-    
+
     public static int blendColors(int color1, int color2, float ratio) {
         final float inverseRation = 1f - ratio;
         float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
@@ -140,31 +140,31 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
         return Color.rgb((int) r, (int) g, (int) b);
     }
-    
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int color1 = mColors[position % mColors.length];
         int color2 = mColors[(position + 1) % mColors.length];
         mMain.setBackgroundColor(blendColors(color1, color2, 1 - positionOffset));
-        
+
         if (position > 0 && positionOffset == 0)
             mFragments[position].setPagerPosition(1);
         mFragments[position].setPagerPosition(positionOffset);
         if (mFragments.length > position + 1)
             mFragments[position + 1].setPagerPosition(1 - positionOffset);
     }
-    
+
     @Override
     public void onPageSelected(int position) {
         mBack.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
         mForward.setText(position == mAdapter.getCount() - 1 ? R.string.finish : R.string.continue_);
     }
-    
+
     @Override
     public void onPageScrollStateChanged(int state) {
-    
+
     }
-    
+
     @Override
     public void onClick(View view) {
         int i1 = view.getId();
@@ -181,19 +181,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 finish();
                 Preferences.CHANGELOG_VERSION.set(BuildConfig.CHANGELOG_VERSION);
                 Preferences.SHOW_INTRO.set(false);
-                
+
                 Bundle bdl = new Bundle();
                 if (Times.getCount() == 0) {
                     bdl.putBoolean("openCitySearch", true);
                 }
                 Module.TIMES.launch(this, bdl);
-                
+
                 String appName = "appName";
                 String lang = Preferences.LANGUAGE.get();
                 if (!lang.isEmpty() && !lang.equals("system")) {
                     appName += Character.toUpperCase(lang.charAt(0)) + lang.substring(1);
                 }
-                
+
                 Intent.ShortcutIconResource icon = Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher);
                 Intent intent = new Intent();
                 Intent launchIntent = new Intent(this, BaseActivity.class);
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         }
     }
-    
+
     private int getStringResId(String resName, int def) {
         try {
             Field f = R.string.class.getDeclaredField(resName);
@@ -219,22 +219,22 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return def;
         }
     }
-    
+
     public int getBackgroundColor(IntroFragment frag) {
         return mColors[Arrays.asList(mFragments).indexOf(frag)];
     }
-    
-    
+
+
     private class MyAdapter extends FragmentPagerAdapter {
         public MyAdapter(FragmentManager fm) {
             super(fm);
         }
-        
+
         @Override
         public Fragment getItem(int position) {
             return mFragments[position];
         }
-        
+
         @Override
         public int getCount() {
             return mFragments.length;

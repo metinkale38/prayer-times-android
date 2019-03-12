@@ -24,15 +24,13 @@ import android.provider.OpenableColumns;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
+import com.metinkale.prayer.utils.Utils;
 
 import java.io.IOException;
 
-import lombok.Cleanup;
-import lombok.Getter;
 
 public class UserSound extends Sound {
 
-    @Getter
     private final Uri uri;
 
     public static UserSound create(Uri uri) {
@@ -51,9 +49,13 @@ public class UserSound extends Sound {
     public String getName() {
         String result = null;
         if (uri.getScheme().equals("content")) {
-            @Cleanup Cursor cursor = App.get().getContentResolver().query(uri, null, null, null, null);
+            Cursor cursor = App.get().getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+
+            if (cursor != null) {
+                cursor.close();
             }
         }
         if (result == null) {
@@ -96,5 +98,9 @@ public class UserSound extends Sound {
     @Override
     public int getId() {
         return uri.hashCode();
+    }
+
+    public Uri getUri() {
+        return uri;
     }
 }

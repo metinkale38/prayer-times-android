@@ -21,8 +21,10 @@ import androidx.annotation.NonNull;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
@@ -110,7 +112,13 @@ public class MalaysiaTimes extends WebTimes {
                         if (array[i].length() == 4) array[i] = "0" + array[i];
                         if (array[i].length() != 5) continue FOR1;
                     }
-                    setTimes(new LocalDate(year, month, day), array);
+                    LocalDate localDate = new LocalDate(year, month, day);
+                    setTime(localDate, Vakit.FAJR, array[0]);
+                    setTime(localDate, Vakit.SUN, array[1]);
+                    setTime(localDate, Vakit.DHUHR, array[2]);
+                    setTime(localDate, Vakit.ASR, array[3]);
+                    setTime(localDate, Vakit.MAGHRIB, array[4]);
+                    setTime(localDate, Vakit.ISHAA, array[5]);
                     x++;
                 } catch (Exception ignore) {
                     ignore.printStackTrace();
@@ -122,6 +130,7 @@ public class MalaysiaTimes extends WebTimes {
 
         return x > 25;
     }
+
 
     private String extract(@NonNull String s) {
         return s.substring(s.indexOf(">") + 1, s.indexOf("<"))

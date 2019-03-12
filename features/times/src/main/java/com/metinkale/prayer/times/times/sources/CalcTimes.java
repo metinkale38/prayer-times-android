@@ -40,31 +40,36 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 public class CalcTimes extends Times {
-    
+
     private String method;
     private String adjMethod;
     private String juristic;
     private double[] customMethodParams = new double[6];
     private PrayTimes prayTimes;
     private AsrType asrType = AsrType.Shafi;
-    
+
     enum AsrType {
         Shafi,
         Hanafi,
         Both
     }
-    
-    
+
+
     @SuppressWarnings({"unused", "WeakerAccess"})
     public CalcTimes() {
         super();
     }
-    
+
     @SuppressWarnings({"unused", "WeakerAccess"})
     public CalcTimes(long id) {
         super(id);
     }
-    
+
+
+    public static CalcTimes buildTemporaryTimes(String name, double lat, double lng, long id) {
+        return buildTemporaryTimes(name, lat, lng, 0, id);
+    }
+
     public static CalcTimes buildTemporaryTimes(String name, double lat, double lng, double elv, long id) {
         CalcTimes t = new CalcTimes(id);
         t.setSource(Source.Calc);
@@ -74,8 +79,8 @@ public class CalcTimes extends Times {
         t.getPrayTimes().setCoordinates(lat, lng, elv);
         return t;
     }
-    
-    
+
+
     public PrayTimes getPrayTimes() {
         if (prayTimes == null) {
             prayTimes = new PrayTimes();
@@ -95,7 +100,7 @@ public class CalcTimes extends Times {
                             }
                     }
                 });
-                
+
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38").asString()
                         .setCallback(new FutureCallback<String>() {
                             @Override
@@ -113,7 +118,7 @@ public class CalcTimes extends Times {
                             }
                         });
             }
-            
+
             if (method != null && !"Custom".equals(method)) {
                 prayTimes.setMethod(Method.valueOf(method));
             } else {
@@ -125,12 +130,12 @@ public class CalcTimes extends Times {
                     prayTimes.tuneIshaa(0, (int) customMethodParams[4]);
                 }
             }
-            
+
             if ("Hanafi".equals(juristic))
                 asrType = AsrType.Hanafi;
             else if ("Shafii".equals(juristic))
                 asrType = AsrType.Shafi;
-            
+
             if (adjMethod != null)
                 switch (adjMethod) {
                     case "AngleBased":
@@ -150,21 +155,21 @@ public class CalcTimes extends Times {
         }
         return prayTimes;
     }
-    
+
     @SuppressLint("InflateParams")
     public static void add(@NonNull final FragmentActivity c, @NonNull final Bundle bdl) {
         CalcTimeConfDialogFragment frag = new CalcTimeConfDialogFragment();
         frag.setArguments(bdl);
         frag.show(c.getSupportFragmentManager(), "dlg");
-        
+
     }
-    
+
     @NonNull
     @Override
     public Source getSource() {
         return Source.Calc;
     }
-    
+
     @Override
     protected String getStrTime(@NonNull LocalDate date, Vakit time) {
         getPrayTimes().setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
@@ -185,7 +190,7 @@ public class CalcTimes extends Times {
         }
         return null;
     }
-    
+
     @Override
     public String getSabah(LocalDate date) {
         String imsak = getPrayTimes().getTime(org.metinkale.praytimes.Times.Imsak);
@@ -195,7 +200,7 @@ public class CalcTimes extends Times {
         }
         return null;
     }
-    
+
     @Override
     public String getAsrThani(LocalDate date) {
         if (asrType == AsrType.Both) {
@@ -203,10 +208,10 @@ public class CalcTimes extends Times {
         }
         return null;
     }
-    
+
     public void setPrayTimes(PrayTimes prayTimes) {
         this.prayTimes = prayTimes;
         save();
     }
-    
+
 }

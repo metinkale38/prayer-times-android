@@ -15,6 +15,7 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import java.io.Closeable;
 import java.util.Locale;
 
 public class Utils {
@@ -31,7 +32,7 @@ public class Utils {
         float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
     }
-    
+
     /**
      * This method converts device specific pixels to density independent pixels.
      *
@@ -45,7 +46,7 @@ public class Utils {
         float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
-    
+
     public static boolean isRTL(Context ctx) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             Configuration config = ctx.getResources().getConfiguration();
@@ -53,9 +54,8 @@ public class Utils {
         }
         return false;
     }
-    
-  
-    
+
+
     public static boolean isPackageInstalled(Context c, String packagename) {
         try {
             c.getPackageManager().getPackageInfo(packagename, 0);
@@ -64,8 +64,15 @@ public class Utils {
             return false;
         }
     }
-    
-  
-    
-    
+
+    public static void close(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+
 }

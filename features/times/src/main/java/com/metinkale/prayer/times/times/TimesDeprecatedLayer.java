@@ -111,7 +111,7 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
         if (SABAH) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(sabah_afterImsak ? Vakit.IMSAK : Vakit.SUN);
+            alarm.getTimes().add(sabah_afterImsak ? Vakit.FAJR : Vakit.SUN);
             alarm.setVibrate(SABAH_vibration);
             alarm.setSilenter(SABAH_silenter);
             if (sabah_time == 0)
@@ -127,7 +127,7 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
         if (IMSAK) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.IMSAK);
+            alarm.getTimes().add(Vakit.FAJR);
             alarm.setVibrate(IMSAK_vibration);
             alarm.setSilenter(IMSAK_silenter);
             alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
@@ -166,7 +166,7 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
         if (IKINDI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.ASR_THANI);
+            alarm.getTimes().add(Vakit.ASR);
             alarm.setVibrate(IKINDI_vibration);
             alarm.setSilenter(IKINDI_silenter);
             alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
@@ -207,7 +207,7 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
         if (pre_IMSAK) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.IMSAK);
+            alarm.getTimes().add(Vakit.FAJR);
             alarm.setVibrate(pre_IMSAK_vibration);
             alarm.setSilenter(pre_IMSAK_silenter);
             alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());
@@ -246,7 +246,7 @@ public class TimesDeprecatedLayer extends TransientLiveData<Times> {
         if (pre_IKINDI) {
             Alarm alarm = new Alarm();
             alarm.setCity((Times) this);
-            alarm.getTimes().add(Vakit.ASR_THANI);
+            alarm.getTimes().add(Vakit.ASR);
             alarm.setVibrate(pre_IKINDI_vibration);
             alarm.setSilenter(pre_IKINDI_silenter);
             alarm.setRemoveNotification(AUTO_REMOVE_NOTIFICATION.get());

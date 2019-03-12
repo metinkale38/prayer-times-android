@@ -29,21 +29,22 @@ public enum Vakit {
     ASR(new int[]{R.string.asr, R.string.asrSani}, new String[]{"العصر الثاني", "العصر"}),
     MAGHRIB(R.string.maghrib, "المغرب"),
     ISHAA(R.string.ishaa, "العِشاء");
-    
-    
+
+
+    public static final int LENGTH = values().length;
     private final String[] arabic;
     private final int[] resId;
-    
+
     Vakit(int id[], String[] arabic) {
         resId = id;
         this.arabic = arabic;
     }
-    
+
     Vakit(int id, String arabic) {
         resId = new int[]{id};
         this.arabic = new String[]{arabic};
     }
-    
+
     @NonNull
     public static Vakit getByIndex(int i) {
         while (i < 0) {
@@ -68,8 +69,8 @@ public enum Vakit {
                 return ISHAA;
         }
     }
-    
-    
+
+
     public String getString() {
         int index = 0;
         if (this == FAJR && !Preferences.USE_ARABIC.get() && Preferences.LANGUAGE.get().equals("tr")) {
@@ -77,21 +78,21 @@ public enum Vakit {
         }
         return getString(index);
     }
-    
+
     public String getString(int index) {
         if (Preferences.USE_ARABIC.get()) {
             return arabic[index];
         }
-        
+
         return App.get().getString(resId[index]);
     }
-    
-    
+
+
     public Vakit nextTime() {
         return Vakit.values()[(ordinal() + 1) % 6];
     }
-    
-    
+
+
     public Vakit prevTime() {
         return Vakit.values()[(ordinal() + 5) % 6];
     }

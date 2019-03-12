@@ -16,9 +16,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 
 public class MyPlayer {
 
@@ -30,11 +27,8 @@ public class MyPlayer {
     //no lombok annotation due to existence of from(Sound sound)
     private List<Sound> sound;
 
-    @Setter @Accessors(fluent = true, chain = true)
     private SeekBar seekbar;
-    @Setter @Accessors(fluent = true, chain = true)
     private Alarm alarm;
-    @Setter @Accessors(fluent = true, chain = true)
     private OnCompletionListener onComplete;
 
     public interface OnCompletionListener {
@@ -193,5 +187,20 @@ public class MyPlayer {
 
     public boolean isPlaying() {
         return mediaPlayer != null && mediaPlayer.isPlaying();
+    }
+
+    public MyPlayer seekbar(SeekBar seekbar) {
+        this.seekbar = seekbar;
+        return this;
+    }
+
+    public MyPlayer alarm(Alarm alarm) {
+        this.alarm = alarm;
+        return this;
+    }
+
+    public MyPlayer onComplete(OnCompletionListener onComplete) {
+        this.onComplete = onComplete;
+        return this;
     }
 }

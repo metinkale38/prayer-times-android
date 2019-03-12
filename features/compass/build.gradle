@@ -1,4 +1,4 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 
 android {
     sourceSets {
@@ -31,6 +31,9 @@ android {
         }
         play {
             dimension "store"
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+            resValue "string", "google_maps_key", properties.getProperty("google_maps_key", "")
         }
     }
 }
@@ -39,15 +42,9 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // newer versions require higher min sdk
     implementation 'com.otaliastudios:cameraview:1.6.0'
     playImplementation 'com.google.android.gms:play-services-maps:11.8.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-gcm:11.8.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-location:11.8.0' //excludeInFDroid
-
-    fdroidImplementation('com.mapbox.mapboxsdk:mapbox-android-sdk:4.1.1@aar') {
-        transitive = true
-    }
-    compileOnly "org.projectlombok:lombok:1.18.2"
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
 }

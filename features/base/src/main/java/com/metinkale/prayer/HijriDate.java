@@ -19,6 +19,7 @@ package com.metinkale.prayer;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.FastTokenizer;
+import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
@@ -36,12 +37,7 @@ import java.util.TreeMap;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Cleanup;
-import lombok.Getter;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class HijriDate {
     public static final int MUHARRAM = 1;
     public static final int SAFAR = 2;
@@ -55,8 +51,8 @@ public class HijriDate {
     public static final int SHAWWAL = 10;
     public static final int DHUL_QADA = 11;
     public static final int DHUL_HIJJA = 12;
-    
-    
+
+
     public static final int MONTH = 0;
     public static final int ISLAMIC_NEW_YEAR = 1;
     public static final int ASHURA = 2;
@@ -76,38 +72,43 @@ public class HijriDate {
     public static final int EID_AL_ADHA_DAY2 = 16;
     public static final int EID_AL_ADHA_DAY3 = 17;
     public static final int EID_AL_ADHA_DAY4 = 18;
-    
-    @Getter
+
+
     private static int MIN_YEAR = 2012;
-    @Getter
     private static int MAX_YEAR = 2022;
-    
-    
+
+
     private static TreeMap<Hijri, HijriDate> fromHijri = new TreeMap<>();
     private static TreeMap<Greg, HijriDate> fromGreg = new TreeMap<>();
-    
+
     private Hijri hijri;
     private Greg greg;
-    
-    
+
+    public HijriDate(Hijri hijri, Greg greg) {
+        this.hijri = hijri;
+        this.greg = greg;
+    }
+
+
     public int getDay() {
         return hijri.day;
     }
-    
+
     public int getMonth() {
         return hijri.month;
     }
-    
+
     public int getYear() {
         return hijri.year;
     }
-    
+
     private static void init() {
-        
+
         if (!fromHijri.isEmpty())
             return;
+        BufferedReader is = null;
         try {
-            @Cleanup BufferedReader is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.hijri)));
+            is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.hijri)));
             String line;
             while (true) {
                 line = is.readLine();
@@ -117,7 +118,7 @@ public class HijriDate {
                 if (line.contains("HD"))
                     continue;//first line
                 FastTokenizer ft = new FastTokenizer(line, "\t");
-                
+
                 int d = ft.nextInt();
                 int m = ft.nextInt();
                 int y = ft.nextInt();
@@ -126,15 +127,17 @@ public class HijriDate {
                 m = ft.nextInt();
                 y = ft.nextInt();
                 Greg greg = new Greg(y, m, d);
-                
+
                 create(hijri, greg);
             }
         } catch (IOException e) {
             Crashlytics.logException(e);
+        } finally {
+            Utils.close(is);
         }
     }
-    
-    
+
+
     private static HijriDate create(Hijri hijri, Greg greg) {
         HijriDate bundle = new HijriDate(hijri, greg);
         if (hijri.day == 1) {
@@ -147,30 +150,30 @@ public class HijriDate {
         }
         return bundle;
     }
-    
-    
+
+
     public static HijriDate fromGreg(int y, int m, int d) {
         return fromGreg(new LocalDate(y, m, d));
     }
-    
+
     public static HijriDate fromHijri(int y, int m, int d) {
         return fromHijri(new LocalDate(y, m, d, IslamicChronology.getInstanceUTC()));
     }
-    
-    
+
+
     public static HijriDate fromHijri(LocalDate ld) {
         if (!(ld.getChronology() instanceof IslamicChronology)) {
             throw new RuntimeException("fromHijri can only be used with a IslamicChronology");
         }
         init();
-        
+
         Hijri hijri = new Hijri(ld.getYear(), ld.getMonthOfYear(), ld.getDayOfMonth());
-        
+
         HijriDate date = fromHijri.get(hijri);
         if (date != null) {
             return date;
         }
-        
+
         HijriDate last = fromHijri.floorEntry(hijri).getValue();
         if (last == null || fromHijri.ceilingKey(hijri) == null) {
             LocalDate gregorian = ld.toDateTimeAtStartOfDay().withChronology(ISOChronology.getInstanceUTC()).toLocalDate();
@@ -190,27 +193,27 @@ public class HijriDate {
             return create(hijri, greg);
         }
     }
-    
-    
+
+
     public static HijriDate fromGreg(LocalDate ld) {
         if (!(ld.getChronology() instanceof GregorianChronology || ld.getChronology() instanceof ISOChronology)) {
             throw new RuntimeException("fromGreg can only be used with a GregorianChronology");
         }
         init();
-        
+
         int hfix = Preferences.HIJRI_FIX.get();
         if (hfix != 0) {
             ld = ld.plusDays(hfix);
         }
-        
-        
+
+
         Greg greg = new Greg(ld.getYear(), ld.getMonthOfYear(), ld.getDayOfMonth());
-        
+
         HijriDate date = fromGreg.get(greg);
         if (date != null) {
             return date;
         }
-        
+
         HijriDate last = fromGreg.floorEntry(greg).getValue();
         if (last == null || fromGreg.ceilingKey(greg) == null) {
             LocalDate islamic = ld.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstanceUTC()).toLocalDate();
@@ -222,32 +225,32 @@ public class HijriDate {
             int d = last.hijri.day;
             LocalDate lastLD = last.getLocalDate();
             int diff = Days.daysBetween(lastLD, ld).getDays();
-            
+
             d += diff;
-            
+
             Hijri hijri = new Hijri(y, m, d);
             return create(hijri, greg);
         }
     }
-    
+
     public LocalDate getLocalDate() {
         return new LocalDate(greg.year, greg.month, greg.day);
     }
-    
+
     public HijriDate plusDays(int days) {
         return HijriDate.fromGreg(getLocalDate().plusDays(days));
     }
-    
-    
+
+
     public HijriDate plusYears(int years) {
         return HijriDate.fromGreg(getLocalDate().plusYears(years));
     }
-    
-    
+
+
     public HijriDate plusMonths(int month) {
         return HijriDate.fromGreg(getLocalDate().plusMonths(month));
     }
-    
+
     @NonNull
     public static List<Pair<HijriDate, Integer>> getHolydaysForGregYear(int year) {
         int hijriYear = fromGreg(year, 1, 1).getYear();
@@ -257,18 +260,18 @@ public class HijriDate {
                 holydays.add(entry);
             }
         }
-        
+
         for (Pair<HijriDate, Integer> entry : getHolydaysForHijriYear(hijriYear + 1)) {
             if (entry.first.greg.year == year) {
                 holydays.add(entry);
             }
         }
-        
+
         return holydays;
-        
-        
+
+
     }
-    
+
     @NonNull
     public static List<Pair<HijriDate, Integer>> getHolydaysForHijriYear(int year) {
         List<Pair<HijriDate, Integer>> dates = new ArrayList<>(12 + 18);
@@ -308,12 +311,12 @@ public class HijriDate {
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 13), EID_AL_ADHA_DAY4));
         return dates;
     }
-    
-    
+
+
     public static int isHolyday() {
         return fromGreg(LocalDate.now()).getHolyday();
     }
-    
+
     public int getHolyday() {
         HijriDate tmp;
         if (hijri.day == 1 && hijri.month == MUHARRAM) {
@@ -326,8 +329,8 @@ public class HijriDate {
             return THREE_MONTHS;
         } else if ((tmp = fromGreg(getLocalDate().plusDays(1))).getLocalDate().getWeekyear() == DateTimeConstants.FRIDAY && tmp.hijri.day <= 7 &&
                 tmp.hijri.month == RAJAB) {//we need this, because it might be also the last night of the previous night
-            
-            
+
+
             return RAGAIB;
         } else if (hijri.day == 26 && hijri.month == RAJAB) {
             return MIRAJ;
@@ -356,42 +359,46 @@ public class HijriDate {
         } else if (hijri.day == 13 && hijri.month == DHUL_HIJJA) {
             return EID_AL_ADHA_DAY4;
         }
-        
+
         return 0;
     }
-    
+
     public static HijriDate now() {
         return fromGreg(LocalDate.now());
     }
-    
-    
+
+
     private static class Hijri extends DateIntern<Hijri> {
         Hijri(int year, int month, int day) {
             super(year, month, day);
         }
     }
-    
-    
+
+
     private static class Greg extends DateIntern<Hijri> {
         Greg(int year, int month, int day) {
             super(year, month, day);
         }
     }
-    
-    @AllArgsConstructor
+
     private abstract static class DateIntern<K extends DateIntern> implements Comparable<K> {
         final int year;
         final int month;
         final int day;
-        
-        
+
+        public DateIntern(int year, int month, int day) {
+            this.year = year;
+            this.month = month;
+            this.day = day;
+        }
+
         @Override
         public int compareTo(@NonNull K o) {
             int x = hashCode();
             int y = o.hashCode();
             return (x < y) ? -1 : ((x == y) ? 0 : 1);
         }
-        
+
         public boolean equals(Object o) {
             if (o == this)
                 return true;
@@ -400,22 +407,22 @@ public class HijriDate {
             if (!getClass().equals(o.getClass()))
                 return false;
             final DateIntern other = (DateIntern) o;
-            
+
             return other.hashCode() == hashCode();
         }
-        
+
         public int hashCode() {
             return year * 10000 + month * 100 + day;
         }
-        
+
     }
-    
-    
+
+
     @Override
     public int hashCode() {
         return hijri.hashCode();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null)
@@ -426,5 +433,14 @@ public class HijriDate {
             return false;
         return hijri.hashCode() == ((HijriDate) obj).hijri.hashCode();
     }
+
+    public static int getMinYear() {
+        return MIN_YEAR;
+    }
+
+    public static int getMaxYear() {
+        return MAX_YEAR;
+    }
+
 }
 

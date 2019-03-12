@@ -85,8 +85,8 @@ public class Adapter extends ArrayAdapter<int[]> {
         int holyday = pair.second;
         LocalDate greg = hijri.getLocalDate();
         
-        vh.hicri.setText(LocaleUtils.format(hijri));
-        vh.date.setText(LocaleUtils.format(greg));
+        vh.hicri.setText(LocaleUtils.formatDate(hijri));
+        vh.date.setText(LocaleUtils.formatDate(greg));
         vh.name.setText(LocaleUtils.getHolyday(holyday));
         convertView.setTag(holyday);
         return convertView;

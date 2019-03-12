@@ -100,6 +100,8 @@ public class WidgetConfigure extends AppCompatActivity {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
         finish();
+
+        WidgetUtils.updateWidgets(this);
     }
 
 }

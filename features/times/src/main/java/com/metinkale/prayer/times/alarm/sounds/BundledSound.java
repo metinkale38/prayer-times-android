@@ -28,18 +28,16 @@ import java.util.EnumMap;
 import java.util.Set;
 
 import androidx.collection.ArraySet;
-import lombok.Getter;
 
 
 public class BundledSound extends Sound {
-    @Getter
     private String name;
-    
-    
+
+
     BundledSound(String name) {
         this.name = name;
     }
-    
+
     enum SoundType {
         Default,
         Fajr,
@@ -52,17 +50,17 @@ public class BundledSound extends Sound {
         Takbir,
         Sela
     }
-    
+
     private EnumMap<SoundType, Sound> subSounds = new EnumMap<>(SoundType.class);
-    
+
     public Collection<Sound> getSubSounds() {
         return Collections.unmodifiableList(new ArrayList<>(subSounds.values()));
     }
-    
+
     void addSound(SoundType type, Sound sound) {
         subSounds.put(type, sound);
     }
-    
+
     @Override
     public Set<AppSound> getAppSounds() {
         ArraySet<AppSound> set = new ArraySet<>();
@@ -71,12 +69,12 @@ public class BundledSound extends Sound {
         }
         return set;
     }
-    
+
     @Override
     public String getShortName() {
         return getName();
     }
-    
+
     @Override
     public MediaPlayer createMediaPlayer(Alarm alarm) {
         if (!isDownloaded())
@@ -92,8 +90,7 @@ public class BundledSound extends Sound {
                                                                     subSounds.values().iterator().next();
             return sound.createMediaPlayer(alarm);
         } else {
-            switch (Vakit.getByIndex(alarm.getCity().getNextTime() - 1)) {
-                case IMSAK:
+            switch (Vakit.getByIndex(alarm.getCity().getCurrentTime())) {
                 case FAJR:
                     if (subSounds.containsKey(SoundType.Fajr)) {
                         return subSounds.get(SoundType.Fajr).createMediaPlayer(alarm);
@@ -103,7 +100,6 @@ public class BundledSound extends Sound {
                     if (subSounds.containsKey(SoundType.Zuhr)) {
                         return subSounds.get(SoundType.Zuhr).createMediaPlayer(alarm);
                     }
-                case ASR_THANI:
                 case ASR:
                     if (subSounds.containsKey(SoundType.Asr)) {
                         return subSounds.get(SoundType.Asr).createMediaPlayer(alarm);
@@ -124,7 +120,7 @@ public class BundledSound extends Sound {
             }
         }
     }
-    
+
     @Override
     public boolean isDownloaded() {
         boolean dled = true;
@@ -136,7 +132,7 @@ public class BundledSound extends Sound {
         }
         return dled;
     }
-    
+
     @Override
     public int getSize() {
         int size = 0;
@@ -145,9 +141,14 @@ public class BundledSound extends Sound {
         }
         return size;
     }
-    
+
     @Override
     public int getId() {
         return name.hashCode();
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

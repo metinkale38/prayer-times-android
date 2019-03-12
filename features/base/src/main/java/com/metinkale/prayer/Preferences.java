@@ -24,8 +24,6 @@ import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
 
-import lombok.Data;
-
 public class Preferences {
     public static final String COUNTDOWN_TYPE_FLOOR = "default";
     public static final String COUNTDOWN_TYPE_TOP = "alt";
@@ -106,12 +104,24 @@ public class Preferences {
     public static SharedPreferences getPrefs() {
         return PreferenceManager.getDefaultSharedPreferences(App.get());
     }
-    
-    @Data
+
     public static abstract class Preference<T> {
         private final String key;
         private final T def;
-        
+
+        public Preference(String key, T def) {
+            this.key = key;
+            this.def = def;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public T getDef() {
+            return def;
+        }
+
         public abstract T get();
         
         public abstract void set(T obj);

@@ -42,23 +42,23 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class TesbihatFragment extends BaseActivity.MainFragment {
-    
+
     private static int mTextSize;
     @Nullable
     private static Locale mLocale;
     private FragmentStatePagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tesbihat_main, container, false);
         mLocale = LocaleUtils.getLocale();
-        
+
         PagerSlidingTabStrip indicator = v.findViewById(R.id.indicator);
-        
+
         mViewPager = v.findViewById(R.id.pager);
-        
+
         if (new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
             mSectionsPagerAdapter = new TurkishPagerAdapter(getChildFragmentManager());
         } else {
@@ -70,10 +70,10 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
         indicator.setTextColor(0xffffffff);
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
-        
+
         if ((Times.getCount() != 0) && new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
-            Vakit current = Times.getTimes(Times.getIds().get(0)).getCurrentTime();
-            switch (current) {
+            int current = Times.getTimes(Times.getIds().get(0)).getCurrentTime();
+            switch (Vakit.getByIndex(current)) {
                 case FAJR:
                     mViewPager.setCurrentItem(0);
                     break;
@@ -90,24 +90,24 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
                 case ISHAA:
                     mViewPager.setCurrentItem(4);
                     break;
-                
+
             }
         }
-        
+
         mTextSize = Preferences.TESBIHAT_TEXTSIZE.get();
-        
+
         return v;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tesbihat, menu);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        
+
         int i1 = item.getItemId();
         if (i1 == R.id.zoomIn) {
             mTextSize++;
@@ -116,34 +116,34 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
             mViewPager.invalidate();
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setCurrentItem(i);
-            
+
         } else if (i1 == R.id.zoomOut) {
             mTextSize--;
-            
+
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("tesbihatTextSize", mTextSize).apply();
             int i = mViewPager.getCurrentItem();
             mViewPager.invalidate();
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setCurrentItem(i);
-            
-            
+
+
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
-    
-    
+
+
     public static class PageFragment extends Fragment {
-        
+
         private int pos;
-        
+
         @NonNull
         public static PageFragment create(int pos) {
             PageFragment frag = new PageFragment();
             frag.pos = pos;
             return frag;
         }
-        
+
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.webview, container, false);
@@ -156,7 +156,7 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
             }
             return rootView;
         }
-        
+
         @Nullable
         public String getAssetDir(int position) {
             switch (position) {
@@ -173,26 +173,26 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
             }
             return null;
         }
-        
+
     }
-    
+
     public class TurkishPagerAdapter extends FragmentStatePagerAdapter {
-        
+
         public TurkishPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-        
+
         @NonNull
         @Override
         public Fragment getItem(int position) {
             return PageFragment.create(position);
         }
-        
+
         @Override
         public int getCount() {
             return 5;
         }
-        
+
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
@@ -211,30 +211,30 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
             return null;
         }
     }
-    
+
     public static class OtherPagerAdapter extends FragmentStatePagerAdapter {
-        
+
         public OtherPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-        
+
         @NonNull
         @Override
         public Fragment getItem(int position) {
             return PageFragment.create(position);
-            
+
         }
-        
+
         @Override
         public int getCount() {
             return 1;
         }
-        
+
         @NonNull
         @Override
         public CharSequence getPageTitle(int position) {
             return "";
         }
     }
-    
+
 }

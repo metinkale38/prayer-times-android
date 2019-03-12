@@ -34,13 +34,16 @@ import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
+import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.UUID;
 
 import org.joda.time.LocalDate;
 import org.metinkale.praytimes.HighLatsAdjustment;
 import org.metinkale.praytimes.Method;
 import org.metinkale.praytimes.PrayTimes;
+import org.metinkale.praytimes.Times;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -58,8 +61,8 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
     private PrayTimes mPrayTimes = new PrayTimes();
     private CalcTimes mCalcTime;
     private TimeZone mTz;
-    private CityFragment mFragment;
-    
+    private View mView;
+
     public static CalcTimeConfDialogFragment forCity(CalcTimes calc) {
         Bundle bdl = new Bundle();
         bdl.putLong("cityId", calc.getID());
@@ -67,19 +70,18 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
         frag.setArguments(bdl);
         return frag;
     }
-    
-    
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.calcmethod_dialog, container, false);
-        
-        
-      
-        mCalcMethod = v.findViewById(R.id.calcMethod);
-        mHLAdj = v.findViewById(R.id.highlatsAdj);
-        
-        
+        mView = inflater.inflate(R.layout.calcmethod_dialog, container, false);
+
+
+        mCalcMethod = mView.findViewById(R.id.calcMethod);
+        mHLAdj = mView.findViewById(R.id.highLatsSpinner);
+
+
         Bundle bdl = getArguments();
         if (bdl == null) {
             dismiss();
@@ -93,10 +95,10 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             final double lat = bdl.getDouble("lat", 0);
             final double lng = bdl.getDouble("lng", 0);
             final double elv = bdl.getDouble("elv", 0);
-            
+
             mCalcTime = CalcTimes.buildTemporaryTimes(getArguments().getString("city"), lat, lng, elv, -1);
             mPrayTimes = mCalcTime.getPrayTimes();
-            
+
             mPrayTimes.setTimezone(TimeZone.getDefault());
             Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asJsonObject()
                     .setCallback(new FutureCallback<JsonObject>() {
@@ -113,7 +115,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                                 }
                         }
                     });
-            
+
             if (elv == 0)
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asString()
                         .setCallback(new FutureCallback<String>() {
@@ -132,25 +134,18 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                             }
                         });
         }
-        
-        mFragment = new CityFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong("city", mCalcTime.getID());
-        mFragment.setArguments(bdl);
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment, mFragment).commit();
-    
-    
-    
+
+
         LocalDate date = LocalDate.now();
         mPrayTimes.setDate(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
         mHLAdj.setAdapter(
                 new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.adjMethod)));
-        
+
         mCalcMethod.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.calcmethod_dlgitem, R.id.legacySwitch,
                 getResources().getStringArray(R.array.calculationMethods)) {
             String[] desc = getResources().getStringArray(R.array.calculationMethodsDesc);
             String[] names = getResources().getStringArray(R.array.calculationMethodsShort);
-            
+
             @Override
             public View getDropDownView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
                 ViewGroup vg = (ViewGroup) convertView;
@@ -160,63 +155,72 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                 ((TextView) vg.getChildAt(1)).setText(desc[pos]);
                 return vg;
             }
-            
+
             @NonNull
             @Override
             public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
-                TextView tv = (TextView) convertView;
-                if (tv == null)
-                    tv = (TextView) LayoutInflater.from(getActivity()).inflate(android.R.layout.simple_spinner_item, parent, false);
-                tv.setText(names[pos]);
-                return tv;
+                return getDropDownView(pos, convertView, parent);
             }
-            
+
             @Override
             public int getCount() {
                 return 8;
             }
         });
-        
-        
+
+
         mCalcMethod.setOnItemSelectedListener(this);
         mHLAdj.setOnItemSelectedListener(this);
-        
-        
+
+
         mCalcMethod.setSelection(0);
-        
-        //  v.findViewById(R.id.ok).setOnClickListener(this);
-        return v;
+
+        updateTimes();
+        return mView;
     }
-    
-    
+
+
+    private void updateTimes() {
+        LocalDate today = LocalDate.now();
+        ((TextView) mView.findViewById(R.id.fajr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.FAJR.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.sun)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.SUN.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.dhuhr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.DHUHR.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.asr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ISHAA.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.maghrib)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.MAGHRIB.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.ishaa)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ISHAA.ordinal()).toLocalTime()));
+    }
+
     private String toString(double d) {
         if (d == (long) d)
             return String.format(Locale.getDefault(), "%d", (long) d);
         else
             return String.format(Locale.getDefault(), "%.1f", d);
     }
-    
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         if (adapterView == mCalcMethod) {
             if (pos < Method.values().length) {
-                
+
                 mPrayTimes.setMethod(Method.values()[pos]);
                 mPrayTimes.setTimezone(mTz);
+                updateTimes();
                 return;
             }
         } else if (adapterView == mHLAdj) {
             mPrayTimes.setHighLatsAdjustment(HighLatsAdjustment.values()[pos]);
+            updateTimes();
+
         }
-        
+
     }
-    
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-    
+
     }
-    
-    
+
+
     @Override
     public void onClick(View view) {
         if (mCalcTime == null) {
