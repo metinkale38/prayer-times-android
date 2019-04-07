@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 
+
 import com.metinkale.prayer.base.R;
 
 import java.util.Set;

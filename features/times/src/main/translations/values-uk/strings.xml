@@ -20,7 +20,7 @@
   <string name="adjAngle">На основі екліптики (кут / 60-ту частину ночі)</string>
   <string name="adjMidnight">Опівніч</string>
   <string name="adjTime">На основі часу (1 / 7-та частина ночі)</string>
-  <string name="angleBased">Кут</string>
+  <string name="angle">Кут</string>
   <string name="asr">Аср</string>
   <string name="calcMethod">Метод</string>
   <string name="cities">Міста</string>

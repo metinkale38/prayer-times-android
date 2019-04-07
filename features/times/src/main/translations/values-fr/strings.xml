@@ -20,7 +20,7 @@
   <string name="adjAngle">basé sur angle (angle / 60e de la nuit)</string>
   <string name="adjMidnight">Minuit</string>
   <string name="adjTime">Basé sur temps (1 / 7ème de la nuit)</string>
-  <string name="angleBased">Angle</string>
+  <string name="angle">Angle</string>
   <string name="asr">Asr</string>
   <string name="calcMethod">Méthode</string>
   <string name="cities">Villes</string>

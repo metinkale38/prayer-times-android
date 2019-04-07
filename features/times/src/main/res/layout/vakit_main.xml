@@ -68,7 +68,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:orientation="bottom"
+        app:_orientation="bottom"
         app:handle="@+id/footerText"
         app:content="@+id/imsakiyeContainer">
 
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/center"
-        app:orientation="top"
+        app:_orientation="top"
         app:handle="@+id/handle"
         app:content="@+id/settingsContainer">
 

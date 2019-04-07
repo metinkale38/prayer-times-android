@@ -34,6 +34,7 @@ import com.metinkale.prayer.MainIntentService;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
+
 import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -53,7 +54,6 @@ import java.util.Locale;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.Size;
 import androidx.core.os.LocaleListCompat;
@@ -165,7 +165,7 @@ public class LocaleUtils {
                 return time;
             }
         }
-        return toArabicNrs(time);
+        return formatNumber(time);
 
     }
 
@@ -269,7 +269,7 @@ public class LocaleUtils {
         format = format.replace("MM", az(date.getMonth(), 2));
         format = format.replace("YYYY", az(date.getYear(), 4));
         format = format.replace("YY", az(date.getYear(), 2));
-        return toArabicNrs(format);
+        return formatNumber(format);
     }
 
 
@@ -290,7 +290,7 @@ public class LocaleUtils {
         format = format.replace("MM", az(date.getMonthOfYear(), 2));
         format = format.replace("YYYY", az(date.getYear(), 4));
         format = format.replace("YY", az(date.getYear(), 2));
-        return toArabicNrs(format);
+        return formatNumber(format);
     }
 
     @NonNull
@@ -309,7 +309,7 @@ public class LocaleUtils {
 
 
     @NonNull
-    public static String toArabicNrs(@NonNull String str) {
+    public static String formatNumber(@NonNull String str) {
         if (Preferences.DIGITS.get().equals("normal"))
             return str;
         char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
@@ -330,8 +330,12 @@ public class LocaleUtils {
     }
 
     @NonNull
-    public static String toArabicNrs(int nr) {
-        return toArabicNrs(nr + "");
+    public static String formatNumber(int nr) {
+        return formatNumber(nr + "");
+    }
+
+    public static String formatNumber(double doub) {
+        return formatNumber(String.format(LocaleUtils.getLocale(), "%f", doub));
     }
 
     public static class Translation {
@@ -423,12 +427,12 @@ public class LocaleUtils {
     public static String formatPeriod(Period period, boolean showsecs) {
         if (showsecs) {
 
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HMS.print(period));
+            return LocaleUtils.formatNumber(PERIOD_FORMATTER_HMS.print(period));
         } else if (Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_FLOOR)) {
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
+            return LocaleUtils.formatNumber(PERIOD_FORMATTER_HM.print(period));
         } else {
             period = period.withFieldAdded(DurationFieldType.minutes(), 1);
-            return LocaleUtils.toArabicNrs(PERIOD_FORMATTER_HM.print(period));
+            return LocaleUtils.formatNumber(PERIOD_FORMATTER_HM.print(period));
         }
 
     }

@@ -12,8 +12,8 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
         targetSdkVersion 27
+        minSdkVersion 16
         versionCode 1
         versionName "1.0"
     }
@@ -40,7 +40,11 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
+    implementation "androidx.room:room-runtime:2.1.0-alpha04"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'net.steamcrafted:materialiconlib:1.1.5'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha01"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
 }

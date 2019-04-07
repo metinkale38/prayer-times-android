@@ -36,8 +36,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.metinkale.prayer.base.R;
-
 import java.util.Locale;
 
 import androidx.annotation.NonNull;

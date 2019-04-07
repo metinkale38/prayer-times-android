@@ -34,7 +34,7 @@ public class BooleanSerializer implements JsonSerializer<Boolean>, JsonDeseriali
     @Nullable
     @Override
     public JsonElement serialize(Boolean arg0, Type arg1, JsonSerializationContext arg2) {
-        return arg0 ? new JsonPrimitive(1) : null;
+        return arg0 ? new JsonPrimitive(1) : new JsonPrimitive(0);
     }
 
     @NonNull

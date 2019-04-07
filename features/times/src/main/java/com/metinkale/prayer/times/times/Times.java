@@ -85,7 +85,7 @@ public abstract class Times extends TimesBase {
             alarm.setEnabled(false);
             alarm.setMins(0);
             alarm.setRemoveNotification(false);
-            alarm.setVibrate(true);
+            alarm.setVibrate(false);
             alarm.setWeekdays(new ArraySet<>(Alarm.ALL_WEEKDAYS));
             alarm.setTimes(new ArraySet<>(Alarm.ALL_TIMES));
             getUserAlarms().add(alarm);
@@ -190,7 +190,7 @@ public abstract class Times extends TimesBase {
     }
 
     @NonNull
-    public LocalDateTime getAsrSaniTime(@NonNull LocalDate date) {
+    public LocalDateTime getAsrThaniTime(@NonNull LocalDate date) {
         return parseTime(date, getAsrThani(date));
     }
 

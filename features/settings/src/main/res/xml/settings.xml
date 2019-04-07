@@ -134,7 +134,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/notification">
-        <com.metinkale.prayer.utils.VibrationPreference
+        <com.metinkale.prayer.settings.VibrationPreference
             android:defaultValue="0 300 150 300 150 500"
             android:dialogTitle="@string/vibrationDesc"
             android:key="vibration"
@@ -152,14 +152,6 @@
             android:key="ongoingNumber"
             android:title="@string/ongoingNumber" />
 
-
-        <ListPreference
-            android:defaultValue="silent"
-            android:dialogTitle="@string/silenterType"
-            android:entries="@array/silenterType"
-            android:entryValues="@array/silenterType_val"
-            android:key="silenterType"
-            android:title="@string/silenterType" />
 
 
         <SwitchPreferenceCompat

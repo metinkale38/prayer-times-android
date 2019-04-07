@@ -20,7 +20,7 @@
   <string name="adjAngle">إستناداً إلى درجة الميلان ( الدرجة \ ٦٠ من الليل)</string>
   <string name="adjMidnight">منتصف الليل</string>
   <string name="adjTime">إستناداً إلى الوقت ( ١\٧ الليل)</string>
-  <string name="angleBased">الزاوية</string>
+  <string name="angle">الزاوية</string>
   <string name="asr">العصر</string>
   <string name="calcMethod">طريقة</string>
   <string name="cities">إضافة مدينة جديدة</string>

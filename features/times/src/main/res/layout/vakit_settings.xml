@@ -67,7 +67,7 @@
             <net.steamcrafted.materialiconlib.MaterialIconView
                 android:contentDescription="@null"
                 app:materialIcon="minus_circle"
-                android:id="@id/minus"
+                android:id="@+id/minus"
                 app:materialIconColor="@color/background"
                 app:materialIconSize="40dp"
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                     app:materialIconSize="40dp" />
 
                 <EditText
-                    android:id="@id/nr"
+                    android:id="@+id/nr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/minus"

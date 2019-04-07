@@ -1,0 +1,229 @@
+<!--
+  ~ Copyright (c) 2013-2017 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <TextView
+        android:id="@+id/timeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/fajr"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="00:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/timeTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/angleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/angle"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/timeTitle"
+        app:layout_constraintTop_toBottomOf="@+id/timeTitle" />
+
+    <TextView
+        android:id="@+id/timeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/time"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/angleText"
+        app:layout_constraintTop_toBottomOf="@+id/angleText" />
+
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/angleDecr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/angleText"
+        app:layout_constraintEnd_toStartOf="@+id/angle"
+        app:layout_constraintTop_toTopOf="@+id/angleText"
+        app:materialIcon="chevron_down"
+        app:materialIconColor="@color/foregroundSecondary"
+        app:materialIconSize="24dp" />
+
+    <EditText
+        android:id="@+id/angle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/angleDecr"
+        app:layout_constraintEnd_toEndOf="@+id/time"
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toTopOf="@+id/angleDecr" />
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/angleIncr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/angle"
+        app:layout_constraintStart_toEndOf="@+id/angleSuffix"
+        app:layout_constraintTop_toTopOf="@+id/angle"
+        app:materialIcon="chevron_up"
+        app:materialIconColor="@color/foregroundSecondary"
+        app:materialIconSize="24dp" />
+
+    <TextView
+        android:id="@+id/angleSuffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="°"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/angle"
+        app:layout_constraintStart_toEndOf="@+id/angle"
+        app:layout_constraintTop_toTopOf="@+id/angle"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/minsDecr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeText"
+        app:layout_constraintEnd_toStartOf="@+id/mins"
+        app:layout_constraintTop_toTopOf="@+id/timeText"
+        app:materialIcon="chevron_down"
+        app:materialIconColor="@color/foregroundSecondary"
+        app:materialIconSize="24dp" />
+
+    <EditText
+        android:id="@+id/mins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/minsDecr"
+        app:layout_constraintEnd_toEndOf="@+id/time"
+        app:layout_constraintStart_toEndOf="@id/minsDecr"
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toTopOf="@+id/minsDecr" />
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/minsIncr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mins"
+        app:layout_constraintStart_toEndOf="@+id/mins"
+        app:layout_constraintTop_toTopOf="@+id/mins"
+        app:materialIcon="chevron_up"
+        app:materialIconColor="@color/foregroundSecondary"
+        app:materialIconSize="24dp" />
+
+    <TextView
+        android:id="@+id/minsSuffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/minutes"
+        app:layout_constraintBottom_toBottomOf="@+id/minsIncr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/minsIncr"
+        app:layout_constraintTop_toTopOf="@+id/minsIncr" />
+
+
+    <TextView
+        android:id="@+id/asrText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/asr"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/timeText"
+        app:layout_constraintTop_toBottomOf="@+id/timeText" />
+
+    <RadioButton
+        android:id="@+id/asrAwwal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/asrAwwal"
+        app:layout_constraintEnd_toEndOf="@+id/time"
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toTopOf="@+id/asrText" />
+
+    <RadioButton
+        android:id="@+id/asrSani"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/asrSani"
+        app:layout_constraintEnd_toEndOf="@+id/time"
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toBottomOf="@+id/asrAwwal" />
+
+    <RadioButton
+        android:id="@+id/asrBoth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/both"
+        app:layout_constraintEnd_toEndOf="@+id/time"
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toBottomOf="@+id/asrSani" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

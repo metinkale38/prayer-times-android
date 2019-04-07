@@ -2,11 +2,6 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.metinkale.prayer.tesbihat">
 
-    <dist:module
-        dist:onDemand="true"
-        dist:title="@string/title_intro">
-        <dist:fusing dist:include="true" />
-    </dist:module>
 
     <application>
 

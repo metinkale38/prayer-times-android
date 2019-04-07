@@ -20,7 +20,7 @@
   <string name="adjAngle">Ugaonski način (ugao/60ti noći)</string>
   <string name="adjMidnight">Ponoć</string>
   <string name="adjTime">Vremenski način (1/7 noći)</string>
-  <string name="angleBased">Ugao</string>
+  <string name="angle">Ugao</string>
   <string name="asr">Ikindija</string>
   <string name="calcMethod">Metoda</string>
   <string name="cities">Gradovi</string>

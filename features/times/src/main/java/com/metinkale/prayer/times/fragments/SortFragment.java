@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
 import com.metinkale.prayer.utils.Utils;

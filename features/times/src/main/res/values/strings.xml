@@ -18,7 +18,7 @@
     <string name="adjAngle">Angle based (angle/60th of night)</string>
     <string name="adjMidnight">Midnight</string>
     <string name="adjTime">Time based (1/7th of night)</string>
-    <string name="angleBased">Angle</string>
+    <string name="angle">Angle</string>
     <string name="calcMethod">Method</string>
     <string name="cities">Cities</string>
     <string name="customVolume">Choose Volume</string>
@@ -52,6 +52,7 @@
     <string name="csvFromFile">Load CSV from File</string>
     <string name="csvFromURL">Load CSV from URL</string>
     <string name="asrSani">Asr Sânî</string>
+    <string name="asrAwwal">Asr Awwal</string>
     <string name="noAdjustment">No adjustments</string>
     <string name="customCalc">Custom</string>
     <string name="customCalcDesc">Set custom calculation parameters</string>
@@ -81,4 +82,7 @@
     <string name="vibration">Vibration</string>
     <string name="noti_afterTime">%1$s minutes before %2$s</string>
     <string name="midnight">Midnight</string>
+    <string name="silenter">Silent for</string>
+    <string name="minutes">Minutes</string>
+    <string name="both">Both</string>
 </resources>

@@ -45,26 +45,27 @@ import androidx.core.util.Pair;
 
 
 public class AlarmService extends IntentService {
+    private static final String NOTIFICATION_TAG = "alarm";
     private static final String EXTRA_ALARMID = "alarmId";
     private static final String EXTRA_TIME = "time";
     private static AtomicBoolean sInterrupt = new AtomicBoolean(false);
-    
+
     private static Pair<Alarm, LocalDateTime> sLastSchedule;
-    
+
     public AlarmService() {
         super("AlarmService");
     }
-    
-    
+
+
     public static void setAlarm(@NonNull Context c, @Nullable Pair<Alarm, LocalDateTime> alarm) {
-        
+
         MyAlarmManager am = MyAlarmManager.with(c);
-        
+
         Intent i = new Intent(c, AlarmReceiver.class);
         if (alarm != null) {
             if (alarm.equals(sLastSchedule) && !BuildConfig.DEBUG)
                 return;
-            
+
             if (!Build.MANUFACTURER.equals("samsung") || Build.VERSION.SDK_INT < 20) {
                 sLastSchedule = alarm;
             } else {
@@ -73,23 +74,23 @@ public class AlarmService extends IntentService {
                     sLastSchedule = alarm;
                 }
             }
-            
+
             long time = alarm.second.toDateTime().getMillis();
-            
+
             i.putExtra(EXTRA_ALARMID, alarm.first.getId());
             i.putExtra(EXTRA_TIME, time);
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-            
+
             am.cancel(service);
-            
+
             am.setExact(AlarmManager.RTC_WAKEUP, time, service);
-            
-            
+
+
         }
-        
+
     }
-    
-    
+
+
     @Override
     protected void onHandleIntent(Intent intent) {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -100,118 +101,118 @@ public class AlarmService extends IntentService {
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
-        
+
         Times.setAlarms();
-        
+
         wakeLock.release();
-        
+
     }
-    
+
     public void fireAlarm(@Nullable Intent intent) throws InterruptedException {
-        
-        
+
+
         Context c = App.get();
-        
+
         if ((intent == null) || !intent.hasExtra(EXTRA_ALARMID)) {
             return;
         }
-        
-        
+
+
         int alarmId = intent.getIntExtra(EXTRA_ALARMID, 0);
-        
-        
+
+
         long time = intent.getLongExtra(EXTRA_TIME, 0);
-        
-        
+
+
         Alarm alarm = Alarm.fromId(alarmId);
-        
+
         if (alarm == null)
             return;
-        
+
         intent.removeExtra(EXTRA_ALARMID);
-        
+
         Times t = alarm.getCity();
         if (t == null)
             return;
-        
+
         int notId = t.getIntID();
-        
+
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-        
-        nm.cancel(notId);
-        
-        
+
+        nm.cancel(NOTIFICATION_TAG, notId);
+
+
         alarm.vibrate(c);
-        
-        
+
+
         final MyPlayer player = MyPlayer.from(alarm);
         if (player == null) {
             Notification not = AlarmUtils.buildAlarmNotification(c, alarm, time);
-            nm.notify(notId, not);
+            nm.notify(NOTIFICATION_TAG, notId, not);
             return;//no audio, nothing else to do here
         }
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
         } else {
-            nm.notify(notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
+            nm.notify(NOTIFICATION_TAG, notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
         }
-        
+
         if (Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
             NotificationPopup.start(c, alarm);
             Thread.sleep(1000);
         }
-        
-        
+
+
         try {
             player.play();
-            
+
             if (Preferences.STOP_ALARM_ON_FACEDOWN.get()) {
                 StopByFacedownMgr.start(this, player);
             }
-            
+
             sInterrupt.set(false);
             while (!sInterrupt.get() && player.isPlaying()) {
                 Thread.sleep(500);
             }
-            
+
             if (player.isPlaying()) {
                 player.stop();
             }
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
-        
-        nm.cancel(notId);
-        
+
+        nm.cancel(NOTIFICATION_TAG, notId);
+
         if (!alarm.isRemoveNotification()) {
             stopForeground(true);
             Notification not = AlarmUtils.buildAlarmNotification(c, alarm, time);
-            nm.notify(notId, not);
+            nm.notify(NOTIFICATION_TAG, notId, not);
         }
-        
+
         if (alarm.getSilenter() != 0) {
             SilenterReceiver.silent(c, alarm.getSilenter());
         }
-        
+
         if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
             NotificationPopup.instance.finish();
         }
-        
-        
+
+
     }
-    
-    
+
+
     public static class StopAlarmPlayerReceiver extends BroadcastReceiver {
-        
+
         @Override
         public void onReceive(Context context, Intent intent) {
             sInterrupt.set(true);
         }
     }
-    
+
     public static class AlarmReceiver extends BroadcastReceiver {
-        
+
         @Override
         public void onReceive(@NonNull Context context, @NonNull Intent intent) {
             int alarmId = intent.getIntExtra(EXTRA_ALARMID, -1);
@@ -230,5 +231,5 @@ public class AlarmService extends IntentService {
             }
         }
     }
-    
+
 }

@@ -17,6 +17,7 @@
 package com.metinkale.prayer;
 
 import com.crashlytics.android.Crashlytics;
+
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.FastTokenizer;
 import com.metinkale.prayer.utils.Utils;

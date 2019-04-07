@@ -33,12 +33,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.metinkale.prayer.base.R;
+
+import com.metinkale.prayer.times.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-
 
 
 public class MultipleOrientationSlidingDrawer extends ViewGroup {
@@ -165,7 +164,7 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultipleOrientationSlidingDrawer, defStyle, 0);
 
-        int orientation = a.getInteger(R.styleable.MultipleOrientationSlidingDrawer_orientation, Orientation.TOP.value);
+        int orientation = a.getInteger(R.styleable.MultipleOrientationSlidingDrawer__orientation, Orientation.TOP.value);
         setOrientation(Orientation.getByValue(orientation));
         mHandlePos = Side.getByValue(orientation);
         mBottomOffset = (int) a.getDimension(R.styleable.MultipleOrientationSlidingDrawer_bottomOffset, 0.0f);

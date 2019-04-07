@@ -1,3 +1,4 @@
+
 package com.metinkale.prayer;
 
 import android.content.BroadcastReceiver;

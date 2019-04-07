@@ -134,7 +134,7 @@ public class Frag2D extends Fragment implements QiblaListener {
     public void setQiblaAngle(double angle) {
         mQiblaAngle = angle;
         if (mAngleTV != null) {
-            mAngleTV.setText(LocaleUtils.toArabicNrs(Math.round(angle) + "°"));
+            mAngleTV.setText(LocaleUtils.formatNumber(Math.round(angle) + "°"));
             mCompassView.setQiblaAngle((int) Math.round(angle));
         }
     }
@@ -143,7 +143,7 @@ public class Frag2D extends Fragment implements QiblaListener {
     public void setQiblaDistance(double distance) {
         mQiblaDistance = distance;
         if (mDistanceTV != null)
-            mDistanceTV.setText(LocaleUtils.toArabicNrs(Math.round(distance) + "km"));
+            mDistanceTV.setText(LocaleUtils.formatNumber(Math.round(distance) + "km"));
     }
     
     private DegreeLowPassFilter lowPassFilter = new DegreeLowPassFilter();

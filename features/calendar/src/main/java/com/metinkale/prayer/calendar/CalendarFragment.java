@@ -129,7 +129,7 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
         public CharSequence getPageTitle(int position) {
             if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
-            return LocaleUtils.toArabicNrs(position + HijriDate.getMinYear());
+            return LocaleUtils.formatNumber(position + HijriDate.getMinYear());
         }
     }
 

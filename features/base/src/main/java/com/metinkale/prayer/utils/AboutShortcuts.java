@@ -14,6 +14,7 @@ import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
+
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 

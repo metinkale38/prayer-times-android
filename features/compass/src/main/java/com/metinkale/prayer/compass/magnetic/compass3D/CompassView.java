@@ -106,14 +106,14 @@ public class CompassView extends View {
         mPaint.setColor(0xFF000000);
         mPaint.setTextSize(w / 10);
         mPaint.setTextAlign(Align.CENTER);
-        canvas.drawText(LocaleUtils.toArabicNrs(Math.round(mX)) + "°", w / 2, h * 0.9f, mPaint);
+        canvas.drawText(LocaleUtils.formatNumber(Math.round(mX)) + "°", w / 2, h * 0.9f, mPaint);
         
         mPaint.setTextSize(w / 12);
         mPaint.setTextAlign(Align.RIGHT);
-        canvas.drawText(LocaleUtils.toArabicNrs((int) Math.round(mQiblaDistance)) + "km", w * 0.45f, h * 0.98f, mPaint);
+        canvas.drawText(LocaleUtils.formatNumber((int) Math.round(mQiblaDistance)) + "km", w * 0.45f, h * 0.98f, mPaint);
         
         mPaint.setTextAlign(Align.LEFT);
-        canvas.drawText(LocaleUtils.toArabicNrs((int) Math.round(mQiblaAngle)) + "°", w * 0.55f, h * 0.98f, mPaint);
+        canvas.drawText(LocaleUtils.formatNumber((int) Math.round(mQiblaAngle)) + "°", w * 0.55f, h * 0.98f, mPaint);
         
         if (mX > 180) {
             mX -= 360;

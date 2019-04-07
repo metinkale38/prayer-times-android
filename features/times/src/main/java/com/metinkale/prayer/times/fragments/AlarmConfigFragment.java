@@ -20,13 +20,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -40,6 +44,7 @@ import com.metinkale.prayer.times.alarm.sounds.SoundChooser;
 import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
@@ -47,13 +52,14 @@ import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+public class AlarmConfigFragment extends DialogFragment {
     private TextView[] mWeekdays = new TextView[7];
     private MaterialIconView[] mTimesViews = new MaterialIconView[6];
     private TextView[] mWeekdaysText = new TextView[7];
@@ -65,14 +71,17 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
     private RecyclerView mSounds;
     private boolean mMinuteExact = false;
     private Alarm mAlarm;
-    private int mColorOn = App.get().getResources().getColor(R.color.theme_default_primary);
+    private int mColorOn = App.get().getResources().getColor(R.color.colorPrimary);
     private int mColorOff = App.get().getResources().getColor(R.color.foregroundSecondary);
     private Button mAddSound;
     private SeekBar mVolumeBar;
     private Spinner mVolumeSpinner;
+    private TextView mVolumeTitle;
     private SoundChooserAdapter mAdapter;
     private Button mDelete;
     private Times mTimes;
+    private View mSilenterUp, mSilenterDown;
+    private EditText mSilenterValue;
 
     public static AlarmConfigFragment create(Alarm alarm) {
         Bundle bdl = new Bundle();
@@ -89,8 +98,13 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vakit_notprefs_item, container, false);
 
+        mSilenterDown = view.findViewById(R.id.silenterDecr);
+        mSilenterUp = view.findViewById(R.id.silenterIncr);
+        mSilenterValue = view.findViewById(R.id.silenter);
+
         mVolumeBar = view.findViewById(R.id.volume);
         mVolumeSpinner = view.findViewById(R.id.volumeSpinner);
+        mVolumeTitle = view.findViewById(R.id.volumeText);
 
         mWeekdays[0] = view.findViewById(R.id.sunday);
         mWeekdays[1] = view.findViewById(R.id.monday);
@@ -130,6 +144,177 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
         mAddSound = view.findViewById(R.id.addSound);
 
         mDelete = view.findViewById(R.id.delete);
+
+
+        mVibrate = view.findViewById(R.id.vibrate);
+        mAutoDelete = view.findViewById(R.id.deleteAfterSound);
+
+
+        return view;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Bundle bdl = getArguments();
+        mTimes = Times.getTimes(bdl.getLong("city"));
+        if (mTimes == null) {
+            dismiss();
+            return;
+        }
+        mAlarm = mTimes.getAlarm(bdl.getInt("id"));
+
+
+        initMinuteAdj();
+        initWeekdays();
+        initTimes();
+        initSounds();
+        initVolume();
+        initVibrate();
+        initDelete();
+        initAutodelete();
+        initSilenter();
+    }
+
+    private void initSilenter() {
+        final Runnable incr = new Runnable() {
+            @Override
+            public void run() {
+                mAlarm.setSilenter(mAlarm.getSilenter() + 1);
+                mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
+                mSilenterValue.postDelayed(this, 500    );
+            }
+        };
+
+        final Runnable decr = new Runnable() {
+            @Override
+            public void run() {
+                mAlarm.setSilenter(mAlarm.getSilenter() - 1);
+                mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
+                mSilenterValue.postDelayed(this, 500);
+            }
+        };
+
+        mSilenterUp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.post(incr);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.removeCallbacks(incr);
+                }
+                return true;
+            }
+        });
+
+        mSilenterDown.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.post(decr);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.removeCallbacks(decr);
+                }
+                return true;
+            }
+        });
+
+        mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
+        mSilenterValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    mAlarm.setSilenter(Integer.parseInt(s.toString()));
+                } catch (NumberFormatException ignore) {
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+    }
+
+    private void initMinuteAdj() {
+        mMinute.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                progress -= seekBar.getMax() / 2;
+                if (!mMinuteExact) {
+                    progress *= 5;
+                }
+                mAlarm.setMins(progress);
+
+                if (progress == 0) {
+                    mMinuteText.setText(R.string.onTime);
+                } else if (progress < 0) {
+                    mMinuteText.setText(getString(R.string.beforeTime, -progress));
+                } else {
+                    mMinuteText.setText(getString(R.string.afterTime, progress));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //not needed
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //not needed
+            }
+        });
+        int progress = mAlarm.getMins();
+        mMinuteExact = Math.abs(mAlarm.getMins()) % 5 != 0;
+        if (!mMinuteExact) {
+            progress /= 5;
+        }
+
+        if (Math.abs(progress) > mMinute.getMax() / 2) {
+            mMinute.setMax(Math.abs(progress) * 2);
+        }
+
+        progress += mMinute.getMax() / 2;
+        mMinute.setProgress(progress);
+    }
+
+    private void initAutodelete() {
+        mAutoDelete.setChecked(mAlarm.isRemoveNotification());
+        mAutoDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAlarm.setRemoveNotification(isChecked);
+            }
+        });
+    }
+
+    private void initVibrate() {
+        mVibrate.setChecked(mAlarm.isVibrate());
+        mVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAlarm.setVibrate(isChecked);
+            }
+        });
+    }
+
+    private void initDelete() {
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +337,52 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
             }
         });
 
-        return view;
+    }
+
+    private void initTimes() {
+        for (int i = 0; i < 6; i++) {
+            final Vakit time = Vakit.getByIndex(i);
+            mTimesText[i].setText(time.getString());
+
+            setTime(time, isTime(time));
+
+            mTimesViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTime(time, !isTime(time));
+                }
+            });
+        }
+    }
+
+    private void initWeekdays() {
+        String[] weekdays = new DateFormatSymbols().getWeekdays();
+
+        //rotate arrays to match first weekday
+        int firstWeekday = Calendar.getInstance().getFirstDayOfWeek();
+        if (firstWeekday != Calendar.SUNDAY) {//java default is sunday, nothing to do
+            TextView[] wds = mWeekdays.clone();
+            TextView[] wdTs = mWeekdaysText.clone();
+            for (int i = 0; i < 7; i++) {
+                mWeekdays[i] = wds[(8 - firstWeekday + i) % 7];
+                mWeekdaysText[i] = wdTs[(8 - firstWeekday + i) % 7];
+            }
+        }
+
+        for (int i = 0; i < 7; i++) {
+            mWeekdays[i].setText(weekdays[i + 1].substring(0, 1));
+            mWeekdaysText[i].setText(weekdays[i + 1]);
+            final int weekday = i + 1;
+
+            setWeekday(i + 1, isWeekday(weekday));
+
+            mWeekdays[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setWeekday(weekday, !isWeekday(weekday));
+                }
+            });
+        }
     }
 
     private void initVolume() {
@@ -225,85 +455,15 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
         });
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Bundle bdl = getArguments();
-        mTimes = Times.getTimes(bdl.getLong("city"));
-        if (mTimes == null) {
-            dismiss();
-            return;
-        }
-        mAlarm = mTimes.getAlarm(bdl.getInt("id"));
-
-
-        mVibrate = view.findViewById(R.id.vibrate);
-        mAutoDelete = view.findViewById(R.id.deleteAfterSound);
-
-        String[] weekdays = new DateFormatSymbols().getWeekdays();
-
-        //rotate arrays to match first weekday
-        int firstWeekday = Calendar.getInstance().getFirstDayOfWeek();
-        if (firstWeekday != Calendar.SUNDAY) {//java default is sunday, nothing to do
-            TextView[] wds = mWeekdays.clone();
-            TextView[] wdTs = mWeekdaysText.clone();
-            for (int i = 0; i < 7; i++) {
-                mWeekdays[i] = wds[(8 - firstWeekday + i) % 7];
-                mWeekdaysText[i] = wdTs[(8 - firstWeekday + i) % 7];
-            }
-        }
-
-        for (int i = 0; i < 7; i++) {
-            mWeekdays[i].setText(weekdays[i + 1].substring(0, 1));
-            mWeekdaysText[i].setText(weekdays[i + 1]);
-            final int weekday = i + 1;
-
-            setWeekday(i + 1, isWeekday(weekday));
-
-            mWeekdays[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setWeekday(weekday, !isWeekday(weekday));
-                }
-            });
-        }
-
-        for (int i = 0; i < 6; i++) {
-            final Vakit time = Vakit.getByIndex(i);
-            mTimesText[i].setText(time.getString());
-
-            setTime(time, isTime(time));
-
-            mTimesViews[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setTime(time, !isTime(time));
-                }
-            });
-        }
-
-
-        mVibrate.setChecked(mAlarm.isVibrate());
-        mAutoDelete.setChecked(mAlarm.isRemoveNotification());
-
-        mVibrate.setOnCheckedChangeListener(this);
-        mAutoDelete.setOnCheckedChangeListener(this);
-
-
-        mMinute.setOnSeekBarChangeListener(this);
-        int progress = mAlarm.getMins();
-        mMinuteExact = Math.abs(mAlarm.getMins()) % 5 != 0;
-        if (!mMinuteExact) {
-            progress /= 5;
-        }
-
-        if (Math.abs(progress) > mMinute.getMax() / 2) {
-            mMinute.setMax(Math.abs(progress) * 2);
-        }
-
-        progress += mMinute.getMax() / 2;
-        mMinute.setProgress(progress);
+    private void initSounds() {
+        final List<Sound> sounds = mAlarm.getSounds();
+        mAdapter = new SoundChooserAdapter(mSounds, sounds);
+        mAdapter.setVolume(mAlarm.getVolume());
+        mAdapter.setShowRadioButton(false);
+        mSounds.setAdapter(mAdapter);
+        mVolumeBar.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
+        mVolumeTitle.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
+        mVolumeSpinner.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
 
 
         mAddSound.setOnClickListener(new View.OnClickListener() {
@@ -313,16 +473,6 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
             }
         });
 
-        initVolume();
-        initSounds();
-    }
-
-    private void initSounds() {
-        final List<Sound> sounds = mAlarm.getSounds();
-        mAdapter = new SoundChooserAdapter(mSounds, sounds);
-        mAdapter.setVolume(mAlarm.getVolume());
-        mAdapter.setShowRadioButton(false);
-        mSounds.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new SoundChooserAdapter.OnClickListener() {
             @Override
@@ -345,7 +495,8 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             sounds.remove(sound);
-                                            mAdapter.update();
+                                            initSounds();
+                                            initVolume();
                                         }
                                     }).show();
                             return true;
@@ -387,43 +538,6 @@ public class AlarmConfigFragment extends DialogFragment implements SeekBar.OnSee
         }
 
         mTimesViews[time.ordinal()].setColor(enable ? mColorOn : mColorOff);
-    }
-
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-        progress -= seekBar.getMax() / 2;
-        if (!mMinuteExact) {
-            progress *= 5;
-        }
-        mAlarm.setMins(progress);
-
-        if (progress == 0) {
-            mMinuteText.setText(R.string.onTime);
-        } else if (progress < 0) {
-            mMinuteText.setText(getString(R.string.beforeTime, -progress));
-        } else {
-            mMinuteText.setText(getString(R.string.afterTime, progress));
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        //not needed
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        //not needed
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView == mVibrate) {
-            mAlarm.setVibrate(isChecked);
-        } else if (buttonView == mAutoDelete) {
-            mAlarm.setRemoveNotification(isChecked);
-        }
     }
 
 

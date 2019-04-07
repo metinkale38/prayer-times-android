@@ -20,7 +20,7 @@
   <string name="adjAngle">Açı\'ya göre (angle/60th of night)</string>
   <string name="adjMidnight">Gece yarısı</string>
   <string name="adjTime">Zaman\'a göre (Gecenin 7\'de biri)</string>
-  <string name="angleBased">Açı</string>
+  <string name="angle">Açı</string>
   <string name="asr">İkindi</string>
   <string name="calcMethod">Yöntem</string>
   <string name="cities">Şehirler</string>

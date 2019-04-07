@@ -24,10 +24,11 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.times.fragments.CalcTimeConfDialogFragment;
+import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
+import com.metinkale.prayer.utils.UUID;
 
 import org.joda.time.LocalDate;
 import org.metinkale.praytimes.HighLatsAdjustment;
@@ -48,7 +49,12 @@ public class CalcTimes extends Times {
     private PrayTimes prayTimes;
     private AsrType asrType = AsrType.Shafi;
 
-    enum AsrType {
+    public void setTimezone(TimeZone timeZone) {
+        prayTimes.setTimezone(timeZone);
+    }
+
+
+    public enum AsrType {
         Shafi,
         Hanafi,
         Both
@@ -70,7 +76,22 @@ public class CalcTimes extends Times {
         return buildTemporaryTimes(name, lat, lng, 0, id);
     }
 
+    public boolean isTemporary() {
+        return getID() < 0;
+    }
+
+    public void createFromTemporary() {
+        if (!isTemporary())
+            throw new RuntimeException("cannot call createFromTemporary() on non-temporary CalcTime");
+
+        setID(UUID.asInt());
+        save();
+    }
+
+
     public static CalcTimes buildTemporaryTimes(String name, double lat, double lng, double elv, long id) {
+        if (id > 0)
+            throw new IllegalArgumentException("can not create Temporary Times with positive id!");
         CalcTimes t = new CalcTimes(id);
         t.setSource(Source.Calc);
         if (lat > 48)
@@ -81,6 +102,7 @@ public class CalcTimes extends Times {
     }
 
 
+    @NonNull
     public PrayTimes getPrayTimes() {
         if (prayTimes == null) {
             prayTimes = new PrayTimes();
@@ -207,6 +229,15 @@ public class CalcTimes extends Times {
             return getPrayTimes().getTime(org.metinkale.praytimes.Times.AsrHanafi);
         }
         return null;
+    }
+
+    public void setAsrType(AsrType type) {
+        asrType = type;
+        save();
+    }
+
+    public AsrType getAsrType() {
+        return asrType;
     }
 
     public void setPrayTimes(PrayTimes prayTimes) {

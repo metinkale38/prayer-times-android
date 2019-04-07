@@ -17,7 +17,7 @@
   -->
 <resources>
   <string name="adjMidnight">آدھی رات</string>
-  <string name="angleBased">زاویہ</string>
+  <string name="angle">زاویہ</string>
   <string name="asr">عصر</string>
   <string name="calcMethod">طریقہ</string>
   <string name="cities">شہر</string>

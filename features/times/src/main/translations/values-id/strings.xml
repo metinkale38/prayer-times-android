@@ -20,7 +20,7 @@
   <string name="adjAngle">Arah Sudut (sudut / 60th malam)</string>
   <string name="adjMidnight">Tengah malam</string>
   <string name="adjTime">Berdasarkan waktu (1/7 malam)</string>
-  <string name="angleBased">Sudut</string>
+  <string name="angle">Sudut</string>
   <string name="asr">Asar</string>
   <string name="calcMethod">Metode</string>
   <string name="cities">Kota-kota</string>

@@ -78,7 +78,7 @@ public class FragQiblaTime extends Fragment implements QiblaListener {
         if (angle < 0) {
             angle += 360;
         }
-        mQiblaAngle.setText(LocaleUtils.toArabicNrs(Math.round(angle) + "°"));
+        mQiblaAngle.setText(LocaleUtils.formatNumber(Math.round(angle) + "°"));
         mQiblaTimeView.setAngle(angle);
         
     }
@@ -88,7 +88,7 @@ public class FragQiblaTime extends Fragment implements QiblaListener {
         mDistance=distance;
         if (mQiblaDistance == null)
             return;
-        mQiblaDistance.setText(LocaleUtils.toArabicNrs(Math.round(distance) + "km"));
+        mQiblaDistance.setText(LocaleUtils.formatNumber(Math.round(distance) + "km"));
         
     }
 }

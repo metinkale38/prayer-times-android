@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.utils;
+package com.metinkale.prayer.settings;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +24,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -33,7 +34,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.metinkale.prayer.base.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.preference.EditTextPreference;
 
 /**
  * Created by metin on 24.03.2016.
@@ -49,27 +49,7 @@ import androidx.preference.EditTextPreference;
 public class VibrationPreference extends EditTextPreference {
     private EditText editText;
 
-    @NonNull
-    public static long[] getPattern(Context c, String key) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        List<Long> mills = new ArrayList<>();
-        String txt = prefs.getString(key, "0 300 150 300 150 500");
-        String[] split = txt.split(" ");
-        for (String s : split) {
-            if (!s.isEmpty()) {
-                try {
-                    mills.add(Long.parseLong(s));
-                } catch (Exception ignore) {
-                }
-            }
-        }
-        long[] pattern = new long[mills.size()];
-        for (int i = 0; i < pattern.length; i++) {
-            pattern[i] = mills.get(i);
-        }
-        return pattern;
 
-    }
 
     //Called when addPreferencesFromResource() is called. Initializes basic paramaters
     public VibrationPreference(Context context, AttributeSet attrs) {

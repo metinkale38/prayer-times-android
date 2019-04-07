@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.metinkale.prayer.times.fragments;
+package com.metinkale.prayer.times.fragments.calctime;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
+import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -43,7 +45,6 @@ import org.joda.time.LocalDate;
 import org.metinkale.praytimes.HighLatsAdjustment;
 import org.metinkale.praytimes.Method;
 import org.metinkale.praytimes.PrayTimes;
-import org.metinkale.praytimes.Times;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -51,6 +52,7 @@ import java.util.TimeZone;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by metin on 10.10.2017.
@@ -58,6 +60,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class CalcTimeConfDialogFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private Spinner mCalcMethod, mHLAdj;
+    private Method mMethod = Method.MWL;
     private PrayTimes mPrayTimes = new PrayTimes();
     private CalcTimes mCalcTime;
     private TimeZone mTz;
@@ -71,6 +74,11 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
         return frag;
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        Times.clearTemporaryTimes();
+    }
 
     @Nullable
     @Override
@@ -108,8 +116,11 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                                 Crashlytics.logException(e);
                             if (result != null)
                                 try {
-                                    mTz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
-                                    mPrayTimes.setTimezone(mTz);
+                                    TimeZone tz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
+                                    if (tz != null) {
+                                        mTz = tz;
+                                        mPrayTimes.setTimezone(mTz);
+                                    }
                                 } catch (Exception ee) {
                                     Crashlytics.logException(ee);
                                 }
@@ -175,34 +186,86 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
 
         mCalcMethod.setSelection(0);
 
+
+        mView.findViewById(R.id.fajrEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.FAJR, mPrayTimes.getFajrAngle(), mPrayTimes.getFajrMinuteAdjust()).show(getChildFragmentManager(), "");
+            }
+        });
+
+        mView.findViewById(R.id.sunEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.SUN, 0, mPrayTimes.getSunriseMinuteAdjust()).show(getChildFragmentManager(), "");
+            }
+        });
+
+        mView.findViewById(R.id.asrEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ASR, 0, mPrayTimes.getAsrShafiMinuteAdjust()).show(getChildFragmentManager(), "");
+            }
+        });
+
+        mView.findViewById(R.id.maghribEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.MAGHRIB, mPrayTimes.getMaghribAngle(), mPrayTimes.getMaghribMinuteAdjust()).show(getChildFragmentManager(), "");
+            }
+        });
+
+        mView.findViewById(R.id.ishaaEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ISHAA, mPrayTimes.getImsakAngle(), mPrayTimes.getIshaaMinuteAdjust()).show(getChildFragmentManager(), "");
+            }
+        });
+
+        mView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalcTime.createFromTemporary();
+                dismiss();
+            }
+        });
+
         updateTimes();
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTimes();
+    }
 
-    private void updateTimes() {
+    void updateTimes() {
         LocalDate today = LocalDate.now();
         ((TextView) mView.findViewById(R.id.fajr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.FAJR.ordinal()).toLocalTime()));
         ((TextView) mView.findViewById(R.id.sun)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.SUN.ordinal()).toLocalTime()));
         ((TextView) mView.findViewById(R.id.dhuhr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.DHUHR.ordinal()).toLocalTime()));
-        ((TextView) mView.findViewById(R.id.asr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ISHAA.ordinal()).toLocalTime()));
+        ((TextView) mView.findViewById(R.id.asr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ASR.ordinal()).toLocalTime()));
         ((TextView) mView.findViewById(R.id.maghrib)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.MAGHRIB.ordinal()).toLocalTime()));
         ((TextView) mView.findViewById(R.id.ishaa)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ISHAA.ordinal()).toLocalTime()));
+
+        if (mCalcTime.getAsrType() == CalcTimes.AsrType.Both) {
+            ((TextView) mView.findViewById(R.id.asr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ASR.ordinal()).toLocalTime()) + " / " + LocaleUtils.formatTime(mCalcTime.getAsrThaniTime(today).toLocalTime()));
+        }
     }
 
-    private String toString(double d) {
-        if (d == (long) d)
-            return String.format(Locale.getDefault(), "%d", (long) d);
-        else
-            return String.format(Locale.getDefault(), "%.1f", d);
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         if (adapterView == mCalcMethod) {
             if (pos < Method.values().length) {
-
-                mPrayTimes.setMethod(Method.values()[pos]);
+                mMethod = Method.values()[pos];
+                mPrayTimes.setMethod(mMethod);
                 mPrayTimes.setTimezone(mTz);
                 updateTimes();
                 return;

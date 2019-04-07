@@ -1,10 +1,12 @@
 package com.metinkale.prayer.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -16,7 +18,11 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.io.Closeable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 public class Utils {
     /**
@@ -74,5 +80,27 @@ public class Utils {
         }
     }
 
+
+    @NonNull
+    public static long[] getVibrationPattern(Context c, String key) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        List<Long> mills = new ArrayList<>();
+        String txt = prefs.getString(key, "0 300 150 300 150 500");
+        String[] split = txt.split(" ");
+        for (String s : split) {
+            if (!s.isEmpty()) {
+                try {
+                    mills.add(Long.parseLong(s));
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        long[] pattern = new long[mills.size()];
+        for (int i = 0; i < pattern.length; i++) {
+            pattern[i] = mills.get(i);
+        }
+        return pattern;
+
+    }
 
 }

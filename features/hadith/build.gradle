@@ -11,8 +11,8 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
         targetSdkVersion 27
+        minSdkVersion 16
         versionCode 1
         versionName "1.0"
     }
@@ -39,6 +39,9 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'net.steamcrafted:materialiconlib:1.1.5'
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
 
 }

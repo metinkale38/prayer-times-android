@@ -66,7 +66,7 @@ import androidx.lifecycle.Observer;
 
 @SuppressLint("ClickableViewAccessibility")
 public class CityFragment extends Fragment implements Observer<Times> {
-    
+
     @NonNull
     private static Handler mHandler = new Handler();
     private View mView;
@@ -82,15 +82,15 @@ public class CityFragment extends Fragment implements Observer<Times> {
     private int mThreeSecondCounter;
     @NonNull
     private Runnable onSecond = new Runnable() {
-        
+
         @Override
         public void run() {
-            
+
             if ((mTimes != null) && !mTimes.isDeleted()) {
                 checkKerahat();
                 if (mTimes.isAutoLocation())
                     mTitle.setText(mTimes.getName());
-                
+
                 int next = mTimes.getNextTime();
                 if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
                     next = next + 1;
@@ -105,15 +105,15 @@ public class CityFragment extends Fragment implements Observer<Times> {
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.transparent);
                     }
                 }
-                
-                
+
+
                 String left = LocaleUtils.formatPeriod(DateTime.now(), mTimes.getTime(LocalDate.now(), next).toDateTime(), true);
                 mCountdown.setText(left);
-                
-                if (mThreeSecondCounter++ % 3 == 0) {
+
+                if (++mThreeSecondCounter % 3 == 0) {
                     LocalDate date = LocalDate.now();
                     LocalDateTime sabah = mTimes.getSabahTime(date);
-                    LocalDateTime asr = mTimes.getAsrSaniTime(date);
+                    LocalDateTime asr = mTimes.getAsrThaniTime(date);
                     if (!(sabah.toLocalTime().equals(LocalTime.MIDNIGHT))) {
                         if (mThreeSecondCounter % 6 == 0) {
                             mPrayerTitles[Vakit.FAJR.ordinal()].setText(Vakit.FAJR.getString(0));
@@ -123,48 +123,48 @@ public class CityFragment extends Fragment implements Observer<Times> {
                             mPrayerTimes[Vakit.FAJR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getSabahTime(date).toLocalTime()));
                         }
                     }
-                    
+
                     if (!(asr.toLocalTime().equals(LocalTime.MIDNIGHT))) {
                         if (mThreeSecondCounter % 6 == 0) {
                             mPrayerTitles[Vakit.ASR.ordinal()].setText(Vakit.ASR.getString(0));
                             mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(date, Vakit.ASR.ordinal()).toLocalTime()));
                         } else {
                             mPrayerTitles[Vakit.ASR.ordinal()].setText(Vakit.ASR.getString(1));
-                            mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getAsrSaniTime(date).toLocalTime()));
+                            mPrayerTimes[Vakit.ASR.ordinal()].setText(LocaleUtils.formatTimeForHTML(mTimes.getAsrThaniTime(date).toLocalTime()));
                         }
                     }
-                    
+
                 }
-                
+
             }
             mHandler.postDelayed(this, 1000);
-            
+
         }
-        
-        
+
+
     };
-    
-    
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         mTimes = Times.getTimes(getArguments().getLong("city"));
         if (mTimes == null) {
             return new View(getActivity());
         }
-        
+
         mView = inflater.inflate(R.layout.vakit_fragment, container, false);
         setHasOptionsMenu(true);
-        
-        
+
+
         mCountdown = mView.findViewById(R.id.countdown);
         mTitle = mView.findViewById(R.id.city);
         mDate = mView.findViewById(R.id.date);
         mHicri = mView.findViewById(R.id.hicri);
-        
-        
+
+
         mKerahat = mView.findViewById(R.id.kerahat);
-        
-        
+
+
         int[] ids = {R.id.fajrTime, R.id.sunTime, R.id.zuhrTime, R.id.asrTime, R.id.maghribTime, R.id.ishaaTime};
         int[] idsNames = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
         mPrayerTitles = new TextView[idsNames.length];
@@ -173,17 +173,17 @@ public class CityFragment extends Fragment implements Observer<Times> {
             mPrayerTitles[i] = mView.findViewById(idsNames[i]);
             mPrayerTimes[i] = mView.findViewById(ids[i]);
         }
-        
-        
+
+
         mTimes.observe(this, this);
         onChanged(mTimes);
-        
+
         if (new Locale("tr").getLanguage().equals(LocaleUtils.getLocale().getLanguage())) {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.imsak);
         } else {
             ((TextView) mView.findViewById(R.id.fajr)).setText(R.string.fajr);
         }
-        
+
         if (mTimes.getID() >= 0) {
             ImageView source1 = mView.findViewById(R.id.source1);
             ImageView source2 = mView.findViewById(R.id.source2);
@@ -192,7 +192,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 source2.setImageResource(mTimes.getSource().drawableId);
             }
         }
-        
+
         if (Preferences.USE_ARABIC.get()) {
             for (int i = 0; i < mPrayerTitles.length; i++) {
                 TextView tv = mPrayerTitles[i];
@@ -200,22 +200,22 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 tv.setText(Vakit.getByIndex(i).getString());
             }
         }
-        
-        
+
+
         return mView;
     }
-    
+
     @Override
     public void onChanged(@Nullable Times times) {
         update();
     }
-    
-    
+
+
     public void update() {
         if ((mTimes == null) || (mView == null)) {
             return;
         }
-        
+
         mTitle.setText(mTimes.getName());
         if (mTimes.isAutoLocation()) {
             Drawable icon = MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS).setSizeDp(32)
@@ -227,33 +227,33 @@ public class CityFragment extends Fragment implements Observer<Times> {
             }
             mTitle.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(getActivity(), 5));
         }
-        
+
         LocalDate greg = LocalDate.now();
         HijriDate hijr = HijriDate.now();
-        
+
         mHicri.setText(LocaleUtils.formatDate(hijr));
         mDate.setText(LocaleUtils.formatDate(greg));
-        
+
         if (!updateTimes() && mTimes instanceof WebTimes && App.isOnline()) {
             ((WebTimes) mTimes).syncAsync();
         }
-        
-        
+
+
     }
-    
+
     private boolean updateTimes() {
         LocalDate greg = LocalDate.now();
-        
+
         boolean hasTimes = false;
         for (int i = 0; i < 6; i++) {
-            
+
             TextView time = mPrayerTimes[i];
             time.setText(LocaleUtils.formatTimeForHTML(mTimes.getTime(greg, i).toLocalTime()));
             if (!time.getText().equals("00:00")) {
                 hasTimes = true;
             }
         }
-        
+
         if (!hasTimes) {
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -262,10 +262,10 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 }
             }, 1000);
         }
-        
+
         return hasTimes;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         try {
@@ -275,10 +275,10 @@ public class CityFragment extends Fragment implements Observer<Times> {
             Crashlytics.logException(e);
         }
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        
+
         int i1 = item.getItemId();
         if (i1 == R.id.notification) {
             Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");
@@ -289,9 +289,9 @@ public class CityFragment extends Fragment implements Observer<Times> {
                 ((TimesFragment) getParentFragment()).setFooterText(getString(R.string.monthly), true);
                 ((BaseActivity.MainFragment) getParentFragment()).back();
             }
-            
+
             //AppRatingDialog.addToOpenedMenus("notPrefs");
-            
+
         } else if (i1 == R.id.export) {
             if (mTimes instanceof WebTimes) {
                 ((WebTimes) mTimes).syncAsync();
@@ -301,29 +301,29 @@ public class CityFragment extends Fragment implements Observer<Times> {
             if (mTimes instanceof WebTimes) {
                 ((WebTimes) mTimes).syncAsync();
             }
-            
+
         } else if (i1 == R.id.share) {
             String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
             LocalDate date = LocalDate.now();
-            
+
             for (Vakit v : Vakit.values()) {
                 txt += "\n   " + v.getString() + ": " + LocaleUtils.formatTime(mTimes.getTime(date, v.ordinal()).toLocalTime());
             }
-            
+
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("name/plain");
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
             sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
             startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Nullable
     public Times getTimes() {
         return mTimes;
     }
-    
+
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
@@ -333,7 +333,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             mHandler.removeCallbacks(mShowFaziletDeprecationAlert);
         }
     }
-    
+
     //TODO to be removed after some time
     private static boolean FAZILETDEPRATIONALERTALREADYSHOWN = false;
     private Runnable mShowFaziletDeprecationAlert = new Runnable() {
@@ -351,26 +351,26 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     }).show();
         }
     };
-    
+
     @Override
     public void onResume() {
         super.onResume();
         mHandler.removeCallbacks(onSecond);
         mHandler.post(onSecond);
     }
-    
+
     @Override
     public void onPause() {
         super.onPause();
         mHandler.removeCallbacks(onSecond);
     }
-    
+
     private void checkKerahat() {
         if (mTimes == null || mTimes.getID() < 0)
             return;
         mKerahat.setVisibility(mTimes.isKerahat() ? View.VISIBLE : View.GONE);
         mKerahat.setText(R.string.kerahatTime);
     }
-    
-    
+
+
 }

@@ -12,8 +12,8 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
         targetSdkVersion 27
+        minSdkVersion 16
         versionCode 1
         versionName "1.0"
     }
@@ -40,6 +40,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
 
 }

@@ -3,11 +3,6 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.metinkale.prayer.calendar">
 
-    <dist:module
-        dist:onDemand="true"
-        dist:title="@string/calendar">
-        <dist:fusing dist:include="true" />
-    </dist:module>
 
     <application>
         <activity

@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
-        minSdkVersion 15
+        minSdkVersion 16
         multiDexEnabled true
     }
 
@@ -89,4 +89,6 @@ dependencies {
     implementation project(':features:missedprayers')
     implementation project(':features:names')
     implementation project(':features:settings')
+    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
 }

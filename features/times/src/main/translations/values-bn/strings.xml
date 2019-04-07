@@ -20,7 +20,7 @@
   <string name="adjAngle">অ্যাঙ্গেল ভিত্তিক (অ্যাঙ্গেল / রাতের ৬০ ভাগ)</string>
   <string name="adjMidnight">মধ্যরাত</string>
   <string name="adjTime">সময় ভিত্তিক (রাতের ১/৭ অংশ)</string>
-  <string name="angleBased">অ্যাঙ্গেল</string>
+  <string name="angle">অ্যাঙ্গেল</string>
   <string name="asr">আসর</string>
   <string name="calcMethod">ম্যাথড</string>
   <string name="cities">শহরসমূহ</string>

@@ -3,11 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.metinkale.prayer.widgets">
 
-    <dist:module
-        dist:onDemand="true"
-        dist:title="@string/title_widget">
-        <dist:fusing dist:include="true" />
-    </dist:module>
+
 
     <application tools:ignore="GoogleAppIndexingWarning">
         <activity

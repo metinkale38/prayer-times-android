@@ -101,7 +101,7 @@ public class CompassView extends View {
         mPaint.setTextSize((center * 2) / 5);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(LocaleUtils.toArabicNrs(Math.round(getAngle())) + "°", center, center + (center / 5), mPaint);
+        canvas.drawText(LocaleUtils.formatNumber(Math.round(getAngle())) + "°", center, center + (center / 5), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(-mAngle, center, center);

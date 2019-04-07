@@ -20,7 +20,7 @@
   <string name="adjAngle">На основе эклиптики (угол / 60-я часть ночь)</string>
   <string name="adjMidnight">Полночь</string>
   <string name="adjTime">На основе времени (1/7-я часть ночи)</string>
-  <string name="angleBased">Угол</string>
+  <string name="angle">Угол</string>
   <string name="asr">Аср</string>
   <string name="cities">Города</string>
   <string name="customVolume">Установить громкость</string>

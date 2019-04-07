@@ -28,12 +28,10 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.play.core.splitcompat.SplitCompat;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.TimeZoneChangedReceiver;
-import com.squareup.leakcanary.LeakCanary;
 
 import org.joda.time.DateTimeZone;
 
@@ -45,12 +43,12 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
-    
+
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android";
     private static App sApp;
     @NonNull
     private Handler mHandler = new Handler();
-    
+
     private Thread.UncaughtExceptionHandler mDefaultUEH;
     @NonNull
     private Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
@@ -70,13 +68,13 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
             mDefaultUEH.uncaughtException(thread, ex);
         }
     };
-    
-    
+
+
     @NonNull
     public static App get() {
         return sApp;
     }
-    
+
     public static boolean isOnline() {
         //only checks for connection, not for actual internet connection
         //everything else need (or should be in) a seperate thread
@@ -84,75 +82,70 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
-    
-    
+
+
     public static void setApp(App app) {
         sApp = app;
     }
-    
+
     @NonNull
     public Handler getHandler() {
         return mHandler;
     }
-    
+
     public App() {
         super();
         sApp = this;
     }
-    
-    
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
-        
+
         Fabric.with(this, new Crashlytics());
         Crashlytics.setUserIdentifier(Preferences.UUID.get());
         if (BuildConfig.DEBUG)
             Crashlytics.setBool("isDebug", true);
-        
-        
+
+
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
-        
-        
+
+
         DateTimeZone.setProvider(new AndroidTimeZoneProvider());
         LocaleUtils.init(getBaseContext());
-        
-        
+
+
         registerReceiver(new TimeZoneChangedReceiver(), new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
-        
-        
+
+
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
 
         /*if (AppRatingDialog.getInstallationTime() == 0) {
             AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
         }*/
-        
+
         InternalBroadcastReceiver.loadAll();
         InternalBroadcastReceiver.sender(this).sendOnStart();
-        
+
     }
-    
-    
-    
+
+
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        
+
         MultiDex.install(this);
-        SplitCompat.install(this);
     }
-    
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key == null)
             return;
-        
+
         InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key);
         switch (key) {
             case "calendarIntegration":
@@ -160,16 +153,16 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                 break;
             case "language":
                 LocaleUtils.init(getBaseContext());
-            
+
         }
-        
-        
+
+
     }
-    
+
     public static String getUserAgent() {
         return String.format(Locale.ENGLISH, "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)", Build.VERSION.SDK_INT,
                 BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME);
     }
-    
-    
+
+
 }

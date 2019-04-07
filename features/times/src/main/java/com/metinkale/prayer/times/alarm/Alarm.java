@@ -29,7 +29,7 @@ import com.metinkale.prayer.times.alarm.sounds.Sound;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
-import com.metinkale.prayer.utils.VibrationPreference;
+import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -225,9 +225,9 @@ public class Alarm implements Comparable<Alarm> {
             return;
         Vibrator v = (Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createWaveform(VibrationPreference.getPattern(c, "vibration"), -1));
+            v.vibrate(VibrationEffect.createWaveform(Utils.getVibrationPattern(c, "vibration"), -1));
         } else {
-            v.vibrate(VibrationPreference.getPattern(c, "vibration"), -1);
+            v.vibrate(Utils.getVibrationPattern(c, "vibration"), -1);
         }
 
 
@@ -299,7 +299,7 @@ public class Alarm implements Comparable<Alarm> {
     }
 
     public void setSilenter(int silenter) {
-        this.silenter = silenter;
+        this.silenter = Math.max(0, silenter);
     }
 
     public int getVolume() {
