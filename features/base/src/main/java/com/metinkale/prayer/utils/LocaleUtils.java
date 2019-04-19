@@ -295,17 +295,18 @@ public class LocaleUtils {
 
     @NonNull
     private static String az(int Int, int num) {
-        String ret = Int + "";
+        StringBuilder ret = new StringBuilder(Int + "");
         if (ret.length() < num) {
             for (int i = ret.length(); i < num; i++) {
-                ret = "0" + ret;
+                ret.insert(0, "0");
             }
         } else if (ret.length() > num) {
-            ret = ret.substring(ret.length() - num, ret.length());
+            ret = new StringBuilder(ret.substring(ret.length() - num, ret.length()));
         }
 
-        return ret;
+        return ret.toString();
     }
+
 
 
     @NonNull
@@ -318,6 +319,9 @@ public class LocaleUtils {
             arabicChars[5] = '۵';
             arabicChars[6] = '۶';
         }
+
+        str = str.replace("AM", "ص").replace("PM", "م");
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             if (Character.isDigit(str.charAt(i))) {

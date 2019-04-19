@@ -89,6 +89,7 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
         for (int i = 0; i < 99; i++) {
             Item item = new Item();
             item.arabic = ar[i];
+            item.pos = i;
             if (name.length > i) item.name = name[i];
             if (desc.length > i) item.desc = desc[i];
             mValues[i] = item;

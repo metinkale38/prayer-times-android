@@ -39,26 +39,26 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
     private MenuItem mRefresh;
     private MenuItem mSwitch;
     private Mode mMode;
-    
+
     private TextView mSelCity;
-    
+
     public Location getLocation() {
         return mLocation;
     }
-    
+
     private Location mLocation;
     private double mQiblaAngle;
     private float mQiblaDistance;
-    
+
     private QiblaListener mList;
-    
+
     private boolean mOnlyNew;
-    
+
     private enum Mode {
         Compass, Map, Time
     }
-    
-    
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,13 +79,13 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         setHasOptionsMenu(true);
         return v;
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
         if (PermissionUtils.get(getActivity()).pLocation) {
             LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            
+
             List<String> providers = locMan.getProviders(true);
             for (String provider : providers) {
                 locMan.requestLocationUpdates(provider, 0, 0, this);
@@ -95,7 +95,7 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
                 }
             }
         }
-        
+
         if (Preferences.COMPASS_LAT.get() != 0) {
             Location loc = new Location("custom");
             loc.setLatitude(Preferences.COMPASS_LAT.get());
@@ -103,16 +103,16 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             calcQiblaAngle(loc);
         }
     }
-    
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (Preferences.SHOW_COMPASS_NOTE.get()) {
-            
+
             final ViewGroup root = (ViewGroup) (view.getRootView());
             final View toast = LayoutInflater.from(getActivity()).inflate(R.layout.compass_toast_menu, root, false);
             root.addView(toast);
-            
+
             toast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,14 +128,14 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             }, 10000);
         }
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mRefresh == item) {
             mOnlyNew = true;
             if (PermissionUtils.get(getActivity()).pLocation) {
                 LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                
+
                 locMan.removeUpdates(this);
                 List<String> providers = locMan.getProviders(true);
                 for (String provider : providers) {
@@ -162,10 +162,10 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
                 Toast.makeText(getActivity(), R.string.permissionNotGranted, Toast.LENGTH_LONG).show();
             }
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -173,11 +173,11 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         mSwitch = menu.add(Menu.NONE, Menu.NONE, 0, R.string.switchCompass);
         MenuItemCompat.setShowAsAction(mRefresh, MenuItemCompat.SHOW_AS_ACTION_NEVER);
         MenuItemCompat.setShowAsAction(mSwitch, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        
+
         mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK).setColor(Color.WHITE)
                 .setToActionbarSize().build());
     }
-    
+
     private void updateFrag(Mode mode) {
         if (!isAdded())
             return;
@@ -185,13 +185,13 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             FragmentManager fragmentManager = getChildFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             //noinspection ConstantConditions
-            if (mode == Mode.Compass ||(mode == Mode.Map && !BuildConfig.FLAVOR.equals("play"))) {
+            if (mode == Mode.Compass || (mode == Mode.Map && !BuildConfig.FLAVOR.equals("play"))) {
                 MagneticCompass frag = new MagneticCompass();
                 mList = frag;
                 fragmentTransaction.replace(R.id.frag, frag, "compass");
                 mode = Mode.Compass;
             } else if (mode == Mode.Map) {
-                com.metinkale.prayer.compass.FragMap frag = new com.metinkale.prayer.compass.FragMap();
+                FragMap frag = new FragMap();
                 mList = null;
                 fragmentTransaction.replace(R.id.frag, frag, "map");
             } else if (mode == Mode.Time) {
@@ -204,21 +204,21 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         mMode = mode;
         notifyListener();
     }
-    
+
     @Override
     public boolean onlyPortrait() {
         return true;
     }
-    
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
         if (getActivity() != null && (System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locMan.removeUpdates(this);
         }
-        
+
     }
-    
+
     private void calcQiblaAngle(@NonNull Location location) {
         mLocation = location;
         if (!"custom".equals(location.getProvider())) {
@@ -228,19 +228,19 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         double lng1 = location.getLongitude();// Longitude of User Location
         double lat2 = 21.42247;// Latitude of Qaaba (+21.45° north of Equator)
         double lng2 = 39.826198;// Longitude of Qaaba (-39.75° east of Prime Meridian)
-        
+
         double q = -getDirection(lat1, lng1, lat2, lng2);
-        
+
         Location loc = new Location(location);
         loc.setLatitude(lat2);
         loc.setLongitude(lng2);
         mQiblaAngle = q;
         mQiblaDistance = location.distanceTo(loc) / 1000;
-        
+
         notifyListener();
-        
+
     }
-    
+
     private void notifyListener() {
         if (mList != null && mLocation != null) {
             mList.setQiblaAngle(mQiblaAngle);
@@ -248,24 +248,24 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             mList.setUserLocation(mLocation.getLatitude(), mLocation.getLongitude(), mLocation.getAltitude());
         }
     }
-    
+
     private double getDirection(double lat1, double lng1, double lat2, double lng2) {
         double dLng = lng1 - lng2;
         return Math.toDegrees(getDirectionRad(Math.toRadians(lat1), Math.toRadians(lat2), Math.toRadians(dLng)));
     }
-    
+
     private double getDirectionRad(double lat1, double lat2, double dLng) {
         return Math.atan2(Math.sin(dLng), (Math.cos(lat1) * Math.tan(lat2)) - (Math.sin(lat1) * Math.cos(dLng)));
     }
-    
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
-    
+
     @Override
     public void onProviderEnabled(String provider) {
     }
-    
+
     @Override
     public void onProviderDisabled(String provider) {
     }

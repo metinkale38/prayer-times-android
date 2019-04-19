@@ -18,14 +18,11 @@ package com.metinkale.prayer.settings;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.preference.EditTextPreference;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -42,6 +39,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.preference.EditTextPreference;
 
 /**
  * Created by metin on 24.03.2016.

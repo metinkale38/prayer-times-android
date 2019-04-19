@@ -51,6 +51,7 @@ import com.metinkale.prayer.widgets.R;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 
 /**
  * Created by metin on 24.03.2017.
@@ -344,22 +345,29 @@ class WidgetV24 {
 
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0);
 
-        if (Preferences.CLOCK_12H.get()) {
-            Calendar cal = Calendar.getInstance();
-            String ampm = "AM";
-            if (cal.get(Calendar.AM_PM) == Calendar.PM) {
-                ampm = "PM";
-            }
-            Spannable span = new SpannableString("hh:mm'" + ampm + "'");
-            span.setSpan(new SuperscriptSpan(), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            span.setSpan(new RelativeSizeSpan(0.3f), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (Preferences.DIGITS.get().equals("normal")) {
+            if (Preferences.CLOCK_12H.get()) {
+                Calendar cal = Calendar.getInstance();
+                String ampm = "AM";
+                if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+                    ampm = "PM";
+                }
+                Spannable span = new SpannableString("hh:mm'" + ampm + "'");
+                span.setSpan(new SuperscriptSpan(), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                span.setSpan(new RelativeSizeSpan(0.3f), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            remoteViews.setCharSequence(R.id.time, "setFormat12Hour", span);
-            remoteViews.setCharSequence(R.id.time, "setFormat24Hour", span);
+                remoteViews.setCharSequence(R.id.time, "setFormat12Hour", span);
+                remoteViews.setCharSequence(R.id.time, "setFormat24Hour", span);
+            } else {
+                remoteViews.setCharSequence(R.id.time, "setFormat12Hour", "HH:mm");
+                remoteViews.setCharSequence(R.id.time, "setFormat24Hour", "HH:mm");
+            }
         } else {
-            remoteViews.setCharSequence(R.id.time, "setFormat12Hour", "HH:mm");
-            remoteViews.setCharSequence(R.id.time, "setFormat24Hour", "HH:mm");
+            CharSequence txt = LocaleUtils.formatTimeForHTML(LocalTime.now());
+            remoteViews.setCharSequence(R.id.time, "setFormat12Hour", txt);
+            remoteViews.setCharSequence(R.id.time, "setFormat24Hour", txt);
         }
+
         int next = times.getNextTime();
 
 

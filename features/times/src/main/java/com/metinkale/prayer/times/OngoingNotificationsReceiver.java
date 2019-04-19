@@ -133,10 +133,9 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                long left = new Period(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime())).getMinutes();
                 Notification.Builder notBuilder =
                         new Notification.Builder(getContext()).setContent(views).setContentIntent(TimesFragment.getPendingIntent(t)).setSmallIcon(
-                                icon ? (number ? Icon.createWithBitmap(getIconFromMinutes(left)) :
+                                icon ? (number ? Icon.createWithBitmap(getIconFromMinutes(t)) :
                                         Icon.createWithResource(getContext(), R.drawable.ic_abicon)) :
                                         Icon.createWithResource(getContext(), R.drawable.ic_placeholder)).setOngoing(true);
 
@@ -175,14 +174,15 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
     }
 
 
-    private Bitmap getIconFromMinutes(long left) {
-        String hour = String.format(Locale.ENGLISH, "%02d", left / 60);
-        String minute = String.format(Locale.ENGLISH, "%02d", left % 60);
+    private Bitmap getIconFromMinutes(Times t) {
+        String left = LocaleUtils.formatPeriod(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime()), false);
+        String hour = left.substring(0, 2);
+        String minute = left.substring(3, 5);
 
 
         Resources r = getContext().getResources();
         float size = 24;
-        float twoLineTextSize = size * 1f;
+        float twoLineTextSize = size * 1.2f;
         float singleLineTextSize = size * 1.6f;
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, r.getDisplayMetrics());
         Bitmap b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
@@ -195,12 +195,12 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             paint.setTextSize(twoLineTextSize);
             int yPos = (int) ((c.getHeight() / 4) - ((paint.descent() + paint.ascent()) / 2));
 
-            c.drawText(hour, px / 2, yPos, paint);
-            c.drawText(minute, px / 2, yPos + c.getHeight() / 2, paint);
+            c.drawText(hour, px / 2f, yPos, paint);
+            c.drawText(minute, px / 2f, yPos + c.getHeight() / 2f, paint);
         } else {
             paint.setTextSize(singleLineTextSize);
             int yPos = (int) ((c.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-            c.drawText(minute, px / 2, yPos, paint);
+            c.drawText(minute, px / 2f, yPos, paint);
         }
         return b;
     }

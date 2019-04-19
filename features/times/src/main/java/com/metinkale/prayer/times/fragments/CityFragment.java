@@ -238,6 +238,13 @@ public class CityFragment extends Fragment implements Observer<Times> {
             ((WebTimes) mTimes).syncAsync();
         }
 
+        mHandler.postAtTime(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, LocalDateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(5).toDateTime().getMillis());
+
 
     }
 

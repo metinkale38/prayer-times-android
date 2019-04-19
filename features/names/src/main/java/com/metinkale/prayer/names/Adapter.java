@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private final Item[] mItems;
@@ -59,7 +58,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder vh, int pos) {
         Item i = mItems[pos];
-        if (pos == 0) {
+        if (i.pos == 0) {
             vh.arabicImg.setVisibility(View.VISIBLE);
             vh.arabicImg.setImageResource(R.drawable.allah);
             vh.name.setVisibility(View.GONE);
@@ -99,6 +98,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     static class Item {
+        int pos;
         String arabic;
         String name;
         String desc;

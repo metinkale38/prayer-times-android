@@ -160,6 +160,7 @@ public class ForegroundService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
         builder.setContentTitle(getString(R.string.appName));
         builder.setContentIntent(pendingIntent);
+        builder.setSmallIcon(R.drawable.ic_abicon);
         return builder.build();
     }
     

@@ -43,8 +43,7 @@ android {
             ext.enableCrashlytics = false
         }
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 
@@ -63,11 +62,6 @@ android {
             versionNameSuffix " Play Store"
             dimension "store"
         }
-    }
-
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_7
-        sourceCompatibility JavaVersion.VERSION_1_7
     }
 
 
