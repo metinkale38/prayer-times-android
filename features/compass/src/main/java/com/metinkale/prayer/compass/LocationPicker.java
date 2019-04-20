@@ -65,14 +65,11 @@ public class LocationPicker extends AppCompatActivity implements TextWatcher, On
     
     @Override
     public void afterTextChanged(@NonNull Editable txt) {
-        Geocoder.search(txt.toString(), new Geocoder.GeocoderCallback() {
-            @Override
-            public void onResult(Geocoder.Result result) {
-                if (result == null)
-                    return;
-                mAdapter.clear();
-                mAdapter.add(result);
-            }
+        Geocoder.search(txt.toString(), result -> {
+            if (result == null)
+                return;
+            mAdapter.clear();
+            mAdapter.add(result);
         });
         
     }

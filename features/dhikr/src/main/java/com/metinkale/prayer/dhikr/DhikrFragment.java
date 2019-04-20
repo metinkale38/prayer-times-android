@@ -106,12 +106,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
             
         });
         
-        OnClickListener colorlist = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeColor(view);
-            }
-        };
+        OnClickListener colorlist = this::changeColor;
         v.findViewById(R.id.color1).setOnClickListener(colorlist);
         v.findViewById(R.id.color2).setOnClickListener(colorlist);
         v.findViewById(R.id.color3).setOnClickListener(colorlist);
@@ -193,18 +188,12 @@ public class DhikrFragment extends BaseActivity.MainFragment
             dialog.setTitle(R.string.dhikr);
             dialog.setMessage(getString(R.string.resetConfirmDhikr, mDhikrs.get(0).getTitle()));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Dhikr dhikr = mDhikrs.get(0);
-                    dhikr.setValue(0);
-                    mDhikrView.invalidate();
-                }
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
+                Dhikr dhikr = mDhikrs.get(0);
+                dhikr.setValue(0);
+                mDhikrView.invalidate();
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                }
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
             });
             dialog.show();
         }
@@ -247,16 +236,8 @@ public class DhikrFragment extends BaseActivity.MainFragment
         dialog.setTitle(R.string.delete);
         dialog.setMessage(getString(R.string.delConfirmDhikr, mDhikrs.get(0).getTitle()));
         dialog.setCancelable(false);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mViewModel.deleteDhikr(mDhikrs.get(0));
-            }
-        });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> mViewModel.deleteDhikr(mDhikrs.get(0)));
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
         });
         dialog.show();
     }
@@ -271,49 +252,33 @@ public class DhikrFragment extends BaseActivity.MainFragment
         input.setSelection(input.getText().length());
         builder.setView(input);
         
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                final String title = input.getText().toString();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.dhikrCount);
-                
-                final EditText input = new EditText(getActivity());
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setText(String.valueOf(33));
-                input.setSelection(input.getText().length());
-                builder.setView(input);
-                
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int count = Integer.parseInt(input.getText().toString());
-                        mViewModel.saveDhikr(mDhikrs.get(0));
-                        Dhikr model = new Dhikr();
-                        model.setTitle(title);
-                        model.setMax(count);
-                        model.setPosition(-1);
-                        mViewModel.addDhikr(model);
-                    }
-                });
-                
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.cancel();
-                    }
-                });
-                
-                builder.show();
-            }
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            final String title = input.getText().toString();
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setTitle(R.string.dhikrCount);
+
+            final EditText input1 = new EditText(getActivity());
+            input1.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input1.setText(String.valueOf(33));
+            input1.setSelection(input1.getText().length());
+            builder1.setView(input1);
+
+            builder1.setPositiveButton(R.string.ok, (dialogInterface1, i12) -> {
+                int count = Integer.parseInt(input1.getText().toString());
+                mViewModel.saveDhikr(mDhikrs.get(0));
+                Dhikr model = new Dhikr();
+                model.setTitle(title);
+                model.setMax(count);
+                model.setPosition(-1);
+                mViewModel.addDhikr(model);
+            });
+
+            builder1.setNegativeButton(R.string.cancel, (dialog, i1) -> dialog.cancel());
+
+            builder1.show();
         });
         
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, i) -> dialog.cancel());
         
         builder.show();
     }
@@ -333,24 +298,16 @@ public class DhikrFragment extends BaseActivity.MainFragment
         builder.setView(input);
         
         // Set up the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    mDhikrs.get(0).setMax(Integer.parseInt(input.getText().toString()));
-                    mDhikrView.invalidate();
-                } catch (Exception e) {
-                    Crashlytics.logException(e);
-                }
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            try {
+                mDhikrs.get(0).setMax(Integer.parseInt(input.getText().toString()));
+                mDhikrView.invalidate();
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
         });
         
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, i) -> dialog.cancel());
         
         builder.show();
         return false;

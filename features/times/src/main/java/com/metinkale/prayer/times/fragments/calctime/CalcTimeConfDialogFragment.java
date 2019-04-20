@@ -29,8 +29,6 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -107,39 +105,33 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
 
             mPrayTimes.setTimezone(TimeZone.getDefault());
             Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            if (e != null)
-                                Crashlytics.logException(e);
-                            if (result != null)
-                                try {
-                                    TimeZone tz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
-                                    if (tz != null) {
-                                        mTz = tz;
-                                        mPrayTimes.setTimezone(mTz);
-                                    }
-                                } catch (Exception ee) {
-                                    Crashlytics.logException(ee);
+                    .setCallback((e, result) -> {
+                        if (e != null)
+                            Crashlytics.logException(e);
+                        if (result != null)
+                            try {
+                                TimeZone tz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
+                                if (tz != null) {
+                                    mTz = tz;
+                                    mPrayTimes.setTimezone(mTz);
                                 }
-                        }
+                            } catch (Exception ee) {
+                                Crashlytics.logException(ee);
+                            }
                     });
 
             if (elv == 0)
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asString()
-                        .setCallback(new FutureCallback<String>() {
-                            @Override
-                            public void onCompleted(Exception e, String result) {
-                                if (e != null)
-                                    Crashlytics.logException(e);
-                                try {
-                                    double m = Double.parseDouble(result);
-                                    if (m < -9000)
-                                        m = 0;
-                                    mPrayTimes.setCoordinates(lat, lng, m);
-                                } catch (Exception ee) {
-                                    Crashlytics.logException(ee);
-                                }
+                        .setCallback((e, result) -> {
+                            if (e != null)
+                                Crashlytics.logException(e);
+                            try {
+                                double m = Double.parseDouble(result);
+                                if (m < -9000)
+                                    m = 0;
+                                mPrayTimes.setCoordinates(lat, lng, m);
+                            } catch (Exception ee) {
+                                Crashlytics.logException(ee);
                             }
                         });
         }
@@ -185,52 +177,34 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
         mCalcMethod.setSelection(0);
 
 
-        mView.findViewById(R.id.fajrEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
-                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.FAJR, mPrayTimes.getFajrAngle(), mPrayTimes.getFajrMinuteAdjust()).show(getChildFragmentManager(), "");
-            }
+        mView.findViewById(R.id.fajrEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.FAJR, mPrayTimes.getFajrAngle(), mPrayTimes.getFajrMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
-        mView.findViewById(R.id.sunEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
-                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.SUN, 0, mPrayTimes.getSunriseMinuteAdjust()).show(getChildFragmentManager(), "");
-            }
+        mView.findViewById(R.id.sunEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.SUN, 0, mPrayTimes.getSunriseMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
-        mView.findViewById(R.id.asrEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
-                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ASR, 0, mPrayTimes.getAsrShafiMinuteAdjust()).show(getChildFragmentManager(), "");
-            }
+        mView.findViewById(R.id.asrEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ASR, 0, mPrayTimes.getAsrShafiMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
-        mView.findViewById(R.id.maghribEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
-                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.MAGHRIB, mPrayTimes.getMaghribAngle(), mPrayTimes.getMaghribMinuteAdjust()).show(getChildFragmentManager(), "");
-            }
+        mView.findViewById(R.id.maghribEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.MAGHRIB, mPrayTimes.getMaghribAngle(), mPrayTimes.getMaghribMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
-        mView.findViewById(R.id.ishaaEdit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
-                CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ISHAA, mPrayTimes.getImsakAngle(), mPrayTimes.getIshaaMinuteAdjust()).show(getChildFragmentManager(), "");
-            }
+        mView.findViewById(R.id.ishaaEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ISHAA, mPrayTimes.getImsakAngle(), mPrayTimes.getIshaaMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
-        mView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalcTime.createFromTemporary();
-                dismiss();
-            }
+        mView.findViewById(R.id.save).setOnClickListener(v -> {
+            mCalcTime.createFromTemporary();
+            dismiss();
         });
 
         updateTimes();

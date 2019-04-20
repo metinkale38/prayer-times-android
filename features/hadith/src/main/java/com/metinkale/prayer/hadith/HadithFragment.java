@@ -18,7 +18,6 @@ package com.metinkale.prayer.hadith;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -150,13 +149,11 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         }
 
         mState = state;
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-                mPager.setCurrentItem(9999);
-                mPager.setAdapter(mAdapter);
-                mPager.setCurrentItem(mPrefs.getInt(last(), 0));
-            }
+        getActivity().runOnUiThread(() -> {
+            mAdapter.notifyDataSetChanged();
+            mPager.setCurrentItem(9999);
+            mPager.setAdapter(mAdapter);
+            mPager.setCurrentItem(mPrefs.getInt(last(), 0));
         });
 
         return true;
@@ -194,12 +191,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
         } else if (v == mNumber) {
             NumberDialog nd = NumberDialog.create(1, mAdapter.getCount() + 1, mPager.getCurrentItem() + 1);
-            nd.setOnNumberChangeListener(new NumberDialog.OnNumberChangeListener() {
-                @Override
-                public void onNumberChange(int nr) {
-                    mPager.setCurrentItem(nr - 1, false);
-                }
-            });
+            nd.setOnNumberChangeListener(nr -> mPager.setCurrentItem(nr - 1, false));
             nd.show(getChildFragmentManager(), null);
         }
 
@@ -249,12 +241,9 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                 items.add(Html.fromHtml(cat).toString());
             }
             builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[0]),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!setState(which)) {
-                                Toast.makeText(getActivity(), R.string.noFavs, Toast.LENGTH_LONG).show();
-                            }
+                    (dialog, which) -> {
+                        if (!setState(which)) {
+                            Toast.makeText(getActivity(), R.string.noFavs, Toast.LENGTH_LONG).show();
                         }
                     });
             builder.show();
@@ -343,7 +332,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
             storeFavs();
         }
 
-        mFavs.addAll((HashSet<Integer>) new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
+        mFavs.addAll(new Gson().fromJson(prefs.getString("favs", "[]"), new TypeToken<HashSet<Integer>>() {
         }.getType()));
     }
 

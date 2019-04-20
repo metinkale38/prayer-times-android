@@ -119,7 +119,6 @@ public class MalaysiaTimes extends WebTimes {
                     setTime(localDate, Vakit.ISHAA, array[5]);
                     x++;
                 } catch (Exception ignore) {
-                    ignore.printStackTrace();
                 }
             }
 

@@ -20,8 +20,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
@@ -109,34 +107,28 @@ public class CalcTimes extends Times {
             prayTimes.setCoordinates(getLat(), getLng(), 0);
             if (method == null) {
                 Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
-                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if (e != null)
-                            Crashlytics.logException(e);
-                        if (result != null)
-                            try {
-                                prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
-                            } catch (Exception ee) {
-                                Crashlytics.logException(ee);
-                            }
-                    }
-                });
-
-                Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38").asString()
-                        .setCallback(new FutureCallback<String>() {
-                            @Override
-                            public void onCompleted(Exception e, String result) {
-                                if (e != null)
-                                    Crashlytics.logException(e);
+                        .asJsonObject().setCallback((e, result) -> {
+                            if (e != null)
+                                Crashlytics.logException(e);
+                            if (result != null)
                                 try {
-                                    double m = Double.parseDouble(result);
-                                    if (m < -9000)
-                                        m = 0;
-                                    prayTimes.setCoordinates(getLat(), getLng(), m);
+                                    prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
                                 } catch (Exception ee) {
                                     Crashlytics.logException(ee);
                                 }
+                        });
+
+                Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38").asString()
+                        .setCallback((e, result) -> {
+                            if (e != null)
+                                Crashlytics.logException(e);
+                            try {
+                                double m = Double.parseDouble(result);
+                                if (m < -9000)
+                                    m = 0;
+                                prayTimes.setCoordinates(getLat(), getLng(), m);
+                            } catch (Exception ee) {
+                                Crashlytics.logException(ee);
                             }
                         });
             }

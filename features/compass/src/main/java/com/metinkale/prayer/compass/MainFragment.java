@@ -65,14 +65,11 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         PermissionUtils.get(getActivity()).needLocation(getActivity());
         mSelCity = v.findViewById(R.id.selcity);
-        mSelCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (App.isOnline()) {
-                    startActivity(new Intent(getActivity(), LocationPicker.class));
-                } else {
-                    Toast.makeText(getActivity(), R.string.noConnection, Toast.LENGTH_LONG).show();
-                }
+        mSelCity.setOnClickListener(view -> {
+            if (App.isOnline()) {
+                startActivity(new Intent(getActivity(), LocationPicker.class));
+            } else {
+                Toast.makeText(getActivity(), R.string.noConnection, Toast.LENGTH_LONG).show();
             }
         });
         updateFrag(Mode.Compass);
@@ -113,18 +110,10 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             final View toast = LayoutInflater.from(getActivity()).inflate(R.layout.compass_toast_menu, root, false);
             root.addView(toast);
 
-            toast.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            toast.setOnClickListener(v -> root.removeView(toast));
+            toast.postDelayed(() -> {
+                if (toast.getRootView() == root)
                     root.removeView(toast);
-                }
-            });
-            toast.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (toast.getRootView() == root)
-                        root.removeView(toast);
-                }
             }, 10000);
         }
     }

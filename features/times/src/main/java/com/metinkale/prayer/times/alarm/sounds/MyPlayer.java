@@ -110,20 +110,17 @@ public class MyPlayer {
             mediaPlayer.setAudioStreamType(getStreamType());
         }
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (volume > 0) {
-                    am.setStreamVolume(streamType, oldvol, 0);
-                }
-
-                if (iter.hasNext()) {
-                    play(iter);
-                } else if (onComplete != null) {
-                    onComplete.onComplete();
-                }
-
+        mediaPlayer.setOnCompletionListener(mp -> {
+            if (volume > 0) {
+                am.setStreamVolume(streamType, oldvol, 0);
             }
+
+            if (iter.hasNext()) {
+                play(iter);
+            } else if (onComplete != null) {
+                onComplete.onComplete();
+            }
+
         });
 
         try {

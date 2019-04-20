@@ -57,22 +57,12 @@ public abstract class WebTimes extends Times {
     
     protected WebTimes(long id) {
         super(id);
-        App.get().getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                scheduleJob();
-            }
-        });
+        App.get().getHandler().post(this::scheduleJob);
     }
     
     protected WebTimes() {
         super();
-        App.get().getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                scheduleJob();
-            }
-        });
+        App.get().getHandler().post(this::scheduleJob);
     }
     
     
@@ -190,12 +180,7 @@ public abstract class WebTimes extends Times {
             public void run() {
                 try {
                     if (sync()) {
-                        App.get().getHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Times.setAlarms();
-                            }
-                        });
+                        App.get().getHandler().post(Times::setAlarms);
                     }
                 } catch (Exception e) {
                     Crashlytics.logException(e);

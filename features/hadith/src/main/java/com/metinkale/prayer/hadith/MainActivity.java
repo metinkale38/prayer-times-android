@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
@@ -56,44 +55,33 @@ public class MainActivity extends BaseActivity {
             dialog.setTitle(R.string.hadith);
             dialog.setMessage(getString(R.string.dlHadith));
             dialog.setCancelable(false);
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    
-                    File f1 = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
-                    
-                    
-                    if (!f1.getParentFile().mkdirs()) {
-                        Log.e("BaseActivity", "could not mkdirs " + f1.getParent());
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
+
+                File f1 = new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), file);
+
+
+                if (!f1.getParentFile().mkdirs()) {
+                    Log.e("BaseActivity", "could not mkdirs " + f1.getParent());
+                }
+                final ProgressDialog dlg = new ProgressDialog(MainActivity.this);
+                dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                dlg.setCancelable(false);
+                dlg.setCanceledOnTouchOutside(false);
+                dlg.show();
+                Ion.with(MainActivity.this).load(url).progressDialog(dlg).write(f1).setCallback((e, result) -> {
+
+                    dlg.dismiss();
+                    if (e != null) {
+                        e.printStackTrace();
+                        Crashlytics.logException(e);
+                        Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                        finish();
+                    } else if (result.exists()) {
+                        openHadithFrag();
                     }
-                    final ProgressDialog dlg = new ProgressDialog(MainActivity.this);
-                    dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    dlg.setCancelable(false);
-                    dlg.setCanceledOnTouchOutside(false);
-                    dlg.show();
-                    Ion.with(MainActivity.this).load(url).progressDialog(dlg).write(f1).setCallback(new FutureCallback<File>() {
-                        @Override
-                        public void onCompleted(Exception e, File result) {
-                            
-                            dlg.dismiss();
-                            if (e != null) {
-                                e.printStackTrace();
-                                Crashlytics.logException(e);
-                                Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_LONG).show();
-                                finish();
-                            } else if (result.exists()) {
-                                openHadithFrag();
-                            }
-                        }
-                    });
-                }
+                });
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> dialogInterface.cancel());
             dialog.show();
         }
         

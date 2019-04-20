@@ -17,7 +17,6 @@
 package com.metinkale.prayer.hadith.utils;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -65,12 +64,9 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         View v = View.inflate(getActivity(), R.layout.number_dialog, null);
-        builder.setView(v).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (mList != null) {
-                    mList.onNumberChange(mNr);
-                }
+        builder.setView(v).setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            if (mList != null) {
+                mList.onNumberChange(mNr);
             }
         }).setNegativeButton(R.string.cancel, null);
 
@@ -82,38 +78,26 @@ public class NumberDialog extends DialogFragment implements TextWatcher {
         for (int id : ids) {
             Button btn = v.findViewById(id);
             btn.setTag(btn.getText());
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String txt = mEdit.getText().toString();
-                    mEdit.setText(txt + view.getTag());
-                }
+            btn.setOnClickListener(view -> {
+                String txt = mEdit.getText().toString();
+                mEdit.setText(txt + view.getTag());
             });
         }
 
-        v.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txt = mEdit.getText().toString();
-                if (!txt.isEmpty()) {
-                    mEdit.setText(txt.substring(0, txt.length() - 1));
-                }
+        v.findViewById(R.id.back).setOnClickListener(view -> {
+            String txt = mEdit.getText().toString();
+            if (!txt.isEmpty()) {
+                mEdit.setText(txt.substring(0, txt.length() - 1));
             }
         });
 
-        v.findViewById(R.id.prev).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txt = mEdit.getText().toString();
-                mEdit.setText((Integer.parseInt("0" + txt) - 1) + "");
-            }
+        v.findViewById(R.id.prev).setOnClickListener(view -> {
+            String txt = mEdit.getText().toString();
+            mEdit.setText((Integer.parseInt("0" + txt) - 1) + "");
         });
-        v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txt = mEdit.getText().toString();
-                mEdit.setText(Integer.parseInt(txt) + 1 + "");
-            }
+        v.findViewById(R.id.next).setOnClickListener(view -> {
+            String txt = mEdit.getText().toString();
+            mEdit.setText(Integer.parseInt(txt) + 1 + "");
         });
 
         return builder.create();

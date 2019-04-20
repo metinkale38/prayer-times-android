@@ -22,7 +22,6 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -44,7 +42,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -90,13 +87,10 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     public void update() {
 
         mSounds.clear();
-        Collections.sort(mRootSounds, new Comparator<Sound>() {
-            @Override
-            public int compare(Sound o1, Sound o2) {
-                String name1 = o1.getName();
-                String name2 = o2.getName();
-                return name1.compareTo(name2);
-            }
+        Collections.sort(mRootSounds, (o1, o2) -> {
+            String name1 = o1.getName();
+            String name2 = o2.getName();
+            return name1.compareTo(name2);
         });
 
         mSounds.addAll(mRootSounds);
@@ -128,17 +122,14 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
         if (sound instanceof BundledSound) {
             vh.getExpand().setVisibility(View.VISIBLE);
-            vh.getExpand().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mExpanded == sound) {
-                        mExpanded = null;
-                    } else {
-                        mExpanded = (BundledSound) sound;
-                    }
-                    update();
-                    checkAllVisibilities();
+            vh.getExpand().setOnClickListener(v -> {
+                if (mExpanded == sound) {
+                    mExpanded = null;
+                } else {
+                    mExpanded = (BundledSound) sound;
                 }
+                update();
+                checkAllVisibilities();
             });
         } else {
             vh.getExpand().setVisibility(View.GONE);
@@ -158,36 +149,25 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
         vh.getText().setText(mRootSounds.contains(sound) ? sound.getName() : sound.getShortName());
 
 
-        vh.getAction().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sound.isDownloaded()) {
-                    playPause(v, vh, sound);
-                } else {
-                    downloadSound(v, sound.getName(), sound.getAppSounds());
-                }
+        vh.getAction().setOnClickListener(v -> {
+            if (sound.isDownloaded()) {
+                playPause(v, vh, sound);
+            } else {
+                downloadSound(v, sound.getName(), sound.getAppSounds());
             }
         });
 
 
-        vh.getRadio().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mSelected = sound;
-                    checkAllCheckboxes();
-                }
+        vh.getRadio().setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mSelected = sound;
+                checkAllCheckboxes();
             }
         });
 
 
         if (mOnItemClickListener != null) {
-            vh.getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(vh, mSounds.get(position));
-                }
-            });
+            vh.getView().setOnClickListener(v -> mOnItemClickListener.onItemClick(vh, mSounds.get(position)));
         }
     }
 
@@ -304,12 +284,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                             if (!item.isDownloaded()) {
                                 Ion.with(ctx)
                                         .load(item.getUrl())
-                                        .progress(new ProgressCallback() {
-                                            @Override
-                                            public void onProgress(long downloaded, long total) {
-                                                dlg.setProgress((int) (count.get() * 100 + (downloaded * 100 / total)));
-                                            }
-                                        })
+                                        .progress((downloaded, total) -> dlg.setProgress((int) (count.get() * 100 + (downloaded * 100 / total))))
                                         .write(f)
                                         .setCallback(this);
                             } else {
@@ -327,12 +302,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
             }
         });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, ctx.getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, ctx.getString(R.string.no), (dialog1, i) -> dialog1.cancel());
         dialog.show();
     }
 
@@ -345,12 +315,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
 
             try {
-                mPlayer = MyPlayer.from(item).seekbar(vh.getSeekbar()).volume(volume).play().onComplete(new MyPlayer.OnCompletionListener() {
-                    @Override
-                    public void onComplete() {
-                        vh.resetAudio();
-                    }
-                });
+                mPlayer = MyPlayer.from(item).seekbar(vh.getSeekbar()).volume(volume).play().onComplete(vh::resetAudio);
                 vh.setPlayer(mPlayer);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -48,38 +48,32 @@ public class MissedPrayersFragment extends BaseActivity.MainFragment {
 
             name.setText(ids[i]);
 
-            plus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String txt = nr.getText().toString();
-                    if (txt.isEmpty()) txt = "0";
-                    int i12 = 0;
-                    try {
-                        i12 = Integer.parseInt(txt);
-                    } catch (Exception ignore) {
-                    } finally {
-                        i12++;
-                    }
-
-                    nr.setText(i12 + "");
-
+            plus.setOnClickListener(view12 -> {
+                String txt = nr.getText().toString();
+                if (txt.isEmpty()) txt = "0";
+                int i12 = 0;
+                try {
+                    i12 = Integer.parseInt(txt);
+                } catch (Exception ignore) {
+                } finally {
+                    i12++;
                 }
+
+                nr.setText(i12 + "");
+
             });
 
-            minus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String txt = nr.getText().toString();
-                    if (txt.isEmpty()) txt = "0";
-                    int i1 = 0;
-                    try {
-                        i1 = Integer.parseInt(txt);
-                    } finally {
-                        i1--;
-                    }
-
-                    nr.setText(i1 + "");
+            minus.setOnClickListener(view1 -> {
+                String txt = nr.getText().toString();
+                if (txt.isEmpty()) txt = "0";
+                int i1 = 0;
+                try {
+                    i1 = Integer.parseInt(txt);
+                } finally {
+                    i1--;
                 }
+
+                nr.setText(i1 + "");
             });
 
         }

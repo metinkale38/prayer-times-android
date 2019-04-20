@@ -75,23 +75,20 @@ public class Frag2D extends Fragment implements QiblaListener {
     
     public void show() {
         mHidden = false;
-        mCompassView.post(new Runnable() {
-            @Override
-            public void run() {
-                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
-                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
-                
-                ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 0, 1);
-                ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 0, 1);
-                
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(mBG, "alpha", 0, 1);
-                
-                AnimatorSet animSetXY = new AnimatorSet();
-                animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2, alpha);
-                animSetXY.setInterpolator(overshootInterpolator);
-                animSetXY.setDuration(300);
-                animSetXY.start();
-            }
+        mCompassView.post(() -> {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 0, 1);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 0, 1);
+
+            ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 0, 1);
+            ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 0, 1);
+
+            ObjectAnimator alpha = ObjectAnimator.ofFloat(mBG, "alpha", 0, 1);
+
+            AnimatorSet animSetXY = new AnimatorSet();
+            animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2, alpha);
+            animSetXY.setInterpolator(overshootInterpolator);
+            animSetXY.setDuration(300);
+            animSetXY.start();
         });
         
     }
@@ -103,24 +100,21 @@ public class Frag2D extends Fragment implements QiblaListener {
     public void hide() {
         mHidden = true;
         if (mCompassView != null)
-            mCompassView.post(new Runnable() {
-                @Override
-                public void run() {
-                    ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
-                    ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
-                    
-                    ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
-                    ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
-                    
-                    ObjectAnimator alpha = ObjectAnimator.ofFloat(mBG, "alpha", 1, 0);
-                    
-                    
-                    AnimatorSet animSetXY = new AnimatorSet();
-                    animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2, alpha);
-                    animSetXY.setInterpolator(accelerateInterpolator);
-                    animSetXY.setDuration(300);
-                    animSetXY.start();
-                }
+            mCompassView.post(() -> {
+                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mCompassView, "scaleX", 1, 0);
+                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mCompassView, "scaleY", 1, 0);
+
+                ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(mInfo, "scaleX", 1, 0);
+                ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(mInfo, "scaleY", 1, 0);
+
+                ObjectAnimator alpha = ObjectAnimator.ofFloat(mBG, "alpha", 1, 0);
+
+
+                AnimatorSet animSetXY = new AnimatorSet();
+                animSetXY.playTogether(scaleX, scaleY, scaleX2, scaleY2, alpha);
+                animSetXY.setInterpolator(accelerateInterpolator);
+                animSetXY.setDuration(300);
+                animSetXY.start();
             });
         
     }

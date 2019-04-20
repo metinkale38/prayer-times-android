@@ -16,7 +16,6 @@
 
 package com.metinkale.prayer.times.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -164,18 +163,10 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                     new AlertDialog.Builder(getActivity())
                             .setTitle(mTimes.getName())
                             .setMessage(getString(R.string.delConfirm, alarm.getTitle()))
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mTimes.getUserAlarms().remove(alarm);
-                                    onChanged(times);
-                                }
+                            .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                            .setPositiveButton(R.string.yes, (dialog, which) -> {
+                                mTimes.getUserAlarms().remove(alarm);
+                                onChanged(times);
                             }).show();
                     return true;
                 }

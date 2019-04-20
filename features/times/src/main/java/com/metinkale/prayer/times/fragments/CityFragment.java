@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -238,12 +237,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             ((WebTimes) mTimes).syncAsync();
         }
 
-        mHandler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        }, LocalDateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(5).toDateTime().getMillis());
+        mHandler.postAtTime(this::update, LocalDateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(5).toDateTime().getMillis());
 
 
     }
@@ -262,12 +256,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         }
 
         if (!hasTimes) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateTimes();
-                }
-            }, 1000);
+            mHandler.postDelayed(this::updateTimes, 1000);
         }
 
         return hasTimes;
@@ -343,20 +332,12 @@ public class CityFragment extends Fragment implements Observer<Times> {
 
     //TODO to be removed after some time
     private static boolean FAZILETDEPRATIONALERTALREADYSHOWN = false;
-    private Runnable mShowFaziletDeprecationAlert = new Runnable() {
-        @Override
-        public void run() {
-            if (FAZILETDEPRATIONALERTALREADYSHOWN)
-                return;
-            FAZILETDEPRATIONALERTALREADYSHOWN = true;
-            new AlertDialog.Builder(getActivity()).setTitle("Fazilet Takvimi").setMessage(FaziletTimes.getDeprecatedText())
-                    .setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).show();
-        }
+    private Runnable mShowFaziletDeprecationAlert = () -> {
+        if (FAZILETDEPRATIONALERTALREADYSHOWN)
+            return;
+        FAZILETDEPRATIONALERTALREADYSHOWN = true;
+        new AlertDialog.Builder(getActivity()).setTitle("Fazilet Takvimi").setMessage(FaziletTimes.getDeprecatedText())
+                .setPositiveButton("Tamam", (dialogInterface, i) -> dialogInterface.dismiss()).show();
     };
 
     @Override

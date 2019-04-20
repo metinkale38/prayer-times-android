@@ -18,7 +18,6 @@ package com.metinkale.prayer.times;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.times.alarm.SilenterReceiver;
@@ -40,20 +39,12 @@ public class SilenterPrompt extends AppCompatActivity {
         np.setMaxValue(300);
         np.setValue(widgets.getInt("silenterWidget", 15));
 
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        findViewById(R.id.cancel).setOnClickListener(view -> finish());
 
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                widgets.edit().putInt("silenterWidget", np.getValue()).apply();
-                SilenterReceiver.silent(v.getContext(), np.getValue());
-                finish();
-            }
+        findViewById(R.id.ok).setOnClickListener(v -> {
+            widgets.edit().putInt("silenterWidget", np.getValue()).apply();
+            SilenterReceiver.silent(v.getContext(), np.getValue());
+            finish();
         });
 
     }

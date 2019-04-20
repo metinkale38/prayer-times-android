@@ -17,9 +17,7 @@
 package com.metinkale.prayer.utils;
 
 import com.google.gson.reflect.TypeToken;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.metinkale.prayer.App;
 
 import java.util.List;

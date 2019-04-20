@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.crashlytics.android.Crashlytics;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -92,38 +91,32 @@ public class Sounds {
         dlg.setCanceledOnTouchOutside(false);
         dlg.show();
 
-        final Runnable onFinish2 = new Runnable() {
-            @Override
-            public void run() {
-                if (onFinish != null)
-                    onFinish.run();
-                dlg.dismiss();
-            }
+        final Runnable onFinish2 = () -> {
+            if (onFinish != null)
+                onFinish.run();
+            dlg.dismiss();
         };
         Ion.with(App.get()).load(App.API_URL + "/sounds/sounds.json").progressDialog(dlg)
-                .asString(Charset.forName("UTF-8")).setCallback(new FutureCallback<String>() {
-            @Override
-            public void onCompleted(Exception exp, String result) {
-                if (exp != null) {
-                    Crashlytics.logException(exp);
-                } else {
-                    FileOutputStream outputStream = null;
-                    try {
-                        if (!new JSONObject(result).getString("name").equals("sounds")) return;
+                .asString(Charset.forName("UTF-8")).setCallback((exp, result) -> {
+                    if (exp != null) {
+                        Crashlytics.logException(exp);
+                    } else {
+                        FileOutputStream outputStream = null;
+                        try {
+                            if (!new JSONObject(result).getString("name").equals("sounds")) return;
 
-                        outputStream = App.get().openFileOutput("sounds.json", Context.MODE_PRIVATE);
-                        outputStream.write(result.getBytes());
+                            outputStream = App.get().openFileOutput("sounds.json", Context.MODE_PRIVATE);
+                            outputStream.write(result.getBytes());
 
-                        loadSounds();
-                    } catch (Exception e) {
-                        Crashlytics.logException(e);
-                    } finally {
-                        Utils.close(outputStream);
+                            loadSounds();
+                        } catch (Exception e) {
+                            Crashlytics.logException(e);
+                        } finally {
+                            Utils.close(outputStream);
+                        }
                     }
-                }
-                onFinish2.run();
-            }
-        });
+                    onFinish2.run();
+                });
     }
 
     private static synchronized void loadSounds() {

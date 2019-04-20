@@ -114,21 +114,15 @@ public class CustomTimeAdjustDialogFragment extends DialogFragment implements Co
         return new AlertDialog.Builder(getActivity())
                 .setTitle(mTime.getString())
                 .setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                bdl.putDouble("angle", mAngle);
-                                bdl.putInt("mins", mMins);
-                                bdl.putSerializable("asrType", mCalcTime.getAsrType().name());
-                                dismiss();
-                            }
+                        (dialog, whichButton) -> {
+                            bdl.putDouble("angle", mAngle);
+                            bdl.putInt("mins", mMins);
+                            bdl.putSerializable("asrType", mCalcTime.getAsrType().name());
+                            dismiss();
                         }
                 )
                 .setNegativeButton(R.string.cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dismiss();
-                            }
-                        }
+                        (dialog, whichButton) -> dismiss()
                 )
                 .create();
     }
@@ -215,34 +209,28 @@ public class CustomTimeAdjustDialogFragment extends DialogFragment implements Co
             }
         };
 
-        mAngleUp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(incr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(incr);
-                }
-                return true;
+        mAngleUp.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(incr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(incr);
             }
+            return true;
         });
 
-        mAngleDown.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(decr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(decr);
-                }
-                return true;
+        mAngleDown.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(decr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(decr);
             }
+            return true;
         });
 
         mAngleValue.setText(toStr(mAngle));
@@ -291,34 +279,28 @@ public class CustomTimeAdjustDialogFragment extends DialogFragment implements Co
             }
         };
 
-        mMinsUp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(incr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(incr);
-                }
-                return true;
+        mMinsUp.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(incr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(incr);
             }
+            return true;
         });
 
-        mMinsDown.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(decr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(decr);
-                }
-                return true;
+        mMinsDown.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(decr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(decr);
             }
+            return true;
         });
 
         mMinsValue.setText(LocaleUtils.formatNumber(mMins));

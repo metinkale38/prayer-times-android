@@ -17,7 +17,6 @@
 package com.metinkale.prayer.settings;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,7 +24,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -76,31 +74,28 @@ public class VibrationPreference extends EditTextPreference {
         editText = new EditText(getContext());
         Button button = new Button(getContext());
         button.setText(R.string.test);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<Long> mills = new ArrayList<>();
-                String txt = editText.getText().toString();
-                String[] split = txt.split(" ");
-                for (String s : split) {
-                    if (!s.isEmpty()) {
-                        try {
-                            mills.add(Long.parseLong(s));
-                        } catch (Exception ignore) {
-                        }
+        button.setOnClickListener(view -> {
+            List<Long> mills = new ArrayList<>();
+            String txt = editText.getText().toString();
+            String[] split = txt.split(" ");
+            for (String s : split) {
+                if (!s.isEmpty()) {
+                    try {
+                        mills.add(Long.parseLong(s));
+                    } catch (Exception ignore) {
                     }
                 }
+            }
 
-                Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                long[] pattern = new long[mills.size()];
-                for (int i = 0; i < pattern.length; i++) {
-                    pattern[i] = mills.get(i);
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
-                } else {
-                    vib.vibrate(pattern, -1);
-                }
+            Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            long[] pattern = new long[mills.size()];
+            for (int i = 0; i < pattern.length; i++) {
+                pattern[i] = mills.get(i);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
+            } else {
+                vib.vibrate(pattern, -1);
             }
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -116,19 +111,13 @@ public class VibrationPreference extends EditTextPreference {
         AlertDialog.Builder dlg = new AlertDialog.Builder(getContext());
         dlg.setTitle(getDialogTitle());
         dlg.setView(layout);
-        dlg.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onDialogClosed(true);
-                dialog.dismiss();
-            }
+        dlg.setPositiveButton(R.string.ok, (dialog, which) -> {
+            onDialogClosed(true);
+            dialog.dismiss();
         });
-        dlg.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onDialogClosed(false);
-                dialog.dismiss();
-            }
+        dlg.setNegativeButton(R.string.cancel, (dialog, which) -> {
+            onDialogClosed(false);
+            dialog.dismiss();
         });
         dlg.show();
     }

@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.location.Criteria;
@@ -54,9 +53,7 @@ import com.metinkale.prayer.utils.PermissionUtils;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import java.io.File;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -115,25 +112,17 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         listView.setOnItemClickListener(this);
 
         View csv = View.inflate(getActivity(), R.layout.vakit_addcity_addcsv, null);
-        csv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFromCSV();
-            }
-        });
+        csv.setOnClickListener(v1 -> addFromCSV());
         listView.addFooterView(csv);
         mAdapter = new MyAdapter(getActivity());
         listView.setAdapter(mAdapter);
 
         TextView legacy = v.findViewById(R.id.legacySwitch);
         legacy.setText(R.string.oldAddCity);
-        legacy.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                back();
-                moveToFrag(new SelectCityFragment());
+        legacy.setOnClickListener(view -> {
+            back();
+            moveToFrag(new SelectCityFragment());
 
-            }
         });
 
         return v;
@@ -318,45 +307,36 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     public void addFromCSV() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.addFromCSV)
-                .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        if (which == 0) {
-                            FileChooser chooser = new FileChooser(getActivity());
-                            chooser.setExtension("csv");
-                            chooser.showDialog();
-                            chooser.setFileListener(new FileChooser.FileSelectedListener() {
-                                @Override
-                                public void fileSelected(File file) {
-                                    String name = file.getName();
-                                    if (name.contains("."))
-                                        name = name.substring(0, name.lastIndexOf("."));
+                .setItems(R.array.addFromCSV, (dialogInterface, which) -> {
+                    if (which == 0) {
+                        FileChooser chooser = new FileChooser(getActivity());
+                        chooser.setExtension("csv");
+                        chooser.showDialog();
+                        chooser.setFileListener(file -> {
+                            String name = file.getName();
+                            if (name.contains("."))
+                                name = name.substring(0, name.lastIndexOf("."));
 
-                                    WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
-                                    back();
-                                }
-                            });
-                        } else {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            final EditText editText = new EditText(getActivity());
-                            editText.setHint("http(s)://example.com/prayertimes.csv");
-                            alert.setView(editText);
-                            alert.setTitle(R.string.csvFromURL);
-                            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    String url = editText.getText().toString();
-                                    String name = url.substring(url.lastIndexOf("/") + 1);
-                                    if (name.contains("."))
-                                        name = name.substring(0, name.lastIndexOf("."));
-                                    WebTimes.add(Source.CSV, name, url, 0, 0);
-                                    back();
-                                }
-                            });
-                            alert.setNegativeButton(R.string.cancel, null);
-                            alert.show();
+                            WebTimes.add(Source.CSV, name, file.toURI().toString(), 0, 0);
+                            back();
+                        });
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                        final EditText editText = new EditText(getActivity());
+                        editText.setHint("http(s)://example.com/prayertimes.csv");
+                        alert.setView(editText);
+                        alert.setTitle(R.string.csvFromURL);
+                        alert.setPositiveButton(R.string.ok, (dialogInterface1, i) -> {
+                            String url = editText.getText().toString();
+                            String name = url.substring(url.lastIndexOf("/") + 1);
+                            if (name.contains("."))
+                                name = name.substring(0, name.lastIndexOf("."));
+                            WebTimes.add(Source.CSV, name, url, 0, 0);
+                            back();
+                        });
+                        alert.setNegativeButton(R.string.cancel, null);
+                        alert.show();
 
-                        }
                     }
                 });
         builder.show();
@@ -380,12 +360,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         @Override
         public void addAll(@NonNull Collection<? extends Entry> collection) {
             super.addAll(collection);
-            sort(new Comparator<Entry>() {
-                @Override
-                public int compare(Entry e1, Entry e2) {
-                    return e1.getSource().ordinal() - e2.getSource().ordinal();
-                }
-            });
+            sort((e1, e2) -> e1.getSource().ordinal() - e2.getSource().ordinal());
         }
 
         @NonNull

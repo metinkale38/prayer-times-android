@@ -17,7 +17,6 @@
 package com.metinkale.prayer.settings;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.format.DateFormat;
@@ -84,38 +83,35 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(file.getName())
-                .setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        if (which == 0) {
-                            boolean success = true;
-                            File files = getFilesDir();
-                            for (File file1 : files.listFiles()) {
-                                success &= file1.delete();
-                            }
-                            success &= files.delete();
-                            files = new File(files.getParentFile(), "databases");
-                            for (File file1 : files.listFiles()) {
-                                success &= file1.delete();
-                            }
-                            success &= files.delete();
-                            files = new File(files.getParentFile(), "shared_prefs");
-                            for (File file1 : files.listFiles()) {
-                                success &= file1.delete();
-                            }
-                            success &= files.delete();
-                            
-                            if (!success)
-                                Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG).show();
-                            files = files.getParentFile();
-                            
-                            Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
-                            System.exit(0);
-                            Module.TIMES.launch(BackupRestoreActivity.this);
-                        } else {
-                            file.delete();
-                            mAdapter.notifyDataSetChanged();
+                .setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, (dialogInterface, which) -> {
+                    if (which == 0) {
+                        boolean success = true;
+                        File files = getFilesDir();
+                        for (File file1 : files.listFiles()) {
+                            success &= file1.delete();
                         }
+                        success &= files.delete();
+                        files = new File(files.getParentFile(), "databases");
+                        for (File file1 : files.listFiles()) {
+                            success &= file1.delete();
+                        }
+                        success &= files.delete();
+                        files = new File(files.getParentFile(), "shared_prefs");
+                        for (File file1 : files.listFiles()) {
+                            success &= file1.delete();
+                        }
+                        success &= files.delete();
+
+                        if (!success)
+                            Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG).show();
+                        files = files.getParentFile();
+
+                        Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
+                        System.exit(0);
+                        Module.TIMES.launch(BackupRestoreActivity.this);
+                    } else {
+                        file.delete();
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
         builder.show();

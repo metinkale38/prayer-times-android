@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -197,34 +195,28 @@ public class AlarmConfigFragment extends DialogFragment {
             }
         };
 
-        mSilenterUp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(incr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(incr);
-                }
-                return true;
+        mSilenterUp.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(incr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(incr);
             }
+            return true;
         });
 
-        mSilenterDown.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.post(decr);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.removeCallbacks(decr);
-                }
-                return true;
+        mSilenterDown.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.post(decr);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    v.removeCallbacks(decr);
             }
+            return true;
         });
 
         mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
@@ -296,46 +288,23 @@ public class AlarmConfigFragment extends DialogFragment {
 
     private void initAutodelete() {
         mAutoDelete.setChecked(mAlarm.isRemoveNotification());
-        mAutoDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mAlarm.setRemoveNotification(isChecked);
-            }
-        });
+        mAutoDelete.setOnCheckedChangeListener((buttonView, isChecked) -> mAlarm.setRemoveNotification(isChecked));
     }
 
     private void initVibrate() {
         mVibrate.setChecked(mAlarm.isVibrate());
-        mVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mAlarm.setVibrate(isChecked);
-            }
-        });
+        mVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> mAlarm.setVibrate(isChecked));
     }
 
     private void initDelete() {
-        mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(mTimes.getName())
-                        .setMessage(getString(R.string.delConfirm, mAlarm.getTitle()))
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mTimes.getUserAlarms().remove(mAlarm);
-                                dismiss();
-                            }
-                        }).show();
-            }
-        });
+        mDelete.setOnClickListener(v -> new AlertDialog.Builder(getActivity())
+                .setTitle(mTimes.getName())
+                .setMessage(getString(R.string.delConfirm, mAlarm.getTitle()))
+                .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    mTimes.getUserAlarms().remove(mAlarm);
+                    dismiss();
+                }).show());
 
     }
 
@@ -346,12 +315,7 @@ public class AlarmConfigFragment extends DialogFragment {
 
             setTime(time, isTime(time));
 
-            mTimesViews[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setTime(time, !isTime(time));
-                }
-            });
+            mTimesViews[i].setOnClickListener(v -> setTime(time, !isTime(time)));
         }
     }
 
@@ -376,12 +340,7 @@ public class AlarmConfigFragment extends DialogFragment {
 
             setWeekday(i + 1, isWeekday(weekday));
 
-            mWeekdays[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setWeekday(weekday, !isWeekday(weekday));
-                }
-            });
+            mWeekdays[i].setOnClickListener(v -> setWeekday(weekday, !isWeekday(weekday)));
         }
     }
 
@@ -466,43 +425,24 @@ public class AlarmConfigFragment extends DialogFragment {
         mVolumeSpinner.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
 
 
-        mAddSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SoundChooser.create(mAlarm).show(getChildFragmentManager(), "soundchooser");
-            }
-        });
+        mAddSound.setOnClickListener(v -> SoundChooser.create(mAlarm).show(getChildFragmentManager(), "soundchooser"));
 
 
-        mAdapter.setOnItemClickListener(new SoundChooserAdapter.OnClickListener() {
-            @Override
-            public void onItemClick(SoundChooserAdapter.ItemVH vh, final Sound sound) {
-                View v = vh.getView();
-                if (sounds.contains(sound)) {
-                    v.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            new AlertDialog.Builder(getActivity())
-                                    .setTitle(sound.getName())
-                                    .setMessage(getString(R.string.delConfirm, sound.getName()))
-                                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            sounds.remove(sound);
-                                            initSounds();
-                                            initVolume();
-                                        }
-                                    }).show();
-                            return true;
-                        }
-                    });
-                }
+        mAdapter.setOnItemClickListener((vh, sound) -> {
+            View v = vh.getView();
+            if (sounds.contains(sound)) {
+                v.setOnLongClickListener(v1 -> {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle(sound.getName())
+                            .setMessage(getString(R.string.delConfirm, sound.getName()))
+                            .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                            .setPositiveButton(R.string.yes, (dialog, which) -> {
+                                sounds.remove(sound);
+                                initSounds();
+                                initVolume();
+                            }).show();
+                    return true;
+                });
             }
         });
 

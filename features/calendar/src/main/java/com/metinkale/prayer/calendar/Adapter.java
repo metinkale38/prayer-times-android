@@ -30,7 +30,6 @@ import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 

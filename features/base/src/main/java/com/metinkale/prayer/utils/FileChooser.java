@@ -22,13 +22,11 @@ import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;

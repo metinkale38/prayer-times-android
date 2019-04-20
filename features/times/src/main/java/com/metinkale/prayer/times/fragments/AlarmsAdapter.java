@@ -19,7 +19,6 @@ package com.metinkale.prayer.times.fragments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.metinkale.prayer.times.R;
@@ -126,27 +125,12 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
         void setSwitchItem(final SwitchItem item) {
             mTitle.setText(item.getName());
             mSwitch.setChecked(item.getChecked());
-            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    item.onChange(isChecked);
-                }
-            });
+            mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> item.onChange(isChecked));
 
 
-            mTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    item.onClick();
-                }
-            });
+            mTitle.setOnClickListener(v -> item.onClick());
 
-            mTitle.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return item.onLongClick();
-                }
-            });
+            mTitle.setOnLongClickListener(v -> item.onLongClick());
 
 
         }

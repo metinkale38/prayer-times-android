@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.alarm.sounds;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,23 +59,17 @@ public class SoundChooser extends DialogFragment {
         AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.soundPicker)
                 .setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Sound selected = mAdapter.getSelected();
-                                if (selected != null) {
-                                    alarm.getSounds().add(selected);
-                                }
-                                ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
-                                dialog.dismiss();
+                        (dialog, whichButton) -> {
+                            Sound selected = mAdapter.getSelected();
+                            if (selected != null) {
+                                alarm.getSounds().add(selected);
                             }
+                            ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                            dialog.dismiss();
                         }
                 )
                 .setNegativeButton(R.string.cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
+                        (dialog, whichButton) -> dialog.dismiss()
                 );
 
         b.setView(createView(getActivity().getLayoutInflater(), null, null));
@@ -88,12 +81,7 @@ public class SoundChooser extends DialogFragment {
         View view = inflater.inflate(R.layout.sound_chooser, container, false);
         mRecyclerView = view.findViewById(R.id.list);
         if (Sounds.getSounds().isEmpty()) {
-            Sounds.downloadData(getActivity(), new Runnable() {
-                @Override
-                public void run() {
-                    init();
-                }
-            });
+            Sounds.downloadData(getActivity(), this::init);
         }
 
         init();

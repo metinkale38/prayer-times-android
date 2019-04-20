@@ -241,12 +241,7 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
 
         setOnTouchListener(this);
 
-        post(new Runnable() {
-            @Override
-            public void run() {
-                scrollTo(0, child.getPaddingTop());
-            }
-        });
+        post(() -> scrollTo(0, child.getPaddingTop()));
     }
 
     @Override

@@ -37,7 +37,6 @@ import com.metinkale.prayer.times.times.sources.WebTimes;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
@@ -62,12 +61,9 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
         v.findViewById(R.id.autoLocation).setVisibility(View.GONE);
         TextView legacy = v.findViewById(R.id.legacySwitch);
         legacy.setText(R.string.newAddCity);
-        legacy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                back();
-                moveToFrag(new SearchCityFragment());
-            }
+        legacy.setOnClickListener(view -> {
+            back();
+            moveToFrag(new SearchCityFragment());
         });
 
         mListView = v.findViewById(R.id.listView);
@@ -86,12 +82,7 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
             @Override
             public void onResult(@NonNull List<Entry> result) {
                 if (!result.isEmpty()) {
-                    Collections.sort(result, new Comparator<Entry>() {
-                        @Override
-                        public int compare(Entry e1, Entry e2) {
-                            return e1.getName().compareTo(e2.getName());
-                        }
-                    });
+                    Collections.sort(result, (e1, e2) -> e1.getName().compareTo(e2.getName()));
                     mAdapter.clear();
                     mAdapter.addAll(result);
                     mListView.scrollTo(0, 0);

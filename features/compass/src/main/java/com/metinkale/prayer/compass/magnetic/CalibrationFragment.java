@@ -77,12 +77,7 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
             mAccuracy.setText(Html.fromHtml(
                     String.format("%s: <font color='#00ff00'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_high))));
             
-            mAccuracy.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit();
-                }
-            }, 3000);
+            mAccuracy.postDelayed(() -> getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit(), 3000);
             
         }
     }

@@ -131,66 +131,44 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
             }
         });
         
-        mTopSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
-                int position = mPager.getCurrentItem();
-                if (position != 0) {
-                    Times t = Times.getTimes(mAdapter.getItemId(position));
-                    mSettingsFrag.setTimes(t);
-                }
-                mBottomSlider.lock();
+        mTopSlider.setOnDrawerOpenListener(() -> {
+            int position = mPager.getCurrentItem();
+            if (position != 0) {
+                Times t = Times.getTimes(mAdapter.getItemId(position));
+                mSettingsFrag.setTimes(t);
             }
+            mBottomSlider.lock();
         });
         
-        mTopSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mBottomSlider.unlock();
-                
-                Fragment page = getChildFragmentManager()
-                        .findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
-                if (page instanceof CityFragment) {
-                    ((CityFragment) page).update();
-                }
+        mTopSlider.setOnDrawerCloseListener(() -> {
+            mBottomSlider.unlock();
+
+            Fragment page = getChildFragmentManager()
+                    .findFragmentByTag("android:switcher:" + mPager.getId() + ":" + mAdapter.getItemId(mPager.getCurrentItem()));
+            if (page instanceof CityFragment) {
+                ((CityFragment) page).update();
             }
         });
         
         
-        mBottomSlider.setOnDrawerOpenListener(new MultipleOrientationSlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
-                mTopSlider.lock();
-            }
-        });
+        mBottomSlider.setOnDrawerOpenListener(() -> mTopSlider.lock());
         
-        mBottomSlider.setOnDrawerCloseListener(new MultipleOrientationSlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                mTopSlider.unlock();
+        mBottomSlider.setOnDrawerCloseListener(() -> mTopSlider.unlock());
+        v.findViewById(R.id.topSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
+                mTopSlider.animateClose();
+                return true;
             }
-        });
-        v.findViewById(R.id.topSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mTopSlider.isOpened()) {
-                    mTopSlider.animateClose();
-                    return true;
-                }
-                return false;
-            }
+            return false;
         });
         
         
-        v.findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
-                    mBottomSlider.animateClose();
-                    return true;
-                }
-                return false;
+        v.findViewById(R.id.bottomSliderCloseHandler).setOnTouchListener((view, motionEvent) -> {
+            if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN) && mBottomSlider.isOpened()) {
+                mBottomSlider.animateClose();
+                return true;
             }
+            return false;
         });
         
         if (getArguments() != null) {

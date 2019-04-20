@@ -110,7 +110,7 @@ task findDuplicateResources {
                 if (file.name.startsWith("values")) return
                 file.eachFile { r ->
                     def name = r.name
-                    if (resources.containsKey(name) && !resources.get(name).equals(feature.getName())) {
+                    if (resources.containsKey(name) && resources.get(name) != feature.getName()) {
                         System.err.printf("[findDuplicateResources] String %s in %s also exists in %s\n", name, feature.getName(),
                                 resources.get(name))
                     } else {

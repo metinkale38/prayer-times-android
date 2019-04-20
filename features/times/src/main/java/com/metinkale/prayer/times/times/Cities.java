@@ -57,88 +57,54 @@ public class Cities {
 
 
     public void list(final long id, @NonNull final Callback<List<Entry>> callback) {
-        mThread.execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<Entry> result = list(id);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onResult(result);
-                    }
-                });
-            }
+        mThread.execute(() -> {
+            final List<Entry> result = list(id);
+            mHandler.post(() -> callback.onResult(result));
         });
     }
 
 
     public void search(final String q, @NonNull final Callback<List<Entry>> callback) {
-        Geocoder.search(q, new Geocoder.GeocoderCallback() {
-            @Override
-            public void onResult(@Nullable final Geocoder.Result result) {
-                mThread.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Entry> search = search(q, result);
-                        if (result != null) {
-                            Entry calc = new Entry();
-                            calc.setSource(Source.Calc);
-                            calc.setLat(result.getLat());
-                            calc.setLng(result.getLon());
-                            calc.setName(result.getName());
-                            calc.setCountry(result.getCountry());
-                            search.add(calc);
-                        }
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onResult(search);
-                            }
-                        });
-                    }
-                });
+        Geocoder.search(q, result -> mThread.execute(() -> {
+            final List<Entry> search = search(q, result);
+            if (result != null) {
+                Entry calc = new Entry();
+                calc.setSource(Source.Calc);
+                calc.setLat(result.getLat());
+                calc.setLng(result.getLon());
+                calc.setName(result.getName());
+                calc.setCountry(result.getCountry());
+                search.add(calc);
             }
-        });
+            mHandler.post(() -> callback.onResult(search));
+        }));
 
     }
 
     public void search(final double lat, final double lng, @NonNull final Callback<List<Entry>> callback) {
         final Cities cities = Cities.get();
         Geocoder.reverse(lat, lng,
-                new Geocoder.GeocoderCallback() {
-                    @Override
-                    public void onResult(@Nullable final Geocoder.Result result) {
-                        mThread.execute(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        final List<Entry> search = cities.search(lat, lng);
-                                        Entry e = new Entry();
-                                        e.setSource(Source.Calc);
-                                        if (result == null) {
-                                            e.setCountry("?");
-                                            e.setName("?");
-                                            e.setLat(lat);
-                                            e.setLng(lng);
-                                        } else {
-                                            e.setCountry(result.getCountry());
-                                            e.setName(result.getName());
-                                            e.setLat(result.getLat());
-                                            e.setLng(result.getLon());
-                                        }
-                                        search.add(e);
-                                        mHandler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                callback.onResult(search);
-                                            }
-                                        });
-                                    }
-                                }
+                result -> mThread.execute(
+                        () -> {
+                            final List<Entry> search = cities.search(lat, lng);
+                            Entry e = new Entry();
+                            e.setSource(Source.Calc);
+                            if (result == null) {
+                                e.setCountry("?");
+                                e.setName("?");
+                                e.setLat(lat);
+                                e.setLng(lng);
+                            } else {
+                                e.setCountry(result.getCountry());
+                                e.setName(result.getName());
+                                e.setLat(result.getLat());
+                                e.setLng(result.getLon());
+                            }
+                            search.add(e);
+                            mHandler.post(() -> callback.onResult(search));
+                        }
 
-                        );
-                    }
-                }
+                )
 
         );
 

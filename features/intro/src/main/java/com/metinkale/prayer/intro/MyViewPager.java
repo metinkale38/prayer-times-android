@@ -64,7 +64,7 @@ public class MyViewPager extends ViewPager {
                     super.startScroll(startX, startY, dx, dy, duration * 3);
                 }
             });
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

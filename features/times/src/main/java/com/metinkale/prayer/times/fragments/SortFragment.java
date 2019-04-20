@@ -137,19 +137,13 @@ public class SortFragment extends Fragment {
         dialog.setTitle(R.string.delete);
         dialog.setMessage(getString(R.string.delConfirm, times.getName()));
         dialog.setCancelable(false);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                times.delete();
-                mAdapter.notifyItemRemoved(position);
-            }
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
+            times.delete();
+            mAdapter.notifyItemRemoved(position);
         });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-                mAdapter.notifyDataSetChanged();
-            }
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
+            dialogInterface.cancel();
+            mAdapter.notifyDataSetChanged();
         });
         dialog.show();
     }
@@ -211,35 +205,19 @@ public class SortFragment extends Fragment {
             
             vh.delete.setVisibility(mDeleteMode ? View.VISIBLE : View.GONE);
             
-            vh.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemDismiss(vh.getAdapterPosition());
+            vh.delete.setOnClickListener(view -> onItemDismiss(vh.getAdapterPosition()));
+            vh.handler.setOnTouchListener((view, event) -> {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mItemTouchHelper.startDrag(vh);
                 }
-            });
-            vh.handler.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        mItemTouchHelper.startDrag(vh);
-                    }
-                    
-                    return false;
-                }
+
+                return false;
             });
             
-            vh.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    act.onItemClick(vh.getAdapterPosition());
-                }
-            });
-            vh.itemView.setOnLongClickListener(c instanceof CalcTimes ? new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    CalcTimeConfDialogFragment.forCity((CalcTimes) c).show(getChildFragmentManager(), "calcconfig");
-                    return true;
-                }
+            vh.itemView.setOnClickListener(view -> act.onItemClick(vh.getAdapterPosition()));
+            vh.itemView.setOnLongClickListener(c instanceof CalcTimes ? (View.OnLongClickListener) v -> {
+                CalcTimeConfDialogFragment.forCity((CalcTimes) c).show(getChildFragmentManager(), "calcconfig");
+                return true;
             } : null);
         }
         

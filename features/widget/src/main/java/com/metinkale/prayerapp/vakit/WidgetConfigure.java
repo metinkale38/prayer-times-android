@@ -17,7 +17,6 @@
 package com.metinkale.prayerapp.vakit;
 
 import android.appwidget.AppWidgetManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -68,13 +67,10 @@ public class WidgetConfigure extends AppCompatActivity {
                 array[i] = t.getName() + " (" + t.getSource() + ")";
             }
         }
-        builder.setItems(array, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
-                if (mOnlyCity) result();
-                else themeDialog();
-            }
+        builder.setItems(array, (dialog, which) -> {
+            getSharedPreferences("widgets", 0).edit().putLong("" + mAppWidgetId, Times.getIds().get(which)).apply();
+            if (mOnlyCity) result();
+            else themeDialog();
         });
         builder.show();
     }
@@ -83,12 +79,9 @@ public class WidgetConfigure extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.widgetDesign);
         builder.setItems(new String[]{getString(R.string.whiteWidget), getString(R.string.blackWidget), getString(R.string.transWhiteWidget), getString(R.string.transWidget)},
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        getSharedPreferences("widgets", 0).edit().putInt(mAppWidgetId + "_theme", which).apply();
-                        result();
-                    }
+                (dialogInterface, which) -> {
+                    getSharedPreferences("widgets", 0).edit().putInt(mAppWidgetId + "_theme", which).apply();
+                    result();
                 });
         builder.show();
     }
