@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.names.Adapter.Item;
-import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -38,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -61,7 +61,7 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.names_main, container, false);
 
         mRecyclerView = v.findViewById(android.R.id.list);
@@ -124,7 +124,7 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
             }
         }
 
-        mRecyclerView.setAdapter(new Adapter(getActivity(), values.toArray(new Item[values.size()]), mCols > 1));
+        mRecyclerView.setAdapter(new Adapter(getActivity(), values.toArray(new Item[0]), mCols > 1));
         return false;
     }
 

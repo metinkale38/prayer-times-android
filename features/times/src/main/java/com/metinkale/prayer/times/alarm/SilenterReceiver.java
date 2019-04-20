@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 
-import com.metinkale.prayer.Preferences;
-
 public class SilenterReceiver extends BroadcastReceiver {
     public static void silent(Context c, int mins) {
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);

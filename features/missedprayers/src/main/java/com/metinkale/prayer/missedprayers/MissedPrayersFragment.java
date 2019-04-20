@@ -27,13 +27,14 @@ import android.widget.TextView;
 
 import com.metinkale.prayer.BaseActivity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class MissedPrayersFragment extends BaseActivity.MainFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kaza_main, container, false);
         ViewGroup vg = view.findViewById(R.id.main);
 

@@ -46,13 +46,11 @@ import org.metinkale.praytimes.HighLatsAdjustment;
 import org.metinkale.praytimes.Method;
 import org.metinkale.praytimes.PrayTimes;
 
-import java.util.Locale;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by metin on 10.10.2017.
@@ -82,7 +80,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.calcmethod_dialog, container, false);
 
 
@@ -268,7 +266,6 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                 mPrayTimes.setMethod(mMethod);
                 mPrayTimes.setTimezone(mTz);
                 updateTimes();
-                return;
             }
         } else if (adapterView == mHLAdj) {
             mPrayTimes.setHighLatsAdjustment(HighLatsAdjustment.values()[pos]);

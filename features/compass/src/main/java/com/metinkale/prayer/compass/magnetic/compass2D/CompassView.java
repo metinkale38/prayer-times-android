@@ -65,13 +65,13 @@ public class CompassView extends View {
 
         mPath.reset();
         mPath.setFillType(Path.FillType.EVEN_ODD);
-        mPath.moveTo(center, center / 8);
+        mPath.moveTo(center, center / 8f);
 
-        mPath.lineTo((center * 15) / 20, center / 3);
+        mPath.lineTo((center * 15) / 20f, center / 3f);
 
-        mPath.lineTo(center, center / 4);
+        mPath.lineTo(center, center / 4f);
 
-        mPath.lineTo((center * 25) / 20, center / 3);
+        mPath.lineTo((center * 25) / 20f, center / 3f);
         mPath.close();
 
         setMeasuredDimension(size, size);
@@ -85,23 +85,23 @@ public class CompassView extends View {
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setAntiAlias(true);
 
-        mPaint.setStrokeWidth(center / 15);
+        mPaint.setStrokeWidth(center / 15f);
 
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawCircle(center, center, (center * 19) / 20, mPaint);
+        canvas.drawCircle(center, center, (center * 19) / 20f, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         mPaint.setColor(0xFF33B5E5);
-        canvas.drawCircle(center, center, (center * 19) / 20, mPaint);
+        canvas.drawCircle(center, center, (center * 19) / 20f, mPaint);
         mPaint.setStrokeWidth(1);
 
         mPaint.setColor(Color.BLACK);
 
-        mPaint.setTextSize((center * 2) / 5);
+        mPaint.setTextSize((center * 2) / 5f);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(LocaleUtils.formatNumber(Math.round(getAngle())) + "°", center, center + (center / 5), mPaint);
+        canvas.drawText(LocaleUtils.formatNumber(Math.round(getAngle())) + "°", center, center + (center / 5f), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(-mAngle, center, center);
@@ -112,10 +112,10 @@ public class CompassView extends View {
         canvas.drawPath(mPath, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
-        mPaint.setTextSize(center / 5);
+        mPaint.setTextSize(center / 5f);
 
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText("N", center, (center * 9) / 20, mPaint);
+        canvas.drawText("N", center, (center * 9) / 20f, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 
         canvas.rotate(mqAngle, center, center);

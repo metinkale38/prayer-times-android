@@ -293,7 +293,7 @@ public abstract class WebTimes extends Times {
         
         @NonNull
         @Override
-        protected Result onRunJob(Params params) {
+        protected Result onRunJob(@NonNull Params params) {
             if (!App.isOnline())
                 return Result.RESCHEDULE;
             syncAsync();

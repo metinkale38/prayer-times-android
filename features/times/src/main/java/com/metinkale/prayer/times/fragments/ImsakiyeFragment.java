@@ -46,7 +46,7 @@ public class ImsakiyeFragment extends Fragment {
     private Times mTimes;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bdl) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
         ListView lv = new ListView(getActivity());
         mAdapter = new ImsakiyeAdapter(getActivity());
         lv.setAdapter(mAdapter);

@@ -27,20 +27,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.metinkale.prayer.InternalBroadcastReceiver;
-import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.times.alarm.AlarmService;
 import com.metinkale.prayer.times.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
-import org.joda.time.LocalDateTime;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;

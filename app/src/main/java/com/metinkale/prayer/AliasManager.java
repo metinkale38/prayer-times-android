@@ -21,7 +21,7 @@ public class AliasManager extends InternalBroadcastReceiver implements InternalB
         if (key.equals(Preferences.LANGUAGE.getKey())) {
             PackageManager pm = getContext().getPackageManager();
             
-            PackageInfo info = null;
+            PackageInfo info;
             try {
                 info = pm.getPackageInfo(getContext().getApplicationContext().getPackageName(),
                         PackageManager.GET_ACTIVITIES | PackageManager.GET_DISABLED_COMPONENTS);

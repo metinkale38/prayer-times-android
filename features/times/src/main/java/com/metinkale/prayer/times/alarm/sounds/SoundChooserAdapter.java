@@ -51,6 +51,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -120,7 +121,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     }
 
     @Override
-    public void onBindViewHolder(final ItemVH vh, final int position) {
+    public void onBindViewHolder(@NonNull final ItemVH vh, final int position) {
         final Sound sound = mSounds.get(position);
         vh.resetAudio();
         vh.getRadio().setVisibility(mShowRadioButton ? View.VISIBLE : View.GONE);
@@ -360,8 +361,9 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     }
 
 
+    @NonNull
     @Override
-    public ItemVH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemVH(parent);
     }
 

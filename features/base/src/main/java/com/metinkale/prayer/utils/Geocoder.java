@@ -103,25 +103,22 @@ public class Geocoder {
         Ion.with(App.get())
                 .load("http://nominatim.openstreetmap.org/reverse?format=json&email=metinkale38@gmail.com&lat=" + lat +
                         "&lon=" + lng + "&accept-language=" + LocaleUtils.getLocale().getLanguage())
-                .as(OSMReverse.class).withResponse().setCallback(new FutureCallback<Response<OSMReverse>>() {
-            @Override
-            public void onCompleted(@Nullable Exception e, Response<OSMReverse> response) {
-                if (e != null) e.printStackTrace();
-                OSMReverse result = response == null ? null : response.getResult();
+                .as(OSMReverse.class).withResponse().setCallback((e, response) -> {
+                    if (e != null) e.printStackTrace();
+                    OSMReverse result = response == null ? null : response.getResult();
 
-                Result Result = null;
-                if (result != null && result.address != null) {
-                    Result = new Result();
-                    Result.setCountry(result.address.country);
-                    Result.setCity(result.address.city);
-                    Result.setCounty(result.address.county);
-                    Result.setState(result.address.state);
-                    Result.setLat(result.lat);
-                    Result.setLon(result.lon);
-                }
-                callback.onResult(Result);
-            }
-        });
+                    Result Result = null;
+                    if (result != null && result.address != null) {
+                        Result = new Result();
+                        Result.setCountry(result.address.country);
+                        Result.setCity(result.address.city);
+                        Result.setCounty(result.address.county);
+                        Result.setState(result.address.state);
+                        Result.setLat(result.lat);
+                        Result.setLon(result.lon);
+                    }
+                    callback.onResult(Result);
+                });
 
     }
 
@@ -131,35 +128,32 @@ public class Geocoder {
                 .load("http://nominatim.openstreetmap.org/search?format=jsonv2&email=metinkale38@gmail.com&q=" + query
                         + "&accept-language=" + LocaleUtils.getLocale().getLanguage())
                 .as(new TypeToken<List<OSMPlace>>() {
-                }).withResponse().setCallback(new FutureCallback<Response<List<OSMPlace>>>() {
-            @Override
-            public void onCompleted(@Nullable Exception e, @Nullable Response<List<OSMPlace>> response) {
-                List<OSMPlace> result;
-                if (response == null || (result = response.getResult()) == null || result.isEmpty()) {
-                    callback.onResult(null);
-                    return;
-                }
-
-                if (e != null) e.printStackTrace();
-
-                Result entry = null;
-                if (result.size() >= 1) {
-                    OSMPlace res = result.get(0);
-                    String[] parts = res.display_name.split(", ");
-                    entry = new Result();
-                    for (int i = 0; i < parts.length - 1; i++) {
-                        if (i == 0) entry.setCity(parts[i]);
-                        else if (i == 1) entry.setCounty(parts[i]);
-                        else if (i == 2) entry.setState(parts[i]);
+                }).withResponse().setCallback((e, response) -> {
+                    List<OSMPlace> result;
+                    if (response == null || (result = response.getResult()) == null || result.isEmpty()) {
+                        callback.onResult(null);
+                        return;
                     }
-                    entry.setLat(res.lat);
-                    entry.setLon(res.lon);
-                    entry.setCountry(parts[parts.length - 1]);
-                }
-                callback.onResult(entry);
 
-            }
-        });
+                    if (e != null) e.printStackTrace();
+
+                    Result entry = null;
+                    if (result.size() >= 1) {
+                        OSMPlace res = result.get(0);
+                        String[] parts = res.display_name.split(", ");
+                        entry = new Result();
+                        for (int i = 0; i < parts.length - 1; i++) {
+                            if (i == 0) entry.setCity(parts[i]);
+                            else if (i == 1) entry.setCounty(parts[i]);
+                            else if (i == 2) entry.setState(parts[i]);
+                        }
+                        entry.setLat(res.lat);
+                        entry.setLon(res.lon);
+                        entry.setCountry(parts[parts.length - 1]);
+                    }
+                    callback.onResult(entry);
+
+                });
 
 
     }

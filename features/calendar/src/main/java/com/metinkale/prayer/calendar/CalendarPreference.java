@@ -76,8 +76,8 @@ public class CalendarPreference extends ListPreference {
         names.add(0, getContext().getString(R.string.off));
         ids.add(0, "-1");
 
-        setEntries(names.toArray(new String[names.size()]));
-        setEntryValues(ids.toArray(new String[ids.size()]));
+        setEntries(names.toArray(new String[0]));
+        setEntryValues(ids.toArray(new String[0]));
     }
 
     private void getCalendars(@NonNull Collection<String> names, @NonNull Collection<String> ids) {

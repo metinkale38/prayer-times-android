@@ -18,7 +18,7 @@ public class LiveDataAwareSet<T> extends LiveData<Set<T>> implements Set<T> {
     }
 
     public LiveDataAwareSet() {
-        this(new ArraySet<T>());
+        this(new ArraySet<>());
     }
 
     @Override

@@ -55,7 +55,7 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.vakit_addcity, container, false);
 
         v.findViewById(R.id.search).setVisibility(View.GONE);

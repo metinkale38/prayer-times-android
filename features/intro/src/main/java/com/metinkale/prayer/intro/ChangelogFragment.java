@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 
 import com.metinkale.prayer.utils.LocaleUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import us.feras.mdv.MarkdownView;
 
@@ -45,7 +46,7 @@ public class ChangelogFragment extends IntroFragment {
     
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_changelog, container, false);
         
         final MarkdownView md = v.findViewById(R.id.markdownview);

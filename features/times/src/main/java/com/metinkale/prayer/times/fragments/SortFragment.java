@@ -272,14 +272,14 @@ public class SortFragment extends Fragment {
         
         
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
             int swipeFlags = ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, swipeFlags);
         }
         
         @Override
-        public boolean onMove(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
             return true;
         }
@@ -313,7 +313,7 @@ public class SortFragment extends Fragment {
         }
         
         @Override
-        public void clearView(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
             
             if (viewHolder instanceof ViewHolder) {

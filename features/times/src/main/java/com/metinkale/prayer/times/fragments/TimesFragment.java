@@ -82,7 +82,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
     
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.vakit_main, container, false);
         mFooterText = v.findViewById(R.id.footerText);
         mPager = v.findViewById(R.id.pager);
@@ -318,7 +318,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
         }
         
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             if (object instanceof SortFragment) {
                 return 0;
             } else {

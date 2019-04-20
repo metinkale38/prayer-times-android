@@ -18,17 +18,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -58,7 +54,7 @@ public class Cities {
     private static final String MAIL_ADRESS = "metinkale38@gmail.com";
     private static AtomicInteger id = new AtomicInteger();
     private static Map<String, Geocoder> mGeocodings = new ConcurrentHashMap<>();
-    private static Map<Integer, Entry> mEntries = Collections.synchronizedNavigableMap(new TreeMap<Integer, Entry>());
+    private static Map<Integer, Entry> mEntries = Collections.synchronizedNavigableMap(new TreeMap<>());
     private static AtomicInteger mTaskCounter = new AtomicInteger();
     //only increase poolsize if you want to speedup network requests, but use 1 for final version to keep ids consistent
     private static Executor mWorker = new ThreadPoolExecutor(1, 1,

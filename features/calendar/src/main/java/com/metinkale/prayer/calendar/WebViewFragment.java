@@ -24,13 +24,14 @@ import android.webkit.WebView;
 
 import com.metinkale.prayer.BaseActivity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class WebViewFragment extends BaseActivity.MainFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.webview, container, false);
         WebView wv = v.findViewById(R.id.webview);
         wv.loadUrl("file:///android_asset/" + getArguments().getString("asset"));

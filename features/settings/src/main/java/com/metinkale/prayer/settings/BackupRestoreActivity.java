@@ -106,7 +106,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
                             success &= files.delete();
                             
                             if (!success)
-                                Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG);
+                                Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                             files = files.getParentFile();
                             
                             Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");

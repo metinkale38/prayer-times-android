@@ -69,19 +69,16 @@ public class FileChooser {
         this.activity = activity;
         dialog = new Dialog(activity);
         list = new ListView(activity);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int which, long l) {
-                String fileChosen = (String) list.getItemAtPosition(which);
-                File chosenFile = getChosenFile(fileChosen);
-                if (chosenFile.isDirectory()) {
-                    refresh(chosenFile);
-                } else {
-                    if (fileListener != null) {
-                        fileListener.fileSelected(chosenFile);
-                    }
-                    dialog.dismiss();
+        list.setOnItemClickListener((adapterView, view, which, l) -> {
+            String fileChosen = (String) list.getItemAtPosition(which);
+            File chosenFile = getChosenFile(fileChosen);
+            if (chosenFile.isDirectory()) {
+                refresh(chosenFile);
+            } else {
+                if (fileListener != null) {
+                    fileListener.fileSelected(chosenFile);
                 }
+                dialog.dismiss();
             }
         });
         dialog.setContentView(list);
@@ -100,25 +97,17 @@ public class FileChooser {
     private void refresh(@NonNull File path) {
         currentPath = path;
         if (path.exists()) {
-            File[] dirs = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    return file.isDirectory() && file.canRead();
-                }
-            });
-            File[] files = path.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    if (file.isDirectory()) {
+            File[] dirs = path.listFiles(file -> file.isDirectory() && file.canRead());
+            File[] files = path.listFiles(file -> {
+                if (file.isDirectory()) {
+                    return false;
+                } else {
+                    if (!file.canRead()) {
                         return false;
+                    } else if (extension == null) {
+                        return true;
                     } else {
-                        if (!file.canRead()) {
-                            return false;
-                        } else if (extension == null) {
-                            return true;
-                        } else {
-                            return file.getName().toLowerCase().endsWith(extension);
-                        }
+                        return file.getName().toLowerCase().endsWith(extension);
                     }
                 }
             });

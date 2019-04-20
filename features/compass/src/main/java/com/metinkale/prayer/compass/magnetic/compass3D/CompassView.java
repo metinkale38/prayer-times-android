@@ -72,13 +72,13 @@ public class CompassView extends View {
         
         mPath.reset();
         mPath.setFillType(Path.FillType.EVEN_ODD);
-        mPath.moveTo(center, (center / 8) + (center / 2));
+        mPath.moveTo(center, (center / 8f) + (center / 2f));
         
-        mPath.lineTo((center * 15) / 20, center / 3 + center / 2);
+        mPath.lineTo((center * 15) / 20f, center / 3f + center / 2f);
         
-        mPath.lineTo(center, (center / 4) + (center / 2));
+        mPath.lineTo(center, (center / 4f) + (center / 2f));
         
-        mPath.lineTo((center * 25) / 20, center / 3 + center / 2);
+        mPath.lineTo((center * 25) / 20f, center / 3f + center / 2f);
         mPath.close();
         
     }
@@ -88,9 +88,9 @@ public class CompassView extends View {
         int w = getWidth();
         int h = getHeight();
         
-        float cx = w / 2;
+        float cx = w / 2f;
         float cy = h + (w / 2.5f);
-        float cp = (w * 2) / 3;
+        float cp = (w * 2) / 3f;
         
         mPaint.setStyle(Style.FILL);
         mPaint.setColor(0xAAFFFFFF);
@@ -104,11 +104,11 @@ public class CompassView extends View {
         
         mPaint.setStyle(Style.FILL);
         mPaint.setColor(0xFF000000);
-        mPaint.setTextSize(w / 10);
+        mPaint.setTextSize(w / 10f);
         mPaint.setTextAlign(Align.CENTER);
-        canvas.drawText(LocaleUtils.formatNumber(Math.round(mX)) + "°", w / 2, h * 0.9f, mPaint);
+        canvas.drawText(LocaleUtils.formatNumber(Math.round(mX)) + "°", w / 2f, h * 0.9f, mPaint);
         
-        mPaint.setTextSize(w / 12);
+        mPaint.setTextSize(w / 12f);
         mPaint.setTextAlign(Align.RIGHT);
         canvas.drawText(LocaleUtils.formatNumber((int) Math.round(mQiblaDistance)) + "km", w * 0.45f, h * 0.98f, mPaint);
         
@@ -139,14 +139,14 @@ public class CompassView extends View {
                 }
                 
                 double r = -Math.toDegrees(Math.atan2(Math.toRadians(a - mQiblaAngle), -Math.toRadians(mY)));
-                canvas.rotate((float) r, w / 2, h / 2);
+                canvas.rotate((float) r, w / 2f, h / 2f);
                 mPaint.setColor(Color.BLACK);
                 
                 mPaint.setStyle(Paint.Style.FILL);
                 canvas.drawPath(mPath, mPaint);
                 mPaint.setStyle(Paint.Style.STROKE);
                 
-                canvas.rotate((float) -r, w / 2, h / 2);
+                canvas.rotate((float) -r, w / 2f, h / 2f);
                 
             }
             
@@ -156,21 +156,21 @@ public class CompassView extends View {
                 mPaint.setColor(0xFFFFFFFF);
                 mPaint.setAlpha((int) (170 - (dist * 6.8)));
                 
-                canvas.drawCircle(w / 2, h / 2, w * 0.45f, mPaint);
+                canvas.drawCircle(w / 2f, h / 2f, w * 0.45f, mPaint);
                 
                 mPaint.setAlpha(255);
             }
             
             canvas.translate((-mX * w) / 45, mY * h / 45);
             
-            mPaint.setTextSize(w / 5);
+            mPaint.setTextSize(w / 5f);
             
             mPaint.setColor(0xAAFFFFFF);
-            canvas.drawCircle(w / 2, (h / 2) - (w / 15), w / 5, mPaint);
+            canvas.drawCircle(w / 2f, (h / 2f) - (w / 15f), w / 5f, mPaint);
             
             mPaint.setTextAlign(Align.CENTER);
             mPaint.setColor(0xFF000000);
-            canvas.drawText("N", w / 2, h / 2, mPaint);
+            canvas.drawText("N", w / 2f, h / 2f, mPaint);
             
             canvas.translate((int) ((mQiblaAngle * w) / 45), 0);
             int kw = (w / 4) - ((dist * w) / 180);

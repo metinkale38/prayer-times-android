@@ -94,7 +94,7 @@ public class AlarmService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AlarmService");
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "prayer-times:AlarmService");
         wakeLock.acquire();
         try {
             fireAlarm(intent);

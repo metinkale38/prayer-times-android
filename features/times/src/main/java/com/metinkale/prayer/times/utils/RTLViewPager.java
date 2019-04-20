@@ -78,12 +78,12 @@ public class RTLViewPager extends ViewPager {
     }
 
     @Override
-    public void addOnPageChangeListener(OnPageChangeListener listener) {
+    public void addOnPageChangeListener(@NonNull OnPageChangeListener listener) {
         super.addOnPageChangeListener(isRTL() ? new RTLOnPageChangeListener(listener) : listener);
     }
 
     @Override
-    public void removeOnPageChangeListener(OnPageChangeListener listener) {
+    public void removeOnPageChangeListener(@NonNull OnPageChangeListener listener) {
         throw new RuntimeException("not Supported");
     }
 
@@ -135,7 +135,7 @@ public class RTLViewPager extends ViewPager {
         }
 
         @Override
-        public boolean isViewFromObject(View view, @NonNull Object object) {
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
             return adapter.isViewFromObject(view, object);
         }
 
@@ -147,7 +147,7 @@ public class RTLViewPager extends ViewPager {
 
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             int pos = adapter.getItemPosition(object);
             if (pos == POSITION_NONE) return POSITION_NONE;
             return getCount() - 1 - pos;

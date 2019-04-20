@@ -22,17 +22,17 @@
         android:background="@color/alert"
         android:title="@string/dhikr"
         app:actionViewClass="android.widget.Spinner"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/add"
         app:materialIcon="plus"
         android:title="@string/newDhikr"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/del"
         app:materialIcon="close"
         android:title="@string/delete"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

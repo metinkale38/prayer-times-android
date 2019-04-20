@@ -31,6 +31,7 @@ import com.metinkale.prayer.utils.AboutShortcuts;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
@@ -40,7 +41,7 @@ import androidx.annotation.Nullable;
 public class LastFragment extends IntroFragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_last, container, false);
 
         try {

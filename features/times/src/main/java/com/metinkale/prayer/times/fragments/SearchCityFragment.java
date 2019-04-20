@@ -78,7 +78,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.vakit_addcity, container, false);
         mAutoLocation = v.findViewById(R.id.autoLocation);
         mAutoLocation.setOnCheckedChangeListener(this);
@@ -113,7 +113,15 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         ListView listView = v.findViewById(R.id.listView);
         listView.setFastScrollEnabled(true);
         listView.setOnItemClickListener(this);
-        listView.addFooterView(View.inflate(getActivity(), R.layout.vakit_addcity_addcsv, null));
+
+        View csv = View.inflate(getActivity(), R.layout.vakit_addcity_addcsv, null);
+        csv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFromCSV();
+            }
+        });
+        listView.addFooterView(csv);
         mAdapter = new MyAdapter(getActivity());
         listView.setAdapter(mAdapter);
 
@@ -307,7 +315,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
 
     }
 
-    public void addFromCSV(View view) {
+    public void addFromCSV() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.addFromCSV)
                 .setItems(R.array.addFromCSV, new DialogInterface.OnClickListener() {

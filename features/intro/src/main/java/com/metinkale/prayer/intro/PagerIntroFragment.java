@@ -29,6 +29,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.lang.reflect.Field;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -45,7 +46,7 @@ public class PagerIntroFragment extends IntroFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.intro_pager, container, false);
 
 
@@ -63,7 +64,7 @@ public class PagerIntroFragment extends IntroFragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Fragment frag = new TimesFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();

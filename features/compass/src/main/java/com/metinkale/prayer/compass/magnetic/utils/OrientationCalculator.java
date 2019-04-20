@@ -324,8 +324,8 @@ public class OrientationCalculator {
             float jCosVal = (float) Math.cos(DEGREES_TO_RADIANS * (idx * 15));
             float jCosValInv = (float) Math.cos(DEGREES_TO_RADIANS * (90 - (idx * 15)));
             for (int i = 0; i < POINTS_PER_SEGMENT; i++) {
-                float sinVal = (float) Math.sin(DEGREES_TO_RADIANS * (i * (360 / POINTS_PER_SEGMENT)));
-                float cosVal = (float) Math.cos(DEGREES_TO_RADIANS * (i * (360 / POINTS_PER_SEGMENT)));
+                float sinVal = (float) Math.sin(DEGREES_TO_RADIANS * (i * (360f / POINTS_PER_SEGMENT)));
+                float cosVal = (float) Math.cos(DEGREES_TO_RADIANS * (i * (360f / POINTS_PER_SEGMENT)));
                 mVertices.get(i + (POINTS_PER_SEGMENT * j)).set(sinVal * jCosVal * 1, -cosVal * jCosVal * 1, jCosValInv * 1);
             }
         }
@@ -352,8 +352,8 @@ public class OrientationCalculator {
                 for (Vector3 v : mOrthographicVertexBatch) {
                     vTemp.set(v.x, -v.y, -v.z, 0);
                     vTemp.mul(mModelViewMatrix);
-                    v.x = (vTemp.x * 0.5f * width * orthoScale) + (width / 2);
-                    v.y = (vTemp.y * 0.5f * width * orthoScale) + (width / 2) + ((height - width) / 2);
+                    v.x = (vTemp.x * 0.5f * width * orthoScale) + (width / 2f);
+                    v.y = (vTemp.y * 0.5f * width * orthoScale) + (width / 2f) + ((height - width) / 2f);
                     v.z = vTemp.z * 0.5f * width * orthoScale;
                 }
                 break;
@@ -363,8 +363,8 @@ public class OrientationCalculator {
                     vTemp.set(v.x, -v.y, -v.z, 0);
                     vTemp.mul(mModelViewMatrix);
                     // reflect x and y axes...
-                    v.x = (-vTemp.x * 0.5f * width) + (width / 2);
-                    v.y = (-vTemp.y * 0.5f * width) + (width / 2) + ((height - width) / 2);
+                    v.x = (-vTemp.x * 0.5f * width) + (width / 2f);
+                    v.y = (-vTemp.y * 0.5f * width) + (width / 2f) + ((height - width) / 2f);
                     v.z = vTemp.z * 0.5f * width;
                 }
                 break;

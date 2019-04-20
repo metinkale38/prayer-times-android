@@ -231,12 +231,10 @@ public abstract class Times extends TimesBase {
     }
 
 
-    @NonNull
     public int getCurrentTime() {
         return getNextTime() - 1;
     }
 
-    @NonNull
     public int getNextTime() {
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();

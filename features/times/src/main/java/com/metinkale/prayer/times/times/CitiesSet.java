@@ -16,6 +16,8 @@
 
 package com.metinkale.prayer.times.times;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.utils.FastTokenizer;
 
@@ -45,6 +47,7 @@ class CitiesSet implements Iterable<Entry> {
         throw new RuntimeException("bad cities id");
     }
 
+    @NonNull
     @Override
     public Iterator<com.metinkale.prayer.times.times.Entry> iterator() {
         return new MyIterator();

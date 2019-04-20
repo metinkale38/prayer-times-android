@@ -115,12 +115,9 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(this);
 
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mToolbar != null) {
-                    mToolbar.setTitle(mTitleRes);
-                }
+        mDrawerLayout.post(() -> {
+            if (mToolbar != null) {
+                mToolbar.setTitle(mTitleRes);
             }
         });
         

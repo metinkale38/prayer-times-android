@@ -47,7 +47,6 @@ public class IGMGTimes extends WebTimes {
     }
 
 
-    @NonNull
     protected boolean sync() throws ExecutionException, InterruptedException {
         String path = getId().replace("nix", "-1");
         String[] a = path.split("_");

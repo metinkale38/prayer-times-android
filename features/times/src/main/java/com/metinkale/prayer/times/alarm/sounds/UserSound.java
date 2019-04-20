@@ -24,7 +24,6 @@ import android.provider.OpenableColumns;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.utils.Utils;
 
 import java.io.IOException;
 

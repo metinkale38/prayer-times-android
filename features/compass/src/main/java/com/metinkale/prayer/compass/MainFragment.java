@@ -61,7 +61,7 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         PermissionUtils.get(getActivity()).needLocation(getActivity());
         mSelCity = v.findViewById(R.id.selcity);

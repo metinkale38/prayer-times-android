@@ -87,20 +87,28 @@ public class DiyanetTimes extends WebTimes {
                     name = name.substring(name.indexOf(':') + 1);
                 String content = part.substring(part.indexOf('>') + 1);
                 content = content.substring(0, content.indexOf('<'));
-                if ("Imsak".equals(name)) {
-                    times[0] = content;
-                } else if ("Gunes".equals(name)) {
-                    times[1] = content;
-                } else if ("Ogle".equals(name)) {
-                    times[2] = content;
-                } else if ("Ikindi".equals(name)) {
-                    times[3] = content;
-                } else if ("Aksam".equals(name)) {
-                    times[4] = content;
-                } else if ("Yatsi".equals(name)) {
-                    times[5] = content;
-                } else if ("MiladiTarihKisa".equals(name)) {
-                    date = content;
+                switch (name) {
+                    case "Imsak":
+                        times[0] = content;
+                        break;
+                    case "Gunes":
+                        times[1] = content;
+                        break;
+                    case "Ogle":
+                        times[2] = content;
+                        break;
+                    case "Ikindi":
+                        times[3] = content;
+                        break;
+                    case "Aksam":
+                        times[4] = content;
+                        break;
+                    case "Yatsi":
+                        times[5] = content;
+                        break;
+                    case "MiladiTarihKisa":
+                        date = content;
+                        break;
                 }
             }
             String[] d = date.split("\\.");

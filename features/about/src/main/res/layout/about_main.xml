@@ -78,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/icon"
@@ -118,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -159,7 +161,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -199,7 +202,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -239,7 +243,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -280,7 +285,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -322,7 +328,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -367,7 +374,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -418,7 +426,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -457,7 +466,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:focusable="true">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"

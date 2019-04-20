@@ -109,9 +109,9 @@ public class NVCTimes extends WebTimes {
                 if (month.length() == 1) {
                     month = "0" + month;
                 }
-                String data = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
-                data = data.replace("*", "").replace("\t", " ");
-                List<String> d = new ArrayList<>(Arrays.asList(data.split(" ")));
+                StringBuilder data = new StringBuilder(line.substring(line.indexOf(">") + 1, line.lastIndexOf("<")));
+                data = new StringBuilder(data.toString().replace("*", "").replace("\t", " "));
+                List<String> d = new ArrayList<>(Arrays.asList(data.toString().split(" ")));
                 String sabah = d.get(1);
                 String asrSani = d.get(7);
                 d.remove(15);
@@ -126,12 +126,12 @@ public class NVCTimes extends WebTimes {
                 d.remove(1);
                 d.add(sabah);
                 d.add(asrSani);
-                data = "";
+                data = new StringBuilder();
                 for (String s : d) {
                     if (s.length() == 4) {
-                        data += " 0" + s;
+                        data.append(" 0").append(s);
                     } else {
-                        data += " " + s;
+                        data.append(" ").append(s);
                     }
                 }
 

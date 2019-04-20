@@ -98,6 +98,7 @@ public class CustomTimeAdjustDialogFragment extends DialogFragment implements Co
             ((CalcTimeConfDialogFragment) frag).updateTimes();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Bundle bdl = getArguments();

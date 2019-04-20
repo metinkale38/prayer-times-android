@@ -310,17 +310,17 @@ public class CityFragment extends Fragment implements Observer<Times> {
             }
 
         } else if (i1 == R.id.share) {
-            String txt = getString(R.string.shareTimes, mTimes.getName()) + ":";
+            StringBuilder txt = new StringBuilder(getString(R.string.shareTimes, mTimes.getName()) + ":");
             LocalDate date = LocalDate.now();
 
             for (Vakit v : Vakit.values()) {
-                txt += "\n   " + v.getString() + ": " + LocaleUtils.formatTime(mTimes.getTime(date, v.ordinal()).toLocalTime());
+                txt.append("\n   ").append(v.getString()).append(": ").append(LocaleUtils.formatTime(mTimes.getTime(date, v.ordinal()).toLocalTime()));
             }
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("name/plain");
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, txt);
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, txt.toString());
             startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
         }
         return super.onOptionsItemSelected(item);

@@ -51,7 +51,7 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tesbihat_main, container, false);
         mLocale = LocaleUtils.getLocale();
 

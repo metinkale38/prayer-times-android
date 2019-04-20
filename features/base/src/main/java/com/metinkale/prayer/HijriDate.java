@@ -397,7 +397,7 @@ public class HijriDate {
         public int compareTo(@NonNull K o) {
             int x = hashCode();
             int y = o.hashCode();
-            return (x < y) ? -1 : ((x == y) ? 0 : 1);
+            return Integer.compare(x, y);
         }
 
         public boolean equals(Object o) {

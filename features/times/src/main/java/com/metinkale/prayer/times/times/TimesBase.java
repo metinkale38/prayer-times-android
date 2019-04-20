@@ -117,9 +117,9 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     protected static Times from(long id) {
         String json = App.get().getSharedPreferences("nvc", 0).getString("id" + id, null);
         try {
-            TimesBase t = GSONFactory.build().fromJson(json, Times.class);
+            Times t = GSONFactory.build().fromJson(json, Times.class);
             t.setID(id);
-            return (Times) t;
+            return t;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

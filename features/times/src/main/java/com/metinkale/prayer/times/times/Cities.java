@@ -172,7 +172,6 @@ public class Cities {
     @NonNull
     private List<Entry> search(double lat, double lng) throws SQLException {
 
-        List<Entry> items = new ArrayList<>();
         EnumMap<Source, Entry> map = new EnumMap<>(Source.class);
         for (Source source : Source.values()) {
             if (source.citiesId == 0) continue;
@@ -193,7 +192,7 @@ public class Cities {
                 }
             }
         }
-        items.addAll(map.values());
+        List<Entry> items = new ArrayList<>(map.values());
         return items;
 
     }

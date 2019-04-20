@@ -95,7 +95,6 @@ public class MainActivity extends BaseActivity {
                 }
             });
             dialog.show();
-            return;
         }
         
     }

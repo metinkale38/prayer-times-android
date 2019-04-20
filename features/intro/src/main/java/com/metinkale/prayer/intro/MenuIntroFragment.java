@@ -64,7 +64,7 @@ public class MenuIntroFragment extends IntroFragment {
     
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_menu, container, false);
         
         
@@ -112,7 +112,7 @@ public class MenuIntroFragment extends IntroFragment {
     
     
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Fragment frag = new TimesFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();

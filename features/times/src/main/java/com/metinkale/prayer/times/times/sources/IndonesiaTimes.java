@@ -51,7 +51,6 @@ public class IndonesiaTimes extends WebTimes {
     }
 
 
-    @NonNull
     protected boolean sync() throws ExecutionException, InterruptedException {
         LocalDate date = LocalDate.now();
 

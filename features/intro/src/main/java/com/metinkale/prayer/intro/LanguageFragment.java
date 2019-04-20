@@ -30,6 +30,7 @@ import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
@@ -39,7 +40,7 @@ import androidx.annotation.Nullable;
 public class LanguageFragment extends IntroFragment implements CompoundButton.OnCheckedChangeListener {
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.intro_language, container, false);
         RadioGroup radioGroup = v.findViewById(R.id.radioGroup);
         

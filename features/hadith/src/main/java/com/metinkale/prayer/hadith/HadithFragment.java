@@ -95,7 +95,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.hadis_main, container, false);
 
         mPrefs = getActivity().getSharedPreferences("hadis", 0);
@@ -230,7 +230,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                 }
             } else {
                 if (mFavs.contains(i)) {
-                    mFavs.remove(Integer.valueOf(i));
+                    mFavs.remove(i);
                 } else {
                     mFavs.add(i);
                 }
@@ -248,7 +248,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
             for (String cat : cats) {
                 items.add(Html.fromHtml(cat).toString());
             }
-            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[items.size()]),
+            builder.setTitle(items.get(mState)).setItems(items.toArray(new CharSequence[0]),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -390,7 +390,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             super.setPrimaryItem(container, position, object);
             setCurrentPage(position);
 

@@ -77,7 +77,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
     
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dhikr_main, container, false);
         
         mPrefs = getActivity().getSharedPreferences("zikr", 0);
@@ -372,7 +372,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
             }
         }
         
-        mViewModel.saveDhikr(mDhikrs.toArray(new Dhikr[mDhikrs.size()]));
+        mViewModel.saveDhikr(mDhikrs.toArray(new Dhikr[0]));
     }
     
     @Override

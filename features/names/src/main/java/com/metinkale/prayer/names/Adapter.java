@@ -49,14 +49,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.names_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vh, int pos) {
+    public void onBindViewHolder(@NonNull ViewHolder vh, int pos) {
         Item i = mItems[pos];
         if (i.pos == 0) {
             vh.arabicImg.setVisibility(View.VISIBLE);

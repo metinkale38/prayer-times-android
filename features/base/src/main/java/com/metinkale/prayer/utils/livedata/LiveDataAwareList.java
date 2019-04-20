@@ -19,7 +19,7 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
     }
 
     public LiveDataAwareList() {
-        this(new ArrayList<T>());
+        this(new ArrayList<>());
     }
 
     @Override

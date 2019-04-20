@@ -27,6 +27,7 @@ import com.metinkale.prayer.times.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,8 +62,9 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
         return -1;
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_SWITCH) {
             return new SwitchVH(parent);
         }
@@ -73,7 +75,7 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_SWITCH:
                 ((SwitchVH) holder).setSwitchItem((SwitchItem) mItems.get(position));

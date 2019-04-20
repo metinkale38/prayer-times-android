@@ -308,7 +308,6 @@ public class LocaleUtils {
     }
 
 
-
     @NonNull
     public static String formatNumber(@NonNull String str) {
         if (Preferences.DIGITS.get().equals("normal"))
@@ -390,12 +389,7 @@ public class LocaleUtils {
             }
         }
 
-        Collections.sort(translations, new Comparator<Translation>() {
-            @Override
-            public int compare(Translation t1, Translation t2) {
-                return t1.getProgress() <= t2.getProgress() ? 1 : -1;
-            }
-        });
+        Collections.sort(translations, (t1, t2) -> -Integer.compare(t1.getProgress(), t2.getProgress()));
 
         translations.add(0, new Translation("system", -1));
         return translations;

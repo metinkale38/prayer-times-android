@@ -24,7 +24,6 @@ import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Vakit;
 
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
@@ -50,7 +49,6 @@ public class MalaysiaTimes extends WebTimes {
     }
 
 
-    @NonNull
     protected boolean sync() throws ExecutionException, InterruptedException {
         LocalDate ldate = LocalDate.now();
         int rY = ldate.getYear();

@@ -211,7 +211,7 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
             int w = getWidth();
             int r = w / 10;
             
-            canvas.translate(w / 2, w / 2);
+            canvas.translate(w / 2f, w / 2f);
             if (touch == null) {
                 icon.setBounds(-r, -r, r, r);
                 icon.draw(canvas);
@@ -231,7 +231,7 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
                 angle += Math.PI;
             }
             if (tr >= ((w / 2) - r)) {
-                tr = w / 2 - r;
+                tr = w / 2f - r;
             }
             
             x = (int) (Math.cos(angle) * tr);
