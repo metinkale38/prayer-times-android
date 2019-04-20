@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Copyright (c) 2013-2017 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-    <string name="off">Off</string>
-    <string name="switchHijriGreg">Switch Hijri/Gregorian Calendar</string>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-</resources>
+    <item
+        android:id="@+id/switchHijriGreg"
+        android:title="@string/switchHijriGreg"
+        app:materialIcon="theme_light_dark"
+        app:showAsAction="ifRoom" />
+
+</menu>

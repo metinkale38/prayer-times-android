@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import androidx.annotation.NonNull;
@@ -75,12 +76,60 @@ public class HijriDate {
     public static final int EID_AL_ADHA_DAY4 = 18;
 
 
-    private static int MIN_YEAR = 2012;
-    private static int MAX_YEAR = 2022;
+    private static final TreeMap<Hijri, HijriDate> fromHijri = new TreeMap<>();
+    private static final TreeMap<Greg, HijriDate> fromGreg = new TreeMap<>();
+    // values will be initialized  in static{}
+    private static final int MIN_GREG_YEAR;
+    private static final int MAX_GREG_YEAR;
+    private static final int MIN_HIJRI_YEAR;
+    private static final int MAX_HIJRI_YEAR;
 
 
-    private static TreeMap<Hijri, HijriDate> fromHijri = new TreeMap<>();
-    private static TreeMap<Greg, HijriDate> fromGreg = new TreeMap<>();
+    static {
+        int maxGregYear = 2019;
+        int minGregYear = 2019;
+        int maxHijriYear = 1440;
+        int minHijriYear = 1440;
+        BufferedReader is = null;
+        try {
+            is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.hijri)));
+            String line;
+            while (true) {
+                line = is.readLine();
+                if (line == null) {
+                    break;
+                }
+                if (line.contains("HD"))
+                    continue;//first line
+                FastTokenizer ft = new FastTokenizer(line, "\t");
+
+                int d = ft.nextInt();
+                int m = ft.nextInt();
+                int y = ft.nextInt();
+                if (m == 12) maxHijriYear = Math.max(maxHijriYear, y);
+                if (m == 1) minHijriYear = Math.min(minHijriYear, y);
+                Hijri hijri = new Hijri(y, m, d);
+                d = ft.nextInt();
+                m = ft.nextInt();
+                y = ft.nextInt();
+
+                maxGregYear = Math.max(maxGregYear, y);
+                minGregYear = Math.min(minGregYear, y);
+                Greg greg = new Greg(y, m, d);
+
+                create(hijri, greg);
+            }
+        } catch (IOException e) {
+            Crashlytics.logException(e);
+        } finally {
+            Utils.close(is);
+        }
+        MIN_GREG_YEAR = minGregYear;
+        MAX_GREG_YEAR = maxGregYear;
+        MIN_HIJRI_YEAR = minHijriYear;
+        MAX_HIJRI_YEAR = maxHijriYear;
+    }
+
 
     private Hijri hijri;
     private Greg greg;
@@ -103,51 +152,12 @@ public class HijriDate {
         return hijri.year;
     }
 
-    private static void init() {
-
-        if (!fromHijri.isEmpty())
-            return;
-        BufferedReader is = null;
-        try {
-            is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(R.raw.hijri)));
-            String line;
-            while (true) {
-                line = is.readLine();
-                if (line == null) {
-                    break;
-                }
-                if (line.contains("HD"))
-                    continue;//first line
-                FastTokenizer ft = new FastTokenizer(line, "\t");
-
-                int d = ft.nextInt();
-                int m = ft.nextInt();
-                int y = ft.nextInt();
-                Hijri hijri = new Hijri(y, m, d);
-                d = ft.nextInt();
-                m = ft.nextInt();
-                y = ft.nextInt();
-                Greg greg = new Greg(y, m, d);
-
-                create(hijri, greg);
-            }
-        } catch (IOException e) {
-            Crashlytics.logException(e);
-        } finally {
-            Utils.close(is);
-        }
-    }
-
 
     private static HijriDate create(Hijri hijri, Greg greg) {
         HijriDate bundle = new HijriDate(hijri, greg);
         if (hijri.day == 1) {
             fromHijri.put(hijri, bundle);
             fromGreg.put(greg, bundle);
-            if (greg.year < MIN_YEAR)
-                MIN_YEAR = greg.year;
-            if (greg.year > MAX_YEAR && hijri.month == 1)
-                MAX_YEAR = greg.year;
         }
         return bundle;
     }
@@ -166,7 +176,6 @@ public class HijriDate {
         if (!(ld.getChronology() instanceof IslamicChronology)) {
             throw new RuntimeException("fromHijri can only be used with a IslamicChronology");
         }
-        init();
 
         Hijri hijri = new Hijri(ld.getYear(), ld.getMonthOfYear(), ld.getDayOfMonth());
 
@@ -175,8 +184,9 @@ public class HijriDate {
             return date;
         }
 
-        HijriDate last = fromHijri.floorEntry(hijri).getValue();
-        if (last == null || fromHijri.ceilingKey(hijri) == null) {
+        Map.Entry<Hijri, HijriDate> floor = fromHijri.floorEntry(hijri);
+        HijriDate last;
+        if (floor == null || (last = floor.getValue()) == null || fromHijri.ceilingKey(hijri) == null) {
             LocalDate gregorian = ld.toDateTimeAtStartOfDay().withChronology(ISOChronology.getInstanceUTC()).toLocalDate();
             int hfix = Preferences.HIJRI_FIX.get();
             if (hfix != 0) {
@@ -200,7 +210,6 @@ public class HijriDate {
         if (!(ld.getChronology() instanceof GregorianChronology || ld.getChronology() instanceof ISOChronology)) {
             throw new RuntimeException("fromGreg can only be used with a GregorianChronology");
         }
-        init();
 
         int hfix = Preferences.HIJRI_FIX.get();
         if (hfix != 0) {
@@ -215,8 +224,9 @@ public class HijriDate {
             return date;
         }
 
-        HijriDate last = fromGreg.floorEntry(greg).getValue();
-        if (last == null || fromGreg.ceilingKey(greg) == null) {
+        Map.Entry<Greg, HijriDate> floor = fromGreg.floorEntry(greg);
+        HijriDate last;
+        if (floor == null || (last = floor.getValue()) == null || fromGreg.ceilingKey(greg) == null) {
             LocalDate islamic = ld.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstanceUTC()).toLocalDate();
             Hijri hijri = new Hijri(islamic.getYear(), islamic.getMonthOfYear(), islamic.getDayOfMonth());
             return create(hijri, greg);
@@ -435,12 +445,21 @@ public class HijriDate {
         return hijri.hashCode() == ((HijriDate) obj).hijri.hashCode();
     }
 
-    public static int getMinYear() {
-        return MIN_YEAR;
+    public static int getMinGregYear() {
+        return MIN_GREG_YEAR;
     }
 
-    public static int getMaxYear() {
-        return MAX_YEAR;
+    public static int getMaxGregYear() {
+        return MAX_GREG_YEAR;
+    }
+
+
+    public static int getMinHijriYear() {
+        return MIN_HIJRI_YEAR;
+    }
+
+    public static int getMaxHijriYear() {
+        return MAX_HIJRI_YEAR;
     }
 
 }

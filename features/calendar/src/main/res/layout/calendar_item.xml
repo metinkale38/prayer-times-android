@@ -14,65 +14,52 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="16dp">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dip">
+        android:layout_marginBottom="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/next"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dip"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/next" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/foregroundSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/name"
-            android:layout_below="@+id/name"
-            android:textColor="@color/foregroundSecondary"
-            android:layout_alignLeft="@+id/name" />
+    <TextView
+        android:id="@+id/hicri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/foregroundSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/next"
+        app:layout_constraintTop_toTopOf="@+id/date" />
 
-        <TextView
-            android:id="@+id/hicri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/date"
-            android:layout_alignBottom="@+id/date"
-            android:layout_toStartOf="@+id/next"
-            android:textColor="@color/foregroundSecondary"
-            android:layout_toLeftOf="@+id/next" />
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/hicri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        app:materialIcon="chevron_right"
+        app:materialIconColor="@color/foregroundSecondary"
+        app:materialIconSize="24dp" />
 
-        <View
-            android:id="@+id/end"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/end"
-            android:contentDescription="@null"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="24dp"
-            app:materialIcon="chevron_right"
-            android:layout_toLeftOf="@id/end" />
-    </RelativeLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

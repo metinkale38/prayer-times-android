@@ -17,6 +17,7 @@
 package com.metinkale.prayer.calendar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,68 +41,76 @@ import androidx.core.util.Pair;
 public class Adapter extends ArrayAdapter<int[]> {
     @NonNull
     private final Context context;
+    private final boolean isHijri;
     private List<Pair<HijriDate, Integer>> holydays;
     private boolean hasInfo;
-    
-    public Adapter(@NonNull Context context, int year) {
+
+    public Adapter(@NonNull Context context, int year, boolean isHijri) {
         super(context, R.layout.calendar_item);
         this.context = context;
-        holydays = HijriDate.getHolydaysForGregYear(year);
-        Iterator<Pair<HijriDate, Integer>> it = holydays.iterator();
-        Pair<HijriDate, Integer> pair;
-        while (it.hasNext() && (pair = it.next()) != null) {
-            if (pair.second <= 0) {
-                it.remove();
-            }
-        }
-        
+        this.isHijri = isHijri;
+        holydays = isHijri ? HijriDate.getHolydaysForHijriYear(year) : HijriDate.getHolydaysForGregYear(year);
+
+
         Locale lang = LocaleUtils.getLocale();
         hasInfo = (new Locale("de").getLanguage().equals(lang.getLanguage()) || new Locale("tr").getLanguage().equals(lang.getLanguage()));
     }
-    
+
     @NonNull
     @Override
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
-        
+
         ViewHolder vh;
         if (convertView == null) {
-            
+
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.calendar_item, parent, false);
-            
+
             vh = new ViewHolder();
+            vh.view = convertView;
             vh.name = convertView.findViewById(R.id.name);
-            vh.date = convertView.findViewById(R.id.date);
-            vh.hicri = convertView.findViewById(R.id.hicri);
+            vh.date = convertView.findViewById(isHijri ? R.id.hicri : R.id.date);
+            vh.hicri = convertView.findViewById(isHijri ? R.id.date : R.id.hicri);
             vh.next = convertView.findViewById(R.id.next);
-            vh.next.setVisibility(hasInfo ? View.VISIBLE : View.GONE);
             convertView.setTag(R.id.viewholder, vh);
         } else {
             vh = (ViewHolder) convertView.getTag(R.id.viewholder);
         }
-        
+
         Pair<HijriDate, Integer> pair = holydays.get(pos);
         HijriDate hijri = pair.first;
         int holyday = pair.second;
-        LocalDate greg = hijri.getLocalDate();
-        
-        vh.hicri.setText(LocaleUtils.formatDate(hijri));
-        vh.date.setText(LocaleUtils.formatDate(greg));
-        vh.name.setText(LocaleUtils.getHolyday(holyday));
+        if (holyday == 0) {
+            LocalDate greg = hijri.getLocalDate();
+            vh.hicri.setText(LocaleUtils.formatDate(hijri));
+            vh.date.setText(LocaleUtils.formatDate(greg));
+            vh.name.setVisibility(View.GONE);
+            vh.next.setVisibility(View.GONE);
+            vh.view.setBackgroundResource(R.color.backgroundSecondary);
+        } else {
+            LocalDate greg = hijri.getLocalDate();
+            vh.hicri.setText(LocaleUtils.formatDate(hijri));
+            vh.date.setText(LocaleUtils.formatDate(greg));
+            vh.name.setText(LocaleUtils.getHolyday(holyday));
+            vh.next.setVisibility(hasInfo ? View.VISIBLE : View.INVISIBLE);
+            vh.name.setVisibility(View.VISIBLE);
+            vh.view.setBackgroundColor(Color.TRANSPARENT);
+        }
         convertView.setTag(holyday);
         return convertView;
     }
-    
+
     @Override
     public int getCount() {
         return holydays.size();
     }
-    
+
     private static class ViewHolder {
+        View view;
         TextView name;
         TextView date;
         TextView hicri;
         ImageView next;
     }
-    
+
 }

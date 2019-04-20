@@ -18,6 +18,9 @@ package com.metinkale.prayer.calendar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,29 +40,62 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconUtils;
+import net.steamcrafted.materialiconlib.MaterialIconView;
+import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 
 public class CalendarFragment extends BaseActivity.MainFragment implements OnItemClickListener {
     private static final String[] ASSETS = {"/dinigunler/hicriyil.html", "/dinigunler/asure.html", "/dinigunler/mevlid.html", "/dinigunler/3aylar.html", "/dinigunler/regaib.html", "/dinigunler/mirac.html", "/dinigunler/berat.html", "/dinigunler/ramazan.html", "/dinigunler/kadir.html", "/dinigunler/arefe.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/ramazanbay.html", "/dinigunler/arefe.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html", "/dinigunler/kurban.html"};
+    private PagerAdapter adapter;
+    private ViewPager viewPager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.calendar_main, container, false);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        ViewPager viewPager = v.findViewById(R.id.pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(LocalDate.now().getYear() - HijriDate.getMinYear());
+        adapter = new HijriPagerAdapter(getChildFragmentManager());
+
+        viewPager = v.findViewById(R.id.pager);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(HijriDate.now().getYear() - HijriDate.getMinHijriYear());
         return v;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MaterialMenuInflater.with(getActivity(), inflater).inflate(R.menu.calendar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.switchHijriGreg) {
+            if (adapter instanceof HijriPagerAdapter) {
+                adapter = new GregorianPagerAdapter(getChildFragmentManager());
+                viewPager.setAdapter(adapter);
+                viewPager.setCurrentItem(LocalDate.now().getYear() - HijriDate.getMinGregYear());
+            } else {
+                adapter = new HijriPagerAdapter(getChildFragmentManager());
+                viewPager.setAdapter(adapter);
+                viewPager.setCurrentItem(HijriDate.now().getYear() - HijriDate.getMinHijriYear());
+            }
+            adapter.notifyDataSetChanged();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
     public static String getAssetForHolyday(int pos) {
+        if (pos == 0) return null;
         return LocaleUtils.getLanguage("en", "de", "tr") + ASSETS[pos - 1];
     }
-
 
 
     @Override
@@ -80,7 +116,9 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
     public static class YearFragment extends Fragment {
 
         public static final String YEAR = "year";
+        public static final String IS_HIJRI = "isHijri";
         private int year;
+        private boolean isHijri;
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +128,8 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
             ListView listView = view.findViewById(android.R.id.list);
 
             year = getArguments().getInt(YEAR);
-            listView.setAdapter(new Adapter(getActivity(), year));
+            isHijri = getArguments().getBoolean(IS_HIJRI);
+            listView.setAdapter(new Adapter(getActivity(), year, isHijri));
 
             listView.setOnItemClickListener((OnItemClickListener) getParentFragment());
 
@@ -101,9 +140,9 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
 
     }
 
-    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public static class GregorianPagerAdapter extends FragmentPagerAdapter {
 
-        SectionsPagerAdapter(FragmentManager fm) {
+        GregorianPagerAdapter(FragmentManager fm) {
             super(fm);
 
         }
@@ -115,21 +154,66 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
                 position = getCount() - position - 1;
             Fragment fragment = new YearFragment();
             Bundle args = new Bundle();
-            args.putInt(YearFragment.YEAR, position + HijriDate.getMaxYear());
+            args.putInt(YearFragment.YEAR, position + HijriDate.getMinGregYear());
+            args.putBoolean(YearFragment.IS_HIJRI, false);
+
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return HijriDate.getMaxYear() - HijriDate.getMinYear();
+            return HijriDate.getMaxGregYear() - HijriDate.getMinGregYear() + 1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
                 position = getCount() - position - 1;
-            return LocaleUtils.formatNumber(position + HijriDate.getMinYear());
+            return LocaleUtils.formatNumber(position + HijriDate.getMinGregYear());
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position + HijriDate.getMinGregYear();
+        }
+    }
+
+    public static class HijriPagerAdapter extends FragmentPagerAdapter {
+
+        HijriPagerAdapter(FragmentManager fm) {
+            super(fm);
+
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+                position = getCount() - position - 1;
+            Fragment fragment = new YearFragment();
+            Bundle args = new Bundle();
+            args.putInt(YearFragment.YEAR, position + HijriDate.getMinHijriYear());
+            args.putBoolean(YearFragment.IS_HIJRI, true);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return HijriDate.getMaxHijriYear() - HijriDate.getMinHijriYear() + 1;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (LocaleUtils.getLocale().getLanguage().equals(new Locale("ar").getLanguage()))
+                position = getCount() - position - 1;
+            return LocaleUtils.formatNumber(position + HijriDate.getMinHijriYear());
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position + HijriDate.getMinHijriYear();
         }
     }
 
