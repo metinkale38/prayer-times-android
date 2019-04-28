@@ -48,6 +48,7 @@ import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconView;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.DateTime;
@@ -78,6 +79,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
     private TextView mDate;
     private TextView mPrayerTitles[];
     private TextView mPrayerTimes[];
+    private MaterialIconView mGPSIcon;
     private int mThreeSecondCounter;
     @NonNull
     private Runnable onSecond = new Runnable() {
@@ -159,7 +161,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         mTitle = mView.findViewById(R.id.city);
         mDate = mView.findViewById(R.id.date);
         mHicri = mView.findViewById(R.id.hicri);
-
+        mGPSIcon = mView.findViewById(R.id.gps);
 
         mKerahat = mView.findViewById(R.id.kerahat);
 
@@ -216,16 +218,8 @@ public class CityFragment extends Fragment implements Observer<Times> {
         }
 
         mTitle.setText(mTimes.getName());
-        if (mTimes.isAutoLocation()) {
-            Drawable icon = MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CROSSHAIRS_GPS).setSizeDp(32)
-                    .setColor(0xAA666666).build();
-            if (Utils.isRTL(getActivity())) {
-                mTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
-            } else {
-                mTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-            }
-            mTitle.setCompoundDrawablePadding((int) Utils.convertPixelsToDp(getActivity(), 5));
-        }
+        mGPSIcon.setVisibility(mTimes.isAutoLocation() ? View.VISIBLE : View.GONE);
+
 
         LocalDate greg = LocalDate.now();
         HijriDate hijr = HijriDate.now();

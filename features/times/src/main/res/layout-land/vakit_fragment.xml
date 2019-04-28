@@ -57,6 +57,20 @@
             app:layout_heightPercent="17%"
             app:layout_widthPercent="100%" />
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/gps"
+            android:layout_alignTop="@+id/city"
+            android:layout_alignBottom="@+id/city"
+            android:layout_toStartOf="@+id/city"
+            android:layout_toLeftOf="@+id/city"
+            android:contentDescription="@null"
+            app:layout_aspectRatio="100%"
+            app:layout_heightPercent="9%"
+            app:layout_marginPercent="4%"
+            app:materialIcon="crosshairs_gps"
+            app:materialIconColor="@color/foregroundSecondary" />
+
+
         <com.metinkale.prayer.times.utils.AutoResizeTextView
             android:id="@+id/hicri"
             android:layout_below="@id/city"

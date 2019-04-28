@@ -100,7 +100,7 @@ public class Entry implements Cloneable {
         this.country = country;
     }
 
-    @Nullable
+    @NonNull
     public Source getSource() {
         return source;
     }

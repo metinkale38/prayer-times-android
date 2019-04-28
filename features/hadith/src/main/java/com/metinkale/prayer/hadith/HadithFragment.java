@@ -111,7 +111,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
 
         loadFavs();
         try {
-            setState(STATE_SHUFFLED);
+            setState(mPrefs.getInt("state", STATE_SHUFFLED));
         } catch (RuntimeException e) {
             Crashlytics.logException(e);
             String lang = LocaleUtils.getLanguage("en", "de", "tr");
@@ -170,7 +170,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     @Override
     public void onPause() {
         super.onPause();
-        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).apply();
+        mPrefs.edit().putInt(last(), mPager.getCurrentItem()).putInt("state", mState).apply();
         storeFavs();
     }
 
@@ -209,7 +209,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                             .setToActionbarSize()
                             .build());
                     mRemFav = i;
-                    mNumber.setText(mPager.getCurrentItem() + 1 + "/" + (mAdapter.getCount() - 1));
+                    mNumber.setText(String.format("%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount() - 1));
                 } else {
                     mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
                             .setIcon(MaterialDrawableBuilder.IconValue.STAR)
@@ -217,7 +217,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                             .setToActionbarSize()
                             .build());
                     mRemFav = -1;
-                    mNumber.setText(mPager.getCurrentItem() + 1 + "/" + mAdapter.getCount());
+                    mNumber.setText(String.format("%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount()));
 
                 }
             } else {

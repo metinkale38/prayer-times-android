@@ -80,7 +80,7 @@
     <string name="prayerNotification">Prayer Notification</string>
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
-    <string name="noti_afterTime">%1$s minutes before %2$s</string>
+    <string name="noti_afterTime">%1$s minutes after %2$s</string>
     <string name="midnight">Midnight</string>
     <string name="silenter">Silent for</string>
     <string name="minutes">Minutes</string>

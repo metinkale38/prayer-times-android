@@ -16,6 +16,8 @@
 
 package com.metinkale.prayer.times.times;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.App;
@@ -24,6 +26,7 @@ import com.metinkale.prayer.utils.FastTokenizer;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Created by metin on 28.02.2017.
@@ -58,6 +61,7 @@ class CitiesSet implements Iterable<Entry> {
         private BufferedReader is;
         private Entry entry;
         private Entry cache = new Entry();
+        private String countryName;
 
         MyIterator() {
             is = new BufferedReader(new InputStreamReader(App.get().getResources().openRawResource(source.citiesId)));
@@ -100,6 +104,17 @@ class CitiesSet implements Iterable<Entry> {
                 e.setName(st.nextString());
                 e.setCountry(null);
                 e.setSource(source);
+
+                if (source == Source.Diyanet) {
+                    e.setName(fixDiyanetName(e));
+                }
+
+
+                if (parent == 0) {
+                    countryName = e.getName();
+                } else {
+                    e.setCountry(countryName);
+                }
                 return e;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -107,6 +122,29 @@ class CitiesSet implements Iterable<Entry> {
             }
         }
 
+    }
+
+    private static long TR_ID = -1;
+
+    private static String fixDiyanetName(Entry e) {
+        String[] words = e.getName().split(" ");
+
+
+        boolean isTR = false;
+        if (e.getKey() != null && e.getKey().startsWith("2_")) {
+            isTR = true;
+        } else if (e.getName().equals("TÜRKİYE")) {
+            isTR = true;
+            TR_ID = e.getId();
+        } else if (e.getParent() == TR_ID) {
+            isTR = true;
+        }
+
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].charAt(0) + words[i].substring(1).toLowerCase(isTR ? new Locale("TR") : Locale.ENGLISH);
+        }
+
+        return TextUtils.join(" ", words);
     }
 
 }

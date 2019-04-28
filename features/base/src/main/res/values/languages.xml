@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources translatable="false">
     <string-array name="languages">
-        <item>sq|31</item>
-        <item>ar|99</item>
+        <item>sq|30</item>
+        <item>ar|96</item>
         <item>az|4</item>
         <item>bn|5</item>
-        <item>bs|93</item>
+        <item>bs|88</item>
         <item>zh-CN|3</item>
-        <item>nl|78</item>
+        <item>nl|74</item>
         <item>en|100</item>
-        <item>fr|93</item>
+        <item>fr|96</item>
         <item>de|100</item>
-        <item>id|100</item>
-        <item>kur|43</item>
-        <item>ru|87</item>
-        <item>tr|100</item>
-        <item>uk|64</item>
-        <item>ur-PK|20</item>
+        <item>id|94</item>
+        <item>kur|40</item>
+        <item>ru|82</item>
+        <item>tr|99</item>
+        <item>uk|61</item>
+        <item>ur-PK|18</item>
     </string-array>
 </resources>

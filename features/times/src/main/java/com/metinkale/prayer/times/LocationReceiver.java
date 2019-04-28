@@ -51,11 +51,13 @@ public class LocationReceiver extends BroadcastReceiver {
     public LocationReceiver() {
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean hasPermission(Context c) {
         return ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean useAutoLocation() {
         List<Times> times = Times.getTimes();
         for (Times t : times) {
@@ -110,7 +112,7 @@ public class LocationReceiver extends BroadcastReceiver {
 
 
                                     LocalDate today = LocalDate.now();
-                                    LocalDateTime oldtimes[] =
+                                    LocalDateTime[] oldtimes =
                                             {t.getTime(today, Vakit.FAJR.ordinal()),
                                                     t.getTime(today, Vakit.SUN.ordinal()),
                                                     t.getTime(today, Vakit.DHUHR.ordinal()),

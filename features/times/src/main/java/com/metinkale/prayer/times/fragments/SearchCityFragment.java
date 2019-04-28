@@ -42,6 +42,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.times.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Cities;
 import com.metinkale.prayer.times.times.Entry;
@@ -79,7 +80,13 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         final View v = inflater.inflate(R.layout.vakit_addcity, container, false);
         mAutoLocation = v.findViewById(R.id.autoLocation);
         mAutoLocation.setOnCheckedChangeListener(this);
+        mAutoLocation.setVisibility(View.GONE);
 
+
+        if (BuildConfig.DEBUG) {
+            mAutoLocation.setVisibility(View.VISIBLE);
+            mAutoLocation.setText(mAutoLocation.getText() + " (only in Debug Mode)");
+        }
         ColorStateList trackStates = new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_checked},
@@ -387,7 +394,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
 
             vh.sourcetxt.setText(i.getSource().name);
             if (i.getSource().drawableId == 0) {
-                vh.source.setVisibility(View.GONE);
+                vh.source.setVisibility(View.INVISIBLE);
             } else {
                 vh.source.setImageResource(i.getSource().drawableId);
                 vh.source.setVisibility(View.VISIBLE);

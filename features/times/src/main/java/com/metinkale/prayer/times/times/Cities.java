@@ -158,8 +158,7 @@ public class Cities {
                 }
             }
         }
-        List<Entry> items = new ArrayList<>(map.values());
-        return items;
+        return new ArrayList<>(map.values());
 
     }
 

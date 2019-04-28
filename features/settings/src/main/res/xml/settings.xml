@@ -15,7 +15,7 @@
   -->
 
 <!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:iconSpaceReserved="false">
 
@@ -28,7 +28,7 @@
             android:entryValues="@array/language_val"
             android:key="language"
             android:title="@string/language" />
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:key="arabicNames"
             android:title="@string/useArabicNames" />
 
@@ -91,12 +91,12 @@
             android:key="widget_countdown"
             android:title="@string/widgetCountdownType" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="false"
             android:key="showAltWidgetHightlight"
             android:title="@string/widget_current_vakit" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="false"
             android:key="showLegacyWidgets"
             android:summary="@string/showLegacyWidgetsSummary"
@@ -107,7 +107,7 @@
     <PreferenceCategory android:title="@string/dateAndTime">
 
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:key="use12h"
             android:title="@string/use12h" />
         <ListPreference
@@ -141,12 +141,12 @@
             android:title="@string/vibrationPattern" />
 
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="true"
             android:key="ongoingIcon"
             android:title="@string/ongoingIcon" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="false"
             android:dependency="ongoingIcon"
             android:key="ongoingNumber"
@@ -154,19 +154,19 @@
 
 
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notificationScreen"
             android:title="@string/show_notification_screen" />
 
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="false"
             android:key="stopFacedown"
             android:title="@string/stopFacedown" />
 
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:defaultValue="false"
             android:key="useAlarm"
             android:summary="@string/useAlarmDesc"
@@ -183,4 +183,4 @@
             android:title="@string/backupRestore" />
 
     </PreferenceCategory>
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

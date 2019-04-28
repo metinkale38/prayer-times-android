@@ -36,6 +36,14 @@ allprojects {
     }
 }
 
+task uploadCrowdin(type:Exec){
+    commandLine 'java', '-jar', 'crowdin-cli.jar', 'upload'
+}
+
+task downloadCrowdin(type:Exec){
+    commandLine 'java', '-jar', 'crowdin-cli.jar', 'download'
+}
+
 task updateCrowdinInfo() {
     def crowdinkey = ""
     file("crowdin.yml").eachLine { line ->
