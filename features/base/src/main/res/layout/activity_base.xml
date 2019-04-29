@@ -32,22 +32,21 @@
             android:id="@+id/basecontent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/toolbar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/toolbar"
+            android:layout_alignParentBottom="true"
             tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 
     <ListView
         android:id="@+id/base_nav"
         android:layout_width="240dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="@color/background"
-        android:choiceMode="singleChoice"
         android:divider="@color/transparent"
         android:dividerHeight="0dp"
-        android:padding="5dp" />
+        android:padding="0dp" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

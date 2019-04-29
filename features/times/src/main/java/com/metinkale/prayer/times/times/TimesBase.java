@@ -222,8 +222,8 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     }
 
     public void setMinuteAdj(@NonNull int[] adj) {
-        if (adj.length != 8) {
-            throw new RuntimeException("setMinuteAdj(double[] adj) can only be called with adj of size 8");
+        if (adj.length != 6) {
+            throw new RuntimeException("setMinuteAdj(double[] adj) can only be called with adj of size 6");
         }
         minuteAdj = adj;
         save();

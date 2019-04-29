@@ -1,5 +1,6 @@
 ### Version 3.7
-- otomatik konum değistirme eklendi
+- Ramazan Bayramı Tarihi düzeltildi
+- Dini Günler Hicri Yıl'a göre düzenlendi
 - Tanıtım eklendi
 - Endonezya Dili ve Namaz Vakitleri eklendi
 - Kıble Saati eklendi

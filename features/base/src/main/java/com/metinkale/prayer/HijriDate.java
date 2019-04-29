@@ -307,10 +307,9 @@ public class HijriDate {
         dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 1), RAMADAN_BEGIN));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 26), LAYLATALQADR));
+        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1).plusDays(-1), LAST_RAMADAN));
         dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1), MONTH));
-        HijriDate tmp;
-        dates.add(new Pair<>((tmp = HijriDate.fromHijri(year, SHAWWAL, 1)).plusDays(-1), LAST_RAMADAN));
-        dates.add(new Pair<>(tmp, EID_AL_FITR_DAY1));
+        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1), EID_AL_FITR_DAY1));
         dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 2), EID_AL_FITR_DAY2));
         dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 3), EID_AL_FITR_DAY3));
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_QADA, 1), MONTH));

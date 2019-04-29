@@ -1,5 +1,6 @@
 ### Version 3.7
-- added auto location support
+- corrected Eid-ul Fitr date
+- use Hijri Years in Islamic Calendar
 - added Introduction
 - added Indonesian support
 - added Indonesian prayer times

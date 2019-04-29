@@ -94,6 +94,12 @@ public class LocationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Location location = intent.getParcelableExtra(KEY_LOCATION_CHANGED);
+        if (location == null) {
+            triggerUpdate(context);
+            return;
+        }
+
+
         sLastLocationUpdate = System.currentTimeMillis();
         final double lat = location.getLatitude();
         final double lng = location.getLongitude();

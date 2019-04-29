@@ -30,10 +30,10 @@
             android:background="@color/background20pTrans"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="20dp"
             android:paddingLeft="40dp"
+            android:paddingTop="20dp"
             android:paddingRight="40dp"
-            android:paddingTop="20dp">
+            android:paddingBottom="20dp">
 
 
             <ImageView
@@ -42,7 +42,7 @@
                 android:layout_height="75dp"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/launcher_icon" />
+                app:srcCompat="@drawable/ic_appicon" />
 
             <TextView
                 android:id="@+id/appName"
@@ -85,8 +85,8 @@
                 android:layout_marginTop="20dp"
                 android:drawablePadding="20dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/showIntro"
                 android:textColor="@color/background" />
 
@@ -99,8 +99,8 @@
                 android:layout_centerHorizontal="true"
                 android:drawablePadding="20dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/mail"
                 android:textColor="@color/background" />
 
@@ -114,8 +114,8 @@
                 android:layout_centerHorizontal="true"
                 android:drawablePadding="20dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/vote"
                 android:textColor="@color/background" />
 
@@ -129,8 +129,8 @@
                 android:layout_centerHorizontal="true"
                 android:drawablePadding="20dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/share"
                 android:textColor="@color/background" />
 
@@ -143,8 +143,8 @@
                 android:layout_centerHorizontal="true"
                 android:drawablePadding="20dp"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/translate"
                 android:textColor="@color/background" />
 

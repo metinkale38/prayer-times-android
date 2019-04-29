@@ -20,6 +20,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -29,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -50,20 +53,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 public class BaseActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, AdapterView.OnItemClickListener {
-    
-    
+
+
     private final int mTitleRes;
     private Fragment mDefaultFragment;
     private final int mIconRes;
-    
-    
+
+
     public BaseActivity(int titleRes, int iconRes, Fragment defaultFragment) {
         this.mTitleRes = titleRes;
         this.mDefaultFragment = defaultFragment;
         this.mIconRes = iconRes;
     }
-    
+
     private int mNavPos;
     private ListView mNav;
     private DrawerLayout mDrawerLayout;
@@ -85,20 +89,20 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         super.onStart();
         mStartTime = System.currentTimeMillis();
     }*/
-    
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocaleUtils.init(this);
         //AppRatingDialog.increaseAppStarts();
-        
+
         if (Preferences.SHOW_INTRO.get() || Preferences.CHANGELOG_VERSION.get() < BuildConfig.CHANGELOG_VERSION) {
             Module.INTRO.launch(this);
         }
-        
+
         super.setContentView(R.layout.activity_base);
-        
+
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -107,61 +111,82 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                     MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
                             .setToActionbarSize().build());
         }
-        
-        
+
+
         mDrawerLayout = findViewById(R.id.drawer);
         mNav = mDrawerLayout.findViewById(R.id.base_nav);
+        View header = LayoutInflater.from(this).inflate(R.layout.drawer_header, mNav, false);
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            ((TextView) header.findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        mNav.addHeaderView(header);
         ArrayAdapter<Module> list = buildNavAdapter(this);
         mNav.setAdapter(list);
         mNav.setOnItemClickListener(this);
+        mNav.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (mNav.getHeight() < ((View) mNav.getParent()).getHeight()) {
+                    int diff = ((View) mNav.getParent()).getHeight() - mNav.getHeight();
+                    mNav.setDividerHeight(mNav.getDividerHeight() + diff / mNav.getAdapter().getCount() + 1);
+                } else {
+                    mNav.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            }
+
+        });
 
         mDrawerLayout.post(() -> {
             if (mToolbar != null) {
                 mToolbar.setTitle(mTitleRes);
             }
         });
-        
+
         getSupportFragmentManager().addOnBackStackChangedListener(this);
-        
+
         if (savedInstanceState != null)
             mNavPos = savedInstanceState.getInt("navPos", 0);
-        
+
         String comp = getIntent().getComponent().getClassName();
         for (int i = 0; i < Module.values().length; i++) {
             if (comp.contains(Module.values()[i].getKey())) {
                 mNavPos = i;
             }
         }
-        
+
         if (Intent.ACTION_CREATE_SHORTCUT.equals(getIntent().getAction())) {
             Intent.ShortcutIconResource icon = Intent.ShortcutIconResource.fromContext(this, mIconRes);
-            
+
             Intent intent = new Intent();
             Intent launchIntent = new Intent(this, BaseActivity.class);
             launchIntent.setComponent(getIntent().getComponent());
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             launchIntent.putExtra("duplicate", false);
-            
+
             intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
             intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(mTitleRes));
             intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-            
+
             setResult(RESULT_OK, intent);
             finish();
         }
-        
+
         moveToFrag(mDefaultFragment);
     }
-    
-    
+
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("navPos", mNavPos);
     }
-    
-    
+
+
     public void moveToFrag(Fragment frag) {
         //mFragment = frag;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.basecontent, frag);
@@ -174,8 +199,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         else
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
-    
-    
+
+
     public ArrayAdapter<Module> buildNavAdapter(final Context c) {
         return new ArrayAdapter<Module>(c, 0, Module.values()) {
             @NonNull
@@ -195,27 +220,27 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                     ((TextView) v).setTypeface(null, Typeface.BOLD);
                 } else
                     ((TextView) v).setTypeface(null, Typeface.NORMAL);
-                
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                         c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconRes(), 0);
                 } else {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(item.getIconRes(), 0, 0, 0);
                 }
-                
-                
+
+
                 return v;
             }
         };
     }
-    
-    
+
+
     @Override
     protected void onResume() {
         super.onResume();
         mNav.setSelection(mNavPos);
     }
-    
+
     @SuppressLint("RtlHardcoded")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -231,7 +256,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     protected boolean isRTL() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return false;
@@ -239,13 +264,13 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         Configuration config = getResources().getConfiguration();
         return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
-    
-    
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PermissionUtils.get(this).onRequestPermissionResult(permissions, grantResults);
     }
-    
+
     @Override
     public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
@@ -259,10 +284,12 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                             .setToActionbarSize().build());
         }
     }
-    
-    
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+        if (pos == 0) return;
+        pos--; // header
         if (pos == mNavPos && mDrawerLayout.isDrawerOpen(mNav)) {
             mDrawerLayout.closeDrawers();
             return;
@@ -271,29 +298,29 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         mDrawerLayout.closeDrawers();
         Answers.getInstance().logContentView(new ContentViewEvent().putContentName(Module.values()[mNavPos].getKey()));
         //AppRatingDialog.addToOpenedMenus(ACTS[pos]);
-        
+
     }
-    
-    
+
+
     public static class MainFragment extends Fragment {
         public MainFragment() {
             super();
             setHasOptionsMenu(true);
         }
-        
+
         public boolean onlyPortrait() {
             return false;
         }
-        
-        
+
+
         public boolean onBackPressed() {
             return false;
         }
-        
+
         public BaseActivity getBaseActivity() {
             return (BaseActivity) getActivity();
         }
-        
+
         public void backToMain() {
             FragmentManager fm = getBaseActivity().getSupportFragmentManager();
             int c = fm.getBackStackEntryCount();
@@ -301,17 +328,17 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 fm.popBackStack();
             }
         }
-        
+
         public boolean back() {
             FragmentManager fm = getBaseActivity().getSupportFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
-                
+
                 return true;
             }
             return false;
         }
-        
+
         public void moveToFrag(Fragment frag) {
             getBaseActivity().moveToFrag(frag);
         }

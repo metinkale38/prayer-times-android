@@ -5,4 +5,4 @@
 .DS_Store
 /crowdin.properties
 /local.properties
-/fabric.properties
+/gradle.properties

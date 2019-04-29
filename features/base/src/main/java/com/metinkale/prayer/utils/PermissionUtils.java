@@ -56,7 +56,7 @@ public class PermissionUtils {
     }
 
     private void checkPermissions(@NonNull Context c) {
-        pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+        pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pCamera = ContextCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -103,7 +103,7 @@ public class PermissionUtils {
     }
 
 
-    public void needCalendar(@NonNull final AppCompatActivity act, boolean force) {
+    public void needCalendar(@NonNull final Activity act, boolean force) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
             return;
 
@@ -112,7 +112,7 @@ public class PermissionUtils {
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
             builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText)
-                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 0));
+                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 0));
 
 
             builder.show();
@@ -121,7 +121,7 @@ public class PermissionUtils {
     }
 
 
-    public void needStorage(@NonNull final AppCompatActivity act) {
+    public void needStorage(@NonNull final Activity act) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
             return;
 

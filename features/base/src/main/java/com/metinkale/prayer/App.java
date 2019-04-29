@@ -149,7 +149,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key);
         switch (key) {
             case "calendarIntegration":
-                MainIntentService.startCalendarIntegration(App.get());
+                CalendarIntegrationService.startCalendarIntegration(App.get());
                 break;
             case "language":
                 LocaleUtils.init(getBaseContext());

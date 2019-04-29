@@ -34,7 +34,7 @@
                 android:layout_width="148dp"
                 android:layout_height="148dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/launcher_icon" />
+                app:srcCompat="@drawable/ic_appicon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,8 +78,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/icon"
@@ -119,8 +119,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -161,8 +161,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -202,8 +202,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -243,8 +243,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -285,8 +285,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -328,8 +328,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -374,8 +374,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -426,8 +426,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"
@@ -466,8 +466,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:padding="5dp"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@id/icon"

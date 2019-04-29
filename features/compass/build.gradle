@@ -15,6 +15,7 @@ android {
         minSdkVersion 16
         versionCode 1
         versionName "1.0"
+        resValue 'string', 'GoogleApiKey', GoogleApiKey
     }
 
     buildTypes {

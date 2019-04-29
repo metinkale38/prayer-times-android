@@ -1,5 +1,6 @@
 ### Version 3.7
-- Automatischer Standort wurde hinzugefügt
+- Eid-ul Fitr Datum wurde korrigiert
+- Nutze Isl. Jahre für Isl. Kalender
 - Qibla Ermittlung durch Uhrzeit wurde hinzugefügt
 - Einführung wurde hinzugefügt
 - Indonesiche Sprache und Gebetszeiten wurden hinzugefügt

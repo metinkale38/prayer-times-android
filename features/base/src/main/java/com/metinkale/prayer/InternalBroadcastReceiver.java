@@ -33,6 +33,7 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
     
     private static void loadClass(String clz) {
         try {
+            //noinspection unchecked
             loadClass((Class<? extends InternalBroadcastReceiver>) Class.forName(clz));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -13,24 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
-    }
-
-    dependencies {
-        //noinspection GradleDynamicVersion
-        classpath 'io.fabric.tools:gradle:1.+' //excludeInFDroid
-    }
-
-
-}
-
-
 apply plugin: 'com.android.library'
-apply plugin: 'io.fabric'  //excludeInFDroid
 
 
 android {
@@ -51,10 +34,9 @@ android {
     defaultConfig {
         targetSdkVersion 28
         minSdkVersion 16
-        versionCode 194
-        versionName '3.7'
         vectorDrawables.useSupportLibrary = true
         buildConfigField 'int', 'CHANGELOG_VERSION', '20'
+
     }
 
     buildTypes {
@@ -75,9 +57,8 @@ android {
         }
         play {
             dimension "store"
-            repositories {
-                maven { url 'https://maven.fabric.io/public' } //excludeInFDroid
-            }
+            resValue 'string', 'io.fabric.ApiKey', FabricApiKey
+            resValue "bool", "com.crashlytics.RequireBuildId", "false"
         }
     }
 
@@ -106,7 +87,7 @@ dependencies {
     implementation 'com.koushikdutta.ion:ion:2.2.1'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 
 }

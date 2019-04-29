@@ -34,13 +34,13 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 16
         multiDexEnabled true
+        versionName '3.7'
+        versionCode 195
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix '.debug'
             versionNameSuffix ' DEBUG'
-            ext.enableCrashlytics = false
         }
         release {
 

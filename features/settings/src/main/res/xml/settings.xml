@@ -39,7 +39,7 @@
             android:title="@string/numbers" />
 
 
-        <com.metinkale.prayer.calendar.CalendarPreference
+        <com.metinkale.prayer.utils.CalendarPreference
             android:defaultValue="1"
             android:key="calendarIntegration"
             android:title="@string/calendarIntegration" />
@@ -151,7 +151,6 @@
             android:dependency="ongoingIcon"
             android:key="ongoingNumber"
             android:title="@string/ongoingNumber" />
-
 
 
         <SwitchPreference
