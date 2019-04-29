@@ -36,11 +36,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.core.util.Pair;
 
+@Keep
 public abstract class Times extends TimesBase {
 
 
@@ -95,7 +97,7 @@ public abstract class Times extends TimesBase {
     @NonNull
     public static LiveDataAwareList<Times> getTimes() {
         if (sTimes.isEmpty()) {
-            SharedPreferences prefs = App.get().getSharedPreferences("nvc", 0);
+            SharedPreferences prefs = App.get().getSharedPreferences("cities", 0);
 
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {

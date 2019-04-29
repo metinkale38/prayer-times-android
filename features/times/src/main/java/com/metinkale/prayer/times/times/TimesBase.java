@@ -27,12 +27,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 
 /**
  * Created by metin on 03.04.2016.
  */
+@Keep
 public abstract class TimesBase extends TimesDeprecatedLayer {
 
     private transient final SharedPreferences prefs;
@@ -98,24 +100,15 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
         this();
         ID = id;
         source = getSource().name();
-
-        boolean hasOngoing = false;
-        for (Times time : Times.getTimes()) {
-            if (time.isOngoingNotificationActive())
-                hasOngoing = true;
-        }
-
-        if (!hasOngoing && id > 0)
-            setOngoingNotificationActive(true);
     }
 
     TimesBase() {
-        prefs = App.get().getSharedPreferences("nvc"/*no idea why "nvc" is used, but we have to keep it for compability*/, 0);
+        prefs = App.get().getSharedPreferences("cities", 0);
         source = getSource().name();
     }
 
     protected static Times from(long id) {
-        String json = App.get().getSharedPreferences("nvc", 0).getString("id" + id, null);
+        String json = App.get().getSharedPreferences("cities", 0).getString("id" + id, null);
         try {
             Times t = GSONFactory.build().fromJson(json, Times.class);
             t.setID(id);

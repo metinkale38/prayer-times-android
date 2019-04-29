@@ -41,12 +41,13 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 import androidx.collection.ArraySet;
 
-
+@Keep
 public abstract class WebTimes extends Times {
     
     @NonNull

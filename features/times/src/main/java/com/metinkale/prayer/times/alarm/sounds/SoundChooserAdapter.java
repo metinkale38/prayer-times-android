@@ -292,7 +292,8 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                             }
                             lastItem = item;
                         } else {
-                            dlg.dismiss();
+                            if (dlg.isShowing())
+                                 dlg.dismiss();
                             checkAllActionButtons();
                         }
                     }

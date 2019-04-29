@@ -18,7 +18,9 @@ package com.metinkale.prayer.utils;
 
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.LocaleList;
 import android.text.Html;
@@ -101,6 +103,7 @@ public class LocaleUtils {
 
     }
 
+
     private static void initLocale(Context c) {
         Crashlytics.setString("lang", Preferences.LANGUAGE.get());
         Crashlytics.setString("digits", Preferences.DIGITS.get());
@@ -122,6 +125,7 @@ public class LocaleUtils {
         }
 
         c.getResources().updateConfiguration(config, c.getResources().getDisplayMetrics());
+        c.getApplicationContext().getResources().updateConfiguration(config, c.getResources().getDisplayMetrics());
     }
 
 
@@ -341,6 +345,29 @@ public class LocaleUtils {
 
     public static String formatNumber(double doub) {
         return formatNumber(String.format(LocaleUtils.getLocale(), "%f", doub));
+    }
+
+    public static Context wrapContext(Context context) {
+        Resources res = context.getResources();
+        Configuration configuration = res.getConfiguration();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            configuration.setLocale(getLocale());
+            LocaleList localeList = getLocales();
+            LocaleList.setDefault(localeList);
+            configuration.setLocales(localeList);
+            context = context.createConfigurationContext(configuration);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(getLocale());
+            context = context.createConfigurationContext(configuration);
+
+        } else {
+            configuration.locale = getLocale();
+            res.updateConfiguration(configuration, res.getDisplayMetrics());
+        }
+
+        return new ContextWrapper(context);
     }
 
     public static class Translation {

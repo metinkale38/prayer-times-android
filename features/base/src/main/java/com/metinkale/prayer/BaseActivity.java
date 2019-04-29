@@ -92,6 +92,17 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
 
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            super.attachBaseContext(LocaleUtils.wrapContext(newBase));
+        }
+        else {
+            super.attachBaseContext(newBase);
+        }
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocaleUtils.init(this);

@@ -30,7 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,6 @@ import androidx.preference.EditTextPreference;
  */
 public class VibrationPreference extends EditTextPreference {
     private EditText editText;
-
 
 
     //Called when addPreferencesFromResource() is called. Initializes basic paramaters
@@ -113,11 +111,13 @@ public class VibrationPreference extends EditTextPreference {
         dlg.setView(layout);
         dlg.setPositiveButton(R.string.ok, (dialog, which) -> {
             onDialogClosed(true);
-            dialog.dismiss();
+            if (((AlertDialog) dialog).isShowing())
+                dialog.dismiss();
         });
         dlg.setNegativeButton(R.string.cancel, (dialog, which) -> {
             onDialogClosed(false);
-            dialog.dismiss();
+            if (((AlertDialog) dialog).isShowing())
+                dialog.dismiss();
         });
         dlg.show();
     }

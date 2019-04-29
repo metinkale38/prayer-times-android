@@ -21,6 +21,8 @@ import android.media.AudioManager;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.Keep;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
@@ -37,6 +39,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Deprecated
+@Keep
 public class TimesDeprecatedLayer extends TransientLiveData<Times> {
     
     

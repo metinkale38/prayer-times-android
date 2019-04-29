@@ -35,9 +35,10 @@ import org.metinkale.praytimes.PrayTimes;
 
 import java.util.TimeZone;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-
+@Keep
 public class CalcTimes extends Times {
 
     private String method;
@@ -108,15 +109,16 @@ public class CalcTimes extends Times {
             if (method == null) {
                 Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
                         .asJsonObject().setCallback((e, result) -> {
-                            if (e != null)
-                                Crashlytics.logException(e);
-                            if (result != null)
-                                try {
-                                    prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
-                                } catch (Exception ee) {
-                                    Crashlytics.logException(ee);
-                                }
-                        });
+                    if (e != null)
+                        Crashlytics.logException(e);
+                    if (result != null)
+                        try {
+                            if (result.has("timezoneId"))
+                                prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
+                        } catch (Exception ee) {
+                            Crashlytics.logException(ee);
+                        }
+                });
 
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38").asString()
                         .setCallback((e, result) -> {

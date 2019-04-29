@@ -60,6 +60,9 @@ public class ConfigIntroFragment extends IntroFragment {
                 return;
             }
 
+            FragmentManager fm = getChildFragmentManager();
+            if (fm.isStateSaved()) return;
+
             switch (mTask % 6) {
                 case 0:
                     mFragment.getTopSlider().animateOpen();
@@ -76,7 +79,7 @@ public class ConfigIntroFragment extends IntroFragment {
                 case 4:
                     mMenuItem.getIcon().setAlpha(100);
                     mMenuItem.getIcon().invalidateSelf();
-                    FragmentManager fm = getChildFragmentManager();
+
                     mFragment.setFooterText("", false);
                     fm.beginTransaction()
                             .replace(R.id.basecontent,
