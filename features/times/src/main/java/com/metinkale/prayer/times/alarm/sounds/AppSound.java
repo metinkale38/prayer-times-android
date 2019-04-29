@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2017 Metin Kale
+ * Copyright (c) 2013-2019 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
