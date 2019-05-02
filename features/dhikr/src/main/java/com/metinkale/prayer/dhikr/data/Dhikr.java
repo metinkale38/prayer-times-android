@@ -47,6 +47,7 @@ class Dhikr {
     }
 
     public int getMax() {
+        if (max == 0) max = 1;
         return max;
     }
 

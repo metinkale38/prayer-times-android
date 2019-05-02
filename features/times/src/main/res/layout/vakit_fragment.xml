@@ -14,9 +14,9 @@
   ~ limitations under the License.
   -->
 
-<!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,256 +29,272 @@
         android:gravity="center"
         android:text="@string/kerahatTime"
         android:textColor="@color/background"
-        android:textSize="18sp"
-        android:visibility="gone" />
-
-    <androidx.percentlayout.widget.PercentRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/kerahat">
-
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/date"
-            android:layout_alignParentTop="true"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:lines="1"
-            android:textStyle="italic"
-            app:layout_heightPercent="8%"
-            app:layout_marginTopPercent="1%"
-            app:layout_widthPercent="100%" />
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textSize="18sp" />
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:id="@+id/gps"
-            android:layout_alignTop="@+id/city"
-            android:layout_alignBottom="@+id/city"
-            android:layout_toStartOf="@+id/city"
-            android:layout_toLeftOf="@+id/city"
-            android:contentDescription="@null"
-            app:layout_aspectRatio="100%"
-            app:layout_heightPercent="5%"
-            app:layout_marginPercent="3%"
-            app:materialIcon="crosshairs_gps"
-            app:materialIconColor="@color/foregroundSecondary" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:lines="1"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/city"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kerahat"
+        tools:text="DATE" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/city"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/date"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:lines="1"
-            app:layout_heightPercent="11%" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/hicri"
-            android:layout_below="@id/city"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:lines="1"
-            android:textStyle="italic"
-            app:layout_heightPercent="8%"
-            app:layout_marginBottomPercent="5%"
-            app:layout_widthPercent="100%" />
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@+id/hicri"
+        app:layout_constraintEnd_toStartOf="@+id/city"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/city"
+        app:layout_constraintVertical_bias="0.4"
+        app:materialIcon="crosshairs_gps"
+        app:materialIconColor="@color/foregroundSecondary" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/fajr"
-            android:layout_below="@id/hicri"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/fajr"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:lines="1"
+        app:layout_constraintBottom_toTopOf="@+id/hicri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gps"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        tools:text="CITY" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/fajrTime"
-            android:layout_below="@id/hicri"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/hicri"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:lines="1"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/fajr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city"
+        tools:text="HIJRI" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/sun"
-            android:layout_below="@id/fajr"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/sun"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/fajr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/fajr"
+        app:layout_constraintBottom_toTopOf="@+id/sun"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hicri" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/sunTime"
-            android:layout_below="@id/fajr"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/fajrTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/fajr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/fajr"
+        tools:text="00:00" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/zuhr"
-            android:layout_below="@id/sun"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/zuhr"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/sun"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/sun"
+        app:layout_constraintBottom_toTopOf="@+id/zuhr"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fajr" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/zuhrTime"
-            android:layout_below="@id/sun"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/sunTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/sun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/sun"
+        tools:text="00:00" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/asr"
-            android:layout_below="@id/zuhr"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/asr"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="100%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/zuhr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/zuhr"
+        app:layout_constraintBottom_toTopOf="@+id/asr"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sun" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/asrTime"
-            android:layout_below="@id/zuhr"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/zuhrTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/zuhr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/zuhr"
+        tools:text="00:00" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/maghrib"
-            android:layout_below="@id/asr"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/maghrib"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/asr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/asr"
+        app:layout_constraintBottom_toTopOf="@+id/maghrib"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zuhr" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/maghribTime"
-            android:layout_below="@id/asr"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/asrTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/asr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/asr"
+        tools:text="00:00" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/ishaa"
-            android:layout_below="@id/maghrib"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:text="@string/ishaa"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/maghrib"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/maghrib"
+        app:layout_constraintBottom_toTopOf="@+id/ishaa"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/asr" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/ishaaTime"
-            android:layout_below="@id/maghrib"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="00:00"
-            app:layout_heightPercent="9%"
-            app:layout_widthPercent="50%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/maghribTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/maghrib"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/maghrib"
+        tools:text="00:00" />
 
-        <com.metinkale.prayer.times.utils.AutoResizeTextView
-            android:id="@+id/countdown"
-            android:layout_below="@id/ishaa"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            app:layout_heightPercent="9%"
-            app:layout_marginTopPercent="5%"
-            app:layout_widthPercent="100%" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/ishaa"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/ishaa"
+        app:layout_constraintBottom_toTopOf="@+id/countdown"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maghrib" />
 
-        <ImageView
-            android:id="@+id/source2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="5dip"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dip"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/appName"
-            android:cropToPadding="true" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/ishaaTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/ishaa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/ishaa"
+        tools:text="00:00" />
 
-        <ImageView
-            android:id="@+id/source1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="5dip"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dip"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/appName"
-            android:cropToPadding="true" />
+    <com.metinkale.prayer.times.utils.AutoResizeTextView
+        android:id="@+id/countdown"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ishaa"
+        tools:text="COUNTDOWN" />
 
-    </androidx.percentlayout.widget.PercentRelativeLayout>
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/source2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/appName"
+        android:cropToPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kerahat"
+        tools:src="@drawable/ic_ditib" />
+
+    <ImageView
+        android:id="@+id/source1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/appName"
+        android:cropToPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kerahat"
+        tools:src="@drawable/ic_igmg" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

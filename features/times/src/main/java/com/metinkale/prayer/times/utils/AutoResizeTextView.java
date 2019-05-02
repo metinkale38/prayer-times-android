@@ -17,8 +17,10 @@
 package com.metinkale.prayer.times.utils;
 
 import android.content.Context;
+import android.icu.util.Measure;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
@@ -28,19 +30,33 @@ public class AutoResizeTextView extends AppCompatTextView {
 
     public AutoResizeTextView(Context context) {
         super(context);
+        init();
     }
 
     public AutoResizeTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public AutoResizeTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
     }
 
+    private void init() {
+        setGravity(Gravity.CENTER);
+    }
+
+
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, (h * 7) / 10f);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int i = 13;
+        do {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, (MeasureSpec.getSize(heightMeasureSpec) * i) / 20f - getPaddingTop() - getPaddingBottom());
+            i--;
+        } while (getPaint().measureText(getText().toString()) > MeasureSpec.getSize(widthMeasureSpec) && i > 0);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+
     }
 }

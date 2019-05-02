@@ -80,7 +80,8 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     public Set<Alarm> getUserAlarms() {
         if (alarms.isEmpty()) {
             alarms.addAll(migrateAlarms());
-            save();
+            if (!alarms.isEmpty())
+                save();
         }
         return alarms;
     }

@@ -32,6 +32,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.crashlytics.android.Crashlytics;
+
 public class RTLViewPager extends ViewPager {
 
     private boolean swipeLocked;
@@ -106,6 +108,7 @@ public class RTLViewPager extends ViewPager {
     private boolean isRTL() {
         return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL;
     }
+
 
     private class RTLAdapterWrapper extends FragmentPagerAdapter {
         private FragmentPagerAdapter adapter;

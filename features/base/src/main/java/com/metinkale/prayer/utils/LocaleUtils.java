@@ -93,7 +93,7 @@ public class LocaleUtils {
 
         int year = LocalDate.now().getYear();
         if (year == 2019) {
-            year = 201904; // force update in 2019
+            year = 201905; // force update in 2019
         }
 
         if (year != Preferences.LAST_CAL_SYNC.get()) {

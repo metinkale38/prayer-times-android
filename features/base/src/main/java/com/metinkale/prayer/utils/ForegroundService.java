@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.utils;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,6 +31,7 @@ import android.provider.Settings;
 
 import com.metinkale.prayer.base.R;
 
+import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.Nullable;
@@ -43,7 +45,7 @@ import androidx.core.app.NotificationCompat;
  * If there are no needies (ongoing notifications or widgets), this service will not stay awake
  */
 public class ForegroundService extends Service {
-    
+
     private static final String ACTION_ADD_NEEDY = "addNeedy";
     private static final String ACTION_REMOVE_NEEDY = "removeNeedy";
     private static final String EXTRA_NEEDY = "needy";
@@ -53,8 +55,8 @@ public class ForegroundService extends Service {
     private Notification mNotification;
     private int mNotificationId;
     private String mNotificationNeedy;
-    
-    
+
+
     public static void addNeedy(Context c, String needy, Notification not, int notId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(c, ForegroundService.class);
@@ -65,7 +67,7 @@ public class ForegroundService extends Service {
             c.startForegroundService(intent);
         }
     }
-    
+
     public static void addNeedy(Context c, String needy) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(c, ForegroundService.class);
@@ -74,8 +76,8 @@ public class ForegroundService extends Service {
             c.startForegroundService(intent);
         }
     }
-    
-    
+
+
     public static void removeNeedy(Context c, String needy) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(c, ForegroundService.class);
@@ -84,11 +86,11 @@ public class ForegroundService extends Service {
             c.startForegroundService(intent);
         }
     }
-    
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            
+
             String action;
             if (intent != null && (action = intent.getAction()) != null) {
                 switch (action) {
@@ -99,7 +101,7 @@ public class ForegroundService extends Service {
                             mNotification = intent.getParcelableExtra(EXTRA_NOTIFICATION);
                             mNotificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, 0);
                             mNotificationNeedy = needy;
-                            
+
                             if (mNotification != null) {
                                 //stopForeground(true);
                                 startForeground(mNotificationId, mNotification);
@@ -114,10 +116,10 @@ public class ForegroundService extends Service {
                             mNotification = null;
                             mNotificationNeedy = null;
                             mNotificationId = 0;
-                            
+
                             if (!mForegroundNeedy.isEmpty()) {
                                 //stopForeground(true);
-                                startForeground(getNotificationId(), createNotification());
+                                startForeground(getNotificationId(), createNotification(this));
                             }
                         }
                         break;
@@ -125,27 +127,27 @@ public class ForegroundService extends Service {
                 }
             }
         }
-        
-        
+
+
         if (mForegroundNeedy.isEmpty()) {
             stopForeground(true);
             stopSelf();
             return START_NOT_STICKY;
         }
-        
-        
+
+
         return START_STICKY;
     }
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(getNotificationId(), createNotification());
+            startForeground(getNotificationId(), createNotification(this));
         }
     }
-    
+
     @Override
     public void onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -153,35 +155,36 @@ public class ForegroundService extends Service {
         }
         super.onDestroy();
     }
-    
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-    
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    protected Notification createNotification() {
-        NotificationManager nm = getSystemService(NotificationManager.class);
-        
+    public static Notification createNotification(Context c) {
+        NotificationManager nm = c.getSystemService(NotificationManager.class);
+
         String channelId = "foreground";
         if (nm.getNotificationChannel(channelId) == null) {
-            nm.createNotificationChannel(new NotificationChannel(channelId, getString(R.string.appName), NotificationManager.IMPORTANCE_MIN));
+            nm.createNotificationChannel(new NotificationChannel(channelId, c.getString(R.string.appName), NotificationManager.IMPORTANCE_MIN));
         }
-        
-        Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName())
+
+        Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, c.getPackageName())
                 .putExtra(Settings.EXTRA_CHANNEL_ID, channelId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
-        builder.setContentTitle(getString(R.string.appName));
+        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(c, channelId);
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_abicon);
+        builder.setPriority(NotificationCompat.PRIORITY_MIN);
         return builder.build();
     }
-    
-    
-    private int getNotificationId() {
+
+
+    public int getNotificationId() {
         return 571;
     }
+
 }

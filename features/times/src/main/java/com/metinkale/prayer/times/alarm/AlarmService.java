@@ -126,7 +126,7 @@ public class AlarmService extends IntentService {
 
         Alarm alarm = Alarm.fromId(alarmId);
 
-        if (alarm == null)
+        if (alarm == null || !alarm.isEnabled())
             return;
 
         intent.removeExtra(EXTRA_ALARMID);

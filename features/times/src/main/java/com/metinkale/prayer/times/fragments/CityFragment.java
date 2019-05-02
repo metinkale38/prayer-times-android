@@ -173,6 +173,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
         for (int i = 0; i < ids.length; i++) {
             mPrayerTitles[i] = mView.findViewById(idsNames[i]);
             mPrayerTimes[i] = mView.findViewById(ids[i]);
+            mPrayerTitles[i].setText(Vakit.getByIndex(i).getString());
         }
 
 

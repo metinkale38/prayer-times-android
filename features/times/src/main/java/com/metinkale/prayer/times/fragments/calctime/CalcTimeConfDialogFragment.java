@@ -203,7 +203,8 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
         });
 
         mView.findViewById(R.id.save).setOnClickListener(v -> {
-            mCalcTime.createFromTemporary();
+            if (mCalcTime.isTemporary())
+                mCalcTime.createFromTemporary();
             dismiss();
         });
 

@@ -17,12 +17,15 @@
 package com.metinkale.prayer;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.CalendarContract;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -53,9 +56,28 @@ public class CalendarIntegrationService extends IntentService {
     public static void startCalendarIntegration(@NonNull Context context) {
         ForegroundService.addNeedy(context, "calendarIntegration");
         Intent intent = new Intent(context, CalendarIntegrationService.class);
-        context.startService(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(123, ForegroundService.createNotification(this));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
+    }
 
     @Override
     protected void onHandleIntent(@NonNull Intent intent) {

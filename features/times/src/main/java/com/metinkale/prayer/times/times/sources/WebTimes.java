@@ -166,8 +166,7 @@ public abstract class WebTimes extends Times {
     abstract boolean sync() throws ExecutionException, InterruptedException;
     
     public void syncAsync() {
-        
-        cleanTimes();
+
         if (!App.isOnline()) {
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             scheduleJob();
@@ -182,6 +181,7 @@ public abstract class WebTimes extends Times {
                 try {
                     if (sync()) {
                         App.get().getHandler().post(Times::setAlarms);
+                        cleanTimes();
                     }
                 } catch (Exception e) {
                     Crashlytics.logException(e);
