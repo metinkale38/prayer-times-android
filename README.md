@@ -152,7 +152,7 @@ Die Inhalte der Gebetszeit-Anwendungen:
 # LICENSE
     A useful Application with a set of tools needed by any muslim.
 
-    Copyright 2015 Metin Kale
+    Copyright 2015-2019 Metin Kale
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

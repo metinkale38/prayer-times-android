@@ -71,8 +71,7 @@ android {
 
 
 dependencies {
-    playApi('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') { transitive = true }
-//excludeInFDroid
+    playApi('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') { transitive = true } //excludeInFDroid
 
     // androidx dependencies. TODO check whats really needed
     implementation 'androidx.multidex:multidex:2.0.0'
