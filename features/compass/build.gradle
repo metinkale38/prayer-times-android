@@ -48,9 +48,6 @@ android {
         }
         play {
             dimension "store"
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file("local.properties").newDataInputStream())
-            resValue "string", "google_maps_key", properties.getProperty("google_maps_key", "")
         }
     }
 
