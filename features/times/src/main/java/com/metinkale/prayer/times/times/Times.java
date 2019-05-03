@@ -42,7 +42,6 @@ import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.core.util.Pair;
 
-@Keep
 public abstract class Times extends TimesBase {
 
 

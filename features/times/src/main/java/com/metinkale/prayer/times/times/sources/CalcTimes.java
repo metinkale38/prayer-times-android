@@ -38,7 +38,6 @@ import java.util.TimeZone;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-@Keep
 public class CalcTimes extends Times {
 
     private String method;
@@ -52,7 +51,6 @@ public class CalcTimes extends Times {
         prayTimes.setTimezone(timeZone);
     }
 
-
     public enum AsrType {
         Shafi,
         Hanafi,
@@ -60,7 +58,7 @@ public class CalcTimes extends Times {
     }
 
 
-    @SuppressWarnings({"unused", "WeakerAccess"})
+    @SuppressWarnings({"unused"})
     public CalcTimes() {
         super();
     }

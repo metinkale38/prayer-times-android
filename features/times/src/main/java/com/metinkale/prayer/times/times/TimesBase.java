@@ -34,7 +34,6 @@ import androidx.annotation.NonNull;
 /**
  * Created by metin on 03.04.2016.
  */
-@Keep
 public abstract class TimesBase extends TimesDeprecatedLayer {
 
     private transient final SharedPreferences prefs;

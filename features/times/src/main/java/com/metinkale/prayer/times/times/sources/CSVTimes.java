@@ -30,7 +30,6 @@ import java.util.concurrent.ExecutionException;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
-@Keep
 public class CSVTimes extends WebTimes {
 
 

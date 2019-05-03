@@ -34,15 +34,21 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 16
         multiDexEnabled true
-        versionName '3.7.1'
-        versionCode 198
+        versionName '3.7.2'
+        versionCode 199
     }
 
     buildTypes {
         debug {
             versionNameSuffix ' DEBUG'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -63,13 +69,24 @@ android {
         }
     }
 
+    bundle {
+        language {
+            // Specifies that the app bundle should not support
+            // configuration APKs for language resources. These
+            // resources are instead packaged with each base and
+            // dynamic feature APK.
+            enableSplit = false
+        }
+    }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-}
 
+}
 
 
 dependencies {

@@ -39,7 +39,6 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Deprecated
-@Keep
 public class TimesDeprecatedLayer extends TransientLiveData<Times> {
     
     
