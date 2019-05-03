@@ -29,54 +29,44 @@ import java.util.concurrent.ExecutionException;
 import androidx.annotation.NonNull;
 
 public class DiyanetTimes extends WebTimes {
-    
+
     @SuppressWarnings({"unused", "WeakerAccess"})
     public DiyanetTimes() {
         super();
     }
-    
+
     @SuppressWarnings({"unused", "WeakerAccess"})
     public DiyanetTimes(long id) {
         super(id);
     }
-    
+
     @NonNull
     @Override
     public Source getSource() {
         return Source.Diyanet;
     }
-    
-    
+
+
     protected boolean sync() throws ExecutionException, InterruptedException {
-        String path = getId();
-        
-        if ("13_1008_0".equals(path)) {
-            path = "13_10080_9206";
-        }
-        String[] a = path.split("_");
-        
-        
-        int state = Integer.parseInt(a[0]);
-        int city = 0;
-        if (a.length == 2) {
-            city = Integer.parseInt(a[1]);
-        }
+        String id = getId();
+        id = id.substring(id.lastIndexOf("_") + 1); // backwarts compability
+
         String result = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc").userAgent(App.getUserAgent())
                 .setHeader("Content-Type", "text/xml; charset=utf-8").setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setStringBody(
                         "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                                 "<v:Header /><v:Body>" + "<AylikNamazVakti xmlns=\"http://tempuri.org/\" id=\"o0\" c:root=\"1\">" +
-                                "<IlceID i:type=\"d:int\">" + (city == 0 ? state : city) + "</IlceID>" +
+                                "<IlceID i:type=\"d:int\">" + id + "</IlceID>" +
                                 "<username i:type=\"d:string\">namazuser</username>" + "<password i:type=\"d:string\">NamVak!14</password>" +
                                 "</AylikNamazVakti></v:Body></v:Envelope>").asString().get();
-        
+
         result = result.substring(result.indexOf("<a:NamazVakti>") + 14);
         result = result.substring(0, result.indexOf("</AylikNamazVaktiResult>"));
         String[] days = result.split("</a:NamazVakti><a:NamazVakti>");
         int i = 0;
         for (String day : days) {
             String[] parts = day.split("><a:");
-            
+
             String[] times = new String[6];
             String date = null;
             for (String part : parts) {
@@ -120,8 +110,9 @@ public class DiyanetTimes extends WebTimes {
             setTime(ld, Vakit.MAGHRIB, times[4]);
             setTime(ld, Vakit.ISHAA, times[5]);
             i++;
-        } return i > 25;
+        }
+        return i > 25;
     }
-    
-    
+
+
 }

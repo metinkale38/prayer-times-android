@@ -110,7 +110,7 @@ public class Sounds {
 
                             loadSounds();
                         } catch (Exception e) {
-                            Crashlytics.logException(e);
+                            //Crashlytics.logException(e);
                         } finally {
                             Utils.close(outputStream);
                         }

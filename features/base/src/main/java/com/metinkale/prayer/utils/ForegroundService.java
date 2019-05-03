@@ -90,6 +90,11 @@ public class ForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (mNotification != null) {
+                startForeground(mNotificationId, mNotification);
+            } else {
+                startForeground(getNotificationId(), createNotification(this));
+            }
 
             String action;
             if (intent != null && (action = intent.getAction()) != null) {
