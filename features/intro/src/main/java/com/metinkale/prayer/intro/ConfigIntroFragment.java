@@ -56,7 +56,7 @@ public class ConfigIntroFragment extends IntroFragment {
         @Override
         public void run() {
             mView.postDelayed(mDoTask, 2000);
-            if (mFragment == null || mFragment.getTopSlider() == null) {
+            if (mFragment == null || mFragment.getTopSlider() == null || isDetached()) {
                 return;
             }
 

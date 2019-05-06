@@ -36,12 +36,12 @@ public class CSVTimes extends WebTimes {
     private boolean firstSync = true;
 
 
-    @SuppressWarnings({"unused", "WeakerAccess"})
+    @SuppressWarnings({"unused"})
     public CSVTimes(long id) {
         super(id);
     }
 
-    @SuppressWarnings({"unused", "WeakerAccess"})
+    @SuppressWarnings({"unused"})
     public CSVTimes() {
         super();
     }

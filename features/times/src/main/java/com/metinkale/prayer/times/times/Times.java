@@ -32,6 +32,7 @@ import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,7 @@ public abstract class Times extends TimesBase {
 
     protected Times(long id) {
         super(id);
+
         if (!sTimes.contains(this)) {
             sTimes.add(this);
             createDefaultAlarms();
@@ -78,21 +80,6 @@ public abstract class Times extends TimesBase {
         return null;
     }
 
-    private void createDefaultAlarms() {
-        if (getUserAlarms().isEmpty()) {
-            Alarm alarm = new Alarm();
-            alarm.setCity(this);
-            alarm.setEnabled(false);
-            alarm.setMins(0);
-            alarm.setRemoveNotification(false);
-            alarm.setVibrate(false);
-            alarm.setWeekdays(new ArraySet<>(Alarm.ALL_WEEKDAYS));
-            alarm.setTimes(new ArraySet<>(Alarm.ALL_TIMES));
-            getUserAlarms().add(alarm);
-            save();
-        }
-    }
-
     @NonNull
     public static LiveDataAwareList<Times> getTimes() {
         if (sTimes.isEmpty()) {
@@ -101,7 +88,9 @@ public abstract class Times extends TimesBase {
             Set<String> keys = prefs.getAll().keySet();
             for (String key : keys) {
                 if (key.startsWith("id")) {
-                    sTimes.add(TimesBase.from(Long.parseLong(key.substring(2))));
+                    Times t = TimesBase.from(Long.parseLong(key.substring(2)));
+                    if (t != null)
+                        sTimes.add(t);
                 }
             }
 
@@ -159,13 +148,15 @@ public abstract class Times extends TimesBase {
         for (Alarm a : t.getUserAlarms()) {
             if (!a.isEnabled()) continue;
             LocalDateTime nextAlarm = a.getNextAlarm();
+            if (nextAlarm == null) continue;
             if (time == null || time.isAfter(nextAlarm)) {
                 alarm = a;
                 time = nextAlarm;
             }
         }
-        if (alarm == null || time == null)
+        if (alarm == null)
             return null;
+        alarm.setCity(t);
         return new Pair<>(alarm, time);
     }
 
@@ -215,6 +206,10 @@ public abstract class Times extends TimesBase {
     private LocalDateTime parseTime(@NonNull LocalDate date, String str) {
         if (str == null || str.equals("00:00")) {
             return LocalDate.now().toLocalDateTime(LocalTime.MIDNIGHT);
+        }
+
+        if (str.startsWith("24")) {
+            str = "00" + str.substring(2);
         }
 
         LocalDateTime timeCal = date.toLocalDateTime(new LocalTime(str));
@@ -274,7 +269,7 @@ public abstract class Times extends TimesBase {
         List<Times> times = getTimes();
         for (int i = times.size() - 1; i >= 0; i--) {
             Times t = times.get(i);
-            if (t.getID() < 0)
+            if (t != null && t.getID() < 0)
                 t.delete();
         }
     }

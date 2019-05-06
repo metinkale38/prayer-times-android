@@ -38,12 +38,13 @@ import java.util.TimeZone;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
 public class CalcTimes extends Times {
 
     private String method;
     private String adjMethod;
     private String juristic;
-    private double[] customMethodParams = new double[6];
+    private double[] customMethodParams = null;
     private PrayTimes prayTimes;
     private AsrType asrType = AsrType.Shafi;
 
@@ -63,7 +64,7 @@ public class CalcTimes extends Times {
         super();
     }
 
-    @SuppressWarnings({"unused", "WeakerAccess"})
+    @SuppressWarnings({"unused"})
     public CalcTimes(long id) {
         super(id);
     }
@@ -131,41 +132,42 @@ public class CalcTimes extends Times {
                                 Crashlytics.logException(ee);
                             }
                         });
-            }
-
-            if (method != null && !"Custom".equals(method)) {
-                prayTimes.setMethod(Method.valueOf(method));
             } else {
-                prayTimes.tuneFajr(customMethodParams[0], 0);
-                prayTimes.tuneImsak(customMethodParams[0], 0);
-                if (customMethodParams[3] != 1) {
-                    prayTimes.tuneIshaa(customMethodParams[4], 0);
-                } else {
-                    prayTimes.tuneIshaa(0, (int) customMethodParams[4]);
+
+                if (method != null && !"Custom".equals(method)) {
+                    prayTimes.setMethod(Method.valueOf(method));
+                } else if (customMethodParams != null) {
+                    prayTimes.tuneFajr(customMethodParams[0], 0);
+                    prayTimes.tuneImsak(customMethodParams[0], 0);
+                    if (customMethodParams[3] != 1) {
+                        prayTimes.tuneIshaa(customMethodParams[4], 0);
+                    } else {
+                        prayTimes.tuneIshaa(0, (int) customMethodParams[4]);
+                    }
                 }
+
+                if ("Hanafi".equals(juristic))
+                    asrType = AsrType.Hanafi;
+                else if ("Shafii".equals(juristic))
+                    asrType = AsrType.Shafi;
+
+                if (adjMethod != null)
+                    switch (adjMethod) {
+                        case "AngleBased":
+                            prayTimes.setHighLatsAdjustment(HighLatsAdjustment.AngleBased);
+                            break;
+                        case "OneSeventh":
+                            prayTimes.setHighLatsAdjustment(HighLatsAdjustment.OneSeventh);
+                            break;
+                        case "MidNight":
+                            prayTimes.setHighLatsAdjustment(HighLatsAdjustment.NightMiddle);
+                            break;
+                    }
+                method = null;
+                juristic = null;
+                adjMethod = null;
+                customMethodParams = null;
             }
-
-            if ("Hanafi".equals(juristic))
-                asrType = AsrType.Hanafi;
-            else if ("Shafii".equals(juristic))
-                asrType = AsrType.Shafi;
-
-            if (adjMethod != null)
-                switch (adjMethod) {
-                    case "AngleBased":
-                        prayTimes.setHighLatsAdjustment(HighLatsAdjustment.AngleBased);
-                        break;
-                    case "OneSeventh":
-                        prayTimes.setHighLatsAdjustment(HighLatsAdjustment.OneSeventh);
-                        break;
-                    case "MidNight":
-                        prayTimes.setHighLatsAdjustment(HighLatsAdjustment.NightMiddle);
-                        break;
-                }
-            method = null;
-            juristic = null;
-            adjMethod = null;
-            customMethodParams = null;
         }
         return prayTimes;
     }

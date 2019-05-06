@@ -36,6 +36,8 @@
     <string name="shareTimes">Today\'s Prayertimes for %1$s</string>
     <string name="showMore">Show more</string>
     <string name="soundPicker">Sound Picker</string>
+    <string name="filePicker">File Picker</string>
+    <string name="other">Other</string>
     <string name="sun">Sun</string>
     <string name="timeBased">Minutes</string>
     <string name="time">Time</string>
@@ -85,4 +87,5 @@
     <string name="silenter">Silent for</string>
     <string name="minutes">Minutes</string>
     <string name="both">Both</string>
+    <string name="addAlarm">Add alarm</string>
 </resources>

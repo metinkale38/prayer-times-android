@@ -175,7 +175,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         if (!notifications.isEmpty()) {
             for (int i = 0; i < notifications.size(); i++) {
                 Pair<Integer, Notification> pair = notifications.get(i);
-                if (i == 0) {
+                if (i == 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     ForegroundService.addNeedy(getContext(), FOREGROUND_NEEDY_ONGOING, pair.second, pair.first);
                 } else {
                     notMan.notify(pair.first, pair.second);

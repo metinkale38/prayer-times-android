@@ -16,7 +16,11 @@
 
 <resources translatable="false">
 
-
+    <string-array name="soundPicker">
+        <item>@string/filePicker</item>
+        <item>@string/soundPicker</item>
+    </string-array>
+    
     <string-array name="adjMethod">
         <item>@string/noAdjustment</item>
         <item>@string/adjAngle</item>

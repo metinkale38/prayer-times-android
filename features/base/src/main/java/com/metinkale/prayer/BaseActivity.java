@@ -129,7 +129,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         View header = LayoutInflater.from(this).inflate(R.layout.drawer_header, mNav, false);
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            ((TextView) header.findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
+            ((TextView) header.findViewById(R.id.version)).setText(pInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

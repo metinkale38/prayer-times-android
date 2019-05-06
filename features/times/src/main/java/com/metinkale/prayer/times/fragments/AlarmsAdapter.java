@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.times.fragments;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     private static final int TYPE_SWITCH = 0;
     private static final int TYPE_TITLE = 1;
+    private static final int TYPE_BUTTON = 2;
 
     private List<Object> mItems = new ArrayList<>();
 
@@ -54,6 +56,9 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
         if (o instanceof SwitchItem) {
             return TYPE_SWITCH;
         }
+        if (o instanceof Button) {
+            return TYPE_BUTTON;
+        }
         if (o instanceof String) {
             return TYPE_TITLE;
         }
@@ -64,7 +69,7 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_SWITCH) {
+        if (viewType == TYPE_SWITCH || viewType == TYPE_BUTTON) {
             return new SwitchVH(parent);
         }
         if (viewType == TYPE_TITLE) {
@@ -79,9 +84,13 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
             case TYPE_SWITCH:
                 ((SwitchVH) holder).setSwitchItem((SwitchItem) mItems.get(position));
                 break;
+            case TYPE_BUTTON:
+                ((SwitchVH) holder).setSwitchItem((Button) mItems.get(position));
+                break;
             case TYPE_TITLE:
                 ((TitleVH) holder).setTitle((String) mItems.get(position));
                 break;
+
         }
     }
 
@@ -93,6 +102,17 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     public void clearAllItems() {
         mItems.clear();
         notifyDataSetChanged();
+    }
+
+
+    public abstract static class Button {
+        public abstract String getName();
+
+        public abstract void onClick();
+
+        public boolean onLongClick() {
+            return false;
+        }
     }
 
 
@@ -131,8 +151,17 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
             mTitle.setOnClickListener(v -> item.onClick());
 
             mTitle.setOnLongClickListener(v -> item.onLongClick());
+            mSwitch.setVisibility(View.VISIBLE);
+            mTitle.setGravity(Gravity.LEFT | Gravity.CENTER);
 
+        }
 
+        void setSwitchItem(final Button item) {
+            mTitle.setText(item.getName());
+            mTitle.setOnClickListener(v -> item.onClick());
+            mTitle.setOnLongClickListener(v -> item.onLongClick());
+            mTitle.setGravity(Gravity.CENTER);
+            mSwitch.setVisibility(View.GONE);
         }
 
 
@@ -163,4 +192,5 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
             return mView;
         }
     }
+
 }

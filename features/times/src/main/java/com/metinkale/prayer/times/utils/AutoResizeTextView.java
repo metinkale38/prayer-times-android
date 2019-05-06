@@ -54,7 +54,7 @@ public class AutoResizeTextView extends AppCompatTextView {
         do {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, (MeasureSpec.getSize(heightMeasureSpec) * i) / 20f - getPaddingTop() - getPaddingBottom());
             i--;
-        } while (getPaint().measureText(getText().toString()) > MeasureSpec.getSize(widthMeasureSpec) && i > 0);
+        } while (getPaint().measureText(getText().toString()) * 1.1f > MeasureSpec.getSize(widthMeasureSpec) && i > 0);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
 

@@ -40,7 +40,6 @@ public class PermissionUtils {
 
     private static PermissionUtils mInstance;
     public boolean pCalendar;
-    public boolean pCamera;
     public boolean pStorage;
     public boolean pLocation;
 
@@ -57,31 +56,13 @@ public class PermissionUtils {
 
     private void checkPermissions(@NonNull Context c) {
         pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
-        pCamera = ContextCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         Crashlytics.setBool("pCalendar", pCalendar);
-        Crashlytics.setBool("pCamera", pCamera);
         Crashlytics.setBool("pStorage", pStorage);
         Crashlytics.setBool("pLocation", pLocation);
 
-    }
-
-
-    public void needCamera(@NonNull final Activity act) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
-            return;
-
-        if (!pCamera) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(act);
-
-            builder.setTitle(R.string.permissionCameraTitle).setMessage(R.string.permissionCameraText)
-                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.CAMERA}, 0));
-
-            builder.show();
-
-        }
     }
 
 
@@ -142,9 +123,6 @@ public class PermissionUtils {
     public void onRequestPermissionResult(@NonNull String[] permissions, int[] grantResults) {
         for (int i = 0; i < permissions.length; i++) {
             switch (permissions[i]) {
-                case Manifest.permission.CAMERA:
-                    pCamera = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-                    break;
                 case Manifest.permission.WRITE_CALENDAR:
                     pCalendar = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                     if (!pCalendar)

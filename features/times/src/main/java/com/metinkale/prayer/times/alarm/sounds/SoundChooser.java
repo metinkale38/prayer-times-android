@@ -17,22 +17,35 @@
 package com.metinkale.prayer.times.alarm.sounds;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.crashlytics.android.Crashlytics;
+import com.github.florent37.inlineactivityresult.InlineActivityResult;
+import com.github.florent37.inlineactivityresult.Result;
+import com.github.florent37.inlineactivityresult.callbacks.ActivityResultListener;
+import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.fragments.AlarmConfigFragment;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.utils.FileChooser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.File;
 
 public class SoundChooser extends DialogFragment {
 
@@ -70,6 +83,38 @@ public class SoundChooser extends DialogFragment {
                 )
                 .setNegativeButton(R.string.cancel,
                         (dialog, whichButton) -> dialog.dismiss()
+                ).setNeutralButton(R.string.other, (dialog, which) -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle(R.string.other)
+                                    .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            if (which == 0) {
+                                                FileChooser chooser = new FileChooser(getActivity());
+                                                chooser.showDialog();
+                                                chooser.setFileListener(new FileChooser.FileSelectedListener() {
+                                                    @Override
+                                                    public void fileSelected(File file) {
+                                                        Sound selected = UserSound.create(Uri.fromFile(file));
+                                                        if (selected != null) {
+                                                            alarm.getSounds().add(selected);
+                                                        }
+                                                        ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                            } else {
+                                                Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                                                Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
+                                                startActivityForResult(chooserIntent, 0);
+                                            }
+                                        }
+                                    });
+                            builder.show();
+                        }
                 );
 
         b.setView(createView(getActivity().getLayoutInflater(), null, null));

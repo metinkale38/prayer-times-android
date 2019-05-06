@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.metinkale.prayer.utils.PermissionUtils;
 
 import java.util.ArrayList;
 
@@ -51,7 +52,7 @@ import androidx.fragment.app.Fragment;
 @SuppressWarnings("MissingPermission")
 public class FragMap extends Fragment
         implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    
+
     private GoogleMap mMap;
     private FloatingActionButton mFab;
     private final LatLng mKaabePos = new LatLng(21.42247, 39.826198);
@@ -63,21 +64,25 @@ public class FragMap extends Fragment
     private Marker mMarker;
     @Nullable
     private Circle mCircle;
-    
+    private boolean mRequestedLocation;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.compass_map, container, false);
-        
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+
         mFab = v.findViewById(R.id.myLocationButton);
-        
+
+        if (!PermissionUtils.get(getActivity()).pLocation) {
+            PermissionUtils.get(getActivity()).needLocation(getActivity());
+        }
         return v;
     }
-    
-    
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -86,7 +91,7 @@ public class FragMap extends Fragment
             mGoogleApiClient.connect();
         }
     }
-    
+
     @Override
     public void onPause() {
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
@@ -103,47 +108,50 @@ public class FragMap extends Fragment
         mLine = null;
         super.onPause();
     }
-    
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext()).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API).build();
     }
-    
+
     @Override
     public void onConnected(Bundle bundle) {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        
-        if (mGoogleApiClient.isConnected())
+
+        if (mGoogleApiClient.isConnected() && PermissionUtils.get(getActivity()).pLocation) {
+            mRequestedLocation = true;
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+        }
     }
-    
+
     @Override
     public void onConnectionSuspended(int i) {
     }
-    
-    
+
+
     @SuppressWarnings("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setBuildingsEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        
+
         mMap.addMarker(new MarkerOptions().position(mKaabePos).anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_kaabe)));
-        
+
         mFab.setOnClickListener(view -> {
             if (mLocation != null) {
+                if (!mRequestedLocation) onConnected(null); //start location updates
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
             }
         });
-        
-        
+
+
     }
-    
-    
+
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
         mLocation = location;
@@ -162,26 +170,26 @@ public class FragMap extends Fragment
         } else {
             //zoom first time
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-            
-            
+
+
             mLine = mMap.addPolyline(
                     new PolylineOptions().add(pos).add(mKaabePos).geodesic(true).color(Color.parseColor("#3bb2d0")).width(3).zIndex(1));
-            
+
             mMarker = mMap.addMarker(
                     new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mylocation)).anchor(0.5f, 0.5f).position(pos)
                             .zIndex(2));
-            
+
             mCircle = mMap.addCircle(
                     new CircleOptions().center(pos).fillColor(0xAA4FC3F7).strokeColor(getResources().getColor(R.color.colorPrimary)).strokeWidth(2)
                             .radius(mLocation.getAccuracy()));
         }
-        
-        
+
+
     }
-    
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    
+
     }
 }
 

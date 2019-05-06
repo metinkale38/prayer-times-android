@@ -23,12 +23,15 @@ import com.metinkale.prayer.times.LocationReceiver;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.gson.GSONFactory;
 
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.collection.ArraySet;
 
 
 /**
@@ -76,13 +79,57 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     }
 
 
-    public Set<Alarm> getUserAlarms() {
+    public synchronized Set<Alarm> getUserAlarms() {
         if (alarms.isEmpty()) {
             alarms.addAll(migrateAlarms());
             if (!alarms.isEmpty())
                 save();
         }
+
+        if (alarms.size() == 1 && !alarms.iterator().next().isEnabled()) {
+            alarms.clear();
+            this.createDefaultAlarms();
+        }
         return alarms;
+    }
+
+    protected void createDefaultAlarms() {
+        if (alarms.isEmpty()) {
+            for (Vakit v : Vakit.values()) {
+                Alarm alarm = new Alarm();
+                alarm.setCity((Times) this);
+                alarm.setEnabled(false);
+                alarm.setMins(0);
+                alarm.setRemoveNotification(false);
+                alarm.setVibrate(false);
+                alarm.setWeekdays(new HashSet<>(Alarm.ALL_WEEKDAYS));
+                alarm.setTimes(new ArraySet<>(Collections.singletonList(v)));
+                alarms.add(alarm);
+            }
+
+            for (Vakit v : Vakit.values()) {
+                Alarm alarm = new Alarm();
+                alarm.setCity((Times) this);
+                alarm.setEnabled(false);
+                alarm.setMins(-15);
+                alarm.setRemoveNotification(false);
+                alarm.setVibrate(false);
+                alarm.setWeekdays(new HashSet<>(Alarm.ALL_WEEKDAYS));
+                alarm.setTimes(new ArraySet<>(Collections.singletonList(v)));
+                alarms.add(alarm);
+            }
+
+            Alarm alarm = new Alarm();
+            alarm.setCity((Times) this);
+            alarm.setEnabled(false);
+            alarm.setMins(-45);
+            alarm.setRemoveNotification(false);
+            alarm.setVibrate(false);
+            alarm.setWeekdays(Collections.singleton(Calendar.FRIDAY));
+            alarm.setTimes(new ArraySet<>(Collections.singletonList(Vakit.DHUHR)));
+            alarms.add(alarm);
+            save();
+        }
     }
 
 

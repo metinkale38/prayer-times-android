@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources translatable="false">
     <string-array name="languages">
-        <item>sq|30</item>
-        <item>ar|96</item>
+        <item>sq|29</item>
+        <item>ar|95</item>
         <item>az|4</item>
         <item>bn|5</item>
         <item>bs|88</item>
         <item>zh-CN|3</item>
-        <item>nl|74</item>
-        <item>en|100</item>
+        <item>nl|73</item>
+        <item>en|99</item>
         <item>fr|95</item>
-        <item>de|100</item>
+        <item>de|99</item>
         <item>id|94</item>
         <item>kur|40</item>
-        <item>ru|82</item>
-        <item>tr|100</item>
+        <item>ru|81</item>
+        <item>tr|99</item>
         <item>uk|60</item>
         <item>ur-PK|18</item>
     </string-array>

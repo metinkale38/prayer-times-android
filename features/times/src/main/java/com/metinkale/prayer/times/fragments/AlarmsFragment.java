@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
@@ -77,7 +78,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity()).inflate(R.menu.alarms, menu);
+        // MaterialMenuInflater.with(getActivity()).inflate(R.menu.alarms, menu);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         super.onPause();
         mTimes.save();
         getActivity().setTitle(getString(R.string.appName));
+        Times.setAlarms();
     }
 
     @Override
@@ -154,7 +156,11 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                     if (!getChecked()) {
                         Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
                     } else {
-                        AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+                        try {
+                            AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+                        } catch (Exception e) {
+                            Crashlytics.logException(e);
+                        }
                     }
                 }
 
@@ -172,5 +178,26 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                 }
             });
         }
+        mAdapter.add("");
+
+        mAdapter.add(new AlarmsAdapter.Button() {
+            @Override
+            public String getName() {
+                return getString(R.string.addAlarm);
+            }
+
+            @Override
+            public void onClick() {
+                Alarm alarm = new Alarm();
+                alarm.setCity(mTimes);
+                mTimes.getUserAlarms().add(alarm);
+                AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+            }
+
+            @Override
+            public boolean onLongClick() {
+                return false;
+            }
+        });
     }
 }

@@ -221,7 +221,7 @@ public class AlarmService extends IntentService {
                 Intent service = new Intent(context, AlarmService.class);
                 service.putExtra(EXTRA_ALARMID, alarmId);
                 service.putExtra(EXTRA_TIME, time);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !Alarm.fromId(alarmId).getSounds().isEmpty()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(service);
                 } else {
                     context.startService(service);

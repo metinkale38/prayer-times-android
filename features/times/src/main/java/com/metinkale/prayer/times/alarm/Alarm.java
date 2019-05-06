@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
@@ -87,6 +88,7 @@ public class Alarm implements Comparable<Alarm> {
 
         Times city = getCity();
 
+        if (city == null) return null;
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
 
@@ -98,7 +100,7 @@ public class Alarm implements Comparable<Alarm> {
             for (Vakit vakit : Vakit.values()) {
                 if (!times.contains(vakit))
                     continue;
-                LocalDateTime time = city.getTime(date, vakit.ordinal());
+                LocalDateTime time = city.getTime(date, vakit.ordinal()).plusMinutes(mins);
                 if (time.isAfter(now))
                     return time;
             }
@@ -162,7 +164,8 @@ public class Alarm implements Comparable<Alarm> {
             for (int i : getWeekdays()) {
                 daysBuilder.append("/").append(namesOfDays[i]);
             }
-            days = daysBuilder.toString().substring(1);
+            days = daysBuilder.toString();
+            if (days.length() > 0) days = days.substring(1);
         }
 
 

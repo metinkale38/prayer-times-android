@@ -48,24 +48,24 @@ import androidx.collection.ArrayMap;
 import androidx.collection.ArraySet;
 
 public abstract class WebTimes extends Times {
-    
+
     @NonNull
     protected ArrayMap<String, String> times = new ArrayMap<>();
     private String id;
     private int jobId = -1;
     private long lastSync;
-    
+
     protected WebTimes(long id) {
         super(id);
         App.get().getHandler().post(this::scheduleJob);
     }
-    
+
     protected WebTimes() {
         super();
         App.get().getHandler().post(this::scheduleJob);
     }
-    
-    
+
+
     @NonNull
     public static Times add(@NonNull Source source, String city, String id, double lat, double lng) {
         if (source == Source.Calc)
@@ -76,7 +76,7 @@ public abstract class WebTimes extends Times {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
         t.setSource(source);
         t.setName(city);
         t.setLat(lat);
@@ -84,26 +84,26 @@ public abstract class WebTimes extends Times {
         t.setId(id);
         t.setSortId(99);
         t.scheduleJob();
-        
+
         Answers.getInstance().logCustom(new CustomEvent("AddCity").putCustomAttribute("Source", source.name()).putCustomAttribute("City", city));
         return t;
     }
-    
-    
+
+
     @Override
     public void delete() {
         super.delete();
         if (jobId != -1)
             JobManager.instance().cancel(jobId);
     }
-    
-    
+
+
     String extractLine(String str) {
         str = str.substring(str.indexOf(">") + 1);
         str = str.substring(0, str.indexOf("</"));
         return str;
     }
-    
+
     @Nullable
     protected String getStrTime(LocalDate date, Vakit time) {
         String str = times.get(date.toString("yyyy-MM-dd") + "-" + time.ordinal());
@@ -112,58 +112,58 @@ public abstract class WebTimes extends Times {
         }
         return str.replace("*", "");
     }
-    
+
     @Nullable
     @Override
     protected String getSabah(LocalDate date) {
         return times.get(date.toString("yyyy-MM-dd") + "-SABAH");
     }
-    
+
     @Nullable
     @Override
     protected String getAsrThani(LocalDate date) {
         return times.get(date.toString("yyyy-MM-dd") + "-ASRSANI");
     }
-    
+
     protected void setTime(@NonNull LocalDate date, Vakit time, @NonNull String value) {
         if (isDeleted() || value.contains("00:00"))
             return;
         times.put(date.toString("yyyy-MM-dd") + "-" + time.ordinal(), value.replace("*", ""));
         save();
     }
-    
+
     protected void setSabah(@NonNull LocalDate date, @NonNull String value) {
         if (isDeleted() || value.contains("00:00"))
             return;
         times.put(date.toString("yyyy-MM-dd") + "-SABAH", value.replace("*", ""));
         save();
     }
-    
+
     protected void setAsrThani(@NonNull LocalDate date, @NonNull String value) {
         if (isDeleted() || value.contains("00:00"))
             return;
         times.put(date.toString("yyyy-MM-dd") + "-ASRTHANI", value.replace("*", ""));
         save();
     }
-    
+
     public String getId() {
         //TODO remove if after a few updates
-        if (id.charAt(1) == '_' && 'A' <= id.charAt(0) && 'Z' >= id.charAt(0))//backwart support
+        if (id.length() >= 2 && id.charAt(1) == '_' && 'A' <= id.charAt(0) && 'Z' >= id.charAt(0))//backwart support
         {
             id = id.substring(2);
             save();
         }
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
         save();
     }
-    
-    
+
+
     abstract boolean sync() throws ExecutionException, InterruptedException;
-    
+
     public void syncAsync() {
 
         if (!App.isOnline()) {
@@ -173,7 +173,7 @@ public abstract class WebTimes extends Times {
         }
         if (getId() == null)
             return;
-        
+
         new Thread("SyncWebTimes" + getId()) {
             @Override
             public void run() {
@@ -188,8 +188,8 @@ public abstract class WebTimes extends Times {
             }
         }.start();
     }
-    
-    
+
+
     private int getSyncedDays() {
         LocalDate date = LocalDate.now().plusDays(1);
         int i = 0;
@@ -205,9 +205,9 @@ public abstract class WebTimes extends Times {
             date = date.plusDays(1);
         }
         return i;
-        
+
     }
-    
+
     @NonNull
     public LocalDate getFirstSyncedDay() {
         LocalDate date = LocalDate.now();
@@ -224,7 +224,7 @@ public abstract class WebTimes extends Times {
             date = date.minusDays(1);
         }
     }
-    
+
     @NonNull
     public LocalDate getLastSyncedDay() {
         LocalDate date = LocalDate.now();
@@ -241,11 +241,11 @@ public abstract class WebTimes extends Times {
             date = date.plusDays(1);
         }
     }
-    
-    
+
+
     private void scheduleJob() {
         int syncedDays = getSyncedDays();
-        
+
         JobManager.create(App.get());
         if (syncedDays == 0 && System.currentTimeMillis() - lastSync < 1000 * 60 * 60) {
             lastSync = System.currentTimeMillis();
@@ -256,7 +256,7 @@ public abstract class WebTimes extends Times {
                         .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                         .setBackoffCriteria(TimeUnit.MINUTES.toMillis(3), JobRequest.BackoffPolicy.EXPONENTIAL).setUpdateCurrent(true).build()
                         .schedule();
-            
+
         } else if (syncedDays < 3)
             jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.HOURS.toMillis(3))
                     .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED).setUpdateCurrent(true)
@@ -269,13 +269,13 @@ public abstract class WebTimes extends Times {
             jobId = new JobRequest.Builder(SyncJob.TAG + getID()).setExecutionWindow(1, TimeUnit.DAYS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .setBackoffCriteria(TimeUnit.DAYS.toMillis(3), JobRequest.BackoffPolicy.LINEAR).setUpdateCurrent(true).build().schedule();
-        
+
     }
-    
-    
+
+
     public class SyncJob extends Job {
         public static final String TAG = "WebTimesSyncJob";
-        
+
         @NonNull
         @Override
         protected Result onRunJob(@NonNull Params params) {
@@ -284,16 +284,16 @@ public abstract class WebTimes extends Times {
             syncAsync();
             return Result.SUCCESS;
         }
-        
-        
+
+
         @Override
         protected void onReschedule(int newJobId) {
             jobId = newJobId;
         }
-        
-        
+
+
     }
-    
+
     private void cleanTimes() {
         Set<String> keys = new ArraySet<>();
         keys.addAll(times.keySet());
@@ -314,11 +314,11 @@ public abstract class WebTimes extends Times {
             }
         }
         times.removeAll(remove);
-        
+
     }
-    
+
     protected void clearTimes() {
         times.clear();
     }
-    
+
 }

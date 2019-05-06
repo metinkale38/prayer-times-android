@@ -67,7 +67,6 @@ public class AlarmConfigFragment extends DialogFragment {
     private SeekBar mMinute;
     private TextView mMinuteText;
     private RecyclerView mSounds;
-    private boolean mMinuteExact = false;
     private Alarm mAlarm;
     private int mColorOn = App.get().getResources().getColor(R.color.colorPrimary);
     private int mColorOff = App.get().getResources().getColor(R.color.foregroundSecondary);
@@ -182,7 +181,7 @@ public class AlarmConfigFragment extends DialogFragment {
             public void run() {
                 mAlarm.setSilenter(mAlarm.getSilenter() + 1);
                 mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
-                mSilenterValue.postDelayed(this, 500    );
+                mSilenterValue.postDelayed(this, 500);
             }
         };
 
@@ -248,9 +247,6 @@ public class AlarmConfigFragment extends DialogFragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 progress -= seekBar.getMax() / 2;
-                if (!mMinuteExact) {
-                    progress *= 5;
-                }
                 mAlarm.setMins(progress);
 
                 if (progress == 0) {
@@ -273,10 +269,6 @@ public class AlarmConfigFragment extends DialogFragment {
             }
         });
         int progress = mAlarm.getMins();
-        mMinuteExact = Math.abs(mAlarm.getMins()) % 5 != 0;
-        if (!mMinuteExact) {
-            progress /= 5;
-        }
 
         if (Math.abs(progress) > mMinute.getMax() / 2) {
             mMinute.setMax(Math.abs(progress) * 2);

@@ -350,7 +350,7 @@ public class HijriDate {
             return RAMADAN_BEGIN;
         } else if (hijri.day == 26 && hijri.month == RAMADAN) {
             return LAYLATALQADR;
-        } else if (fromGreg(getLocalDate().plusDays(1)).getHolyday() == EID_AL_FITR_DAY1) {
+        } else if ((tmp = fromGreg(getLocalDate().plusDays(1))).getMonth() == SHAWWAL && tmp.getDay() == 1) {
             return LAST_RAMADAN;
         } else if (hijri.day == 1 && hijri.month == SHAWWAL) {
             return EID_AL_FITR_DAY1;

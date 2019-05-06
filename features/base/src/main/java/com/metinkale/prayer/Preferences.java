@@ -73,7 +73,7 @@ public class Preferences {
     };
     public static Preference<String> VAKIT_INDICATOR_TYPE = new StringPreference("vakit_indicator", "current");
     public static Preference<Boolean> SHOW_COMPASS_NOTE = new BooleanPreference("showCompassNote", true);
-    public static Preference<Boolean> SHOW_ONGOING_ICON = new BooleanPreference("ongoingIcon", true);
+    public static Preference<Boolean> SHOW_ONGOING_ICON = new BooleanPreference("ongoingIcon", false);
     public static Preference<Boolean> SHOW_ONGOING_NUMBER = new BooleanPreference("ongoingNumber", true);
     public static Preference<Boolean> SHOW_NOTIFICATIONSCREEN = new BooleanPreference("notificationScreen", true);
     public static Preference<Boolean> SHOW_ALT_WIDGET_HIGHLIGHT = new BooleanPreference("showAltWidgetHightlight", false);

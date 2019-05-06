@@ -269,7 +269,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        if (mTimes == null) return super.onOptionsItemSelected(item);
         int i1 = item.getItemId();
         if (i1 == R.id.notification) {
             Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("notPrefs");

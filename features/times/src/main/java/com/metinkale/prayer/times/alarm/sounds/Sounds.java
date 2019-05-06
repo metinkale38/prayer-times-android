@@ -135,7 +135,7 @@ public class Sounds {
             }
             json = text.toString();
         } catch (IOException e) {
-            Crashlytics.logException(e);
+            //Crashlytics.logException(e);
         } finally {
             Utils.close(br);
         }

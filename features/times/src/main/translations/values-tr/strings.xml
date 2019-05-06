@@ -84,5 +84,6 @@
   <string name="ongoingNotification">Kalici Notification</string>
   <string name="prayerNotification">Vakit bildirisi</string>
   <string name="sound">Ses</string>
-  <string name="vibration">Titreşim Modu\'na al</string>
+  <string name="vibration">Titreşim</string>
+  <string name="silenter">Sessize alma süresi:</string>
 </resources>

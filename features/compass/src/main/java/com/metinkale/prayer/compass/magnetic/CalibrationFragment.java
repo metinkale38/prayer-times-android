@@ -39,34 +39,40 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
     private int mAccelerometerAccuracy;
     private int mMagneticAccuracy;
     private TextView mAccuracy;
-    
-    
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calibration_dialog, container, false);
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        
+
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
         mAccuracy = view.findViewById(R.id.accuracy_text);
         mAccuracy.setText(
                 Html.fromHtml(String.format("%s: <font color='red'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_low))));
+        view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit();
+            }
+        });
         return view;
     }
-    
-    
+
+
     @Override
     public void onDestroyView() {
         mSensorManager.unregisterListener(this);
         super.onDestroyView();
     }
-    
+
     @Override
     public void onSensorChanged(SensorEvent event) {
-    
+
     }
-    
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         if (accuracy == 0)
@@ -92,9 +98,9 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
                 mMagneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
             mAccuracy.setText(Html.fromHtml(
                     String.format("%s: <font color='#00ff00'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_high))));
-            
+
             mAccuracy.postDelayed(() -> getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit(), 3000);
-            
+
         }
     }
 }

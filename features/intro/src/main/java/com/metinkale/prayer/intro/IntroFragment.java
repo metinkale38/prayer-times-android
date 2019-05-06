@@ -45,7 +45,7 @@ public abstract class IntroFragment extends Fragment {
     }
     
     protected final int getBackgroundColor() {
-        return ((MainActivity) getActivity()).getBackgroundColor(this);
+        return ((MainActivity) getActivity()).getBackgroundColor(getClass());
     }
     
     protected abstract void onSelect();

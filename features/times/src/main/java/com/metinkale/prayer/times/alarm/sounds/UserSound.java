@@ -16,9 +16,12 @@
 
 package com.metinkale.prayer.times.alarm.sounds;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 
 import com.crashlytics.android.Crashlytics;
@@ -33,6 +36,14 @@ public class UserSound extends Sound {
     private final Uri uri;
 
     public static UserSound create(Uri uri) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(App.get(), uri)) {
+                App.get().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
+
         UserSound sound = (UserSound) Sounds.getSound(uri.hashCode());
         if (sound == null) {
             sound = new UserSound(uri);
@@ -47,7 +58,7 @@ public class UserSound extends Sound {
     @Override
     public String getName() {
         String result = null;
-        if (uri.getScheme().equals("content")) {
+        if ("content".equals(uri.getScheme())) {
             Cursor cursor = App.get().getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
@@ -59,9 +70,13 @@ public class UserSound extends Sound {
         }
         if (result == null) {
             result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
+            int cut = 0;
+            if (result != null) {
+                cut = result.lastIndexOf('/');
+
+                if (cut != -1) {
+                    result = result.substring(cut + 1);
+                }
             }
         }
         return result;

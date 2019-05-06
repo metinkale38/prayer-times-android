@@ -16,6 +16,8 @@
 
 package com.metinkale.prayer.utils.livedata;
 
+import android.os.Looper;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,9 +31,16 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
 
     private final List<T> list;
 
+    private void onUpdate() {
+        if (Looper.myLooper() == Looper.getMainLooper())
+            setValue(this);
+        else
+            postValue(this  );
+    }
+
     public LiveDataAwareList(List<T> list) {
         this.list = list;
-        postValue(list);
+        onUpdate();
     }
 
     public LiveDataAwareList() {
@@ -76,7 +85,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.add(t);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -85,7 +95,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.remove(o);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -99,7 +110,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.addAll(c);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -108,7 +120,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.addAll(c);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -117,7 +130,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.removeAll(c);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -126,7 +140,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.retainAll(c);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -135,7 +150,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             list.clear();
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -149,7 +165,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.set(index, element);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -158,7 +175,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             list.add(index, element);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 
@@ -167,7 +185,8 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
         try {
             return list.remove(index);
         } finally {
-            postValue(list);
+            onUpdate();
+            ;
         }
     }
 

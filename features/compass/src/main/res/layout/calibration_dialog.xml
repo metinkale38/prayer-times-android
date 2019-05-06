@@ -27,6 +27,18 @@
         android:background="#FEFEFE"
         android:padding="16dp">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:materialIcon="close"
+            app:materialIconColor="@color/foregroundSecondary"
+            app:materialIconSize="24dp" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
