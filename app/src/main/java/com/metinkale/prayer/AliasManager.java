@@ -22,6 +22,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.crashlytics.android.Crashlytics;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;

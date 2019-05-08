@@ -86,10 +86,6 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
                 save();
         }
 
-        if (alarms.size() == 1 && !alarms.iterator().next().isEnabled()) {
-            alarms.clear();
-            this.createDefaultAlarms();
-        }
         return alarms;
     }
 
@@ -107,27 +103,6 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
                 alarms.add(alarm);
             }
 
-            for (Vakit v : Vakit.values()) {
-                Alarm alarm = new Alarm();
-                alarm.setCity((Times) this);
-                alarm.setEnabled(false);
-                alarm.setMins(-15);
-                alarm.setRemoveNotification(false);
-                alarm.setVibrate(false);
-                alarm.setWeekdays(new HashSet<>(Alarm.ALL_WEEKDAYS));
-                alarm.setTimes(new ArraySet<>(Collections.singletonList(v)));
-                alarms.add(alarm);
-            }
-
-            Alarm alarm = new Alarm();
-            alarm.setCity((Times) this);
-            alarm.setEnabled(false);
-            alarm.setMins(-45);
-            alarm.setRemoveNotification(false);
-            alarm.setVibrate(false);
-            alarm.setWeekdays(Collections.singleton(Calendar.FRIDAY));
-            alarm.setTimes(new ArraySet<>(Collections.singletonList(Vakit.DHUHR)));
-            alarms.add(alarm);
             save();
         }
     }

@@ -37,10 +37,7 @@ public class MyPlayer {
 
     //internal variabke
     private MediaPlayer mediaPlayer;
-
-    //no lombok annotation due to special handling of volume
     private int volume = -1;
-    //no lombok annotation due to existence of from(Sound sound)
     private List<Sound> sound;
 
     private SeekBar seekbar;

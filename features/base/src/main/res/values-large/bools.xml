@@ -15,20 +15,5 @@
   -->
 
 <resources>
-
-<!---
-    <color name="colorPrimary">#03a9f4</color>
-    <color name="colorPrimaryDark">#0288d1</color>
-    <color name="accent">#03a9f4</color>
-    <color name="colorPrimaryLight">#d3e5fc</color>
-
-    <color name="foreground">#ffffff</color>
-    <color name="foregroundSecondary">#eeeeee</color>
-    <color name="divider">#bdbdbd</color>
-    <color name="backgroundSecondary">#757575</color>
-    <color name="background">#212121</color>
-
-    <color name="alert">#f44336</color>
-    <color name="transparent">#00000000</color>
--->
+    <bool name="large_layout">true</bool>
 </resources>

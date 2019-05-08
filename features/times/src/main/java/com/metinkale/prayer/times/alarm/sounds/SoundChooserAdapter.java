@@ -32,6 +32,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
@@ -56,6 +57,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapter.ItemVH> {
     private final RecyclerView mRecyclerView;
     private final LinearLayoutManager mLayoutManager;
+    private final Alarm mAlarm;
+    private final boolean mSortSounds;
     private List<Sound> mSounds = new ArrayList<>();
     private List<Sound> mRootSounds;
     private BundledSound mExpanded;
@@ -73,8 +76,10 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
         return mSounds.get(i);
     }
 
-    public SoundChooserAdapter(RecyclerView recyclerView, List<Sound> rootSounds) {
+    public SoundChooserAdapter(RecyclerView recyclerView, List<Sound> rootSounds, Alarm alarm, boolean sortSounds) {
         super();
+        mSortSounds = sortSounds;
+        mAlarm = alarm;
         mRecyclerView = recyclerView;
         mLayoutManager = new LinearLayoutManager(mRecyclerView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -87,11 +92,12 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     public void update() {
 
         mSounds.clear();
-        Collections.sort(mRootSounds, (o1, o2) -> {
-            String name1 = o1.getName();
-            String name2 = o2.getName();
-            return name1.compareTo(name2);
-        });
+        if (mSortSounds)
+            Collections.sort(mRootSounds, (o1, o2) -> {
+                String name1 = o1.getName();
+                String name2 = o2.getName();
+                return name1.compareTo(name2);
+            });
 
         mSounds.addAll(mRootSounds);
         for (ListIterator<Sound> iter = mSounds.listIterator(); iter.hasNext(); ) {
@@ -135,6 +141,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
             vh.getExpand().setVisibility(View.GONE);
         }
 
+        vh.getText().setText(sound.getName());
         if (mRootSounds.contains(sound)) {
             vh.getView().setPadding(0, 0, 0, 0);
         } else {
@@ -145,8 +152,6 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
         checkVisibility(sound, vh);
         checkCheckbox(sound, vh);
         checkAction(sound, vh);
-
-        vh.getText().setText(mRootSounds.contains(sound) ? sound.getName() : sound.getShortName());
 
 
         vh.getAction().setOnClickListener(v -> {
@@ -293,7 +298,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                             lastItem = item;
                         } else {
                             if (dlg.isShowing())
-                                 dlg.dismiss();
+                                dlg.dismiss();
                             checkAllActionButtons();
                         }
                     }
@@ -316,7 +321,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
 
             try {
-                mPlayer = MyPlayer.from(item).seekbar(vh.getSeekbar()).volume(volume).play().onComplete(vh::resetAudio);
+                mPlayer = MyPlayer.from(item).alarm(mAlarm).seekbar(vh.getSeekbar()).volume(volume).play().onComplete(vh::resetAudio);
                 vh.setPlayer(mPlayer);
             } catch (Exception e) {
                 e.printStackTrace();

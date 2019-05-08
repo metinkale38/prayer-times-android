@@ -23,7 +23,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.utils.ForegroundService;
+import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import androidx.annotation.NonNull;

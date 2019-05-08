@@ -108,7 +108,7 @@
     <!-- Prayer Times -->
     <string name="morningPrayer">Sabah</string>
     <string name="imsak">İmsak</string>
-    <string name="fajr">Fecr</string>
+    <string name="fajr">Sabah</string>
     <string name="zuhr">Öğle</string>
     <string name="asr">İkindi</string>
     <string name="maghrib">Akşam</string>

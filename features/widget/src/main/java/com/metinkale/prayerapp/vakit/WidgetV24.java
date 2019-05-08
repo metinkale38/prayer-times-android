@@ -39,7 +39,7 @@ import android.text.style.SuperscriptSpan;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.SilenterPrompt;
 import com.metinkale.prayer.times.fragments.TimesFragment;

@@ -210,12 +210,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
         
         onChanged(mViewModel.getDhikrs().getValue());
     }
-    
-    @Override
-    public boolean onlyPortrait() {
-        return true;
-    }
-    
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         mDhikrs = mViewModel.getDhikrs().getValue();

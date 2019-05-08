@@ -29,11 +29,13 @@ import android.os.PowerManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.MyAlarmManager;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
 import com.metinkale.prayer.times.fragments.NotificationPopup;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.service.ForegroundService;
 
 import org.joda.time.LocalDateTime;
 
@@ -93,6 +95,9 @@ public class AlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(getClass().hashCode(), ForegroundService.createNotification(this));
+        }
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "prayer-times:AlarmService");
         wakeLock.acquire();
@@ -105,6 +110,9 @@ public class AlarmService extends IntentService {
         Times.setAlarms();
 
         wakeLock.release();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
 
     }
 
@@ -119,84 +127,73 @@ public class AlarmService extends IntentService {
 
 
         int alarmId = intent.getIntExtra(EXTRA_ALARMID, 0);
-
-
         long time = intent.getLongExtra(EXTRA_TIME, 0);
 
 
         Alarm alarm = Alarm.fromId(alarmId);
-
         if (alarm == null || !alarm.isEnabled())
             return;
 
         intent.removeExtra(EXTRA_ALARMID);
-
         Times t = alarm.getCity();
         if (t == null)
             return;
 
         int notId = t.getIntID();
-
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-
         nm.cancel(NOTIFICATION_TAG, notId);
-
 
         alarm.vibrate(c);
-
-
         final MyPlayer player = MyPlayer.from(alarm);
-        if (player == null) {
+        if (player != null) {
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeground(getClass().hashCode(), AlarmUtils.buildPlayingNotification(c, alarm, time));
+            } else {
+                nm.notify(NOTIFICATION_TAG, notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
+            }
+
+            if (Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
+                NotificationPopup.start(c, alarm);
+                Thread.sleep(1000);
+            }
+
+
+            try {
+                player.play();
+
+                if (Preferences.STOP_ALARM_ON_FACEDOWN.get()) {
+                    StopByFacedownMgr.start(this, player);
+                }
+
+                sInterrupt.set(false);
+                while (!sInterrupt.get() && player.isPlaying()) {
+                    Thread.sleep(500);
+                }
+
+                if (player.isPlaying()) {
+                    player.stop();
+                }
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+            }
+
+            nm.cancel(NOTIFICATION_TAG, notId);
+
+
+            if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
+                NotificationPopup.instance.finish();
+            }
+        }
+        if (!alarm.isRemoveNotification() || player == null) {
             Notification not = AlarmUtils.buildAlarmNotification(c, alarm, time);
             nm.notify(NOTIFICATION_TAG, notId, not);
-            return;//no audio, nothing else to do here
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
-        } else {
-            nm.notify(NOTIFICATION_TAG, notId, AlarmUtils.buildPlayingNotification(c, alarm, time));
-        }
-
-        if (Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
-            NotificationPopup.start(c, alarm);
-            Thread.sleep(1000);
-        }
-
-
-        try {
-            player.play();
-
-            if (Preferences.STOP_ALARM_ON_FACEDOWN.get()) {
-                StopByFacedownMgr.start(this, player);
-            }
-
-            sInterrupt.set(false);
-            while (!sInterrupt.get() && player.isPlaying()) {
-                Thread.sleep(500);
-            }
-
-            if (player.isPlaying()) {
-                player.stop();
-            }
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-        }
-
-        nm.cancel(NOTIFICATION_TAG, notId);
-
-        if (!alarm.isRemoveNotification()) {
-            stopForeground(true);
-            Notification not = AlarmUtils.buildAlarmNotification(c, alarm, time);
-            nm.notify(NOTIFICATION_TAG, notId, not);
-        }
 
         if (alarm.getSilenter() != 0) {
             SilenterReceiver.silent(c, alarm.getSilenter());
-        }
-
-        if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
-            NotificationPopup.instance.finish();
         }
 
 

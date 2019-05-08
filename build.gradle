@@ -35,11 +35,11 @@ allprojects {
     }
 }
 
-task uploadCrowdin(type:Exec){
+task uploadCrowdin(type: Exec) {
     commandLine 'java', '-jar', 'crowdin-cli.jar', 'upload'
 }
 
-task downloadCrowdin(type:Exec){
+task downloadCrowdin(type: Exec) {
     commandLine 'java', '-jar', 'crowdin-cli.jar', 'download'
 }
 
@@ -54,6 +54,7 @@ task updateCrowdinInfo() {
     }
     def lang
     def progress
+    if (true) return;
     file("features/base/src/main/res/values/languages.xml").withWriter { out ->
         out.println "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
         out.println "<resources translatable=\"false\">"

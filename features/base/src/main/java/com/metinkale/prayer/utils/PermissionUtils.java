@@ -18,7 +18,9 @@ package com.metinkale.prayer.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -42,6 +44,7 @@ public class PermissionUtils {
     public boolean pCalendar;
     public boolean pStorage;
     public boolean pLocation;
+    public boolean pNotPolicy;
 
     private PermissionUtils(@NonNull Context c) {
         checkPermissions(c);
@@ -56,15 +59,43 @@ public class PermissionUtils {
 
     private void checkPermissions(@NonNull Context c) {
         pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
-        pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            pNotPolicy = nm.isNotificationPolicyAccessGranted();
+            Crashlytics.setBool("pNotPolicy", pLocation);
+        } else
+            pNotPolicy = true;
 
         Crashlytics.setBool("pCalendar", pCalendar);
         Crashlytics.setBool("pStorage", pStorage);
         Crashlytics.setBool("pLocation", pLocation);
+        Crashlytics.setBool("pNotPolicy", pNotPolicy);
 
     }
 
+    public void needNotificationPolicy(@NonNull final Activity act) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+            return;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+        NotificationManager nm = (NotificationManager) act.getSystemService(Context.NOTIFICATION_SERVICE);
+        pNotPolicy = nm.isNotificationPolicyAccessGranted();
+        if (!pNotPolicy) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+            PackageManager packageManager = act.getPackageManager();
+            if (intent.resolveActivity(packageManager) != null) {
+                act.startActivity(intent);
+            } else {
+                ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 0);
+            }
+        }
+
+    }
 
     public void needLocation(@NonNull final Activity act) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
@@ -79,7 +110,6 @@ public class PermissionUtils {
 
 
             builder.show();
-
         }
     }
 
@@ -111,7 +141,7 @@ public class PermissionUtils {
             AlertDialog.Builder builder = new AlertDialog.Builder(act);
 
             builder.setTitle(R.string.permissionStorageTitle).setMessage(R.string.permissionStorageText)
-                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
+                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0));
 
 
             builder.show();

@@ -204,11 +204,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         if (frag != mDefaultFragment)
             transaction.addToBackStack(null);
         transaction.commit();
-        if (frag instanceof MainFragment)
-            setRequestedOrientation(
-                    ((MainFragment) frag).onlyPortrait() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        else
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
 
@@ -319,9 +314,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
             setHasOptionsMenu(true);
         }
 
-        public boolean onlyPortrait() {
-            return false;
-        }
 
 
         public boolean onBackPressed() {

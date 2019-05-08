@@ -25,7 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;

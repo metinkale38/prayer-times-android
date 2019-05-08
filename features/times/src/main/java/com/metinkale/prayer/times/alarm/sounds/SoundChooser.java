@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.alarm.sounds;
 
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -28,29 +27,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.crashlytics.android.Crashlytics;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.florent37.inlineactivityresult.InlineActivityResult;
 import com.github.florent37.inlineactivityresult.Result;
 import com.github.florent37.inlineactivityresult.callbacks.ActivityResultListener;
-import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.fragments.AlarmConfigFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.utils.FileChooser;
+import com.metinkale.prayer.utils.PermissionUtils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 public class SoundChooser extends DialogFragment {
 
     private SoundChooserAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private FragmentActivity mActivity;
+    private Alarm mAlarm;
 
 
     public static SoundChooser create(Alarm alarm) {
@@ -62,20 +64,21 @@ public class SoundChooser extends DialogFragment {
         return frag;
     }
 
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle bdl = getArguments();
-        final Alarm alarm = Times.getTimes(bdl.getLong("city")).getAlarm(bdl.getInt("id"));
+        mAlarm = Times.getTimes(bdl.getLong("city")).getAlarm(bdl.getInt("id"));
 
 
         AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.soundPicker)
+                .setTitle(R.string.addAudio)
                 .setPositiveButton(R.string.ok,
                         (dialog, whichButton) -> {
                             Sound selected = mAdapter.getSelected();
                             if (selected != null) {
-                                alarm.getSounds().add(selected);
+                                mAlarm.getSounds().add(selected);
                             }
                             ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
                             dialog.dismiss();
@@ -90,26 +93,41 @@ public class SoundChooser extends DialogFragment {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
                                             if (which == 0) {
-                                                FileChooser chooser = new FileChooser(getActivity());
+                                                if (!PermissionUtils.get(mActivity).pStorage) {
+                                                    PermissionUtils.get(mActivity).needStorage(mActivity);
+                                                    return;
+                                                }
+                                                FileChooser chooser = new FileChooser(mActivity);
                                                 chooser.showDialog();
-                                                chooser.setFileListener(new FileChooser.FileSelectedListener() {
-                                                    @Override
-                                                    public void fileSelected(File file) {
-                                                        Sound selected = UserSound.create(Uri.fromFile(file));
-                                                        if (selected != null) {
-                                                            alarm.getSounds().add(selected);
-                                                        }
-                                                        ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
-                                                        dialog.dismiss();
+                                                chooser.setFileListener(file -> {
+                                                    Sound selected = Sounds.getSound(Uri.fromFile(file).toString());
+                                                    if (selected != null) {
+                                                        mAlarm.getSounds().add(selected);
                                                     }
+                                                    ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                                    dialog.dismiss();
                                                 });
                                             } else {
                                                 Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
                                                 i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
                                                 i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
                                                 i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                                Intent chooserIntent = Intent.createChooser(i, getActivity().getString(R.string.sound));
-                                                startActivityForResult(chooserIntent, 0);
+                                                InlineActivityResult.startForResult(mActivity, i, new ActivityResultListener() {
+                                                    @Override
+                                                    public void onSuccess(Result result) {
+                                                        Sound selected = Sounds.getSound(((Uri) result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)).toString());
+                                                        if (selected != null) {
+                                                            mAlarm.getSounds().add(selected);
+                                                        }
+                                                        ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                                        dialog.dismiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailed(Result result) {
+
+                                                    }
+                                                });
                                             }
                                         }
                                     });
@@ -134,7 +152,20 @@ public class SoundChooser extends DialogFragment {
     }
 
     private void init() {
-        mAdapter = new SoundChooserAdapter(mRecyclerView, Sounds.getRootSounds());
+        List<Sound> sounds = Sounds.getRootSounds();
+        for (Iterator<Sound> iterator = sounds.iterator(); iterator.hasNext(); ) {
+            Sound sound = iterator.next();
+            if (sound instanceof UserSound) {
+                try {
+                    sound.getName();
+                } catch (SecurityException e) {
+                    if (!PermissionUtils.get(getActivity()).pStorage)
+                        PermissionUtils.get(getActivity()).needStorage(getActivity());
+                    return;
+                }
+            }
+        }
+        mAdapter = new SoundChooserAdapter(mRecyclerView, sounds, mAlarm, true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -151,4 +182,9 @@ public class SoundChooser extends DialogFragment {
                 .setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActivity = getActivity();
+    }
 }

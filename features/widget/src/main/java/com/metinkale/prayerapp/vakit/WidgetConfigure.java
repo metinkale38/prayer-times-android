@@ -20,7 +20,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.metinkale.prayer.times.TimeTickReceiver;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.widgets.R;
 
@@ -87,7 +87,7 @@ public class WidgetConfigure extends AppCompatActivity {
     }
 
     void result() {
-        TimeTickReceiver.start(this);
+        InternalBroadcastReceiver.sender(this).sendTimeTick();
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

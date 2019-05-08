@@ -33,6 +33,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.util.List;
 
@@ -49,14 +50,13 @@ import androidx.fragment.app.FragmentManager;
 public class ConfigIntroFragment extends IntroFragment {
 
     private View mView;
-    private Toolbar mToolbar;
     private int mTask;
     private Fragment mPrefsFrag;
     private Runnable mDoTask = new Runnable() {
         @Override
         public void run() {
             mView.postDelayed(mDoTask, 2000);
-            if (mFragment == null || mFragment.getTopSlider() == null || isDetached()) {
+            if (mFragment == null || mFragment.getTopSlider() == null || isDetached() || !isAdded()) {
                 return;
             }
 
@@ -98,7 +98,6 @@ public class ConfigIntroFragment extends IntroFragment {
     };
     private TimesFragment mFragment;
     private MenuItem mMenuItem;
-    private Times mTimes;
 
     @Nullable
     @Override
@@ -106,9 +105,9 @@ public class ConfigIntroFragment extends IntroFragment {
         mView = inflater.inflate(R.layout.intro_config, container, false);
 
 
-        mToolbar = mView.findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.appName);
-        mToolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
+        Toolbar toolbar = mView.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.appName);
+        toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
                 .setColorResource(R.color.background)
                 .setToActionbarSize()
@@ -117,8 +116,8 @@ public class ConfigIntroFragment extends IntroFragment {
         try {
             MaterialMenuInflater.with(getActivity(), getActivity().getMenuInflater())
                     .setDefaultColorResource(R.color.background)
-                    .inflate(R.menu.vakit, mToolbar.getMenu());
-            mMenuItem = mToolbar.getMenu().getItem(0);
+                    .inflate(R.menu.vakit, toolbar.getMenu());
+            mMenuItem = toolbar.getMenu().getItem(0);
             mMenuItem.setIcon(mMenuItem.getIcon());
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,20 +132,20 @@ public class ConfigIntroFragment extends IntroFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTimes = null;
-        List<Times> times = Times.getTimes();
-        for (Times time : times) {
-            if (mTimes == null) mTimes = time;
-            if (!time.getTime(LocalDate.now().withDayOfMonth(1), Vakit.DHUHR.ordinal()).equals("00:00")) {
-                mTimes = time;
+        Times city = null;
+        List<Times> cities = Times.getTimes();
+        for (Times time : cities) {
+            if (city == null) city = time;
+            if (!time.getTime(LocalDate.now().withDayOfMonth(1), Vakit.DHUHR.ordinal()).toLocalTime().equals(LocalTime.MIDNIGHT)) {
+                city = time;
                 break;
             }
         }
         Bundle bdl = new Bundle();
-        bdl.putInt("startCity", times.indexOf(mTimes));
+        bdl.putInt("startCity", cities.indexOf(city));
         mFragment = new TimesFragment();
         mFragment.setArguments(bdl);
-        mPrefsFrag = AlarmsFragment.create(mTimes);
+        mPrefsFrag = AlarmsFragment.create(city);
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, mFragment).commit();
     }
 

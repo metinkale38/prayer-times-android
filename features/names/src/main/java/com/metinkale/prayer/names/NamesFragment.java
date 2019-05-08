@@ -49,7 +49,6 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
 
     private RecyclerView mRecyclerView;
     private Item[] mValues;
-    private GridLayoutManager mLayoutManager;
     private int mCols;
 
     @SuppressLint("NewApi")
@@ -71,15 +70,15 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
         float w = Utils.convertPixelsToDp(getActivity(), dimension.widthPixels);
 
         mCols = (int) (w / 300);
-        mLayoutManager = new GridLayoutManager(getActivity(), mCols);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), mCols);
 
-        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 return position == 0 ? mCols : 1;
             }
         });
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         mValues = new Item[99];
 
         String[] ar = getResources().getStringArray(R.array.names_ar);

@@ -19,7 +19,6 @@ package com.metinkale.prayer.times.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -35,7 +34,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
@@ -45,9 +44,7 @@ import com.metinkale.prayer.times.times.sources.FaziletTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 import com.metinkale.prayer.times.utils.ExportController;
 import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.utils.Utils;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 

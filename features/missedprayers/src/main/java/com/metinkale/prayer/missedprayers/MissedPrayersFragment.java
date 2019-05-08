@@ -81,11 +81,6 @@ public class MissedPrayersFragment extends BaseActivity.MainFragment {
     }
 
     @Override
-    public boolean onlyPortrait() {
-        return true;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 

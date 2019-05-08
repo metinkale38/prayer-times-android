@@ -211,11 +211,6 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
     }
 
     @Override
-    public boolean onlyPortrait() {
-        return true;
-    }
-
-    @Override
     public void onLocationChanged(@NonNull Location location) {
         if (getActivity() != null && (System.currentTimeMillis() - location.getTime()) < (mOnlyNew ? (1000 * 60) : (1000 * 60 * 60 * 24))) {
             LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);

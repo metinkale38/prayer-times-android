@@ -73,8 +73,8 @@ public enum Vakit {
 
     public String getString() {
         int index = 0;
-        if (this == FAJR && !Preferences.USE_ARABIC.get() && Preferences.LANGUAGE.get().equals("tr")) {
-            index++;
+        if (this == FAJR && (Preferences.USE_ARABIC.get() || !Preferences.LANGUAGE.get().equals("tr"))) {
+            index = 0;
         }
         return getString(index);
     }

@@ -103,7 +103,8 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             mCalcTime = CalcTimes.buildTemporaryTimes(getArguments().getString("city"), lat, lng, elv, -1);
             mPrayTimes = mCalcTime.getPrayTimes();
 
-            mPrayTimes.setTimezone(TimeZone.getDefault());
+            mTz = TimeZone.getDefault();
+            mPrayTimes.setTimezone(mTz);
             Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asJsonObject()
                     .setCallback((e, result) -> {
                         if (e != null)
@@ -187,6 +188,11 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.SUN, 0, mPrayTimes.getSunriseMinuteAdjust()).show(getChildFragmentManager(), "");
         });
 
+        mView.findViewById(R.id.dhuhrEdit).setOnClickListener(v -> {
+            mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
+            CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.DHUHR, 0, mPrayTimes.getDhuhrMinuteAdjust()).show(getChildFragmentManager(), "");
+        });
+
         mView.findViewById(R.id.asrEdit).setOnClickListener(v -> {
             mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);
             CustomTimeAdjustDialogFragment.create(mCalcTime, Vakit.ASR, 0, mPrayTimes.getAsrShafiMinuteAdjust()).show(getChildFragmentManager(), "");
@@ -228,7 +234,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
         ((TextView) mView.findViewById(R.id.ishaa)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ISHAA.ordinal()).toLocalTime()));
 
         if (mCalcTime.getAsrType() == CalcTimes.AsrType.Both) {
-            ((TextView) mView.findViewById(R.id.asr)).setText(LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ASR.ordinal()).toLocalTime()) + " / " + LocaleUtils.formatTime(mCalcTime.getAsrThaniTime(today).toLocalTime()));
+            ((TextView) mView.findViewById(R.id.asr)).setText(String.format("%s / %s", LocaleUtils.formatTime(mCalcTime.getTime(today, Vakit.ASR.ordinal()).toLocalTime()), LocaleUtils.formatTime(mCalcTime.getAsrThaniTime(today).toLocalTime())));
         }
     }
 

@@ -13,12 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notprefs_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backgroundSecondary"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp"
-    tools:context="com.metinkale.prayer.times.fragments.AlarmsFragment" />
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundSecondary"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:context="com.metinkale.prayer.times.fragments.AlarmsFragment" />
+</FrameLayout>

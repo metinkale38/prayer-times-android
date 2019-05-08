@@ -22,7 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.metinkale.prayer.App;
+import com.metinkale.prayer.times.BuildConfig;
 import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.times.alarm.Alarm;
+import com.metinkale.prayer.times.alarm.AlarmService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,15 +148,13 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
 
         void setSwitchItem(final SwitchItem item) {
             mTitle.setText(item.getName());
+            mSwitch.setOnCheckedChangeListener(null);
             mSwitch.setChecked(item.getChecked());
             mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> item.onChange(isChecked));
-
-
             mTitle.setOnClickListener(v -> item.onClick());
-
             mTitle.setOnLongClickListener(v -> item.onLongClick());
             mSwitch.setVisibility(View.VISIBLE);
-            mTitle.setGravity(Gravity.LEFT | Gravity.CENTER);
+            mTitle.setGravity(Gravity.START | Gravity.CENTER);
 
         }
 

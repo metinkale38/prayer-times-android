@@ -28,7 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;

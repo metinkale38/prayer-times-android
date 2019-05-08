@@ -40,19 +40,21 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.InternalBroadcastReceiver;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.utils.NotificationUtils;
-import com.metinkale.prayer.utils.ForegroundService;
+import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener {
+public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener, InternalBroadcastReceiver.OnPrefsChangedListener {
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
     private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
     private static final String FOREGROUND_NEEDY_ONGOING = "ongoing";
@@ -144,6 +146,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             views.setTextColor(R.id.time, mColor1st);
             views.setTextColor(R.id.city, mColor1st);
+            views.setTextColor(R.id.countdown, mColor1st);
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -189,33 +192,19 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
 
     private Bitmap getIconFromMinutes(Times t) {
-        String left = LocaleUtils.formatPeriod(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime()), false);
-        String hour = left.substring(0, 2);
-        String minute = left.substring(3, 5);
-
-
+        int left = new Period(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime()), PeriodType.minutes()).getMinutes();
         Resources r = getContext().getResources();
-        float size = 24;
-        float twoLineTextSize = size * 1.2f;
-        float singleLineTextSize = size * 1.6f;
-        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, r.getDisplayMetrics());
-        Bitmap b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
+
+        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
+        Bitmap b = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        //paint.setTypeface(Typeface.MONOSPACE);
         paint.setColor(0xFFFFFFFF);
         paint.setTextAlign(Paint.Align.CENTER);
-        if (!hour.equals("00")) {
-            paint.setTextSize(twoLineTextSize);
-            int yPos = (int) ((c.getHeight() / 4) - ((paint.descent() + paint.ascent()) / 2));
-
-            c.drawText(hour, px / 2f, yPos, paint);
-            c.drawText(minute, px / 2f, yPos + c.getHeight() / 2f, paint);
-        } else {
-            paint.setTextSize(singleLineTextSize);
-            int yPos = (int) ((c.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-            c.drawText(minute, px / 2f, yPos, paint);
-        }
+        paint.setTextSize(size);
+        paint.setTextSize(size * size / paint.measureText((left < 10 ? left * 10 : left) + ""));
+        float yPos = c.getHeight() / 2f - (paint.descent() + paint.ascent()) / 2;
+        c.drawText(left + "", size / 2f, yPos, paint);
         return b;
     }
 
@@ -271,4 +260,10 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         }
     }
 
+    @Override
+    public void onPrefsChanged(@NonNull String key) {
+        if (key.equals(Preferences.SHOW_ONGOING_ICON.getKey()) || key.equals(Preferences.SHOW_ONGOING_NUMBER.getKey())) {
+            onTimeTick();
+        }
+    }
 }

@@ -18,6 +18,7 @@ package com.metinkale.prayer.times.alarm;
 
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -43,7 +44,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
@@ -61,10 +61,10 @@ public class Alarm implements Comparable<Alarm> {
 
     private int id;
 
-    private boolean enabled = true;
-    private Set<Integer> weekdays = new ArraySet<>(ALL_WEEKDAYS);
-    private List<Sound> sounds = new ArrayList<>();
-    private Set<Vakit> times = new ArraySet<>(ALL_TIMES);
+    private boolean enabled = false;
+    private ArraySet<Integer> weekdays = new ArraySet<>(ALL_WEEKDAYS);
+    private ArrayList<Sound> sounds = new ArrayList<>();
+    private ArraySet<Vakit> times = new ArraySet<>(ALL_TIMES);
     private int mins;
     private boolean vibrate;
     private boolean removeNotification;
@@ -94,7 +94,8 @@ public class Alarm implements Comparable<Alarm> {
 
         for (int i = 0; i <= 7; i++) {
             LocalDate date = today.plusDays(i);
-            if (!weekdays.contains(date.getDayOfWeek()))
+            int wd = (date.getDayOfWeek() + 5) % 7 + 1; // joda counts weekdays different
+            if (!weekdays.contains(wd))
                 continue;
 
             for (Vakit vakit : Vakit.values()) {
@@ -217,7 +218,8 @@ public class Alarm implements Comparable<Alarm> {
                 return VOLUME_MODE_MEDIA;
             case "noti":
             default:
-                return VOLUME_MODE_RINGTONE;
+                AudioManager am = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
+                return am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2;
 
         }
     }
@@ -254,7 +256,7 @@ public class Alarm implements Comparable<Alarm> {
     }
 
     public void setWeekdays(Set<Integer> weekdays) {
-        this.weekdays = weekdays;
+        this.weekdays = new ArraySet<>(weekdays);
     }
 
     public List<Sound> getSounds() {
@@ -262,7 +264,7 @@ public class Alarm implements Comparable<Alarm> {
     }
 
     public void setSounds(List<Sound> sounds) {
-        this.sounds = sounds;
+        this.sounds = new ArrayList<>(sounds);
     }
 
     public Set<Vakit> getTimes() {
@@ -270,7 +272,7 @@ public class Alarm implements Comparable<Alarm> {
     }
 
     public void setTimes(Set<Vakit> times) {
-        this.times = times;
+        this.times = new ArraySet<>(times);
     }
 
     public int getMins() {

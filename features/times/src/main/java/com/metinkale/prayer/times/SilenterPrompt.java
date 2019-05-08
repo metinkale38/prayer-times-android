@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.widget.NumberPicker;
 
 import com.metinkale.prayer.times.alarm.SilenterReceiver;
+import com.metinkale.prayer.utils.PermissionUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,7 +44,10 @@ public class SilenterPrompt extends AppCompatActivity {
 
         findViewById(R.id.ok).setOnClickListener(v -> {
             widgets.edit().putInt("silenterWidget", np.getValue()).apply();
-            SilenterReceiver.silent(v.getContext(), np.getValue());
+            if (PermissionUtils.get(this).pNotPolicy)
+                SilenterReceiver.silent(v.getContext(), np.getValue());
+            else
+                PermissionUtils.get(this).needNotificationPolicy(this);
             finish();
         });
 

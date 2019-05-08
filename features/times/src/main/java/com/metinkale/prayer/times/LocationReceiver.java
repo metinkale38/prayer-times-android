@@ -26,7 +26,7 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.InternalBroadcastReceiver;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Cities;
 import com.metinkale.prayer.times.times.Entry;
 import com.metinkale.prayer.times.times.Source;

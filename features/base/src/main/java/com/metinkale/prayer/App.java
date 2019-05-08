@@ -29,9 +29,12 @@ import android.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.base.BuildConfig;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
+import com.metinkale.prayer.receiver.TimeTickReceiver;
+import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.utils.TimeZoneChangedReceiver;
+import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
 
 import org.joda.time.DateTimeZone;
 
@@ -39,6 +42,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -129,9 +133,9 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
         InternalBroadcastReceiver.loadAll();
         InternalBroadcastReceiver.sender(this).sendOnStart();
+        TimeTickReceiver.start(this);
 
     }
-
 
 
     @Override

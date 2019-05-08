@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.HijriDate;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Module;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;

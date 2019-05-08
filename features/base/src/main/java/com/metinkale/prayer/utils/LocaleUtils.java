@@ -31,8 +31,8 @@ import android.text.style.SuperscriptSpan;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.HijriDate;
-import com.metinkale.prayer.CalendarIntegrationService;
+import com.metinkale.prayer.date.HijriDate;
+import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
@@ -413,7 +413,7 @@ public class LocaleUtils {
             lang = lang.substring(0, divider);
             if (lang.equals("kur"))
                 lang = "ku";
-            if (progress > 40) {
+            if (progress > 35) {
                 translations.add(new Translation(lang, progress));
             }
         }

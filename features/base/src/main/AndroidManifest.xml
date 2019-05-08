@@ -18,6 +18,7 @@
     package="com.metinkale.prayer.base">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -48,7 +49,7 @@
         tools:replace="android:label">
 
 
-        <service android:name="com.metinkale.prayer.CalendarIntegrationService" />
+        <service android:name="com.metinkale.prayer.service.CalendarIntegrationService" />
 
 
         <uses-library
@@ -82,12 +83,24 @@
         </provider>
 
         <receiver
-            android:name="com.metinkale.prayer.utils.TimeZoneChangedReceiver"
+            android:name="com.metinkale.prayer.receiver.TimeZoneChangedReceiver"
             android:enabled="true"
             android:exported="true" />
 
 
-        <service android:name="com.metinkale.prayer.utils.ForegroundService" />
+        <receiver android:name="com.metinkale.prayer.receiver.TimeTickReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.ACTION_USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+
+        <service android:name="com.metinkale.prayer.service.ForegroundService" />
     </application>
 
 </manifest>

@@ -30,9 +30,9 @@ import android.widget.RemoteViews;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.InternalBroadcastReceiver;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.utils.ForegroundService;
+import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.widgets.R;
 
 import androidx.annotation.NonNull;

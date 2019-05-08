@@ -16,11 +16,14 @@
 
 package com.metinkale.prayer.times.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,14 +38,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.times.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
+import com.metinkale.prayer.times.alarm.AlarmService;
 import com.metinkale.prayer.times.alarm.sounds.Sound;
 import com.metinkale.prayer.times.alarm.sounds.SoundChooser;
 import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.PermissionUtils;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
@@ -54,8 +61,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.joda.time.LocalDateTime;
 
 public class AlarmConfigFragment extends DialogFragment {
     private TextView[] mWeekdays = new TextView[7];
@@ -89,6 +102,20 @@ public class AlarmConfigFragment extends DialogFragment {
         return frag;
     }
 
+    public void show(Fragment frag) {
+        if (frag.getResources().getBoolean(R.bool.large_layout)) {
+            FragmentManager fragmentManager = frag.getChildFragmentManager();
+            this.show(fragmentManager, "alarmconfig");
+        } else {
+            ((BaseActivity) frag.getActivity()).moveToFrag(this);
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        if (getResources().getBoolean(R.bool.large_layout)) super.dismiss();
+        else getActivity().onBackPressed();
+    }
 
     @Nullable
     @Override
@@ -133,6 +160,7 @@ public class AlarmConfigFragment extends DialogFragment {
         mTimesText[3] = view.findViewById(R.id.asrText);
         mTimesText[4] = view.findViewById(R.id.magribText);
         mTimesText[5] = view.findViewById(R.id.ishaaText);
+        mTimesText[0].setText(Vakit.FAJR.getString());
 
         mMinute = view.findViewById(R.id.timeAdjust);
         mMinuteText = view.findViewById(R.id.timeText);
@@ -175,6 +203,7 @@ public class AlarmConfigFragment extends DialogFragment {
         initSilenter();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initSilenter() {
         final Runnable incr = new Runnable() {
             @Override
@@ -195,6 +224,7 @@ public class AlarmConfigFragment extends DialogFragment {
         };
 
         mSilenterUp.setOnTouchListener((v, event) -> {
+            if (!PermissionUtils.get(getActivity()).pNotPolicy) return false;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     v.post(incr);
@@ -207,6 +237,7 @@ public class AlarmConfigFragment extends DialogFragment {
         });
 
         mSilenterDown.setOnTouchListener((v, event) -> {
+            if (!PermissionUtils.get(getActivity()).pNotPolicy) return false;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     v.post(decr);
@@ -217,6 +248,10 @@ public class AlarmConfigFragment extends DialogFragment {
             }
             return true;
         });
+        View.OnClickListener listener = v -> PermissionUtils.get(getActivity()).needNotificationPolicy(getActivity());
+        mSilenterUp.setOnClickListener(listener);
+        mSilenterDown.setOnClickListener(listener);
+        mSilenterValue.setOnClickListener(listener);
 
         mSilenterValue.setText(LocaleUtils.formatNumber(mAlarm.getSilenter()));
         mSilenterValue.addTextChangedListener(new TextWatcher() {
@@ -242,11 +277,16 @@ public class AlarmConfigFragment extends DialogFragment {
 
     }
 
+    private boolean mMinuteExact = false;
+
     private void initMinuteAdj() {
         mMinute.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 progress -= seekBar.getMax() / 2;
+                if (!mMinuteExact) {
+                    progress *= 5;
+                }
                 mAlarm.setMins(progress);
 
                 if (progress == 0) {
@@ -269,9 +309,15 @@ public class AlarmConfigFragment extends DialogFragment {
             }
         });
         int progress = mAlarm.getMins();
+        mMinuteExact = Math.abs(mAlarm.getMins()) % 5 != 0;
+        if (!mMinuteExact) {
+            progress /= 5;
+        }
 
         if (Math.abs(progress) > mMinute.getMax() / 2) {
             mMinute.setMax(Math.abs(progress) * 2);
+        } else {
+            mMinute.setMax(180 / 5 * 2);
         }
 
         progress += mMinute.getMax() / 2;
@@ -298,6 +344,13 @@ public class AlarmConfigFragment extends DialogFragment {
                     dismiss();
                 }).show());
 
+        if (BuildConfig.DEBUG)
+            mDelete.setOnLongClickListener(v -> {
+                getActivity().getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                AlarmService.setAlarm(getActivity(), new Pair<>(mAlarm, LocalDateTime.now().plusSeconds(5)));
+                return true;
+            });
+
     }
 
     private void initTimes() {
@@ -307,7 +360,10 @@ public class AlarmConfigFragment extends DialogFragment {
 
             setTime(time, isTime(time));
 
-            mTimesViews[i].setOnClickListener(v -> setTime(time, !isTime(time)));
+            mTimesViews[i].setOnClickListener(v -> {
+                getActivity().getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                setTime(time, !isTime(time));
+            });
         }
     }
 
@@ -332,7 +388,10 @@ public class AlarmConfigFragment extends DialogFragment {
 
             setWeekday(i + 1, isWeekday(weekday));
 
-            mWeekdays[i].setOnClickListener(v -> setWeekday(weekday, !isWeekday(weekday)));
+            mWeekdays[i].setOnClickListener(v -> {
+                getActivity().getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                setWeekday(weekday, !isWeekday(weekday));
+            });
         }
     }
 
@@ -408,7 +467,7 @@ public class AlarmConfigFragment extends DialogFragment {
 
     private void initSounds() {
         final List<Sound> sounds = mAlarm.getSounds();
-        mAdapter = new SoundChooserAdapter(mSounds, sounds);
+        mAdapter = new SoundChooserAdapter(mSounds, sounds, mAlarm, false);
         mAdapter.setVolume(mAlarm.getVolume());
         mAdapter.setShowRadioButton(false);
         mSounds.setAdapter(mAdapter);
@@ -416,7 +475,7 @@ public class AlarmConfigFragment extends DialogFragment {
         mVolumeTitle.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
         mVolumeSpinner.setVisibility(mAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
 
-
+        mAutoDelete.setVisibility(sounds.isEmpty() ? View.GONE : View.VISIBLE);
         mAddSound.setOnClickListener(v -> SoundChooser.create(mAlarm).show(getChildFragmentManager(), "soundchooser"));
 
 

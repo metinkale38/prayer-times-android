@@ -26,12 +26,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.InternalBroadcastReceiver;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.times.Times;
-
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +56,8 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.vakit_notprefs, container, false);
+        View v = inflater.inflate(R.layout.vakit_notprefs, container, false);
+        mRecyclerView = v.findViewById(R.id.recycler);
 
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
 
@@ -72,7 +71,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         onChanged(mTimes);
 
         setHasOptionsMenu(true);
-        return mRecyclerView;
+        return v;
     }
 
     @Override
@@ -88,7 +87,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
             Alarm alarm = new Alarm();
             alarm.setCity(mTimes);
             mTimes.getUserAlarms().add(alarm);
-            AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+            AlarmConfigFragment.create(alarm).show(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -157,7 +156,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                         Toast.makeText(getActivity(), R.string.activateForMorePrefs, Toast.LENGTH_LONG).show();
                     } else {
                         try {
-                            AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+                            AlarmConfigFragment.create(alarm).show(AlarmsFragment.this);
                         } catch (Exception e) {
                             Crashlytics.logException(e);
                         }
@@ -191,7 +190,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                 Alarm alarm = new Alarm();
                 alarm.setCity(mTimes);
                 mTimes.getUserAlarms().add(alarm);
-                AlarmConfigFragment.create(alarm).show(getChildFragmentManager(), "alarmconfig");
+                AlarmConfigFragment.create(alarm).show(AlarmsFragment.this);
             }
 
             @Override
