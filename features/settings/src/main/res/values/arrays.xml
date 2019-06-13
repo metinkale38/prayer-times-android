@@ -16,6 +16,7 @@
 
 <resources translatable="false">
 
+
     <string-array name="vakit_indicator">
         <item>@string/vakit_indicator_current</item>
         <item>@string/vakit_indicator_next</item>
@@ -37,6 +38,8 @@
         <item>arabic</item>
         <item>farsi</item>
     </string-array>
+
+
 
 
     <string-array name="widget_countdown">
@@ -93,6 +96,7 @@
         <item>ku</item>
         <item>ru</item>
     </string-array>
+
     <string-array name="silenterType">
         <item>@string/useSilenter</item>
         <item>@string/useVibration</item>

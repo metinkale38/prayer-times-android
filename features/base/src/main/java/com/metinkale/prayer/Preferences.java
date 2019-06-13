@@ -36,6 +36,7 @@ public class Preferences {
             return !new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage()) && getPrefs().getBoolean("arabicNames", false);
         }
     };
+    public static Preference<String> SILENTER_MODE = new StringPreference("silenterType", "silent");
     public static Preference<String> LANGUAGE = new StringPreference("language", "system");
     public static Preference<Boolean> USE_ALARM = new BooleanPreference("useAlarm", false);
     public static Preference<String> DIGITS = new StringPreference("numbers", "normal");

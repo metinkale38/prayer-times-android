@@ -12,6 +12,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.fragments.TimesFragment;
@@ -49,7 +50,10 @@ public class SilenterReceiver extends BroadcastReceiver {
 
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
-        if (ringermode != AudioManager.RINGER_MODE_SILENT) {
+        boolean modeVibrate = "vibrate".equals(Preferences.SILENTER_MODE);
+        boolean isSilent = ringermode != AudioManager.RINGER_MODE_SILENT;
+        boolean isVibrate = ringermode == AudioManager.RINGER_MODE_VIBRATE;
+        if ((modeVibrate && !isVibrate && !isSilent) || (!modeVibrate && !isSilent)) {
             AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
             Intent i = new Intent(c, SilenterReceiver.class);
@@ -60,7 +64,7 @@ public class SilenterReceiver extends BroadcastReceiver {
             am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * mins), service);
 
 
-            aum.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            aum.setRingerMode(modeVibrate ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT);
         }
     }
 

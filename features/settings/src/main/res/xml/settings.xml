@@ -47,6 +47,7 @@
         <PreferenceScreen
             android:key="kerahatDuration"
             android:title="@string/kerahatDuration">
+
             <com.metinkale.prayer.settings.NumberPickerPreference
                 android:defaultValue="45"
                 android:key="kerahat_sunrise"
@@ -151,6 +152,15 @@
             android:dependency="ongoingIcon"
             android:key="ongoingNumber"
             android:title="@string/ongoingNumber" />
+
+
+        <ListPreference
+            android:defaultValue="silent"
+            android:dialogTitle="@string/silenterType"
+            android:entries="@array/silenterType"
+            android:entryValues="@array/silenterType_val"
+            android:key="silenterType"
+            android:title="@string/silenterType" />
 
 
         <SwitchPreference
