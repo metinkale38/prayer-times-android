@@ -106,4 +106,12 @@
     <string name="no_internet">Tidak ada koneksi Internet</string>
     <string name="error">Terjadi kesalahan</string>
     <!-- Prayer Times -->
+    <string name="morningPrayer">Doa pagi</string>
+    <string name="imsak">Imsak</string>
+    <string name="fajr">Fajar</string>
+    <string name="zuhr">Dzuhur</string>
+    <string name="asr">Asar</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Isya</string>
+    <string name="off">Matikan</string>
 </resources>

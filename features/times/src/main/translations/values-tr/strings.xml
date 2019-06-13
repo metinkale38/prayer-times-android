@@ -25,7 +25,8 @@
     <string name="cities">Şehirler</string>
     <string name="customVolume">Ses seviyesi seç</string>
     <string name="date">Tarih</string>
-    <string name="delConfirm">%1$s Şehrini gerçekten silmek istiyormusunuz?</string>
+    <string name="delCityConfirm">\"%1$s\" Şehirini gerçekten silmek istiyormusunuz?</string>
+    <string name="delAlarmConfirm">\"%1$s\" Bildirisini gerçekten silmek istiyormusunuz?</string>
     <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
     <string name="highlatsAdj">Yüksek enlemlerde ayarlama:</string>
     <string name="fixTimezone">Zaman dilimi +/-:</string>
@@ -89,4 +90,6 @@
     <string name="minutes">Dakika</string>
     <string name="both">İkisi de</string>
     <string name="addAlarm">Yeni Bildiri</string>
+    <string name="silenterNotificationTitle">Sessize alma</string>
+    <string name="silenterNotificationInfo">Namaz Vakti Uygulamasına Sessize alma izni vermek için buraya basınız</string>
 </resources>

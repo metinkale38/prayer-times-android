@@ -16,6 +16,8 @@
   ~ limitations under the License.
   -->
 <resources>
+    <string name="backup">Yêdek</string>
+    <string name="backupRestore">Yêdek/Restore</string>
     <string name="calendarIntegration">Rojên olî lê zêde bike salnameya</string>
     <string name="dateAndTime">Dîrok û Dem</string>
     <string name="dateFormat1">31 Berfanbar 2013</string>

@@ -22,10 +22,11 @@
     <string name="adjTime">إستناداً إلى الوقت ( ١\٧ الليل)</string>
     <string name="angle">الزاوية</string>
     <string name="calcMethod">طريقة</string>
-    <string name="cities">إضافة مدينة جديدة</string>
+    <string name="cities">مدن</string>
     <string name="customVolume">حدة صوت مخصصة</string>
     <string name="date">التاريخ</string>
-    <string name="delConfirm">هل تريد حذف %1$s ؟</string>
+    <string name="delCityConfirm">هل تريد حذف \"%1$s\" ؟</string>
+    <string name="delAlarmConfirm">هل تريد حذف \"%1$s\" ؟</string>
     <string name="dlSound">تحميل “%1$s” (%2$s) ؟</string>
     <string name="highlatsAdj">تعديل خطوط العرض العالية:</string>
     <string name="fixTimezone">المنطقة الزمنية +/-:</string>
@@ -38,6 +39,8 @@
     <string name="shareTimes">أرسل أوقات الصلاة لهذا اليوم لـ %1$s</string>
     <string name="showMore">إظهار المزيد</string>
     <string name="soundPicker">اختر الصوت</string>
+    <string name="filePicker">انتقي ملفاً</string>
+    <string name="other">أخرى</string>
     <string name="sun">الشروق</string>
     <string name="timeBased">دقائق</string>
     <string name="time">الوقت</string>
@@ -53,6 +56,8 @@
     <string name="addFromCSV">إضافة من ملف CSV</string>
     <string name="csvFromFile">تحميل CSV من الملف</string>
     <string name="csvFromURL">تحميل CSV من رابط</string>
+    <string name="asrSani">للعصر الثاني</string>
+    <string name="asrAwwal">للعصر الاول</string>
     <string name="noAdjustment">بدون تعديلات</string>
     <string name="customCalc">تخصيص</string>
     <string name="customCalcDesc">اعدادات متقدمة</string>
@@ -66,17 +71,23 @@
     <string name="takbir">تكبير</string>
     <string name="adhanDua">دعاء الأذان</string>
     <string name="salavat">صَلَوات</string>
+    <string name="volume">مستوى الصوت</string>
+    <string name="volumeNotification">مستوى صوت الإشعار</string>
     <string name="noti_beforeTime">%1$d دقائق قبل %2$s</string>
     <string name="noti_exactTime">في %2$s</string>
     <string name="noti_exactAll">في كل وقت صلاة</string>
     <string name="noti_beforeAll">%1$s دقيقة قبل كل وقت الصلاة</string>
     <string name="noti_afterAll">%1$s دقيقة بعد كل وقت صلاة</string>
     <string name="noti_eachDay">كل يوم %2$s</string>
-    <string name="noti_weekday">في %1$s %2$s</string>
+    <string name="noti_weekday">كل %1$s %2$s</string>
     <string name="ongoingNotification">ويدجيت التنبيه</string>
     <string name="prayerNotification">تنبيه وقت الصلاة</string>
     <string name="sound">الصوت</string>
     <string name="vibration">الاهتزاز</string>
+    <string name="noti_afterTime">%1$s دقيقة بعد %2$s</string>
     <string name="midnight">منتصف الليل</string>
+    <string name="silenter">صامت لمدة</string>
     <string name="minutes">دقائق</string>
+    <string name="both">كلاهما</string>
+    <string name="addAlarm">إضافة منبه</string>
 </resources>

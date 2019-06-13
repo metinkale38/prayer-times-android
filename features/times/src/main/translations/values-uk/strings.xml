@@ -24,7 +24,6 @@
     <string name="cities">Міста</string>
     <string name="customVolume">Оберіть гучність</string>
     <string name="date">Дата</string>
-    <string name="delConfirm">Ви дійсно бажаєте видалити %1$s?</string>
     <string name="dlSound">Завантажити “%1$s” (%2$s)?</string>
     <string name="fixTimezone">Часовий пояс +/-:</string>
     <string name="juristicHanafi">Ханафі</string>

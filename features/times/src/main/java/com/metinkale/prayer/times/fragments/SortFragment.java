@@ -19,7 +19,6 @@ package com.metinkale.prayer.times.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,13 +33,13 @@ import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
-import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -118,16 +117,16 @@ public class SortFragment extends Fragment {
     public void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(mAdapter.ids, i, i + 1);
+                Collections.swap(mAdapter.times, i, i + 1);
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(mAdapter.ids, i, i - 1);
+                Collections.swap(mAdapter.times, i, i - 1);
             }
         }
         mAdapter.notifyItemMoved(fromPosition, toPosition);
 
-        Times.drop(fromPosition, toPosition);
+        Times.move(fromPosition, toPosition);
     }
 
     public void onItemDismiss(final int position) {
@@ -135,7 +134,7 @@ public class SortFragment extends Fragment {
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         dialog.setTitle(R.string.delete);
-        dialog.setMessage(getString(R.string.delConfirm, times.getName()));
+        dialog.setMessage(getString(R.string.delCityConfirm, times.getName()));
         dialog.setCancelable(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
             times.delete();
@@ -168,7 +167,7 @@ public class SortFragment extends Fragment {
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> implements Observer<List<Times>> {
 
         @NonNull
-        private List<Long> ids = new ArrayList<>();
+        private ArrayList<Times> times = new ArrayList<>();
 
         public MyAdapter() {
         }
@@ -211,7 +210,7 @@ public class SortFragment extends Fragment {
 
         @Nullable
         public Times getItem(int pos) {
-            return Times.getTimes(ids.get(pos));
+            return times.get(pos);
         }
 
         @Override
@@ -221,14 +220,15 @@ public class SortFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return ids.size();
+            return times.size();
         }
 
 
         @Override
         public void onChanged(@Nullable List<Times> times) {
-            ids.clear();
-            ids.addAll(Times.getIds());
+            this.times.clear();
+            this.times.addAll(Times.getTimes());
+            Collections.sort(this.times, (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
             notifyDataSetChanged();
         }
     }

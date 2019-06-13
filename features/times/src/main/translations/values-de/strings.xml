@@ -25,7 +25,8 @@
     <string name="cities">Städte</string>
     <string name="customVolume">Wähle Lautstärke</string>
     <string name="date">Datum</string>
-    <string name="delConfirm">Willst du %1$s wirklich löschen?</string>
+    <string name="delCityConfirm">Möchtest du die Stadt \"%1$s\" wirklich löschen?</string>
+    <string name="delAlarmConfirm">Möchtest du die Benachrichtigung \"%1$s\" wirklich löschen?</string>
     <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
     <string name="highlatsAdj">Anpassung für hohe Breitengrade:</string>
     <string name="fixTimezone">Zeitzone +/-:</string>
@@ -89,4 +90,6 @@
     <string name="minutes">Minuten</string>
     <string name="both">Beides</string>
     <string name="addAlarm">Benachrichtigung hinzufügen</string>
+    <string name="silenterNotificationTitle">Automatischer Lautlos-Modus</string>
+    <string name="silenterNotificationInfo">Bitte erteilen Sie der Gebetszeiten-App die Berechtigung den Lautlos-Modus einzustellen</string>
 </resources>

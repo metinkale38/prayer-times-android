@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -48,6 +49,7 @@ import com.metinkale.prayer.times.alarm.sounds.SoundChooser;
 import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
+import com.metinkale.prayer.times.utils.HorizontalNumberWheel;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
 
@@ -70,6 +72,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.joda.time.LocalDateTime;
 
+
 public class AlarmConfigFragment extends DialogFragment {
     private TextView[] mWeekdays = new TextView[7];
     private MaterialIconView[] mTimesViews = new MaterialIconView[6];
@@ -77,7 +80,7 @@ public class AlarmConfigFragment extends DialogFragment {
     private TextView[] mTimesText = new TextView[6];
     private Switch mVibrate;
     private Switch mAutoDelete;
-    private SeekBar mMinute;
+    private HorizontalNumberWheel mMinute;
     private TextView mMinuteText;
     private RecyclerView mSounds;
     private Alarm mAlarm;
@@ -277,51 +280,34 @@ public class AlarmConfigFragment extends DialogFragment {
 
     }
 
-    private boolean mMinuteExact = false;
 
     private void initMinuteAdj() {
-        mMinute.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mMinute.setListener(new HorizontalNumberWheel.Listener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                progress -= seekBar.getMax() / 2;
-                if (!mMinuteExact) {
-                    progress *= 5;
-                }
-                mAlarm.setMins(progress);
+            public void onValueChanged(int newValue) {
 
-                if (progress == 0) {
+                mAlarm.setMins(newValue);
+
+                if (newValue == 0) {
                     mMinuteText.setText(R.string.onTime);
-                } else if (progress < 0) {
-                    mMinuteText.setText(getString(R.string.beforeTime, -progress));
+                } else if (newValue < 0) {
+                    mMinuteText.setText(getString(R.string.beforeTime, -newValue));
                 } else {
-                    mMinuteText.setText(getString(R.string.afterTime, progress));
+                    mMinuteText.setText(getString(R.string.afterTime, newValue));
                 }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                //not needed
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //not needed
             }
         });
-        int progress = mAlarm.getMins();
-        mMinuteExact = Math.abs(mAlarm.getMins()) % 5 != 0;
-        if (!mMinuteExact) {
-            progress /= 5;
-        }
 
-        if (Math.abs(progress) > mMinute.getMax() / 2) {
-            mMinute.setMax(Math.abs(progress) * 2);
-        } else {
-            mMinute.setMax(180 / 5 * 2);
-        }
 
-        progress += mMinute.getMax() / 2;
-        mMinute.setProgress(progress);
+        int value = mAlarm.getMins();
+        int max = 180;
+        if (Math.abs(value) > max) {
+            max = Math.abs(value);
+        }
+        mMinute.setMax(max);
+        mMinute.setMin(-max);
+        mMinute.setValue(value);
+
     }
 
     private void initAutodelete() {
@@ -337,7 +323,7 @@ public class AlarmConfigFragment extends DialogFragment {
     private void initDelete() {
         mDelete.setOnClickListener(v -> new AlertDialog.Builder(getActivity())
                 .setTitle(mTimes.getName())
-                .setMessage(getString(R.string.delConfirm, mAlarm.getTitle()))
+                .setMessage(getString(R.string.delAlarmConfirm, mAlarm.getTitle()))
                 .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
                     mTimes.getUserAlarms().remove(mAlarm);
@@ -485,7 +471,7 @@ public class AlarmConfigFragment extends DialogFragment {
                 v.setOnLongClickListener(v1 -> {
                     new AlertDialog.Builder(getActivity())
                             .setTitle(sound.getName())
-                            .setMessage(getString(R.string.delConfirm, sound.getName()))
+                            .setMessage(getString(R.string.delAlarmConfirm, sound.getName()))
                             .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
                             .setPositiveButton(R.string.yes, (dialog, which) -> {
                                 sounds.remove(sound);
@@ -542,4 +528,6 @@ public class AlarmConfigFragment extends DialogFragment {
         mAlarm.getCity().save();
         super.onPause();
     }
+
+
 }

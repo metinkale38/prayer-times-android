@@ -20,11 +20,13 @@
     <string name="adjAngle">Arah Sudut (sudut / 60th malam)</string>
     <string name="adjMidnight">Tengah malam</string>
     <string name="adjTime">Berdasarkan waktu (1/7 malam)</string>
+    <string name="angle">Sudut</string>
     <string name="calcMethod">Metode</string>
     <string name="cities">Kota-kota</string>
     <string name="customVolume">Pilih Suara</string>
     <string name="date">Tanggal</string>
-    <string name="delConfirm">Apakah Anda benar-benar ingin menghapus %1$s?</string>
+    <string name="delCityConfirm">Apakah anda yakin ingin menghapus kota\"%1$s\"?</string>
+    <string name="delAlarmConfirm">Apa anda yakin ingin menghapus alarm \"%1$s\"?</string>
     <string name="dlSound">Men-download \"%1$s\" (%2$s)?</string>
     <string name="highlatsAdj">Penyesuaian lintang tinggi:</string>
     <string name="fixTimezone">zona waktu +/-:</string>
@@ -37,6 +39,8 @@
     <string name="shareTimes">Hari ini waktu sholat untuk %1$s</string>
     <string name="showMore">Selengkapnya</string>
     <string name="soundPicker">Pilih Suara</string>
+    <string name="filePicker">Pilih File</string>
+    <string name="other">Lainnya</string>
     <string name="sun">Matahari</string>
     <string name="timeBased">Menit</string>
     <string name="time">Waktu</string>
@@ -52,6 +56,8 @@
     <string name="addFromCSV">Menambahkan dari CSV</string>
     <string name="csvFromFile">Muat dari berkas (.CSV)</string>
     <string name="csvFromURL">Buka CSV dari URL</string>
+    <string name="asrSani">Asr Sânî</string>
+    <string name="asrAwwal">Asr Awwal</string>
     <string name="noAdjustment">Tanpa penyesuaian</string>
     <string name="customCalc">Kustomisasi</string>
     <string name="customCalcDesc">Mengatur parameter kustom</string>
@@ -78,4 +84,10 @@
     <string name="prayerNotification">Pemberitahuan Sholat</string>
     <string name="sound">Suara</string>
     <string name="vibration">Getar</string>
+    <string name="noti_afterTime">%1$s menit sesudah %2$s</string>
+    <string name="midnight">Tengah malam</string>
+    <string name="silenter">Senyapkan untuk</string>
+    <string name="minutes">Menit</string>
+    <string name="both">Keduanya</string>
+    <string name="addAlarm">Tambah alarm</string>
 </resources>

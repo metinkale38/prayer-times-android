@@ -24,7 +24,6 @@
     <string name="cities">Gradovi</string>
     <string name="customVolume">Izaberi jačinu tona</string>
     <string name="date">Datum</string>
-    <string name="delConfirm">Želite li zaista da izbrišete %1$s?</string>
     <string name="dlSound">Skini “%1$s” (%2$s)?</string>
     <string name="highlatsAdj">Podešavanje za visoke geografske širine:</string>
     <string name="fixTimezone">Vremenska zona +/-:</string>

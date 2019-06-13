@@ -24,5 +24,9 @@
     <string name="permissionNotGranted">لم يُمنح الإذن.</string>
     <string name="compass_type_reminder">انقر هنا للبحث عن الجهة الصحيحة للقبلة.</string>
     <string name="compassCalibrationTitle">معايرة البوصلة</string>
+    <string name="compassCalibrationSubTitle">أمل و حرك هاتفك 3 مرات كما في الصورة:</string>
     <string name="accuracy">الدقة</string>
+    <string name="accuracy_low">منخفضة</string>
+    <string name="accuracy_medium">متوسطة</string>
+    <string name="accuracy_high">عالية</string>
 </resources>

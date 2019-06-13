@@ -98,9 +98,9 @@ public class CSVTimes extends WebTimes {
 
 
                 for (int l = 1; l < 7; l++) {
-                    parts[i] = parts[i].replace(sep3, ":");
-                    if (parts[i].length() == 4)
-                        parts[i] = "0" + parts[i];
+                    parts[l] = parts[l].replace(sep3, ":");
+                    if (parts[l].length() == 4)
+                        parts[l] = "0" + parts[l];
 
                     if (parts[l].length() != 5 || parts[l].charAt(2) != ':' || !Character.isDigit(parts[l].charAt(0)) ||
                             !Character.isDigit(parts[l].charAt(1)) || !Character.isDigit(parts[l].charAt(3)) ||

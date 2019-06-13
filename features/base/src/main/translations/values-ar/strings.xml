@@ -29,16 +29,17 @@
     <string name="about">حول التطبيق</string>
     <!--Permission dialogs-->
     <string name="permissionCalendarText">إذا أردت أن تضيف العطل الإسلامية إلى التقويم وجب عليك أن تعطي التطبيق الصلاحية لذلك! وإذا لم ترد ذلك فلا تعط الصلاحية.</string>
-    <string name="permissionCameraText">\"لاستخدام البوصلة ثلاثية الأبعاد يجب إعطاء التطبيق الصلاحية لاستخدام الكاميرا.
+    <string name="permissionCalendarTitle">صلاحية التقويم</string>
+    <string name="permissionCameraText">"\"لاستخدام البوصلة ثلاثية الأبعاد يجب إعطاء التطبيق الصلاحية لاستخدام الكاميرا.
         إذا لم تفعل فيمكنك ذلك استخدام البوصلة بالشكل ثنائي الأبعاد.
-    \"</string>
+    \""</string>
     <string name="permissionCameraTitle">صلاحية الكاميرا</string>
-    <string name="permissionLocationText">\"إعطاء الصلاحية لخدمات تحديد الموقع ضرورية لتحديد مكان تواجدك آلياً.
+    <string name="permissionLocationText">"\"إعطاء الصلاحية لخدمات تحديد الموقع ضرورية لتحديد مكان تواجدك آلياً.
         إذا لم تعط الصلاحية لذلك فيمكنك رغم ذلك اختيار مدينتك يدوياً
-    \"</string>
+    \""</string>
     <string name="permissionLocationTitle">صلاحية تحديد الموقع</string>
-    <string name="permissionStorageText">إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
-التطبيق بشكل مامل.</string>
+    <string name="permissionStorageText">"إعطاء الصلاحية للطبيق للكتابة على الحافظة ضرورية لعمل التطبيق، وبدونها لا يعمل
+التطبيق بشكل مامل."</string>
     <string name="permissionStorageTitle">صلاحية الحافظة</string>
     <!-- Hijri Months -->
     <string name="hmonth1">محرم</string>
@@ -100,8 +101,8 @@
     <string name="refresh">المزامنة</string>
     <string name="translate">ترجمة</string>
     <string name="language">اللغة</string>
-    <string name="shareText">مهلا، تحقق من هذا التطبيق الخاص بأوقات الصلاة:
-https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <string name="shareText">"مهلا، تحقق من هذا التطبيق الخاص بأوقات الصلاة:
+https://play.google.com/store/apps/details?id=com.metinkale.prayer"</string>
     <!-- Other -->
     <string name="systemLanguage">لغة النظام</string>
     <string name="notification">تنبيه</string>

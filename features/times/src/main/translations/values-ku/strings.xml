@@ -19,14 +19,16 @@
     <string name="adjAngle">Li gor Aliyî (Alî/60e yên şev)</string>
     <string name="adjMidnight">Nîvê şevê</string>
     <string name="adjTime">Ji aliyê dem (1/ 7\'ê şev)</string>
+    <string name="angle">Alî</string>
     <string name="cities">Bajarên</string>
     <string name="date">Dîrok</string>
-    <string name="delConfirm">Tu bi rastî dixwazî jê bibî %1$s?</string>
     <string name="dlSound">“%1$s” (%2$s) Ma tu dixwazî ji bo daxistina dengê?</string>
     <string name="juristicHanafi">Henefî</string>
     <string name="juristicShafi">Şafî</string>
     <string name="kerahatTime">Dem Mekrûh da</string>
     <string name="monthly">Parêzname</string>
+    <string name="filePicker">Ji pelan hilbijêre</string>
+    <string name="other">Din</string>
     <string name="sun">Roj</string>
     <string name="calculated">Hesibandin</string>
     <string name="autoremove_notification">Jê agahdar bike, piştî azan</string>

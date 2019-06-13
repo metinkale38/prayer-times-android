@@ -17,4 +17,5 @@
   -->
 <resources>
     <string name="off">مغلق</string>
+    <string name="switchHijriGreg">تبديل هجري/ميلادي</string>
 </resources>

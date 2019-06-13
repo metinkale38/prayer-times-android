@@ -177,6 +177,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
 
         mCalcMethod.setSelection(0);
 
+        ((TextView) mView.findViewById(R.id.fajr)).setText(Vakit.FAJR.getString());
 
         mView.findViewById(R.id.fajrEdit).setOnClickListener(v -> {
             mCalcMethod.setSelection(mCalcMethod.getAdapter().getCount() - 1);

@@ -46,9 +46,9 @@
     <string name="dateFormat3">31 Dezember</string>
     <string name="hDateFormat3">30 Muharram</string>
     <string name="useAlarm">Benutze Wecker-Alarm für Benachrichtigungen</string>
-    <string name="useAlarmDesc">EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
+    <string name="useAlarmDesc">"EXPERIMENTAL - Falls ihre Benachrichtigungen verspätet ausgelöst werden, können sie
         diese Einstellung versuchen. Es wird eine Wecker-Icon in die Statusleiste hinzugefügt!
-    </string>
+    "</string>
     <string name="ongoingNumber">Zeige Minuten in Notification-Icon</string>
     <string name="vakit_indicator">Gebetszeit Anzeige</string>
     <string name="vakit_indicator_next">Nächste Gebetszeit</string>

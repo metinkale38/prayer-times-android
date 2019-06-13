@@ -23,7 +23,8 @@
     <string name="cities">Cities</string>
     <string name="customVolume">Choose Volume</string>
     <string name="date">Date</string>
-    <string name="delConfirm">Do you really want to delete %1$s?</string>
+    <string name="delCityConfirm">Do you really want to delete the city "%1$s"?</string>
+    <string name="delAlarmConfirm">Do you really want to delete the alarm "%1$s"?</string>
     <string name="dlSound">Download “%1$s” (%2$s)?</string>
     <string name="highlatsAdj">High Latitudes Adjustment:</string>
     <string name="fixTimezone">Timezone +/-:</string>
@@ -88,4 +89,6 @@
     <string name="minutes">Minutes</string>
     <string name="both">Both</string>
     <string name="addAlarm">Add alarm</string>
+    <string name="silenterNotificationTitle">Silenter</string>
+    <string name="silenterNotificationInfo">Please grant permissions to Prayer Times to silent your phone</string>
 </resources>

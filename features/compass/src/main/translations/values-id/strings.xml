@@ -23,4 +23,10 @@
     <string name="touchToSelectCity">Tekan di sini untuk memilih kota</string>
     <string name="permissionNotGranted">Izin tidak diberikan.</string>
     <string name="compass_type_reminder">Klik di sini untuk mencoba metode yang berbeda untuk mencari arah kiblat yang benar.</string>
+    <string name="compassCalibrationTitle">Kalibrasi kompas anda</string>
+    <string name="compassCalibrationSubTitle">Miringkan dan gerakan ponselmu 3 kali seperti ini:</string>
+    <string name="accuracy">Akurasi</string>
+    <string name="accuracy_low">Rendah</string>
+    <string name="accuracy_medium">Sedang</string>
+    <string name="accuracy_high">Tinggi</string>
 </resources>

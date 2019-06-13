@@ -89,4 +89,11 @@
     <string name="no_internet">Girêdana înternetê tune</string>
     <string name="error">Çewtiyek derket</string>
     <!-- Prayer Times -->
+    <string name="morningPrayer">Nimêja sibehê</string>
+    <string name="fajr">Berbang</string>
+    <string name="zuhr">Nîvro</string>
+    <string name="asr">Esir</string>
+    <string name="maghrib">Êvar</string>
+    <string name="ishaa">Eşa</string>
+    <string name="off">Girtî</string>
 </resources>

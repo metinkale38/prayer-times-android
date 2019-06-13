@@ -39,6 +39,7 @@ import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.UUID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -278,6 +279,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
         @Override
         public void onChanged(@NonNull List<Times> times) {
             mTimes = new ArrayList<>(times);
+            Collections.sort(mTimes, (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
             notifyDataSetChanged();
         }
 

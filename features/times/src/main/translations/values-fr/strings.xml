@@ -25,8 +25,10 @@
     <string name="cities">Villes</string>
     <string name="customVolume">Choisissez le niveau du volume</string>
     <string name="date">Date</string>
-    <string name="delConfirm">Voulez - vous vraiment supprimer la ville %1$s ?</string>
+    <string name="delCityConfirm">Voulez - vous vraiment supprimer la ville %1$s ?</string>
+    <string name="delAlarmConfirm">Voulez - vous vraiment supprimer le notification \"%1$s\" ?</string>
     <string name="dlSound">Télécharger les voix \" %1$s \" (%2$s)?</string>
+    <string name="highlatsAdj">Ajustement des Latitudes hautes :</string>
     <string name="fixTimezone">Fuseau horaire +/-:</string>
     <string name="juristicHanafi">Hanafi</string>
     <string name="juristicShafi">Shafi (par défaut)</string>
@@ -52,6 +54,8 @@
     <string name="addFromCSV">Ajouter depuis un CSV</string>
     <string name="csvFromFile">Charger du CSV depuis un fichier</string>
     <string name="csvFromURL">Charger du CSV depuis une URL</string>
+    <string name="asrSani">Asr Sânî</string>
+    <string name="asrAwwal">Asr Awwal</string>
     <string name="noAdjustment">Aucun réglage</string>
     <string name="customCalc">Personnalisé</string>
     <string name="customCalcDesc">Personnalisé les paramètres de calcul</string>

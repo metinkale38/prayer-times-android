@@ -141,7 +141,7 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
         }
     }
 
-    public static void drop(int from, int to) {
+    public static void move(int from, int to) {
         List<Long> keys = Times.getIds();
         Long key = keys.get(from);
         keys.remove(key);
@@ -150,7 +150,6 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
             Times.getTimes(i).setSortId(keys.indexOf(i));
         }
 
-        Times.sort();
 
     }
 

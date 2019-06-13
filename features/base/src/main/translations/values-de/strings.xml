@@ -30,10 +30,10 @@
     <!--Permission dialogs-->
     <string name="permissionCalendarText">Falls du willst, dass die Islamischen Feiertage in den Kalender eingetragen werden, musst du die Kalender Berechtigungen erteilen. Erteile keine Berechtigung, falls du dies nicht möchtest.</string>
     <string name="permissionCalendarTitle">Kalender Berechtigung</string>
-    <string name="permissionCameraText">Damit du den 3D-Kompass nutzen kannst, musst du der Gebetszeiten-App eine
+    <string name="permissionCameraText">"Damit du den 3D-Kompass nutzen kannst, musst du der Gebetszeiten-App eine
         Kamera-Berechtigung geben. Falls du dies nicht möchtest, kannst du den Gebetskompass immer noch im 2D-Modus
         benutzen.
-    </string>
+    "</string>
     <string name="permissionCameraTitle">Kamera Berechtigung</string>
     <string name="permissionLocationText">Die Standort Dienste sind nötig, um deine Stadt automatisch zu ermitteln. Falls du diese Berechtigung nicht erteilst, musst du manuell nach deiner Stadt suchen.</string>
     <string name="permissionLocationTitle">Standort Berechtigung</string>

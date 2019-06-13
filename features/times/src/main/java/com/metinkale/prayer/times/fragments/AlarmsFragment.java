@@ -167,7 +167,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                 public boolean onLongClick() {
                     new AlertDialog.Builder(getActivity())
                             .setTitle(mTimes.getName())
-                            .setMessage(getString(R.string.delConfirm, alarm.getTitle()))
+                            .setMessage(getString(R.string.delAlarmConfirm, alarm.getTitle()))
                             .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
                             .setPositiveButton(R.string.yes, (dialog, which) -> {
                                 mTimes.getUserAlarms().remove(alarm);

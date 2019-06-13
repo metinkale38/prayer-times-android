@@ -96,7 +96,6 @@ public abstract class Times extends TimesBase {
 
 
             if (!sTimes.isEmpty()) {
-                sort();
                 clearTemporaryTimes();
             }
         }
@@ -104,18 +103,7 @@ public abstract class Times extends TimesBase {
 
     }
 
-    public static void sort() {
-        if (sTimes.isEmpty())
-            return;
-        Collections.sort(sTimes, (t1, t2) -> {
-            try {
-                return t1.getSortId() - t2.getSortId();
-            } catch (RuntimeException e) {
-                Crashlytics.logException(e);
-                return 0;
-            }
-        });
-    }
+
 
     @NonNull
     public static List<Long> getIds() {

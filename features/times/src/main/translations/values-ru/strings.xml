@@ -23,7 +23,6 @@
     <string name="cities">Города</string>
     <string name="customVolume">Установить громкость</string>
     <string name="date">Дата</string>
-    <string name="delConfirm">Вы действительно хотите удалить %1$s?</string>
     <string name="dlSound">Скачать “%1$s” (%2$s)?</string>
     <string name="fixTimezone">Часовой пояс + /:</string>
     <string name="juristicHanafi">Ханафи</string>

@@ -46,9 +46,9 @@
     <string name="dateFormat3">٣١ ديسمبر </string>
     <string name="hDateFormat3">٣٠ محرم</string>
     <string name="useAlarm">استخدام منبه الجهاز لتفعيل التنبيهات</string>
-    <string name="useAlarmDesc">\"تجريبي:
+    <string name="useAlarmDesc">"\"تجريبي:
 في حالة ملاحظة التأخير في تفعيل التنبيهات عن الوقت المحدد، اختر استخدام منبه الجهاز لحل هذه المشكلة.
-مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات \"</string>
+مع هذا الخيار تظهر صورة المنبه في سطر التنبيهات \""</string>
     <string name="ongoingNumber">أظهر الدقائق مع المنبه</string>
     <string name="vakit_indicator">تمييز وقت الصلاة</string>
     <string name="vakit_indicator_next">وقت الصلاة التالي</string>
@@ -60,6 +60,6 @@
     <string name="showLegacyWidgets">إعرض عناصر ويدجيت القديمة</string>
     <string name="showLegacyWidgetsSummary">استخدم فقط إذا كان لديك مشاكل مع عناصر الويدجيت</string>
     <string name="showExtraTimes">إظهار صلاة الصبح والعصر ساني (أبو حنيفة)</string>
-    <string name="showExtraTimesSummary">تعمل فقط مع المواقيت المحسوبة ومع 
-FaziletTakvimi.com, NamazVakti.com</string>
+    <string name="showExtraTimesSummary">"تعمل فقط مع المواقيت المحسوبة ومع 
+FaziletTakvimi.com, NamazVakti.com"</string>
 </resources>

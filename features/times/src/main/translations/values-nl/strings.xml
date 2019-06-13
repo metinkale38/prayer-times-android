@@ -23,7 +23,6 @@
     <string name="cities">Steden</string>
     <string name="customVolume">Kies volume</string>
     <string name="date">Datum</string>
-    <string name="delConfirm">Weet u zeker dat u %1$s wilt verwijderen?</string>
     <string name="dlSound">“%1$s” (%2$s) Downloaden?</string>
     <string name="fixTimezone">Tijdzone +/-:</string>
     <string name="juristicHanafi">Hanafi</string>

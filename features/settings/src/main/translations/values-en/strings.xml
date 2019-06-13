@@ -46,9 +46,9 @@
     <string name="dateFormat3">31 December </string>
     <string name="hDateFormat3">30 Muharram </string>
     <string name="useAlarm">Use Alarm for Notification</string>
-    <string name="useAlarmDesc">EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
+    <string name="useAlarmDesc">"EXPERIMENTAL - If Notifications are not triggered in time, you can try this Setting. An
         alarm clock icon will be added to the Status bar!
-    </string>
+    "</string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>

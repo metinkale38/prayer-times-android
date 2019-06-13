@@ -187,7 +187,7 @@ class WidgetLegacy {
         paint.setSubpixelText(true);
 
         paint.setColor(theme.hovercolor);
-        if (next != Vakit.FAJR.ordinal() && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+        if (next != Vakit.FAJR.ordinal() && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get() && next <= Vakit.ISHAA.ordinal()) {
             canvas.drawRect((w * (next - 1)) / 6f, h * 3 / 9f, w * next / 6f, h, paint);
         }
         float s = paint.getStrokeWidth();
@@ -340,7 +340,7 @@ class WidgetLegacy {
 
         paint.setTextSize((int) ((l * 8) / 10));
 
-        if (next != Vakit.FAJR.ordinal() && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+        if (next != Vakit.FAJR.ordinal() && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get() && next <= Vakit.ISHAA.ordinal()) {
             paint.setColor(theme.hovercolor);
             canvas.drawRect(0, (int) (l * (next + 1.42f)), w, (int) (l * (next + 2.42)), paint);
         }
