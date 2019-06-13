@@ -35,14 +35,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
-public class HijriDate {
+public class HijriDate implements Comparable<HijriDate> {
     public static final int MUHARRAM = 1;
     public static final int SAFAR = 2;
     public static final int RABIAL_AWWAL = 3;
@@ -287,18 +291,18 @@ public class HijriDate {
 
     @NonNull
     public static List<Pair<HijriDate, Integer>> getHolydaysForHijriYear(int year) {
-        List<Pair<HijriDate, Integer>> dates = new ArrayList<>(12 + 18);
+        List<Pair<HijriDate, Integer>> dates = new ArrayList<>();
         dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 1), ISLAMIC_NEW_YEAR));
         dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 10), ASHURA));
         dates.add(new Pair<>(HijriDate.fromHijri(year, SAFAR, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AWWAL, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AWWAL, 11), MAWLID_AL_NABI));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 1), THREE_MONTHS));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AKHIR, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, JUMADAAL_AWWAL, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, JUMADAAL_AKHIR, 1), MONTH));
         dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 1), MONTH));
+        dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 1), THREE_MONTHS));
         HijriDate ragaib = HijriDate.fromGreg(HijriDate.fromHijri(year, RAJAB, 1).getLocalDate().withDayOfWeek(DateTimeConstants.FRIDAY));
         if (ragaib.getMonth() < RAJAB)
             ragaib = ragaib.plusDays(7);
@@ -321,6 +325,8 @@ public class HijriDate {
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 11), EID_AL_ADHA_DAY2));
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 12), EID_AL_ADHA_DAY3));
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 13), EID_AL_ADHA_DAY4));
+
+        Collections.sort(dates, (o1, o2) -> o1.first.compareTo(o2.first));
         return dates;
     }
 
@@ -380,6 +386,12 @@ public class HijriDate {
     }
 
 
+    @Override
+    public int compareTo(HijriDate o) {
+        return hijri.compareTo(o.hijri);
+    }
+
+
     private static class Hijri extends DateIntern<Hijri> {
         Hijri(int year, int month, int day) {
             super(year, month, day);
@@ -387,7 +399,7 @@ public class HijriDate {
     }
 
 
-    private static class Greg extends DateIntern<Hijri> {
+    private static class Greg extends DateIntern<Greg> {
         Greg(int year, int month, int day) {
             super(year, month, day);
         }

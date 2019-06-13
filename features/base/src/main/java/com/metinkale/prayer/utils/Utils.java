@@ -18,6 +18,7 @@ package com.metinkale.prayer.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+
+import com.metinkale.prayer.App;
 
 public class Utils {
     /**
@@ -111,4 +114,23 @@ public class Utils {
 
     }
 
+    public static String getVersionName() {
+        try {
+            PackageInfo pInfo = App.get().getPackageManager().getPackageInfo(App.get().getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static int getVersionCode() {
+        try {
+            PackageInfo pInfo = App.get().getPackageManager().getPackageInfo(App.get().getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

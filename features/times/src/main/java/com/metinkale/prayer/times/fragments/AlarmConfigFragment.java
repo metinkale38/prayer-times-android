@@ -282,19 +282,16 @@ public class AlarmConfigFragment extends DialogFragment {
 
 
     private void initMinuteAdj() {
-        mMinute.setListener(new HorizontalNumberWheel.Listener() {
-            @Override
-            public void onValueChanged(int newValue) {
+        mMinute.setListener(newValue -> {
 
-                mAlarm.setMins(newValue);
+            mAlarm.setMins(newValue);
 
-                if (newValue == 0) {
-                    mMinuteText.setText(R.string.onTime);
-                } else if (newValue < 0) {
-                    mMinuteText.setText(getString(R.string.beforeTime, -newValue));
-                } else {
-                    mMinuteText.setText(getString(R.string.afterTime, newValue));
-                }
+            if (newValue == 0) {
+                mMinuteText.setText(R.string.onTime);
+            } else if (newValue < 0) {
+                mMinuteText.setText(getString(R.string.beforeTime, -newValue));
+            } else {
+                mMinuteText.setText(getString(R.string.afterTime, newValue));
             }
         });
 

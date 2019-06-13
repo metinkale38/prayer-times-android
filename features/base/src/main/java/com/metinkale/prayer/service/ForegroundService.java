@@ -182,6 +182,7 @@ public class ForegroundService extends Service {
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_abicon);
         builder.setPriority(NotificationCompat.PRIORITY_MIN);
+        builder.setWhen(0); //show as last
         return builder.build();
     }
 

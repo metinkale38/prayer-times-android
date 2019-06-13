@@ -18,22 +18,32 @@ package com.metinkale.prayer.service;
 
 import android.Manifest;
 import android.app.IntentService;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.BaseColumns;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
+import android.provider.SyncStateContract;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 
@@ -48,13 +58,16 @@ import androidx.core.util.Pair;
 public class CalendarIntegrationService extends IntentService {
 
 
+    private static String ACCOUNT_NAME = "Prayer Times";
+    private static String ACCOUNT_TYPE = "com.metinkale.prayer.calendar";
+    private static String CALENDAR_COLUMN_NAME = "prayertimes_hijriadapter";
+
     public CalendarIntegrationService() {
         super("CalendarIntegrationService");
     }
 
 
     public static void startCalendarIntegration(@NonNull Context context) {
-        ForegroundService.addNeedy(context, "calendarIntegration");
         Intent intent = new Intent(context, CalendarIntegrationService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
@@ -85,7 +98,6 @@ public class CalendarIntegrationService extends IntentService {
             Preferences.CALENDAR_INTEGRATION.set("-1");
             return;
         }
-        ForegroundService.addNeedy(this, "calendarIntegration");
         Context context = App.get();
         try {
             ContentResolver cr = context.getContentResolver();
@@ -93,46 +105,106 @@ public class CalendarIntegrationService extends IntentService {
 
             cr.delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events.DESCRIPTION + "=\"com.metinkale.prayer\"", null);
 
+            Uri calenderUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                    .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
+                    .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE).build();
+            cr.delete(calenderUri,
+                    CalendarContract.Calendars.ACCOUNT_NAME + " = ? AND " + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?",
+                    new String[]{ACCOUNT_NAME, ACCOUNT_TYPE});
 
             String id = Preferences.CALENDAR_INTEGRATION.get();
 
             if ("-1".equals(id)) {
                 return;
             }
-            int year = LocalDate.now().getYear();
-            List<Pair<HijriDate, Integer>> holidays = new ArrayList<>();
-            holidays.addAll(HijriDate.getHolydaysForGregYear(year));
-            holidays.addAll(HijriDate.getHolydaysForGregYear(year + 1));
 
             List<ContentValues> events = new ArrayList<>();
-            for (Pair<HijriDate, Integer> date : holidays) {
-                if (date.second <= 0)
-                    continue;
-                ContentValues event = new ContentValues();
+            long calendarId = getCalendar(context);
+            for (int year = HijriDate.getMinGregYear(); year <= HijriDate.getMaxGregYear(); year++) {
 
-                event.put(CalendarContract.Events.CALENDAR_ID, id);
-                event.put(CalendarContract.Events.TITLE, LocaleUtils.getHolyday(date.second));
-                event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
-                LocalDate ld = date.first.getLocalDate();
-                ReadableInstant cal = ld.toDateTimeAtStartOfDay();
 
-                long dtstart = cal.getMillis();
-                long dtend = dtstart + DateUtils.DAY_IN_MILLIS;
+                for (Pair<HijriDate, Integer> date : HijriDate.getHolydaysForGregYear(year)) {
+                    if (date == null || date.second <= 0)
+                        continue;
+                    ContentValues event = new ContentValues();
 
-                event.put(CalendarContract.Events.DTSTART, dtstart + TimeZone.getDefault().getOffset(dtstart));
-                event.put(CalendarContract.Events.DTEND, dtend + TimeZone.getDefault().getOffset(dtend));
-                event.put(CalendarContract.Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
-                event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
-                event.put(CalendarContract.Events.ALL_DAY, 1);
+                    event.put(CalendarContract.Events.CALENDAR_ID, calendarId);
+                    event.put(CalendarContract.Events.TITLE, LocaleUtils.getHolyday(date.second));
+                    event.put(CalendarContract.Events.DESCRIPTION, "com.metinkale.prayer");
+                    LocalDate ld = date.first.getLocalDate();
+                    DateTime cal = ld.toDateTimeAtStartOfDay(DateTimeZone.UTC);
 
-                events.add(event);
+                    long dtstart = cal.getMillis();
+                    long dtend = cal.plusDays(1).getMillis();
+
+                    event.put(CalendarContract.Events.DTSTART, dtstart);
+                    event.put(CalendarContract.Events.DTEND, dtend);
+                    event.put(CalendarContract.Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
+                    event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
+                    event.put(CalendarContract.Events.ALL_DAY, 1);
+                    event.put(CalendarContract.Events.HAS_ALARM, 0);
+                    event.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
+                    event.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, getPackageName());
+                    event.put(CalendarContract.Events.CUSTOM_APP_URI, "https://prayerapp.page.link/calendar");
+
+
+                    events.add(event);
+                }
             }
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events.toArray(new ContentValues[0]));
         } catch (Exception e) {
             Preferences.CALENDAR_INTEGRATION.set("-1");
             Crashlytics.logException(e);
+        }
+
+    }
+
+
+    private static long getCalendar(Context context) {
+
+        ContentResolver contentResolver = context.getContentResolver();
+
+        // Find the calendar if we've got one
+        Uri calenderUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE).build();
+
+
+        Cursor cursor = contentResolver.query(calenderUri, new String[]{BaseColumns._ID},
+                CalendarContract.Calendars.ACCOUNT_NAME + " = ? AND " + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?",
+                new String[]{ACCOUNT_NAME, ACCOUNT_TYPE}, null);
+
+        try {
+            if (cursor != null && cursor.moveToNext()) {
+                return cursor.getLong(0);
+            } else {
+                ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+
+                ContentProviderOperation.Builder builder = ContentProviderOperation
+                        .newInsert(calenderUri);
+                builder.withValue(CalendarContract.Calendars.ACCOUNT_NAME, ACCOUNT_NAME);
+                builder.withValue(CalendarContract.Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE);
+                builder.withValue(CalendarContract.Calendars.NAME, CALENDAR_COLUMN_NAME);
+                builder.withValue(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                        context.getString(R.string.appName));
+                builder.withValue(CalendarContract.Calendars.CALENDAR_COLOR, context.getResources().getColor(R.color.colorPrimary));
+                builder.withValue(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_READ);
+                builder.withValue(CalendarContract.Calendars.OWNER_ACCOUNT, ACCOUNT_NAME);
+                builder.withValue(CalendarContract.Calendars.SYNC_EVENTS, 1);
+                builder.withValue(CalendarContract.Calendars.VISIBLE, 1);
+
+                operationList.add(builder.build());
+                try {
+                    contentResolver.applyBatch(CalendarContract.AUTHORITY, operationList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return -1;
+                }
+                return getCalendar(context);
+            }
         } finally {
-            ForegroundService.removeNeedy(this, "calendarIntegration");
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
         }
     }
 }

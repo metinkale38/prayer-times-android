@@ -31,6 +31,7 @@ import android.text.style.SuperscriptSpan;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.Preferences;
@@ -91,14 +92,10 @@ public class LocaleUtils {
             systemService.setNightMode(UiModeManager.MODE_NIGHT_NO);
 
 
-        int year = LocalDate.now().getYear();
-        if (year == 2019) {
-            year = 201905; // force update in 2019
-        }
-
-        if (year != Preferences.LAST_CAL_SYNC.get()) {
+        int version = Utils.getVersionCode();
+        if (version != Preferences.LAST_CAL_SYNC.get()) {
             CalendarIntegrationService.startCalendarIntegration(c);
-            Preferences.LAST_CAL_SYNC.set(year);
+            Preferences.LAST_CAL_SYNC.set(version);
         }
 
     }

@@ -35,6 +35,7 @@ import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
+import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.DateTimeZone;
 
@@ -165,7 +166,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     public static String getUserAgent() {
         return String.format(Locale.ENGLISH, "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)", Build.VERSION.SDK_INT,
-                BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME);
+                Utils.getVersionCode(), Utils.getVersionName());
     }
 
 

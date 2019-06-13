@@ -39,8 +39,8 @@
             android:title="@string/numbers" />
 
 
-        <com.metinkale.prayer.utils.CalendarPreference
-            android:defaultValue="1"
+        <com.metinkale.prayer.settings.CalendarIntegrationPreference
+            android:defaultValue="-1"
             android:key="calendarIntegration"
             android:title="@string/calendarIntegration" />
 
