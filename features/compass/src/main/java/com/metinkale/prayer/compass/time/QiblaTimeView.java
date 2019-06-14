@@ -75,7 +75,7 @@ public class QiblaTimeView extends View {
             mKaabe = context.getResources().getDrawable(R.drawable.kaabe);
         }
 
-        int blue = 0xFF33B5E5;
+        int blue = getResources().getColor(R.color.colorPrimary);
 
         mTrianglePaint.setColor(blue);
         mTrianglePaint.setStyle(Paint.Style.FILL);

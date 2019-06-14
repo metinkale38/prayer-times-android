@@ -19,6 +19,7 @@ package com.metinkale.prayer.times.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -44,6 +45,7 @@ import com.metinkale.prayer.times.times.sources.FaziletTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 import com.metinkale.prayer.times.utils.ExportController;
 import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
@@ -189,6 +191,18 @@ public class CityFragment extends Fragment implements Observer<Times> {
             if (mTimes.getSource().drawableId != 0) {
                 source1.setImageResource(mTimes.getSource().drawableId);
                 source2.setImageResource(mTimes.getSource().drawableId);
+
+                if (Utils.isNightMode(getActivity())) {
+                    float[] matrix = {
+                            1/3f, 1/3f, 1/3f, 0, 255, //red
+                            1/3f, 1/3f, 1/3f, 0, 255, //green
+                            1/3f, 1/3f, 1/3f, 0, 255, //blue
+                            0, 0, 0, 1.0f, 0 //alpha
+                    };
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    source1.setColorFilter(filter);
+                    source2.setColorFilter(filter);
+                }
             }
         }
 

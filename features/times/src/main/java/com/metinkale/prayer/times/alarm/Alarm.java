@@ -133,13 +133,14 @@ public class Alarm implements Comparable<Alarm> {
         int minuteThreshold = 2;
         if (mins == 0 && left < minuteThreshold) {
             minutes = 0;
-            time = time + 1;
+            time++;
         } else if (mins == 0 && passed < minuteThreshold) {
             minutes = 0;
         }
 
         int strRes2;
         if (minutes < 0) {
+            time++;
             strRes2 = R.string.noti_beforeTime;
         } else if (getMins() > 0) {
             strRes2 = R.string.noti_afterTime;

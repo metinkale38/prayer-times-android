@@ -87,10 +87,6 @@ public class LocaleUtils {
     public static void init(@NonNull Context c) {
         initLocale(c);
 
-        UiModeManager systemService = (UiModeManager) c.getSystemService(UI_MODE_SERVICE);
-        if (systemService != null)
-            systemService.setNightMode(UiModeManager.MODE_NIGHT_NO);
-
 
         int version = Utils.getVersionCode();
         if (version != Preferences.LAST_CAL_SYNC.get()) {

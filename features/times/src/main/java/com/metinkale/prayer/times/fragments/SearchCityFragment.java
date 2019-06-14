@@ -93,7 +93,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
                         new int[]{}
                 },
                 new int[]{
-                        getResources().getColor(R.color.background),
+                        getResources().getColor(R.color.white),
                         getResources().getColor(R.color.backgroundSecondary)
                 }
         );
@@ -209,7 +209,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.background)
+                .setDefaultColorResource(R.color.white)
                 .inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);

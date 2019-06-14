@@ -30,7 +30,7 @@
         <item name="android:textColor">@color/foreground</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="actionOverflowMenuStyle">@style/ToolbarTheme.Popup</item>
-        <item name="materialIconColor">@color/background</item>
+        <item name="materialIconColor">@color/white</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="android:colorForeground">@color/foreground</item>
         <item name="android:textColorPrimary">@color/foreground</item>
@@ -41,8 +41,8 @@
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlNormal">@color/background</item>
-        <item name="android:textColor">@color/background</item>
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="actionDropDownStyle">@style/ToolbarTheme.DropDown</item>
     </style>
 

@@ -16,19 +16,21 @@
 
 <resources>
 
-<!---
-    <color name="colorPrimary">#03a9f4</color>
-    <color name="colorPrimaryDark">#0288d1</color>
-    <color name="accent">#03a9f4</color>
-    <color name="colorPrimaryLight">#d3e5fc</color>
+    <color name="colorPrimaryDark">#013762</color>
+    <color name="colorPrimary">#025684</color>
+    <color name="accent">#39738D</color>
+    <color name="colorPrimaryLight">#224e55</color>
 
-    <color name="foreground">#ffffff</color>
-    <color name="foregroundSecondary">#eeeeee</color>
-    <color name="divider">#bdbdbd</color>
-    <color name="backgroundSecondary">#757575</color>
-    <color name="background">#212121</color>
+    <color name="background20pTrans">#33000000</color>
+    <color name="background">#000000</color>
+    <color name="backgroundSecondary">#111111</color>
+    <color name="divider">#424242</color>
+    <color name="foregroundSecondary">#8A8A8A</color>
+    <color name="foreground">#DEDEDE</color>
+    <color name="foreground20pTrans">#33FFFFFF</color>
 
     <color name="alert">#f44336</color>
     <color name="transparent">#00000000</color>
--->
+
+
 </resources>

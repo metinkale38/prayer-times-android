@@ -30,7 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/background"
+        android:background="#ffffff"
         android:paddingStart="10dip"
         android:paddingEnd="10dip" />
 

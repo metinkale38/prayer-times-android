@@ -101,7 +101,7 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.background)
+                .setDefaultColorResource(R.color.white)
                 .inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);

@@ -92,7 +92,7 @@ public class SortFragment extends Fragment {
             mDeleteMode = !mDeleteMode;
             item.setIcon(MaterialDrawableBuilder.with(getActivity())
                     .setIcon(mDeleteMode ? MaterialDrawableBuilder.IconValue.DELETE_EMPTY : MaterialDrawableBuilder.IconValue.DELETE)
-                    .setColor(Color.WHITE).setToActionbarSize().build());
+                    .setToActionbarSize().build());
             mAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);

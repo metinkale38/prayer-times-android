@@ -54,7 +54,7 @@ public class PagerIntroFragment extends IntroFragment {
         toolbar.setTitle(R.string.appName);
         toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.MENU)
-                .setColorResource(R.color.background)
+                .setColorResource(R.color.white)
                 .setToActionbarSize()
                 .build());
 

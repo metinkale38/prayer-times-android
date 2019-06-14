@@ -19,7 +19,6 @@ package com.metinkale.prayer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -43,6 +42,7 @@ import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
+import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -93,10 +93,9 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
             super.attachBaseContext(LocaleUtils.wrapContext(newBase));
-        }
-        else {
+        } else {
             super.attachBaseContext(newBase);
         }
     }
@@ -113,13 +112,12 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         }
 
         super.setContentView(R.layout.activity_base);
-
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             mToolbar.setBackgroundResource(R.color.colorPrimary);
             mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
                             .setToActionbarSize().build());
         }
 
@@ -282,11 +280,11 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT).setColorResource(R.color.background)
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT).setColorResource(R.color.white)
                             .setToActionbarSize().build());
         } else {
             mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
                             .setToActionbarSize().build());
         }
     }
@@ -313,7 +311,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
             super();
             setHasOptionsMenu(true);
         }
-
 
 
         public boolean onBackPressed() {

@@ -202,7 +202,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater).setDefaultColorResource(R.color.background).inflate(R.menu.zikr, menu);
+        MaterialMenuInflater.with(getActivity(), inflater).setDefaultColorResource(R.color.white).inflate(R.menu.zikr, menu);
         
         MenuItem item = menu.findItem(R.id.menu_spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);

@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.utils;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -34,6 +35,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.base.R;
+
+import static android.content.Context.UI_MODE_SERVICE;
 
 public class Utils {
     /**
@@ -132,5 +136,9 @@ public class Utils {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static boolean isNightMode(Context c) {
+        return c.getResources().getBoolean(R.bool.night_mode);
     }
 }

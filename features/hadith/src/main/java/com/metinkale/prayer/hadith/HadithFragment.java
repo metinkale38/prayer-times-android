@@ -205,7 +205,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                 if (mRemFav == -1) {
                     mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
                             .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
-                            .setColorResource(R.color.background)
+                            .setColorResource(R.color.white)
                             .setToActionbarSize()
                             .build());
                     mRemFav = i;
@@ -213,7 +213,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
                 } else {
                     mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
                             .setIcon(MaterialDrawableBuilder.IconValue.STAR)
-                            .setColorResource(R.color.background)
+                            .setColorResource(R.color.white)
                             .setToActionbarSize()
                             .build());
                     mRemFav = -1;
@@ -256,7 +256,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.background)
+                .setDefaultColorResource(R.color.white)
                 .inflate(R.menu.hadis, menu);
 
         mSwitch = menu.findItem(R.id.favswitch);
@@ -295,13 +295,13 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
             mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.STAR)
-                    .setColorResource(R.color.background)
+                    .setColorResource(R.color.white)
                     .setToActionbarSize()
                     .build());
         } else {
             mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
-                    .setColorResource(R.color.background)
+                    .setColorResource(R.color.white)
                     .setToActionbarSize()
                     .build());
         }

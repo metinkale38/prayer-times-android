@@ -71,11 +71,11 @@ public class MenuIntroFragment extends IntroFragment {
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
         toolbar.setNavigationIcon(
-                MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.background)
+                MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
                         .setToActionbarSize().build());
         
         mDrawerLayout = v.findViewById(R.id.drawer);
-        mDrawerLayout.setBackgroundResource(R.color.background);
+        mDrawerLayout.setBackgroundResource(R.color.white);
         
         ListView lv = v.findViewById(R.id.base_nav);
         lv.setAdapter(buildNavAdapter(getActivity()));

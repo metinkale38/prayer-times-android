@@ -62,8 +62,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         if (i.pos == 0) {
             vh.arabicImg.setVisibility(View.VISIBLE);
             vh.arabicImg.setImageResource(R.drawable.allah);
+            vh.arabic.setText(i.arabic);
             vh.name.setVisibility(View.GONE);
-            vh.arabic.setVisibility(View.GONE);
         } else {
             vh.arabicImg.setImageDrawable(null);
             vh.arabicImg.setVisibility(View.GONE);
@@ -74,7 +74,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 vh.name.setText(i.name);
                 vh.name.setVisibility(View.VISIBLE);
             }
-            vh.arabic.setVisibility(View.VISIBLE);
         }
 
         if (i.desc == null) {
