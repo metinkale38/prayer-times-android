@@ -17,7 +17,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foreground">
+    android:background="#000000">
 
     <view
         android:id="@+id/img"
@@ -37,7 +37,7 @@
         android:layout_marginBottom="50dp"
         android:padding="25dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/background" />
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/vakit"
@@ -47,6 +47,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="75dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/background" />
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

@@ -36,7 +36,7 @@ import java.util.List;
 public class MyPlayer {
 
     //internal variabke
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer[] mediaPlayers;
     private int volume = -1;
     private List<Sound> sound;
 
@@ -66,7 +66,7 @@ public class MyPlayer {
     }
 
     public MyPlayer volume(int volume) {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (isPlaying()) {
             if (this.volume >= 0 && volume >= 0) {
                 AudioManager am = (AudioManager) App.get().getSystemService(Context.AUDIO_SERVICE);
                 am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
@@ -95,17 +95,30 @@ public class MyPlayer {
 
 
     public MyPlayer play() {
-        Iterator<Sound> iter = sound.iterator();
+        if (sound.size() == 0) return this;
+        mediaPlayers = new MediaPlayer[sound.size()];
+        for (int i = 0; i < sound.size(); i++) {
+            Sound s = sound.get(i);
+            mediaPlayers[i] = s.createMediaPlayer(alarm);
+            try {
+                mediaPlayers[i].prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        if (iter.hasNext()) {
-            play(iter);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mediaPlayers[i].setAudioAttributes(new AudioAttributes.Builder().setLegacyStreamType(getStreamType()).build());
+            } else {
+                mediaPlayers[i].setAudioStreamType(getStreamType());
+            }
+
         }
 
-        return this;
-    }
+        for (int i = sound.size() - 2; i >= 0; i--) {
+            mediaPlayers[i].setNextMediaPlayer(mediaPlayers[i + 1]);
+        }
 
-    private void play(final Iterator<Sound> iter) {
-        mediaPlayer = iter.next().createMediaPlayer(alarm);
+
         final AudioManager am = (AudioManager) App.get().getSystemService(Context.AUDIO_SERVICE);
 
         final int streamType;
@@ -117,37 +130,25 @@ public class MyPlayer {
             am.setStreamVolume(streamType, volume, 0);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setLegacyStreamType(getStreamType()).build());
-        } else {
-            mediaPlayer.setAudioStreamType(getStreamType());
-        }
+        mediaPlayers[0].start();
+        setupSeekbar();
 
-        mediaPlayer.setOnCompletionListener(mp -> {
+        mediaPlayers[mediaPlayers.length - 1].setOnCompletionListener(mp -> {
             if (volume > 0) {
                 am.setStreamVolume(streamType, oldvol, 0);
             }
 
-            if (iter.hasNext()) {
-                play(iter);
-            } else if (onComplete != null) {
+            if (onComplete != null) {
                 onComplete.onComplete();
             }
 
         });
-
-        try {
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            setupSeekbar();
-        } catch (IOException e) {
-            Crashlytics.logException(e);
-        }
-
-
+        return this;
     }
 
     private void setupSeekbar() {
+        MediaPlayer mediaPlayer = getMediaPlayer();
+        if (mediaPlayer == null) return;
         if (seekbar != null) {
             seekbar.setMax(mediaPlayer.getDuration());
 
@@ -173,11 +174,11 @@ public class MyPlayer {
             seekbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    if (getMediaPlayer() != null && getMediaPlayer().isPlaying()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            seekbar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                            seekbar.setProgress(getMediaPlayer().getCurrentPosition(), true);
                         } else {
-                            seekbar.setProgress(mediaPlayer.getCurrentPosition());
+                            seekbar.setProgress(getMediaPlayer().getCurrentPosition());
                         }
                         seekbar.postDelayed(this, 100);
                     }
@@ -188,15 +189,25 @@ public class MyPlayer {
 
 
     public void stop() {
-        mediaPlayer.reset();
-        mediaPlayer = null;
+        for (MediaPlayer mp : mediaPlayers) {
+            mp.reset();
+        }
+        mediaPlayers = null;
         if (onComplete != null) {
             onComplete.onComplete();
         }
     }
 
+    private MediaPlayer getMediaPlayer() {
+        if (mediaPlayers == null) return null;
+        for (MediaPlayer mp : mediaPlayers) {
+            if (mp.isPlaying()) return mp;
+        }
+        return null;
+    }
+
     public boolean isPlaying() {
-        return mediaPlayer != null && mediaPlayer.isPlaying();
+        return getMediaPlayer() != null;
     }
 
     public MyPlayer seekbar(SeekBar seekbar) {

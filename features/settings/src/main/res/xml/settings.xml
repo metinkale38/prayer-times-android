@@ -176,7 +176,7 @@
 
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="useAlarm"
             android:summary="@string/useAlarmDesc"
             android:title="@string/useAlarm" />

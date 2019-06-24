@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
@@ -182,10 +183,9 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            silent = drawableToBitmap(MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF)
-                    .setColorResource(R.color.background).setSizePx(w / 5).build(), w / 5);
+            silent = drawableToBitmap(MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF).setColor(Color.WHITE).setSizePx(w / 5).build(), w / 5);
             close = drawableToBitmap(
-                    MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CLOSE).setColorResource(R.color.background)
+                    MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CLOSE).setColor(Color.WHITE)
                             .setSizePx(w / 5).build(), w / 5);
 
         }

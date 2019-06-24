@@ -88,7 +88,6 @@ public class AlarmService extends IntentService {
 
             am.setExact(AlarmManager.RTC_WAKEUP, time, service);
 
-
         }
 
     }

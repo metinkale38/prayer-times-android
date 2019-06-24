@@ -38,7 +38,7 @@ public class Preferences {
     };
     public static Preference<String> SILENTER_MODE = new StringPreference("silenterType", "silent");
     public static Preference<String> LANGUAGE = new StringPreference("language", "system");
-    public static Preference<Boolean> USE_ALARM = new BooleanPreference("useAlarm", false);
+    public static Preference<Boolean> USE_ALARM = new BooleanPreference("useAlarm", true);
     public static Preference<String> DIGITS = new StringPreference("numbers", "normal");
     public static Preference<String> DATE_FORMAT = new StringPreference("dateformat", "DD MMM YYYY");
     public static Preference<String> HIJRI_DATE_FORMAT = new StringPreference("hdateformat", "DD MMM YYYY");
