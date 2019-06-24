@@ -15,4 +15,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="fasting">Puasa</string>
+    <string name="witr">Witir</string>
+    <string name="morningPrayer">Solat Pagi</string>
+</resources>

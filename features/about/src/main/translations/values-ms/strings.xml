@@ -15,4 +15,22 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="report_bug">Laporkan bug</string>
+    <string name="report_bug_sum">Laporkan bug atau permintaan ciri-ciri baru.</string>
+    <string name="translate_sum">Bantu kami untuk terjamahkan Aplikasi ini kepada lebih banyak lagi Bahasa</string>
+    <string name="github_sum">Garpukan repositori dan tolak perubahan atau kemukan isu-isu baru.</string>
+    <string name="license">Lesen</string>
+    <string name="license_sum">Semak Lesen Apache, Versi 2.0 terma lesen digunakan dalam Waktu Solat</string>
+    <string name="library_licenses">Lesen Library</string>
+    <string name="library_licenses_sum">Semak libs pihak ketiga digunakan dalam Waktu Solat</string>
+    <string name="rate">Kadar</string>
+    <string name="rate_desc">Tinggalkan kami penilaian yang positif sekiranya anda menyukai Waktu Solat.</string>
+    <string name="sendMail_sum">Hantarkan saya E-Mail!</string>
+    <string name="beta_tester">Jadi penguji</string>
+    <string name="beta_tester_desc">Daftar sebagai Penguji Beta dengan klik disini</string>
+    <string name="support_development">Sokong Pembangunan</string>
+    <string name="share_sum">Kongsikan aplikasi ini kepada yang lain!</string>
+    <string name="showIntro">Paparan Pengenalan</string>
+    <string name="showIntro_sum">Paparkan Pengenalan Aplikasi ini</string>
+</resources>

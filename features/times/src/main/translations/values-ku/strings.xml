@@ -30,6 +30,8 @@
     <string name="filePicker">Ji pelan hilbijêre</string>
     <string name="other">Din</string>
     <string name="sun">Roj</string>
+    <string name="timeBased">Deqîqeyan</string>
+    <string name="time">Dem</string>
     <string name="calculated">Hesibandin</string>
     <string name="autoremove_notification">Jê agahdar bike, piştî azan</string>
     <string name="versionNotSupported">Versiyon ji bo Android ev piştgirî ne!</string>
@@ -38,8 +40,12 @@
     <string name="addFromCSV">Lê zêde bike CSV</string>
     <string name="csvFromFile">Bînin CSV ji pel</string>
     <string name="csvFromURL">Bînin CSV ji înternetê</string>
+    <string name="stop">Rawestî</string>
+    <string name="takbir">Tekbîr</string>
     <string name="ongoingNotification">Agahdayin-Widget</string>
     <string name="prayerNotification">Nimêja agahdar bike</string>
     <string name="sound">Deng</string>
     <string name="vibration">Hej</string>
+    <string name="midnight">Nîvê şevê</string>
+    <string name="minutes">Deqîqeyan</string>
 </resources>

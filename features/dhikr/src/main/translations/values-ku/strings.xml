@@ -18,5 +18,6 @@
 <resources>
     <string name="delConfirmDhikr">Tu bi rastî dixwazî jê bibî \“%1$s\”?</string>
     <string name="newDhikr">Zikr Nû</string>
+    <string name="resetConfirmDhikr">Ma hûn bi rastî dixwazî xwe vekin\“%1$s\”?</string>
     <string name="tasbih">Tesbîh</string>
 </resources>

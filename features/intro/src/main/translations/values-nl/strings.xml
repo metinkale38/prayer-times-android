@@ -17,4 +17,8 @@
   -->
 <resources>
     <string name="changelog">Wat is nieuw?</string>
+    <string name="intro_menu">Via het zij-menu kunt u alle functies van deze app bekijken</string>
+    <string name="intro_pager">U kunt zoveel steden toevoegen als u wilt</string>
+    <string name="intro_config">Door omhoog/omlaag te vegen krijgt u toegang tot maandelijkse weergave en stadsinstellingen.</string>
+    <string name="intro_config2">Door op het alarm icoon in het menu te drukken, krijgt u toegang tot meldingsinstellingen om Adhan te configureren.</string>
 </resources>

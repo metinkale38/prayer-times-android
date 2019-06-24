@@ -2,20 +2,21 @@
 <resources translatable="false">
     <string-array name="languages">
         <item>sq|29</item>
-        <item>ar|95</item>
+        <item>ar|98</item>
         <item>az|4</item>
         <item>bn|5</item>
-        <item>bs|88</item>
+        <item>bs|84</item>
         <item>zh-CN|3</item>
-        <item>nl|73</item>
+        <item>nl|93</item>
         <item>en|100</item>
-        <item>fr|95</item>
+        <item>fr|94</item>
         <item>de|100</item>
-        <item>id|94</item>
-        <item>kur|40</item>
-        <item>ru|81</item>
+        <item>id|100</item>
+        <item>kur|44</item>
+        <item>ms|56</item>
+        <item>ru|78</item>
         <item>tr|100</item>
-        <item>uk|60</item>
+        <item>uk|58</item>
         <item>ur-PK|18</item>
     </string-array>
 </resources>

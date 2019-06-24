@@ -90,4 +90,6 @@
     <string name="minutes">Menit</string>
     <string name="both">Keduanya</string>
     <string name="addAlarm">Tambah alarm</string>
+    <string name="silenterNotificationTitle">Hening</string>
+    <string name="silenterNotificationInfo">Tolong izinkan akses untuk Prayer Times untuk mengheningkan ponsel anda</string>
 </resources>

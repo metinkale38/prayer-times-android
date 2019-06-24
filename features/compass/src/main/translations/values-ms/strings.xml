@@ -15,4 +15,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="angle">Sudut</string>
+    <string name="distance">Jarak</string>
+    <string name="noConnection">Tiada sambungan</string>
+    <string name="switchCompass">Kompas/Peta</string>
+    <string name="touchToSelectCity">Sentuh disini untuk pilih Bandar</string>
+    <string name="permissionNotGranted">Kebenaran tidak diberi.</string>
+    <string name="compass_type_reminder">Klik disini untuk mencuba kaedah lain untuk mencari arah Kiblat yang betul.</string>
+    <string name="compassCalibrationTitle">Menentukur kompas anda</string>
+    <string name="compassCalibrationSubTitle">Condongkan dan gerakan telefon anda 3 kali seperti ini:</string>
+    <string name="accuracy">Ketepatan</string>
+    <string name="accuracy_low">Rendah</string>
+    <string name="accuracy_medium">Sederhana</string>
+    <string name="accuracy_high">Tinggi</string>
+</resources>

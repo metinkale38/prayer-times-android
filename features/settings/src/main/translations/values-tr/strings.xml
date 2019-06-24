@@ -46,8 +46,8 @@
     <string name="dateFormat3">31 Aralık</string>
     <string name="hDateFormat3">30 Muharrem</string>
     <string name="useAlarm">Bildirimler için Alarm kullan</string>
-    <string name="useAlarmDesc">"DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
-    "</string>
+    <string name="useAlarmDesc">DENEYSEL - Bildirimler tam Vaktinde okunmuyor ise, bu ayarı deneyebilirsiniz. Bildirim Merkezine Saat Resmi ekleyecektir!
+    </string>
     <string name="ongoingNumber">Kalici Notification - Dakika göster</string>
     <string name="vakit_indicator">Vakit göstergesi</string>
     <string name="vakit_indicator_next">Gelecek Vakit</string>

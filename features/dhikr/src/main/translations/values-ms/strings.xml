@@ -15,4 +15,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="delConfirmDhikr">Adakah anda ingini untuk memadam %1$s?</string>
+    <string name="dhikrCount">Matlamat Zikir</string>
+    <string name="newDhikr">Zikir Baru</string>
+    <string name="resetConfirmDhikr">Adakah anda ingini untuk menetapkan semula %1$s?</string>
+    <string name="tasbih">Tasbih</string>
+</resources>

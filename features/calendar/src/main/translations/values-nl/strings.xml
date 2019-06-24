@@ -17,4 +17,5 @@
   -->
 <resources>
     <string name="off">Uit</string>
+    <string name="switchHijriGreg">Wijzig Hijri/Gregorian Kalender</string>
 </resources>

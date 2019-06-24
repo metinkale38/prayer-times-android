@@ -30,4 +30,7 @@
     <string name="beta_tester">Tester worden</string>
     <string name="beta_tester_desc">Registreer als Beta-Testen door hier te klikken</string>
     <string name="support_development">Ontwikkeling steunen</string>
+    <string name="share_sum">Deel deze app met anderen!</string>
+    <string name="showIntro">Bekijk intro</string>
+    <string name="showIntro_sum">Toon de introductie van deze app</string>
 </resources>

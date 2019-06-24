@@ -22,4 +22,11 @@
     <string name="switchCompass">Kompas/kaart</string>
     <string name="touchToSelectCity">Hier klikken om Stad te selecteren</string>
     <string name="permissionNotGranted">Toestemming niet verleend.</string>
+    <string name="compass_type_reminder">Klik hier om verschillende methoden te proberen om de juiste Qibla richting te vinden.</string>
+    <string name="compassCalibrationTitle">Kalibreer je kompas</string>
+    <string name="compassCalibrationSubTitle">Beweeg uw telefoon zoals aangegeven:</string>
+    <string name="accuracy">Nauwkeurigheid</string>
+    <string name="accuracy_low">Laag nauwkeurigheid</string>
+    <string name="accuracy_medium">Gemiddelde nauwkeurigheid</string>
+    <string name="accuracy_high">Hoog nauwkeurigheid</string>
 </resources>

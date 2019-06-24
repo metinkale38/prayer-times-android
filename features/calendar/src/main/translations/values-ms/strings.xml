@@ -15,4 +15,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="off">Tutup</string>
+    <string name="switchHijriGreg">Tukar Kalendar Hijrah/Masihi</string>
+</resources>

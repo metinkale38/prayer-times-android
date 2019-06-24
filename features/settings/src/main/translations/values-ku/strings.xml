@@ -38,4 +38,5 @@
     <string name="dateFormat3">31 Berfanbar</string>
     <string name="hDateFormat3">30 Muharram</string>
     <string name="useAlarm">Bi kar Alarm ji bo Agahdarkerê</string>
+    <string name="showExtraTimesSummary">Tenê FaziletTakvimi.com, NamazVakti.com û ji bo hesabkirin</string>
 </resources>

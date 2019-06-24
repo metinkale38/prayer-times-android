@@ -15,4 +15,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="backup">Sandaran</string>
+    <string name="backupRestore">Sandaran/Memulihkan</string>
+    <string name="calendarIntegration">Integrasi Kalendar</string>
+    <string name="dateAndTime">Tarikh dan Masa</string>
+    <string name="dateFormat1">31 Disember 2013</string>
+    <string name="dateFormat2">31 Disember 13</string>
+    <string name="dateFormat">Format Tarikh</string>
+    <string name="hDateFormat1">30 Muharram 1434</string>
+</resources>

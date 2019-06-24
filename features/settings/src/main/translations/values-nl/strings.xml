@@ -57,4 +57,6 @@
     <string name="widget">Widget</string>
     <string name="showLegacyWidgets">Toon oudere Widgets</string>
     <string name="showLegacyWidgetsSummary">Alleen gebruiken als u problemen heeft met de huidige Widgets</string>
+    <string name="showExtraTimes">Toon Ochtendgebed en Asr Sani</string>
+    <string name="showExtraTimesSummary">Alleen voor FaziletTakvimi.com, NamazVakti.com en Berekende tijden</string>
 </resources>

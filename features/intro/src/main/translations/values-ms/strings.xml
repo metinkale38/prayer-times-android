@@ -15,4 +15,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="changelog">Apa yang baru?</string>
+    <string name="intro_menu">Melalui Menu Pilihan anda boleh mengakses semua Ciri-ciri Aplikasi ini</string>
+    <string name="intro_pager">Anda boleh menambah sebanyak mana bandar-bandar yang anda inginkan</string>
+    <string name="intro_config">Dengan meleret ataas/bawah anda boleh mengakses kepada pandangan tetapan terhadap bulanan dan bandar.</string>
+    <string name="intro_config2">Anda boleh mengakses tetapan notifikasi untuk konfigurasi Azan dengan menekan Ikon Penggera dalam menu.</string>
+</resources>

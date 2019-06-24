@@ -15,4 +15,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources></resources>
+<resources>
+    <string name="category">Kategori</string>
+    <string name="dlHadith">Muat turun pangkalan data Hadis?</string>
+    <string name="favorite">Kegemaran</string>
+    <string name="foundXHadis">jumpa Hadis %1$s</string>
+    <string name="mixed">Bercampur</string>
+    <string name="noFavs">Tiada kegemaran</string>
+    <string name="sorted">Disusun</string>
+</resources>

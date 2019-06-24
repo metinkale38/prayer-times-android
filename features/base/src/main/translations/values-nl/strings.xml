@@ -85,6 +85,9 @@
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
     <string name="cancel">Annuleren</string>
+    <string name="back">Terug</string>
+    <string name="finish">Gereed</string>
+    <string name="continue_">Volgende</string>
     <string name="vote">Beoordelen</string>
     <string name="mail">E-mail</string>
     <string name="test">Probeer</string>
@@ -92,7 +95,9 @@
     <string name="refresh">Synchroniseren</string>
     <string name="translate">Vertalen</string>
     <string name="language">Taal</string>
+    <string name="shareText">Hé, bekijk deze gebedstijden app: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
     <!-- Other -->
+    <string name="systemLanguage">Systeemtaal</string>
     <string name="notification">Melding</string>
     <string name="version">Versie</string>
     <string name="search">Zoeken</string>
@@ -100,4 +105,12 @@
     <string name="no_internet">Geen internetverbinding</string>
     <string name="error">Er is een fout opgetreden</string>
     <!-- Prayer Times -->
+    <string name="morningPrayer">Ochtendgebed</string>
+    <string name="imsak">Imsak</string>
+    <string name="fajr">Ochtendgebed</string>
+    <string name="zuhr">Middaggebed</string>
+    <string name="asr">Namiddaggebed</string>
+    <string name="maghrib">Avondgebed</string>
+    <string name="ishaa">Nachtgebed</string>
+    <string name="off">Uit</string>
 </resources>

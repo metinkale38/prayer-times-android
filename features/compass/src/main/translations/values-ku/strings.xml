@@ -20,4 +20,8 @@
     <string name="distance">Dûrî</string>
     <string name="switchCompass">Pisûle/Nexşe</string>
     <string name="touchToSelectCity">Li vir ji bo hilbijêre Bajarê</string>
+    <string name="permissionNotGranted">Destûr nabe.</string>
+    <string name="accuracy">Rastî</string>
+    <string name="accuracy_medium">Navîn</string>
+    <string name="accuracy_high">Bilind</string>
 </resources>
