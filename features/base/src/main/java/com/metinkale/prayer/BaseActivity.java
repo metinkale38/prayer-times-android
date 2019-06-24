@@ -23,6 +23,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -49,6 +50,9 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.graphics.drawable.TintAwareDrawable;
+import androidx.core.widget.TextViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -225,11 +229,15 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 } else
                     ((TextView) v).setTypeface(null, Typeface.NORMAL);
 
+                Drawable icon = c.getResources().getDrawable(item.getIconRes());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    icon.mutate().setTint(getResources().getColor(R.color.foreground));
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                         c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconRes(), 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
                 } else {
-                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(item.getIconRes(), 0, 0, 0);
+                    ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 }
 
 

@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -32,6 +33,8 @@ import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
 import com.metinkale.prayer.utils.Utils;
 
+import org.joda.time.DateTimeComparator;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
@@ -84,6 +87,26 @@ public class Alarm implements Comparable<Alarm> {
         return null;
     }
 
+    private static int jodaWDToJavaWD(int wd) {
+        switch (wd) {
+            case DateTimeConstants.MONDAY:
+                return Calendar.MONDAY;
+            case DateTimeConstants.TUESDAY:
+                return Calendar.TUESDAY;
+            case DateTimeConstants.WEDNESDAY:
+                return Calendar.WEDNESDAY;
+            case DateTimeConstants.THURSDAY:
+                return Calendar.THURSDAY;
+            case DateTimeConstants.FRIDAY:
+                return Calendar.FRIDAY;
+            case DateTimeConstants.SATURDAY:
+                return Calendar.SATURDAY;
+            case DateTimeConstants.SUNDAY:
+                return Calendar.SUNDAY;
+        }
+        return 0;
+    }
+
     public LocalDateTime getNextAlarm() {
 
         Times city = getCity();
@@ -94,8 +117,7 @@ public class Alarm implements Comparable<Alarm> {
 
         for (int i = 0; i <= 7; i++) {
             LocalDate date = today.plusDays(i);
-            int wd = (date.getDayOfWeek() + 5) % 7 + 1; // joda counts weekdays different
-            if (!weekdays.contains(wd))
+            if (!weekdays.contains(jodaWDToJavaWD(date.getDayOfWeek())))
                 continue;
 
             for (Vakit vakit : Vakit.values()) {

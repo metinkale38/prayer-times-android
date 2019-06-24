@@ -28,7 +28,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/kerahatTime"
-        android:textColor="@color/background"
+        android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

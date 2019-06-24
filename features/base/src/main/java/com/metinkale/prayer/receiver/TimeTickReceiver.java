@@ -112,7 +112,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
             MyAlarmManager am = MyAlarmManager.with(context);
             DateTime dt = DateTime.now();
-            am.setExact(AlarmManager.RTC, dt.plusMinutes(0).withSecondOfMinute(0).withMillisOfSecond(0).getMillis(),
+            am.setExact(AlarmManager.RTC, dt.plusMinutes(1).withSecondOfMinute(0).withMillisOfSecond(0).getMillis(),
                     PendingIntent.getBroadcast(App.get(), 0, new Intent(App.get(), TimeTickReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT));
         }
     }

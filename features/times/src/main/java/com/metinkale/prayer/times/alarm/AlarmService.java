@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.PowerManager;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
@@ -78,7 +79,7 @@ public class AlarmService extends IntentService {
             }
 
             long time = alarm.second.toDateTime().getMillis();
-
+            if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second.toString());
             i.putExtra(EXTRA_ALARMID, alarm.first.getId());
             i.putExtra(EXTRA_TIME, time);
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
