@@ -170,8 +170,11 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
         private final Drawable icon;
         private Bitmap silent;
         private Bitmap close;
-        private MotionEvent touch;
-        private boolean acceptTouch;
+        private int distX;
+        private int distY;
+        private int touchXStart;
+        private int touchYStart;
+        private float distance;
 
         public MyView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
@@ -212,78 +215,84 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
             int r = w / 10;
 
             canvas.translate(w / 2f, w / 2f);
-            if (touch == null) {
-                icon.setBounds(-r, -r, r, r);
-                icon.draw(canvas);
+            icon.setBounds(distX - r, distY - r, distX + r, distY + r);
+            icon.draw(canvas);
+            if (distX == 0 && distY == 0) {
                 return;
             }
 
-            int x = (int) touch.getX();
-            int y = (int) touch.getY();
-            x -= getLeft();
-            y -= getTop();
-            x -= w / 2;
-            y -= w / 2;
-
-            float tr = (float) Math.sqrt((x * x) + (y * y));
-            double angle = Math.atan(y / (double) x);
-            if (x < 0) {
-                angle += Math.PI;
+            paint.setColor(0xFFFFFFFF);
+            if (silent != null) {
+                canvas.drawBitmap(silent, -5 * r, -r, paint);
             }
-            if (tr >= ((w / 2) - r)) {
-                tr = w / 2f - r;
+            if (close != null) {
+                canvas.drawBitmap(close, 3 * r, -r, paint);
             }
 
-            x = (int) (Math.cos(angle) * tr);
-            y = (int) (Math.sin(angle) * tr);
-
-            if ((touch.getAction() == MotionEvent.ACTION_DOWN) && (Math.abs(x) < r) && (Math.abs(y) < r)) {
-                acceptTouch = true;
-            }
-
-            if (acceptTouch && (touch.getAction() != MotionEvent.ACTION_UP)) {
-
-                paint.setColor(0xFFFFFFFF);
-                if (silent != null) {
-                    canvas.drawBitmap(silent, -5 * r, -r, paint);
-                }
-                if (close != null) {
-                    canvas.drawBitmap(close, 3 * r, -r, paint);
-                }
-
-                icon.setBounds(x - r, y - r, x + r, y + r);
-                icon.draw(canvas);
-
-                paint.setStyle(Style.STROKE);
-                paint.setColor(0x88FFFFFF);
-                canvas.drawCircle(0f, 0f, tr, paint);
-
-            } else {
-                icon.setBounds(-r, -r, r, r);
-                icon.draw(canvas);
-
-                if (tr > (3 * r)) {
-                    if ((Math.abs(angle) < (Math.PI / 10)) && (instance != null)) {
-                        instance.finish();
-                    }
-
-                    if ((Math.abs(angle - Math.PI) < (Math.PI / 10)) && (instance != null)) {
-                        instance.onDismiss();
-                    }
-                }
-            }
-
+            paint.setStyle(Style.STROKE);
+            paint.setColor(0x88FFFFFF);
+            canvas.drawCircle(0f, 0f, distance, paint);
         }
 
         @Override
         public boolean onTouch(View arg0, @NonNull MotionEvent me) {
-            touch = me;
-            if (me.getAction() == MotionEvent.ACTION_UP) {
-                acceptTouch = false;
+
+            int w = getWidth();
+            int h = getWidth();
+            int touchRadius = w / 10;
+
+
+            // get x/y relative to center
+            int x = (int) me.getRawX();
+            int y = (int) me.getRawY();
+            int[] location = new int[2];
+            getLocationOnScreen(location);
+            x -= location[0];
+            y -= location[1];
+            x -= w / 2;
+            y -= h / 2;
+
+            // save start position
+            if (me.getAction() == MotionEvent.ACTION_DOWN) {
+                touchXStart = x;
+                touchYStart = y;
             }
 
-            invalidate();
+            // only accept touches inside touchRadius
+            if (Math.sqrt((touchXStart * touchXStart) + (touchYStart * touchYStart)) < touchRadius) {
+                distance = (float) Math.sqrt((distX * distX) + (distY * distY));
 
+                distX = x - touchXStart;
+                distY = y - touchYStart;
+
+                double angle = Math.atan(distY / (double) distX);
+                if (x < 0) {
+                    angle += Math.PI;
+                }
+                if (distance >= ((w / 2) - touchRadius)) {
+                    distance = w / 2f - touchRadius;
+                }
+
+                if (me.getAction() == MotionEvent.ACTION_UP) {
+                    if (distance > (3 * touchRadius)) {
+                        if ((Math.abs(angle) < (Math.PI / 10)) && (instance != null)) {
+                            instance.finish();
+                        }
+
+                        if ((Math.abs(angle - Math.PI) < (Math.PI / 10)) && (instance != null)) {
+                            instance.onDismiss();
+                        }
+                    }
+                }
+            }
+
+            if (me.getAction() == MotionEvent.ACTION_UP) {
+                distX = 0;
+                distY = 0;
+            }
+
+
+            invalidate();
             return true;
 
         }
