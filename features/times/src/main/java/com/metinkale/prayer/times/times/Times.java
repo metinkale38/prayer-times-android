@@ -18,7 +18,10 @@ package com.metinkale.prayer.times.times;
 
 import android.content.SharedPreferences;
 
-import com.crashlytics.android.Crashlytics;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.alarm.Alarm;
@@ -32,16 +35,9 @@ import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
-import androidx.core.util.Pair;
 
 public abstract class Times extends TimesBase {
 
@@ -98,12 +94,18 @@ public abstract class Times extends TimesBase {
             if (!sTimes.isEmpty()) {
                 clearTemporaryTimes();
             }
+
+
+            sort();
         }
+
         return sTimes;
 
     }
 
-
+    public static void sort() {
+        Collections.sort(getTimes(), (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
+    }
 
     @NonNull
     public static List<Long> getIds() {

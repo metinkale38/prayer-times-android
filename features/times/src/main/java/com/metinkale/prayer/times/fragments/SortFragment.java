@@ -39,7 +39,6 @@ import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -124,9 +123,12 @@ public class SortFragment extends Fragment {
                 Collections.swap(mAdapter.times, i, i - 1);
             }
         }
-        mAdapter.notifyItemMoved(fromPosition, toPosition);
 
-        Times.move(fromPosition, toPosition);
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            mAdapter.times.get(i).setSortId(i);
+        }
+
+        mAdapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     public void onItemDismiss(final int position) {
@@ -228,7 +230,7 @@ public class SortFragment extends Fragment {
         public void onChanged(@Nullable List<Times> times) {
             this.times.clear();
             this.times.addAll(Times.getTimes());
-            Collections.sort(this.times, (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
+
             notifyDataSetChanged();
         }
     }
@@ -270,7 +272,7 @@ public class SortFragment extends Fragment {
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
                 if (viewHolder instanceof ViewHolder) {
                     ViewHolder itemViewHolder = (ViewHolder) viewHolder;
-                    itemViewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+                    itemViewHolder.itemView.setBackgroundColor(mixColor(getActivity().getResources().getColor(R.color.background), getActivity().getResources().getColor(R.color.backgroundSecondary)));
                 }
             }
 
@@ -283,8 +285,19 @@ public class SortFragment extends Fragment {
 
             if (viewHolder instanceof ViewHolder) {
                 ViewHolder itemViewHolder = (ViewHolder) viewHolder;
-                itemViewHolder.itemView.setBackgroundColor(Color.WHITE);
+                itemViewHolder.itemView.setBackgroundResource(R.color.background);
+                Times.sort();
             }
         }
+
+
+    }
+
+    private static int mixColor(int color1, int color2) {
+        final float inverseRation = 1f - (float) 0.5;
+        float r = (Color.red(color1) * (float) 0.5) + (Color.red(color2) * inverseRation);
+        float g = (Color.green(color1) * (float) 0.5) + (Color.green(color2) * inverseRation);
+        float b = (Color.blue(color1) * (float) 0.5) + (Color.blue(color2) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 }

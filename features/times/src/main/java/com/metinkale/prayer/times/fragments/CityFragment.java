@@ -92,12 +92,13 @@ public class CityFragment extends Fragment implements Observer<Times> {
                     mTitle.setText(mTimes.getName());
 
                 int next = mTimes.getNextTime();
+                int indicator = next;
                 if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
-                    next = next + 1;
+                    indicator = indicator + 1;
                 for (int i = 0; i < 6; i++) {
                     TextView time = mPrayerTimes[i];
                     ViewGroup parent = (ViewGroup) time.getParent();
-                    if (i == next - 1) {
+                    if (i == indicator - 1) {
                         time.setBackgroundResource(R.color.accent);
                         parent.getChildAt(parent.indexOfChild(time) - 1).setBackgroundResource(R.color.accent);
                     } else {
@@ -194,9 +195,9 @@ public class CityFragment extends Fragment implements Observer<Times> {
 
                 if (Utils.isNightMode(getActivity())) {
                     float[] matrix = {
-                            1/3f, 1/3f, 1/3f, 0, 255, //red
-                            1/3f, 1/3f, 1/3f, 0, 255, //green
-                            1/3f, 1/3f, 1/3f, 0, 255, //blue
+                            1 / 3f, 1 / 3f, 1 / 3f, 0, 255, //red
+                            1 / 3f, 1 / 3f, 1 / 3f, 0, 255, //green
+                            1 / 3f, 1 / 3f, 1 / 3f, 0, 255, //blue
                             0, 0, 0, 1.0f, 0 //alpha
                     };
                     ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);

@@ -365,7 +365,7 @@ public class AlarmConfigFragment extends DialogFragment {
         }
 
         for (int i = 0; i < 7; i++) {
-            mWeekdays[i].setText(weekdays[i + 1].substring(0, 1));
+            mWeekdays[i].setText(weekdays[i + 1].replace("ال", "").substring(0, 1));
             mWeekdaysText[i].setText(weekdays[i + 1]);
             final int weekday = i + 1;
 

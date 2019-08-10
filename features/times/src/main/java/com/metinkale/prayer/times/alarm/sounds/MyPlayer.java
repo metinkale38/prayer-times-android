@@ -17,19 +17,16 @@
 package com.metinkale.prayer.times.alarm.sounds;
 
 import android.content.Context;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.widget.SeekBar;
 
-import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -100,17 +97,14 @@ public class MyPlayer {
         for (int i = 0; i < sound.size(); i++) {
             Sound s = sound.get(i);
             mediaPlayers[i] = s.createMediaPlayer(alarm);
+
+            mediaPlayers[i].setAudioStreamType(getStreamType());
             try {
                 mediaPlayers[i].prepare();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mediaPlayers[i].setAudioAttributes(new AudioAttributes.Builder().setLegacyStreamType(getStreamType()).build());
-            } else {
-                mediaPlayers[i].setAudioStreamType(getStreamType());
-            }
 
         }
 

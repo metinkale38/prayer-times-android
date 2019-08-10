@@ -57,29 +57,35 @@ public class UserSound extends Sound {
 
     @Override
     public String getName() {
-        String result = null;
-        if ("content".equals(uri.getScheme())) {
-            Cursor cursor = App.get().getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-            }
+        try {
+            String result = null;
+            if ("content".equals(uri.getScheme())) {
+                Cursor cursor = App.get().getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
 
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = 0;
-            if (result != null) {
-                cut = result.lastIndexOf('/');
-
-                if (cut != -1) {
-                    result = result.substring(cut + 1);
+                if (cursor != null) {
+                    cursor.close();
                 }
             }
+            if (result == null) {
+                result = uri.getPath();
+                int cut = 0;
+                if (result != null) {
+                    cut = result.lastIndexOf('/');
+
+                    if (cut != -1) {
+                        result = result.substring(cut + 1);
+                    }
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+
         }
-        return result;
+        return "Unknown";
     }
 
     @Override

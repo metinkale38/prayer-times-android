@@ -50,8 +50,8 @@ public class SilenterReceiver extends BroadcastReceiver {
 
         AudioManager aum = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         int ringermode = aum.getRingerMode();
-        boolean modeVibrate = "vibrate".equals(Preferences.SILENTER_MODE);
-        boolean isSilent = ringermode != AudioManager.RINGER_MODE_SILENT;
+        boolean modeVibrate = "vibrate".equals(Preferences.SILENTER_MODE.get());
+        boolean isSilent = ringermode == AudioManager.RINGER_MODE_SILENT;
         boolean isVibrate = ringermode == AudioManager.RINGER_MODE_VIBRATE;
         if ((modeVibrate && !isVibrate && !isSilent) || (!modeVibrate && !isSilent)) {
             AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);

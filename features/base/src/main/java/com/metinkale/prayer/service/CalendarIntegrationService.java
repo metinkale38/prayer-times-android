@@ -59,7 +59,7 @@ public class CalendarIntegrationService extends IntentService {
 
 
     private static String ACCOUNT_NAME = "Prayer Times";
-    private static String ACCOUNT_TYPE = "com.metinkale.prayer.calendar";
+    private static String ACCOUNT_TYPE = CalendarContract.ACCOUNT_TYPE_LOCAL;
     private static String CALENDAR_COLUMN_NAME = "prayertimes_hijriadapter";
 
     public CalendarIntegrationService() {
@@ -189,8 +189,7 @@ public class CalendarIntegrationService extends IntentService {
                         context.getString(R.string.appName));
                 builder.withValue(CalendarContract.Calendars.CALENDAR_COLOR, context.getResources().getColor(R.color.colorPrimary));
                 builder.withValue(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_READ);
-                builder.withValue(CalendarContract.Calendars.OWNER_ACCOUNT, ACCOUNT_NAME);
-                builder.withValue(CalendarContract.Calendars.SYNC_EVENTS, 1);
+                builder.withValue(CalendarContract.Calendars.SYNC_EVENTS, 0);
                 builder.withValue(CalendarContract.Calendars.VISIBLE, 1);
 
                 operationList.add(builder.build());
