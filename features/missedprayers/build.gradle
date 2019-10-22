@@ -1,3 +1,4 @@
+//noinspection GradleDependency
 /*
  * Copyright (c) 2013-2019 Metin Kale
  *
@@ -61,5 +62,5 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 }

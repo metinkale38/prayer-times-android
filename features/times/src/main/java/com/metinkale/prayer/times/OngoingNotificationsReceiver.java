@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Icon;
+import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.Html;
@@ -39,15 +40,21 @@ import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.graphics.ColorUtils;
+
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
+import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
+import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.utils.NotificationUtils;
-import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -56,11 +63,12 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener, InternalBroadcastReceiver.OnPrefsChangedListener {
     private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
@@ -69,11 +77,12 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
     private Integer mColor1st = null;
     private Integer mColor2nd = null;
 
+
     @Override
     public void onTimeTick() {
-        NotificationManager notMan = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         extractColors();
 
+        NotificationManager notMan = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         LocalDate cal = LocalDate.now();
 
@@ -90,8 +99,10 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             Crashlytics.setBool("showIcon", icon);
             Crashlytics.setBool("showNumber", number);
 
-            Notification noti;
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
+
+
+            views.setTextViewText(android.R.id.title, t.getName());
 
             int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
             int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
@@ -102,20 +113,22 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             for (Vakit vakit : Vakit.values()) {
                 LocalTime time = t.getTime(cal, vakit.ordinal()).toLocalTime();
                 if (marker == vakit.ordinal()) {
-                    views.setTextViewText(vakitIds[vakit.ordinal()], Html.fromHtml("<strong><em>" + vakit.getString() + "</em></strong>"));
+                    views.setTextViewText(vakitIds[vakit.ordinal()], Html.fromHtml("<strong>" + vakit.getString() + "</strong>"));
                     if (Preferences.CLOCK_12H.get()) {
                         Spannable span = (Spannable) LocaleUtils.formatTimeForHTML(time);
-                        span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        span.setSpan(new StyleSpan(Typeface.BOLD), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         views.setTextViewText(timeIds[vakit.ordinal()], span);
-                    } else
+                    } else {
                         views.setTextViewText(timeIds[vakit.ordinal()],
-                                Html.fromHtml("<strong><em>" + LocaleUtils.formatTimeForHTML(time) + "</em></strong>"));
+                                Html.fromHtml("<strong>" + LocaleUtils.formatTimeForHTML(time) + "</strong>"));
+                    }
                 } else {
                     views.setTextViewText(vakitIds[vakit.ordinal()], vakit.getString());
                     views.setTextViewText(timeIds[vakit.ordinal()], LocaleUtils.formatTimeForHTML(time));
                 }
+                views.setTextColor(timeIds[vakit.ordinal()], mColor1st);
+                views.setTextColor(vakitIds[vakit.ordinal()], mColor1st);
             }
-
 
             DateTime nextTime = t.getTime(cal, t.getNextTime()).toDateTime();
             if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get().equals(Preferences.COUNTDOWN_TYPE_SHOW_SECONDS)) {
@@ -125,53 +138,41 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 views.setString(R.id.countdown, "setFormat", txt);
                 views.setChronometer(R.id.countdown, 0, txt, false);
             }
-
-            views.setTextViewText(R.id.city, t.getName());
-
-
-            views.setTextColor(R.id.fajr, mColor1st);
-            views.setTextColor(R.id.sun, mColor1st);
-            views.setTextColor(R.id.zuhr, mColor1st);
-            views.setTextColor(R.id.asr, mColor1st);
-            views.setTextColor(R.id.maghrib, mColor1st);
-            views.setTextColor(R.id.ishaa, mColor1st);
-
-            views.setTextColor(R.id.time0, mColor1st);
-            views.setTextColor(R.id.time1, mColor1st);
-            views.setTextColor(R.id.time2, mColor1st);
-            views.setTextColor(R.id.time3, mColor1st);
-            views.setTextColor(R.id.time4, mColor1st);
-            views.setTextColor(R.id.time5, mColor1st);
-
-
-            views.setTextColor(R.id.time, mColor1st);
-            views.setTextColor(R.id.city, mColor1st);
             views.setTextColor(R.id.countdown, mColor1st);
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Notification.Builder notBuilder =
-                        new Notification.Builder(getContext()).setContent(views).setContentIntent(TimesFragment.getPendingIntent(t)).setSmallIcon(
-                                icon ? (number ? Icon.createWithBitmap(getIconFromMinutes(t)) :
-                                        Icon.createWithResource(getContext(), R.drawable.ic_abicon)) :
-                                        Icon.createWithResource(getContext(), R.drawable.ic_placeholder)).setOngoing(true);
+            Notification.Builder builder =
+                    new Notification.Builder(getContext());
+            builder.setContentIntent(TimesFragment.getPendingIntent(t));
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    notBuilder.setChannelId(NotificationUtils.getOngoingChannel(getContext()).getId());
-                }
-
-                noti = notBuilder.build();
+            if (!icon) {
+                builder.setSmallIcon(R.drawable.ic_placeholder);
+            } else if (number && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                builder.setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(t)));
             } else {
-                noti = new NotificationCompat.Builder(getContext()).setContent(views).setContentIntent(TimesFragment.getPendingIntent(t))
-                        .setSmallIcon(icon ? R.drawable.ic_abicon : R.drawable.ic_placeholder).setOngoing(true).build();
+                builder.setSmallIcon(R.drawable.ic_abicon);
+            }
+            builder.setOngoing(true);
+            builder.setWhen(icon ? System.currentTimeMillis() : 0);
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                builder.setCustomContentView(views);
+            } else {
+                builder.setContent(views);
             }
 
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                builder.setChannelId(NotificationUtils.getOngoingChannel(getContext()));
+            }
+
+
+            Notification noti = builder.build();
 
             if (Build.VERSION.SDK_INT >= 16) {
                 noti.priority = Notification.PRIORITY_LOW;
             }
-            noti.when = icon ? System.currentTimeMillis() : 0;
-
             notifications.add(new Pair<>(t.getIntID(), noti));
         }
 
@@ -208,6 +209,13 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         return b;
     }
 
+    @Override
+    public void onPrefsChanged(@NonNull String key) {
+        if (key.equals(Preferences.SHOW_ONGOING_ICON.getKey()) || key.equals(Preferences.SHOW_ONGOING_NUMBER.getKey())) {
+            onTimeTick();
+        }
+    }
+
 
     private boolean recurseGroup(@NonNull ViewGroup gp) {
         int count = gp.getChildCount();
@@ -223,9 +231,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                     mColor2nd = text.getCurrentTextColor();
                 }
 
-                if ((mColor1st != null) && (mColor2nd != null)) {
-                    return true;
-                }
             } else if (gp.getChildAt(i) instanceof ViewGroup) {
                 if (recurseGroup((ViewGroup) v)) {
                     return true;
@@ -236,34 +241,35 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
     }
 
     private void extractColors() {
-        if (mColor1st != null && mColor2nd != null) {
+        if (mColor1st != null && mColor2nd != null && !BuildConfig.DEBUG) {
             return;
         }
-
+        mColor1st = null;
+        mColor2nd = null;
 
         try {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext());
-            mBuilder.setContentTitle(COLOR_SEARCH_1ST).setContentText(COLOR_SEARCH_2ND);
-            Notification ntf = mBuilder.build();
+            Notification.Builder builder = new Notification.Builder(getContext());
+            builder.setContentTitle(COLOR_SEARCH_1ST).setContentText(COLOR_SEARCH_2ND);
+            Notification ntf = builder.build();
             LinearLayout group = new LinearLayout(getContext());
-            ViewGroup event = (ViewGroup) ntf.contentView.apply(getContext(), group);
+            RemoteViews contentView = ntf.contentView;
+            if (contentView == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                contentView = Notification.Builder.recoverBuilder(getContext(), ntf).createContentView();
+            }
+            ViewGroup event = (ViewGroup) contentView.apply(getContext(), group);
             recurseGroup(event);
             group.removeAllViews();
         } catch (Exception e) {
-            //  e.printStackTrace();
+            e.printStackTrace();
         }
+
         if (mColor1st == null) {
             mColor1st = Color.BLACK;
         }
         if (mColor2nd == null) {
             mColor2nd = Color.DKGRAY;
         }
-    }
 
-    @Override
-    public void onPrefsChanged(@NonNull String key) {
-        if (key.equals(Preferences.SHOW_ONGOING_ICON.getKey()) || key.equals(Preferences.SHOW_ONGOING_NUMBER.getKey())) {
-            onTimeTick();
-        }
+
     }
 }

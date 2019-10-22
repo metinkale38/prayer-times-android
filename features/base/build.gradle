@@ -74,15 +74,15 @@ dependencies {
     playApi('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') { transitive = true } //excludeInFDroid
 
     // androidx dependencies. TODO check whats really needed
-    implementation 'androidx.multidex:multidex:2.0.0'
-    implementation('androidx.annotation:annotation:1.0.1') { force = true }
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
 
 
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'net.steamcrafted:materialiconlib:1.1.5'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
     implementation 'com.koushikdutta.ion:ion:2.2.1'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'

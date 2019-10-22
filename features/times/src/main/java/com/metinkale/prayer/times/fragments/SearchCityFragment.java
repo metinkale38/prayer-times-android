@@ -80,13 +80,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         final View v = inflater.inflate(R.layout.vakit_addcity, container, false);
         mAutoLocation = v.findViewById(R.id.autoLocation);
         mAutoLocation.setOnCheckedChangeListener(this);
-        mAutoLocation.setVisibility(View.GONE);
 
-
-        if (BuildConfig.DEBUG) {
-            mAutoLocation.setVisibility(View.VISIBLE);
-            mAutoLocation.setText(mAutoLocation.getText() + " (only in Debug Mode)");
-        }
         ColorStateList trackStates = new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_checked},
@@ -316,6 +310,12 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         builder.setTitle(R.string.addFromCSV)
                 .setItems(R.array.addFromCSV, (dialogInterface, which) -> {
                     if (which == 0) {
+                        {
+                            if (!PermissionUtils.get(getActivity()).pStorage) {
+                                PermissionUtils.get(getActivity()).needStorage(getActivity());
+                                return;
+                            }
+                        }
                         FileChooser chooser = new FileChooser(getActivity());
                         chooser.setExtension("csv");
                         chooser.showDialog();

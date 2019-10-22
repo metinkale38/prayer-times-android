@@ -93,10 +93,9 @@ public abstract class Times extends TimesBase {
 
             if (!sTimes.isEmpty()) {
                 clearTemporaryTimes();
+                sort();
             }
 
-
-            sort();
         }
 
         return sTimes;

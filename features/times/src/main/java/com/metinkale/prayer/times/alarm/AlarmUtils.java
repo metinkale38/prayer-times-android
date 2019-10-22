@@ -52,7 +52,7 @@ public class AlarmUtils {
 
         androidx.core.app.NotificationCompat.Builder builder;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            builder = new androidx.core.app.NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c).getId());
+            builder = new androidx.core.app.NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c));
         } else {
             builder = new NotificationCompat.Builder(c);
         }
@@ -64,7 +64,7 @@ public class AlarmUtils {
                 .setWhen(time);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(NotificationUtils.getAlarmChannel(c).getId());
+            builder.setChannelId(NotificationUtils.getAlarmChannel(c));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             builder.setPriority(Notification.PRIORITY_DEFAULT);
         }
@@ -92,7 +92,7 @@ public class AlarmUtils {
 
         NotificationCompat.Builder builder;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            builder = new NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c).getId());
+            builder = new NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c));
         } else {
             builder = new NotificationCompat.Builder(c);
         }
@@ -108,7 +108,7 @@ public class AlarmUtils {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(NotificationUtils.getAlarmChannel(c).getId());
+            builder.setChannelId(NotificationUtils.getAlarmChannel(c));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             builder.setPriority(Notification.PRIORITY_MAX);
         }

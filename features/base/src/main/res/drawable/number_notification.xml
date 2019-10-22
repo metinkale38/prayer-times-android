@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Copyright (c) 2013-2019 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,11 @@
   ~ limitations under the License.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="0">
+        <shape>
+            <size android:width="24dp" android:height="24dp"/>
+        </shape>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar" />
-
-</resources>
+    </item>
+</level-list>

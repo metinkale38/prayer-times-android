@@ -75,7 +75,7 @@ public class MenuIntroFragment extends IntroFragment {
                         .setToActionbarSize().build());
         
         mDrawerLayout = v.findViewById(R.id.drawer);
-        mDrawerLayout.setBackgroundResource(R.color.white);
+        mDrawerLayout.setBackgroundResource(R.color.background);
         
         ListView lv = v.findViewById(R.id.base_nav);
         lv.setAdapter(buildNavAdapter(getActivity()));

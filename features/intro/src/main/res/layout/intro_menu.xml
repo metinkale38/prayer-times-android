@@ -26,7 +26,7 @@
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/intro_menu"
-        android:textColor="@color/background"
+        android:textColor="@color/white"
         app:autoSizeTextType="uniform"
         app:layout_heightPercent="17.5%" />
 

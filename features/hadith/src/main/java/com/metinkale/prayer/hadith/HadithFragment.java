@@ -61,8 +61,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
-import androidx.appcompat.widget.ShareActionProvider;
-import androidx.core.internal.view.SupportMenuItem;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -88,10 +86,10 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     private Set<Integer> mFavs = new HashSet<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
-    private ShareActionProvider mShareActionProvider;
     private SearchTask mTask;
     @Nullable
     private String mQuery;
+    private String mShareText;
 
 
     @Nullable
@@ -266,7 +264,14 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         setCurrentPage(mPager.getCurrentItem());
 
         MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        item.setOnMenuItemClickListener(item1 -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mShareText);
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
+            return true;
+        });
 
         item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -395,13 +400,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
 
         private void setShareText(String txt) {
             txt = txt.replace("\n", "|");
-            if (mShareActionProvider != null) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(txt).toString().replace("|", "\n"));
-                shareIntent.setType("name/plain");
-                mShareActionProvider.setShareIntent(shareIntent);
-            }
+            mShareText = Html.fromHtml(txt).toString().replace("|", "\n");
         }
     }
 

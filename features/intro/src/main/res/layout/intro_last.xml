@@ -51,7 +51,7 @@
                 android:layout_below="@+id/img"
                 android:layout_centerHorizontal="true"
                 android:text="@string/appName"
-                android:textColor="@color/background"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -83,12 +83,13 @@
                 android:layout_below="@+id/developer"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
+                android:background="@color/backgroundSecondary"
                 android:drawablePadding="20dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/showIntro"
-                android:textColor="@color/background" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/mail"
@@ -97,12 +98,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/showIntro"
                 android:layout_centerHorizontal="true"
+                android:background="@color/backgroundSecondary"
                 android:drawablePadding="20dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/mail"
-                android:textColor="@color/background" />
+                android:textColor="@color/white" />
 
 
             <Button
@@ -117,7 +119,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/vote"
-                android:textColor="@color/background" />
+                android:textColor="@color/white" />
 
 
             <Button
@@ -127,12 +129,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vote"
                 android:layout_centerHorizontal="true"
+                android:background="@color/backgroundSecondary"
                 android:drawablePadding="20dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/share"
-                android:textColor="@color/background" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/translate"
@@ -141,12 +144,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/share"
                 android:layout_centerHorizontal="true"
+                android:background="@color/backgroundSecondary"
                 android:drawablePadding="20dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/translate"
-                android:textColor="@color/background" />
+                android:textColor="@color/white" />
 
 
         </RelativeLayout>

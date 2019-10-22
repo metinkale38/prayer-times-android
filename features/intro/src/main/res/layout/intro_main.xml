@@ -33,9 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/center"
+        android:background="@color/backgroundSecondary"
         android:padding="20dp"
         android:text="@string/back"
-        android:textColor="@color/background" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/forward"
@@ -44,9 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/center"
+        android:background="@color/backgroundSecondary"
         android:padding="20dp"
         android:text="@string/continue_"
-        android:textColor="@color/background" />
+        android:textColor="@color/white" />
 
 
     <View

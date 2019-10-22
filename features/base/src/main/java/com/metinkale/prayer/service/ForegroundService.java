@@ -181,6 +181,7 @@ public class ForegroundService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c, channelId);
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.ic_abicon);
+        builder.setContentText(c.getString(R.string.clickToDisableNotification));
         builder.setPriority(NotificationCompat.PRIORITY_MIN);
         builder.setWhen(0); //show as last
         return builder.build();

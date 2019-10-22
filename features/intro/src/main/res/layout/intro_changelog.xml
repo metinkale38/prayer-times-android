@@ -34,7 +34,7 @@
             android:padding="10dp"
             android:gravity="center"
             android:text="@string/changelog"
-            android:textColor="@color/background"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 

@@ -29,6 +29,7 @@ import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
+import com.metinkale.prayer.times.utils.RTLViewPager;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.lang.reflect.Field;
@@ -48,7 +49,7 @@ import androidx.viewpager.widget.ViewPager;
  */
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
-    private ViewPager mPager;
+    private RTLViewPager mPager;
     private int[] mColors = {App.get().getResources().getColor(R.color.colorPrimary), App.get().getResources().getColor(R.color.accent),
             App.get().getResources().getColor(R.color.colorPrimaryDark), 0xFF3F51B5, 0xFF00BCD4};
     private final Class[] mFragClz = new Class[]{LanguageFragment.class, ChangelogFragment.class, MenuIntroFragment.class, PagerIntroFragment.class, ConfigIntroFragment.class};
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mFragments = newArray;
 
         mAdapter = new MyAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mAdapter);
+        mPager.setRTLSupportAdapter(getSupportFragmentManager(), mAdapter);
         mPager.addOnPageChangeListener(this);
 
 

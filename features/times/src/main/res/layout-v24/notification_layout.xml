@@ -17,17 +17,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/notification"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:background="#00000000"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    style="@style/TextAppearance.Compat.Notification"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="24sp"
+    android:paddingTop="8dp"
+    android:paddingEnd="24sp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="16sp"
+            android:layout_height="16sp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_abicon"
+            android:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@android:id/title"
@@ -35,16 +44,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Braunschweig"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
 
         <Chronometer
             android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:countDown="true"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,9 +61,8 @@
         android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -77,10 +84,14 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -102,10 +113,14 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -127,11 +142,14 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -153,10 +171,14 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -178,10 +200,14 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView

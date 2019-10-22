@@ -314,7 +314,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             }
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("name/plain");
+            sharingIntent.setType("text/plain");
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.appName));
             sharingIntent.putExtra(Intent.EXTRA_TEXT, txt.toString());
             startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));

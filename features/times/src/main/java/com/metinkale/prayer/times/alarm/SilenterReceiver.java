@@ -26,7 +26,7 @@ public class SilenterReceiver extends BroadcastReceiver {
 
             androidx.core.app.NotificationCompat.Builder builder;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                builder = new androidx.core.app.NotificationCompat.Builder(c, NotificationUtils.getPlayingChannel(c).getId());
+                builder = new androidx.core.app.NotificationCompat.Builder(c, NotificationUtils.getPlayingChannel(c));
             } else {
                 builder = new NotificationCompat.Builder(c);
             }
@@ -37,7 +37,7 @@ public class SilenterReceiver extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.ic_abicon);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                builder.setChannelId(NotificationUtils.getAlarmChannel(c).getId());
+                builder.setChannelId(NotificationUtils.getAlarmChannel(c));
             } else {
                 builder.setPriority(Notification.PRIORITY_DEFAULT);
             }

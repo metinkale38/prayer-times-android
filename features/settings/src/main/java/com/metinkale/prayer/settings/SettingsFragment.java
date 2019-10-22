@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
@@ -36,14 +37,15 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreference;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        
+
         addPreferencesFromResource(R.xml.settings);
         if (getArguments() != null && getArguments().getBoolean("showKerahatDuration"))
             setPreferenceScreen((PreferenceScreen) findPreference("kerahatDuration"));
@@ -61,26 +63,27 @@ public class SettingsFragment extends PreferenceFragmentCompat
                     MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK_ALERT)
                             .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
          */
-            
+
             findPreference("numbers").setOnPreferenceChangeListener(this);
             findPreference("backupRestore").setOnPreferenceClickListener(this);
             findPreference("calendarIntegration").setOnPreferenceChangeListener(this);
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
             findPreference("ongoingNumber").setOnPreferenceClickListener(this);
             findPreference("kerahatDuration").setOnPreferenceClickListener(this);
-            
+
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 findPreference("ongoingNumber").setEnabled(false);
             }
-            
+
             if (Build.VERSION.SDK_INT < 24)
                 findPreference("showLegacyWidgets").setEnabled(false);
-            
+
+
             findPreference("arabicNames").setEnabled(!new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage()));
-            
+
             ListPreference lang = (ListPreference) findPreference("language");
             lang.setOnPreferenceChangeListener(this);
-            
+
             List<LocaleUtils.Translation> languages = LocaleUtils.getSupportedLanguages(getActivity());
             CharSequence entries[] = new CharSequence[languages.size()];
             CharSequence values[] = new CharSequence[languages.size()];
@@ -92,10 +95,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
             lang.setEntries(entries);
             lang.setEntryValues(values);
         }
-        
+
     }
-    
-    
+
+
     @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {
         switch (preference.getKey()) {
@@ -112,7 +115,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
         return false;
     }
-    
+
     @SuppressWarnings("RestrictedApi")
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
@@ -124,25 +127,25 @@ public class SettingsFragment extends PreferenceFragmentCompat
             if (!handled && getActivity() instanceof OnPreferenceDisplayDialogCallback) {
                 handled = ((OnPreferenceDisplayDialogCallback) getActivity()).onPreferenceDisplayDialog(this, preference);
             }
-            
+
             if (handled) {
                 return;
             }
-            
+
             if (getFragmentManager().findFragmentByTag("numberpicker") != null) {
                 return;
             }
-            
+
             DialogFragment f = NumberPickerPreference.NumberPickerPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             f.setTargetFragment(this, 0);
             f.show(getFragmentManager(), "numberpicker");
         } else
             super.onDisplayPreferenceDialog(preference);
     }
-    
+
     @Override
     public boolean onPreferenceChange(@NonNull Preference pref, Object newValue) {
-        
+
         if ("language".equals(pref.getKey()) || "digits".equals(pref.getKey())) {
             if ("language".equals(pref.getKey()))
                 Preferences.LANGUAGE.set((String) newValue);
@@ -151,7 +154,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             Intent i = new Intent(act, act.getClass());
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             act.startActivity(i);
-            
+
             Answers.getInstance().logCustom(new CustomEvent("Language").putCustomAttribute("lang", (String) newValue));
         }
         return true;

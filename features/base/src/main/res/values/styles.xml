@@ -14,9 +14,9 @@
   ~ limitations under the License.
   -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="PxUsage">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
@@ -25,7 +25,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
         <item name="popupMenuStyle">@style/ToolbarTheme.Popup</item>
         <item name="android:textColor">@color/foreground</item>
         <item name="android:windowBackground">@color/background</item>
@@ -37,10 +37,9 @@
         <item name="android:textColorPrimaryInverse">@color/background</item>
         <item name="android:textColorSecondary">@color/foregroundSecondary</item>
         <item name="android:textColorSecondaryInverse">@color/backgroundSecondary</item>
-
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorControlNormal">#ffffff</item>
         <item name="android:textColor">#ffffff</item>
         <item name="actionDropDownStyle">@style/ToolbarTheme.DropDown</item>
@@ -50,12 +49,12 @@
         <item name="android:popupBackground">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="ToolbarTheme.Popup" parent="@style/Widget.AppCompat.PopupMenu">
+    <style name="ToolbarTheme.Popup" parent="@style/Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@drawable/overflow_menu</item>
     </style>
 
 
-    <style name="MySwitch" parent="Theme.AppCompat.Light">
+    <style name="MySwitch" parent="Theme.MaterialComponents.Light">
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 

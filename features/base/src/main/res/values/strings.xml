@@ -124,4 +124,5 @@
     <string name="maghrib">Maghrib</string>
     <string name="ishaa">Ishaa</string>
     <string name="off">Off</string>
+    <string name="clickToDisableNotification">Click here to disable this notification</string>
 </resources>

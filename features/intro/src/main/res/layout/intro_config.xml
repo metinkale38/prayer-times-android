@@ -29,7 +29,7 @@
         android:padding="20dp"
         android:gravity="center"
         android:text="@string/intro_config"
-        android:textColor="@color/background"/>
+        android:textColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="@string/intro_config2"
-        android:textColor="@color/background"
+        android:textColor="@color/white"
         />
 
     <RelativeLayout

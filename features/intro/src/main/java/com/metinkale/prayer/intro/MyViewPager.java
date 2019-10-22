@@ -27,11 +27,13 @@ import java.lang.reflect.Field;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.metinkale.prayer.times.utils.RTLViewPager;
+
 /**
  * Created by metin on 25.07.17.
  */
 
-public class MyViewPager extends ViewPager {
+public class MyViewPager extends RTLViewPager {
     public MyViewPager(Context context) {
         super(context);
         postInitViewPager();

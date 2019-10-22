@@ -61,5 +61,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation('com.mikepenz:aboutlibraries:5.8.5@aar') { transitive = true }
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 }

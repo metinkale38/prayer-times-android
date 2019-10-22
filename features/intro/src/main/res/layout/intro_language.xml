@@ -38,7 +38,7 @@
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:text="@string/language"
-                android:textColor="@color/background"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

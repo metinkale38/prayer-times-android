@@ -64,11 +64,11 @@ public class LastFragment extends IntroFragment implements CompoundButton.OnChec
         share.setOnClickListener(this);
         translate.setOnClickListener(this);
 
-        email.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.background).setIcon(MaterialDrawableBuilder.IconValue.EMAIL).build(), null, null, null);
-        vote.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.background).setIcon(MaterialDrawableBuilder.IconValue.STAR).build(), null, null, null);
-        showIntro.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.background).setIcon(MaterialDrawableBuilder.IconValue.WINDOW_RESTORE).build(), null, null, null);
-        share.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.background).setIcon(MaterialDrawableBuilder.IconValue.SHARE).build(), null, null, null);
-        translate.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.background).setIcon(MaterialDrawableBuilder.IconValue.FLAG).build(), null, null, null);
+        email.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.EMAIL).build(), null, null, null);
+        vote.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.STAR).build(), null, null, null);
+        showIntro.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.WINDOW_RESTORE).build(), null, null, null);
+        share.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.SHARE).build(), null, null, null);
+        translate.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.FLAG).build(), null, null, null);
         return v;
     }
 

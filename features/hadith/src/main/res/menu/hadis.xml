@@ -31,7 +31,6 @@
         android:id="@+id/menu_item_share"
         app:materialIcon="share_variant"
         android:title="@string/share"
-        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_search"
