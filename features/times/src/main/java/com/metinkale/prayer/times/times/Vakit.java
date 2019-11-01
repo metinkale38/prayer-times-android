@@ -72,11 +72,18 @@ public enum Vakit {
 
 
     public String getString() {
-        int index = 0;
-        if (this == FAJR && (Preferences.USE_ARABIC.get() || !Preferences.LANGUAGE.get().equals("tr"))) {
-            index = 0;
+        // TR: Imsak (Default) - Sabah
+        // Other: Imsak - Fajr (Default)
+        // Background: some sources give two seperate times for imsak/fajr, to make sure, neither fasting, nor prayer gets invalid due to calculation errors
+
+        if (this == FAJR) {
+            if (!Preferences.USE_ARABIC.get() && Preferences.LANGUAGE.get().equals("tr")) {
+                return getString(0);
+            }
+            return getString(1);
         }
-        return getString(index);
+
+        return getString(0);
     }
 
     public String getString(int index) {

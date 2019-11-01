@@ -31,14 +31,12 @@
         android:id="@+id/widget_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignBottom="@+id/padder"
-        android:layout_alignEnd="@+id/padder"
-        android:layout_alignStart="@+id/padder"
-        android:layout_alignTop="@+id/padder"
-        android:layout_gravity="center"
-        android:background="@drawable/widget_dark"
         android:layout_alignLeft="@+id/padder"
-        android:layout_alignRight="@+id/padder">
+        android:layout_alignTop="@+id/padder"
+        android:layout_alignRight="@+id/padder"
+        android:layout_alignBottom="@+id/padder"
+        android:layout_gravity="center"
+        android:background="@drawable/widget_dark">
 
 
         <TextView

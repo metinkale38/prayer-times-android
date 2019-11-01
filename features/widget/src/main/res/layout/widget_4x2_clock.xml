@@ -18,8 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    tools:ignore="RtlCompat,RtlSymmetry">
+    android:layout_gravity="center">
 
 
     <FrameLayout
@@ -27,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingStart="500dp"
+        android:paddingLeft="500dp"
         android:paddingTop="200dp" />
 
     <RelativeLayout
@@ -35,8 +34,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignBottom="@+id/padder"
-        android:layout_alignEnd="@+id/padder"
-        android:layout_alignStart="@+id/padder"
+        android:layout_alignRight="@+id/padder"
+        android:layout_alignLeft="@+id/padder"
         android:layout_alignTop="@+id/padder"
         android:layout_gravity="center">
 
@@ -54,10 +53,10 @@
             android:id="@+id/greg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/time"
             android:lines="1"
-            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
             android:text="Greg"
             android:textColor="#ffffff" />
 
@@ -65,13 +64,13 @@
             android:id="@+id/hicri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@+id/time"
             android:layout_toRightOf="@+id/greg"
             android:ellipsize="middle"
             android:gravity="right"
             android:singleLine="true"
-            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
             android:text="Hijri"
             android:textColor="#ffffff" />
 
@@ -87,16 +86,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#ff0000"
-                android:paddingStart="200dp"
+                android:paddingLeft="200dp"
                 android:paddingTop="5dp" />
 
             <FrameLayout
                 android:id="@+id/progressBg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/progress"
+                android:layout_toRightOf="@+id/progress"
                 android:background="#ffffff"
-                android:paddingStart="200dp"
+                android:paddingLeft="200dp"
                 android:paddingTop="5dp" />
         </RelativeLayout>
 
@@ -104,9 +103,9 @@
             android:id="@+id/lastTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/progresscontainer"
+            android:layout_alignLeft="@id/progresscontainer"
             android:layout_below="@+id/progresscontainer"
-            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -114,9 +113,9 @@
             android:id="@+id/nextTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/progresscontainer"
+            android:layout_alignRight="@id/progresscontainer"
             android:layout_below="@+id/progresscontainer"
-            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -125,9 +124,9 @@
             android:id="@+id/lastText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/progresscontainer"
+            android:layout_alignLeft="@id/progresscontainer"
             android:layout_below="@id/lastTime"
-            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -135,9 +134,9 @@
             android:id="@+id/nextText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/progresscontainer"
+            android:layout_alignRight="@id/progresscontainer"
             android:layout_below="@+id/nextTime"
-            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 

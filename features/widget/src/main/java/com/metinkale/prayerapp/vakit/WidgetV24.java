@@ -47,6 +47,7 @@ import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.UUID;
+import com.metinkale.prayer.utils.Utils;
 import com.metinkale.prayer.widgets.R;
 
 import org.joda.time.LocalDate;
@@ -93,6 +94,9 @@ class WidgetV24 {
             indicator = indicator + 1;
         int idsText[] = {R.id.fajrText, R.id.sunText, R.id.zuhrText, R.id.asrText, R.id.maghribText, R.id.ishaaText};
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+
+        boolean rtl = Utils.isRTL(context);
+
         for (Vakit v : Vakit.values()) {
             int i = v.ordinal();
             remoteViews.setTextViewTextSize(idsText[i], TypedValue.COMPLEX_UNIT_PX, scale * 1f);
@@ -123,8 +127,8 @@ class WidgetV24 {
                 }
             }
 
-            remoteViews.setTextViewText(idsText[i], Html.fromHtml(name));
-            remoteViews.setTextViewText(ids[i], Html.fromHtml(time));
+            remoteViews.setTextViewText(idsText[i], Html.fromHtml(!rtl ? name : time));
+            remoteViews.setTextViewText(ids[i], Html.fromHtml(!rtl ? time : name));
 
             remoteViews.setViewPadding(idsText[i], (int) ((Preferences.CLOCK_12H.get() ? 1.25 : 1.75) * scale), 0, (int) scale / 4, 0);
             remoteViews.setViewPadding(ids[i], 0, 0, (int) ((Preferences.CLOCK_12H.get() ? 1.25 : 1.75) * scale), 0);
@@ -176,6 +180,15 @@ class WidgetV24 {
         int current = times.getCurrentTime();
         int next = current + 1;
         int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+
+        boolean rtl = Utils.isRTL(context);
+        if (rtl) {
+            for (int i = 0; i < ids.length / 2; i++) {
+                int temp = ids[i];
+                ids[i] = ids[ids.length - i - 1];
+                ids[ids.length - i - 1] = temp;
+            }
+        }
 
         int indicator = current;
         if ("next".equals(Preferences.VAKIT_INDICATOR_TYPE.get()))
@@ -370,20 +383,15 @@ class WidgetV24 {
 
         int next = times.getNextTime();
 
+        boolean rtl = Utils.isRTL(context);
 
-        remoteViews.setTextViewText(R.id.lastText, Vakit.getByIndex(next - 1).getString());
-        remoteViews.setTextViewText(R.id.nextText, Vakit.getByIndex(next).getString());
-        remoteViews.setTextViewText(R.id.lastTime, LocaleUtils.formatTimeForHTML(times.getTime(LocalDate.now(), next - 1).toLocalTime()));
-        remoteViews.setTextViewText(R.id.nextTime, LocaleUtils.formatTimeForHTML(times.getTime(LocalDate.now(), next).toLocalTime()));
+        remoteViews.setTextViewText(!rtl ? R.id.lastText : R.id.nextText, Vakit.getByIndex(next - 1).getString());
+        remoteViews.setTextViewText(!rtl ? R.id.nextText : R.id.lastText, Vakit.getByIndex(next).getString());
+        remoteViews.setTextViewText(!rtl ? R.id.lastTime : R.id.nextTime, LocaleUtils.formatTimeForHTML(times.getTime(LocalDate.now(), next - 1).toLocalTime()));
+        remoteViews.setTextViewText(!rtl ? R.id.nextTime : R.id.lastTime, LocaleUtils.formatTimeForHTML(times.getTime(LocalDate.now(), next).toLocalTime()));
 
-        remoteViews.setTextViewText(R.id.greg, LocaleUtils.formatDate(LocalDate.now()));
-        remoteViews.setTextViewText(R.id.hicri, LocaleUtils.formatDate(HijriDate.now()));
-
-        if (times.isKerahat()) {
-            remoteViews.setInt(R.id.progress, "setBackgroundColor", 0xffbf3f5b);
-        } else {
-            remoteViews.setInt(R.id.progress, "setBackgroundColor", Theme.Light.strokecolor);
-        }
+        remoteViews.setTextViewText(!rtl ? R.id.greg : R.id.hicri, LocaleUtils.formatDate(LocalDate.now()));
+        remoteViews.setTextViewText(!rtl ? R.id.hicri : R.id.greg, LocaleUtils.formatDate(HijriDate.now()));
 
 
         remoteViews.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_PX, height * 0.6f);
@@ -412,8 +420,16 @@ class WidgetV24 {
         remoteViews.setViewPadding(R.id.nextTime, width / 10, 0, width / 10, -width / 60);
         remoteViews.setViewPadding(R.id.nextText, width / 10, 0, width / 10, 0);
         int w = width * 10 / 8;
-        remoteViews.setViewPadding(R.id.progress, (int) (w * getPassedPart(times)), width / 75, 0, 0);
-        remoteViews.setViewPadding(R.id.progressBg, (int) (w * (1 - getPassedPart(times))), width / 75, 0, 0);
+
+
+        remoteViews.setInt(!rtl ? R.id.progressBg : R.id.progress, "setBackgroundColor", 0xFFFFFFFF);
+        remoteViews.setInt(!rtl ? R.id.progress : R.id.progressBg, "setBackgroundColor", times.isKerahat() ? 0xffbf3f5b : Theme.Light.strokecolor);
+
+        float passedPart = getPassedPart(times);
+        if (rtl) passedPart = 1 - passedPart;
+
+        remoteViews.setViewPadding(R.id.progress, (int) (w * passedPart), width / 75, 0, 0);
+        remoteViews.setViewPadding(R.id.progressBg, (int) (w * (1 - passedPart)), width / 75, 0, 0);
 
         appWidgetManager.updateAppWidget(widgetId, remoteViews);
     }
@@ -451,7 +467,6 @@ class WidgetV24 {
 
         Bitmap bmp1 = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
         Canvas canvas1 = new Canvas(bmp1);
-
         paint.setColor(0xFFFFFFFF);
         paint.setStrokeWidth(width / 100f);
         canvas1.drawArc(new RectF(width / 100f, width / 100f, width - width / 100f, height - width / 100f), 0, 360, false, paint);
@@ -471,7 +486,7 @@ class WidgetV24 {
                 paint);
 
 
-        remoteViews.setImageViewBitmap(R.id.progressBG, bmp1);
+        remoteViews.setImageViewBitmap(R.id.progressBg, bmp1);
         remoteViews.setImageViewBitmap(R.id.progress, bmp2);
 
 
@@ -502,7 +517,9 @@ class WidgetV24 {
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).getString());
 
         LocalDate date = LocalDate.now();
-        remoteViews.setTextViewText(R.id.date, date.toString("d.MMM"));
+        remoteViews.setTextViewText(R.id.date, LocaleUtils.formatNumber(date.toString("d.MMM")));
+
+
         String wd = date.toString("EEEE");
         remoteViews.setTextViewText(R.id.weekDay, wd);
 

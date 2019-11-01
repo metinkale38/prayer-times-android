@@ -41,9 +41,8 @@ android {
     buildTypes {
         debug {
             versionNameSuffix ' DEBUG'
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            shrinkResources false
         }
         release {
             minifyEnabled true
@@ -53,6 +52,7 @@ android {
     }
 
     dexOptions {
+        javaMaxHeapSize "2g"
         preDexLibraries true
     }
 

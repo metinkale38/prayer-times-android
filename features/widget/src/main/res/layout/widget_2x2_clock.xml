@@ -18,8 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    tools:ignore="RtlCompat,RtlSymmetry">
+    android:layout_gravity="center">
 
 
     <FrameLayout
@@ -27,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingStart="200dp"
+        android:paddingLeft="200dp"
         android:paddingTop="200dp" />
 
     <RelativeLayout
@@ -35,14 +34,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignBottom="@+id/padder"
-        android:layout_alignEnd="@+id/padder"
-        android:layout_alignStart="@+id/padder"
+        android:layout_alignRight="@+id/padder"
+        android:layout_alignLeft="@+id/padder"
         android:layout_alignTop="@+id/padder"
         android:layout_gravity="center">
 
         <ImageView
             android:tint="#ffffff"
-            android:id="@+id/progressBG"
+            android:id="@+id/progressBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -81,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/hour"
-                android:layout_toEndOf="@+id/hour"
+                android:layout_toRightOf="@+id/hour"
                 android:format12Hour="MM"
                 android:format24Hour="MM"
                 android:textColor="#ffffff"
@@ -100,7 +99,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/hour"
+                android:layout_toRightOf="@+id/hour"
                 android:layout_below="@+id/minute"
                 android:text="Date"
                 android:textColor="#ffffff" />
@@ -110,7 +109,7 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/hour"
+                android:layout_toRightOf="@+id/hour"
                 android:layout_below="@+id/date"
                 android:text="Time"
                 android:textColor="#ffffff" />
