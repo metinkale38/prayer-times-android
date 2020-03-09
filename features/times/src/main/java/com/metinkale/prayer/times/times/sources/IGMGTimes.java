@@ -17,6 +17,7 @@
 package com.metinkale.prayer.times.times.sources;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -29,6 +30,11 @@ import org.joda.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 public class IGMGTimes extends WebTimes {
+
+
+    // old API url shows wrong times, so we have to wipe times
+    // TODO delete after some time
+    private boolean fixedApiUrl = false;
 
     @SuppressWarnings({"unused", "WeakerAccess"})
     public IGMGTimes() {
@@ -46,6 +52,16 @@ public class IGMGTimes extends WebTimes {
         return Source.IGMG;
     }
 
+
+    @Nullable
+    @Override
+    protected String getStrTime(LocalDate date, Vakit time) {
+        if (!fixedApiUrl) {
+            clearTimes();
+            fixedApiUrl = true;
+        }
+        return super.getStrTime(date, time);
+    }
 
     protected boolean sync() throws ExecutionException, InterruptedException {
         String path = getId().replace("nix", "-1");
@@ -66,9 +82,11 @@ public class IGMGTimes extends WebTimes {
                 Y++;
             }
             String result = Ion.with(App.get())
-                    .load("http://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax.php?show_ajax_variable=" + id + "&show_month=" + (M - 1))
-                    .setTimeout(3000)
+                    .load("POST", "https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax_api.php")
                     .userAgent(App.getUserAgent())
+                    .setTimeout(3000)
+                    .setBodyParameter("show_ajax_variable", "" + id)
+                    .setBodyParameter("show_month", "" + (M - 1))
                     .asString()
                     .get();
 

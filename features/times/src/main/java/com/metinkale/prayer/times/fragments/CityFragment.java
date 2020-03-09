@@ -244,7 +244,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             ((WebTimes) mTimes).syncAsync();
         }
 
-        mHandler.postAtTime(this::update, LocalDateTime.now().plusDays(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(5).toDateTime().getMillis());
+        mHandler.postDelayed(this::update, 60000);
 
 
     }

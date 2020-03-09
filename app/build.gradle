@@ -35,7 +35,7 @@ android {
         minSdkVersion 16
         multiDexEnabled true
         versionName '3.7.4'
-        versionCode 213
+        versionCode 214
     }
 
     buildTypes {

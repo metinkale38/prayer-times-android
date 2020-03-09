@@ -42,7 +42,6 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.times.BuildConfig;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Cities;
 import com.metinkale.prayer.times.times.Entry;
@@ -73,6 +72,10 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     private Cities mCities = Cities.get();
     private SwitchCompat mAutoLocation;
     private Location mLocation;
+
+    // prevent duplicate permission request
+    private boolean mAskedForPermission = false;
+
 
     @Nullable
     @Override
@@ -185,7 +188,8 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
 
             }
 
-        } else {
+        } else if (!mAskedForPermission) {
+            mAskedForPermission = true;
             PermissionUtils.get(getActivity()).needLocation(getActivity());
         }
     }
@@ -310,12 +314,11 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         builder.setTitle(R.string.addFromCSV)
                 .setItems(R.array.addFromCSV, (dialogInterface, which) -> {
                     if (which == 0) {
-                        {
-                            if (!PermissionUtils.get(getActivity()).pStorage) {
-                                PermissionUtils.get(getActivity()).needStorage(getActivity());
-                                return;
-                            }
+                        if (!PermissionUtils.get(getActivity()).pStorage) {
+                            PermissionUtils.get(getActivity()).needStorage(getActivity());
+                            return;
                         }
+
                         FileChooser chooser = new FileChooser(getActivity());
                         chooser.setExtension("csv");
                         chooser.showDialog();

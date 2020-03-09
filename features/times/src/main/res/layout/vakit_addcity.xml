@@ -28,12 +28,12 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:checked="false"
-        android:paddingBottom="10dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
         android:text="@string/autoLocation"
-        android:textColor="@color/background"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <ListView
@@ -48,25 +48,25 @@
         android:id="@+id/legacySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:background="@color/foregroundSecondary"
         android:gravity="center"
-        android:padding="5dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:padding="8dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_search_white_24dp"
         app:backgroundTint="@color/alert"
         app:borderWidth="0dp"
