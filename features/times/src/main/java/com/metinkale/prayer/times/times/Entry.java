@@ -19,11 +19,22 @@ package com.metinkale.prayer.times.times;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.koushikdutta.ion.Ion;
+import com.metinkale.prayer.App;
+
+import java.io.Serializable;
+import java.util.TimeZone;
+
 /**
  * Created by metin on 10.02.2017.
  */
 
-public class Entry implements Cloneable {
+public class Entry implements Cloneable, Serializable {
+
+    static final long serialVersionUID = 1L;
+
     private long parent;
     private long id;
     private String name;
@@ -198,4 +209,6 @@ public class Entry implements Cloneable {
         e.source = source;
         return e;
     }
+
+
 }
