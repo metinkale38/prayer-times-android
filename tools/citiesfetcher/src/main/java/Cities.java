@@ -44,7 +44,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static sun.net.NetProperties.get;
 
 /**
  * ATTENTION: THIS CLASS IS VERY BAD WRITTEN
@@ -89,16 +88,22 @@ public class Cities {
 
 
         mWorker.execute(() -> {
+         /*
             long time = System.currentTimeMillis();
             System.out.println("Start fetchIndonesia()");
             fetchIndonesia();
             System.out.println("fetchIndonesia() - finished in " + (System.currentTimeMillis() - time) + " ms");
+          */
+            long time = System.currentTimeMillis();
+            System.out.println("Start fetchIGMG()");
+            fetchIGMG();
+            System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
         });
 
 
         byte[] encoded;
         try {
-            encoded = Files.readAllBytes(Paths.get("citiesfetcher/geocodings.geo"));
+            encoded = Files.readAllBytes(Paths.get("geocodings.geo"));
             mGeocodings = new Gson().fromJson(new String(encoded, "UTF-8"), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
             }.getType());
         } catch (IOException e) {
@@ -132,8 +137,8 @@ public class Cities {
 
     private static void export() throws UnsupportedEncodingException {
 
-        new File("citiesfetcher/cities.tsv").delete();
-        try (PrintWriter out = new PrintWriter("citiesfetcher/cities.tsv", "utf-8")) {
+        new File("igmg.tsv").delete();
+        try (PrintWriter out = new PrintWriter("igmg.tsv", "utf-8")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -160,7 +165,7 @@ public class Cities {
     }
 
     private static void fetchIndonesia() {
-        String data = get("http://sihat.kemenag.go.id/waktu-sholat#");
+        String data = HTTP.get("http://sihat.kemenag.go.id/waktu-sholat#");
         data = data.substring(data.indexOf("\"opt_lokasi_provinsi\""));
         data = data.substring(0, data.indexOf("</select"));
 
@@ -226,7 +231,7 @@ public class Cities {
 
 
     private static void fetchHabous() {
-        String data = get("http://www.habous.gov.ma/horaire%20de%20priere%20fr/horaire_hijri.php");
+        String data = HTTP.get("http://www.habous.gov.ma/horaire%20de%20priere%20fr/horaire_hijri.php");
 
         data = data.substring(data.indexOf("<select name=\"ville\""));
         data = data.substring(0, data.indexOf("</select>"));
@@ -266,7 +271,7 @@ public class Cities {
 
 
         //fetch_ar
-        data = get("http://www.habous.gov.ma/horaire%20de%20priere/horaire_hijri.php");
+        data = HTTP.get("http://www.habous.gov.ma/horaire%20de%20priere/horaire_hijri.php");
 
         data = data.substring(data.indexOf("<select name=\"ville\""));
         data = data.substring(0, data.indexOf("</select>"));
@@ -298,7 +303,7 @@ public class Cities {
         my.lng = 0;
         mEntries.put(my.id, my);
 
-        String data = get("http://www.e-solat.gov.my/web/waktusolat.php");
+        String data = HTTP.get("http://www.e-solat.gov.my/web/waktusolat.php");
         data = data.substring(data.indexOf("name=\"negeri\""));
         data = data.substring(0, data.indexOf("</select>"));
         data = data.substring(data.indexOf("<option value=\"000\">") + 1);
@@ -327,7 +332,7 @@ public class Cities {
     }
 
     private static void fetchMyZones(Entry state, String val) {
-        String data = get("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" +
+        String data = HTTP.get("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" +
                 URLEncoder.encode(val) + "&negeri=" + URLEncoder.encode(val));
         data = data.substring(data.indexOf("name=\"zone\""));
         data = data.substring(0, data.indexOf("</select>"));
@@ -354,7 +359,7 @@ public class Cities {
     }
 
     private static void fetchIGMG() {
-        String data = get("https://www.igmg.org/gebetskalender/");
+        String data = HTTP.get("https://www.igmg.org/gebetskalender/");
 
         String ger = data.substring(data.indexOf("id=\"alman_sehirleri\""));
         ger = ger.substring(0, ger.indexOf("</select>"));
@@ -467,6 +472,10 @@ public class Cities {
                     break;
                 case "US":
                     parent.name = "Vereinigte Staaten von Amerika";
+                case "SG":
+                    parent.name = "Singapur";
+                case "TR":
+                    parent.name = "Türkei";
                     break;
             }
 
@@ -488,7 +497,7 @@ public class Cities {
     }
 
     private static void fetchNVCCountries() {
-        String data = get("http://namazvakti.com/CountryList.php");
+        String data = HTTP.get("http://namazvakti.com/CountryList.php");
         Entry nvc = new Entry();
         nvc.id = Cities.id.incrementAndGet();
         nvc.parent = 0;
@@ -525,7 +534,7 @@ public class Cities {
     }
 
     private static void fetchNVCStates(int parentId, Entry parent) {
-        String data = get("http://namazvakti.com/StateList.php?countryID=" + parentId);
+        String data = HTTP.get("http://namazvakti.com/StateList.php?countryID=" + parentId);
         for (data = data.substring(data.indexOf("CityList.php?"));
              data.contains("CityList.php?");
              data = data.substring(i(data.indexOf("CityList.php?")))) {
@@ -553,7 +562,7 @@ public class Cities {
     }
 
     private static void fetchNVCCitites(int country, String state, Entry parent) {
-        String data = get("http://namazvakti.com/CityList.php?countryID=" + country + "&state=" + URLEncoder.encode(state));
+        String data = HTTP.get("http://namazvakti.com/CityList.php?countryID=" + country + "&state=" + URLEncoder.encode(state));
         data = data.substring(data.indexOf("stateTitle"));
         for (data = data.substring(data.indexOf("Main.php?cityID"));
              data.contains("Main.php?cityID");
@@ -580,7 +589,7 @@ public class Cities {
     private static void fetchSemerkand() {
         try {
             String Url = "http://semerkandtakvimi.semerkandmobile.com/locations";
-            String data = get(Url);
+            String data = HTTP.get(Url);
             List<Semerkand> semerkand = new Gson().fromJson(data,
                     new TypeToken<List<Semerkand>>() {
                     }.getType());
@@ -658,7 +667,7 @@ public class Cities {
     private static void fetchFaziletCountries() {
         try {
             Calendar cal = Calendar.getInstance();
-            String data = get("http://www.fazilettakvimi.com/tr/" + cal.get(Calendar.YEAR) +
+            String data = HTTP.get("http://www.fazilettakvimi.com/tr/" + cal.get(Calendar.YEAR) +
                     "/" + (1 + cal.get(Calendar.MONTH)) + "/" + cal.get(Calendar.DATE) + ".html");
             BufferedReader in = new BufferedReader(
                     new StringReader(data));
@@ -707,7 +716,7 @@ public class Cities {
     private static void fetchFaziletStates(int countryId, Entry parent) {
         try {
             String Url = "http://www.fazilettakvimi.com/api/ulke/sehir/liste/" + countryId;
-            String data = get(Url);
+            String data = HTTP.get(Url);
             Sehirler sehirler = new Gson().fromJson(data, Sehirler.class);
             for (Sehir sehir : sehirler.sehirler) {
 
@@ -731,7 +740,7 @@ public class Cities {
     private static void fetchFaziletCities(int countryId, int stateId, Entry parent) {
         try {
             String Url = "http://www.fazilettakvimi.com/api/ulke/sehir/ilce/liste/" + stateId;
-            String data = get(Url);
+            String data = HTTP.get(Url);
 
             Ilce ilceler = new Gson().fromJson(data, Ilce.class);
             if (ilceler.ilceler.size() == 1) {
@@ -809,7 +818,7 @@ public class Cities {
     private static void fetchDitibStates(int countryId, Entry parent) {
         try {
             String Url = "http://www.diyanet.gov.tr/PrayerTime/FillState?countryCode=" + countryId;
-            String data = get(Url);
+            String data = HTTP.get(Url);
             List<State> states = new Gson().fromJson(data, new TypeToken<List<State>>() {
             }.getType());
             for (State state : states) {
@@ -835,7 +844,7 @@ public class Cities {
     private static void fetchDitibCities(int countryId, int stateId, Entry parent) {
         try {
             String Url = "http://www.diyanet.gov.tr/PrayerTime/FillCity?itemId=" + stateId;
-            String data = get(Url);
+            String data = HTTP.get(Url);
 
             List<State> states = new Gson().fromJson(data, new TypeToken<List<State>>() {
             }.getType());
@@ -869,7 +878,7 @@ public class Cities {
 
 
     private static void geocode(Entry e, boolean onlyCache) {
-        String name = e.name + "+INDONESIA";
+        String name = e.name;
         Entry parent = e;
 
 /*        while ((parent = mEntries.get(parent.parent)) != null && parent.parent != 0) {
@@ -883,18 +892,18 @@ public class Cities {
             return;
         }
 
-        String url = "http://nominatim.openstreetmap.org/search?q="
+        String url = "https://nominatim.openstreetmap.org/search?q="
                 + URLEncoder.encode(name.replace("+", " ")
                 .replace("ABD,", "USA,"))
                 + "&format=json&limit=1&email=" + MAIL_ADRESS + "&namedetails=1";
-        String data =get(url);
+        String data = HTTP.get(url);
 
         List<Geocoder> result = null;
         try {
             result = new Gson().fromJson(data, new TypeToken<List<Geocoder>>() {
             }.getType());
         } catch (Exception exception) {
-        
+
         }
         if (result != null && result.size() != 0) {
             Geocoder gc = result.get(0);
@@ -982,6 +991,7 @@ public class Cities {
             }
         }
     }
+
     private static class Ilce {
         List<Sehir> ilceler = new ArrayList<>();
     }
