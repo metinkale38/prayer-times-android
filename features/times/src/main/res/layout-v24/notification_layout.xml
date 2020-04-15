@@ -44,7 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Braunschweig"
-            android:textColor="@color/colorPrimary"
             android:textSize="14dp" />
 
         <Chronometer

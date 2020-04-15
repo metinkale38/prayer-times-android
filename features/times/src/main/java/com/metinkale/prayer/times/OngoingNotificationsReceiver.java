@@ -22,11 +22,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Icon;
-import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.Html;
@@ -41,11 +39,8 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.graphics.ColorUtils;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.service.ForegroundService;
@@ -54,7 +49,6 @@ import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -63,24 +57,23 @@ import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener, InternalBroadcastReceiver.OnPrefsChangedListener {
-    private static final String COLOR_SEARCH_1ST = "COLOR_SEARCH_1ST";
-    private static final String COLOR_SEARCH_2ND = "COLOR_SEARCH_2ND";
     private static final String FOREGROUND_NEEDY_ONGOING = "ongoing";
-    private Integer mColor1st = null;
-    private Integer mColor2nd = null;
-
+    private Integer mDefaultTextColor = null;
 
     @Override
     public void onTimeTick() {
-        extractColors();
+
+        int textColor = Preferences.ONGOING_TEXT_COLOR.get();
+        int bgColor = Preferences.ONGOING_BG_COLOR.get();
+
+        if (textColor == 0) {
+            extractDefaultTextColor();
+            textColor = mDefaultTextColor;
+        }
 
         NotificationManager notMan = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -101,15 +94,21 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
 
-
+            if (bgColor != 0) {
+                views.setInt(R.id.notification, "setBackgroundColor", bgColor);
+            }
             views.setTextViewText(android.R.id.title, t.getName());
+
+            if (textColor != 0)
+                views.setTextColor(android.R.id.title, textColor);
 
             int[] timeIds = {R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5};
             int[] vakitIds = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
             int marker = t.getCurrentTime();
-            if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next"))
+            if (Preferences.VAKIT_INDICATOR_TYPE.get().equals("next")) {
                 marker = marker + 1;
+            }
             for (Vakit vakit : Vakit.values()) {
                 LocalTime time = t.getTime(cal, vakit.ordinal()).toLocalTime();
                 if (marker == vakit.ordinal()) {
@@ -126,8 +125,10 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                     views.setTextViewText(vakitIds[vakit.ordinal()], vakit.getString());
                     views.setTextViewText(timeIds[vakit.ordinal()], LocaleUtils.formatTimeForHTML(time));
                 }
-                views.setTextColor(timeIds[vakit.ordinal()], mColor1st);
-                views.setTextColor(vakitIds[vakit.ordinal()], mColor1st);
+                if (textColor != 0) {
+                    views.setTextColor(timeIds[vakit.ordinal()], textColor);
+                    views.setTextColor(vakitIds[vakit.ordinal()], textColor);
+                }
             }
 
             DateTime nextTime = t.getTime(cal, t.getNextTime()).toDateTime();
@@ -138,8 +139,9 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 views.setString(R.id.countdown, "setFormat", txt);
                 views.setChronometer(R.id.countdown, 0, txt, false);
             }
-            views.setTextColor(R.id.countdown, mColor1st);
-
+            if (textColor != 0) {
+                views.setTextColor(R.id.countdown, textColor);
+            }
 
             Notification.Builder builder =
                     new Notification.Builder(getContext());
@@ -211,7 +213,10 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
     @Override
     public void onPrefsChanged(@NonNull String key) {
-        if (key.equals(Preferences.SHOW_ONGOING_ICON.getKey()) || key.equals(Preferences.SHOW_ONGOING_NUMBER.getKey())) {
+        if (key.equals(Preferences.SHOW_ONGOING_ICON.getKey())
+                || key.equals(Preferences.SHOW_ONGOING_NUMBER.getKey())
+                || key.equals(Preferences.ONGOING_TEXT_COLOR.getKey())
+                || key.equals(Preferences.ONGOING_BG_COLOR.getKey())) {
             onTimeTick();
         }
     }
@@ -224,13 +229,9 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             if (v instanceof TextView) {
                 TextView text = (TextView) v;
                 String szText = text.getText().toString();
-                if (COLOR_SEARCH_1ST.equals(szText)) {
-                    mColor1st = text.getCurrentTextColor();
+                if ("COLOR_SEARCH_1ST".equals(szText)) {
+                    mDefaultTextColor = text.getCurrentTextColor();
                 }
-                if (COLOR_SEARCH_2ND.equals(szText)) {
-                    mColor2nd = text.getCurrentTextColor();
-                }
-
             } else if (gp.getChildAt(i) instanceof ViewGroup) {
                 if (recurseGroup((ViewGroup) v)) {
                     return true;
@@ -240,16 +241,12 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         return false;
     }
 
-    private void extractColors() {
-        if (mColor1st != null && mColor2nd != null && !BuildConfig.DEBUG) {
-            return;
-        }
-        mColor1st = null;
-        mColor2nd = null;
-
+    private void extractDefaultTextColor() {
+        if (mDefaultTextColor != null) return;
+        ;
         try {
             Notification.Builder builder = new Notification.Builder(getContext());
-            builder.setContentTitle(COLOR_SEARCH_1ST).setContentText(COLOR_SEARCH_2ND);
+            builder.setContentTitle("COLOR_SEARCH_1ST");
             Notification ntf = builder.build();
             LinearLayout group = new LinearLayout(getContext());
             RemoteViews contentView = ntf.contentView;
@@ -262,14 +259,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (mColor1st == null) {
-            mColor1st = Color.BLACK;
-        }
-        if (mColor2nd == null) {
-            mColor2nd = Color.DKGRAY;
-        }
-
-
     }
+
+
 }

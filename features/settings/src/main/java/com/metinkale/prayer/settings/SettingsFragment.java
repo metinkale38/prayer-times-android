@@ -17,21 +17,34 @@
 package com.metinkale.prayer.settings;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
+import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.Utils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -94,6 +107,49 @@ public class SettingsFragment extends PreferenceFragmentCompat
             }
             lang.setEntries(entries);
             lang.setEntryValues(values);
+
+
+            int[][] colors = {{0, 0},
+                    {0xFFFFFFFF, 0xFF333333},
+                    {0xFFDDDDDD, 0xFF222222},
+                    {0xFFBBBBBB, 0xFF111111},
+                    {0xFF999999, 0xFF000000},
+                    {0xFF666666, 0xFFFFFFFF},
+                    {0xFF444444, 0xFFEEEEEE},
+                    {0xFF222222, 0xFFDDDDDD},
+                    {0xFF000000, 0xFFCCCCCC}
+            };
+
+            Preference ongoingColor = findPreference("ongoingColor");
+
+            ongoingColor.setOnPreferenceClickListener(e -> {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
+                dlg.setAdapter(new ArrayAdapter(getActivity(), android.R.layout.select_dialog_singlechoice) {
+                    @Override
+                    public int getCount() {
+                        return colors.length;
+                    }
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        CheckedTextView v = (CheckedTextView) LayoutInflater.from(getContext()).inflate(android.R.layout.select_dialog_singlechoice, parent, false);
+                        int p = (int) Utils.convertDpToPixel(getContext(), 4);
+                        v.setPadding(4 * p, p, 4 * p, p);
+                        v.setText(position == 0 ? "System" : "Abc");
+                        v.setBackgroundColor(position == 0 ? Color.WHITE : colors[position][0]);
+                        v.setTextColor(position == 0 ? Color.BLACK : colors[position][1]);
+                        v.setChecked(colors[position][0] == Preferences.ONGOING_BG_COLOR.get() && colors[position][1] == Preferences.ONGOING_TEXT_COLOR.get());
+                        return v;
+                    }
+                }, (dialog, which) -> {
+                    Preferences.ONGOING_BG_COLOR.set(colors[which][0]);
+                    Preferences.ONGOING_TEXT_COLOR.set(colors[which][1]);
+                });
+                dlg.show();
+                return true;
+
+            });
         }
 
     }

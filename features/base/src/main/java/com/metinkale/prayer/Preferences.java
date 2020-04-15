@@ -28,9 +28,8 @@ public class Preferences {
     public static final String COUNTDOWN_TYPE_FLOOR = "default";
     public static final String COUNTDOWN_TYPE_TOP = "alt";
     public static final String COUNTDOWN_TYPE_SHOW_SECONDS = "secs";
-    
+
     public static Preference<Boolean> USE_ARABIC = new BooleanPreference("arabicNames", false) {
-        
         @Override
         public Boolean get() {
             return !new Locale("ar").getLanguage().equals(LocaleUtils.getLocale().getLanguage()) && getPrefs().getBoolean("arabicNames", false);
@@ -52,7 +51,9 @@ public class Preferences {
     public static Preference<Integer> TESBIHAT_TEXTSIZE = new IntPreference("tesbihatTextSize", 0);
     public static Preference<Integer> KERAHAT_SUNRISE = new IntPreference("kerahat_sunrise", 45);
     public static Preference<Integer> KERAHAT_ISTIWA = new IntPreference("kerahat_istiva", 45);
-    public static Preference<Integer> KERAHAT_SUNSET = new IntPreference("kerahat_sunset", 45);
+    public static Preference<Integer> KERAHAT_SUNSET = new IntPreference("kerahat_sunset", 0);
+    public static Preference<Integer> ONGOING_TEXT_COLOR = new IntPreference("ongoingTextColor", 0);
+    public static Preference<Integer> ONGOING_BG_COLOR = new IntPreference("ongoingBGColor", 0);
     public static Preference<String> UUID = new StringPreference("uuid", null) {
         @Override
         public String get() {
@@ -88,20 +89,20 @@ public class Preferences {
     };
     public static Preference<Integer> HIJRI_FIX = new Preference<Integer>("hijri_fix", 0) {
         private Preference<String> intern = new StringPreference("hijri_fix", "0");
-        
+
         @Override
         public Integer get() {
             return Integer.parseInt(intern.get().replace("+", ""));
         }
-        
+
         @Override
         public void set(Integer obj) {
             intern.set(String.valueOf(obj));
         }
     };
     public static Preference<String> COUNTDOWN_TYPE = new StringPreference("widget_countdown", "default");
-    
-    
+
+
     public static SharedPreferences getPrefs() {
         return PreferenceManager.getDefaultSharedPreferences(App.get());
     }
@@ -124,69 +125,69 @@ public class Preferences {
         }
 
         public abstract T get();
-        
+
         public abstract void set(T obj);
-        
+
     }
-    
+
     public static class StringPreference extends Preference<String> {
         public StringPreference(String key, String def) {
             super(key, def);
         }
-        
+
         @Override
         public String get() {
             return getPrefs().getString(getKey(), getDef());
         }
-        
+
         @Override
         public void set(String obj) {
             getPrefs().edit().putString(getKey(), obj).apply();
         }
     }
-    
+
     public static class IntPreference extends Preference<Integer> {
         public IntPreference(String key, Integer def) {
             super(key, def);
         }
-        
+
         @Override
         public Integer get() {
             return getPrefs().getInt(getKey(), getDef());
         }
-        
+
         @Override
         public void set(Integer obj) {
             getPrefs().edit().putInt(getKey(), obj).apply();
         }
     }
-    
+
     public static class BooleanPreference extends Preference<Boolean> {
         public BooleanPreference(String key, Boolean def) {
             super(key, def);
         }
-        
+
         @Override
         public Boolean get() {
             return getPrefs().getBoolean(getKey(), getDef());
         }
-        
+
         @Override
         public void set(Boolean obj) {
             getPrefs().edit().putBoolean(getKey(), obj).apply();
         }
     }
-    
+
     public static class FloatPreference extends Preference<Float> {
         public FloatPreference(String key, Float def) {
             super(key, def);
         }
-        
+
         @Override
         public Float get() {
             return getPrefs().getFloat(getKey(), getDef());
         }
-        
+
         @Override
         public void set(Float obj) {
             getPrefs().edit().putFloat(getKey(), obj).apply();

@@ -49,6 +49,7 @@
         alarm clock icon will be added to the Status bar!
     </string>
     <string name="ongoingNumber">Show minutes in Notification-Icon</string>
+    <string name="ongoingColor">Notification-Widget Colors</string>
     <string name="vakit_indicator">Prayertime indicator</string>
     <string name="vakit_indicator_next">Next prayertime</string>
     <string name="vakit_indicator_current">Current prayertime</string>
@@ -60,7 +61,6 @@
     <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
     <string name="showExtraTimes">Show Morning Prayer and Asr Sani</string>
     <string name="showExtraTimesSummary">Only for FaziletTakvimi.com, NamazVakti.com and Calculated</string>
-
 
 
 </resources>

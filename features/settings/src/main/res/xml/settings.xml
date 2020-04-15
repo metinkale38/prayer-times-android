@@ -153,6 +153,10 @@
             android:key="ongoingNumber"
             android:title="@string/ongoingNumber" />
 
+        <Preference
+            android:key="ongoingColor"
+            android:title="@string/ongoingColor" />
+
 
         <ListPreference
             android:defaultValue="silent"
