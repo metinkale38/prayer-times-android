@@ -10,7 +10,7 @@
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
+  ~ See the License for the dpecific language governing permissions and
   ~ limitations under the License.
   -->
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Braunschweig"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <Chronometer
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:countDown="true"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/fajr"
@@ -74,7 +74,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/fajr"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,7 +90,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/sun"
@@ -99,7 +99,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/sun"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/zuhr"
@@ -124,7 +124,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/zuhr"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
 
@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/asr"
@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,7 +166,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/maghrib"
@@ -175,7 +175,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -191,7 +191,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/ishaa"
@@ -200,7 +200,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ishaa"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
 
