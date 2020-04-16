@@ -26,6 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.names.Adapter.Item;
 import com.metinkale.prayer.utils.Utils;
@@ -36,14 +44,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.SearchView.OnQueryTextListener;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NamesFragment extends BaseActivity.MainFragment implements OnQueryTextListener {
 

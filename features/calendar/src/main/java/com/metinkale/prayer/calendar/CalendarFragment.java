@@ -27,14 +27,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.date.HijriDate;
-import com.metinkale.prayer.utils.LocaleUtils;
-
-import org.joda.time.LocalDate;
-
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -43,7 +35,15 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.date.HijriDate;
+import com.metinkale.prayer.utils.LocaleUtils;
+
 import net.steamcrafted.materialiconlib.MaterialMenuInflater;
+
+import org.joda.time.LocalDate;
+
+import java.util.Locale;
 
 
 public class CalendarFragment extends BaseActivity.MainFragment implements OnItemClickListener {

@@ -22,10 +22,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import androidx.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
-
-import androidx.annotation.NonNull;
 
 import static android.hardware.Sensor.TYPE_ACCELEROMETER;
 

@@ -24,9 +24,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.metinkale.prayer.dhikr.data.Dhikr;
-
 import androidx.annotation.NonNull;
+
+import com.metinkale.prayer.dhikr.data.Dhikr;
 
 public class DhikrView extends View {
     private final Paint mPaint = new Paint();

@@ -26,6 +26,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
@@ -33,10 +37,6 @@ import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Preferences;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import static com.metinkale.prayer.utils.AboutShortcuts.beta;
 import static com.metinkale.prayer.utils.AboutShortcuts.github;

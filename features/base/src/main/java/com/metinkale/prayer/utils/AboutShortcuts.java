@@ -24,15 +24,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
+
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
-
-
-import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 
 
 public class AboutShortcuts {

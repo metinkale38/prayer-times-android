@@ -18,7 +18,6 @@ package com.metinkale.prayer.hadith.utils;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.FocusFinder;
 import android.view.Gravity;
@@ -36,12 +35,12 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 public class MyScrollView extends FrameLayout implements OnTouchListener {
 
@@ -368,20 +367,6 @@ public class MyScrollView extends FrameLayout implements OnTouchListener {
                 child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             }
         }
-    }
-
-    @Override
-    public int getPaddingStart() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            return super.getPaddingStart();
-        else return super.getPaddingLeft();
-    }
-
-    @Override
-    public int getPaddingEnd() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            return super.getPaddingEnd();
-        else return super.getPaddingRight();
     }
 
     @Override

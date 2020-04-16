@@ -16,9 +16,9 @@
 
 package com.metinkale.prayer.compass.magnetic.utils.math;
 
-import java.io.Serializable;
-
 import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 
 /**
  * Encapsulates a <a href="http://en.wikipedia.org/wiki/Row-major_order">column

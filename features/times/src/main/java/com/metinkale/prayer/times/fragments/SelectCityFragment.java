@@ -27,6 +27,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Cities;
@@ -39,9 +42,6 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class SelectCityFragment extends BaseActivity.MainFragment implements OnItemClickListener {
 

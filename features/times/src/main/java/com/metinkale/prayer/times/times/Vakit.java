@@ -16,11 +16,11 @@
 
 package com.metinkale.prayer.times.times;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.R;
-
-import androidx.annotation.NonNull;
 
 public enum Vakit {
     FAJR(new int[]{R.string.imsak, R.string.fajr}, new String[]{"الفجر", "الإمساك"}),
@@ -35,7 +35,7 @@ public enum Vakit {
     private final String[] arabic;
     private final int[] resId;
 
-    Vakit(int id[], String[] arabic) {
+    Vakit(int[] id, String[] arabic) {
         resId = id;
         this.arabic = arabic;
     }

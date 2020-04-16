@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 
@@ -37,7 +36,7 @@ public class UserSound extends Sound {
 
     public static UserSound create(Uri uri) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(App.get(), uri)) {
+            if (DocumentsContract.isDocumentUri(App.get(), uri)) {
                 App.get().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
         } catch (Exception e) {

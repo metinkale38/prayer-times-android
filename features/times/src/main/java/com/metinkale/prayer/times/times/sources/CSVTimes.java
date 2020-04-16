@@ -18,6 +18,8 @@ package com.metinkale.prayer.times.times.sources;
 
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
@@ -26,9 +28,6 @@ import com.metinkale.prayer.times.times.Vakit;
 import org.joda.time.LocalDate;
 
 import java.util.concurrent.ExecutionException;
-
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
 
 public class CSVTimes extends WebTimes {
 
@@ -70,7 +69,7 @@ public class CSVTimes extends WebTimes {
                     continue;
                 if (!sep1.equals(" "))
                     line = line.replace(" ", "");
-                String parts[] = line.split(sep1);
+                String[] parts = line.split(sep1);
 
                 if (parts[0].contains("-"))
                     sep2 = "-";
@@ -82,7 +81,7 @@ public class CSVTimes extends WebTimes {
                 if (sep2 == null)
                     continue;
 
-                String date[] = parts[0].split(sep2);
+                String[] date = parts[0].split(sep2);
                 int year = date.length > 2 ? Integer.parseInt(date[2]) : LocalDate.now().getYear();
                 int month = Integer.parseInt(date[1]);
                 int day = Integer.parseInt(date[0]);

@@ -16,6 +16,11 @@
 
 package com.metinkale.prayer.utils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
+import androidx.collection.SimpleArrayMap;
+
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
 
@@ -24,11 +29,6 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Set;
 import java.util.TimeZone;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
-import androidx.collection.SimpleArrayMap;
 
 /**
  * Created by metin on 13.02.2017.
@@ -65,7 +65,7 @@ public class AndroidTimeZoneProvider implements Provider {
     }
 
 
-    private class MyDateTimeZone extends DateTimeZone {
+    private static class MyDateTimeZone extends DateTimeZone {
         private TimeZone tz;
         @NonNull
         private long[] transitions = new long[0];
@@ -126,7 +126,7 @@ public class AndroidTimeZoneProvider implements Provider {
             while (i + 1 < transitions.length && transitions[i + 1] < time) {
                 i++;
             }
-            return i >= 0 && i >= transitions.length ? 0 : transitions[i];
+            return i >= transitions.length ? 0 : transitions[i];
         }
 
         @Override

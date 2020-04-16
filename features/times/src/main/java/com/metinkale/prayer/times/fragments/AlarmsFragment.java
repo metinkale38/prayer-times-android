@@ -25,12 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
-import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.times.times.Times;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +32,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.crashlytics.android.Crashlytics;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
+import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.times.alarm.Alarm;
+import com.metinkale.prayer.times.times.Times;
 
 public class AlarmsFragment extends Fragment implements Observer<Times> {
     private Times mTimes;

@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +61,7 @@ public class NVCTimes extends WebTimes {
             BufferedInputStream bis = new BufferedInputStream(is);
 
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(bis, "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis, StandardCharsets.UTF_8));
 
             String line;
 

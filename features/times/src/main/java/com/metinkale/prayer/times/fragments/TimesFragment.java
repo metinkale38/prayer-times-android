@@ -26,11 +26,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Module;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer;
@@ -41,15 +50,6 @@ import com.metinkale.prayer.utils.UUID;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
 
 public class TimesFragment extends BaseActivity.MainFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
 

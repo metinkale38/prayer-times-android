@@ -32,16 +32,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
-import com.metinkale.prayer.times.times.sources.FaziletTimes;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 import com.metinkale.prayer.times.utils.ExportController;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -57,12 +60,6 @@ import org.joda.time.LocalTime;
 
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-
 @SuppressLint("ClickableViewAccessibility")
 public class CityFragment extends Fragment implements Observer<Times> {
 
@@ -76,8 +73,8 @@ public class CityFragment extends Fragment implements Observer<Times> {
     private TextView mTitle;
     private TextView mHicri;
     private TextView mDate;
-    private TextView mPrayerTitles[];
-    private TextView mPrayerTimes[];
+    private TextView[] mPrayerTitles;
+    private TextView[] mPrayerTimes;
     private MaterialIconView mGPSIcon;
     private int mThreeSecondCounter;
     @NonNull
@@ -326,26 +323,6 @@ public class CityFragment extends Fragment implements Observer<Times> {
     public Times getTimes() {
         return mTimes;
     }
-
-    @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-        if (menuVisible && mTimes != null && mTimes.getSource() == Source.Fazilet) {
-            mHandler.postDelayed(mShowFaziletDeprecationAlert, 1000);
-        } else {
-            mHandler.removeCallbacks(mShowFaziletDeprecationAlert);
-        }
-    }
-
-    //TODO to be removed after some time
-    private static boolean FAZILETDEPRATIONALERTALREADYSHOWN = false;
-    private Runnable mShowFaziletDeprecationAlert = () -> {
-        if (FAZILETDEPRATIONALERTALREADYSHOWN)
-            return;
-        FAZILETDEPRATIONALERTALREADYSHOWN = true;
-        new AlertDialog.Builder(getActivity()).setTitle("Fazilet Takvimi").setMessage(FaziletTimes.getDeprecatedText())
-                .setPositiveButton("Tamam", (dialogInterface, i) -> dialogInterface.dismiss()).show();
-    };
 
     @Override
     public void onResume() {

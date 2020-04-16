@@ -25,6 +25,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.utils.LocaleUtils;
 
@@ -32,10 +36,6 @@ import org.joda.time.LocalDate;
 
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 
 public class Adapter extends ArrayAdapter<int[]> {
     @NonNull

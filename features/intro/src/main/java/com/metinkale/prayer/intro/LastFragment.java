@@ -26,13 +26,13 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.AboutShortcuts;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Created by metin on 25.07.17.

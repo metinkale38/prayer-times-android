@@ -22,10 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.metinkale.prayer.BaseActivity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.metinkale.prayer.BaseActivity;
 
 public class WebViewFragment extends BaseActivity.MainFragment {
 

@@ -22,18 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.metinkale.prayer.App;
-import com.metinkale.prayer.times.BuildConfig;
-import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.alarm.Alarm;
-import com.metinkale.prayer.times.alarm.AlarmService;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.metinkale.prayer.times.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     private static final int TYPE_SWITCH = 0;

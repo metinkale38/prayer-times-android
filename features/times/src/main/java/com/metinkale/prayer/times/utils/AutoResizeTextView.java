@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.utils;
 
 import android.content.Context;
-import android.icu.util.Measure;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;

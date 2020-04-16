@@ -34,8 +34,8 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import com.crashlytics.android.Crashlytics;
-import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.SilenterPrompt;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
@@ -221,7 +221,7 @@ class WidgetLegacy {
             }
             fits = true;
             for (Vakit v : Vakit.values()) {
-                if ((paint.measureText(v.getString()) > (w / 6)) && (w > 5)) {
+                if ((paint.measureText(v.getString()) > (w / 6f)) && (w > 5)) {
                     fits = false;
                 }
             }

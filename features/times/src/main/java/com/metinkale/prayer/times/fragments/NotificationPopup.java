@@ -32,7 +32,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.AttributeSet;
@@ -42,16 +41,16 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.AlarmService;
 import com.metinkale.prayer.times.times.Times;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class NotificationPopup extends AppCompatActivity implements SensorEventListener {
     @Nullable
@@ -153,7 +152,7 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
     public static void start(Context c, Alarm alarm) {
         Times t = alarm.getCity();
         PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);
-        if (Build.VERSION.SDK_INT >= 20 && !pm.isInteractive() || Build.VERSION.SDK_INT < 20 && !pm.isScreenOn()) {
+        if (!pm.isInteractive()) {
             Intent i = new Intent(c, NotificationPopup.class);
             i.putExtra("city", t.getIntID());
             i.putExtra("name", t.getName() + " (" + t.getSource() + ")");
@@ -269,7 +268,7 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
                 if (x < 0) {
                     angle += Math.PI;
                 }
-                if (distance >= ((w / 2) - touchRadius)) {
+                if (distance >= ((w / 2f) - touchRadius)) {
                     distance = w / 2f - touchRadius;
                 }
 

@@ -18,9 +18,9 @@ package com.metinkale.prayerapp.vakit;
 
 import android.graphics.Color;
 
-import com.metinkale.prayer.widgets.R;
-
 import androidx.annotation.DrawableRes;
+
+import com.metinkale.prayer.widgets.R;
 
 
 public enum Theme {

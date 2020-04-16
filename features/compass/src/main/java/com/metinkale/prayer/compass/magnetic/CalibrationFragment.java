@@ -28,11 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.metinkale.prayer.compass.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.metinkale.prayer.compass.R;
 
 public class CalibrationFragment extends Fragment implements SensorEventListener {
     private SensorManager mSensorManager;
@@ -52,12 +52,7 @@ public class CalibrationFragment extends Fragment implements SensorEventListener
         mAccuracy = view.findViewById(R.id.accuracy_text);
         mAccuracy.setText(
                 Html.fromHtml(String.format("%s: <font color='red'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_low))));
-        view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit();
-            }
-        });
+        view.findViewById(R.id.close).setOnClickListener(v -> getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit());
         return view;
     }
 

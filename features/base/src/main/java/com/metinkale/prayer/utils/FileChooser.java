@@ -26,11 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.util.Arrays;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.io.File;
+import java.util.Arrays;
 
 public class FileChooser {
     private static final String PARENT_DIR = "..";

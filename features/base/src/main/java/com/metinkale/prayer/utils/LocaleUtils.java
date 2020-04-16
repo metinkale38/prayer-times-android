@@ -16,7 +16,6 @@
 
 package com.metinkale.prayer.utils;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
@@ -29,14 +28,18 @@ import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.Size;
+import androidx.core.os.LocaleListCompat;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
-import com.metinkale.prayer.base.BuildConfig;
-import com.metinkale.prayer.date.HijriDate;
-import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
-
+import com.metinkale.prayer.date.HijriDate;
+import com.metinkale.prayer.service.CalendarIntegrationService;
 
 import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
@@ -53,14 +56,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.Size;
-import androidx.core.os.LocaleListCompat;
-
-import static android.content.Context.UI_MODE_SERVICE;
 
 public class LocaleUtils {
 
@@ -107,13 +102,9 @@ public class LocaleUtils {
             LocaleList localeList = getLocales();
             LocaleList.setDefault(localeList);
             config.setLocales(localeList);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Locale locale = getLocale();
-            config.setLocale(locale);
-            Locale.setDefault(locale);
         } else {
             Locale locale = getLocale();
-            config.locale = locale;
+            config.setLocale(locale);
             Locale.setDefault(locale);
         }
 
@@ -351,13 +342,10 @@ public class LocaleUtils {
             configuration.setLocales(localeList);
             context = context.createConfigurationContext(configuration);
 
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        } else {
             configuration.setLocale(getLocale());
             context = context.createConfigurationContext(configuration);
 
-        } else {
-            configuration.locale = getLocale();
-            res.updateConfiguration(configuration, res.getDisplayMetrics());
         }
 
         return new ContextWrapper(context);

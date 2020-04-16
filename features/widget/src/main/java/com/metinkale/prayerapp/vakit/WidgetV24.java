@@ -39,8 +39,8 @@ import android.text.style.SuperscriptSpan;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.SilenterPrompt;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
@@ -92,8 +92,8 @@ class WidgetV24 {
         int indicator = current;
         if ("next".equals(Preferences.VAKIT_INDICATOR_TYPE.get()))
             indicator = indicator + 1;
-        int idsText[] = {R.id.fajrText, R.id.sunText, R.id.zuhrText, R.id.asrText, R.id.maghribText, R.id.ishaaText};
-        int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+        int[] idsText = {R.id.fajrText, R.id.sunText, R.id.zuhrText, R.id.asrText, R.id.maghribText, R.id.ishaaText};
+        int[] ids = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
         boolean rtl = Utils.isRTL(context);
 
@@ -179,7 +179,7 @@ class WidgetV24 {
         remoteViews.setTextColor(R.id.city, theme.textcolor);
         int current = times.getCurrentTime();
         int next = current + 1;
-        int ids[] = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
+        int[] ids = {R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa};
 
         boolean rtl = Utils.isRTL(context);
         if (rtl) {

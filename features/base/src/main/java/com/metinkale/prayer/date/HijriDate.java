@@ -16,8 +16,10 @@
 
 package com.metinkale.prayer.date;
 
-import com.crashlytics.android.Crashlytics;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
+import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -36,15 +38,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
-
-import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 
 public class HijriDate implements Comparable<HijriDate> {
     public static final int MUHARRAM = 1;

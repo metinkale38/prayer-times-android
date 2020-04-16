@@ -27,6 +27,7 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class Cities {
         String name;
     }
 
-    public static void main(String args[]) throws UnsupportedEncodingException {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         Locale.setDefault(Locale.ENGLISH);
 
 
@@ -104,7 +105,7 @@ public class Cities {
         byte[] encoded;
         try {
             encoded = Files.readAllBytes(Paths.get("geocodings.geo"));
-            mGeocodings = new Gson().fromJson(new String(encoded, "UTF-8"), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
+            mGeocodings = new Gson().fromJson(new String(encoded, StandardCharsets.UTF_8), new TypeToken<ConcurrentHashMap<String, Geocoder>>() {
             }.getType());
         } catch (IOException e) {
             // e.printStackTrace();
@@ -879,7 +880,6 @@ public class Cities {
 
     private static void geocode(Entry e, boolean onlyCache) {
         String name = e.name;
-        Entry parent = e;
 
 /*        while ((parent = mEntries.get(parent.parent)) != null && parent.parent != 0) {
             name = parent.name + ", " + name;
@@ -902,8 +902,7 @@ public class Cities {
         try {
             result = new Gson().fromJson(data, new TypeToken<List<Geocoder>>() {
             }.getType());
-        } catch (Exception exception) {
-
+        } catch (Exception ignored) {
         }
         if (result != null && result.size() != 0) {
             Geocoder gc = result.get(0);
@@ -1012,6 +1011,6 @@ public class Cities {
 
 
     public static int i(int i) {
-        return i < 0 ? 0 : i;
+        return Math.max(i, 0);
     }
 }

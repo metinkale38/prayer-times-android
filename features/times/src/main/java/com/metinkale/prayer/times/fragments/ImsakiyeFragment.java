@@ -26,6 +26,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
@@ -33,10 +37,6 @@ import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 /**
  * Created by Metin on 21.07.2015.

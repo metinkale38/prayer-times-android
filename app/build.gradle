@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
-        minSdkVersion 16
+        minSdkVersion 21
         multiDexEnabled true
         versionName '3.7.4'
         versionCode 214
@@ -103,7 +103,6 @@ dependencies {
     implementation project(':features:names')
     implementation project(':features:settings')
     implementation project(':features:times')
-    implementation project(':features:praytimes')
 
 
     implementation 'androidx.appcompat:appcompat:1.0.2'

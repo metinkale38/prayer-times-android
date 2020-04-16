@@ -33,17 +33,6 @@ public class FaziletTimes extends WebTimes {
         super(id);
     }
 
-    public static String getDeprecatedText() {
-        return "Namaz Vakti Android Uygulaması ile tek Uygulamada değişik Takvimlerin Vakitlerine bakabiliyorsunuz.\n\n" +
-                "Vakitler için Fazilet Takvimini kullanan birçok kullanıcı var. Fazilet Takvimi Vakitleri için www.FaziletTakvimi.com sayfasındaki bilgiler kullanılıyordu. " +
-                "Bu sayfa malesef artık Namaz Vakitleri göstermiyor.\n\n" +
-                "Fazilet Takvimin ücretsiz Uygulaması'da artık çalısmıyor, sadece bir ücretli Uygulamaları var.\n\n" +
-                "Dolayısıyla bu uygulamadada artık Fazilet Takvimi Vakitleri indiremiyeceksiniz.\n\n" +
-                "Önceden indirilmiş Vakitler varsa bunları kullanabilirsiniz, fakat yeni Vakitler güncellenmiyecektir.\n\n" +
-                "Bu engelleme Fazilet Takvimi tarafından, benim yapabileceğim birşey yok malesef.\n" +
-                "İsterseniz Namaz Vakti Android Uygulamasında başka bir Takvim seçebilirsiniz. Fazilet Takvimi Vakitleri için ücretli Uygulamalarını satın almanız gerekiyor.";
-    }
-
     @NonNull
     @Override
     public Source getSource() {

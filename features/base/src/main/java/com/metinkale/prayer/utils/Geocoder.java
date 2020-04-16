@@ -16,14 +16,14 @@
 
 package com.metinkale.prayer.utils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 
 public class Geocoder {

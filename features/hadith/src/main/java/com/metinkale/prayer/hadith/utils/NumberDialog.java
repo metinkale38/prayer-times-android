@@ -25,12 +25,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-import com.metinkale.prayer.hadith.R;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.metinkale.prayer.hadith.R;
 
 
 

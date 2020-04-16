@@ -22,13 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.metinkale.prayer.compass.QiblaListener;
-import com.metinkale.prayer.compass.R;
-import com.metinkale.prayer.utils.LocaleUtils;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+
+import com.metinkale.prayer.compass.QiblaListener;
+import com.metinkale.prayer.compass.R;
+import com.metinkale.prayer.utils.LocaleUtils;
 
 public class FragQiblaTime extends Fragment implements QiblaListener {
     

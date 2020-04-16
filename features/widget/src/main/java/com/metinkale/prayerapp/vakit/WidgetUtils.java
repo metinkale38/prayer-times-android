@@ -18,7 +18,6 @@ package com.metinkale.prayerapp.vakit;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +27,14 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
-import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.service.ForegroundService;
+import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.widgets.R;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by metin on 24.03.2017.
@@ -54,9 +53,6 @@ public class WidgetUtils extends InternalBroadcastReceiver implements InternalBr
         int t = widgets.getInt(widgetId + "_theme", 0);
         Theme theme;
         switch (t) {
-            case 0:
-                theme = Theme.Light;
-                break;
             case 1:
                 theme = Theme.Dark;
                 break;
@@ -111,16 +107,11 @@ public class WidgetUtils extends InternalBroadcastReceiver implements InternalBr
     }
     
     static Size getSize(Context context, AppWidgetManager appWidgetManager, int widgetId, float aspectRatio) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
-            boolean isPort = context.getResources().getBoolean(R.bool.isPort);
-            int w = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-            int h = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-            return new Size(w, h, aspectRatio);
-        } else {
-            AppWidgetProviderInfo info = appWidgetManager.getAppWidgetInfo(widgetId);
-            return new Size(info.minWidth, info.minHeight, aspectRatio);
-        }
+        Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
+        boolean isPort = context.getResources().getBoolean(R.bool.isPort);
+        int w = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH : AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+        int h = options.getInt(isPort ? AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT : AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+        return new Size(w, h, aspectRatio);
     }
     
     public static void updateWidgets(@NonNull Context c) {

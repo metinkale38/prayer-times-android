@@ -59,7 +59,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
             mTimeTickFilter = new IntentFilter();
             mTimeTickFilter.addAction(Intent.ACTION_TIME_TICK);
             PowerManager pm = (PowerManager) mCtx.getSystemService(Context.POWER_SERVICE);
-            if (Build.VERSION.SDK_INT >= 20 && pm.isInteractive() || Build.VERSION.SDK_INT < 20 && pm.isScreenOn()) {
+            if (pm.isInteractive()) {
                 mCtx.registerReceiver(this, mTimeTickFilter);
                 mCtx.registerReceiver(this, mTimeChangedFilter);
             }

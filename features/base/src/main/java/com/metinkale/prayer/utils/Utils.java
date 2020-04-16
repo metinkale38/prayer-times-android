@@ -16,28 +16,24 @@
 
 package com.metinkale.prayer.utils;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
-
-import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.base.R;
 
-import static android.content.Context.UI_MODE_SERVICE;
+import java.io.Closeable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     /**
@@ -50,8 +46,7 @@ public class Utils {
     public static float convertDpToPixel(Context context, float dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
+        return dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     /**
@@ -64,16 +59,12 @@ public class Utils {
     public static float convertPixelsToDp(Context context, float px) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return dp;
+        return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     public static boolean isRTL(Context ctx) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Configuration config = ctx.getResources().getConfiguration();
-            return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-        }
-        return false;
+        Configuration config = ctx.getResources().getConfiguration();
+        return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
 

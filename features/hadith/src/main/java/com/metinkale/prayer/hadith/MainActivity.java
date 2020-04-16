@@ -23,6 +23,9 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -30,9 +33,6 @@ import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.io.File;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 public class MainActivity extends BaseActivity {
     

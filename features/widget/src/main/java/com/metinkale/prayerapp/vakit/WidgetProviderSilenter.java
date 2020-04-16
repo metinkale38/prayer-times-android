@@ -22,10 +22,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
-
-import androidx.annotation.NonNull;
 
 public class WidgetProviderSilenter extends AppWidgetProvider {
 

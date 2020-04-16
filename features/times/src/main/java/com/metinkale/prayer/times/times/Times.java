@@ -26,6 +26,7 @@ import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.AlarmService;
+import com.metinkale.prayer.times.times.sources.FaziletTimes;
 import com.metinkale.prayer.utils.livedata.LiveDataAwareList;
 
 import org.joda.time.LocalDate;
@@ -85,8 +86,11 @@ public abstract class Times extends TimesBase {
             for (String key : keys) {
                 if (key.startsWith("id")) {
                     Times t = TimesBase.from(Long.parseLong(key.substring(2)));
-                    if (t != null)
+                    if (t instanceof FaziletTimes) {
+                        prefs.edit().remove(key).apply();
+                    } else if (t != null) {
                         sTimes.add(t);
+                    }
                 }
             }
 
@@ -240,11 +244,7 @@ public abstract class Times extends TimesBase {
         }
 
         int untilMaghrib = new Period(now, getTime(now.toLocalDate(), Vakit.MAGHRIB.ordinal()), PeriodType.minutes()).getMinutes();
-        if ((untilMaghrib >= 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))) {
-            return true;
-        }
-
-        return false;
+        return (untilMaghrib >= 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()));
     }
 
     @NonNull

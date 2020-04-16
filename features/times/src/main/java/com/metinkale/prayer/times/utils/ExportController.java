@@ -26,6 +26,10 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
@@ -40,10 +44,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
-
 import static com.metinkale.prayer.times.times.Vakit.ASR;
 import static com.metinkale.prayer.times.times.Vakit.DHUHR;
 import static com.metinkale.prayer.times.times.Vakit.FAJR;
@@ -53,106 +53,102 @@ import static com.metinkale.prayer.times.times.Vakit.SUN;
 
 public class ExportController {
     public static void exportPDF(Context ctx, Times times, @NonNull LocalDate from, @NonNull LocalDate to) throws IOException {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            PdfDocument document = new PdfDocument();
-            
-            PdfDocument.PageInfo pageInfo;
-            int pw = 595;
-            int ph = 842;
-            pageInfo = new PdfDocument.PageInfo.Builder(pw, ph, 1).create();
-            PdfDocument.Page page = document.startPage(pageInfo);
-            Drawable launcher = Drawable.createFromStream(ctx.getAssets().open("pdf/launcher.png"), null);
-            Drawable qr = Drawable.createFromStream(ctx.getAssets().open("pdf/qrcode.png"), null);
-            Drawable badge =
-                    Drawable.createFromStream(ctx.getAssets().open("pdf/badge_" + LocaleUtils.getLanguage("en", "de", "tr", "fr", "ar") + ".png"),
-                            null);
-            
-            launcher.setBounds(30, 30, 30 + 65, 30 + 65);
-            qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);
-            int w = 100;
-            int h = w * badge.getIntrinsicHeight() / badge.getIntrinsicWidth();
-            badge.setBounds(pw - 30 - w, 30 + (60 / 2 - h / 2), pw - 30, 30 + (60 / 2 - h / 2) + h);
-            
-            
-            Canvas canvas = page.getCanvas();
-            
-            Paint paint = new Paint();
-            paint.setARGB(255, 0, 0, 0);
-            paint.setTextSize(10);
-            paint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText("com.metinkale.prayer", pw - 30 - w / 2, 30 + (60 / 2 - h / 2) + h + 10, paint);
-            
-            launcher.draw(canvas);
-            qr.draw(canvas);
-            badge.draw(canvas);
-            
-            paint.setARGB(255, 61, 184, 230);
-            canvas.drawRect(30, 30 + 60, pw - 30, 30 + 60 + 5, paint);
-            
-            
-            if (times.getSource().drawableId != 0) {
-                Drawable source = ctx.getResources().getDrawable(times.getSource().drawableId);
-                
-                h = 65;
-                w = h * source.getIntrinsicWidth() / source.getIntrinsicHeight();
-                source.setBounds(30, 30 + 65 + 5, 30 + w, 30 + 65 + 5 + h);
-                source.draw(canvas);
-            }
-            
-            paint.setARGB(255, 0, 0, 0);
-            paint.setTextSize(40);
-            paint.setTextAlign(Paint.Align.LEFT);
-            canvas.drawText(ctx.getText(R.string.appName).toString(), 30 + 65 + 5, 30 + 50, paint);
-            paint.setTextAlign(Paint.Align.CENTER);
-            paint.setFakeBoldText(true);
-            canvas.drawText(times.getName(), pw / 2.0f, 30 + 65 + 50, paint);
-            
-            paint.setTextSize(12);
-            int y = 30 + 65 + 5 + 65 + 30;
-            int p = 30;
-            int cw = (pw - p - p) / 7;
-            canvas.drawText(ctx.getString(R.string.date), 30 + (0.5f * cw), y, paint);
-            canvas.drawText(FAJR.getString(), 30 + (1.5f * cw), y, paint);
-            canvas.drawText(Vakit.SUN.getString(), 30 + (2.5f * cw), y, paint);
-            canvas.drawText(Vakit.DHUHR.getString(), 30 + (3.5f * cw), y, paint);
-            canvas.drawText(Vakit.ASR.getString(), 30 + (4.5f * cw), y, paint);
-            canvas.drawText(Vakit.MAGHRIB.getString(), 30 + (5.5f * cw), y, paint);
-            canvas.drawText(Vakit.ISHAA.getString(), 30 + (6.5f * cw), y, paint);
-            paint.setFakeBoldText(false);
-            do {
-                y += 20;
-                canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, FAJR.ordinal()).toLocalTime().toString(), 30 + (1.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, SUN.ordinal()).toLocalTime().toString(), 30 + (2.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, DHUHR.ordinal()).toLocalTime().toString(), 30 + (3.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, ASR.ordinal()).toLocalTime().toString(), 30 + (4.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, MAGHRIB.ordinal()).toLocalTime().toString(), 30 + (5.5f * cw), y, paint);
-                canvas.drawText(times.getTime(from, ISHAA.ordinal()).toLocalTime().toString(), 30 + (6.5f * cw), y, paint);
-            } while (!(from = from.plusDays(1)).isAfter(to));
-            document.finishPage(page);
-            
-            
-            File outputDir = ctx.getCacheDir();
-            if (!outputDir.exists())
-                outputDir.mkdirs();
-            File outputFile = new File(outputDir, times.getName().replace(" ", "_") + ".pdf");
-            if (outputFile.exists())
-                outputFile.delete();
-            FileOutputStream outputStream = new FileOutputStream(outputFile);
-            document.writeTo(outputStream);
-            document.close();
-            
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType("application/pdf");
-            
-            Uri uri = FileProvider.getUriForFile(ctx, ctx.getString(R.string.FILE_PROVIDER_AUTHORITIES), outputFile);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            
-            ctx.startActivity(Intent.createChooser(shareIntent, ctx.getResources().getText(R.string.export)));
-        } else {
-            Toast.makeText(ctx, R.string.versionNotSupported, Toast.LENGTH_LONG).show();
+        PdfDocument document = new PdfDocument();
+
+        PdfDocument.PageInfo pageInfo;
+        int pw = 595;
+        int ph = 842;
+        pageInfo = new PdfDocument.PageInfo.Builder(pw, ph, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Drawable launcher = Drawable.createFromStream(ctx.getAssets().open("pdf/launcher.png"), null);
+        Drawable qr = Drawable.createFromStream(ctx.getAssets().open("pdf/qrcode.png"), null);
+        Drawable badge =
+                Drawable.createFromStream(ctx.getAssets().open("pdf/badge_" + LocaleUtils.getLanguage("en", "de", "tr", "fr", "ar") + ".png"),
+                        null);
+
+        launcher.setBounds(30, 30, 30 + 65, 30 + 65);
+        qr.setBounds(pw - 30 - 65, 30 + 65 + 5, pw - 30, 30 + 65 + 5 + 65);
+        int w = 100;
+        int h = w * badge.getIntrinsicHeight() / badge.getIntrinsicWidth();
+        badge.setBounds(pw - 30 - w, 30 + (60 / 2 - h / 2), pw - 30, 30 + (60 / 2 - h / 2) + h);
+
+
+        Canvas canvas = page.getCanvas();
+
+        Paint paint = new Paint();
+        paint.setARGB(255, 0, 0, 0);
+        paint.setTextSize(10);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("com.metinkale.prayer", pw - 30 - w / 2f, 30 + (60 / 2f - h / 2f) + h + 10, paint);
+
+        launcher.draw(canvas);
+        qr.draw(canvas);
+        badge.draw(canvas);
+
+        paint.setARGB(255, 61, 184, 230);
+        canvas.drawRect(30, 30 + 60, pw - 30, 30 + 60 + 5, paint);
+
+
+        if (times.getSource().drawableId != 0) {
+            Drawable source = ctx.getResources().getDrawable(times.getSource().drawableId);
+
+            h = 65;
+            w = h * source.getIntrinsicWidth() / source.getIntrinsicHeight();
+            source.setBounds(30, 30 + 65 + 5, 30 + w, 30 + 65 + 5 + h);
+            source.draw(canvas);
         }
+
+        paint.setARGB(255, 0, 0, 0);
+        paint.setTextSize(40);
+        paint.setTextAlign(Paint.Align.LEFT);
+        canvas.drawText(ctx.getText(R.string.appName).toString(), 30 + 65 + 5, 30 + 50, paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setFakeBoldText(true);
+        canvas.drawText(times.getName(), pw / 2.0f, 30 + 65 + 50, paint);
+
+        paint.setTextSize(12);
+        int y = 30 + 65 + 5 + 65 + 30;
+        int p = 30;
+        int cw = (pw - p - p) / 7;
+        canvas.drawText(ctx.getString(R.string.date), 30 + (0.5f * cw), y, paint);
+        canvas.drawText(FAJR.getString(), 30 + (1.5f * cw), y, paint);
+        canvas.drawText(Vakit.SUN.getString(), 30 + (2.5f * cw), y, paint);
+        canvas.drawText(Vakit.DHUHR.getString(), 30 + (3.5f * cw), y, paint);
+        canvas.drawText(Vakit.ASR.getString(), 30 + (4.5f * cw), y, paint);
+        canvas.drawText(Vakit.MAGHRIB.getString(), 30 + (5.5f * cw), y, paint);
+        canvas.drawText(Vakit.ISHAA.getString(), 30 + (6.5f * cw), y, paint);
+        paint.setFakeBoldText(false);
+        do {
+            y += 20;
+            canvas.drawText((from.toString("dd.MM.yyyy")), 30 + (0.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, FAJR.ordinal()).toLocalTime().toString(), 30 + (1.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, SUN.ordinal()).toLocalTime().toString(), 30 + (2.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, DHUHR.ordinal()).toLocalTime().toString(), 30 + (3.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, ASR.ordinal()).toLocalTime().toString(), 30 + (4.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, MAGHRIB.ordinal()).toLocalTime().toString(), 30 + (5.5f * cw), y, paint);
+            canvas.drawText(times.getTime(from, ISHAA.ordinal()).toLocalTime().toString(), 30 + (6.5f * cw), y, paint);
+        } while (!(from = from.plusDays(1)).isAfter(to));
+        document.finishPage(page);
+
+
+        File outputDir = ctx.getCacheDir();
+        if (!outputDir.exists())
+            outputDir.mkdirs();
+        File outputFile = new File(outputDir, times.getName().replace(" ", "_") + ".pdf");
+        if (outputFile.exists())
+            outputFile.delete();
+        FileOutputStream outputStream = new FileOutputStream(outputFile);
+        document.writeTo(outputStream);
+        document.close();
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("application/pdf");
+
+        Uri uri = FileProvider.getUriForFile(ctx, ctx.getString(R.string.FILE_PROVIDER_AUTHORITIES), outputFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        ctx.startActivity(Intent.createChooser(shareIntent, ctx.getResources().getText(R.string.export)));
     }
     
     public static void exportCSV(Context ctx, Times times, @NonNull LocalDate from, @NonNull LocalDate to) throws IOException {

@@ -21,16 +21,16 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import androidx.annotation.NonNull;
+import androidx.collection.ArrayMap;
+import androidx.core.os.LocaleListCompat;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.collection.ArrayMap;
-import androidx.core.os.LocaleListCompat;
 
 public class AliasManager extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnPrefsChangedListener {
     @Override

@@ -18,6 +18,8 @@ package com.metinkale.prayer.times.alarm.sounds;
 
 import android.media.MediaPlayer;
 
+import androidx.collection.ArraySet;
+
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.times.Vakit;
 
@@ -26,8 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Set;
-
-import androidx.collection.ArraySet;
 
 
 public class BundledSound extends Sound {

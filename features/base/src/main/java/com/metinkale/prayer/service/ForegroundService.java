@@ -27,15 +27,14 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 
-
-import com.metinkale.prayer.base.R;
-
-import java.util.Set;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.collection.ArraySet;
 import androidx.core.app.NotificationCompat;
+
+import com.metinkale.prayer.base.R;
+
+import java.util.Set;
 
 /**
  * this class holds a foreground service as long there are any needies.

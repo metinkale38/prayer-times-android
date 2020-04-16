@@ -22,13 +22,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
+
 import com.metinkale.prayer.base.BuildConfig;
-import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
-
-import androidx.core.app.NotificationCompat;
+import com.metinkale.prayer.times.utils.NotificationUtils;
 
 public class AlarmUtils {
 
@@ -65,7 +65,7 @@ public class AlarmUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(NotificationUtils.getAlarmChannel(c));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        } else {
             builder.setPriority(Notification.PRIORITY_DEFAULT);
         }
         return builder.build();
@@ -109,7 +109,7 @@ public class AlarmUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(NotificationUtils.getAlarmChannel(c));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        } else {
             builder.setPriority(Notification.PRIORITY_MAX);
         }
         return builder.build();

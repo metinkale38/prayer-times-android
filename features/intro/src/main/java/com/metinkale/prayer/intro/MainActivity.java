@@ -22,6 +22,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Module;
@@ -35,14 +43,6 @@ import com.metinkale.prayer.utils.LocaleUtils;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by metin on 17.07.2017.
@@ -227,9 +227,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         try {
             Field f = R.string.class.getDeclaredField(resName);
             return f.getInt(null);
-        } catch (IllegalAccessException e) {
-            return def;
-        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             return def;
         }
     }

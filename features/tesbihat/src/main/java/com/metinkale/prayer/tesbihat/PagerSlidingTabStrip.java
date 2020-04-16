@@ -36,11 +36,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
+import java.util.Locale;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 

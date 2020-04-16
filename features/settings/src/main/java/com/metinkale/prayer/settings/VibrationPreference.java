@@ -29,14 +29,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.EditTextPreference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by metin on 24.03.2016.

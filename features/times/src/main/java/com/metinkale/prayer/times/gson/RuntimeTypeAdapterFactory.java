@@ -16,6 +16,9 @@
 
 package com.metinkale.prayer.times.gson;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,9 +34,6 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Adapts values whose runtime type may differ from their declaration type. This

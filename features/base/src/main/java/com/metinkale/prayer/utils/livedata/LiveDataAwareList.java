@@ -18,14 +18,14 @@ package com.metinkale.prayer.utils.livedata;
 
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
 
@@ -86,7 +86,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.add(t);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -96,7 +95,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.remove(o);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -111,7 +109,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.addAll(c);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -121,7 +118,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.addAll(c);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -131,7 +127,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.removeAll(c);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -141,7 +136,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.retainAll(c);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -151,7 +145,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             list.clear();
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -166,7 +159,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.set(index, element);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -176,7 +168,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             list.add(index, element);
         } finally {
             onUpdate();
-            ;
         }
     }
 
@@ -186,7 +177,6 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
             return list.remove(index);
         } finally {
             onUpdate();
-            ;
         }
     }
 

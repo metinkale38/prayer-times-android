@@ -16,13 +16,13 @@
 
 package com.metinkale.prayer.utils.livedata;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
-
 import androidx.annotation.NonNull;
 import androidx.collection.ArraySet;
 import androidx.lifecycle.LiveData;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 public class LiveDataAwareSet<T> extends LiveData<Set<T>> implements Set<T> {
 

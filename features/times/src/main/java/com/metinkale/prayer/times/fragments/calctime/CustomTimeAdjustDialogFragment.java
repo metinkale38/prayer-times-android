@@ -30,6 +30,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
@@ -39,12 +45,6 @@ import org.joda.time.LocalDate;
 import org.metinkale.praytimes.PrayTimes;
 
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 /**
  * Created by metin on 10.10.2017.

@@ -23,7 +23,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.NumberPicker;
 
-
 import androidx.annotation.NonNull;
 import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceDialogFragmentCompat;

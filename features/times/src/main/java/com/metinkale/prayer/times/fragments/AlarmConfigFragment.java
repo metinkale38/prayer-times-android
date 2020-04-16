@@ -17,7 +17,6 @@
 package com.metinkale.prayer.times.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -32,11 +31,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.util.Pair;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
@@ -55,22 +62,12 @@ import com.metinkale.prayer.utils.PermissionUtils;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
+import org.joda.time.LocalDateTime;
+
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.util.Pair;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.joda.time.LocalDateTime;
 
 
 public class AlarmConfigFragment extends DialogFragment {

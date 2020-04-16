@@ -37,26 +37,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
-import com.metinkale.prayer.utils.Utils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.graphics.drawable.TintAwareDrawable;
-import androidx.core.widget.TextViewCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class BaseActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, AdapterView.OnItemClickListener {
 
@@ -233,8 +229,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     icon.mutate().setTint(getResources().getColor(R.color.foreground));
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
-                        c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                if (c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
                 } else {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
@@ -256,23 +251,19 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @SuppressLint("RtlHardcoded")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                FragmentManager fm = getSupportFragmentManager();
-                if (fm.getBackStackEntryCount() > 0)
-                    onBackPressed();
-                else
-                    mDrawerLayout.openDrawer(isRTL() ? Gravity.RIGHT : Gravity.LEFT);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            FragmentManager fm = getSupportFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                onBackPressed();
+            } else {
+                mDrawerLayout.openDrawer(isRTL() ? Gravity.RIGHT : Gravity.LEFT);
+            }
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     protected boolean isRTL() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return false;
-        }
         Configuration config = getResources().getConfiguration();
         return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }

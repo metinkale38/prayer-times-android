@@ -21,7 +21,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -108,9 +107,6 @@ public class MagneticCompass extends Fragment implements QiblaListener, Rotation
         // remap matrix values according to display rotation, as in
         // SensorManager documentation.
         switch (mDisplayRotation) {
-            case Surface.ROTATION_0:
-            case Surface.ROTATION_180:
-                break;
             case Surface.ROTATION_90:
                 SensorManager.remapCoordinateSystem(newMatrix, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, newMatrix);
                 break;

@@ -24,15 +24,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
-import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.LocalDate;

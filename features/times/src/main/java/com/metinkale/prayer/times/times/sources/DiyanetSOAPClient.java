@@ -118,8 +118,7 @@ public class DiyanetSOAPClient {
                                         }
                                     }
                                     String[] d = date.split("\\.");
-                                    LocalDate ld = new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0]));
-                                    t.date = ld;
+                                    t.date = new LocalDate(Integer.parseInt(d[2]), Integer.parseInt(d[1]), Integer.parseInt(d[0]));
                                     allTimes.add(t);
                                 }
                                 setComplete(allTimes);

@@ -27,22 +27,22 @@ import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+import androidx.multidex.MultiDex;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.receiver.TimeTickReceiver;
+import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
 import com.metinkale.prayer.service.CalendarIntegrationService;
 import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
 import com.metinkale.prayer.utils.Utils;
 
 import org.joda.time.DateTimeZone;
 
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.multidex.MultiDex;
 
 import io.fabric.sdk.android.Fabric;
 

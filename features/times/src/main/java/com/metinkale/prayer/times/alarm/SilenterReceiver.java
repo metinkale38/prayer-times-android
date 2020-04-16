@@ -13,10 +13,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.fragments.TimesFragment;
-import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.utils.NotificationUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
 

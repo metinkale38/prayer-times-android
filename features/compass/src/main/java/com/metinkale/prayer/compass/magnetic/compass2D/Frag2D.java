@@ -27,14 +27,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+
 import com.metinkale.prayer.compass.QiblaListener;
 import com.metinkale.prayer.compass.R;
 import com.metinkale.prayer.compass.magnetic.DegreeLowPassFilter;
 import com.metinkale.prayer.utils.LocaleUtils;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
 
 public class Frag2D extends Fragment implements QiblaListener {
     private static final TimeInterpolator overshootInterpolator = new OvershootInterpolator();

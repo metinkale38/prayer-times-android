@@ -28,6 +28,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.compass.R;
 
 import org.joda.time.LocalDate;
@@ -38,8 +40,6 @@ import org.metinkale.praytimes.Times;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import androidx.annotation.NonNull;
 
 public class QiblaTimeView extends View {
     private final Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -262,13 +262,7 @@ public class QiblaTimeView extends View {
                     .getDeclaredMethod("getAzimuth", long.class, double.class, double.class);
             m.setAccessible(true);
             return (double) m.invoke(null, mills, lat, lng);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return 0;

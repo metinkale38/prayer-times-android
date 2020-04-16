@@ -21,14 +21,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
 import com.metinkale.prayer.times.R;
@@ -106,6 +105,7 @@ public class HorizontalNumberWheel extends View {
     }
 
 
+    @Keep
     public void setValue(int value) {
         this.value = value;
         if (this.value > max)

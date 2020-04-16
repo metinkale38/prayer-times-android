@@ -17,24 +17,13 @@
 package com.metinkale.prayer.settings;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.CalendarContract;
 import android.util.AttributeSet;
 
-import androidx.annotation.NonNull;
-import androidx.preference.ListPreference;
 import androidx.preference.SwitchPreference;
 
-import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.PermissionUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class CalendarIntegrationPreference extends SwitchPreference {
 

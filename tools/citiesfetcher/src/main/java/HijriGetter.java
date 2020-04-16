@@ -29,7 +29,7 @@ public class HijriGetter {
             String data = HTTP.get(url);
             data = data.substring(data.indexOf("<tbody>"));
             data = data.substring(0, data.indexOf("</tbody>")).replace("<td", "µ<td").replace("<tr", "$<tr").replace("&#160;", "");
-            data = data.replaceAll("\\<[^>]*>", "").replaceAll("\\s+", "").replace(" ", "").replace("$", "\n");
+            data = data.replaceAll("<[^>]*>", "").replaceAll("\\s+", "").replace(" ", "").replace("$", "\n");
             data = data.substring(data.indexOf("\n") + 1);
             data = data.substring(data.indexOf("\n") + 1);
             data = data.substring(data.indexOf("\n") + 1);
@@ -38,7 +38,7 @@ public class HijriGetter {
             data = data.replace("REBİÜLEVVEL", "R.EVVEL");
             data = data.replace("REBİÜLAHİR", "R.AHİR");
             data = data.replace("\u200B", "");
-            String rows[] = data.split("\n");
+            String[] rows = data.split("\n");
             
             List<String> greg =
                     Arrays.asList("OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK");

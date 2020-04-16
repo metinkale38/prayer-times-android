@@ -22,11 +22,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.utils.LocaleUtils;
-
-import androidx.annotation.NonNull;
 
 public class WidgetProviderSmall extends AppWidgetProvider {
     public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager, int widgetId) {

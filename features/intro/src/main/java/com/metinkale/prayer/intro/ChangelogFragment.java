@@ -22,10 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.metinkale.prayer.utils.LocaleUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.metinkale.prayer.utils.LocaleUtils;
+
 import us.feras.mdv.MarkdownView;
 
 /**

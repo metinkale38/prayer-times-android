@@ -19,6 +19,9 @@ package com.metinkale.prayer.times.times.sources;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+
 import com.crashlytics.android.Crashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -34,10 +37,6 @@ import org.metinkale.praytimes.Method;
 import org.metinkale.praytimes.PrayTimes;
 
 import java.util.TimeZone;
-
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 
 public class CalcTimes extends Times {
 

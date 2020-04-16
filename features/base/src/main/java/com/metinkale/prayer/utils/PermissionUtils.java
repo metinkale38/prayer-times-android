@@ -24,16 +24,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
-
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 /**
  * Created by metin on 14.12.2015.
@@ -76,7 +74,7 @@ public class PermissionUtils {
     }
 
     public void needNotificationPolicy(@NonNull final Activity act) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+        if (act.isDestroyed())
             return;
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -98,7 +96,7 @@ public class PermissionUtils {
     }
 
     public void needLocation(@NonNull final Activity act) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+        if (act.isDestroyed())
             return;
 
         if (!pLocation) {
@@ -115,7 +113,7 @@ public class PermissionUtils {
 
 
     public void needCalendar(@NonNull final Activity act, boolean force) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+        if (act.isDestroyed())
             return;
 
         if (!pCalendar && (!"-1".equals(Preferences.CALENDAR_INTEGRATION.get()) || force)) {
@@ -133,7 +131,7 @@ public class PermissionUtils {
 
 
     public void needStorage(@NonNull final Activity act) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && act.isDestroyed())
+        if (act.isDestroyed())
             return;
 
         if (!pStorage) {

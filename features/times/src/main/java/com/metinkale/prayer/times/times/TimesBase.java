@@ -17,27 +17,26 @@
 package com.metinkale.prayer.times.times;
 
 import android.content.SharedPreferences;
+import android.os.Looper;
+
+import androidx.annotation.NonNull;
+import androidx.collection.ArraySet;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.LocationReceiver;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.gson.GSONFactory;
+import com.metinkale.prayer.utils.livedata.TransientLiveData;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.collection.ArraySet;
 
 
 /**
  * Created by metin on 03.04.2016.
  */
-public abstract class TimesBase extends TimesDeprecatedLayer {
+public abstract class TimesBase extends TransientLiveData<Times> {
 
     private transient final SharedPreferences prefs;
     private transient long ID;//all ids created since 07.04.2018 fit into int, consider switching to int at sometime
@@ -80,12 +79,6 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
 
 
     public synchronized Set<Alarm> getUserAlarms() {
-        if (alarms.isEmpty()) {
-            alarms.addAll(migrateAlarms());
-            if (!alarms.isEmpty())
-                save();
-        }
-
         return alarms;
     }
 
@@ -127,6 +120,12 @@ public abstract class TimesBase extends TimesDeprecatedLayer {
     TimesBase() {
         prefs = App.get().getSharedPreferences("cities", 0);
         source = getSource().name();
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            setValue((Times) this);
+        } else {
+            postValue((Times) this);
+        }
     }
 
     protected static Times from(long id) {

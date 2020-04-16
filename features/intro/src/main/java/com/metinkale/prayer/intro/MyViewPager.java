@@ -22,12 +22,12 @@ import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import java.lang.reflect.Field;
-
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.metinkale.prayer.times.utils.RTLViewPager;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by metin on 25.07.17.

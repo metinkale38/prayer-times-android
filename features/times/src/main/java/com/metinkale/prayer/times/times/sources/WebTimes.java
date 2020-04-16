@@ -19,6 +19,11 @@ package com.metinkale.prayer.times.times.sources;
 
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.collection.ArraySet;
+
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
@@ -40,12 +45,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.ArrayMap;
-import androidx.collection.ArraySet;
 
 public abstract class WebTimes extends Times {
 
@@ -195,7 +194,7 @@ public abstract class WebTimes extends Times {
         int i = 0;
         while (i < 45) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+            String[] times = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
                     this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
                 if (time == null || time.contains("00:00"))
@@ -214,7 +213,7 @@ public abstract class WebTimes extends Times {
         int i = 0;
         while (true) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+            String[] times = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
                     this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
                 if (time == null || time.contains("00:00") || i > this.times.size())
@@ -231,7 +230,7 @@ public abstract class WebTimes extends Times {
         int i = 0;
         while (true) {
             String prefix = date.toString("yyyy-MM-dd") + "-";
-            String times[] = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
+            String[] times = {this.times.get(prefix + 0), this.times.get(prefix + 1), this.times.get(prefix + 2), this.times.get(prefix + 3),
                     this.times.get(prefix + 4), this.times.get(prefix + 5)};
             for (String time : times) {
                 if (time == null || time.contains("00:00") || i > this.times.size())

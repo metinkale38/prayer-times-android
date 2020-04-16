@@ -25,6 +25,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 
+import androidx.core.app.ActivityCompat;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Cities;
@@ -39,8 +41,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import java.util.List;
-
-import androidx.core.app.ActivityCompat;
 
 import static android.location.LocationManager.KEY_LOCATION_CHANGED;
 

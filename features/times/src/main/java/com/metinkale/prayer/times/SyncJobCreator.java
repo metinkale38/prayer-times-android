@@ -16,14 +16,14 @@
 
 package com.metinkale.prayer.times;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.WebTimes;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 class SyncJobCreator implements JobCreator {
     @Nullable

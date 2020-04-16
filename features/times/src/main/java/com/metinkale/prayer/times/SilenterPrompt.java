@@ -20,10 +20,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.NumberPicker;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.metinkale.prayer.times.alarm.SilenterReceiver;
 import com.metinkale.prayer.utils.PermissionUtils;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class SilenterPrompt extends AppCompatActivity {
     private SharedPreferences widgets;

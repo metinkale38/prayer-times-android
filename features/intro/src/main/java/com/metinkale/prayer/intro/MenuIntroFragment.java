@@ -17,7 +17,6 @@
 package com.metinkale.prayer.intro;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,18 +25,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.times.fragments.TimesFragment;
-
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import com.metinkale.prayer.Module;
+import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.times.fragments.TimesFragment;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 
 /**
@@ -99,8 +98,7 @@ public class MenuIntroFragment extends IntroFragment {
                 v.setVisibility(View.VISIBLE);
                 
                 ((TextView) v).setText(item.getTitleRes());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
-                        c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                if (c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, item.getIconRes(), 0);
                 } else {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(item.getIconRes(), 0, 0, 0);

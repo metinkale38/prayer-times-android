@@ -40,6 +40,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.dhikr.VibrationModeView.PrefsFunctions;
@@ -53,13 +60,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.view.MenuItemCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 @SuppressWarnings("deprecation")
 public class DhikrFragment extends BaseActivity.MainFragment

@@ -23,7 +23,9 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
+
+import androidx.annotation.NonNull;
+import androidx.collection.ArraySet;
 
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -33,7 +35,6 @@ import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.UUID;
 import com.metinkale.prayer.utils.Utils;
 
-import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -47,9 +48,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.collection.ArraySet;
 
 public class Alarm implements Comparable<Alarm> {
     public static final Set<Vakit> ALL_TIMES =

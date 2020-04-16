@@ -33,6 +33,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
@@ -43,12 +49,6 @@ import com.metinkale.prayer.utils.PermissionUtils;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 @SuppressLint("MissingPermission")
 public class MainFragment extends BaseActivity.MainFragment implements LocationListener {

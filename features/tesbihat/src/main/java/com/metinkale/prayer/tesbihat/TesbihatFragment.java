@@ -26,6 +26,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.times.Times;
@@ -33,13 +40,6 @@ import com.metinkale.prayer.times.times.Vakit;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 public class TesbihatFragment extends BaseActivity.MainFragment {
 

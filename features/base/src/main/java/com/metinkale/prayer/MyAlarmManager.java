@@ -21,9 +21,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Build;
 
-import com.metinkale.prayer.utils.Utils;
-
 import androidx.annotation.NonNull;
+
+import com.metinkale.prayer.utils.Utils;
 
 public class MyAlarmManager {
     private final AlarmManager alarmManager;
@@ -62,10 +62,8 @@ public class MyAlarmManager {
             alarmManager.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
             alarmManager.setExactAndAllowWhileIdle(type, time, service);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            alarmManager.setExact(type, time, service);
         } else {
-            alarmManager.set(type, time, service);
+            alarmManager.setExact(type, time, service);
         }
     }
     

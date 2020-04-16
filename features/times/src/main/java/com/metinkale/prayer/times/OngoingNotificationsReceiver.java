@@ -171,10 +171,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
 
             Notification noti = builder.build();
+            noti.priority = Notification.PRIORITY_LOW;
 
-            if (Build.VERSION.SDK_INT >= 16) {
-                noti.priority = Notification.PRIORITY_LOW;
-            }
             notifications.add(new Pair<>(t.getIntID(), noti));
         }
 

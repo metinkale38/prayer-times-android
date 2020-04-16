@@ -33,11 +33,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
-
-import com.metinkale.prayer.times.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.metinkale.prayer.times.R;
 
 
 public class MultipleOrientationSlidingDrawer extends ViewGroup {
@@ -1289,10 +1288,8 @@ public class MultipleOrientationSlidingDrawer extends ViewGroup {
     @SuppressLint("HandlerLeak")
     private class SlidingHandler extends Handler {
         public void handleMessage(@NonNull Message m) {
-            switch (m.what) {
-                case MSG_ANIMATE:
-                    doAnimation();
-                    break;
+            if (m.what == MSG_ANIMATE) {
+                doAnimation();
             }
         }
     }

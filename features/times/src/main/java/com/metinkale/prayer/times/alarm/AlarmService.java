@@ -28,23 +28,23 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.MyAlarmManager;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.BuildConfig;
+import com.metinkale.prayer.service.ForegroundService;
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
 import com.metinkale.prayer.times.fragments.NotificationPopup;
 import com.metinkale.prayer.times.times.Times;
-import com.metinkale.prayer.service.ForegroundService;
 
 import org.joda.time.LocalDateTime;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 
 
 public class AlarmService extends IntentService {
@@ -69,7 +69,7 @@ public class AlarmService extends IntentService {
             if (alarm.equals(sLastSchedule) && !BuildConfig.DEBUG)
                 return;
 
-            if (!Build.MANUFACTURER.equals("samsung") || Build.VERSION.SDK_INT < 20) {
+            if (!Build.MANUFACTURER.equals("samsung")) {
                 sLastSchedule = alarm;
             } else {
                 PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);

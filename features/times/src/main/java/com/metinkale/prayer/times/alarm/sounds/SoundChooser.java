@@ -89,46 +89,43 @@ public class SoundChooser extends DialogFragment {
                 ).setNeutralButton(R.string.other, (dialog, which) -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setTitle(R.string.other)
-                                    .setItems(R.array.soundPicker, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            if (which == 0) {
-                                                if (!PermissionUtils.get(mActivity).pStorage) {
-                                                    PermissionUtils.get(mActivity).needStorage(mActivity);
-                                                    return;
+                                    .setItems(R.array.soundPicker, (DialogInterface.OnClickListener) (dialogInterface, which1) -> {
+                                        if (which1 == 0) {
+                                            if (!PermissionUtils.get(mActivity).pStorage) {
+                                                PermissionUtils.get(mActivity).needStorage(mActivity);
+                                                return;
+                                            }
+                                            FileChooser chooser = new FileChooser(mActivity);
+                                            chooser.showDialog();
+                                            chooser.setFileListener(file -> {
+                                                Sound selected = Sounds.getSound(Uri.fromFile(file).toString());
+                                                if (selected != null) {
+                                                    mAlarm.getSounds().add(selected);
                                                 }
-                                                FileChooser chooser = new FileChooser(mActivity);
-                                                chooser.showDialog();
-                                                chooser.setFileListener(file -> {
-                                                    Sound selected = Sounds.getSound(Uri.fromFile(file).toString());
+                                                ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                                dialog.dismiss();
+                                            });
+                                        } else {
+                                            Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                                            i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
+                                            i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+                                            i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+                                            InlineActivityResult.startForResult(mActivity, i, new ActivityResultListener() {
+                                                @Override
+                                                public void onSuccess(Result result) {
+                                                    Sound selected = Sounds.getSound(result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI).toString());
                                                     if (selected != null) {
                                                         mAlarm.getSounds().add(selected);
                                                     }
                                                     ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
                                                     dialog.dismiss();
-                                                });
-                                            } else {
-                                                Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-                                                i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                                InlineActivityResult.startForResult(mActivity, i, new ActivityResultListener() {
-                                                    @Override
-                                                    public void onSuccess(Result result) {
-                                                        Sound selected = Sounds.getSound(((Uri) result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)).toString());
-                                                        if (selected != null) {
-                                                            mAlarm.getSounds().add(selected);
-                                                        }
-                                                        ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
-                                                        dialog.dismiss();
-                                                    }
+                                                }
 
-                                                    @Override
-                                                    public void onFailed(Result result) {
+                                                @Override
+                                                public void onFailed(Result result) {
 
-                                                    }
-                                                });
-                                            }
+                                                }
+                                            });
                                         }
                                     });
                             builder.show();
@@ -153,8 +150,7 @@ public class SoundChooser extends DialogFragment {
 
     private void init() {
         List<Sound> sounds = Sounds.getRootSounds();
-        for (Iterator<Sound> iterator = sounds.iterator(); iterator.hasNext(); ) {
-            Sound sound = iterator.next();
+        for (Sound sound : sounds) {
             if (sound instanceof UserSound) {
                 try {
                     sound.getName();

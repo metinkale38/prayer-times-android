@@ -29,12 +29,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.utils.Geocoder;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.TextViewCompat;
+
+import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.utils.Geocoder;
 
 public class LocationPicker extends AppCompatActivity implements TextWatcher, OnItemClickListener {
     private ArrayAdapter<Geocoder.Result> mAdapter;

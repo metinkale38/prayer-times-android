@@ -36,7 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +97,7 @@ public class Sounds {
             dlg.dismiss();
         };
         Ion.with(App.get()).load(App.API_URL + "/sounds/sounds.json").progressDialog(dlg)
-                .asString(Charset.forName("UTF-8")).setCallback((exp, result) -> {
+                .asString(StandardCharsets.UTF_8).setCallback((exp, result) -> {
                     if (exp != null) {
                         Crashlytics.logException(exp);
                     } else {

@@ -21,11 +21,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.joda.time.DateTimeZone;
 
 import java.util.TimeZone;
-
-import androidx.annotation.NonNull;
 
 /**
  * Listens for android.intent.action.TIMEZONE_CHANGED and adjusts

@@ -19,13 +19,7 @@ package com.metinkale.prayer.times.times;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
-import com.koushikdutta.ion.Ion;
-import com.metinkale.prayer.App;
-
 import java.io.Serializable;
-import java.util.TimeZone;
 
 /**
  * Created by metin on 10.02.2017.

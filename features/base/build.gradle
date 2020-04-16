@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         targetSdkVersion 28
-        minSdkVersion 16
+        minSdkVersion 21
         vectorDrawables.useSupportLibrary = true
         buildConfigField 'int', 'CHANGELOG_VERSION', '20'
 

@@ -17,30 +17,15 @@
 package com.metinkale.prayer.settings;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
-import android.widget.TextView;
-
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.utils.Utils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,7 +35,16 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
-import androidx.preference.SwitchPreference;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+import com.metinkale.prayer.BaseActivity;
+import com.metinkale.prayer.Preferences;
+import com.metinkale.prayer.utils.LocaleUtils;
+import com.metinkale.prayer.utils.Utils;
+
+import java.util.List;
+import java.util.Locale;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat
@@ -98,8 +92,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
             lang.setOnPreferenceChangeListener(this);
 
             List<LocaleUtils.Translation> languages = LocaleUtils.getSupportedLanguages(getActivity());
-            CharSequence entries[] = new CharSequence[languages.size()];
-            CharSequence values[] = new CharSequence[languages.size()];
+            CharSequence[] entries = new CharSequence[languages.size()];
+            CharSequence[] values = new CharSequence[languages.size()];
             for (int i = 0; i < languages.size(); i++) {
                 LocaleUtils.Translation trans = languages.get(i);
                 entries[i] = trans.getDisplayText();

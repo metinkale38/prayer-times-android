@@ -16,13 +16,13 @@
 
 package com.metinkale.prayer.times;
 
+import androidx.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.JobManager;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Times;
-
-import androidx.annotation.NonNull;
 
 
 public class TimesBroadcastReceiver extends InternalBroadcastReceiver

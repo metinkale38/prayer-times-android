@@ -22,6 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.AlarmsFragment;
@@ -36,12 +42,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by metin on 17.07.2017.

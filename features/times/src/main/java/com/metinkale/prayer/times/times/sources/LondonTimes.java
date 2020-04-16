@@ -75,9 +75,7 @@ public class LondonTimes extends WebTimes {
             ion.getHttpClient().getSSLSocketMiddleware().setSSLContext(sslContext);
             ion.getHttpClient().getSSLSocketMiddleware().setTrustManagers(trustmanagers);
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
             e.printStackTrace();
         }
 

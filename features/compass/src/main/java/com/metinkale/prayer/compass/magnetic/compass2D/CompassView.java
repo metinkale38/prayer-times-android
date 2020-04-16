@@ -21,18 +21,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-
-import androidx.annotation.NonNull;
-
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.metinkale.prayer.compass.R;
 import com.metinkale.prayer.utils.LocaleUtils;
-import com.metinkale.prayer.utils.Utils;
 
 public class CompassView extends View {
     private final Path mPath = new Path();

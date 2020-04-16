@@ -16,8 +16,9 @@
 
 package com.metinkale.prayer.compass.magnetic.utils;
 
-import androidx.annotation.NonNull;
 import android.view.Surface;
+
+import androidx.annotation.NonNull;
 
 import com.metinkale.prayer.compass.magnetic.utils.math.Matrix4;
 import com.metinkale.prayer.compass.magnetic.utils.math.Util;

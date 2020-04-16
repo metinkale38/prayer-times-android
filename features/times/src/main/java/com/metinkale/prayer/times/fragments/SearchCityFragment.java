@@ -40,6 +40,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.view.MenuItemCompat;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.times.R;
@@ -55,14 +63,6 @@ import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.Collection;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.SearchView.OnQueryTextListener;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.view.MenuItemCompat;
 
 public class SearchCityFragment extends BaseActivity.MainFragment implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener, CompoundButton.OnCheckedChangeListener {
     private MyAdapter mAdapter;
@@ -168,7 +168,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
             for (String provider : providers) {
                 Location last = lm.getLastKnownLocation(provider);
                 // one hour==1meter in accuracy
-                if ((last != null) && ((loc == null) || ((last.getAccuracy() - (last.getTime() / (1000 * 60 * 60))) < (loc.getAccuracy() - (loc.getTime() / (1000 * 60 * 60)))))) {
+                if ((last != null) && ((loc == null) || ((last.getAccuracy() - (last.getTime() / (float) (1000 * 60 * 60))) < (loc.getAccuracy() - (loc.getTime() / (float) (1000 * 60 * 60)))))) {
                     loc = last;
                 }
             }

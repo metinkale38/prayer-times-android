@@ -26,12 +26,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.metinkale.prayer.times.R;
-import com.metinkale.prayer.times.times.Times;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.metinkale.prayer.times.R;
+import com.metinkale.prayer.times.times.Times;
 
 /**
  * Created by Metin on 21.07.2015.

@@ -17,6 +17,8 @@
 package com.metinkale.prayer.times.times.sources;
 
 
+import androidx.annotation.NonNull;
+
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.times.Source;
@@ -25,8 +27,6 @@ import com.metinkale.prayer.times.times.Vakit;
 import org.joda.time.LocalDate;
 
 import java.util.concurrent.ExecutionException;
-
-import androidx.annotation.NonNull;
 
 public class DiyanetTimes extends WebTimes {
 

@@ -16,6 +16,8 @@
 
 package com.metinkale.prayer.times.times.sources;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -26,8 +28,6 @@ import org.joda.time.LocalDate;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import androidx.annotation.NonNull;
 
 public class SemerkandTimes extends WebTimes {
     

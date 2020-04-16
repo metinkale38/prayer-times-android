@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 
@@ -41,13 +42,13 @@ public class HTTP {
             int responseCode = hc.getResponseCode();
             BufferedReader in = new BufferedReader(new InputStreamReader(hc.getInputStream()));
             String line;
-            String data = "";
+            StringBuilder data = new StringBuilder();
             while ((line = in.readLine()) != null) {
-                data += line + "\n";
+                data.append(line).append("\n");
             }
             in.close();
             
-            return data;
+            return data.toString();
             
             
         } catch (Exception e)
@@ -95,7 +96,7 @@ public class HTTP {
             hc.setDoOutput(true);
             
             OutputStream os = hc.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
             writer.write(post);
             writer.flush();
             writer.close();

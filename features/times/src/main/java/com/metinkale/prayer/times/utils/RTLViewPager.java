@@ -22,8 +22,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.core.text.TextUtilsCompat;
 import androidx.fragment.app.Fragment;
@@ -32,7 +30,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.crashlytics.android.Crashlytics;
+import java.util.Locale;
 
 public class RTLViewPager extends ViewPager {
 
@@ -110,7 +108,7 @@ public class RTLViewPager extends ViewPager {
     }
 
 
-    private class RTLAdapterWrapper extends FragmentPagerAdapter {
+    private static class RTLAdapterWrapper extends FragmentPagerAdapter {
         private FragmentPagerAdapter adapter;
 
         @NonNull

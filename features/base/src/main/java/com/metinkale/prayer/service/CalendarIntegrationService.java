@@ -29,31 +29,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.CalendarContract;
-import android.provider.ContactsContract;
-import android.provider.SyncStateContract;
-import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.date.HijriDate;
-import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.joda.time.ReadableInstant;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.util.Pair;
 
 public class CalendarIntegrationService extends IntentService {
 

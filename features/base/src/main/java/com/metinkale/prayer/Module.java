@@ -21,13 +21,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.metinkale.prayer.base.R;
 
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public enum Module {
     TIMES(R.drawable.ic_menu_times, R.string.appName), COMPASS(R.drawable.ic_menu_compass, R.string.compass),
