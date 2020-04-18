@@ -42,7 +42,7 @@ android {
     buildTypes {
         debug {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.debug.fileprovider"
-            ext.enableCrashlytics = false
+            ext.enableCrashlytics = false //excludeInFDroid
         }
         release {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.fileprovider"
@@ -57,8 +57,8 @@ android {
         }
         play {
             dimension "store"
-            resValue 'string', 'io.fabric.ApiKey', FabricApiKey
-            resValue "bool", "com.crashlytics.RequireBuildId", "false"
+            resValue 'string', 'io.fabric.ApiKey', FabricApiKey //excludeInFDroid
+            resValue "bool", "com.crashlytics.RequireBuildId", "false" //excludeInFDroid
         }
     }
 
