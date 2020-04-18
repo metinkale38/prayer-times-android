@@ -23,7 +23,7 @@ import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.R;
 
 public enum Vakit {
-    FAJR(new int[]{R.string.imsak, R.string.fajr}, new String[]{"الفجر", "الإمساك"}),
+    FAJR(new int[]{R.string.imsak, R.string.fajr}, new String[]{"الإمساك", "الفجر"}),
     SUN(R.string.sun, "الشروق"),
     DHUHR(R.string.zuhr, "الظهر"),
     ASR(new int[]{R.string.asr, R.string.asrSani}, new String[]{"العصر الثاني", "العصر"}),
