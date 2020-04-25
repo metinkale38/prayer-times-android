@@ -60,7 +60,6 @@ android {
     flavorDimensions "store"
     productFlavors {
         fdroid {
-            versionNameSuffix ' F-Droid' //excludeInFDroid // fdroid adds this suffix itself
             dimension "store"
         }
         play {
