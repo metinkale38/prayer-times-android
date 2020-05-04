@@ -90,6 +90,18 @@ public enum Method {
         }
     },
     /**
+     * Union des organisations islamiques de France
+     * Fajr: 12*, Maghrib: Sunset, Ishaa: 12*
+     */
+    UOIF {
+        @Override
+        public void set(PrayTimes pt) {
+            pt.tuneImsak(12, 0);
+            pt.tuneFajr(12, 0);
+            pt.tuneIshaa(12, 0);
+        }
+    },
+    /**
      * /**
      * Institute of Geophysics, University of Tehran
      * Fajr: 17.7*, Maghrib: 4.5*, Ishaa: 14*

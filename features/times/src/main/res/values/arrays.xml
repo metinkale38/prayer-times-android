@@ -43,6 +43,7 @@
         <item>Egypt</item>
         <item>Makkah</item>
         <item>Karachi</item>
+        <item>UOIF</item>
         <item>Tehran</item>
         <item>Jafari</item>
         <item>@string/customCalc</item>
@@ -54,6 +55,7 @@
         <item>Egyptian General Authority of Survey</item>
         <item>Umm al-Qura University, Makkah</item>
         <item>University of Islamic Sciences, Karachi</item>
+        <item>Union des organisations islamiques de France</item>
         <item>Institute of Geophysics, University of Tehran</item>
         <item>Shia Ithna Ashari, Leva Research Institute, Qum</item>
         <item>@string/customCalc</item>
@@ -66,6 +68,7 @@
         <item>Africa, Syria, Lebanon, Malaysia</item>
         <item>Arabian Peninsula</item>
         <item>Pakistan, Afganistan, Bangladesh, India</item>
+        <item>France</item>
         <item>Iran, Some Shia communities</item>
         <item>Some Shia communities worldwide</item>
         <item>@string/customCalcDesc</item>
