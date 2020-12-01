@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Module;
 import com.metinkale.prayer.utils.PermissionUtils;
 
@@ -155,7 +155,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
                 }
             zip.closeZip();
         } catch (IOException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
             Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
             zipFile.delete();
         }
@@ -206,7 +206,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
                 
                 zis.close();
             } catch (IOException e) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
                 return false;
             }
             

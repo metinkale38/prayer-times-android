@@ -28,21 +28,18 @@ android {
         }
     }
 
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
 
     defaultConfig {
-        targetSdkVersion 28
+        targetSdkVersion 30
         minSdkVersion 21
         vectorDrawables.useSupportLibrary = true
         buildConfigField 'int', 'CHANGELOG_VERSION', '20'
-
     }
 
     buildTypes {
         debug {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.debug.fileprovider"
-            ext.enableCrashlytics = false //excludeInFDroid
         }
         release {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.fileprovider"
@@ -57,8 +54,6 @@ android {
         }
         play {
             dimension "store"
-            resValue 'string', 'io.fabric.ApiKey', FabricApiKey //excludeInFDroid
-            resValue "bool", "com.crashlytics.RequireBuildId", "false" //excludeInFDroid
         }
     }
 
@@ -71,7 +66,10 @@ android {
 
 
 dependencies {
-    playApi('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') { transitive = true } //excludeInFDroid
+
+    playApi 'com.google.firebase:firebase-core:18.0.0'
+    playApi 'com.google.firebase:firebase-crashlytics:17.3.0'
+
 
     // androidx dependencies. TODO check whats really needed
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -80,13 +78,13 @@ dependencies {
 
 
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'net.steamcrafted:materialiconlib:1.1.5'
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
-    implementation 'com.koushikdutta.ion:ion:2.2.1'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android.material:material:1.3.0-alpha04'
+    implementation 'com.koushikdutta.ion:ion:3.1.0'
+    implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
 
 }

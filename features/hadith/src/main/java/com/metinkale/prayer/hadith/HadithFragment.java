@@ -48,7 +48,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.App;
@@ -112,7 +112,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         try {
             setState(mPrefs.getInt("state", STATE_SHUFFLED));
         } catch (RuntimeException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
             String lang = LocaleUtils.getLanguage("en", "de", "tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             Module.TIMES.launch(getActivity());

@@ -30,8 +30,11 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.base.BuildConfig;
+import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.receiver.TimeTickReceiver;
 import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
@@ -43,8 +46,6 @@ import com.metinkale.prayer.utils.Utils;
 import org.joda.time.DateTimeZone;
 
 import java.util.Locale;
-
-import io.fabric.sdk.android.Fabric;
 
 
 public class App extends Application implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -64,8 +65,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Preferences.SHOW_ONGOING_NUMBER.set(false);
                     //Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
-                    Crashlytics.setBool("WORKAROUND#1", true);
-                    Crashlytics.logException(ex);
+                    FirebaseCrashlytics.getInstance().setCustomKey("WORKAROUND#1", true);
+                    FirebaseCrashlytics.getInstance().recordException(ex);
                     return;
                 }
             }
@@ -107,11 +108,10 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Fabric.with(this, new Crashlytics());
-        Crashlytics.setUserIdentifier(Preferences.UUID.get());
+        FirebaseApp.initializeApp(this);
+        FirebaseCrashlytics.getInstance().setUserId(Preferences.UUID.get());
         if (BuildConfig.DEBUG)
-            Crashlytics.setBool("isDebug", true);
+            FirebaseCrashlytics.getInstance().setCustomKey("isDebug", true);
 
 
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();

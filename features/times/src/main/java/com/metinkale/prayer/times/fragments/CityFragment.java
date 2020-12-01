@@ -37,7 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
@@ -272,7 +272,7 @@ public class CityFragment extends Fragment implements Observer<Times> {
             MaterialMenuInflater.with(getActivity(), inflater).setDefaultColor(Color.WHITE).inflate(R.menu.vakit, menu);
         } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
     }
 

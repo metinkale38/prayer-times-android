@@ -25,7 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
 import androidx.core.os.LocaleListCompat;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.utils.LocaleUtils;
 
@@ -43,7 +43,7 @@ public class AliasManager extends InternalBroadcastReceiver implements InternalB
                 info = pm.getPackageInfo(getContext().getApplicationContext().getPackageName(),
                         PackageManager.GET_ACTIVITIES | PackageManager.GET_DISABLED_COMPONENTS);
             } catch (PackageManager.NameNotFoundException e) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
                 throw new RuntimeException(e);
             }
             String prefix = "com.metinkale.prayer.alias";

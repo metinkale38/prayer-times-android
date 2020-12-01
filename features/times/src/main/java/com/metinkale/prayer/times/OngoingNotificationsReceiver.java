@@ -40,7 +40,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.service.ForegroundService;
@@ -89,8 +89,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             boolean icon = Preferences.SHOW_ONGOING_ICON.get();
             boolean number = Preferences.SHOW_ONGOING_NUMBER.get();
-            Crashlytics.setBool("showIcon", icon);
-            Crashlytics.setBool("showNumber", number);
+            FirebaseCrashlytics.getInstance().setCustomKey("showIcon", icon);
+            FirebaseCrashlytics.getInstance().setCustomKey("showNumber", number);
 
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
 
@@ -164,7 +164,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
                 builder.setContent(views);
             }
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 builder.setChannelId(NotificationUtils.getOngoingChannel(getContext()));
             }
@@ -172,7 +171,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             Notification noti = builder.build();
             noti.priority = Notification.PRIORITY_LOW;
-
             notifications.add(new Pair<>(t.getIntID(), noti));
         }
 

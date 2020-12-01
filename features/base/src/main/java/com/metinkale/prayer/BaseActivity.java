@@ -45,8 +45,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -75,6 +74,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     //private Fragment mFragment;
     private Toolbar mToolbar;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /*@Override
     public void onBackPressed() {
@@ -104,6 +104,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         LocaleUtils.init(this);
         //AppRatingDialog.increaseAppStarts();
 
@@ -299,7 +300,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         }
         Module.values()[pos].launch(this);
         mDrawerLayout.closeDrawers();
-        Answers.getInstance().logContentView(new ContentViewEvent().putContentName(Module.values()[mNavPos].getKey()));
         //AppRatingDialog.addToOpenedMenus(ACTS[pos]);
 
     }

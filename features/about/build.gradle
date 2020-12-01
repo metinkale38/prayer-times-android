@@ -22,12 +22,12 @@ android {
             res.srcDirs += 'src/main/translations'
         }
     }
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+
 
 
     defaultConfig {
-        targetSdkVersion 28
+        targetSdkVersion 30
         minSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -60,6 +60,6 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation('com.mikepenz:aboutlibraries:5.8.5@aar') { transitive = true }
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true }
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

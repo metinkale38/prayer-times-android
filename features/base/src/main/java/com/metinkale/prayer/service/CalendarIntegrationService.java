@@ -35,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -148,7 +148,7 @@ public class CalendarIntegrationService extends IntentService {
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events.toArray(new ContentValues[0]));
         } catch (Exception e) {
             Preferences.CALENDAR_INTEGRATION.set("-1");
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
 
     }

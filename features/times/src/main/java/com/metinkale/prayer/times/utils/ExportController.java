@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
@@ -208,7 +208,7 @@ public class ExportController {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Crashlytics.logException(e);
+                        FirebaseCrashlytics.getInstance().recordException(e);
                         Toast.makeText(ctx, R.string.error, Toast.LENGTH_SHORT).show();
                     }
                 }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());
