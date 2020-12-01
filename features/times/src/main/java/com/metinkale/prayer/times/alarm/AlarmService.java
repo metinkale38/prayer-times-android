@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.MyAlarmManager;
 import com.metinkale.prayer.Preferences;
@@ -104,7 +104,7 @@ public class AlarmService extends IntentService {
         try {
             fireAlarm(intent);
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
 
         Times.setAlarms();
@@ -176,7 +176,7 @@ public class AlarmService extends IntentService {
                     player.stop();
                 }
             } catch (Exception e) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
 
             nm.cancel(NOTIFICATION_TAG, notId);

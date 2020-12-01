@@ -22,7 +22,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
@@ -108,27 +108,27 @@ public class CalcTimes extends Times {
                 Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38")
                         .asJsonObject().setCallback((e, result) -> {
                     if (e != null)
-                        Crashlytics.logException(e);
+                        FirebaseCrashlytics.getInstance().recordException(e);
                     if (result != null)
                         try {
                             if (result.has("timezoneId"))
                                 prayTimes.setTimezone(TimeZone.getTimeZone(result.get("timezoneId").getAsString()));
                         } catch (Exception ee) {
-                            Crashlytics.logException(ee);
+                            FirebaseCrashlytics.getInstance().recordException(ee);
                         }
                 });
 
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + getLat() + "&lng=" + getLng() + "&username=metnkale38").asString()
                         .setCallback((e, result) -> {
                             if (e != null)
-                                Crashlytics.logException(e);
+                                FirebaseCrashlytics.getInstance().recordException(e);
                             try {
                                 double m = Double.parseDouble(result);
                                 if (m < -9000)
                                     m = 0;
                                 prayTimes.setCoordinates(getLat(), getLng(), m);
                             } catch (Exception ee) {
-                                Crashlytics.logException(ee);
+                                FirebaseCrashlytics.getInstance().recordException(ee);
                             }
                         });
             } else {

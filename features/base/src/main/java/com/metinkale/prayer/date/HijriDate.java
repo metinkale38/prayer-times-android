@@ -19,7 +19,7 @@ package com.metinkale.prayer.date;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -122,7 +122,7 @@ public class HijriDate implements Comparable<HijriDate> {
                 create(hijri, greg);
             }
         } catch (IOException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         } finally {
             Utils.close(is);
         }

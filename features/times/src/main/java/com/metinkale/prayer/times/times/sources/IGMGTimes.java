@@ -21,12 +21,14 @@ import androidx.annotation.Nullable;
 
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
+import com.metinkale.prayer.times.BuildConfig;
+import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.Vakit;
 
-import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class IGMGTimes extends WebTimes {
@@ -70,61 +72,53 @@ public class IGMGTimes extends WebTimes {
         if (id <= 0 && a.length > 1)
             id = Integer.parseInt(a[1]);
 
-        LocalDate ldate = LocalDate.now();
-        int rY = ldate.getYear();
-        int Y = rY;
-        int m = ldate.getMonthOfYear();
+        LocalDate from = LocalDate.now().withDayOfMonth(1);
+        LocalDate to = from.plusYears(1);
+
+
+        PrayerTimesResponse result = Ion.with(App.get())
+                .load("GET", "https://live.igmgapp.org:8091/api/Calendar/GetPrayerTimes" +
+                        "?cityID=" + id +
+                        "&from=" + from.toString("dd.MM.yyyy") +
+                        "&to=" + to.toString("dd.MM.yyyy"))
+                .addHeader("X-API-Key", App.get().getString(R.string.IGMGApiKey))
+                .userAgent(App.getUserAgent())
+                .setTimeout(3000)
+                .as(PrayerTimesResponse.class)
+                .get();
+
 
         int i = 0;
-        for (int M = m; (M <= (m + 2)) && (rY == Y); M++) {
-            if (M == 13) {
-                M = 1;
-                Y++;
-            }
-            String result = Ion.with(App.get())
-                    .load("POST", "https://www.igmg.org/wp-content/themes/igmg/include/gebetskalender_ajax_api.php")
-                    .userAgent(App.getUserAgent())
-                    .setTimeout(3000)
-                    .setBodyParameter("show_ajax_variable", "" + id)
-                    .setBodyParameter("show_month", "" + (M - 1))
-                    .asString()
-                    .get();
-
-            result = result.substring(result.indexOf("<div class='zeiten'>") + 20);
-            String[] zeiten = result.split("</div><div class='zeiten'>");
-            for (String zeit : zeiten) {
-                if (zeit.contains("turkish")) {
-                    continue;
-                }
-                String tarih = extractLine(zeit.substring(zeit.indexOf("tarih")));
-                String imsak = extractLine(zeit.substring(zeit.indexOf("imsak")));
-                String gunes = extractLine(zeit.substring(zeit.indexOf("gunes")));
-                String ogle = extractLine(zeit.substring(zeit.indexOf("ogle")));
-                String ikindi = extractLine(zeit.substring(zeit.indexOf("ikindi")));
-                String aksam = extractLine(zeit.substring(zeit.indexOf("aksam")));
-                String yatsi = extractLine(zeit.substring(zeit.indexOf("yatsi")));
-
-                int _d = Integer.parseInt(tarih.substring(0, 2));
-                int _m = Integer.parseInt(tarih.substring(3, 5));
-                int _y = Integer.parseInt(tarih.substring(6, 10));
-                try {
-                    LocalDate localDate = new LocalDate(_y, _m, _d);
-                    setTime(localDate, Vakit.FAJR, imsak);
-                    setTime(localDate, Vakit.SUN, gunes);
-                    setTime(localDate, Vakit.DHUHR, ogle);
-                    setTime(localDate, Vakit.ASR, ikindi);
-                    setTime(localDate, Vakit.MAGHRIB, aksam);
-                    setTime(localDate, Vakit.ISHAA, yatsi);
-                    i++;
-                } catch (IllegalFieldValueException ignore) {
-                }
-            }
-
-
+        for (PrayerTimesResponse.PrayerTimesEntry entry : result.list) {
+            String[] splitDate = entry.date.split("\\.");
+            LocalDate localDate = new LocalDate(Integer.parseInt(splitDate[2]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[0]));
+            setTime(localDate, Vakit.FAJR, entry.fajr);
+            setTime(localDate, Vakit.SUN, entry.sunrise);
+            setTime(localDate, Vakit.DHUHR, entry.dhuhr);
+            setTime(localDate, Vakit.ASR, entry.asr);
+            setTime(localDate, Vakit.MAGHRIB, entry.maghrib);
+            setTime(localDate, Vakit.ISHAA, entry.ishaa);
+            i++;
         }
 
 
         return i > 25;
+    }
+
+
+    public static class PrayerTimesResponse {
+        List<PrayerTimesEntry> list;
+
+        public static class PrayerTimesEntry {
+            String date;
+            String fajr;
+            String sunrise;
+            String dhuhr;
+            String asr;
+            String maghrib;
+            String ishaa;
+        }
+
     }
 
 }

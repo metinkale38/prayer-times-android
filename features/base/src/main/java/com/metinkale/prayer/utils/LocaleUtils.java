@@ -34,7 +34,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.Size;
 import androidx.core.os.LocaleListCompat;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -93,8 +93,8 @@ public class LocaleUtils {
 
 
     private static void initLocale(Context c) {
-        Crashlytics.setString("lang", Preferences.LANGUAGE.get());
-        Crashlytics.setString("digits", Preferences.DIGITS.get());
+        FirebaseCrashlytics.getInstance().setCustomKey("lang", Preferences.LANGUAGE.get());
+        FirebaseCrashlytics.getInstance().setCustomKey("digits", Preferences.DIGITS.get());
         Configuration config = new Configuration();
 
 
@@ -151,7 +151,7 @@ public class LocaleUtils {
                     time = az(hour - 12) + suffix + " PM";
                 }
             } catch (Exception e) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
                 return time;
             }
         }
@@ -251,7 +251,7 @@ public class LocaleUtils {
                 format = format.replace("MMM", getHijriMonth(date.getMonth() - 1));
 
             } catch (ArrayIndexOutOfBoundsException ex) {
-                Crashlytics.logException(ex);
+                FirebaseCrashlytics.getInstance().recordException(ex);
 
                 return "";
             }
@@ -273,7 +273,7 @@ public class LocaleUtils {
 
 
         } catch (ArrayIndexOutOfBoundsException ex) {
-            Crashlytics.logException(ex);
+            FirebaseCrashlytics.getInstance().recordException(ex);
 
             return "";
         }

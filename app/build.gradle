@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
 
 android {
 
@@ -27,8 +29,8 @@ android {
         exclude '.readme'
     }
 
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
@@ -104,5 +106,5 @@ dependencies {
     implementation project(':features:times')
 
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

@@ -36,8 +36,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -205,7 +203,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             act.startActivity(i);
 
-            Answers.getInstance().logCustom(new CustomEvent("Language").putCustomAttribute("lang", (String) newValue));
         }
         return true;
     }

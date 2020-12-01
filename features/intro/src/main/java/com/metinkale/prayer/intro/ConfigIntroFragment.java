@@ -28,7 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.AlarmsFragment;
 import com.metinkale.prayer.times.fragments.TimesFragment;
@@ -120,8 +120,7 @@ public class ConfigIntroFragment extends IntroFragment {
             mMenuItem = toolbar.getMenu().getItem(0);
             mMenuItem.setIcon(mMenuItem.getIcon());
         } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
 
 

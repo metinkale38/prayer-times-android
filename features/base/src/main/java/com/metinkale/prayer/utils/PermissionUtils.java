@@ -29,7 +29,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
@@ -62,14 +62,14 @@ public class PermissionUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             pNotPolicy = nm.isNotificationPolicyAccessGranted();
-            Crashlytics.setBool("pNotPolicy", pLocation);
+            FirebaseCrashlytics.getInstance().setCustomKey("pNotPolicy", pLocation);
         } else
             pNotPolicy = true;
 
-        Crashlytics.setBool("pCalendar", pCalendar);
-        Crashlytics.setBool("pStorage", pStorage);
-        Crashlytics.setBool("pLocation", pLocation);
-        Crashlytics.setBool("pNotPolicy", pNotPolicy);
+        FirebaseCrashlytics.getInstance().setCustomKey("pCalendar", pCalendar);
+        FirebaseCrashlytics.getInstance().setCustomKey("pStorage", pStorage);
+        FirebaseCrashlytics.getInstance().setCustomKey("pLocation", pLocation);
+        FirebaseCrashlytics.getInstance().setCustomKey("pNotPolicy", pNotPolicy);
 
     }
 

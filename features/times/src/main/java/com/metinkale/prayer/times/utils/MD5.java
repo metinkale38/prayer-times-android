@@ -22,7 +22,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,7 +57,7 @@ public class MD5 {
             digest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
 
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
             Log.e(TAG, "Exception while getting digest", e);
             return null;
         }
@@ -66,7 +66,7 @@ public class MD5 {
         try {
             is = new FileInputStream(updateFile);
         } catch (FileNotFoundException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
             Log.e(TAG, "Exception while getting FileInputStream", e);
             return null;
         }
@@ -84,13 +84,13 @@ public class MD5 {
             output = String.format("%32s", output).replace(' ', '0');
             return output;
         } catch (IOException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
             throw new RuntimeException("Unable to process file for MD5", e);
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
                 Log.e(TAG, "Exception on closing MD5 input stream", e);
             }
         }

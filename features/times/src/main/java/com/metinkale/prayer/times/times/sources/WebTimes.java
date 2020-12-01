@@ -24,12 +24,10 @@ import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 import androidx.collection.ArraySet;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
@@ -84,7 +82,6 @@ public abstract class WebTimes extends Times {
         t.setSortId(99);
         t.scheduleJob();
 
-        Answers.getInstance().logCustom(new CustomEvent("AddCity").putCustomAttribute("Source", source.name()).putCustomAttribute("City", city));
         return t;
     }
 
@@ -182,7 +179,7 @@ public abstract class WebTimes extends Times {
                         cleanTimes();
                     }
                 } catch (Exception e) {
-                    Crashlytics.logException(e);
+                    FirebaseCrashlytics.getInstance().recordException(e);
                 }
             }
         }.start();

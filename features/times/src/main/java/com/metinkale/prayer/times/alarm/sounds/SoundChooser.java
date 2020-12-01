@@ -44,7 +44,6 @@ import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.utils.FileChooser;
 import com.metinkale.prayer.utils.PermissionUtils;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class SoundChooser extends DialogFragment {

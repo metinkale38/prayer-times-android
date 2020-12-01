@@ -96,9 +96,8 @@ public class Cities {
             System.out.println("fetchIndonesia() - finished in " + (System.currentTimeMillis() - time) + " ms");
           */
             long time = System.currentTimeMillis();
-            System.out.println("Start fetchIGMG()");
-            fetchIGMG();
-            System.out.println("fetchIGMG() - finished in " + (System.currentTimeMillis() - time) + " ms");
+            System.out.println("Start fetchDiyanet()");
+            System.out.println("fetchDiyanet() - finished in " + (System.currentTimeMillis() - time) + " ms");
         });
 
 
@@ -769,108 +768,6 @@ public class Cities {
     }
 
 
-    private static void fetchDitibCountries() {
-        try {
-            URL url = new URL("http://www.diyanet.gov.tr/tr/PrayerTime/WorldPrayerTimes");
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
-
-            String line;
-            while (true) {
-                if (in.readLine().contains("class=\"title\"")) break;
-            }
-
-
-            Entry diyanet = new Entry();
-            diyanet.id = Cities.id.incrementAndGet();
-            diyanet.parent = 0;
-            diyanet.name = "Diyanet.gov.tr";
-            diyanet.key = null;
-            diyanet.lat = 0;
-            diyanet.lng = 0;
-            mEntries.put(diyanet.id, diyanet);
-
-
-            while ((line = in.readLine()).contains("option")) {
-                int id = Integer.parseInt(line.substring(line.indexOf("value=") + 7, line.lastIndexOf("\"")));
-                String name = line.substring(line.lastIndexOf("\">") + 2, line.lastIndexOf("</"));
-
-                Entry e = new Entry();
-                e.id = Cities.id.incrementAndGet();
-                e.parent = diyanet.id;
-                e.name = name.replace("T&#220;RK\u0130YE", "T\u00dcRK\u0130YE");
-                e.key = null;
-                e.lat = 0;
-                e.lng = 0;
-                mEntries.put(e.id, e);
-
-
-                fetchDitibStates(id, e);
-
-            }
-            in.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private static void fetchDitibStates(int countryId, Entry parent) {
-        try {
-            String Url = "http://www.diyanet.gov.tr/PrayerTime/FillState?countryCode=" + countryId;
-            String data = HTTP.get(Url);
-            List<State> states = new Gson().fromJson(data, new TypeToken<List<State>>() {
-            }.getType());
-            for (State state : states) {
-
-                Entry e = new Entry();
-                e.id = Cities.id.incrementAndGet();
-                e.parent = parent.id;
-                e.name = state.Text;
-                e.key = null;
-                e.lat = 0;
-                e.lng = 0;
-                mEntries.put(e.id, e);
-
-                fetchDitibCities(countryId, state.Value, e);
-            }
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private static void fetchDitibCities(int countryId, int stateId, Entry parent) {
-        try {
-            String Url = "http://www.diyanet.gov.tr/PrayerTime/FillCity?itemId=" + stateId;
-            String data = HTTP.get(Url);
-
-            List<State> states = new Gson().fromJson(data, new TypeToken<List<State>>() {
-            }.getType());
-            if (states.isEmpty()) {
-                if (mEntries.containsKey(parent.id))
-                    mEntries.get(parent.id).key = "D_" + countryId + "_" + stateId;
-            } else
-                for (State state : states) {
-
-
-                    Entry e = new Entry();
-                    e.id = Cities.id.incrementAndGet();
-                    e.parent = parent.id;
-                    e.name = state.Text;
-                    e.key = "D_" + countryId + "_" + stateId + "_" + state.Value;
-                    e.lat = 0;
-                    e.lng = 0;
-                    mEntries.put(e.id, e);
-                }
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     static class State {
         String Text;

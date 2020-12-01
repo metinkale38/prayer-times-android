@@ -30,8 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Preferences;
@@ -112,10 +110,6 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
         builder.setTitle(ctx.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
         builder.setNegativeButton(ctx.getResources().getString(R.string.ok), null);
         builder.show();
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "licenses")
-        );
     }
 
 
@@ -125,10 +119,6 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
                 .withActivityTitle(ctx.getString(R.string.library_licenses))
                 .withLibraries()
                 .start(ctx);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "libLicenses")
-        );
     }
 
 

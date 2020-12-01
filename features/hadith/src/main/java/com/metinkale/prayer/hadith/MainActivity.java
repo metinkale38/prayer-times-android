@@ -26,7 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                     dlg.dismiss();
                     if (e != null) {
                         e.printStackTrace();
-                        Crashlytics.logException(e);
+                        FirebaseCrashlytics.getInstance().recordException(e);
                         Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                         finish();
                     } else if (result.exists()) {

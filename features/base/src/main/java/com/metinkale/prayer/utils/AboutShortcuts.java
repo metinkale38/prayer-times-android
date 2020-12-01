@@ -27,9 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
@@ -60,10 +58,6 @@ public class AboutShortcuts {
     public static void github(@NonNull Context ctx) {
         String url = "https://github.com/metinkale38/prayer-times-android";
         openUrl(ctx, url);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "github")
-        );
     }
 
 
@@ -76,10 +70,6 @@ public class AboutShortcuts {
             Toast.makeText(ctx, "Couldn't launch the market", Toast.LENGTH_LONG).show();
         }
 
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "rate")
-        );
-
         //AppRatingDialog.setInstalltionTime(Long.MAX_VALUE); //never show the rating dialog :)
     }
 
@@ -87,30 +77,18 @@ public class AboutShortcuts {
     public static void translate(@NonNull Context ctx) {
         String url = "https://crowdin.com/project/prayer-times-android";
         openUrl(ctx, url);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "translate")
-        );
     }
 
 
     public static void reportBug(@NonNull Context ctx) {
         String url = "https://github.com/metinkale38/prayer-times-android/issues";
         openUrl(ctx, url);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "reportBug")
-        );
     }
 
 
 
     public static void mail(@NonNull Context ctx) {
         sendMail(ctx);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "mail")
-        );
     }
 
     public static void sendMail(@NonNull Context ctx) {
@@ -122,7 +100,7 @@ public class AboutShortcuts {
             versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + "";
             versionName = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName + "";
         } catch (PackageManager.NameNotFoundException e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT,
                 "===Device Information===" +
@@ -141,10 +119,6 @@ public class AboutShortcuts {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         ctx.startActivity(i);
-
-        Answers.getInstance().logCustom(new CustomEvent("About")
-                .putCustomAttribute("action", "beta")
-        );
     }
 
 }

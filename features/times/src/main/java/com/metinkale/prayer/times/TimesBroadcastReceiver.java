@@ -18,8 +18,8 @@ package com.metinkale.prayer.times;
 
 import androidx.annotation.NonNull;
 
-import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.JobManager;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.times.Times;
@@ -54,7 +54,7 @@ public class TimesBroadcastReceiver extends InternalBroadcastReceiver
         try {
             Times.getTimes();
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
 
         InternalBroadcastReceiver.sender(App.get()).sendTimeTick();

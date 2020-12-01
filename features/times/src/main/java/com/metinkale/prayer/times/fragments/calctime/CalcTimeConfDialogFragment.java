@@ -30,9 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -108,7 +106,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asJsonObject()
                     .setCallback((e, result) -> {
                         if (e != null)
-                            Crashlytics.logException(e);
+                            FirebaseCrashlytics.getInstance().recordException(e);
                         if (result != null)
                             try {
                                 TimeZone tz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
@@ -117,7 +115,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                                     mPrayTimes.setTimezone(mTz);
                                 }
                             } catch (Exception ee) {
-                                Crashlytics.logException(ee);
+                                FirebaseCrashlytics.getInstance().recordException(ee);
                             }
                     });
 
@@ -125,14 +123,14 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asString()
                         .setCallback((e, result) -> {
                             if (e != null)
-                                Crashlytics.logException(e);
+                                FirebaseCrashlytics.getInstance().recordException(e);
                             try {
                                 double m = Double.parseDouble(result);
                                 if (m < -9000)
                                     m = 0;
                                 mPrayTimes.setCoordinates(lat, lng, m);
                             } catch (Exception ee) {
-                                Crashlytics.logException(ee);
+                                FirebaseCrashlytics.getInstance().recordException(ee);
                             }
                         });
         }
@@ -273,8 +271,6 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             mCalcTime.setLat(mPrayTimes.getLatitude());
             mCalcTime.setLng(mPrayTimes.getLongitude());
             mCalcTime.setElv(mPrayTimes.getElevation());
-            Answers.getInstance().logCustom(
-                    new CustomEvent("AddCity").putCustomAttribute("Source", Source.Calc.name()).putCustomAttribute("City", mCalcTime.getName()));
         } else {
             mCalcTime.setPrayTimes(mPrayTimes);
         }

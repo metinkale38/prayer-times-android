@@ -33,7 +33,7 @@ import android.provider.CalendarContract;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.SilenterPrompt;
@@ -134,7 +134,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
     }
@@ -282,7 +282,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
     }
@@ -402,7 +402,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
 
@@ -459,7 +459,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
     }
@@ -594,7 +594,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
     }
@@ -731,7 +731,7 @@ class WidgetLegacy {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         } catch (RuntimeException e) {
             if (!e.getMessage().contains("exceeds maximum bitmap memory usage")) {
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
 

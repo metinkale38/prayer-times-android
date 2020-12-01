@@ -32,7 +32,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -273,7 +273,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                             if (e != null || result == null || !result.exists()) {
                                 if (e != null) {
                                     e.printStackTrace();
-                                    Crashlytics.logException(e);
+                                    FirebaseCrashlytics.getInstance().recordException(e);
                                 }
                                 dlg.cancel();
                                 Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
