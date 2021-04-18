@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.times.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +39,7 @@ import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.utils.BatteryOptimizationsKt;
 
 public class AlarmsFragment extends Fragment implements Observer<Times> {
     private Times mTimes;
@@ -71,6 +73,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         onChanged(mTimes);
 
         setHasOptionsMenu(true);
+
         return v;
     }
 
@@ -142,6 +145,19 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
 
                 @Override
                 public void onChange(boolean checked) {
+                    if (checked && !BatteryOptimizationsKt.isIgnoringBatteryOptimizations(getActivity())) {
+                        AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+                        dialog.setTitle(R.string.batteryOptimizations);
+                        dialog.setMessage(getString(R.string.batteryOptimizationsText));
+                        dialog.setCancelable(false);
+                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
+                            BatteryOptimizationsKt.checkBatteryOptimizations(getActivity());
+                        });
+                        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
+                        });
+                        dialog.show();
+
+                    }
                     alarm.setEnabled(checked);
                 }
 

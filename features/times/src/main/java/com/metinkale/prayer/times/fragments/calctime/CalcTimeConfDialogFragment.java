@@ -161,11 +161,6 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             public View getView(int pos, View convertView, @NonNull ViewGroup parent) {
                 return getDropDownView(pos, convertView, parent);
             }
-
-            @Override
-            public int getCount() {
-                return 8;
-            }
         });
 
 

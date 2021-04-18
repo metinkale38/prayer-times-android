@@ -91,4 +91,6 @@
     <string name="addAlarm">Add alarm</string>
     <string name="silenterNotificationTitle">Silenter</string>
     <string name="silenterNotificationInfo">Please grant permissions to Prayer Times to silent your phone</string>
+    <string name="batteryOptimizations">Battery optimizations</string>
+    <string name="batteryOptimizationsText">For accurate alarms you have to disable battery optimizations for this app. Do you want to that now?</string>
 </resources>
