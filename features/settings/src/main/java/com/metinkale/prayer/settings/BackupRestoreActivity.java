@@ -61,7 +61,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
         PermissionUtils.get(this).needStorage(this);
         setContentView(R.layout.settings_backuprestore);
         ListView list = findViewById(R.id.listView1);
-        mFolder = new File(Environment.getExternalStorageDirectory(), "backups/com.metinkale.prayer");
+        mFolder = new File(Environment.getExternalStorageState(), "backups/com.metinkale.prayer");
         mFolder.mkdirs();
         mAdapter = new MyAdapter(this);
         list.setAdapter(mAdapter);

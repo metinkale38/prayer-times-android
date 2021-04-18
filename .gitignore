@@ -7,4 +7,4 @@
 /local.properties
 /gradle.properties
 app/mapping.txt
-*/translations/
+**/translations
