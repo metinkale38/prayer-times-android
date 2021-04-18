@@ -70,11 +70,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
         int textColor = Preferences.ONGOING_TEXT_COLOR.get();
         int bgColor = Preferences.ONGOING_BG_COLOR.get();
 
-        if (textColor == 0) {
-            extractDefaultTextColor();
-            textColor = mDefaultTextColor;
-        }
-
         NotificationManager notMan = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         LocalDate cal = LocalDate.now();
@@ -218,44 +213,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
     }
 
 
-    private boolean recurseGroup(@NonNull ViewGroup gp) {
-        int count = gp.getChildCount();
-        for (int i = 0; i < count; ++i) {
-            View v = gp.getChildAt(i);
-            if (v instanceof TextView) {
-                TextView text = (TextView) v;
-                String szText = text.getText().toString();
-                if ("COLOR_SEARCH_1ST".equals(szText)) {
-                    mDefaultTextColor = text.getCurrentTextColor();
-                }
-            } else if (gp.getChildAt(i) instanceof ViewGroup) {
-                if (recurseGroup((ViewGroup) v)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
-    private void extractDefaultTextColor() {
-        if (mDefaultTextColor != null) return;
-        ;
-        try {
-            Notification.Builder builder = new Notification.Builder(getContext());
-            builder.setContentTitle("COLOR_SEARCH_1ST");
-            Notification ntf = builder.build();
-            LinearLayout group = new LinearLayout(getContext());
-            RemoteViews contentView = ntf.contentView;
-            if (contentView == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                contentView = Notification.Builder.recoverBuilder(getContext(), ntf).createContentView();
-            }
-            ViewGroup event = (ViewGroup) contentView.apply(getContext(), group);
-            recurseGroup(event);
-            group.removeAllViews();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
 }

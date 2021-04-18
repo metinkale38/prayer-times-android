@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     sourceSets {
@@ -64,5 +65,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'net.steamcrafted:materialiconlib:1.1.5'
     implementation 'com.koushikdutta.ion:ion:3.1.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

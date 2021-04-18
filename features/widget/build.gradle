@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     sourceSets {
@@ -66,5 +67,10 @@ dependencies {
     implementation project(':features:base')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

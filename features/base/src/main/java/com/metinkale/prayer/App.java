@@ -31,10 +31,8 @@ import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.base.BuildConfig;
-import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.receiver.TimeTickReceiver;
 import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;

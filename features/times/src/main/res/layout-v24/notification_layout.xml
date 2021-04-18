@@ -15,15 +15,14 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingStart="24dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="6dp">
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,22 +35,26 @@
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ic_abicon"
-            android:tint="@color/colorPrimary" />
+            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
+            tools:ignore="UseAppTint" />
 
         <TextView
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"
             android:id="@android:id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Braunschweig"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <Chronometer
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Time"
             android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:countDown="true"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,24 +68,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time0"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/fajr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/fajr"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -96,24 +99,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/sun"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/sun"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -127,24 +130,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/zuhr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/zuhr"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -158,24 +161,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/asr"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -189,24 +192,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time4"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/maghrib"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -220,24 +223,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time5"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/ishaa"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ishaa"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
 

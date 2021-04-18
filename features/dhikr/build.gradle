@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     sourceSets {
@@ -68,4 +69,10 @@ dependencies {
 
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
     annotationProcessor "androidx.room:room-compiler:2.2.0-alpha02"
+    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
