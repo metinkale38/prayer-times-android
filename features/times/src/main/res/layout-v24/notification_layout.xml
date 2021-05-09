@@ -65,7 +65,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
@@ -80,7 +81,7 @@
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/fajr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -96,7 +97,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
@@ -111,7 +113,7 @@
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/sun"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -127,7 +129,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
@@ -142,7 +145,7 @@
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/zuhr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -158,26 +161,27 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/time3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:textSize="14sp" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/asr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -189,7 +193,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
@@ -202,13 +207,13 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/maghrib"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -220,7 +225,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
@@ -235,7 +241,7 @@
             <TextView
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                 android:id="@+id/ishaa"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"

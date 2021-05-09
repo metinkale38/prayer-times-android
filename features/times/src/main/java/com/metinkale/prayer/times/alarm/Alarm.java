@@ -146,23 +146,32 @@ public class Alarm implements Comparable<Alarm> {
     public String getCurrentTitle() {
         Times city = getCity();
 
-        int time = getCity().getCurrentTime();
-        int left = new Period(LocalDateTime.now(), city.getTime(LocalDate.now(), city.getNextTime())).getMinutes();
-        int passed = new Period(city.getTime(LocalDate.now(), city.getCurrentTime()), LocalDateTime.now()).getMinutes();
-        int minutes = Math.abs(left) < Math.abs(passed) ? -left : passed;
-        int minuteThreshold = 2;
-        if (mins == 0 && left < minuteThreshold) {
-            minutes = 0;
+        int time = city.getCurrentTime();
+
+        while(!times.isEmpty() && !times.contains(Vakit.getByIndex(time))){
             time++;
-        } else if (mins == 0 && passed < minuteThreshold) {
-            minutes = 0;
         }
+
+        int minutes = new Period(city.getTime(LocalDate.now(), time), LocalDateTime.now()).toStandardMinutes().getMinutes();
+
+        if(minutes > 0 && times.contains(Vakit.getByIndex(time+1))){
+            int minutesToNext = new Period(city.getTime(LocalDate.now(), time + 1), LocalDateTime.now()).toStandardMinutes().getMinutes();
+            if(minutes > Math.abs(minutesToNext)){
+                time++;
+                minutes = minutesToNext;
+            }
+        }
+
+        // avoid messages like 1 minute before/after Maghtib for minimal deviations
+       int minutesThreshold=2;
+       if(Math.abs(minutes) < minutesThreshold){
+           minutes = 0;
+       }
 
         int strRes2;
         if (minutes < 0) {
-            time++;
             strRes2 = R.string.noti_beforeTime;
-        } else if (getMins() > 0) {
+        } else if (minutes > 0) {
             strRes2 = R.string.noti_afterTime;
         } else {
             strRes2 = R.string.noti_exactTime;
