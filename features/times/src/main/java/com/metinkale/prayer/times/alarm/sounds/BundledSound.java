@@ -51,7 +51,7 @@ public class BundledSound extends Sound {
         Sela
     }
 
-    private EnumMap<SoundType, Sound> subSounds = new EnumMap<>(SoundType.class);
+    private final EnumMap<SoundType, Sound> subSounds = new EnumMap<>(SoundType.class);
 
     public Collection<Sound> getSubSounds() {
         return Collections.unmodifiableList(new ArrayList<>(subSounds.values()));
