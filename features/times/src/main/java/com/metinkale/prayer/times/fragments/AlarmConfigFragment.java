@@ -76,6 +76,7 @@ public class AlarmConfigFragment extends DialogFragment {
     private TextView[] mWeekdaysText = new TextView[7];
     private TextView[] mTimesText = new TextView[6];
     private Switch mVibrate;
+    private Switch mRandomSound;
     private Switch mAutoDelete;
     private HorizontalNumberWheel mMinute;
     private TextView mMinuteText;
@@ -172,6 +173,7 @@ public class AlarmConfigFragment extends DialogFragment {
 
 
         mVibrate = view.findViewById(R.id.vibrate);
+        mRandomSound = view.findViewById(R.id.randomsound);
         mAutoDelete = view.findViewById(R.id.deleteAfterSound);
 
 
@@ -198,6 +200,7 @@ public class AlarmConfigFragment extends DialogFragment {
         initSounds();
         initVolume();
         initVibrate();
+        initRandomSound();
         initDelete();
         initAutodelete();
         initSilenter();
@@ -312,6 +315,11 @@ public class AlarmConfigFragment extends DialogFragment {
     private void initVibrate() {
         mVibrate.setChecked(mAlarm.isVibrate());
         mVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> mAlarm.setVibrate(isChecked));
+    }
+
+    private void initRandomSound() {
+        mRandomSound.setChecked(mAlarm.isRandomSound());
+        mRandomSound.setOnCheckedChangeListener((buttonView, isChecked) -> mAlarm.setRandomSound(isChecked));
     }
 
     private void initDelete() {
