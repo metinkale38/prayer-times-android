@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.dhikr;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,7 +24,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,7 +68,7 @@ import java.util.Set;
 @SuppressWarnings("deprecation")
 public class DhikrFragment extends BaseActivity.MainFragment
         implements OnClickListener, OnLongClickListener, AdapterView.OnItemSelectedListener, Observer<List<Dhikr>> {
-    
+
     private DhikrViewModel mViewModel;
     private SharedPreferences mPrefs;
     private DhikrView mDhikrView;
@@ -74,12 +78,12 @@ public class DhikrFragment extends BaseActivity.MainFragment
     private int mVibrate;
     private Spinner mSpinner;
     private List<Dhikr> mDhikrs;
-    
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dhikr_main, container, false);
-        
+
         mPrefs = getActivity().getSharedPreferences("zikr", 0);
         mDhikrView = v.findViewById(R.id.zikr);
         mTitle = v.findViewById(R.id.title);
@@ -89,23 +93,23 @@ public class DhikrFragment extends BaseActivity.MainFragment
         mReset = v.findViewById(R.id.reset);
         mReset.setOnClickListener(this);
         mVibrate = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("zikrvibrate2", 0);
-        
+
         ((VibrationModeView) v.findViewById(R.id.vibration)).setPrefFunctions(new PrefsFunctions() {
-            
+
             @Override
             public int getValue() {
                 return mVibrate;
             }
-            
+
             @Override
             public void setValue(int obj) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("zikrvibrate2", obj).apply();
                 mVibrate = obj;
-                
+
             }
-            
+
         });
-        
+
         OnClickListener colorlist = this::changeColor;
         v.findViewById(R.id.color1).setOnClickListener(colorlist);
         v.findViewById(R.id.color2).setOnClickListener(colorlist);
@@ -115,13 +119,30 @@ public class DhikrFragment extends BaseActivity.MainFragment
         v.findViewById(R.id.color6).setOnClickListener(colorlist);
         v.findViewById(R.id.color7).setOnClickListener(colorlist);
         v.findViewById(R.id.color8).setOnClickListener(colorlist);
-        
+
         mViewModel = ViewModelProviders.of(this).get(DhikrViewModel.class);
         mViewModel.getDhikrs().observe(this, this);
+
+        mTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mDhikrs.get(0).setTitle(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return v;
     }
-    
-    
+
+
     private void migrateToRoom() {
         Map<String, Set<String>> map = (Map<String, Set<String>>) mPrefs.getAll();
         Set<String> keys = map.keySet();
@@ -153,7 +174,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
         }
         mPrefs.edit().clear().apply();
     }
-    
+
     @Override
     public void onPause() {
         super.onPause();
@@ -161,20 +182,21 @@ public class DhikrFragment extends BaseActivity.MainFragment
             return;
         mViewModel.saveDhikr(mDhikrs.get(0));
     }
-    
-    
+
+
     public void changeColor(@NonNull View v) {
         int c = Color.parseColor((String) v.getTag());
         mDhikrs.get(0).setColor(c);
         mDhikrView.invalidate();
     }
-    
+
+    @SuppressLint("MissingPermission")
     @Override
     public void onClick(View v) {
         if (v == mDhikrView) {
             Dhikr dhikr = mDhikrs.get(0);
             dhikr.setValue(dhikr.getValue() + 1);
-            
+
             if (dhikr.getValue() % dhikr.getMax() == 0) {
                 if (mVibrate != -1) {
                     mVibrator.vibrate(new long[]{0, 100, 100, 100, 100, 100}, -1);
@@ -198,16 +220,16 @@ public class DhikrFragment extends BaseActivity.MainFragment
             dialog.show();
         }
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MaterialMenuInflater.with(getActivity(), inflater).setDefaultColorResource(R.color.white).inflate(R.menu.zikr, menu);
-        
+
         MenuItem item = menu.findItem(R.id.menu_spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);
-        
-        
+
+
         onChanged(mViewModel.getDhikrs().getValue());
     }
 
@@ -222,10 +244,10 @@ public class DhikrFragment extends BaseActivity.MainFragment
             deleteDhikr();
             return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
-    
+
     private void deleteDhikr() {
         AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         dialog.setTitle(R.string.delete);
@@ -236,17 +258,18 @@ public class DhikrFragment extends BaseActivity.MainFragment
         });
         dialog.show();
     }
-    
+
     private void addNewDhikr() {
-        
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dhikr);
-        
+
         final EditText input = new EditText(getActivity());
         input.setText(getString(R.string.newDhikr));
         input.setSelection(input.getText().length());
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
         builder.setView(input);
-        
+
         builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
             final String title = input.getText().toString();
             AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -272,12 +295,12 @@ public class DhikrFragment extends BaseActivity.MainFragment
 
             builder1.show();
         });
-        
+
         builder.setNegativeButton(R.string.cancel, (dialog, i) -> dialog.cancel());
-        
+
         builder.show();
     }
-    
+
     @Override
     public boolean onLongClick(View arg0) {
         if (mDhikrs.get(0).getId() == 0) {
@@ -285,13 +308,13 @@ public class DhikrFragment extends BaseActivity.MainFragment
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dhikrCount);
-        
+
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setText(String.valueOf(mDhikrs.get(0).getMax()));
-        
+
         builder.setView(input);
-        
+
         // Set up the buttons
         builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
             try {
@@ -301,13 +324,13 @@ public class DhikrFragment extends BaseActivity.MainFragment
                 FirebaseCrashlytics.getInstance().recordException(e);
             }
         });
-        
+
         builder.setNegativeButton(R.string.cancel, (dialog, i) -> dialog.cancel());
-        
+
         builder.show();
         return false;
     }
-    
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         if (pos == 0)
@@ -323,29 +346,29 @@ public class DhikrFragment extends BaseActivity.MainFragment
                 model.setPosition(i);
             }
         }
-        
+
         mViewModel.saveDhikr(mDhikrs.toArray(new Dhikr[0]));
     }
-    
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-    
+
     }
-    
+
     @Override
     public void onChanged(@Nullable List<Dhikr> dhikrs) {
         if (dhikrs == null)
             return;
         this.mDhikrs = dhikrs;
         migrateToRoom();
-        
-        
+
+
         if (mSpinner != null) {
             ArrayList<String> itemList = new ArrayList<>();
             for (Dhikr dhikr : dhikrs) {
                 itemList.add(dhikr.getTitle());
             }
-            
+
             if (dhikrs.isEmpty()) {
                 Dhikr model = new Dhikr();
                 model.setTitle(getString(R.string.tasbih));
@@ -360,11 +383,11 @@ public class DhikrFragment extends BaseActivity.MainFragment
             }
             Context c = new ContextThemeWrapper(getActivity(), R.style.ToolbarTheme);
             SpinnerAdapter adap = new ArrayAdapter<>(c, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
-            
+
             mSpinner.setAdapter(adap);
             mSpinner.setOnItemSelectedListener(this);
         }
     }
-    
-    
+
+
 }

@@ -39,6 +39,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.metinkale.prayer.Preferences;
@@ -59,6 +60,7 @@ import org.joda.time.PeriodType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener, InternalBroadcastReceiver.OnPrefsChangedListener {
     private static final String FOREGROUND_NEEDY_ONGOING = "ongoing";
@@ -88,6 +90,9 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             FirebaseCrashlytics.getInstance().setCustomKey("showNumber", number);
 
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
+            if (Build.MANUFACTURER.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
+                views.setViewPadding(R.id.notification, 0, 0, 0, 0);
+            }
 
             if (bgColor != 0) {
                 views.setInt(R.id.notification, "setBackgroundColor", bgColor);
@@ -211,9 +216,6 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
             onTimeTick();
         }
     }
-
-
-
 
 
 }

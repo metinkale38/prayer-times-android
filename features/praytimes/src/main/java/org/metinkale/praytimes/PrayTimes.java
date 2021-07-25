@@ -244,8 +244,8 @@ public class PrayTimes implements Serializable {
         double maxDuration = maxPortion * night;
 
         double timeDiff = (ccw) ? Utils.timeDiff(time, base) : Utils.timeDiff(base, time);
-        if (Double.isNaN(time) || timeDiff > maxPortion)
-            time = base + (ccw ? -maxPortion : maxPortion);
+        if (Double.isNaN(time) || timeDiff > maxDuration)
+            time = base + (ccw ? -maxDuration : maxDuration);
         return time;
     }
 

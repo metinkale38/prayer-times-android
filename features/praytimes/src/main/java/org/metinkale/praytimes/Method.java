@@ -130,8 +130,8 @@ public enum Method {
     };
     
     
-    private int[] minutes = new int[Times.values().length];
-    private double[] angles = new double[Times.values().length];
+    private final int[] minutes = new int[Times.values().length];
+    private final double[] angles = new double[Times.values().length];
     
     
     public abstract void set(PrayTimes prayTimes);

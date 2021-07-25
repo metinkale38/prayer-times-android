@@ -92,7 +92,7 @@ public class AboutShortcuts {
     }
 
     public static void sendMail(@NonNull Context ctx) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "metinkale38@gmail.com", null));
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "info@prayerapp.dev", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.appName) + " (com.metinkaler.prayer)");
         String versionCode = "Undefined";
         String versionName = "Undefined";
