@@ -22,7 +22,10 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,21 +43,19 @@
             tools:ignore="UseAppTint" />
 
         <TextView
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
             android:id="@android:id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Braunschweig"
-            android:textSize="14sp" />
+            android:text="Braunschweig" />
 
         <Chronometer
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Time"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
             android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:countDown="true"
-            android:textSize="14sp" />
+            android:countDown="true"  />
     </LinearLayout>
 
     <LinearLayout
@@ -69,24 +70,22 @@
             android:gravity="center">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/time0"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14sp" />
+                android:text="00:00" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/fajr"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/fajr"
-                android:textSize="12sp" />
+                android:text="@string/fajr" />
         </LinearLayout>
 
         <TextView
@@ -101,24 +100,22 @@
             android:gravity="center">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/time1"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14sp" />
+                android:text="00:00" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/sun"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/sun"
-                android:textSize="12sp" />
+                android:text="@string/sun" />
         </LinearLayout>
 
         <TextView
@@ -133,24 +130,22 @@
             android:gravity="center">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/time2"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14sp" />
+                android:text="00:00" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/zuhr"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/zuhr"
-                android:textSize="12sp" />
+                android:text="@string/zuhr" />
         </LinearLayout>
 
         <TextView
@@ -171,8 +166,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                android:textSize="14sp" />
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2" />
 
             <TextView
                 android:id="@+id/asr"
@@ -181,8 +175,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                android:textSize="12sp" />
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2" />
         </LinearLayout>
 
         <TextView
@@ -197,14 +190,13 @@
             android:gravity="center">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/time4"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14sp" />
+                android:text="00:00" />
 
             <TextView
                 android:id="@+id/maghrib"
@@ -213,8 +205,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                android:textSize="12sp" />
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2" />
         </LinearLayout>
 
         <TextView
@@ -229,24 +220,22 @@
             android:gravity="center">
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/time5"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14sp" />
+                android:text="00:00"/>
 
             <TextView
-                android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Line2"
                 android:id="@+id/ishaa"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/ishaa"
-                android:textSize="12sp" />
+                android:text="@string/ishaa" />
         </LinearLayout>
 
 

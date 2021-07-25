@@ -37,8 +37,8 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 21
         multiDexEnabled true
-        versionName '3.7.5'
-        versionCode 217
+        versionName '3.7.6'
+        versionCode 218
     }
 
     buildTypes {

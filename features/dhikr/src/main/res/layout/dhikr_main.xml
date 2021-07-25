@@ -30,6 +30,7 @@
         android:lines="1"
         android:layout_margin="10dp"
         android:background="@color/transparent"
+        android:maxLength="20"
         android:hint="@string/newDhikr"
         android:text="@string/newDhikr"
         android:textAppearance="?android:attr/textAppearanceLarge" />
