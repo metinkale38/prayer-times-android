@@ -1,7 +1,7 @@
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/prayer-times-android/localized.svg)](https://crowdin.com/project/prayer-times-android)
 
 # namaz-vakti-android
-A useful Application with a set of tools needed by any muslim.
+A useful Application with a set of tools needed by every muslim.
 
 Play Store: https://play.google.com/store/apps/details?id=com.metinkale.prayer
 
