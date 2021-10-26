@@ -29,6 +29,10 @@ import org.joda.time.LocalDate;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * does not work anymore
+ */
+@Deprecated
 public class MoroccoTimes extends WebTimes {
 
     @SuppressWarnings({"unused", "WeakerAccess"})
@@ -60,59 +64,7 @@ public class MoroccoTimes extends WebTimes {
         return name;
     }
 
-    protected boolean sync() throws ExecutionException, InterruptedException {
-        LocalDate ldate = LocalDate.now();
-        int rY = ldate.getYear();
-        int Y = rY;
-        int m = ldate.getMonthOfYear();
-        int x = 0;
-
-        for (int M = m; (M <= (m + 1)) && (rY == Y); M++) {
-            if (M == 13) {
-                M = 1;
-                Y++;
-            }
-            String result = Ion.with(App.get())
-                    .load("http://www.habous.gov.ma/prieres/defaultmois.php?ville=" + getId() + "&mois=" + M)
-                    .userAgent(App.getUserAgent())
-                    .setTimeout(3000)
-                    .asString()
-                    .get();
-            String temp = result.substring(result.indexOf("colspan=\"4\" class=\"cournt\""));
-            temp = temp.substring(temp.indexOf(">") + 1);
-            temp = temp.substring(0, temp.indexOf("<")).replace(" ", "");
-            int month = Integer.parseInt(temp.substring(0, temp.indexOf("/")));
-            int year = Integer.parseInt(temp.substring(temp.indexOf("/") + 1));
-            result = result.substring(result.indexOf("<td>") + 4);
-            result = result.replace(" ", "").replace("\t", "").replace("\n", "").replace("\r", "");
-            String[] zeiten = result.split("<td>");
-            for (int i = 0; i < zeiten.length; i++) {
-                int day = Integer.parseInt(extract(zeiten[i]));
-                String imsak = extract(zeiten[++i]);
-                String gunes = extract(zeiten[++i]);
-                String ogle = extract(zeiten[++i]);
-                String ikindi = extract(zeiten[++i]);
-                String aksam = extract(zeiten[++i]);
-                String yatsi = extract(zeiten[++i]);
-
-                LocalDate localDate = new LocalDate(year, month, day);
-                setTime(localDate, Vakit.FAJR, imsak);
-                setTime(localDate, Vakit.SUN, gunes);
-                setTime(localDate, Vakit.DHUHR, ogle);
-                setTime(localDate, Vakit.ASR, ikindi);
-                setTime(localDate, Vakit.MAGHRIB, aksam);
-                setTime(localDate, Vakit.ISHAA, yatsi);
-                x++;
-            }
-
-
-        }
-
-
-        return x > 25;
-    }
-
-    private String extract(@NonNull String s) {
-        return s.substring(0, s.indexOf("<"));
+    protected boolean sync() throws InterruptedException {
+        return true;
     }
 }

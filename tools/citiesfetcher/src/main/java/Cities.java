@@ -87,20 +87,6 @@ public class Cities {
     public static void main(String[] args) throws UnsupportedEncodingException {
         Locale.setDefault(Locale.ENGLISH);
 
-
-        mWorker.execute(() -> {
-         /*
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchIndonesia()");
-            fetchIndonesia();
-            System.out.println("fetchIndonesia() - finished in " + (System.currentTimeMillis() - time) + " ms");
-          */
-            long time = System.currentTimeMillis();
-            System.out.println("Start fetchDiyanet()");
-            System.out.println("fetchDiyanet() - finished in " + (System.currentTimeMillis() - time) + " ms");
-        });
-
-
         byte[] encoded;
         try {
             encoded = Files.readAllBytes(Paths.get("geocodings.geo"));
@@ -137,8 +123,8 @@ public class Cities {
 
     private static void export() throws UnsupportedEncodingException {
 
-        new File("igmg.tsv").delete();
-        try (PrintWriter out = new PrintWriter("igmg.tsv", "utf-8")) {
+        new File("out.tsv").delete();
+        try (PrintWriter out = new PrintWriter("out.tsv", "utf-8")) {
             for (Entry e : mEntries.values()) {
                 out.print(e.id);
                 out.print('\t');
@@ -164,257 +150,52 @@ public class Cities {
         }
     }
 
-    private static void fetchIndonesia() {
-        String data = HTTP.get("http://sihat.kemenag.go.id/waktu-sholat#");
-        data = data.substring(data.indexOf("\"opt_lokasi_provinsi\""));
-        data = data.substring(0, data.indexOf("</select"));
-
-        Entry parent = new Entry();
-        parent.id = Cities.id.incrementAndGet();
-        parent.parent = 0;
-        parent.name = "Kemenag.go.id";
-        parent.key = null;
-        parent.lat = 0;
-        parent.lng = 0;
-        mEntries.put(parent.id, parent);
-
-        for (data = data.substring(data.indexOf("<option value='") + 1);
-             data.contains("option value=");
-             data = data.substring(i(data.indexOf("option ")))) {
-            data = data.substring(1);
-            String _id = data.substring(data.indexOf("'") + 1);
-            _id = _id.substring(0, _id.indexOf("'"));
-            Entry e = new Entry();
-            e.id = Cities.id.incrementAndGet();
-            e.parent = parent.id;
-            e.name = _id;
-            e.key = null;
-            e.lat = 0;
-            e.lng = 0;
-            mEntries.put(e.id, e);
-
-            fetchIndonesiaKota(_id, e.id);
-        }
-
-
-    }
-
-    private static void fetchIndonesiaKota(String id, int parent) {
-
-        String data = HTTP.post("http://sihat.kemenag.go.id/site/get_kota_lintang", "q=" + id.replace(" ", "+"));
-
-        for (data = data.substring(data.indexOf("<option value='") + 1);
-             data.contains("option value=");
-             data = data.substring(i(data.indexOf("option ")))) {
-            data = data.substring(1);
-            String search = "'";
-            if (!data.contains("'") && data.contains("\"")) {
-                search = "\"";
-            }
-            String _id = data.substring(data.indexOf(search) + 1);
-            _id = _id.substring(0, _id.indexOf(search));
-            if (_id.isEmpty()) continue;
-            String name = data.substring(data.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-            Entry e = new Entry();
-            e.id = Cities.id.incrementAndGet();
-            e.parent = parent;
-            e.name = name;
-            e.key = _id;
-            e.lat = 0;
-            e.lng = 0;
-            mEntries.put(e.id, e);
-        }
-
-
-    }
-
-
-    private static void fetchHabous() {
-        String data = HTTP.get("http://www.habous.gov.ma/horaire%20de%20priere%20fr/horaire_hijri.php");
-
-        data = data.substring(data.indexOf("<select name=\"ville\""));
-        data = data.substring(0, data.indexOf("</select>"));
-
-
-        Entry parent = new Entry();
-        parent.id = Cities.id.incrementAndGet();
-        parent.parent = 0;
-        parent.name = "Habous.gov.ma";
-        parent.key = null;
-        parent.lat = 0;
-        parent.lng = 0;
-        mEntries.put(parent.id, parent);
-
-        Map<Integer, Entry> habous = new HashMap<>();
-
-        for (data = data.substring(data.indexOf("<option value=") + 1);
-             data.contains("option value=");
-             data = data.substring(i(data.indexOf("option ")))) {
-            data = data.substring(1);
-            String _id = data.substring(data.indexOf("?ville=") + 7);
-            _id = _id.substring(0, _id.indexOf("&"));
-            int id = Integer.parseInt(_id);
-            String name = data.substring(data.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-            Entry e = new Entry();
-            e.id = Cities.id.incrementAndGet();
-            e.parent = parent.id;
-            e.name = name;
-            e.key = "H_" + id;
-            e.lat = 0;
-            e.lng = 0;
-            mEntries.put(e.id, e);
-            habous.put(id, e);
-
-        }
-
-
-        //fetch_ar
-        data = HTTP.get("http://www.habous.gov.ma/horaire%20de%20priere/horaire_hijri.php");
-
-        data = data.substring(data.indexOf("<select name=\"ville\""));
-        data = data.substring(0, data.indexOf("</select>"));
-
-
-        for (data = data.substring(data.indexOf("<option value=") + 1);
-             data.contains("option value=");
-             data = data.substring(i(data.indexOf("option ")))) {
-            data = data.substring(1);
-            String _id = data.substring(data.indexOf("?ville=") + 7);
-            _id = _id.substring(0, _id.indexOf("&"));
-            int id = Integer.parseInt(_id);
-            String name = data.substring(data.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-
-            habous.get(id).name += " (" + name + ")";
-        }
-
-
-    }
-
-    private static void fetchMalaysia() {
-        Entry my = new Entry();
-        my.id = Cities.id.incrementAndGet();
-        my.parent = 0;
-        my.name = "e-solat.gov.my";
-        my.key = null;
-        my.lat = 0;
-        my.lng = 0;
-        mEntries.put(my.id, my);
-
-        String data = HTTP.get("http://www.e-solat.gov.my/web/waktusolat.php");
-        data = data.substring(data.indexOf("name=\"negeri\""));
-        data = data.substring(0, data.indexOf("</select>"));
-        data = data.substring(data.indexOf("<option value=\"000\">") + 1);
-        for (data = data.substring(data.indexOf("<option"));
-             data.contains("<option");
-             data = data.substring(i(data.indexOf("<option")))) {
-            data = data.substring(1);
-            String value = data.substring(data.indexOf("=\"") + 2);
-            value = value.substring(0, value.indexOf("\""));
-            String name = data.substring(data.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-
-
-            Entry state = new Entry();
-            state.id = Cities.id.incrementAndGet();
-            state.parent = my.id;
-            state.name = name;
-            state.key = null;
-            state.lat = 0;
-            state.lng = 0;
-            mEntries.put(state.id, state);
-
-            fetchMyZones(state, value);
-
-        }
-    }
-
-    private static void fetchMyZones(Entry state, String val) {
-        String data = HTTP.get("http://www.e-solat.gov.my/web/waktusolat.php?negeri=" +
-                URLEncoder.encode(val) + "&negeri=" + URLEncoder.encode(val));
-        data = data.substring(data.indexOf("name=\"zone\""));
-        data = data.substring(0, data.indexOf("</select>"));
-        data = data.substring(data.indexOf("<option value=\"000\">") + 1);
-        for (data = data.substring(data.indexOf("<option"));
-             data.contains("<option");
-             data = data.substring(i(data.indexOf("<option")))) {
-            data = data.substring(1);
-            String value = data.substring(data.indexOf("=\"") + 2);
-            value = value.substring(0, value.indexOf("\""));
-            String name = data.substring(data.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-
-
-            Entry zone = new Entry();
-            zone.id = Cities.id.incrementAndGet();
-            zone.parent = state.id;
-            zone.name = name;
-            zone.key = "M_" + val + "_" + value;
-            zone.lat = 0;
-            zone.lng = 0;
-            mEntries.put(zone.id, zone);
-        }
-    }
 
     private static void fetchIGMG() {
-        String data = HTTP.get("https://www.igmg.org/gebetskalender/");
-
-        String ger = data.substring(data.indexOf("id=\"alman_sehirleri\""));
-        ger = ger.substring(0, ger.indexOf("</select>"));
-
-        String wor = data.substring(data.indexOf("id=\"dunya_sehirleri\""));
-        wor = wor.substring(0, wor.indexOf("</select>"));
-
-        String all = ger + wor;
-        all = all.replace("Hoogenzand", "Hoogezand");
-        all = all.replace("Groinchem", "Gorinchem");
-
+        String data = HTTP.get("https://live.igmgapp.org:8091/api/Calendar/GetPrayerTimesCities?prefLocale=DE");
 
         class City {
             private String name;
             private int id;
+            double lat;
+            double lng;
         }
+
+
+        String[] cities = data.replace("\"list\":", "").split("},");
         HashMap<String, List<City>> map = new HashMap<>();
-        for (all = all.substring(all.indexOf("<option value='"));
-             all.contains("<option value='");
-             all = all.substring(i(all.indexOf("<option value='")))) {
-            all = all.substring(1);
-            String _id = all.substring(all.indexOf("'") + 1);
-            _id = _id.substring(0, _id.indexOf("'"));
-            int id = Integer.parseInt(_id);
-            String name = all.substring(all.indexOf(">") + 1);
-            name = name.substring(0, name.indexOf("<"));
-            String country = name.substring(name.lastIndexOf("(") + 1);
+        for (String city : cities) {
+            String[] fields = city.split(",");
+            City entity = new City();
+            for (String field : fields) {
+                String value = field.substring(field.indexOf(":") + 1).replace("\"", "").split("}")[0].trim();
+                if (field.contains("\"id\""))
+                    entity.id = Integer.parseInt(value);
+                else if (field.contains("\"name\""))
+                    entity.name = value;
+                else if (field.contains("\"latitude\""))
+                    entity.lat = Double.parseDouble(value);
+                else if (field.contains("\"longitude\""))
+                    entity.lng = Double.parseDouble(value);
+            }
+
+            String country = entity.name.substring(entity.name.lastIndexOf("(") + 1);
             country = country.substring(0, 2);
-            name = name.substring(0, name.lastIndexOf(" "));
+            entity.name = entity.name.substring(0, entity.name.lastIndexOf(" "));
 
             if (!map.containsKey(country)) {
                 map.put(country, new ArrayList<>());
             }
-            City c = new City();
-            c.id = id;
-            c.name = name;
-            map.get(country).add(c);
+            map.get(country).add(entity);
+
         }
-
-
-        Entry igmg = new Entry();
-        igmg.id = Cities.id.incrementAndGet();
-        igmg.parent = 0;
-        igmg.name = "IGMG.org";
-        igmg.key = null;
-        igmg.lat = 0;
-        igmg.lng = 0;
-        mEntries.put(igmg.id, igmg);
 
 
         for (String country : map.keySet()) {
 
             Entry parent = new Entry();
             parent.id = Cities.id.incrementAndGet();
-            parent.parent = igmg.id;
+            parent.parent = 0;
             parent.name = country;
             parent.key = null;
             parent.lat = 0;
@@ -477,18 +258,32 @@ public class Cities {
                 case "TR":
                     parent.name = "Türkei";
                     break;
+                case "JP":
+                    parent.name = "Japan";
+                    break;
+                case "EN":
+                    parent.name = "England";
+                    break;
+                case "MY":
+                    parent.name = "Malaysia";
+                    break;
+                case "NZ":
+                    parent.name = "Neuseeland";
+                    break;
+                default:
+                    System.err.println("Unknown Country Code " + parent.name);
             }
 
 
-            List<City> cities = map.get(country);
-            for (City c : cities) {
+            List<City> splits = map.get(country);
+            for (City c : splits) {
                 Entry e = new Entry();
                 e.id = Cities.id.incrementAndGet();
                 e.parent = parent.id;
                 e.name = c.name;
-                e.key = "I_" + c.id;
-                e.lat = 0;
-                e.lng = 0;
+                e.key = "" + c.id;
+                e.lat = c.lat;
+                e.lng = c.lng;
                 mEntries.put(e.id, e);
 
             }
@@ -662,118 +457,6 @@ public class Cities {
         Semerkand[] Cities = new Semerkand[0];
         Semerkand[] Districts = new Semerkand[0];
     }
-
-
-    private static void fetchFaziletCountries() {
-        try {
-            Calendar cal = Calendar.getInstance();
-            String data = HTTP.get("http://www.fazilettakvimi.com/tr/" + cal.get(Calendar.YEAR) +
-                    "/" + (1 + cal.get(Calendar.MONTH)) + "/" + cal.get(Calendar.DATE) + ".html");
-            BufferedReader in = new BufferedReader(
-                    new StringReader(data));
-
-            //noinspection StatementWithEmptyBody
-            while (!in.readLine().contains("<option value=\"")) {
-            }
-            Entry faz = new Entry();
-            faz.id = Cities.id.incrementAndGet();
-            faz.parent = 0;
-            faz.name = "Fazilettakvimi.com";
-            faz.key = null;
-            faz.lat = 0;
-            faz.lng = 0;
-            mEntries.put(faz.id, faz);
-
-            String line;
-
-            while ((line = in.readLine()).contains("<option value=\"")) {
-                String id_ = line.substring(line.indexOf("value=") + 7);
-                id_ = id_.substring(0, id_.indexOf("\""));
-                int id = Integer.parseInt(id_);
-                String name = line.substring(line.lastIndexOf("\">") + 2, line.lastIndexOf("</"));
-
-                Entry e = new Entry();
-                e.id = Cities.id.incrementAndGet();
-                e.parent = faz.id;
-                e.name = name;
-                e.key = null;
-                e.lat = 0;
-                e.lng = 0;
-                mEntries.put(e.id, e);
-
-
-                fetchFaziletStates(id, e);
-
-            }
-            in.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private static void fetchFaziletStates(int countryId, Entry parent) {
-        try {
-            String Url = "http://www.fazilettakvimi.com/api/ulke/sehir/liste/" + countryId;
-            String data = HTTP.get(Url);
-            Sehirler sehirler = new Gson().fromJson(data, Sehirler.class);
-            for (Sehir sehir : sehirler.sehirler) {
-
-                Entry e = new Entry();
-                e.id = Cities.id.incrementAndGet();
-                e.parent = parent.id;
-                e.name = sehir.adi;
-                e.key = null;
-                e.lat = 0;
-                e.lng = 0;
-                mEntries.put(e.id, e);
-                fetchFaziletCities(countryId, sehir.id, e);
-            }
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private static void fetchFaziletCities(int countryId, int stateId, Entry parent) {
-        try {
-            String Url = "http://www.fazilettakvimi.com/api/ulke/sehir/ilce/liste/" + stateId;
-            String data = HTTP.get(Url);
-
-            Ilce ilceler = new Gson().fromJson(data, Ilce.class);
-            if (ilceler.ilceler.size() == 1) {
-                if (mEntries.containsKey(parent.id))
-                    mEntries.get(parent.id).key = "F_" + countryId + "_" + stateId + "_" + ilceler.ilceler.get(0).id;
-            } else
-                for (Sehir state : ilceler.ilceler) {
-                    state.adi = state.adi.replace("\n", "");
-
-                    Entry e = new Entry();
-                    e.id = Cities.id.incrementAndGet();
-                    e.parent = parent.id;
-                    e.name = state.adi;
-                    e.key = "F_" + countryId + "_" + stateId + "_" + state.id;
-                    e.lat = 0;
-                    e.lng = 0;
-                    mEntries.put(e.id, e);
-
-                }
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
-
-    static class State {
-        String Text;
-        int Value;
-    }
-
 
     private static void geocode(Entry e, boolean onlyCache) {
         String name = e.name;

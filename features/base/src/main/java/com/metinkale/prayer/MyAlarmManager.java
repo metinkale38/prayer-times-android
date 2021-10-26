@@ -40,16 +40,9 @@ public class MyAlarmManager {
     }
     
     public static MyAlarmManager with(Context c) {
-        if (useHelper(c)) {
-            return new MyAlarmManagerHelper(c);
-        }
         return new MyAlarmManager(c);
     }
-    
-    public static boolean useHelper(Context c) {
-        return Utils.isPackageInstalled(c, MyAlarmManagerHelper.HELPER_PKG) && !Preferences.USE_ALARM.get();
-    }
-    
+
     
     public void set(int type, long time, PendingIntent service) {
         alarmManager.set(type, time, service);

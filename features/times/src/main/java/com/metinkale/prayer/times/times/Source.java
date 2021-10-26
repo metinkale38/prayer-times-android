@@ -45,17 +45,17 @@ public enum Source {
     IGMG("IGMG.org", R.drawable.ic_igmg, R.raw.igmg, IGMGTimes.class),
     Semerkand("SemerkandTakvimi.com", R.drawable.ic_semerkand, R.raw.semerkand, SemerkandTimes.class),
     NVC("NamazVakti.com", R.drawable.ic_namazvakticom, R.raw.nvc, NVCTimes.class),
-    Morocco("habous.gov.ma", R.drawable.ic_morocco, R.raw.morocco, MoroccoTimes.class, "ma"),
-    Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, R.raw.malaysia, MalaysiaTimes.class, "my"),
-    Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, R.raw.indonesia, IndonesiaTimes.class, "id"),
+    @Deprecated Morocco("habous.gov.ma", R.drawable.ic_morocco, 0, MoroccoTimes.class, "ma"),
+    @Deprecated Malaysia("e-solat.gov.my", R.drawable.ic_malaysia, 0, MalaysiaTimes.class, "my"),
+    @Deprecated Indonesia("Kemenag.go.id", R.drawable.ic_indonesia, 0, IndonesiaTimes.class, "id"),
     London("Londonprayertimes.com", 0, R.raw.london, LondonTimes.class, "gb"), CSV("CSV", 0, 0, CSVTimes.class);
-    
+
     public final Class<? extends Times> clz;
     public final int drawableId;
     public final String name;
     public final int citiesId;
     public final String[] prioCountries;
-    
+
     Source(String name, @DrawableRes int drawableId, @RawRes int citiesId, Class<? extends Times> clz, String... prio) {
         this.name = name;
         this.drawableId = drawableId;
@@ -63,7 +63,7 @@ public enum Source {
         this.citiesId = citiesId;
         this.prioCountries = prio;
     }
-    
+
     Source(int resTxt, int resIcon, Class<? extends Times> clz, String... prio) {
         Locale.setDefault(LocaleUtils.getLocale());
         this.name = App.get().getString(resTxt);

@@ -39,7 +39,6 @@ public class HTTP {
             HttpURLConnection hc = (HttpURLConnection) url.openConnection();
             hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
             hc.connect();
-            int responseCode = hc.getResponseCode();
             BufferedReader in = new BufferedReader(new InputStreamReader(hc.getInputStream()));
             String line;
             StringBuilder data = new StringBuilder();
@@ -81,42 +80,6 @@ public class HTTP {
         } catch (GeneralSecurityException ignored) {
         }
    
-    }
-
-
-    public static String post(String Url, String post) {
-        try {
-
-            URL url = new URL(Url);
-            HttpURLConnection hc = (HttpURLConnection) url.openConnection();
-            hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-            hc.setRequestProperty("Referer", "http://sihat.kemenag.go.id/waktu-sholat#");
-            hc.setRequestMethod("POST");
-            hc.setDoInput(true);
-            hc.setDoOutput(true);
-
-            OutputStream os = hc.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
-            writer.write(post);
-            writer.flush();
-            writer.close();
-            os.close();
-
-            hc.connect();
-            int responseCode = hc.getResponseCode();
-            BufferedReader in = new BufferedReader(new InputStreamReader(hc.getInputStream()));
-            String line;
-            String data = "";
-            while ((line = in.readLine()) != null) {
-                data += line + "\n";
-            }
-            in.close();
-
-            return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 

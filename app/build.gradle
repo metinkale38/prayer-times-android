@@ -108,8 +108,6 @@ dependencies {
 
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()
