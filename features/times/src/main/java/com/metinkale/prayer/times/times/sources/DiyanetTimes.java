@@ -51,7 +51,7 @@ public class DiyanetTimes extends WebTimes {
         String id = getId();
         id = id.substring(id.lastIndexOf("_") + 1); // backwarts compability
 
-        String result = Ion.with(App.get()).load("http://namazvakti.diyanet.gov.tr/wsNamazVakti.svc").userAgent(App.getUserAgent())
+        String result = Ion.with(App.get()).load("https://namazvakti.diyanet.gov.tr/wsNamazVakti.svc").userAgent(App.getUserAgent())
                 .setHeader("Content-Type", "text/xml; charset=utf-8").setHeader("SOAPAction", "http://tempuri.org/IwsNamazVakti/AylikNamazVakti")
                 .setStringBody(
                         "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:d=\"http://www.w3.org/2001/XMLSchema\" xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +

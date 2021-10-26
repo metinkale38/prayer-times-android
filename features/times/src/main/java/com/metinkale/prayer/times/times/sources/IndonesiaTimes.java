@@ -30,7 +30,10 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Created by metin on 12.02.2017.
+ * <p>
+ * Does not work anymore
  */
+@Deprecated
 public class IndonesiaTimes extends WebTimes {
     @SuppressWarnings({"unused", "WeakerAccess"})
     public IndonesiaTimes() {
@@ -49,28 +52,8 @@ public class IndonesiaTimes extends WebTimes {
     }
 
 
-    protected boolean sync() throws ExecutionException, InterruptedException {
-
-        Response<String> resp = Ion.with(App.get()).load("http://sihat.kemenag.go.id").asString().withResponse().get();
-        List<String> cookies = resp.getHeaders().getHeaders().getAll("Set-Cookie");
-        String phpsessid = null;
-        for (String cookie : cookies) {
-            if (cookie.contains("PHPSESSID"))
-                phpsessid = cookie;
-        }
-
-        resp = Ion.with(App.get()).load("https://bimasislam.kemenag.go.id/jadwalshalat").setHeader("Cookie", "PHPSESSID:" + phpsessid + ";").asString().withResponse().get();
-
-        String[] lines = resp.getResult().split("\n");
-        for (String line : lines) {
-            if (line.contains("option")) {
-                Log.e("line", line);
-                break;
-            }
-        }
-
-
-        return false;
+    protected boolean sync() throws InterruptedException {
+        return true;
     }
 
 
