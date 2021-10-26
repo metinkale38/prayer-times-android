@@ -51,7 +51,13 @@ public class MyPlayer {
     public static MyPlayer from(Alarm alarm) {
         if (alarm.getSounds() == null || alarm.getSounds().isEmpty()) return null;
         MyPlayer myPlayer = new MyPlayer();
-        myPlayer.sound = alarm.getSounds();
+        if (alarm.isRandomSound())
+        {
+            myPlayer.sound = alarm.getRandomSound();
+        } else
+        {
+            myPlayer.sound = alarm.getSounds();
+        }
         myPlayer.volume(alarm.getVolume());
         return myPlayer;
     }
@@ -93,6 +99,7 @@ public class MyPlayer {
 
     public MyPlayer play() {
         if (sound.size() == 0) return this;
+
         mediaPlayers = new MediaPlayer[sound.size()];
         for (int i = 0; i < sound.size(); i++) {
             Sound s = sound.get(i);

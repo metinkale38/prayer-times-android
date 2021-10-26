@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Alarm implements Comparable<Alarm> {
     public static final Set<Vakit> ALL_TIMES =
@@ -68,6 +69,7 @@ public class Alarm implements Comparable<Alarm> {
     private ArraySet<Vakit> times = new ArraySet<>(ALL_TIMES);
     private int mins;
     private boolean vibrate;
+    private boolean randomsound;
     private boolean removeNotification;
     private int silenter;
     private int volume = getLegacyVolumeMode(App.get());
@@ -292,6 +294,9 @@ public class Alarm implements Comparable<Alarm> {
     public List<Sound> getSounds() {
         return sounds;
     }
+    public List<Sound> getRandomSound() {
+        return Collections.singletonList(sounds.get(ThreadLocalRandom.current().nextInt(sounds.size())));
+    }
 
     public void setSounds(List<Sound> sounds) {
         this.sounds = new ArrayList<>(sounds);
@@ -319,6 +324,14 @@ public class Alarm implements Comparable<Alarm> {
 
     public void setVibrate(boolean vibrate) {
         this.vibrate = vibrate;
+    }
+
+    public boolean isRandomSound() {
+        return randomsound;
+    }
+
+    public void setRandomSound(boolean randomsound) {
+        this.randomsound = randomsound;
     }
 
     public boolean isRemoveNotification() {
