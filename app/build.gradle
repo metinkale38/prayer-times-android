@@ -38,7 +38,7 @@ android {
         minSdkVersion 21
         multiDexEnabled true
         versionName '3.7.6'
-        versionCode 218
+        versionCode 219
     }
 
     buildTypes {
