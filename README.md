@@ -22,9 +22,6 @@ Features
     -   IGMG.org
     -   NamazVakti.com
     -   Semerkandtakvimi.com
-    -   Habous.gov.ma
-    -   e-solat.gov.my
-    -   Kemenag.go.id
     -   Londonprayertimes.com
     -   CSV
     -   Calculated (offline) Methods
@@ -57,9 +54,6 @@ Namaz Vakti Uygulamasının içerikleri:
     -   IGMG.org
     -   NamazVakti.com
     -   Semerkandtakvimi.com
-    -   Habous.gov.ma
-    -   e-solat.gov.my
-    -   Kemenag.go.id
     -   Londonprayertimes.com
     -   CSV
     -   Calculated (offline) Methods
@@ -91,9 +85,6 @@ Namaz Vakti Uygulamasının içerikleri:
     -   IGMG.org
     -   NamazVakti.com
     -   Semerkandtakvimi.com
-    -   Habous.gov.ma
-    -   e-solat.gov.my
-    -   Kemenag.go.id
     -   Londonprayertimes.com
     -   CSV
     -   Calculated (offline) Methods
@@ -126,9 +117,6 @@ Die Inhalte der Gebetszeit-Anwendungen:
     -   IGMG.org
     -   NamazVakti.com
     -   Semerkandtakvimi.com
-    -   Habous.gov.ma
-    -   e-solat.gov.my
-    -   Kemenag.go.id
     -   Londonprayertimes.com
     -   CSV
     -   Calculated (offline) Methods
