@@ -16,4 +16,3 @@
 
 include ':app'
 include ':features:praytimes', ':features:base', ':features:compass', ':features:times', ':features:widget', ':features:intro', ':features:tesbihat', ':features:about', ':features:calendar', ':features:dhikr', ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings'
-include ':tools:citiesfetcher'
