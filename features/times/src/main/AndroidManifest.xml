@@ -22,7 +22,8 @@
         <activity
             android:name="MainActivity"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/appName">
+            android:label="@string/appName"
+            android:exported="true">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -70,7 +71,8 @@
 
         <receiver android:name=".alarm.SilenterReceiver" />
 
-        <receiver android:name=".LocationReceiver">
+        <receiver android:name=".LocationReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -78,7 +80,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".MiBandToolsReceiver">
+        <receiver android:name=".MiBandToolsReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.metinkale.prayer.MIBANDACTION" />
             </intent-filter>

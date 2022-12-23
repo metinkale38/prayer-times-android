@@ -24,7 +24,8 @@
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -32,7 +33,8 @@
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -40,7 +42,8 @@
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -49,7 +52,8 @@
 
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-            android:label="@string/widgetLabel">
+            android:label="@string/widgetLabel"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -60,7 +64,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-            android:label="@string/widgetClock">
+            android:label="@string/widgetClock"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -71,7 +76,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
-            android:label="@string/widgetClock2">
+            android:label="@string/widgetClock2"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -82,7 +88,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-            android:label="@string/widgetLong">
+            android:label="@string/widgetLong"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -104,7 +111,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
-            android:label="@string/widgetSilenter">
+            android:label="@string/widgetSilenter"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

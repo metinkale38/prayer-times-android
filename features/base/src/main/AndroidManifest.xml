@@ -86,7 +86,8 @@
             android:exported="true" />
 
 
-        <receiver android:name="com.metinkale.prayer.receiver.TimeTickReceiver">
+        <receiver android:name="com.metinkale.prayer.receiver.TimeTickReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />

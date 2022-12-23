@@ -22,7 +22,8 @@
         <activity
             android:name=".MainActivity"
             android:icon="@mipmap/ic_calendar"
-            android:label="@string/calendar">
+            android:label="@string/calendar"
+            android:exported="true">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 

@@ -24,7 +24,8 @@
         <activity
             android:name=".MainActivity"
             android:icon="@mipmap/ic_names"
-            android:label="@string/names">
+            android:label="@string/names"
+            android:exported="true">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 

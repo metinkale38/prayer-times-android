@@ -24,12 +24,12 @@ android {
         }
     }
 
-    compileSdkVersion 30
+    compileSdkVersion 33
 
 
     defaultConfig {
-        targetSdkVersion 30
-        minSdkVersion 21
+        targetSdkVersion 33
+        minSdkVersion 23
         versionCode 1
         versionName "1.0"
         resValue 'string', 'IGMGApiKey', IGMGApiKey
@@ -52,10 +52,7 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    
 }
 
 dependencies {

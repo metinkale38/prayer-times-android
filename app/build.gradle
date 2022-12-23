@@ -30,12 +30,12 @@ android {
         exclude '.readme'
     }
 
-    compileSdkVersion 30
+    compileSdkVersion 33
 
 
     defaultConfig {
         applicationId "com.metinkale.prayer"
-        minSdkVersion 21
+        minSdkVersion 23
         multiDexEnabled true
         versionName '3.7.6'
         versionCode 219
@@ -53,12 +53,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    dexOptions {
-        javaMaxHeapSize "2g"
-        preDexLibraries true
-    }
-
 
     flavorDimensions "store"
     productFlavors {
