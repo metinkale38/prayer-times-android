@@ -56,7 +56,7 @@ public class LiveDataAwareSet<T> extends LiveData<Set<T>> implements Set<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            Iterator<T> it = set.iterator();
+            final Iterator<T> it = set.iterator();
 
             @Override
             public boolean hasNext() {

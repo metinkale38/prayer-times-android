@@ -19,7 +19,7 @@ import com.metinkale.prayer.utils.PermissionUtils;
 
 public class SilenterReceiver extends BroadcastReceiver {
     public static void silent(Context c, int mins) {
-        if (!PermissionUtils.get(c).pNotPolicy && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (!PermissionUtils.get(c).pNotPolicy) {
 
             androidx.core.app.NotificationCompat.Builder builder;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

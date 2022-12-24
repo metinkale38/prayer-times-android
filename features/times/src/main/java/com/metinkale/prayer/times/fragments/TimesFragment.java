@@ -42,6 +42,7 @@ import com.metinkale.prayer.Module;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
+import com.metinkale.prayer.times.times.TimesBase;
 import com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer;
 import com.metinkale.prayer.times.utils.RTLViewPager;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -49,6 +50,7 @@ import com.metinkale.prayer.utils.UUID;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TimesFragment extends BaseActivity.MainFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
@@ -279,7 +281,7 @@ public class TimesFragment extends BaseActivity.MainFragment implements ViewPage
         @Override
         public void onChanged(@NonNull List<Times> times) {
             mTimes = new ArrayList<>(times);
-            Collections.sort(mTimes, (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
+            Collections.sort(mTimes, Comparator.comparingInt(TimesBase::getSortId));
             notifyDataSetChanged();
         }
 

@@ -200,7 +200,7 @@ public class LiveDataAwareList<T> extends LiveData<List<T>> implements List<T> {
     @Override
     public ListIterator<T> listIterator(final int index) {
         return new ListIterator<T>() {
-            ListIterator<T> it = list.listIterator(index);
+            final ListIterator<T> it = list.listIterator(index);
 
             @Override
             public boolean hasNext() {

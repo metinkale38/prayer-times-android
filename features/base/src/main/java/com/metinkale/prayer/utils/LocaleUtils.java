@@ -34,7 +34,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.Size;
 import androidx.core.os.LocaleListCompat;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -59,15 +59,15 @@ import java.util.Locale;
 
 public class LocaleUtils {
 
-    private static int[] GMONTHS =
+    private static final int[] GMONTHS =
             new int[]{R.string.gmonth1, R.string.gmonth2, R.string.gmonth3, R.string.gmonth4, R.string.gmonth5, R.string.gmonth6, R.string.gmonth7,
                     R.string.gmonth8, R.string.gmonth9, R.string.gmonth10, R.string.gmonth11, R.string.gmonth12};
 
-    private static int[] HMONTHS =
+    private static final int[] HMONTHS =
             new int[]{R.string.hmonth1, R.string.hmonth2, R.string.hmonth3, R.string.hmonth4, R.string.hmonth5, R.string.hmonth6, R.string.hmonth7,
                     R.string.hmonth8, R.string.hmonth9, R.string.hmonth10, R.string.hmonth11, R.string.hmonth12};
 
-    private static int[] HOLYDAYS =
+    private static final int[] HOLYDAYS =
             new int[]{R.string.holyday1, R.string.holyday2, R.string.holyday3, R.string.holyday4, R.string.holyday5, R.string.holyday6,
                     R.string.holyday7, R.string.holyday8, R.string.holyday9, R.string.holyday10, R.string.holyday11, R.string.holyday12,
                     R.string.holyday13, R.string.holyday14, R.string.holyday15, R.string.holyday16, R.string.holyday17, R.string.holyday18};
@@ -93,8 +93,8 @@ public class LocaleUtils {
 
 
     private static void initLocale(Context c) {
-        FirebaseCrashlytics.getInstance().setCustomKey("lang", Preferences.LANGUAGE.get());
-        FirebaseCrashlytics.getInstance().setCustomKey("digits", Preferences.DIGITS.get());
+        CrashReporter.setCustomKey("lang", Preferences.LANGUAGE.get());
+        CrashReporter.setCustomKey("digits", Preferences.DIGITS.get());
         Configuration config = new Configuration();
 
 
@@ -151,7 +151,7 @@ public class LocaleUtils {
                     time = az(hour - 12) + suffix + " PM";
                 }
             } catch (Exception e) {
-                FirebaseCrashlytics.getInstance().recordException(e);
+                CrashReporter.recordException(e);
                 return time;
             }
         }
@@ -251,7 +251,7 @@ public class LocaleUtils {
                 format = format.replace("MMM", getHijriMonth(date.getMonth() - 1));
 
             } catch (ArrayIndexOutOfBoundsException ex) {
-                FirebaseCrashlytics.getInstance().recordException(ex);
+                CrashReporter.recordException(ex);
 
                 return "";
             }
@@ -273,7 +273,7 @@ public class LocaleUtils {
 
 
         } catch (ArrayIndexOutOfBoundsException ex) {
-            FirebaseCrashlytics.getInstance().recordException(ex);
+            CrashReporter.recordException(ex);
 
             return "";
         }

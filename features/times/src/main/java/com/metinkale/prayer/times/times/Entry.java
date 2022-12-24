@@ -189,6 +189,7 @@ public class Entry implements Cloneable, Serializable {
         return builder.toString();
     }
 
+    @NonNull
     @Override
     protected Object clone() {
         Entry e = new Entry();

@@ -76,9 +76,9 @@ public class ImsakiyeFragment extends Fragment {
     public class ImsakiyeAdapter extends BaseAdapter {
         private Times times;
         private int daysInMonth;
-        private LocalDate date;
-        private int today;
-        private LayoutInflater inflater;
+        private final LocalDate date;
+        private final int today;
+        private final LayoutInflater inflater;
 
         public ImsakiyeAdapter(Context context) {
             LocalDate now = LocalDate.now();

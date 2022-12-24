@@ -36,15 +36,14 @@
         android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/left"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@null"
-            app:materialIcon="arrow_left"
-            app:materialIconColor="#ffffff"
-            app:materialIconSize="24dp" />
+            android:src="@drawable/ic_chevron_left"
+            app:tint="#ffffff"/>
 
 
         <TextView
@@ -56,15 +55,14 @@
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@null"
-            app:materialIcon="arrow_right"
-            app:materialIconColor="#ffffff"
-            app:materialIconSize="24dp" />
+            android:src="@drawable/ic_chevron_right"
+            app:tint="#ffffff" />
     </LinearLayout>
 
 </RelativeLayout>

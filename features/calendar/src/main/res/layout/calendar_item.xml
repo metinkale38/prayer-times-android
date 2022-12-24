@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toStartOf="@+id/next"
         app:layout_constraintTop_toTopOf="@+id/date" />
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,9 +57,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/hicri"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/name"
-        app:materialIcon="chevron_right"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:drawable="@drawable/ic_chevron_right"
+        app:tint="@color/foregroundSecondary" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

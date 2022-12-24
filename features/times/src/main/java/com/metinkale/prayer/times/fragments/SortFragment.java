@@ -44,8 +44,6 @@ import com.metinkale.prayer.times.fragments.calctime.CalcTimeConfDialogFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.CalcTimes;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,9 +77,9 @@ public class SortFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater).inflate(R.menu.sort_fragment, menu);
+        inflater.inflate(R.menu.sort_fragment, menu);
     }
 
     @Override
@@ -89,9 +87,7 @@ public class SortFragment extends Fragment {
         int i = item.getItemId();
         if (i == R.id.delete) {
             mDeleteMode = !mDeleteMode;
-            item.setIcon(MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(mDeleteMode ? MaterialDrawableBuilder.IconValue.DELETE_EMPTY : MaterialDrawableBuilder.IconValue.DELETE)
-                    .setToActionbarSize().build());
+            item.setIcon(R.drawable.ic_action_delete);
             mAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
@@ -106,7 +102,7 @@ public class SortFragment extends Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         act = (TimesFragment) getParentFragment();
@@ -169,7 +165,7 @@ public class SortFragment extends Fragment {
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> implements Observer<List<Times>> {
 
         @NonNull
-        private ArrayList<Times> times = new ArrayList<>();
+        private final ArrayList<Times> times = new ArrayList<>();
 
         public MyAdapter() {
         }

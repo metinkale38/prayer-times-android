@@ -261,7 +261,7 @@
             app:layout_constraintTop_toBottomOf="@id/maghrib" />
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/fajrEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -272,11 +272,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/sunEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -287,11 +287,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/sun"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/dhuhrEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -302,11 +302,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/dhuhr"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/asrEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -317,11 +317,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/asr"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/maghribEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -332,11 +332,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/maghrib"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/ishaaEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -347,9 +347,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rightBarrier"
             app:layout_constraintTop_toTopOf="@+id/ishaa"
-            app:materialIcon="pencil"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="16dp" />
+            android:src="@drawable/ic_edit"
+            app:tint="@color/foregroundSecondary"
+             />
 
         <Button
             android:id="@+id/save"

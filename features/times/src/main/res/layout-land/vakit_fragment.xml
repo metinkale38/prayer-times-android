@@ -59,21 +59,21 @@
         tools:text="DATE" />
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/gps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:contentDescription="@null"
+        android:src="@drawable/ic_gps"
         app:layout_constraintBottom_toBottomOf="@+id/city"
         app:layout_constraintEnd_toStartOf="@+id/city"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/city"
-        app:materialIcon="crosshairs_gps"
-        app:materialIconColor="@color/foregroundSecondary" />
+        app:tint="@color/foregroundSecondary" />
 
     <com.metinkale.prayer.times.utils.AutoResizeTextView
         android:id="@+id/city"

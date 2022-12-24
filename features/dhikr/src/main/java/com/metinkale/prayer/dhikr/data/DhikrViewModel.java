@@ -26,7 +26,7 @@ import java.util.List;
 
 public class DhikrViewModel extends AndroidViewModel {
     private final LiveData<List<Dhikr>> dhikrs;
-    private DhikrDatabase appDatabase;
+    private final DhikrDatabase appDatabase;
 
     public DhikrViewModel(Application application) {
         super(application);
@@ -55,7 +55,7 @@ public class DhikrViewModel extends AndroidViewModel {
 
     private static class DeleteAsyncTask extends AsyncTask<Dhikr, Void, Void> {
 
-        private DhikrDatabase db;
+        private final DhikrDatabase db;
 
         DeleteAsyncTask(DhikrDatabase appDatabase) {
             db = appDatabase;
@@ -72,7 +72,7 @@ public class DhikrViewModel extends AndroidViewModel {
 
     private static class AddAsyncTask extends AsyncTask<Dhikr, Void, Void> {
 
-        private DhikrDatabase db;
+        private final DhikrDatabase db;
 
         AddAsyncTask(DhikrDatabase appDatabase) {
             db = appDatabase;
@@ -88,7 +88,7 @@ public class DhikrViewModel extends AndroidViewModel {
 
     private static class SaveAsyncTask extends AsyncTask<Dhikr, Void, Void> {
 
-        private DhikrDatabase db;
+        private final DhikrDatabase db;
 
         SaveAsyncTask(DhikrDatabase appDatabase) {
             db = appDatabase;

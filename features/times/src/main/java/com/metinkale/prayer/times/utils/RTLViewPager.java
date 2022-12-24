@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.text.TextUtilsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,7 +55,7 @@ public class RTLViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
+    public boolean onInterceptTouchEvent(@Nullable MotionEvent event) {
         return !swipeLocked && super.onInterceptTouchEvent(event);
     }
 
@@ -109,10 +110,10 @@ public class RTLViewPager extends ViewPager {
 
 
     private static class RTLAdapterWrapper extends FragmentPagerAdapter {
-        private FragmentPagerAdapter adapter;
+        private final FragmentPagerAdapter adapter;
 
         @NonNull
-        private DataSetObserver observer = new DataSetObserver() {
+        private final DataSetObserver observer = new DataSetObserver() {
             @Override
             public void onChanged() {
                 notifyDataSetChanged();
@@ -155,6 +156,7 @@ public class RTLViewPager extends ViewPager {
         }
 
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return adapter.getItem(getCount() - 1 - position);
@@ -164,7 +166,7 @@ public class RTLViewPager extends ViewPager {
     }
 
     private class RTLOnPageChangeListener implements OnPageChangeListener {
-        private OnPageChangeListener list;
+        private final OnPageChangeListener list;
 
         RTLOnPageChangeListener(OnPageChangeListener listener) {
             list = listener;

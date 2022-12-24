@@ -85,7 +85,7 @@ public class CustomTimeAdjustDialogFragment extends DialogFragment implements Co
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         Bundle bdl = getArguments();
         mAngle = bdl.getDouble("angle");

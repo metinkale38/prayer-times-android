@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.MyAlarmManager;
 import com.metinkale.prayer.Preferences;
@@ -51,7 +51,7 @@ public class AlarmService extends IntentService {
     private static final String NOTIFICATION_TAG = "alarm";
     private static final String EXTRA_ALARMID = "alarmId";
     private static final String EXTRA_TIME = "time";
-    private static AtomicBoolean sInterrupt = new AtomicBoolean(false);
+    private static final AtomicBoolean sInterrupt = new AtomicBoolean(false);
 
     private static Pair<Alarm, LocalDateTime> sLastSchedule;
 
@@ -79,7 +79,7 @@ public class AlarmService extends IntentService {
             }
 
             long time = alarm.second.toDateTime().getMillis();
-            if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second.toString());
+            if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second);
             i.putExtra(EXTRA_ALARMID, alarm.first.getId());
             i.putExtra(EXTRA_TIME, time);
             PendingIntent service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -104,7 +104,7 @@ public class AlarmService extends IntentService {
         try {
             fireAlarm(intent);
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
 
         Times.setAlarms();
@@ -176,7 +176,7 @@ public class AlarmService extends IntentService {
                     player.stop();
                 }
             } catch (Exception e) {
-                FirebaseCrashlytics.getInstance().recordException(e);
+                CrashReporter.recordException(e);
             }
 
             nm.cancel(NOTIFICATION_TAG, notId);

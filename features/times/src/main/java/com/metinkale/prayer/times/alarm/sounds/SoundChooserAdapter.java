@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
@@ -41,8 +42,6 @@ import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,8 +58,8 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     private final LinearLayoutManager mLayoutManager;
     private final Alarm mAlarm;
     private final boolean mSortSounds;
-    private List<Sound> mSounds = new ArrayList<>();
-    private List<Sound> mRootSounds;
+    private final List<Sound> mSounds = new ArrayList<>();
+    private final List<Sound> mRootSounds;
     private BundledSound mExpanded;
     private Sound mSelected;
     private int volume = -1;
@@ -238,7 +237,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     private void checkAction(Sound item, ItemVH vh) {
         boolean dled = item.isDownloaded();
         vh.getRadio().setEnabled(dled);
-        vh.getAction().setIcon(dled ? MaterialDrawableBuilder.IconValue.PLAY : MaterialDrawableBuilder.IconValue.DOWNLOAD);
+        vh.getAction().setImageResource(dled ?R.drawable.ic_play : R.drawable.ic_download);
     }
 
 
@@ -273,7 +272,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
                             if (e != null || result == null || !result.exists()) {
                                 if (e != null) {
                                     e.printStackTrace();
-                                    FirebaseCrashlytics.getInstance().recordException(e);
+                                    CrashReporter.recordException(e);
                                 }
                                 dlg.cancel();
                                 Toast.makeText(App.get(), R.string.error, Toast.LENGTH_LONG).show();
@@ -315,7 +314,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     private void playPause(final View v, final ItemVH vh, final Sound item) {
         if (vh.getPlayer() == null) {
             resetAudios();
-            vh.getAction().setIcon(MaterialDrawableBuilder.IconValue.PAUSE);
+            vh.getAction().setImageResource(R.drawable.ic_pause);
             vh.getText().setVisibility(View.INVISIBLE);
             vh.getSeekbar().setVisibility(View.VISIBLE);
 
@@ -365,13 +364,13 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
     }
 
     public static class ItemVH extends RecyclerView.ViewHolder {
-        private View view;
-        private MaterialIconView action;
-        private MaterialIconView expand;
-        private SeekBar seekbar;
-        private RadioButton radio;
-        private RadioButton staticRadio;
-        private TextView text;
+        private final View view;
+        private final ImageView action;
+        private final ImageView expand;
+        private final SeekBar seekbar;
+        private final RadioButton radio;
+        private final RadioButton staticRadio;
+        private final TextView text;
         private MyPlayer player;
 
         ItemVH(ViewGroup parent) {
@@ -389,7 +388,7 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
 
         void resetAudio() {
             if (getSeekbar().getVisibility() == View.VISIBLE) {
-                getAction().setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                getAction().setImageResource(R.drawable.ic_play);
             }
             getSeekbar().setVisibility(View.GONE);
             getText().setVisibility(View.VISIBLE);
@@ -414,11 +413,11 @@ public class SoundChooserAdapter extends RecyclerView.Adapter<SoundChooserAdapte
             return view;
         }
 
-        public MaterialIconView getAction() {
+        public ImageView getAction() {
             return action;
         }
 
-        public MaterialIconView getExpand() {
+        public ImageView getExpand() {
             return expand;
         }
 

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 android {
     sourceSets {
         main {
-            res.srcDirs += 'src/main/translations'
+            // res.srcDirs += 'src/main/translations'
         }
     }
 
@@ -69,10 +70,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.media:media:1.2.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'net.steamcrafted:materialiconlib:1.1.5'
-    implementation 'com.github.florent37:inline-activity-result:1.0.2'
+    implementation 'com.afollestad.inline-activity-result:core:0.2.0'
 
-}
-repositories {
-    mavenCentral()
 }

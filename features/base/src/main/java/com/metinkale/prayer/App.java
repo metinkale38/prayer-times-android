@@ -30,8 +30,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.receiver.TimeTickReceiver;
@@ -51,20 +50,20 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android";
     private static App sApp;
     @NonNull
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     private Thread.UncaughtExceptionHandler mDefaultUEH;
     @NonNull
-    private Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+    private final Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
-        public void uncaughtException(Thread thread, @NonNull Throwable ex) {
+        public void uncaughtException(@NonNull Thread thread, @NonNull Throwable ex) {
             //AppRatingDialog.setInstalltionTime(0);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ex.getClass().getName().contains("RemoteServiceException")) {
+            if (ex.getClass().getName().contains("RemoteServiceException")) {
                 if (ex.getMessage().contains("Couldn't update icon")) {
                     Preferences.SHOW_ONGOING_NUMBER.set(false);
                     //Toast.makeText(App.get(), "Crash detected. Show ongoing number disabled...", Toast.LENGTH_LONG).show();
-                    FirebaseCrashlytics.getInstance().setCustomKey("WORKAROUND#1", true);
-                    FirebaseCrashlytics.getInstance().recordException(ex);
+                    CrashReporter.setCustomKey("WORKAROUND#1", true);
+                    CrashReporter.recordException(ex);
                     return;
                 }
             }
@@ -106,10 +105,10 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     @Override
     public void onCreate() {
         super.onCreate();
-        FirebaseApp.initializeApp(this);
-        FirebaseCrashlytics.getInstance().setUserId(Preferences.UUID.get());
+        CrashReporter.initializeApp(this);
+        CrashReporter.setUserId(Preferences.UUID.get());
         if (BuildConfig.DEBUG)
-            FirebaseCrashlytics.getInstance().setCustomKey("isDebug", true);
+            CrashReporter.setCustomKey("isDebug", true);
 
 
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();

@@ -38,7 +38,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <us.feras.mdv.MarkdownView
+        <WebView
             android:id="@+id/markdownview"
             android:padding="5dp"
             android:layout_width="match_parent"

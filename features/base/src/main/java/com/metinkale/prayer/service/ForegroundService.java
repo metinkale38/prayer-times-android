@@ -48,7 +48,7 @@ public class ForegroundService extends Service {
     private static final String EXTRA_NEEDY = "needy";
     private static final String EXTRA_NOTIFICATION = "notification";
     private static final String EXTRA_NOTIFICATION_ID = "notificationId";
-    private Set<String> mForegroundNeedy = new ArraySet<>();
+    private final Set<String> mForegroundNeedy = new ArraySet<>();
     private Notification mNotification;
     private int mNotificationId;
     private String mNotificationNeedy;

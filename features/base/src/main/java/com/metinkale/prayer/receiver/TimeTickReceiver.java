@@ -31,7 +31,7 @@ import com.metinkale.prayer.MyAlarmManager;
 import org.joda.time.DateTime;
 
 public class TimeTickReceiver extends BroadcastReceiver {
-    private BroadcastReceiver mReceiver = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? new TimeTickReceiverV26() : new TimeTickReceiverLegacy();
+    private final BroadcastReceiver mReceiver = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? new TimeTickReceiverV26() : new TimeTickReceiverLegacy();
     private static int LAST_TIME_TICK; //avoid to often TIME_TICK
 
     @Override
@@ -42,9 +42,9 @@ public class TimeTickReceiver extends BroadcastReceiver {
     private static class TimeTickReceiverV26 extends BroadcastReceiver {
 
         private final Context mCtx;
-        private IntentFilter mScreenOnOffFilter;
-        private IntentFilter mTimeTickFilter;
-        private IntentFilter mTimeChangedFilter;
+        private final IntentFilter mScreenOnOffFilter;
+        private final IntentFilter mTimeTickFilter;
+        private final IntentFilter mTimeChangedFilter;
 
         public TimeTickReceiverV26() {
             mCtx = App.get();

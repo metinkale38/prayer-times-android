@@ -34,7 +34,7 @@ public class DhikrView extends View {
     private Dhikr mDhikr;
 
     @NonNull
-    private RectF mRectF = new RectF();
+    private final RectF mRectF = new RectF();
     private MotionEvent mMotionEvent;
 
     public DhikrView(Context context, AttributeSet attrs, int defStyle) {

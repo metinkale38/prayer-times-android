@@ -34,14 +34,14 @@ import androidx.annotation.NonNull;
 public class MagAccelListener implements SensorEventListener {
     // smoothed accelerometer values
     @NonNull
-    private float[] mAccelVals = {0f, 0f, 9.8f};
+    private final float[] mAccelVals = {0f, 0f, 9.8f};
     // smoothed magnetometer values
     @NonNull
-    private float[] mMagVals = {0.5f, 0f, 0f};
+    private final float[] mMagVals = {0.5f, 0f, 0f};
     @NonNull
-    private float[] mRotationM = new float[16];
+    private final float[] mRotationM = new float[16];
     private boolean mIsReady;
-    private RotationUpdateDelegate mRotationUpdateDelegate;
+    private final RotationUpdateDelegate mRotationUpdateDelegate;
     private int mAccelerometerAccuracy;
     private int mMagneticAccuracy;
     

@@ -60,7 +60,7 @@ public class Alarm implements Comparable<Alarm> {
     public static final int VOLUME_MODE_ALARM = -3;
     public static final int VOLUME_MODE_MEDIA = -4;
 
-    private int id;
+    private final int id;
 
     private boolean enabled = false;
     private ArraySet<Integer> weekdays = new ArraySet<>(ALL_WEEKDAYS);

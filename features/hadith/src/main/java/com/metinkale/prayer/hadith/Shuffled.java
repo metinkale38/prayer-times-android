@@ -26,9 +26,9 @@ import java.util.Random;
 
 class Shuffled {
     @NonNull
-    private static Random random = new Random(5);
+    private static final Random random = new Random(5);
     @NonNull
-    private static List<Integer> list = new ArrayList<>();
+    private static final List<Integer> list = new ArrayList<>();
 
     @NonNull
     public static Collection<Integer> getList() {

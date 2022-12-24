@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 
@@ -36,7 +36,7 @@ class SyncJobCreator implements JobCreator {
                     return ((WebTimes) t).new SyncJob();
             }
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
         return null;
     }

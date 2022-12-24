@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/angleText" />
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/angleDecr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,9 +85,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/angleText"
         app:layout_constraintEnd_toStartOf="@+id/angle"
         app:layout_constraintTop_toTopOf="@+id/angleText"
-        app:materialIcon="chevron_down"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_arrow_down"
+        app:tint="@color/foregroundSecondary" />
 
     <EditText
         android:id="@+id/angle"
@@ -100,7 +99,7 @@
         app:layout_constraintStart_toStartOf="@+id/time"
         app:layout_constraintTop_toTopOf="@+id/angleDecr" />
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/angleIncr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,9 +109,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/angle"
         app:layout_constraintStart_toEndOf="@+id/angleSuffix"
         app:layout_constraintTop_toTopOf="@+id/angle"
-        app:materialIcon="chevron_up"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_arrow_up"
+        app:tint="@color/foregroundSecondary"/>
 
     <TextView
         android:id="@+id/angleSuffix"
@@ -126,7 +124,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/minsDecr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,9 +134,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/timeText"
         app:layout_constraintEnd_toStartOf="@+id/mins"
         app:layout_constraintTop_toTopOf="@+id/timeText"
-        app:materialIcon="chevron_down"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_arrow_down"
+        app:tint="@color/foregroundSecondary"/>
 
     <EditText
         android:id="@+id/mins"
@@ -152,7 +149,7 @@
         app:layout_constraintStart_toStartOf="@+id/time"
         app:layout_constraintTop_toTopOf="@+id/minsDecr" />
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/minsIncr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -162,9 +159,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/mins"
         app:layout_constraintStart_toEndOf="@+id/mins"
         app:layout_constraintTop_toTopOf="@+id/mins"
-        app:materialIcon="chevron_up"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_arrow_up"
+        app:tint="@color/foregroundSecondary"/>
 
     <TextView
         android:id="@+id/minsSuffix"

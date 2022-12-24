@@ -19,24 +19,25 @@
 
     <item
         android:id="@+id/favswitch"
-        app:materialIcon="format_list_bulleted"
         android:title="@string/category"
-        app:showAsAction="always" />
+        android:icon="@drawable/ic_action_category"
+        app:showAsAction="always"
+        />
     <item
         android:id="@+id/fav"
-        app:materialIcon="star_outline"
+        android:icon="@drawable/ic_action_star_outline"
         android:title="@string/favorite"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_item_share"
-        app:materialIcon="share_variant"
         android:title="@string/share"
+        android:icon="@drawable/ic_action_share"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_search"
-        app:materialIcon="magnify"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:icon="@drawable/ic_action_share"
         app:showAsAction="ifRoom|collapseActionView" />
 
 </menu>

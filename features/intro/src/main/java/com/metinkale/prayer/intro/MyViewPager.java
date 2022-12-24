@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -45,7 +46,7 @@ public class MyViewPager extends RTLViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent ev) {
         IntroFragment frag = (IntroFragment) ((FragmentPagerAdapter) getAdapter()).getItem(getCurrentItem());
         if (frag.allowTouch()) return super.onInterceptTouchEvent(ev);
         return true;

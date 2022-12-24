@@ -36,7 +36,6 @@ import com.metinkale.prayer.Module;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 
 /**
@@ -44,7 +43,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
  */
 
 public class MenuIntroFragment extends IntroFragment {
-    private Runnable mOpen = new Runnable() {
+    private final Runnable mOpen = new Runnable() {
         @Override
         public void run() {
             mDrawerLayout.openDrawer(GravityCompat.START);
@@ -52,7 +51,7 @@ public class MenuIntroFragment extends IntroFragment {
         }
     };
     
-    private Runnable mClose = new Runnable() {
+    private final Runnable mClose = new Runnable() {
         @Override
         public void run() {
             mDrawerLayout.closeDrawers();
@@ -69,9 +68,7 @@ public class MenuIntroFragment extends IntroFragment {
         
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
-        toolbar.setNavigationIcon(
-                MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
-                        .setToActionbarSize().build());
+        toolbar.setNavigationIcon(R.drawable.ic_action_menu);
         
         mDrawerLayout = v.findViewById(R.id.drawer);
         mDrawerLayout.setBackgroundResource(R.color.background);

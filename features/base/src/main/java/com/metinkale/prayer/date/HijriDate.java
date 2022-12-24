@@ -19,7 +19,7 @@ package com.metinkale.prayer.date;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -122,7 +123,7 @@ public class HijriDate implements Comparable<HijriDate> {
                 create(hijri, greg);
             }
         } catch (IOException e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         } finally {
             Utils.close(is);
         }
@@ -133,8 +134,8 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
 
-    private Hijri hijri;
-    private Greg greg;
+    private final Hijri hijri;
+    private final Greg greg;
 
     public HijriDate(Hijri hijri, Greg greg) {
         this.hijri = hijri;
@@ -322,7 +323,7 @@ public class HijriDate implements Comparable<HijriDate> {
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 12), EID_AL_ADHA_DAY3));
         dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 13), EID_AL_ADHA_DAY4));
 
-        Collections.sort(dates, (o1, o2) -> o1.first.compareTo(o2.first));
+        Collections.sort(dates, Comparator.comparing(o -> o.first));
         return dates;
     }
 

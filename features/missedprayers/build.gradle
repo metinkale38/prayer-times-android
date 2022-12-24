@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
     sourceSets {
         main {
-            res.srcDirs += 'src/main/translations'
+            // res.srcDirs += 'src/main/translations'
         }
     }
 
@@ -57,6 +59,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -64,7 +69,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation 'androidx.appcompat:appcompat:1.0.2'
-}
-repositories {
-    mavenCentral()
 }

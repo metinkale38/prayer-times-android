@@ -81,16 +81,15 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@+id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="bug"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_bug"
+                    app:tint="@color/foregroundSecondary" />
 
                 <TextView
                     android:id="@+id/title"
@@ -122,16 +121,15 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="email"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_mail"
+                    app:tint="@color/foregroundSecondary"/>
 
                 <TextView
                     android:id="@id/title"
@@ -164,16 +162,15 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="flag"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_translate"
+                    app:tint="@color/foregroundSecondary"/>
 
                 <TextView
                     android:id="@id/title"
@@ -205,16 +202,15 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="star"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_star"
+                    app:tint="@color/foregroundSecondary"/>
 
                 <TextView
                     android:id="@id/title"
@@ -246,16 +242,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="test_tube"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_beta"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"
@@ -288,16 +284,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="github_circle"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_code"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"
@@ -331,16 +327,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="share"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_share"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"
@@ -377,16 +373,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="window_restore"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_intro"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"
@@ -429,16 +425,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="file"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_license"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"
@@ -469,16 +465,16 @@
                 android:focusable="true"
                 android:padding="5dp">
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
+                <ImageView
                     android:id="@id/icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="center"
-                    app:materialIcon="file"
-                    app:materialIconColor="@color/foregroundSecondary"
-                    app:materialIconSize="24dp" />
+                    android:src="@drawable/ic_license"
+                    app:tint="@color/foregroundSecondary"
+                    />
 
                 <TextView
                     android:id="@id/title"

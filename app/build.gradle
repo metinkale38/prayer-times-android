@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.gms.google-services'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
 
 android {
 
@@ -80,7 +81,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
 }
 
@@ -102,7 +105,4 @@ dependencies {
 
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-}
-repositories {
-    mavenCentral()
 }

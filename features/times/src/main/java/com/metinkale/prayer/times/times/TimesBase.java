@@ -54,7 +54,7 @@ public abstract class TimesBase extends TransientLiveData<Times> {
     private boolean autoLocation = false;
 
 
-    private Set<Alarm> alarms = new HashSet<>();
+    private final Set<Alarm> alarms = new HashSet<>();
 
     private final transient Runnable mApplyPrefs = new Runnable() {
         @Override

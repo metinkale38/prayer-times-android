@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -69,7 +69,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         Times.clearTemporaryTimes();
     }
@@ -106,7 +106,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
             Ion.with(App.get()).load("http://api.geonames.org/timezoneJSON?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asJsonObject()
                     .setCallback((e, result) -> {
                         if (e != null)
-                            FirebaseCrashlytics.getInstance().recordException(e);
+                            CrashReporter.recordException(e);
                         if (result != null)
                             try {
                                 TimeZone tz = TimeZone.getTimeZone(result.get("timezoneId").getAsString());
@@ -115,7 +115,7 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                                     mPrayTimes.setTimezone(mTz);
                                 }
                             } catch (Exception ee) {
-                                FirebaseCrashlytics.getInstance().recordException(ee);
+                                CrashReporter.recordException(ee);
                             }
                     });
 
@@ -123,14 +123,14 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
                 Ion.with(App.get()).load("http://api.geonames.org/gtopo30?lat=" + lat + "&lng=" + lng + "&username=metnkale38").asString()
                         .setCallback((e, result) -> {
                             if (e != null)
-                                FirebaseCrashlytics.getInstance().recordException(e);
+                                CrashReporter.recordException(e);
                             try {
                                 double m = Double.parseDouble(result);
                                 if (m < -9000)
                                     m = 0;
                                 mPrayTimes.setCoordinates(lat, lng, m);
                             } catch (Exception ee) {
-                                FirebaseCrashlytics.getInstance().recordException(ee);
+                                CrashReporter.recordException(ee);
                             }
                         });
         }
@@ -143,8 +143,8 @@ public class CalcTimeConfDialogFragment extends DialogFragment implements View.O
 
         mCalcMethod.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.calcmethod_dlgitem, R.id.legacySwitch,
                 getResources().getStringArray(R.array.calculationMethods)) {
-            String[] desc = getResources().getStringArray(R.array.calculationMethodsDesc);
-            String[] names = getResources().getStringArray(R.array.calculationMethodsShort);
+            final String[] desc = getResources().getStringArray(R.array.calculationMethodsDesc);
+            final String[] names = getResources().getStringArray(R.array.calculationMethodsShort);
 
             @Override
             public View getDropDownView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {

@@ -34,7 +34,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
@@ -43,8 +43,6 @@ import com.metinkale.prayer.times.utils.BatteryOptimizationsKt;
 
 public class AlarmsFragment extends Fragment implements Observer<Times> {
     private Times mTimes;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
     private AlarmsAdapter mAdapter;
 
     @NonNull
@@ -59,15 +57,15 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.vakit_notprefs, container, false);
-        mRecyclerView = v.findViewById(R.id.recycler);
+        RecyclerView recyclerView = v.findViewById(R.id.recycler);
 
         mTimes = Times.getTimes(getArguments().getLong("city", 0));
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new AlarmsAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
 
         mTimes.observe(this, this);
         onChanged(mTimes);
@@ -75,12 +73,6 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
         setHasOptionsMenu(true);
 
         return v;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        // MaterialMenuInflater.with(getActivity()).inflate(R.menu.alarms, menu);
     }
 
     @Override
@@ -150,9 +142,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                         dialog.setTitle(R.string.batteryOptimizations);
                         dialog.setMessage(getString(R.string.batteryOptimizationsText));
                         dialog.setCancelable(false);
-                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
-                            BatteryOptimizationsKt.checkBatteryOptimizations(getActivity());
-                        });
+                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> BatteryOptimizationsKt.checkBatteryOptimizations(getActivity()));
                         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
                         });
                         dialog.show();
@@ -174,7 +164,7 @@ public class AlarmsFragment extends Fragment implements Observer<Times> {
                         try {
                             AlarmConfigFragment.create(alarm).show(AlarmsFragment.this);
                         } catch (Exception e) {
-                            FirebaseCrashlytics.getInstance().recordException(e);
+                            CrashReporter.recordException(e);
                         }
                     }
                 }

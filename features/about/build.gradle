@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+
 
 android {
     sourceSets {
         main {
-            res.srcDirs += 'src/main/translations'
+            // res.srcDirs += 'src/main/translations'
         }
     }
     compileSdkVersion 33
@@ -53,6 +58,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 

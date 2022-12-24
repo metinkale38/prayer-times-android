@@ -31,7 +31,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.lang.reflect.Field;
 
@@ -52,11 +51,7 @@ public class PagerIntroFragment extends IntroFragment {
 
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
-        toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.MENU)
-                .setColorResource(R.color.white)
-                .setToActionbarSize()
-                .build());
+        toolbar.setNavigationIcon(R.drawable.ic_action_menu);
 
 
         return mView;
@@ -70,7 +65,7 @@ public class PagerIntroFragment extends IntroFragment {
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();
     }
 
-    private Runnable mAction = new Runnable() {
+    private final Runnable mAction = new Runnable() {
         @Override
         public void run() {
             if (mPager == null) {

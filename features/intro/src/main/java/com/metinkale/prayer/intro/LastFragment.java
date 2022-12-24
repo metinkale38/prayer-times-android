@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.AboutShortcuts;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 /**
  * Created by metin on 25.07.17.
@@ -64,11 +63,11 @@ public class LastFragment extends IntroFragment implements CompoundButton.OnChec
         share.setOnClickListener(this);
         translate.setOnClickListener(this);
 
-        email.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.EMAIL).build(), null, null, null);
-        vote.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.STAR).build(), null, null, null);
-        showIntro.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.WINDOW_RESTORE).build(), null, null, null);
-        share.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.SHARE).build(), null, null, null);
-        translate.setCompoundDrawables(MaterialDrawableBuilder.with(getActivity()).setSizeDp(24).setColorResource(R.color.white).setIcon(MaterialDrawableBuilder.IconValue.FLAG).build(), null, null, null);
+        email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mail, 0, 0, 0);
+        vote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0);
+        showIntro.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_intro, 0, 0, 0);
+        share.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share, 0, 0, 0);
+        translate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_translate, 0, 0, 0);
         return v;
     }
 

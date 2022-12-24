@@ -37,6 +37,7 @@ import org.joda.time.PeriodType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -107,7 +108,7 @@ public abstract class Times extends TimesBase {
     }
 
     public static void sort() {
-        Collections.sort(getTimes(), (o1, o2) -> Integer.compare(o1.getSortId(), o2.getSortId()));
+        Collections.sort(getTimes(), Comparator.comparingInt(TimesBase::getSortId));
     }
 
     @NonNull

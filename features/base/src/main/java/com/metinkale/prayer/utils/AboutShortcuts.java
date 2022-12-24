@@ -27,7 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
@@ -100,7 +100,7 @@ public class AboutShortcuts {
             versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + "";
             versionName = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName + "";
         } catch (PackageManager.NameNotFoundException e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
         emailIntent.putExtra(Intent.EXTRA_TEXT,
                 "===Device Information===" +

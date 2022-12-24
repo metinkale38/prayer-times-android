@@ -39,13 +39,13 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:tint="#ffffff"
+            app:tint="#ffffff"
             android:id="@+id/progressBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <ImageView
-            android:tint="#ff0000"
+            app:tint="#ff0000"
             android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

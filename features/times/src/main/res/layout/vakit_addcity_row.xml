@@ -92,21 +92,20 @@
         tools:text="Source" />
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/gps"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:padding="8dp"
+        android:src="@drawable/ic_gps"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/space"
         app:layout_constraintStart_toStartOf="@+id/space"
         app:layout_constraintTop_toTopOf="parent"
-        app:materialIcon="crosshairs_gps"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="32dp" />
+        app:tint="@color/foregroundSecondary" />
 
     <View
         android:id="@+id/space"

@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" ></style>
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
@@ -30,7 +30,6 @@
         <item name="android:textColor">@color/foreground</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="actionOverflowMenuStyle">@style/ToolbarTheme.Popup</item>
-        <item name="materialIconColor">@color/white</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="android:colorForeground">@color/foreground</item>
         <item name="android:textColorPrimary">@color/foreground</item>

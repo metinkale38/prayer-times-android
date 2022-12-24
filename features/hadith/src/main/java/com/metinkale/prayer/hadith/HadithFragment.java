@@ -48,7 +48,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.metinkale.prayer.App;
@@ -57,13 +57,12 @@ import com.metinkale.prayer.Module;
 import com.metinkale.prayer.hadith.utils.NumberDialog;
 import com.metinkale.prayer.utils.LocaleUtils;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class HadithFragment extends BaseActivity.MainFragment implements OnClickListener, OnQueryTextListener {
@@ -82,7 +81,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     private MenuItem mSwitch;
     private MenuItem mFav;
     @NonNull
-    private Set<Integer> mFavs = new HashSet<>();
+    private final Set<Integer> mFavs = new HashSet<>();
     private List<Integer> mList = new ArrayList<>();
     private int mRemFav = -1;
     private SearchTask mTask;
@@ -112,7 +111,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         try {
             setState(mPrefs.getInt("state", STATE_SHUFFLED));
         } catch (RuntimeException e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
             String lang = LocaleUtils.getLanguage("en", "de", "tr");
             new File(App.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), lang + "/hadis.db").delete();
             Module.TIMES.launch(getActivity());
@@ -202,21 +201,13 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
             int i = (int) mAdapter.getItemId(mPager.getCurrentItem());
             if (mState == STATE_FAVORITE) {
                 if (mRemFav == -1) {
-                    mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
-                            .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
-                            .setColorResource(R.color.white)
-                            .setToActionbarSize()
-                            .build());
+                    mFav.setIcon(R.drawable.ic_action_star_outline);
                     mRemFav = i;
-                    mNumber.setText(String.format("%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount() - 1));
+                    mNumber.setText(String.format(Locale.getDefault(),"%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount() - 1));
                 } else {
-                    mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
-                            .setIcon(MaterialDrawableBuilder.IconValue.STAR)
-                            .setColorResource(R.color.white)
-                            .setToActionbarSize()
-                            .build());
+                    mFav.setIcon(R.drawable.ic_action_star);
                     mRemFav = -1;
-                    mNumber.setText(String.format("%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount()));
+                    mNumber.setText(String.format(Locale.getDefault(),"%d/%d", mPager.getCurrentItem() + 1, mAdapter.getCount()));
 
                 }
             } else {
@@ -252,11 +243,9 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.white)
-                .inflate(R.menu.hadis, menu);
+        inflater.inflate(R.menu.hadis, menu);
 
         mSwitch = menu.findItem(R.id.favswitch);
         mFav = menu.findItem(R.id.fav);
@@ -299,17 +288,9 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
         }
 
         if (mFavs.contains((int) mAdapter.getItemId(mPager.getCurrentItem()))) {
-            mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.STAR)
-                    .setColorResource(R.color.white)
-                    .setToActionbarSize()
-                    .build());
+            mFav.setIcon(R.drawable.ic_action_star);
         } else {
-            mFav.setIcon(MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
-                    .setColorResource(R.color.white)
-                    .setToActionbarSize()
-                    .build());
+            mFav.setIcon(R.drawable.ic_action_star_outline);
         }
 
         if ((mRemFav != -1) && mFavs.contains(mRemFav)) {
@@ -404,7 +385,7 @@ public class HadithFragment extends BaseActivity.MainFragment implements OnClick
     }
 
     private class SearchTask extends AsyncTask<String, String, Boolean> {
-        private ProgressDialog dialog;
+        private final ProgressDialog dialog;
 
         SearchTask(Context c) {
             dialog = new ProgressDialog(c);

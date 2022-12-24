@@ -19,49 +19,45 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundSecondary">
+    android:background="@color/backgroundSecondary"
+    android:orientation="vertical">
 
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@+id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/nr"
@@ -84,45 +80,41 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"
@@ -145,46 +137,42 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@id/minus"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"
@@ -207,46 +195,41 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
+        <ImageView
             android:id="@id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"
@@ -269,45 +252,41 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"
@@ -330,46 +309,41 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"
@@ -392,46 +366,41 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
+        android:background="@color/background"
+        android:gravity="center"
         android:paddingStart="50dp"
         android:paddingEnd="50dp">
 
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:contentDescription="@null"
-
+        <ImageView
             android:id="@id/minus"
             android:layout_width="wrap_content"
-            app:materialIcon="minus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp"
-
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/text"
-            android:layout_centerVertical="true" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@null"
+            android:src="@drawable/ic_remove_circle"
+            app:tint="@color/colorPrimaryDark" />
 
+        <ImageView
             android:id="@id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/minus"
             android:layout_alignBottom="@id/minus"
             android:layout_alignParentRight="true"
-            app:materialIcon="plus_circle"
-            app:materialIconColor="@color/colorPrimaryDark"
-            app:materialIconSize="48dp" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_add_circle"
+            app:tint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@id/nr"

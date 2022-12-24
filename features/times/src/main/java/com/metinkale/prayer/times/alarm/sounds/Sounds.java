@@ -20,7 +20,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.koushikdutta.ion.Ion;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
@@ -99,7 +99,7 @@ public class Sounds {
         Ion.with(App.get()).load(App.API_URL + "/sounds/sounds.json").progressDialog(dlg)
                 .asString(StandardCharsets.UTF_8).setCallback((exp, result) -> {
                     if (exp != null) {
-                        FirebaseCrashlytics.getInstance().recordException(exp);
+                        CrashReporter.recordException(exp);
                     } else {
                         FileOutputStream outputStream = null;
                         try {
@@ -110,7 +110,7 @@ public class Sounds {
 
                             loadSounds();
                         } catch (Exception e) {
-                            //FirebaseCrashlytics.getInstance().recordException(e);
+                            //CrashReporter.recordException(e);
                         } finally {
                             Utils.close(outputStream);
                         }
@@ -135,7 +135,7 @@ public class Sounds {
             }
             json = text.toString();
         } catch (IOException e) {
-            //FirebaseCrashlytics.getInstance().recordException(e);
+            //CrashReporter.recordException(e);
         } finally {
             Utils.close(br);
         }

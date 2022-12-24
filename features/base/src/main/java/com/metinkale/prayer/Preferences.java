@@ -88,7 +88,7 @@ public class Preferences {
         }
     };
     public static Preference<Integer> HIJRI_FIX = new Preference<Integer>("hijri_fix", 0) {
-        private Preference<String> intern = new StringPreference("hijri_fix", "0");
+        private final Preference<String> intern = new StringPreference("hijri_fix", "0");
 
         @Override
         public Integer get() {

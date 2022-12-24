@@ -49,11 +49,11 @@ public class MyAlarmManager {
     }
     
     public void setExact(int type, long time, PendingIntent service) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && Preferences.USE_ALARM.get()) {
+        if (Preferences.USE_ALARM.get()) {
             AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time,
                     PendingIntent.getActivity(context, 0, Module.TIMES.buildIntent(context), PendingIntent.FLAG_UPDATE_CURRENT));
             alarmManager.setAlarmClock(info, service);
-        } else if (type == AlarmManager.RTC_WAKEUP && Build.VERSION.SDK_INT >= 23) {
+        } else if (type == AlarmManager.RTC_WAKEUP) {
             alarmManager.setExactAndAllowWhileIdle(type, time, service);
         } else {
             alarmManager.setExact(type, time, service);

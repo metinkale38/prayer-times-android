@@ -21,13 +21,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.metinkale.prayer.utils.LocaleUtils;
 
-import us.feras.mdv.MarkdownView;
 
 /**
  * Created by metin on 25.07.17.
@@ -50,17 +50,18 @@ public class ChangelogFragment extends IntroFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_changelog, container, false);
         
-        final MarkdownView md = v.findViewById(R.id.markdownview);
+        final WebView md = v.findViewById(R.id.markdownview);
         String lang = LocaleUtils.getLanguage("en", "de", "tr");
         switch (lang) {
             case "en":
-                md.loadMarkdownFile("file:///android_asset/english.md", "file:///android_asset/style.css");
+                // TODO fix Markdown
+               // md.loadMarkdownFile("file:///android_asset/english.md", "file:///android_asset/style.css");
                 break;
             case "de":
-                md.loadMarkdownFile("file:///android_asset/german.md", "file:///android_asset/style.css");
+               // md.loadMarkdownFile("file:///android_asset/german.md", "file:///android_asset/style.css");
                 break;
             case "tr":
-                md.loadMarkdownFile("file:///android_asset/turkish.md", "file:///android_asset/style.css");
+               // md.loadMarkdownFile("file:///android_asset/turkish.md", "file:///android_asset/style.css");
                 break;
         }
         

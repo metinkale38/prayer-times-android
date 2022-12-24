@@ -40,11 +40,11 @@ public class SettingsFragment extends Fragment {
 
     private EditText mName;
     @NonNull
-    private EditText[] mMins = new EditText[6];
+    private final EditText[] mMins = new EditText[6];
     @NonNull
-    private ImageView[] mMinus = new ImageView[6];
+    private final ImageView[] mMinus = new ImageView[6];
     @NonNull
-    private ImageView[] mPlus = new ImageView[6];
+    private final ImageView[] mPlus = new ImageView[6];
     @Nullable
     private Times mTimes;
     private int[] mMinAdj;

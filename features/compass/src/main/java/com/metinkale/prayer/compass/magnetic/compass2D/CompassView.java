@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.metinkale.prayer.compass.R;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -38,23 +39,19 @@ public class CompassView extends View {
     private float mAngle = -80;
     private float mqAngle;
 
-    private int mBGColor;
-    private int mTextColor;
-    private int m2ndTextColor;
-    private int mStrokeColor;
+    private final int mBGColor;
+    private final int mTextColor;
+    private final int m2ndTextColor;
+    private final int mStrokeColor;
 
     public CompassView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mKaabe = getResources().getDrawable(R.drawable.kaabe, null);
-        } else {
-            mKaabe = getResources().getDrawable(R.drawable.kaabe);
-        }
+        mKaabe = ContextCompat.getDrawable(context, R.drawable.kaabe);
 
         mBGColor = Color.WHITE;
         mTextColor = Color.BLACK;
         m2ndTextColor = Color.GRAY;
-        mStrokeColor = getResources().getColor(R.color.colorPrimary);
+        mStrokeColor = context.getColor(R.color.colorPrimary);
 
     }
 

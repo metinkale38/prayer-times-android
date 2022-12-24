@@ -20,7 +20,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground">
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/action"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -29,9 +29,8 @@
         android:focusable="true"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:materialIcon="play"
-        app:materialIconColor="@color/foreground"
-        app:materialIconSize="32dp" />
+        android:src="@drawable/ic_play"
+        app:tint="@color/foreground"/>
 
     <TextView
         android:id="@+id/text"
@@ -64,7 +63,7 @@
         app:layout_constraintTop_toTopOf="@+id/action" />
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/expand"
         android:layout_width="48dp"
         android:layout_height="0dp"
@@ -77,9 +76,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/action"
         app:layout_constraintEnd_toStartOf="@+id/radioButton"
         app:layout_constraintTop_toTopOf="@+id/action"
-        app:materialIcon="chevron_down"
-        app:materialIconColor="@color/foreground"
-        app:materialIconSize="32dp" />
+        android:src="@drawable/ic_arrow_down"
+        app:tint="@color/foreground"/>
 
 
     <RadioButton

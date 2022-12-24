@@ -31,7 +31,7 @@ import java.util.Set;
 
 
 public class BundledSound extends Sound {
-    private String name;
+    private final String name;
 
 
     BundledSound(String name) {

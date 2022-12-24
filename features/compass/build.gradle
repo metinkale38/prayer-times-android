@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
     sourceSets {
         main {
-            res.srcDirs += 'src/main/translations'
+            // res.srcDirs += 'src/main/translations'
         }
     }
     compileSdkVersion 33
@@ -56,6 +58,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -65,13 +70,9 @@ dependencies {
     implementation project(':features:praytimes')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // newer versions require higher min sdk
-    implementation 'net.steamcrafted:materialiconlib:1.1.5'
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
     implementation 'com.google.android.material:material:1.2.1'
     playImplementation 'com.google.android.gms:play-services-maps:17.0.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-location:17.1.0'
-}
-repositories {
-    mavenCentral()
 }

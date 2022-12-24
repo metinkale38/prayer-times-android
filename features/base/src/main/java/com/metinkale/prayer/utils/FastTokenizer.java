@@ -22,7 +22,7 @@ public class FastTokenizer {
     @NonNull
     private final String delim;
     private final int dsize;
-    private String str;
+    private final String str;
     private int start = 0;
 
     public FastTokenizer(String str, @NonNull String delim) {

@@ -41,8 +41,8 @@ public class Adapter extends ArrayAdapter<int[]> {
     @NonNull
     private final Context context;
     private final boolean isHijri;
-    private List<Pair<HijriDate, Integer>> holydays;
-    private boolean hasInfo;
+    private final List<Pair<HijriDate, Integer>> holydays;
+    private final boolean hasInfo;
 
     public Adapter(@NonNull Context context, int year, boolean isHijri) {
         super(context, R.layout.calendar_item);

@@ -46,7 +46,6 @@ import com.metinkale.prayer.compass.magnetic.MagneticCompass;
 import com.metinkale.prayer.compass.time.FragQiblaTime;
 import com.metinkale.prayer.utils.PermissionUtils;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
@@ -152,17 +151,13 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             // compass >> time >> map
             if (mMode == Mode.Map) {
                 updateFrag(Mode.Compass);
-                mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK).setColor(Color.WHITE)
-                        .setToActionbarSize().build());
+                mSwitch.setIcon(R.drawable.ic_action_clock);
             } else if (mMode == Mode.Compass) {
                 updateFrag(Mode.Time);
-                mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.MAP).setColor(Color.WHITE)
-                        .setToActionbarSize().build());
+                mSwitch.setIcon(R.drawable.ic_action_map);
             } else if (mMode == Mode.Time) {
                 updateFrag(Mode.Map);
-                mSwitch.setIcon(
-                        MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.COMPASS_OUTLINE).setColor(Color.WHITE)
-                                .setToActionbarSize().build());
+                mSwitch.setIcon(R.drawable.ic_action_compass);
             } else {
                 Toast.makeText(getActivity(), R.string.permissionNotGranted, Toast.LENGTH_LONG).show();
             }
@@ -172,15 +167,14 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         mRefresh = menu.add(Menu.NONE, Menu.NONE, 1, R.string.refresh);
         mSwitch = menu.add(Menu.NONE, Menu.NONE, 0, R.string.switchCompass);
         MenuItemCompat.setShowAsAction(mRefresh, MenuItemCompat.SHOW_AS_ACTION_NEVER);
         MenuItemCompat.setShowAsAction(mSwitch, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
-        mSwitch.setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK).setColor(Color.WHITE)
-                .setToActionbarSize().build());
+        mSwitch.setIcon(R.drawable.ic_action_clock);
     }
 
     private void updateFrag(Mode mode) {

@@ -20,8 +20,7 @@
     <item
         android:id="@+id/notification"
         android:title="@string/notification"
-        app:materialIcon="alarm"
-        app:materialIconColor="@color/white"
+        android:icon="@drawable/ic_action_notification"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/refresh"

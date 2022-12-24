@@ -33,8 +33,8 @@ import androidx.preference.PreferenceDialogFragmentCompat;
 //from: https://github.com/google/walt/blob/master/android/WALT/app/src/main/java/org/chromium/latency/walt/NumberPickerPreference.java
 public class NumberPickerPreference extends DialogPreference {
     private int currentValue;
-    private int maxValue;
-    private int minValue;
+    private final int maxValue;
+    private final int minValue;
 
     private static final int DEFAULT_value = 0;
     private static final int DEFAULT_maxValue = 0;

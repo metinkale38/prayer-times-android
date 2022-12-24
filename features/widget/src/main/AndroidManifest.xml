@@ -100,7 +100,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
-            android:label="@string/widgetSmall">
+            android:label="@string/widgetSmall"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

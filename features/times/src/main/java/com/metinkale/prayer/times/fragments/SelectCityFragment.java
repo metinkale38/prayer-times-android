@@ -37,9 +37,9 @@ import com.metinkale.prayer.times.times.Entry;
 import com.metinkale.prayer.times.times.Source;
 import com.metinkale.prayer.times.times.sources.WebTimes;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
@@ -48,9 +48,9 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
     private ListView mListView;
     private MyAdapter mAdapter;
     @NonNull
-    private Stack<Long> mBackStack = new Stack<>();
+    private final Stack<Long> mBackStack = new Stack<>();
     @Nullable
-    private Cities mCities = Cities.get();
+    private final Cities mCities = Cities.get();
 
     @Nullable
     @Override
@@ -82,7 +82,7 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
             @Override
             public void onResult(@NonNull List<Entry> result) {
                 if (!result.isEmpty()) {
-                    Collections.sort(result, (e1, e2) -> e1.getName().compareTo(e2.getName()));
+                    Collections.sort(result, Comparator.comparing(Entry::getName));
                     mAdapter.clear();
                     mAdapter.addAll(result);
                     mListView.scrollTo(0, 0);
@@ -133,8 +133,7 @@ public class SelectCityFragment extends BaseActivity.MainFragment implements OnI
             Entry entry = getItem(position);
             TextView tv = convertView.findViewById(android.R.id.text1);
             tv.setText(entry.getName());
-            tv.setCompoundDrawables(null, null, entry.getKey() == null ?
-                    MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CHEVRON_RIGHT).build() : null, null);
+            tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, entry.getKey() == null ? R.drawable.ic_chevron_right : 0, 0);
 
             return convertView;
         }

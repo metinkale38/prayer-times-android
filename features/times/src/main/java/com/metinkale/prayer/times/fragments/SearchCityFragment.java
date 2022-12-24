@@ -59,9 +59,9 @@ import com.metinkale.prayer.times.times.sources.WebTimes;
 import com.metinkale.prayer.utils.FileChooser;
 import com.metinkale.prayer.utils.PermissionUtils;
 
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchCityFragment extends BaseActivity.MainFragment implements OnItemClickListener, OnQueryTextListener, LocationListener, OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -69,7 +69,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     private FloatingActionButton mFab;
     private MenuItem mSearchItem;
     @Nullable
-    private Cities mCities = Cities.get();
+    private final Cities mCities = Cities.get();
     private SwitchCompat mAutoLocation;
     private Location mLocation;
 
@@ -204,11 +204,9 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.white)
-                .inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.search, menu);
         mSearchItem = menu.findItem(R.id.menu_search);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         mSearchView.performClick();
@@ -370,7 +368,7 @@ public class SearchCityFragment extends BaseActivity.MainFragment implements OnI
         @Override
         public void addAll(@NonNull Collection<? extends Entry> collection) {
             super.addAll(collection);
-            sort((e1, e2) -> e1.getSource().ordinal() - e2.getSource().ordinal());
+            sort(Comparator.comparingInt(e -> e.getSource().ordinal()));
         }
 
         @NonNull

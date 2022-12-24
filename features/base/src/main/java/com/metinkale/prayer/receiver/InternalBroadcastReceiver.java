@@ -59,7 +59,7 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
 
 
     @NonNull
-    private Context context;
+    private final Context context;
 
 
     public InternalBroadcastReceiver(@NonNull Context context) {

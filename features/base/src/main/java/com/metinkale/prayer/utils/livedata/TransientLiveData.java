@@ -30,7 +30,7 @@ import androidx.lifecycle.Observer;
  */
 public class TransientLiveData<T> {
 
-    private transient MutableLiveData<T> mLiveData = new MutableLiveData<>();
+    private final transient MutableLiveData<T> mLiveData = new MutableLiveData<>();
 
     protected void postValue(T value) {
         mLiveData.postValue(value);

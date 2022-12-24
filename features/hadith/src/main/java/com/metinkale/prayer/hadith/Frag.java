@@ -57,7 +57,7 @@ public class Frag extends Fragment {
     }
 
     @Override
-    public void setArguments(@NonNull Bundle bdl) {
+    public void setArguments(@Nullable Bundle bdl) {
         super.setArguments(bdl);
         int nr = bdl.getInt(NUMBER);
 

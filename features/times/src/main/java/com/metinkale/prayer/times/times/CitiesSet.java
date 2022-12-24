@@ -60,7 +60,7 @@ class CitiesSet implements Iterable<Entry> {
     private class MyIterator implements Iterator<Entry> {
         private BufferedReader is;
         private Entry entry;
-        private Entry cache = new Entry();
+        private final Entry cache = new Entry();
         private String countryName;
 
         MyIterator() {

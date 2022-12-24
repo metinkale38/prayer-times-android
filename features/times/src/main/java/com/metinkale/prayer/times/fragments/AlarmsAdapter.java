@@ -36,7 +36,7 @@ class AlarmsAdapter extends RecyclerView.Adapter<AlarmsAdapter.MyViewHolder> {
     private static final int TYPE_TITLE = 1;
     private static final int TYPE_BUTTON = 2;
 
-    private List<Object> mItems = new ArrayList<>();
+    private final List<Object> mItems = new ArrayList<>();
 
     public void add(Object o) {
         mItems.add(o);

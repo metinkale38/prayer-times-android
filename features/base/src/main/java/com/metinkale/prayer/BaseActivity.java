@@ -45,13 +45,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class BaseActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, AdapterView.OnItemClickListener {
 
@@ -73,8 +71,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     //private long mStartTime;
     //private Fragment mFragment;
     private Toolbar mToolbar;
-
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     /*@Override
     public void onBackPressed() {
@@ -104,7 +100,6 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         LocaleUtils.init(this);
         //AppRatingDialog.increaseAppStarts();
 
@@ -117,9 +112,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             mToolbar.setBackgroundResource(R.color.colorPrimary);
-            mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
-                            .setToActionbarSize().build());
+            mToolbar.setNavigationIcon(R.drawable.ic_action_menu);
         }
 
 
@@ -191,7 +184,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("navPos", mNavPos);
     }
@@ -226,10 +219,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
                 } else
                     ((TextView) v).setTypeface(null, Typeface.NORMAL);
 
-                Drawable icon = c.getResources().getDrawable(item.getIconRes());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    icon.mutate().setTint(getResources().getColor(R.color.foreground));
-                }
+                Drawable icon = c.getDrawable(item.getIconRes());
+                icon.mutate().setTint(getResources().getColor(R.color.foreground));
                 if (c.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
                 } else {
@@ -279,13 +270,9 @@ public class BaseActivity extends AppCompatActivity implements FragmentManager.O
     public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT).setColorResource(R.color.white)
-                            .setToActionbarSize().build());
+            mToolbar.setNavigationIcon(R.drawable.ic_action_chevron_left);
         } else {
-            mToolbar.setNavigationIcon(
-                    MaterialDrawableBuilder.with(this).setIcon(MaterialDrawableBuilder.IconValue.MENU).setColorResource(R.color.white)
-                            .setToActionbarSize().build());
+            mToolbar.setNavigationIcon(R.drawable.ic_action_menu);
         }
     }
 

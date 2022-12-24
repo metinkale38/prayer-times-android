@@ -279,7 +279,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sundayText" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/sunrise"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -287,13 +287,11 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_sunrise"
             app:layout_constraintEnd_toStartOf="@+id/zuhr"
-
             app:layout_constraintStart_toEndOf="@+id/fajr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="weather_sunset_up"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
         <TextView
             android:id="@+id/zuhrText"
@@ -310,7 +308,7 @@
             app:layout_constraintStart_toEndOf="@+id/sunText"
             app:layout_constraintTop_toTopOf="@+id/fajrText" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/asr"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -318,13 +316,11 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_asr"
             app:layout_constraintEnd_toStartOf="@+id/magrib"
-
             app:layout_constraintStart_toEndOf="@+id/zuhr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="weather_sunny"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
         <TextView
             android:id="@+id/magribText"
@@ -334,10 +330,8 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/maghrib"
-
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/ishaaText"
-
             app:layout_constraintStart_toEndOf="@+id/asrText"
             app:layout_constraintTop_toTopOf="@+id/fajrText" />
 
@@ -349,10 +343,8 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/asr"
-
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/magribText"
-
             app:layout_constraintStart_toEndOf="@+id/zuhrText"
             app:layout_constraintTop_toTopOf="@+id/fajrText" />
 
@@ -367,11 +359,10 @@
             android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toEndOf="@+id/magribText"
             app:layout_constraintTop_toTopOf="@+id/fajrText" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/fajr"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -380,15 +371,13 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_fajr"
             app:layout_constraintEnd_toStartOf="@+id/sunrise"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timesTitle"
-            app:materialIcon="equal"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/magrib"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -396,15 +385,13 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_sunset"
             app:layout_constraintEnd_toStartOf="@+id/isha"
-
             app:layout_constraintStart_toEndOf="@+id/asr"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="weather_sunset_down"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/isha"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -412,13 +399,11 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_isha"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toEndOf="@+id/magrib"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="weather_night"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
         <TextView
             android:id="@+id/sunText"
@@ -431,7 +416,6 @@
             android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/zuhrText"
-
             app:layout_constraintStart_toEndOf="@+id/fajrText"
             app:layout_constraintTop_toTopOf="@+id/fajrText" />
 
@@ -447,23 +431,21 @@
             android:textColor="@color/foreground"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/sunText"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fajr" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/zuhr"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:src="@drawable/ic_dhuhr"
             app:layout_constraintEnd_toStartOf="@+id/asr"
             app:layout_constraintStart_toEndOf="@+id/sunrise"
             app:layout_constraintTop_toTopOf="@+id/fajr"
-            app:materialIcon="white_balance_sunny"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="32dp" />
+            app:tint="@color/foreground" />
 
         <com.metinkale.prayer.times.utils.HorizontalNumberWheel
             android:id="@+id/timeAdjust"
@@ -538,8 +520,8 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/foreground"
-                android:text="@string/addAudio" />
+                android:text="@string/addAudio"
+                android:textColor="@color/foreground" />
 
         </LinearLayout>
 
@@ -618,7 +600,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/silenter" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/silenterDecr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -627,9 +609,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/silenterText"
             app:layout_constraintStart_toEndOf="@id/silenterText"
             app:layout_constraintTop_toTopOf="@+id/silenterText"
-            app:materialIcon="chevron_down"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="24dp" />
+            android:src="@drawable/ic_arrow_down"
+            app:tint="@color/foregroundSecondary" />
 
         <EditText
             android:id="@+id/silenter"
@@ -643,7 +624,7 @@
             app:layout_constraintStart_toEndOf="@id/silenterDecr"
             app:layout_constraintTop_toBottomOf="@+id/vibrate" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/silenterIncr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -652,9 +633,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/silenterText"
             app:layout_constraintStart_toEndOf="@id/silenter"
             app:layout_constraintTop_toTopOf="@+id/silenterText"
-            app:materialIcon="chevron_up"
-            app:materialIconColor="@color/foregroundSecondary"
-            app:materialIconSize="24dp" />
+            android:src="@drawable/ic_arrow_up"
+            app:tint="@color/foregroundSecondary" />
 
         <TextView
             android:layout_width="wrap_content"

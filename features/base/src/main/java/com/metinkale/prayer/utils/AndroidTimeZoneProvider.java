@@ -35,7 +35,7 @@ import java.util.TimeZone;
  */
 public class AndroidTimeZoneProvider implements Provider {
     @NonNull
-    private SimpleArrayMap<String, WeakReference<DateTimeZone>> cache = new SimpleArrayMap<>();
+    private final SimpleArrayMap<String, WeakReference<DateTimeZone>> cache = new SimpleArrayMap<>();
 
     public AndroidTimeZoneProvider() {
 
@@ -66,7 +66,7 @@ public class AndroidTimeZoneProvider implements Provider {
 
 
     private static class MyDateTimeZone extends DateTimeZone {
-        private TimeZone tz;
+        private final TimeZone tz;
         @NonNull
         private long[] transitions = new long[0];
 

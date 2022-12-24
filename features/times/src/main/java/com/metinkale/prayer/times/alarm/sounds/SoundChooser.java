@@ -34,9 +34,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.florent37.inlineactivityresult.InlineActivityResult;
-import com.github.florent37.inlineactivityresult.Result;
-import com.github.florent37.inlineactivityresult.callbacks.ActivityResultListener;
+import com.afollestad.inlineactivityresult.ActivitiesKt;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.fragments.AlarmConfigFragment;
@@ -45,6 +43,8 @@ import com.metinkale.prayer.utils.FileChooser;
 import com.metinkale.prayer.utils.PermissionUtils;
 
 import java.util.List;
+
+import kotlin.Unit;
 
 public class SoundChooser extends DialogFragment {
 
@@ -109,22 +109,15 @@ public class SoundChooser extends DialogFragment {
                                             i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
                                             i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
                                             i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                                            InlineActivityResult.startForResult(mActivity, i, new ActivityResultListener() {
-                                                @Override
-                                                public void onSuccess(Result result) {
-                                                    Sound selected = Sounds.getSound(result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI).toString());
-                                                    if (selected != null) {
-                                                        mAlarm.getSounds().add(selected);
-                                                    }
-                                                    ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
-                                                    dialog.dismiss();
-                                                }
 
-                                                @Override
-                                                public void onFailed(Result result) {
-
-                                                }
+                                            ActivitiesKt.startActivityForResult(getActivity(), i, 71, (success, result) -> {
+                                                Sound selected = Sounds.getSound(result.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI).toString());
+                                                mAlarm.getSounds().add(selected);
+                                                ((AlarmConfigFragment) getParentFragment()).onSoundsChanged();
+                                                dialog.dismiss();
+                                                return Unit.INSTANCE;
                                             });
+
                                         }
                                     });
                             builder.show();

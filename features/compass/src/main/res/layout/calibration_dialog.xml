@@ -27,17 +27,16 @@
         android:background="#FEFEFE"
         android:padding="16dp">
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:materialIcon="close"
-            app:materialIconColor="#000000"
-            app:materialIconSize="24dp" />
+            app:tint="#000000" />
 
         <TextView
             android:id="@+id/title"

@@ -44,13 +44,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.alarm.AlarmService;
 import com.metinkale.prayer.times.times.Times;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class NotificationPopup extends AppCompatActivity implements SensorEventListener {
     @Nullable
@@ -177,7 +177,7 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
 
         public MyView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
-            icon = context.getResources().getDrawable(R.drawable.ic_abicon);
+            icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_abicon);
 
             setOnTouchListener(this);
         }
@@ -185,10 +185,8 @@ public class NotificationPopup extends AppCompatActivity implements SensorEventL
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            silent = drawableToBitmap(MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.VOLUME_OFF).setColor(Color.WHITE).setSizePx(w / 5).build(), w / 5);
-            close = drawableToBitmap(
-                    MaterialDrawableBuilder.with(getContext()).setIcon(MaterialDrawableBuilder.IconValue.CLOSE).setColor(Color.WHITE)
-                            .setSizePx(w / 5).build(), w / 5);
+            silent = drawableToBitmap(ContextCompat.getDrawable(getContext(),R.drawable.ic_volume_off), w / 5);
+            close = drawableToBitmap(ContextCompat.getDrawable(getContext(),R.drawable.ic_close), w / 5);
 
         }
 

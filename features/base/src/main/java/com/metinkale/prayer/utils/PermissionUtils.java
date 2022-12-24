@@ -29,7 +29,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
@@ -59,17 +59,14 @@ public class PermissionUtils {
         pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            pNotPolicy = nm.isNotificationPolicyAccessGranted();
-            FirebaseCrashlytics.getInstance().setCustomKey("pNotPolicy", pLocation);
-        } else
-            pNotPolicy = true;
+        NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        pNotPolicy = nm.isNotificationPolicyAccessGranted();
+        CrashReporter.setCustomKey("pNotPolicy", pLocation);
 
-        FirebaseCrashlytics.getInstance().setCustomKey("pCalendar", pCalendar);
-        FirebaseCrashlytics.getInstance().setCustomKey("pStorage", pStorage);
-        FirebaseCrashlytics.getInstance().setCustomKey("pLocation", pLocation);
-        FirebaseCrashlytics.getInstance().setCustomKey("pNotPolicy", pNotPolicy);
+        CrashReporter.setCustomKey("pCalendar", pCalendar);
+        CrashReporter.setCustomKey("pStorage", pStorage);
+        CrashReporter.setCustomKey("pLocation", pLocation);
+        CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
 
     }
 
@@ -77,9 +74,6 @@ public class PermissionUtils {
         if (act.isDestroyed())
             return;
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return;
-        }
         NotificationManager nm = (NotificationManager) act.getSystemService(Context.NOTIFICATION_SERVICE);
         pNotPolicy = nm.isNotificationPolicyAccessGranted();
         if (!pNotPolicy) {

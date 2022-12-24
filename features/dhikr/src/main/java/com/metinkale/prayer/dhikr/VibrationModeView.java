@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 
@@ -39,7 +40,7 @@ public class VibrationModeView extends View implements OnClickListener {
 
     @NonNull
     private final Paint mPaint;
-    private Drawable mDrawable;
+    private final Drawable mDrawable;
     private PrefsFunctions mFunc;
 
     public VibrationModeView(@NonNull Context c) {
@@ -54,7 +55,7 @@ public class VibrationModeView extends View implements OnClickListener {
 
     public VibrationModeView(@NonNull Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
-        mDrawable = c.getResources().getDrawable(R.drawable.ic_vibration_white_24dp);
+        mDrawable = ContextCompat.getDrawable(c,R.drawable.ic_vibration_white_24dp);
         setOnClickListener(this);
 
         ViewCompat.setTranslationY(this, getResources().getDimension(R.dimen.dimen4dp));
@@ -72,7 +73,7 @@ public class VibrationModeView extends View implements OnClickListener {
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
-        canvas.scale(0.8f, 0.8f, canvas.getWidth() / 2f, canvas.getHeight() / 2f);
+        canvas.scale(0.8f, 0.8f, getWidth() / 2f, getHeight() / 2f);
         Object o = getValue();
         boolean active = !o.equals(-1);
         mPaint.setColor(active ? 0xff03A9F4 : 0xffe0e0e0);

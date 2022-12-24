@@ -25,14 +25,11 @@ import android.provider.Settings
 fun isIgnoringBatteryOptimizations(context: Context): Boolean {
     val pwrm = context.applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
     val name = context.applicationContext.packageName
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        return pwrm.isIgnoringBatteryOptimizations(name)
-    }
-    return true
+    return pwrm.isIgnoringBatteryOptimizations(name)
 }
 
 fun checkBatteryOptimizations(context:Context) {
-    if (!isIgnoringBatteryOptimizations(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    if (!isIgnoringBatteryOptimizations(context)) {
         val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
         context.startActivity(intent)
     }

@@ -37,9 +37,9 @@ public class Cities {
     @NonNull
     private static SoftReference<Cities> mInstance = new SoftReference<>(null);
     @NonNull
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     @NonNull
-    private Executor mThread = Executors.newSingleThreadExecutor();
+    private final Executor mThread = Executors.newSingleThreadExecutor();
 
     private Cities() {
     }

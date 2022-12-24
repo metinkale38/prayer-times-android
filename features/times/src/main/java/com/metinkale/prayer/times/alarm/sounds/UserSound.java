@@ -23,7 +23,7 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
 
@@ -40,7 +40,7 @@ public class UserSound extends Sound {
                 App.get().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
 
         UserSound sound = (UserSound) Sounds.getSound(uri.hashCode());
@@ -81,7 +81,7 @@ public class UserSound extends Sound {
             }
             return result;
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
 
         }
         return "Unknown";
@@ -98,7 +98,7 @@ public class UserSound extends Sound {
         try {
             mp.setDataSource(App.get(), getUri());
         } catch (IOException e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
             return null;
         }
         return mp;

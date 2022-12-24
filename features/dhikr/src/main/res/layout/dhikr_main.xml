@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true" />
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
+        <ImageView
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,9 +58,8 @@
             android:layout_alignStart="@+id/zikr"
             android:layout_margin="10dp"
             android:contentDescription="@null"
-            app:materialIcon="backup_restore"
-            app:materialIconColor="@color/foreground"
-            app:materialIconSize="36dp" />
+            android:src="@drawable/ic_reset"
+            app:tint="@color/foreground" />
 
         <com.metinkale.prayer.dhikr.VibrationModeView
             android:id="@+id/vibration"

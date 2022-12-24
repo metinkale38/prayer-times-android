@@ -26,7 +26,7 @@
     android:padding="10dp">
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,12 +35,11 @@
         android:layout_alignParentTop="true"
         android:padding="8dp"
         android:visibility="gone"
-        app:materialIcon="delete"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_action_delete"
+        app:tint="@color/foregroundSecondary"/>
 
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/gps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,9 +52,8 @@
         android:contentDescription="@null"
         android:scaleType="center"
         android:visibility="gone"
-        app:materialIcon="crosshairs_gps"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="16dp" />
+        android:src="@drawable/ic_gps"
+        app:tint="@color/foregroundSecondary"/>
 
     <TextView
         android:id="@+id/city"
@@ -83,7 +81,7 @@
         android:layout_toRightOf="@+id/gps"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         android:id="@+id/handle"
         android:layout_width="?listPreferredItemHeight"
         android:layout_height="match_parent"
@@ -93,9 +91,8 @@
         android:contentDescription="@null"
         android:padding="8dp"
         android:scaleType="center"
-        app:materialIcon="reorder_horizontal"
-        app:materialIconColor="@color/foregroundSecondary"
-        app:materialIconSize="24dp" />
+        android:src="@drawable/ic_drag_handle"
+        app:tint="@color/foregroundSecondary" />
 
 
 </RelativeLayout>

@@ -27,7 +27,7 @@ import androidx.collection.ArraySet;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Source;
@@ -179,7 +179,7 @@ public abstract class WebTimes extends Times {
                         cleanTimes();
                     }
                 } catch (Exception e) {
-                    FirebaseCrashlytics.getInstance().recordException(e);
+                    CrashReporter.recordException(e);
                 }
             }
         }.start();

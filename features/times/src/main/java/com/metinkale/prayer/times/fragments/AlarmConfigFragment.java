@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -60,7 +61,6 @@ import com.metinkale.prayer.times.utils.HorizontalNumberWheel;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.PermissionUtils;
 
-import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import org.joda.time.LocalDateTime;
 
@@ -71,18 +71,18 @@ import java.util.List;
 
 
 public class AlarmConfigFragment extends DialogFragment {
-    private TextView[] mWeekdays = new TextView[7];
-    private MaterialIconView[] mTimesViews = new MaterialIconView[6];
-    private TextView[] mWeekdaysText = new TextView[7];
-    private TextView[] mTimesText = new TextView[6];
+    private final TextView[] mWeekdays = new TextView[7];
+    private final ImageView[] mTimesViews = new ImageView[6];
+    private final TextView[] mWeekdaysText = new TextView[7];
+    private final TextView[] mTimesText = new TextView[6];
     private Switch mVibrate;
     private Switch mAutoDelete;
     private HorizontalNumberWheel mMinute;
     private TextView mMinuteText;
     private RecyclerView mSounds;
     private Alarm mAlarm;
-    private int mColorOn = App.get().getResources().getColor(R.color.colorPrimary);
-    private int mColorOff = App.get().getResources().getColor(R.color.foregroundSecondary);
+    private final int mColorOn = App.get().getResources().getColor(R.color.colorPrimary);
+    private final int mColorOff = App.get().getResources().getColor(R.color.foregroundSecondary);
     private Button mAddSound;
     private SeekBar mVolumeBar;
     private Spinner mVolumeSpinner;
@@ -508,7 +508,7 @@ public class AlarmConfigFragment extends DialogFragment {
             return;
         }
 
-        mTimesViews[time.ordinal()].setColor(enable ? mColorOn : mColorOff);
+        mTimesViews[time.ordinal()].setColorFilter(enable ? mColorOn : mColorOff);
     }
 
 

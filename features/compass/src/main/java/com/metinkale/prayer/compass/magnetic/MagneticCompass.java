@@ -46,14 +46,14 @@ public class MagneticCompass extends Fragment implements QiblaListener, Rotation
 
     private MagAccelListener mMagAccel;
     @NonNull
-    private Matrix4 mRotationMatrix = new Matrix4();
+    private final Matrix4 mRotationMatrix = new Matrix4();
     private int mDisplayRotation;
     private SensorManager mSensorManager;
 
 
     @NonNull
-    private OrientationCalculator mOrientationCalculator = new OrientationCalculator();
-    private Frag2D mFrag2D = new Frag2D();
+    private final OrientationCalculator mOrientationCalculator = new OrientationCalculator();
+    private final Frag2D mFrag2D = new Frag2D();
 
     @Nullable
     @Override

@@ -50,7 +50,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private RTLViewPager mPager;
-    private int[] mColors = {App.get().getResources().getColor(R.color.colorPrimary), App.get().getResources().getColor(R.color.accent),
+    private final int[] mColors = {App.get().getResources().getColor(R.color.colorPrimary), App.get().getResources().getColor(R.color.accent),
             App.get().getResources().getColor(R.color.colorPrimaryDark), 0xFF3F51B5, 0xFF00BCD4};
     private final Class[] mFragClz = new Class[]{LanguageFragment.class, ChangelogFragment.class, MenuIntroFragment.class, PagerIntroFragment.class, ConfigIntroFragment.class};
     private IntroFragment[] mFragments;
@@ -78,9 +78,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         for (int i = 0; i < mFragClz.length; i++) {
             try {
                 mFragments[i] = (IntroFragment) mFragClz[i].newInstance();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
+            } catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
             }
         }
@@ -242,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragments[position];

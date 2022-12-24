@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
     sourceSets {
         main {
-            res.srcDirs += 'src/main/translations'
+            // res.srcDirs += 'src/main/translations'
         }
     }
 
     compileSdkVersion 33
-
 
 
     defaultConfig {
@@ -68,7 +68,4 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'joda-time:joda-time:2.9.6:no-tzdb'
 
-}
-repositories {
-    mavenCentral()
 }

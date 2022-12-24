@@ -42,10 +42,10 @@ public class SqliteHelper extends SQLiteOpenHelper {
     @Nullable
     private static File FILE;
     @Nullable
-    private SQLiteDatabase mDB;
+    private volatile SQLiteDatabase mDB;
     @NonNull
-    private List<String> categories = new ArrayList<>();
-    private AtomicInteger mOpenCounter = new AtomicInteger();
+    private final List<String> categories = new ArrayList<>();
+    private final AtomicInteger mOpenCounter = new AtomicInteger();
 
     private SqliteHelper(@NonNull Context context) {
         super(context, "hadis.db", null, 1);

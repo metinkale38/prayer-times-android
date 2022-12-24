@@ -28,15 +28,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.times.fragments.AlarmsFragment;
 import com.metinkale.prayer.times.fragments.TimesFragment;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -52,7 +50,7 @@ public class ConfigIntroFragment extends IntroFragment {
     private View mView;
     private int mTask;
     private Fragment mPrefsFrag;
-    private Runnable mDoTask = new Runnable() {
+    private final Runnable mDoTask = new Runnable() {
         @Override
         public void run() {
             mView.postDelayed(mDoTask, 2000);
@@ -107,20 +105,14 @@ public class ConfigIntroFragment extends IntroFragment {
 
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appName);
-        toolbar.setNavigationIcon(MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.MENU)
-                .setColorResource(R.color.white)
-                .setToActionbarSize()
-                .build());
+        toolbar.setNavigationIcon(R.drawable.ic_action_menu);
 
         try {
-            MaterialMenuInflater.with(getActivity(), getActivity().getMenuInflater())
-                    .setDefaultColorResource(R.color.white)
-                    .inflate(R.menu.vakit, toolbar.getMenu());
+            getActivity().getMenuInflater().inflate(R.menu.vakit, toolbar.getMenu());
             mMenuItem = toolbar.getMenu().getItem(0);
             mMenuItem.setIcon(mMenuItem.getIcon());
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
 
 

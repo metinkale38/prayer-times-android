@@ -29,7 +29,7 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.service.ForegroundService;
@@ -167,7 +167,7 @@ public class WidgetUtils extends InternalBroadcastReceiver implements InternalBr
             }
             
         } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
     }
 }

@@ -35,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
@@ -52,9 +52,9 @@ import java.util.List;
 public class CalendarIntegrationService extends IntentService {
 
 
-    private static String ACCOUNT_NAME = "Prayer Times";
-    private static String ACCOUNT_TYPE = CalendarContract.ACCOUNT_TYPE_LOCAL;
-    private static String CALENDAR_COLUMN_NAME = "prayertimes_hijriadapter";
+    private static final String ACCOUNT_NAME = "Prayer Times";
+    private static final String ACCOUNT_TYPE = CalendarContract.ACCOUNT_TYPE_LOCAL;
+    private static final String CALENDAR_COLUMN_NAME = "prayertimes_hijriadapter";
 
     public CalendarIntegrationService() {
         super("CalendarIntegrationService");
@@ -148,7 +148,7 @@ public class CalendarIntegrationService extends IntentService {
             cr.bulkInsert(CalendarContract.Events.CONTENT_URI, events.toArray(new ContentValues[0]));
         } catch (Exception e) {
             Preferences.CALENDAR_INTEGRATION.set("-1");
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
 
     }

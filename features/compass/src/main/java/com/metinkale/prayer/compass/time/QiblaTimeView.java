@@ -29,6 +29,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.metinkale.prayer.compass.R;
 
@@ -57,11 +58,11 @@ public class QiblaTimeView extends View {
     private double mSunsetAngle;
     private double mCurrentAngle;
     private boolean mShowSun;
-    private Path mTopPath = new Path();
-    private Path mRightPath = new Path();
-    private Path mLeftPath = new Path();
-    private Path mBottomPath = new Path();
-    private Path mClipPath = new Path();
+    private final Path mTopPath = new Path();
+    private final Path mRightPath = new Path();
+    private final Path mLeftPath = new Path();
+    private final Path mBottomPath = new Path();
+    private final Path mClipPath = new Path();
     private double mQiblaAngle;
     private double mLat;
     private double mLng;
@@ -69,11 +70,7 @@ public class QiblaTimeView extends View {
 
     public QiblaTimeView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mKaabe = context.getResources().getDrawable(R.drawable.kaabe, null);
-        } else {
-            mKaabe = context.getResources().getDrawable(R.drawable.kaabe);
-        }
+        mKaabe = ContextCompat.getDrawable(context, R.drawable.kaabe);
 
         int blue = getResources().getColor(R.color.colorPrimary);
 
@@ -226,7 +223,7 @@ public class QiblaTimeView extends View {
         post(mUpdate);
     }
 
-    private Runnable mUpdate = new Runnable() {
+    private final Runnable mUpdate = new Runnable() {
         @Override
         public void run() {
             removeCallbacks(this);

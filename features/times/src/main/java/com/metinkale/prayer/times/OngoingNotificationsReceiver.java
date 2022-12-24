@@ -41,7 +41,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.service.ForegroundService;
@@ -64,7 +64,7 @@ import java.util.Locale;
 
 public class OngoingNotificationsReceiver extends InternalBroadcastReceiver implements InternalBroadcastReceiver.OnTimeTickListener, InternalBroadcastReceiver.OnPrefsChangedListener {
     private static final String FOREGROUND_NEEDY_ONGOING = "ongoing";
-    private Integer mDefaultTextColor = null;
+    private final Integer mDefaultTextColor = null;
 
     @Override
     public void onTimeTick() {
@@ -86,8 +86,8 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             boolean icon = Preferences.SHOW_ONGOING_ICON.get();
             boolean number = Preferences.SHOW_ONGOING_NUMBER.get();
-            FirebaseCrashlytics.getInstance().setCustomKey("showIcon", icon);
-            FirebaseCrashlytics.getInstance().setCustomKey("showNumber", number);
+            CrashReporter.setCustomKey("showIcon", icon);
+            CrashReporter.setCustomKey("showNumber", number);
 
             RemoteViews views = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
             if (Build.MANUFACTURER.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
@@ -149,7 +149,7 @@ public class OngoingNotificationsReceiver extends InternalBroadcastReceiver impl
 
             if (!icon) {
                 builder.setSmallIcon(R.drawable.ic_placeholder);
-            } else if (number && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            } else if (number) {
                 builder.setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(t)));
             } else {
                 builder.setSmallIcon(R.drawable.ic_abicon);

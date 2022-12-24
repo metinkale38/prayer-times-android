@@ -55,30 +55,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if (getArguments() != null && getArguments().getBoolean("showKerahatDuration"))
             setPreferenceScreen((PreferenceScreen) findPreference("kerahatDuration"));
         else {
-       /*     findPreference("language").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.TRANSLATE)
-                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
-            findPreference("arabicNames").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK_OUT)
-                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
-            findPreference("digits").setIcon(MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.NUMERIC)
-                    .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
-            findPreference("calendarIntegration").setIcon(
-                    MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
-                            .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
-            findPreference("kerahatDuration").setIcon(
-                    MaterialDrawableBuilder.with(getActivity()).setIcon(MaterialDrawableBuilder.IconValue.CLOCK_ALERT)
-                            .setColor(getResources().getColor(R.color.foregroundSecondary)).build());
-         */
-
             findPreference("numbers").setOnPreferenceChangeListener(this);
             findPreference("backupRestore").setOnPreferenceClickListener(this);
             findPreference("calendarIntegration").setOnPreferenceChangeListener(this);
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
             findPreference("ongoingNumber").setOnPreferenceClickListener(this);
             findPreference("kerahatDuration").setOnPreferenceClickListener(this);
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                findPreference("ongoingNumber").setEnabled(false);
-            }
 
             if (Build.VERSION.SDK_INT < 24)
                 findPreference("showLegacyWidgets").setEnabled(false);

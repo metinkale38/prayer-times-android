@@ -39,10 +39,10 @@ public class HorizontalNumberWheel extends View {
     private int min = -180;
     private int max = 180;
     private int value = 0;
-    private int lines = 25;
-    private int stepsPerLine = 5;
-    private GestureDetector detector;
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final int lines = 25;
+    private final int stepsPerLine = 5;
+    private final GestureDetector detector;
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Listener listener;
 
     public HorizontalNumberWheel(Context context) {

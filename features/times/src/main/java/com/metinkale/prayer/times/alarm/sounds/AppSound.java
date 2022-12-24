@@ -20,7 +20,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.times.alarm.Alarm;
 import com.metinkale.prayer.times.utils.MD5;
@@ -89,7 +89,7 @@ public class AppSound extends Sound {
         try {
             mp.setDataSource(App.get(), getUri());
         } catch (IOException e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
             return null;
         }
         return mp;

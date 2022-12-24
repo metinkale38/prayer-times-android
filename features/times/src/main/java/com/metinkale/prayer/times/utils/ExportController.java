@@ -28,9 +28,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.times.R;
 import com.metinkale.prayer.times.times.Times;
 import com.metinkale.prayer.times.times.Vakit;
@@ -90,7 +91,7 @@ public class ExportController {
 
 
         if (times.getSource().drawableId != 0) {
-            Drawable source = ctx.getResources().getDrawable(times.getSource().drawableId);
+            Drawable source = ContextCompat.getDrawable(ctx,times.getSource().drawableId);
 
             h = 65;
             w = h * source.getIntrinsicWidth() / source.getIntrinsicHeight();
@@ -165,12 +166,12 @@ public class ExportController {
         
         do {
             outputStream.write((from.toString("yyyy-MM-dd") + ";").getBytes());
-            outputStream.write((times.getTime(from, FAJR.ordinal()).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, SUN.ordinal()).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, DHUHR.ordinal()).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, ASR.ordinal()).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, MAGHRIB.ordinal()).toLocalTime().toString() + ";").getBytes());
-            outputStream.write((times.getTime(from, ISHAA.ordinal()).toLocalTime().toString() + "\n").getBytes());
+            outputStream.write((times.getTime(from, FAJR.ordinal()).toLocalTime() + ";").getBytes());
+            outputStream.write((times.getTime(from, SUN.ordinal()).toLocalTime() + ";").getBytes());
+            outputStream.write((times.getTime(from, DHUHR.ordinal()).toLocalTime() + ";").getBytes());
+            outputStream.write((times.getTime(from, ASR.ordinal()).toLocalTime() + ";").getBytes());
+            outputStream.write((times.getTime(from, MAGHRIB.ordinal()).toLocalTime() + ";").getBytes());
+            outputStream.write((times.getTime(from, ISHAA.ordinal()).toLocalTime() + "\n").getBytes());
         } while (!(from = from.plusDays(1)).isAfter(to));
         outputStream.close();
         
@@ -208,7 +209,7 @@ public class ExportController {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        FirebaseCrashlytics.getInstance().recordException(e);
+                        CrashReporter.recordException(e);
                         Toast.makeText(ctx, R.string.error, Toast.LENGTH_SHORT).show();
                     }
                 }, ld.getYear(), ld.getMonthOfYear() - 1, ld.getDayOfMonth());

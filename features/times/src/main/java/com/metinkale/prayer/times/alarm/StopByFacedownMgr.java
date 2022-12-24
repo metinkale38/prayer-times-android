@@ -24,7 +24,7 @@ import android.hardware.SensorManager;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer;
 
 import static android.hardware.Sensor.TYPE_ACCELEROMETER;
@@ -45,7 +45,7 @@ public class StopByFacedownMgr implements SensorEventListener {
             sensorManager.registerListener(new StopByFacedownMgr(sensorManager, myPlayer), sensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
         } catch (Exception e) {
             //do not crash, but report issue
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
     }
 

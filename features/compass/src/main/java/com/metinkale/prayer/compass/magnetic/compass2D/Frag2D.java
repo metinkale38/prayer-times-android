@@ -140,7 +140,7 @@ public class Frag2D extends Fragment implements QiblaListener {
             mDistanceTV.setText(LocaleUtils.formatNumber(Math.round(distance) + "km"));
     }
     
-    private DegreeLowPassFilter lowPassFilter = new DegreeLowPassFilter();
+    private final DegreeLowPassFilter lowPassFilter = new DegreeLowPassFilter();
     
     public void setAngle(int angle) {
         mAngle = angle;

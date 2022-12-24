@@ -51,13 +51,12 @@ import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.dhikr.VibrationModeView.PrefsFunctions;
 import com.metinkale.prayer.dhikr.data.Dhikr;
 import com.metinkale.prayer.dhikr.data.DhikrViewModel;
 
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,7 +149,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
             if (key == null) {
                 continue;
             }
-            Set set = map.get(key);
+            Set<String> set = map.get(key);
             if (set == null) {
                 continue;
             }
@@ -169,7 +168,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
                 dhikr.setMax(max);
                 mViewModel.addDhikr(dhikr);
             } catch (Exception e) {
-                FirebaseCrashlytics.getInstance().recordException(e);
+                CrashReporter.recordException(e);
             }
         }
         mPrefs.edit().clear().apply();
@@ -222,9 +221,9 @@ public class DhikrFragment extends BaseActivity.MainFragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater).setDefaultColorResource(R.color.white).inflate(R.menu.zikr, menu);
+        inflater.inflate(R.menu.zikr, menu);
 
         MenuItem item = menu.findItem(R.id.menu_spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);
@@ -321,7 +320,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
                 mDhikrs.get(0).setMax(Integer.parseInt(input.getText().toString()));
                 mDhikrView.invalidate();
             } catch (Exception e) {
-                FirebaseCrashlytics.getInstance().recordException(e);
+                CrashReporter.recordException(e);
             }
         });
 

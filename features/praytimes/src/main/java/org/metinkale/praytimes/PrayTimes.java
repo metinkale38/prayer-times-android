@@ -41,8 +41,8 @@ public class PrayTimes implements Serializable {
     private TimeZone timeZone = TimeZone.getDefault();
 
 
-    private int[] minutes = new int[Times.values().length];
-    private double[] angles = new double[Times.values().length];
+    private final int[] minutes = new int[Times.values().length];
+    private final double[] angles = new double[Times.values().length];
 
     private transient double jdate;
     private transient int year;

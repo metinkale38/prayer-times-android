@@ -39,7 +39,6 @@ import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.utils.LocaleUtils;
 
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import org.joda.time.LocalDate;
 
@@ -66,9 +65,9 @@ public class CalendarFragment extends BaseActivity.MainFragment implements OnIte
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater).inflate(R.menu.calendar, menu);
+        inflater.inflate(R.menu.calendar, menu);
     }
 
     @Override

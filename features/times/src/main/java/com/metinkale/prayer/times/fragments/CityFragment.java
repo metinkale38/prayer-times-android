@@ -37,7 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
@@ -50,9 +50,6 @@ import com.metinkale.prayer.times.utils.ExportController;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
-import net.steamcrafted.materialiconlib.MaterialIconView;
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -64,7 +61,7 @@ import java.util.Locale;
 public class CityFragment extends Fragment implements Observer<Times> {
 
     @NonNull
-    private static Handler mHandler = new Handler();
+    private static final Handler mHandler = new Handler();
     private View mView;
     @Nullable
     private Times mTimes;
@@ -75,10 +72,10 @@ public class CityFragment extends Fragment implements Observer<Times> {
     private TextView mDate;
     private TextView[] mPrayerTitles;
     private TextView[] mPrayerTimes;
-    private MaterialIconView mGPSIcon;
+    private ImageView mGPSIcon;
     private int mThreeSecondCounter;
     @NonNull
-    private Runnable onSecond = new Runnable() {
+    private final Runnable onSecond = new Runnable() {
 
         @Override
         public void run() {
@@ -267,12 +264,12 @@ public class CityFragment extends Fragment implements Observer<Times> {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         try {
-            MaterialMenuInflater.with(getActivity(), inflater).setDefaultColor(Color.WHITE).inflate(R.menu.vakit, menu);
+            inflater.inflate(R.menu.vakit, menu);
         } catch (Exception e) {
             e.printStackTrace();
-            FirebaseCrashlytics.getInstance().recordException(e);
+            CrashReporter.recordException(e);
         }
     }
 

@@ -38,7 +38,6 @@ import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.names.Adapter.Item;
 import com.metinkale.prayer.utils.Utils;
 
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -98,11 +97,9 @@ public class NamesFragment extends BaseActivity.MainFragment implements OnQueryT
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MaterialMenuInflater.with(getActivity(), inflater)
-                .setDefaultColorResource(R.color.white)
-                .inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
 

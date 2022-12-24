@@ -21,7 +21,7 @@
     <item
         android:id="@+id/switchHijriGreg"
         android:title="@string/switchHijriGreg"
-        app:materialIcon="theme_light_dark"
+        android:icon="@drawable/ic_switch_hijri_greg"
         app:showAsAction="ifRoom" />
 
 </menu>
