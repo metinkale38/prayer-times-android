@@ -66,10 +66,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation "androidx.room:room-runtime:2.2.0-alpha02"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
-    annotationProcessor "androidx.room:room-compiler:2.2.0-alpha02"
+    implementation "androidx.room:room-runtime:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    annotationProcessor "androidx.room:room-compiler:2.5.0-rc01"
 }

@@ -25,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
 import androidx.core.os.LocaleListCompat;
 
-import com.metinkale.prayer.CrashReporter;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.utils.LocaleUtils;
 

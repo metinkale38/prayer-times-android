@@ -68,6 +68,4 @@ dependencies {
     implementation project(':features:times')
     implementation project(':features:base')
     implementation project(':features:about')
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'joda-time:joda-time:2.9.6:no-tzdb'
 }

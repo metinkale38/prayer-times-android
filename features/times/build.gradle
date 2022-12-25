@@ -60,16 +60,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation project(':features:praytimes')
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.koushikdutta.ion:ion:2.2.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'joda-time:joda-time:2.9.6:no-tzdb'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.evernote:android-job:1.2.6'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.media:media:1.2.0'
-    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.media:media:1.6.0'
     implementation 'com.afollestad.inline-activity-result:core:0.2.0'
 
 }

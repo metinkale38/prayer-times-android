@@ -68,11 +68,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation project(':features:praytimes')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // newer versions require higher min sdk
-    implementation 'joda-time:joda-time:2.9.6:no-tzdb'
-    implementation 'com.google.android.material:material:1.2.1'
-    playImplementation 'com.google.android.gms:play-services-maps:17.0.0' //excludeInFDroid
-    playImplementation 'com.google.android.gms:play-services-gcm:17.0.0' //excludeInFDroid
-    playImplementation 'com.google.android.gms:play-services-location:17.1.0'
+    playImplementation 'com.google.android.gms:play-services-maps:18.1.0' //excludeInFDroid
+    playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
+    playImplementation 'com.google.android.gms:play-services-location:21.0.1'
 }
