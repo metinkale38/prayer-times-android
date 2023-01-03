@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
@@ -79,11 +81,14 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     }
 
     public static boolean isOnline() {
-        //only checks for connection, not for actual internet connection
-        //everything else need (or should be in) a seperate thread
-        ConnectivityManager cm = (ConnectivityManager) get().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
+        ConnectivityManager connectivityManager = (ConnectivityManager) App.get().getSystemService(Context.CONNECTIVITY_SERVICE);
+        Network nw = connectivityManager.getActiveNetwork();
+        if (nw == null) return false;
+        NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
+        return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
     }
 
 
@@ -107,8 +112,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         super.onCreate();
         CrashReporter.initializeApp(this);
         CrashReporter.setUserId(Preferences.UUID.get());
-        if (BuildConfig.DEBUG)
-            CrashReporter.setCustomKey("isDebug", true);
+        if (BuildConfig.DEBUG) CrashReporter.setCustomKey("isDebug", true);
 
 
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
@@ -145,8 +149,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key == null)
-            return;
+        if (key == null) return;
 
         InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key);
         switch (key) {
@@ -162,8 +165,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     }
 
     public static String getUserAgent() {
-        return String.format(Locale.ENGLISH, "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)", Build.VERSION.SDK_INT,
-                Utils.getVersionCode(), Utils.getVersionName());
+        return String.format(Locale.ENGLISH, "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)", Build.VERSION.SDK_INT, Utils.getVersionCode(), Utils.getVersionName());
     }
 
 

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2013-2019 Metin Kale
+  ~ Copyright (c) 2013-2023 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -56,22 +56,10 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:background="@color/background"
-        app:layout_constraintBottom_toTopOf="@+id/legacySwitch"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/autoLocation" />
 
-    <TextView
-        android:id="@+id/legacySwitch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/foregroundSecondary"
-        android:gravity="center"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/search"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2013-2019 Metin Kale
+  ~ Copyright (c) 2013-2023 Metin Kale
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/menu_search"
-        app:materialIcon="magnify"
+        android:icon="@drawable/ic_action_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />

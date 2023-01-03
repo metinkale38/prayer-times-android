@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ public class DhikrFragment extends BaseActivity.MainFragment
         v.findViewById(R.id.color8).setOnClickListener(colorlist);
 
         mViewModel = ViewModelProviders.of(this).get(DhikrViewModel.class);
-        mViewModel.getDhikrs().observe(this, this);
+        mViewModel.getDhikrs().observe(getViewLifecycleOwner(), this);
 
         mTitle.addTextChangedListener(new TextWatcher() {
             @Override

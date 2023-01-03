@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,4 +81,5 @@ dependencies {
     api 'androidx.legacy:legacy-preference-v14:1.0.0'
     api 'androidx.constraintlayout:constraintlayout:2.1.4'
     api 'androidx.recyclerview:recyclerview:1.2.1'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
 }

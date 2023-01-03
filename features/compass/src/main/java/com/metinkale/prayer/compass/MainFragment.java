@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.metinkale.prayer.compass;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -43,9 +42,7 @@ import com.metinkale.prayer.App;
 import com.metinkale.prayer.BaseActivity;
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.compass.magnetic.MagneticCompass;
-import com.metinkale.prayer.compass.time.FragQiblaTime;
 import com.metinkale.prayer.utils.PermissionUtils;
-
 
 import java.util.List;
 
@@ -69,9 +66,7 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
 
     private boolean mOnlyNew;
 
-    private enum Mode {
-        Compass, Map, Time
-    }
+    private enum Mode {Compass, Map}
 
 
     @Nullable
@@ -151,13 +146,10 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
             // compass >> time >> map
             if (mMode == Mode.Map) {
                 updateFrag(Mode.Compass);
-                mSwitch.setIcon(R.drawable.ic_action_clock);
-            } else if (mMode == Mode.Compass) {
-                updateFrag(Mode.Time);
-                mSwitch.setIcon(R.drawable.ic_action_map);
-            } else if (mMode == Mode.Time) {
-                updateFrag(Mode.Map);
                 mSwitch.setIcon(R.drawable.ic_action_compass);
+            } else if (mMode == Mode.Compass) {
+                updateFrag(Mode.Map);
+                mSwitch.setIcon(R.drawable.ic_action_map);
             } else {
                 Toast.makeText(getActivity(), R.string.permissionNotGranted, Toast.LENGTH_LONG).show();
             }
@@ -188,15 +180,10 @@ public class MainFragment extends BaseActivity.MainFragment implements LocationL
                 MagneticCompass frag = new MagneticCompass();
                 mList = frag;
                 fragmentTransaction.replace(R.id.frag, frag, "compass");
-                mode = Mode.Compass;
             } else if (mode == Mode.Map) {
                 FragMap frag = new FragMap();
                 mList = null;
                 fragmentTransaction.replace(R.id.frag, frag, "map");
-            } else if (mode == Mode.Time) {
-                FragQiblaTime frag = new FragQiblaTime();
-                mList = frag;
-                fragmentTransaction.replace(R.id.frag, frag, "time");
             }
             fragmentTransaction.commit();
         }

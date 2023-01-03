@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,8 +67,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation project(':features:praytimes')
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // newer versions require higher min sdk
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // TODO consider replacing with WebView to reduce dependencies
     playImplementation 'com.google.android.gms:play-services-maps:18.1.0' //excludeInFDroid
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
     playImplementation 'com.google.android.gms:play-services-location:21.0.1'

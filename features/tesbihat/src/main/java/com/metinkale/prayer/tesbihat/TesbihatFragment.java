@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,8 +71,8 @@ public class TesbihatFragment extends BaseActivity.MainFragment {
         indicator.setDividerColor(0x0);
         indicator.setIndicatorColor(0xffffffff);
 
-        if ((Times.getCount() != 0) && new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
-            int current = Times.getTimes(Times.getIds().get(0)).getCurrentTime();
+        if ((Times.Companion.getValue().size() != 0) && new Locale("tr").getLanguage().equals(mLocale.getLanguage())) {
+            int current = Times.Companion.getTimesByIndex(0).getValue().getCurrentTime();
             switch (Vakit.getByIndex(current)) {
                 case FAJR:
                     mViewPager.setCurrentItem(0);

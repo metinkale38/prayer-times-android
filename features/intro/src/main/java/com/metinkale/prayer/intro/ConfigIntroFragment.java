@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ public class ConfigIntroFragment extends IntroFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Times city = null;
-        List<Times> cities = Times.getTimes();
+        List<Times> cities = Times.Companion.getValue();
         for (Times time : cities) {
             if (city == null) city = time;
             if (!time.getTime(LocalDate.now().withDayOfMonth(1), Vakit.DHUHR.ordinal()).toLocalTime().equals(LocalTime.MIDNIGHT)) {
@@ -136,7 +136,7 @@ public class ConfigIntroFragment extends IntroFragment {
         bdl.putInt("startCity", cities.indexOf(city));
         mFragment = new TimesFragment();
         mFragment.setArguments(bdl);
-        mPrefsFrag = AlarmsFragment.create(city);
+        mPrefsFrag = AlarmsFragment.create(city != null ? city.getID() : -1);
         getChildFragmentManager().beginTransaction().replace(R.id.basecontent, mFragment).commit();
     }
 

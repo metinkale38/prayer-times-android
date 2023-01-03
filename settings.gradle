@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 Metin Kale
+ * Copyright (c) 2013-2023 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 
 include ':app'
-include ':features:praytimes', ':features:base', ':features:compass', ':features:times', ':features:widget', ':features:intro', ':features:tesbihat', ':features:about', ':features:calendar', ':features:dhikr', ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings'
+include ':features:base', ':features:compass', ':features:times', ':features:widget', ':features:intro', ':features:tesbihat', ':features:about', ':features:calendar', ':features:dhikr', ':features:hadith', ':features:missedprayers', ':features:names', ':features:settings'
