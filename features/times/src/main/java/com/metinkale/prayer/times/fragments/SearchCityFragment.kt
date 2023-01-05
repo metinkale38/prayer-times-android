@@ -30,7 +30,6 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
-import androidx.compose.material3.AlertDialog
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -176,7 +175,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     lng = it.lng ?: 0.0,
                     id = it.id,
                     sortId = 99,
-                    isAutoLocation = autoLocation.isChecked
+                    autoLocation = autoLocation.isChecked
                 ).save()
                 back()
             }else{
@@ -188,7 +187,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     lng = it.lng ?: 0.0,
                     id = it.id,
                     sortId = 99,
-                    isAutoLocation = autoLocation.isChecked
+                    autoLocation = autoLocation.isChecked
                 )))
             }
         }

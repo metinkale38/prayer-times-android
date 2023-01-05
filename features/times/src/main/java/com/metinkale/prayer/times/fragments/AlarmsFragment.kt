@@ -135,10 +135,10 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
                         ) { dialogInterface: DialogInterface?, i: Int -> }
                         dialog.show()
                     }
-                    alarm.update { it?.copy(isEnabled = true) }
+                    alarm.update { it?.copy(enabled = true) }
                 }
 
-                override val checked: Boolean get() = alarm.value?.isEnabled ?: false
+                override val checked: Boolean get() = alarm.value?.enabled ?: false
 
                 override fun onClick() {
                     if (!checked) {

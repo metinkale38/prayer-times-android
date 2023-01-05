@@ -1,3 +1,4 @@
+@file:UseSerializers(BooleanSerializer::class)
 /*
  * Copyright (c) 2013-2023 Metin Kale
  *
@@ -25,11 +26,13 @@ import androidx.collection.ArraySet
 import com.metinkale.prayer.App
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.sounds.Sound
+import com.metinkale.prayer.times.times.BooleanSerializer
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.utils.Utils
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import org.joda.time.DateTimeConstants
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
@@ -38,10 +41,11 @@ import java.text.DateFormatSymbols
 import java.util.*
 import kotlin.math.abs
 
+
 @Serializable
 data class Alarm(
     val id: Int = UUID.asInt(),
-    val isEnabled: Boolean = false,
+    val enabled: Boolean = false,
     val weekdays: List<Int> = ALL_WEEKDAYS.toList(),
     val sounds: List<Sound> = listOf(),
     val times: List<Vakit> = ALL_TIMES.toList(),

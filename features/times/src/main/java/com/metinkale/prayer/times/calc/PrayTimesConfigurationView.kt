@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.metinkale.prayer.times.R
+import com.metinkale.prayer.times.compose.theme.AppTheme
+import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import dev.metinkale.prayertimes.calc.HighLatsAdjustment
 import dev.metinkale.prayertimes.calc.Method
@@ -25,10 +27,9 @@ import java.text.DecimalFormat
 
 @ExperimentalMaterial3Api
 @Composable
-fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = MaterialTheme {
+fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppTheme {
     val praytimes = model.prayTimes.collectAsState()
-    val useAsrShafi = model.useAsrShafi
-    val useAsrHanafi = model.useAsrHanafi
+    val asrType = model.asrType.collectAsState()
     val method: Method = praytimes.value.method
     val daytimes =
         praytimes.value.getTimes(LocalDate.parse(org.joda.time.LocalDate.now().toString()))
@@ -92,11 +93,12 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = Materia
                         if (vakit == Vakit.ASR) {
                             Box(Modifier.size(24.dp)) {
                                 if (num == 0)
-                                    Checkbox(useAsrShafi.value, { useAsrShafi.value = it })
-                                else
                                     Checkbox(
-                                        useAsrHanafi.value,
-                                        { useAsrHanafi.value = it })
+                                        asrType.value != Times.AsrType.Hanafi,
+                                        {  model.setAsrType(Times.AsrType.Shafi, it) })
+                                else
+                                    Checkbox(asrType.value != Times.AsrType.Shafi,
+                                        { model.setAsrType(Times.AsrType.Hanafi, it) })
                             }
                         }
                         Text(

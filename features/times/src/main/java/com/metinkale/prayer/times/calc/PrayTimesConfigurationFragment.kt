@@ -29,10 +29,11 @@ class PrayTimesConfigurationFragment : BaseActivity.MainFragment() {
         } else {
             ComposeView(requireContext()).apply {
                 setContent {
-                    val model = PrayTimesConfigurationViewModel( PrayTimes.deserialize(times.id ?: "")){
-                        times.copy(id = it.serialize()).save()
-                        backToMain()
-                    }
+                    val model =
+                        PrayTimesConfigurationViewModel(PrayTimes.deserialize(times.id ?: "")) {
+                            times.copy(id = it.serialize(), asrType = asrType.value).save()
+                            backToMain()
+                        }
 
                     PrayTimesConfigurationView(model)
                 }

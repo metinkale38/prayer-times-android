@@ -1,3 +1,4 @@
+@file:UseSerializers(BooleanSerializer::class)
 /*
  * Copyright (c) 2013-2023 Metin Kale
  *
@@ -25,8 +26,10 @@ import dev.metinkale.prayertimes.core.sources.Source
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import org.joda.time.*
 import kotlin.math.roundToInt
+
 
 @Serializable
 data class Times(
@@ -40,7 +43,7 @@ data class Times(
     val elv: Double = 0.0,
     val sortId: Int = Int.MAX_VALUE,
     val minuteAdj: List<Int> = List(6) { 0 },
-    val isAutoLocation: Boolean = false,
+    val autoLocation: Boolean = false,
     val alarms: List<Alarm> = createDefaultAlarms(ID),
     // WebTimes only
     //val times: Map<String?, String?> = ArrayMap(),

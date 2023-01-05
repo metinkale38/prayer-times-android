@@ -9,7 +9,13 @@ import com.metinkale.prayer.times.utils.asStore
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
 open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = MutableStateFlow(listOf())) :
@@ -17,6 +23,10 @@ open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = Mut
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val prefs: SharedPreferences = App.get().getSharedPreferences("cities", 0)
 
+    private val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+    }
 
     init {
         MainScope().launch {
@@ -27,7 +37,7 @@ open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = Mut
 
             prefs.registerOnSharedPreferenceChangeListener(this@TimesCompanion)
 
-            map { it.any { it.isAutoLocation } }.distinctUntilChanged().filter { it }.collect {
+            map { it.any { it.autoLocation } }.distinctUntilChanged().filter { it }.collect {
                 LocationReceiver.start(App.get())
             }
         }
@@ -45,7 +55,7 @@ open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = Mut
         val json = App.get().getSharedPreferences("cities", 0).getString("id$id", null)
         return json?.let {
             try {
-                Json.decodeFromString(Times.serializer(), json).copy(ID = id)
+                this.json.decodeFromString(Times.serializer(), json).copy(ID = id)
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
@@ -64,10 +74,11 @@ open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = Mut
         }
     }
 
+
     fun save(entry: Times) {
         Log.e("Test", entry.toString())
         if (entry.ID > 0) {
-            val json = Json.encodeToString(entry)
+            val json = json.encodeToString(entry)
             prefs.edit().putString("id${entry.ID}", json).apply()
         } else {
             state.update { ((it.filter { it.ID != entry.ID }) + entry).sortedBy { it.sortId } }
@@ -82,4 +93,23 @@ open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = Mut
         it.filter { it.ID > 0 }
     }
 
+}
+
+object BooleanSerializer : KSerializer<Boolean> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("BooleanLegacy", PrimitiveKind.BOOLEAN)
+
+    override fun serialize(encoder: Encoder, value: Boolean) {
+        encoder.encodeBoolean(value)
+    }
+
+    override fun deserialize(decoder: Decoder): Boolean {
+        return runCatching {
+            decoder.decodeString() == "true"
+        }.getOrNull() ?: runCatching {
+            decoder.decodeInt() == 1
+        }.getOrNull() ?: runCatching {
+            decoder.decodeBoolean()
+        }.getOrNull() ?: false
+    }
 }

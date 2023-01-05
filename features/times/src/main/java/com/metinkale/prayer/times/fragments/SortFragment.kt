@@ -152,7 +152,7 @@ class SortFragment : Fragment() {
             val c = getItem(position) ?: return
             vh.city.text = c.name
             vh.source.text = c.source.name
-            vh.gps.visibility = if (c.isAutoLocation) View.VISIBLE else View.GONE
+            vh.gps.visibility = if (c.autoLocation) View.VISIBLE else View.GONE
             vh.delete.visibility = if (deleteMode) View.VISIBLE else View.GONE
             vh.delete.setOnClickListener { view: View? -> onItemDismiss(vh.adapterPosition) }
             vh.handler.setOnTouchListener { _: View?, event: MotionEvent? ->

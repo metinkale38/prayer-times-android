@@ -21,11 +21,11 @@ class DayTimesCalcProvider(id: Int) : DayTimesProvider {
                 fajr = it.imsak.toJoda(),
                 sun = it.sunrise.toJoda(),
                 dhuhr = it.dhuhr.toJoda(),
-                asr = it.asrShafi.toJoda(),
-                asrHanafi = it.asrHanafi.toJoda(),
+                asr = if (times?.asrType == Times.AsrType.Hanafi) it.asrHanafi.toJoda() else it.asrShafi.toJoda(),
+                asrHanafi = if (times?.asrType == Times.AsrType.Both) it.asrHanafi.toJoda() else null,
                 maghrib = it.maghrib.toJoda(),
                 ishaa = it.ishaa.toJoda(),
-                sabah = it.fajr.toJoda(),
+                sabah = null //it.fajr.toJoda(), imsak and fajr are the same for all Methods
             )
         }
     }

@@ -3,6 +3,7 @@ package com.metinkale.prayer.times
 import android.content.res.Resources
 import android.os.Build
 import androidx.lifecycle.LiveData
+import com.metinkale.prayer.App
 import dev.metinkale.prayertimes.core.Configuration
 import dev.metinkale.prayertimes.core.Entry
 import dev.metinkale.prayertimes.core.router.Method
@@ -12,9 +13,10 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
 private val coreRouter = dev.metinkale.prayertimes.core.router.coreRouter.also {
-    Configuration.GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
-    Configuration.IGMG_API_KEY = "YOUR_IGMG_API_KEY"
-    Configuration.LONDON_PRAYER_TIMES_API_KEY = "YOUR_LONDON_PRAYER_TIMES_API_KEY"
+    // you will need your own api keys
+    Configuration.GOOGLE_API_KEY = App.get().getString(R.string.GOOGLE_API_KEY)
+    Configuration.IGMG_API_KEY =  App.get().getString(R.string.IGMG_API_KEY)
+    Configuration.LONDON_PRAYER_TIMES_API_KEY =  App.get().getString(R.string.LONDON_PRAYER_TIMES_API_KEY)
     Configuration.HOT_ENTRIES = true
 }
 

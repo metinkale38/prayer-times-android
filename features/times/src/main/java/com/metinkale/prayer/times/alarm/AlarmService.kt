@@ -33,7 +33,6 @@ import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.times.alarm.Alarm.Companion.fromId
-import com.metinkale.prayer.times.alarm.AlarmService
 import com.metinkale.prayer.times.alarm.AlarmUtils.buildAlarmNotification
 import com.metinkale.prayer.times.alarm.AlarmUtils.buildPlayingNotification
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer
@@ -73,7 +72,7 @@ class AlarmService : IntentService("AlarmService") {
         val alarmId = intent.getIntExtra(EXTRA_ALARMID, 0)
         val time = intent.getLongExtra(EXTRA_TIME, 0)
         val alarm = fromId(alarmId)
-        if (alarm == null || !alarm.isEnabled) return
+        if (alarm == null || !alarm.enabled) return
         intent.removeExtra(EXTRA_ALARMID)
         val notId = alarm.city.ID
         val nm = c.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

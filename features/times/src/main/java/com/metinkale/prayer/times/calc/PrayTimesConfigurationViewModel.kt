@@ -1,7 +1,7 @@
 package com.metinkale.prayer.times.calc
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import dev.metinkale.prayertimes.calc.HighLatsAdjustment
 import dev.metinkale.prayertimes.calc.Method
@@ -10,11 +10,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 
-class PrayTimesConfigurationViewModel(prayTimes: PrayTimes, private val save: (PrayTimes) -> Unit) :
+class PrayTimesConfigurationViewModel(
+    prayTimes: PrayTimes,
+    private val save: PrayTimesConfigurationViewModel.(PrayTimes) -> Unit
+) :
     ViewModel() {
     val prayTimes: MutableStateFlow<PrayTimes> = MutableStateFlow(prayTimes)
-    val useAsrShafi = mutableStateOf(true)
-    val useAsrHanafi = mutableStateOf(false)
+    val asrType = MutableStateFlow(Times.AsrType.Shafi)
+
 
     fun save() = save(prayTimes.value)
 
@@ -85,6 +88,28 @@ class PrayTimesConfigurationViewModel(prayTimes: PrayTimes, private val save: (P
         Vakit.ASR -> if (num == 0) prayTimes.value.method.asrShafiMinute else prayTimes.value.method.asrHanafiMinute
         Vakit.MAGHRIB -> prayTimes.value.method.maghribMinute
         Vakit.ISHAA -> prayTimes.value.method.ishaaMinute
+    }
+
+    fun setAsrType(type: Times.AsrType, checked: Boolean) {
+        val types = asrType.value.let {
+            if (it == Times.AsrType.Both) listOf(
+                Times.AsrType.Shafi,
+                Times.AsrType.Hanafi
+            ) else listOf(it)
+        }.toMutableSet()
+        when {
+            type == Times.AsrType.Hanafi && checked -> types.add(Times.AsrType.Hanafi)
+            type == Times.AsrType.Shafi && checked -> types.add(Times.AsrType.Shafi)
+            type == Times.AsrType.Hanafi && !checked -> types.remove(Times.AsrType.Hanafi)
+            type == Times.AsrType.Shafi && !checked -> types.remove(Times.AsrType.Shafi)
+        }
+
+        asrType.value = when {
+            Times.AsrType.Hanafi in types && Times.AsrType.Shafi in types -> Times.AsrType.Both
+            Times.AsrType.Hanafi in types -> Times.AsrType.Hanafi
+            else -> Times.AsrType.Shafi
+        }
+
     }
 
 

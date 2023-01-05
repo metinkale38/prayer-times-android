@@ -10,7 +10,7 @@ private fun Times.getNextAlarm(): Pair<Alarm, LocalDateTime>? {
     var alarm: Alarm? = null
     var time: LocalDateTime? = null
     for (a in alarms) {
-        if (!a.isEnabled) continue
+        if (!a.enabled) continue
         val nextAlarm: LocalDateTime = a.nextAlarm ?: continue
         if (time == null || time.isAfter(nextAlarm)) {
             alarm = a

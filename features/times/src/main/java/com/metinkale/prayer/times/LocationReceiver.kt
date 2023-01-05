@@ -27,7 +27,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.metinkale.prayer.App
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver
-import com.metinkale.prayer.times.LocationReceiver
 import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
@@ -60,7 +59,7 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
         val elv = location.altitude
 
         for (t in Times.value) {
-            if (t.isAutoLocation) {
+            if (t.autoLocation) {
                 for (e in result) {
                     if (t.source === e.source) {
                         if (e.source === Source.Calc) {
@@ -82,7 +81,7 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
                 }
             }
         }
-        if (Times.value.any { it.isAutoLocation }) {
+        if (Times.value.any { it.autoLocation }) {
             Times.setAlarms()
             InternalBroadcastReceiver.sender(App.get()).sendTimeTick()
         } else {
@@ -106,7 +105,7 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
             ) == PackageManager.PERMISSION_GRANTED
         }
 
-        private fun useAutoLocation(): Boolean = Times.value.any { it.isAutoLocation }
+        private fun useAutoLocation(): Boolean = Times.value.any { it.autoLocation }
 
 
         @JvmStatic
