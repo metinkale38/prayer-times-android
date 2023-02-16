@@ -146,7 +146,7 @@ class HorizontalNumberWheel @JvmOverloads constructor(
         paint.textAlign = Paint.Align.CENTER
         paint.strokeWidth = Utils.convertDpToPixel(getContext(), 1f)
         detector = GestureDetector(context, gestureListener)
-        setOnTouchListener { v, event -> detector.onTouchEvent(event) }
+        setOnTouchListener { _, event -> detector.onTouchEvent(event) }
     }
 
 

@@ -13,24 +13,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.metinkale.prayer"
     android:installLocation="internalOnly">
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-
-    <application>
-
-        <activity android:name=".ShortcutActivity"/>
+    <application android:resizeableActivity="true">
+        <activity android:name=".ShortcutActivity" />
 
         <activity-alias
             android:name=".aliasDefault"
             android:label="@string/appName"
             android:logo="@mipmap/ic_launcher"
-            android:targetActivity=".ShortcutActivity">
+            android:targetActivity=".ShortcutActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,140 +34,247 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
-        <activity-alias
-            android:name=".aliasTR"
-            android:enabled="false"
-            android:label="@string/appNameTR"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".aliasFR"
-            android:enabled="false"
-            android:label="@string/appNameFR"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".aliasRU"
-            android:enabled="false"
-            android:label="@string/appNameRU"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
         <activity-alias
             android:name=".aliasAR"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/appNameAR"
             android:targetActivity=".ShortcutActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name=".aliasDE"
+            android:name=".aliasAZ"
             android:enabled="false"
-            android:label="@string/appNameDE"
+            android:exported="true"
+            android:label="@string/appNameAZ"
             android:targetActivity=".ShortcutActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name=".aliasEN"
+            android:name=".aliasBA"
             android:enabled="false"
-            android:label="@string/appNameEN"
+            android:exported="true"
+            android:label="@string/appNameBA"
             android:targetActivity=".ShortcutActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".aliasNL"
-            android:enabled="false"
-            android:label="@string/appNameNL"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".aliasID"
-            android:enabled="false"
-            android:label="@string/appNameID"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".aliasKU"
-            android:enabled="false"
-            android:label="@string/appNameKU"
-            android:targetActivity=".ShortcutActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
             android:name=".aliasBS"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/appNameBS"
             android:targetActivity=".ShortcutActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
-
+        <activity-alias
+            android:name=".aliasHR"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameHR"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasCS"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameCS"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasDA"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameDA"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasNL"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameNL"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasEN"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameEN"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasFR"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameFR"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasDE"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameDE"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasID"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameID"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasKU"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameKU"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasMS"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameMS"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasFA"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameFA"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasRU"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameRU"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasES"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameES"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".aliasTR"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameTR"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <activity-alias
             android:name=".aliasUK"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/appNameUK"
             android:targetActivity=".ShortcutActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity-alias>
-
-
+        <activity-alias
+            android:name=".aliasUR"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/appNameUR"
+            android:targetActivity=".ShortcutActivity">
+            <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 </manifest>

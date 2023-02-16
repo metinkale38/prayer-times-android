@@ -22,7 +22,7 @@ plugins {
 android {
     sourceSets {
         main {
-            // res.srcDirs += 'src/main/translations'
+            res.srcDirs += 'src/main/translations'
         }
     }
 
@@ -68,4 +68,5 @@ dependencies {
     implementation project(':features:times')
     implementation project(':features:base')
     implementation project(':features:about')
+    implementation 'com.vladsch.flexmark:flexmark-all:0.64.0'
 }

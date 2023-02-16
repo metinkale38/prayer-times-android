@@ -143,8 +143,9 @@ object Sounds {
                 for (j in 0 until jsounds.length()) {
                     val jsound = jsounds.getJSONObject(j)
                     var name = jsound.getString("name")
-                    val url = "/sounds/" + URLEncoder.encode(folderName)
-                        .replace("+", "%20") + "/" + URLEncoder.encode(name).replace("+", "%20")
+                    val url = "/sounds/" + URLEncoder.encode(folderName, "UTF-8")
+                        .replace("+", "%20") + "/" + URLEncoder.encode(name, "UTF-8")
+                        .replace("+", "%20")
                     if (name.contains(".")) name = name.substring(0, name.lastIndexOf("."))
                     val sound = AppSound(name, jsound.getInt("size"), jsound.getString("md5"), url)
                     if (!name.contains(" - ")) {

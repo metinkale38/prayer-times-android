@@ -32,8 +32,7 @@ fun <T> SelectMenu(
             modifier = Modifier.menuAnchor().fillMaxWidth(),
             onValueChange = { },
             label = { Text(label) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors()
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
         )
 
         ExposedDropdownMenu(

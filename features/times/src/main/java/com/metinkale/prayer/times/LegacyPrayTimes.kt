@@ -37,9 +37,8 @@ data class LegacyPrayTimes(
     val timeZone: String = "UTC",
     val minutes: List<Int> = List(LegacyTimes.values().size) { 0 },
     val angles: List<Double> = List(LegacyTimes.values().size) { 0.0 },
-) {
+)
 
-}
 enum class LegacyTimes {
     Imsak,
     Fajr,

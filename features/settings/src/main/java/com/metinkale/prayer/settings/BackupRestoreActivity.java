@@ -58,7 +58,6 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
     @Override
     public void onCreate(Bundle bdl) {
         super.onCreate(bdl);
-        PermissionUtils.get(this).needStorage(this);
         setContentView(R.layout.settings_backuprestore);
         ListView list = findViewById(R.id.listView1);
         mFolder = new File(Environment.getExternalStorageState(), "backups/com.metinkale.prayer");
@@ -67,15 +66,7 @@ public class BackupRestoreActivity extends AppCompatActivity implements OnItemCl
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(this);
     }
-    
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionUtils.get(this).onRequestPermissionResult(permissions, grantResults);
-        if (!PermissionUtils.get(this).pStorage) {
-            finish();
-        }
-    }
+
     
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {

@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources translatable="false">
     <string-array name="languages">
-        <item>sq|29</item>
-        <item>ar|98</item>
-        <item>az|4</item>
-        <item>bn|5</item>
-        <item>bs|84</item>
-        <item>zh-CN|3</item>
-        <item>nl|93</item>
+        <item>sq|28</item>
+        <item>ar|100</item>
+        <item>az|100</item>
+        <item>ba|100</item>
+        <item>bn|30</item>
+        <item>bs|100</item>
+        <item>zh|3</item>
+        <item>hr|58</item>
+        <item>cs|56</item>
+        <item>da|81</item>
+        <item>nl|94</item>
         <item>en|100</item>
-        <item>fr|94</item>
+        <item>fr|97</item>
         <item>de|100</item>
         <item>id|100</item>
-        <item>kur|44</item>
-        <item>ms|56</item>
-        <item>ru|78</item>
+        <item>it|4</item>
+        <item>kaa|16</item>
+        <item>kur|97</item>
+        <item>ms|70</item>
+        <item>fa|98</item>
+        <item>ru|100</item>
+        <item>sl|30</item>
+        <item>es|97</item>
         <item>tr|100</item>
-        <item>uk|58</item>
-        <item>ur-PK|18</item>
+        <item>uk|56</item>
+        <item>ur|63</item>
+        <item>uz|8</item>
     </string-array>
 </resources>

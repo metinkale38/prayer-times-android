@@ -42,7 +42,7 @@ import com.metinkale.prayer.times.utils.RTLViewPager
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import kotlin.math.min
 
 class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.OnClickListener {
@@ -95,7 +95,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         topSlider.setOnDrawerOpenListener {
             val position = pager.currentItem
             if (position != 0) {
-                val (ID) = Times.value[position - 1]
+                val (ID) = Times.current[position - 1]
                 settingsFrag.timesId = ID
             }
             bottomSlider.lock()
@@ -104,7 +104,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         bottomSlider.setOnDrawerOpenListener { topSlider.lock() }
         bottomSlider.setOnDrawerCloseListener { topSlider.unlock() }
         v.findViewById<View>(R.id.topSliderCloseHandler)
-            .setOnTouchListener { view: View?, motionEvent: MotionEvent ->
+            .setOnTouchListener { _: View?, motionEvent: MotionEvent ->
                 if (motionEvent.action == MotionEvent.ACTION_DOWN && topSlider.isOpened) {
                     topSlider.animateClose()
                     return@setOnTouchListener true
@@ -112,7 +112,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
                 false
             }
         v.findViewById<View>(R.id.bottomSliderCloseHandler)
-            .setOnTouchListener { view: View?, motionEvent: MotionEvent ->
+            .setOnTouchListener { _: View?, motionEvent: MotionEvent ->
                 if (motionEvent.action == MotionEvent.ACTION_DOWN && bottomSlider.isOpened) {
                     bottomSlider.animateClose()
                     return@setOnTouchListener true
@@ -155,7 +155,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             val pos = pager.currentItem
             if (pos != 0) {
-                val t: Times = Times.value[pos - 1]
+                val t: Times = Times.current[pos - 1]
                 imsakiyeFrag.setTimes(t)
             }
         }
@@ -195,10 +195,10 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         FragmentPagerAdapter(fm!!) {
 
 
-        private var size: Int = 0
+        private var size: Int = Times.current.size
 
         init {
-            Times.mapNotNull { it.size }.distinctUntilChanged().asLiveData().observe(lco) {
+            Times.map { it.size }.distinctUntilChanged().asLiveData().observe(lco) {
                 size = it
                 notifyDataSetChanged()
             }
@@ -230,12 +230,12 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         fun getPendingIntent(t: Times): PendingIntent? {
             val context: Context = App.get()
             val intent = Module.TIMES.buildIntent(context)
-            intent.putExtra("startCity", Times.value.indexOfFirst { it.ID == t.ID })
+            intent.putExtra("startCity", Times.current.indexOfFirst { it.id == t.id })
             return PendingIntent.getActivity(
                 context,
                 UUID.asInt(),
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
     }

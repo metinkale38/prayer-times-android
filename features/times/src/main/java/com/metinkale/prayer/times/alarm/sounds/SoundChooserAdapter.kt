@@ -29,7 +29,6 @@ import com.koushikdutta.ion.Ion
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.times.R
-import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter.ItemVH
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.Utils
@@ -38,9 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class SoundChooserAdapter(
     private val recyclerView: RecyclerView,
-    rootSounds: List<Sound>,
-    private val alarm: Alarm?,
-    private val sortSounds: Boolean
+    rootSounds: List<Sound>
 ) : RecyclerView.Adapter<ItemVH>() {
     private val layoutManager: LinearLayoutManager = LinearLayoutManager(recyclerView.context)
     private val sounds: MutableList<Sound> = ArrayList()
@@ -50,16 +47,7 @@ class SoundChooserAdapter(
         private set
     private var volume = -1
     private var player: MyPlayer? = null
-    private var onItemClickListener: OnClickListener? = null
-    private var showRadioButton = true
-
-    fun interface OnClickListener {
-        fun onItemClick(vh: ItemVH, sound: Sound)
-    }
-
-    fun getItem(i: Int): Sound {
-        return sounds[i]
-    }
+    var onItemClickListener: (ItemVH.(sound: Sound) -> Unit)? = null
 
     init {
         recyclerView.layoutManager = layoutManager
@@ -69,7 +57,7 @@ class SoundChooserAdapter(
 
     fun update() {
         sounds.clear()
-        if (sortSounds) rootSounds.sortWith { o1: Sound, o2: Sound ->
+        rootSounds.sortWith { o1: Sound, o2: Sound ->
             val name1 = o1.name
             val name2 = o2.name
             name1!!.compareTo(name2!!)
@@ -89,6 +77,10 @@ class SoundChooserAdapter(
         notifyDataSetChanged()
     }
 
+    fun getItem(i: Int): Sound {
+        return sounds[i]
+    }
+
     override fun getItemId(position: Int): Long {
         return sounds[position].id.toLong()
     }
@@ -96,10 +88,13 @@ class SoundChooserAdapter(
     override fun onBindViewHolder(vh: ItemVH, position: Int) {
         val sound = sounds[position]
         vh.resetAudio()
-        vh.radio.visibility = if (showRadioButton) View.VISIBLE else View.GONE
+        vh.radio.visibility = View.VISIBLE
+
+        vh.delete.visibility = View.GONE
+
         if (sound is BundledSound) {
             vh.expand.visibility = View.VISIBLE
-            vh.expand.setOnClickListener { v: View? ->
+            vh.expand.setOnClickListener {
                 expanded = if (expanded === sound) {
                     null
                 } else {
@@ -123,24 +118,19 @@ class SoundChooserAdapter(
         checkAction(sound, vh)
         vh.action.setOnClickListener { v: View ->
             if (sound.isDownloaded) {
-                playPause(v, vh, sound)
+                playPause(vh, sound)
             } else {
                 downloadSound(v, sound.name, sound.appSounds)
             }
         }
-        vh.radio.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        vh.radio.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 selected = sound
                 checkAllCheckboxes()
             }
         }
-        if (onItemClickListener != null) {
-            vh.view.setOnClickListener { v: View? ->
-                onItemClickListener!!.onItemClick(
-                    vh,
-                    sounds[position]
-                )
-            }
+        vh.view.setOnClickListener {
+            onItemClickListener?.invoke(vh, sounds[position])
         }
     }
 
@@ -154,11 +144,11 @@ class SoundChooserAdapter(
         while (i < childCount) {
             val view = recyclerView.getChildAt(i)
             val holder = recyclerView.getChildViewHolder(view) as ItemVH
-            if (holder.adapterPosition == -1) {
+            if (holder.bindingAdapterPosition == -1) {
                 ++i
                 continue
             }
-            checkVisibility(sounds[holder.adapterPosition], holder)
+            checkVisibility(sounds[holder.bindingAdapterPosition], holder)
             ++i
         }
     }
@@ -169,11 +159,11 @@ class SoundChooserAdapter(
         while (i < childCount) {
             val view = recyclerView.getChildAt(i)
             val holder = recyclerView.getChildViewHolder(view) as ItemVH
-            if (holder.adapterPosition == -1) {
+            if (holder.bindingAdapterPosition == -1) {
                 ++i
                 continue
             }
-            checkCheckbox(sounds[holder.adapterPosition], holder)
+            checkCheckbox(sounds[holder.bindingAdapterPosition], holder)
             ++i
         }
     }
@@ -184,11 +174,11 @@ class SoundChooserAdapter(
         while (i < childCount) {
             val view = recyclerView.getChildAt(i)
             val holder = recyclerView.getChildViewHolder(view) as ItemVH
-            if (holder.adapterPosition == -1) {
+            if (holder.bindingAdapterPosition == -1) {
                 ++i
                 continue
             }
-            checkAction(sounds[holder.adapterPosition], holder)
+            checkAction(sounds[holder.bindingAdapterPosition], holder)
             ++i
         }
     }
@@ -240,7 +230,7 @@ class SoundChooserAdapter(
         dialog.setButton(
             DialogInterface.BUTTON_POSITIVE,
             ctx.getString(R.string.yes)
-        ) { dialogInterface, i ->
+        ) { _, _ ->
             val dlg = ProgressDialog(ctx)
             dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             dlg.max = items.size * 100
@@ -292,19 +282,19 @@ class SoundChooserAdapter(
         dialog.setButton(
             DialogInterface.BUTTON_NEGATIVE,
             ctx.getString(R.string.no)
-        ) { dialog1: DialogInterface, i: Int -> dialog1.cancel() }
+        ) { dialog1: DialogInterface, _: Int -> dialog1.cancel() }
         dialog.show()
     }
 
-    private fun playPause(v: View, vh: ItemVH, item: Sound) {
-        if (vh.player == null && alarm != null) {
+    private fun playPause(vh: ItemVH, item: Sound) {
+        if (vh.player == null) {
             resetAudios()
             vh.action.setImageResource(R.drawable.ic_pause)
             vh.text.visibility = View.INVISIBLE
             vh.seekbar.visibility = View.VISIBLE
             try {
                 player =
-                    MyPlayer.from(item).alarm(alarm).seekbar(vh.seekbar).volume(volume)
+                    MyPlayer.from(item).seekbar(vh.seekbar).volume(volume)
                         .play().onComplete { vh.resetAudio() }
                 vh.player = player
             } catch (e: Exception) {
@@ -330,39 +320,19 @@ class SoundChooserAdapter(
         }
     }
 
-    fun setVolume(volume: Int) {
-        this.volume = volume
-        if (player != null) player!!.volume(volume)
-    }
-
-    fun setOnItemClickListener(listener: OnClickListener?) {
-        this.onItemClickListener = listener
-    }
-
-    fun setShowRadioButton(showRadioButton: Boolean) {
-        this.showRadioButton = showRadioButton
-    }
 
     class ItemVH internal constructor(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.sound_chooser_item, parent, false)
     ) {
         val view: View = itemView
-        val action: ImageView
-        val expand: ImageView
-        val seekbar: SeekBar
-        val radio: RadioButton
-        val staticRadio: RadioButton
-        val text: TextView
+        val action: ImageView = view.findViewById(R.id.action)
+        val expand: ImageView = view.findViewById(R.id.expand)
+        val delete: ImageView = view.findViewById(R.id.delete)
+        val seekbar: SeekBar = view.findViewById(R.id.seekbar)
+        val radio: RadioButton = view.findViewById(R.id.radioButton)
+        val staticRadio: RadioButton = view.findViewById(R.id.staticRadioDisabled)
+        val text: TextView = view.findViewById(R.id.text)
         var player: MyPlayer? = null
-
-        init {
-            action = view.findViewById(R.id.action)
-            expand = view.findViewById(R.id.expand)
-            radio = view.findViewById(R.id.radioButton)
-            staticRadio = view.findViewById(R.id.staticRadioDisabled)
-            text = view.findViewById(R.id.text)
-            seekbar = view.findViewById(R.id.seekbar)
-        }
 
         fun resetAudio() {
             if (seekbar.visibility == View.VISIBLE) {

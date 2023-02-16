@@ -14,15 +14,24 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="appNameEN" translatable="false">Prayer Times</string>
-    <string name="appNameTR" translatable="false">Namaz Vakti</string>
-    <string name="appNameDE" translatable="false">Gebetszeiten</string>
     <string name="appNameAR" translatable="false">أوقات الصلاة</string>
-    <string name="appNameFR" translatable="false">Horaires des prières</string>
-    <string name="appNameRU" translatable="false">Расписание молитв</string>
+    <string name="appNameAZ" translatable="false">Namaz Vaxtları</string>
+    <string name="appNameBA" translatable="false">Намаҙ Ваҡыты</string>
+    <string name="appNameBS" translatable="false">Vaktija</string>
+    <string name="appNameHR" translatable="false">Namaska Vremena</string>
+    <string name="appNameCS" translatable="false">Modlitební časy</string>
+    <string name="appNameDA" translatable="false">Bønstider</string>
     <string name="appNameNL" translatable="false">Gebedstijden</string>
+    <string name="appNameEN" translatable="false">Prayer Times</string>
+    <string name="appNameFR" translatable="false">Horaires des prières</string>
+    <string name="appNameDE" translatable="false">Gebetszeiten</string>
     <string name="appNameID" translatable="false">Waktu shalat</string>
     <string name="appNameKU" translatable="false">Demên Nimêjê</string>
-    <string name="appNameBS" translatable="false">Vaktija</string>
+    <string name="appNameMS" translatable="false">Waktu Solat</string>
+    <string name="appNameFA" translatable="false">اوقات نماز</string>
+    <string name="appNameRU" translatable="false">Время молитв</string>
+    <string name="appNameES" translatable="false">Orario de Oraciones</string>
+    <string name="appNameTR" translatable="false">Namaz Vakti</string>
     <string name="appNameUK" translatable="false">Розклад молитов</string>
+    <string name="appNameUR" translatable="false">اوقات نماز</string>
 </resources>

@@ -5,8 +5,8 @@ import dev.metinkale.prayertimes.calc.PrayTimes
 import org.joda.time.LocalDate
 
 class DayTimesCalcProvider(id: Int) : DayTimesProvider {
-    private val times = Times.getTimesById(id).value
-    val prayTime = PrayTimes.deserialize(times?.id ?: "")
+    private val times = Times.getTimesById(id).current
+    val prayTime = PrayTimes.deserialize(times?.key ?: "")
 
     override fun get(key: LocalDate): DayTimes {
         return prayTime.getTimes(

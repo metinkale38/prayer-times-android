@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.MotionEventCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
@@ -38,6 +38,8 @@ class SortFragment : Fragment() {
     private lateinit var adapter: MyAdapter
     private lateinit var act: TimesFragment
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var callback: SimpleItemTouchHelperCallback
+
     private var deleteMode = false
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +53,13 @@ class SortFragment : Fragment() {
         val linLayMan = LinearLayoutManager(context)
         recyclerMan.layoutManager = linLayMan
         recyclerMan.setHasFixedSize(true)
-        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback()
+        callback = SimpleItemTouchHelperCallback()
         itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerMan)
+
         setHasOptionsMenu(true)
         Times.asLiveData().observe(viewLifecycleOwner, adapter)
-        adapter.onChanged(Times.value)
+        adapter.onChanged(Times.current)
         return v
     }
 
@@ -86,17 +89,19 @@ class SortFragment : Fragment() {
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int) {
+        val ids = Times.current.map { it.id }.toMutableList()
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
-                Collections.swap(adapter.times, i, i + 1)
+                Collections.swap(ids, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(adapter.times, i, i - 1)
+                Collections.swap(ids, i, i - 1)
             }
         }
-        for (i in 0 until adapter.itemCount) {
-            adapter.times[i]?.copy(sortId = i)?.save()
+
+        ids.forEachIndexed { index, key ->
+            Times.getTimesById(key).update { it?.copy(sortId = index) }
         }
         adapter.notifyItemMoved(fromPosition, toPosition)
     }
@@ -105,19 +110,19 @@ class SortFragment : Fragment() {
         val times = Times.getTimesByIndex(position)
         val dialog = AlertDialog.Builder(requireActivity()).create()
         dialog.setTitle(R.string.delete)
-        dialog.setMessage(getString(R.string.delCityConfirm, times.value?.name))
+        dialog.setMessage(getString(R.string.delCityConfirm, times.current?.name))
         dialog.setCancelable(false)
         dialog.setButton(
             DialogInterface.BUTTON_POSITIVE,
             getString(R.string.yes)
-        ) { dialogInterface: DialogInterface?, i: Int ->
-            times.value?.delete()
+        ) { _: DialogInterface?, _: Int ->
+            times.current?.delete()
             adapter.notifyItemRemoved(position)
         }
         dialog.setButton(
             DialogInterface.BUTTON_NEGATIVE,
             getString(R.string.no)
-        ) { dialogInterface: DialogInterface, i: Int ->
+        ) { dialogInterface: DialogInterface, _: Int ->
             dialogInterface.cancel()
             adapter.notifyDataSetChanged()
         }
@@ -140,8 +145,7 @@ class SortFragment : Fragment() {
         }
     }
 
-    private inner class MyAdapter : RecyclerView.Adapter<ViewHolder>(), Observer<List<Times?>?> {
-        val times = ArrayList<Times?>()
+    private inner class MyAdapter : RecyclerView.Adapter<ViewHolder>(), Observer<List<Times>> {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val v = LayoutInflater.from(context).inflate(R.layout.vakit_sort_item, parent, false)
             return ViewHolder(v)
@@ -154,36 +158,39 @@ class SortFragment : Fragment() {
             vh.source.text = c.source.name
             vh.gps.visibility = if (c.autoLocation) View.VISIBLE else View.GONE
             vh.delete.visibility = if (deleteMode) View.VISIBLE else View.GONE
-            vh.delete.setOnClickListener { view: View? -> onItemDismiss(vh.adapterPosition) }
+            vh.delete.setOnClickListener { onItemDismiss(vh.bindingAdapterPosition) }
             vh.handler.setOnTouchListener { _: View?, event: MotionEvent? ->
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                if (event?.action == MotionEvent.ACTION_DOWN) {
                     itemTouchHelper.startDrag(vh)
                 }
                 false
             }
-            vh.itemView.setOnClickListener { view: View? -> act.onItemClick(vh.adapterPosition) }
+            vh.itemView.setOnClickListener { act.onItemClick(vh.bindingAdapterPosition) }
         }
 
         fun getItem(pos: Int): Times? {
-            return times[pos]
+            return Times.getTimesByIndex(pos).current
         }
 
         override fun getItemId(position: Int): Long {
-            return getItem(position)!!.ID.toLong()
+            return getItem(position)!!.id.toLong()
         }
 
         override fun getItemCount(): Int {
-            return times.size
+            return Times.current.size
         }
 
-        override fun onChanged(times: List<Times?>?) {
-            this.times.clear()
-            this.times.addAll(Times.value)
-            notifyDataSetChanged()
+        override fun onChanged(times: List<Times>) {
+            if (callback.state == ItemTouchHelper.ACTION_STATE_IDLE) {
+                notifyDataSetChanged()
+            }
         }
     }
 
     inner class SimpleItemTouchHelperCallback : ItemTouchHelper.Callback() {
+
+        var state: Int? = null
+
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
@@ -193,17 +200,18 @@ class SortFragment : Fragment() {
             return makeMovementFlags(dragFlags, swipeFlags)
         }
 
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+            onItemMove(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            onItemDismiss(viewHolder.adapterPosition)
+            onItemDismiss(viewHolder.bindingAdapterPosition)
         }
 
         override fun isLongPressDragEnabled(): Boolean {
@@ -215,13 +223,14 @@ class SortFragment : Fragment() {
         }
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            state = actionState
             // We only want the active item
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
                 if (viewHolder is ViewHolder) {
                     viewHolder.itemView.setBackgroundColor(
                         mixColor(
-                            activity!!.resources.getColor(R.color.background),
-                            activity!!.resources.getColor(R.color.backgroundSecondary)
+                            ContextCompat.getColor(requireActivity(), R.color.background),
+                            ContextCompat.getColor(requireActivity(), R.color.backgroundSecondary)
                         )
                     )
                 }

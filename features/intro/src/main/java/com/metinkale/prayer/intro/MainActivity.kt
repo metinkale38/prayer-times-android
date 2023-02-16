@@ -22,18 +22,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.Module
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.intro.R.string
 import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.utils.RTLViewPager
 import com.metinkale.prayer.utils.LocaleUtils
 import dev.metinkale.prayertimes.calc.Method
 import dev.metinkale.prayertimes.calc.PrayTimes
@@ -44,14 +44,16 @@ import java.util.*
  * Created by metin on 17.07.2017.
  */
 class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickListener {
-    private lateinit var mPager: RTLViewPager
-    private val colors = intArrayOf(
-        App.get().resources.getColor(R.color.colorPrimary),
-        App.get().resources.getColor(R.color.accent),
-        App.get().resources.getColor(R.color.colorPrimaryDark),
-        -0xc0ae4b,
-        -0xff432c
-    )
+    private lateinit var mPager: ViewPager
+    private val colors by lazy {
+        intArrayOf(
+            ContextCompat.getColor(this, R.color.colorPrimary),
+            ContextCompat.getColor(this, R.color.accent),
+            ContextCompat.getColor(this, R.color.colorPrimaryDark),
+            -0xc0ae4b,
+            -0xff432c
+        )
+    }
     private val fragClz = listOf<Class<*>>(
         LanguageFragment::class.java,
         ChangelogFragment::class.java,
@@ -104,12 +106,12 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
         newArray[i] = LastFragment()
         fragments = newArray
         adapter = MyAdapter(supportFragmentManager)
-        mPager.setRTLSupportAdapter(supportFragmentManager, adapter)
+        mPager.adapter = adapter
         mPager.addOnPageChangeListener(this)
     }
 
     private fun createTemproraryTimes() {
-        if (Times.value.size < 2) {
+        if (Times.current.size < 2) {
             if (Locale.getDefault().language == Locale("tr").language) {
                 buildTemporaryTimes(
                     "Mekke",
@@ -181,11 +183,13 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
         id: Int,
         timeZone: TimeZone?
     ) {
-        Times(
-            ID = id, name = name, source = Source.Companion.Calc, id = PrayTimes(
-                lat, lng, 0.0, kotlinx.datetime.TimeZone.of(timeZone?.id ?: "UTC"), Method.MWL
-            ).serialize()
-        ).save()
+        Times.add(
+            Times(
+                id = id, name = name, source = Source.Companion.Calc, key = PrayTimes(
+                    lat, lng, 0.0, kotlinx.datetime.TimeZone.of(timeZone?.id ?: "UTC"), Method.MWL
+                ).serialize()
+            )
+        )
     }
 
     override fun recreate() {
@@ -224,7 +228,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
                 Preferences.CHANGELOG_VERSION.set(BuildConfig.CHANGELOG_VERSION)
                 Preferences.SHOW_INTRO.set(false)
                 val bdl = Bundle()
-                if (Times.value.size === 0) {
+                if (Times.current.size == 0) {
                     bdl.putBoolean("openCitySearch", true)
                 }
                 Module.TIMES.launch(this, bdl)

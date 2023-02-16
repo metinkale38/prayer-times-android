@@ -113,21 +113,21 @@ internal class AlarmsAdapter : RecyclerView.Adapter<MyViewHolder?>() {
             title.text = item.name
             switch.setOnCheckedChangeListener(null)
             switch.isChecked = item.checked
-            switch.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+            switch.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 item.onChange(
                     isChecked
                 )
             }
-            title.setOnClickListener { v: View? -> item.onClick() }
-            title.setOnLongClickListener { v: View? -> item.onLongClick() }
+            title.setOnClickListener { item.onClick() }
+            title.setOnLongClickListener { item.onLongClick() }
             switch.visibility = View.VISIBLE
             title.gravity = Gravity.START or Gravity.CENTER
         }
 
         fun setSwitchItem(item: Button) {
             title.text = item.name
-            title.setOnClickListener { v: View? -> item.onClick() }
-            title.setOnLongClickListener { v: View? -> item.onLongClick() }
+            title.setOnClickListener { item.onClick() }
+            title.setOnLongClickListener { item.onLongClick() }
             title.gravity = Gravity.CENTER
             switch.visibility = View.GONE
         }

@@ -52,7 +52,7 @@ data class UserSound(val uri: Uri) : Sound {
                 }
                 if (result == null) {
                     result = uri.path
-                    var cut = 0
+                    val cut: Int
                     if (result != null) {
                         cut = result.lastIndexOf('/')
                         if (cut != -1) {

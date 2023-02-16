@@ -47,12 +47,14 @@ class SettingsFragment : Fragment() {
         get: SettingsFragmentViewModel.() -> Flow<String>,
         set: SettingsFragmentViewModel.(String) -> Unit
     ) {
-        get(viewModel).asLiveData().observe({ lifecycle }) { setText(it) }
+        get(viewModel).asLiveData().observe(viewLifecycleOwner) { setText(it) }
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            override fun afterTextChanged(editable: Editable) =
-                set.invoke(viewModel, editable.toString())
+            override fun afterTextChanged(editable: Editable) {
+                if (hasFocus())
+                    set.invoke(viewModel, editable.toString())
+            }
         })
     }
 

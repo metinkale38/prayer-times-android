@@ -33,7 +33,7 @@ class SilenterPrompt : AppCompatActivity() {
         np.minValue = 1
         np.maxValue = 300
         np.value = widgets.getInt("silenterWidget", 15)
-        findViewById<View>(R.id.cancel).setOnClickListener { view: View? -> finish() }
+        findViewById<View>(R.id.cancel).setOnClickListener { finish() }
         findViewById<View>(R.id.ok).setOnClickListener { v: View ->
             widgets.edit().putInt("silenterWidget", np.value).apply()
             if (PermissionUtils.get(this).pNotPolicy) SilenterReceiver.silent(

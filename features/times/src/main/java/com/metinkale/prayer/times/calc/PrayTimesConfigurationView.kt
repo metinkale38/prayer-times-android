@@ -86,7 +86,11 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
         ) {
             Column {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Vakit", fontWeight = FontWeight.Bold)
+                    Text(
+                        "Vakit",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
                 rows.forEach { (vakit, num) ->
                     Row(modifier = Modifier.height(32.dp)) {
@@ -95,7 +99,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                 if (num == 0)
                                     Checkbox(
                                         asrType.value != Times.AsrType.Hanafi,
-                                        {  model.setAsrType(Times.AsrType.Shafi, it) })
+                                        { model.setAsrType(Times.AsrType.Shafi, it) })
                                 else
                                     Checkbox(asrType.value != Times.AsrType.Shafi,
                                         { model.setAsrType(Times.AsrType.Hanafi, it) })
@@ -105,14 +109,16 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                             modifier = Modifier.padding(start = if (vakit == Vakit.ASR) 4.dp else 0.dp),
                             text = runCatching { vakit.getString(num) }.getOrNull()
                                 ?: "Time",
-                            maxLines = 1
+                            maxLines = 1,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
             }
             Column {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Saat", fontWeight = FontWeight.Bold)
+                    Text("Saat", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground)
                 }
                 rows.forEach { (vakit, num) ->
                     Row(modifier = Modifier.height(32.dp)) {
@@ -126,7 +132,8 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                     Vakit.MAGHRIB -> maghrib
                                     Vakit.ISHAA -> ishaa
                                 }
-                            }.toString()
+                            }.toString(),
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -134,7 +141,8 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
 
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Aci", fontWeight = FontWeight.Bold)
+                    Text("Aci", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground)
                 }
                 rows.forEach { (vakit, _) ->
                     Box(modifier = Modifier.height(32.dp)) {
@@ -148,7 +156,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                 value = ONE_DECIMALS.format(angle),
                                 onValueChange = setStr,
                                 singleLine = true,
-                                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+                                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground),
                                 modifier = Modifier.align(Alignment.Center)
                             )
 
@@ -159,6 +167,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                     .clickable(onClick = decr)
                                     .align(Alignment.CenterStart),
                                 imageVector = Icons.Default.Remove,
+                                tint = MaterialTheme.colorScheme.onBackground,
                                 contentDescription = "Remove",
                             )
                             Icon(
@@ -168,6 +177,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                     .clickable(onClick = incr)
                                     .align(Alignment.CenterEnd),
                                 imageVector = Icons.Default.Add,
+                                tint = MaterialTheme.colorScheme.onBackground,
                                 contentDescription = "Add",
                             )
                         }
@@ -176,7 +186,8 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             }
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Zaman", fontWeight = FontWeight.Bold)
+                    Text("Zaman", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground)
                 }
                 rows.forEach { (vakit, num) ->
                     val min = model.getMinuteDrift(vakit, num)
@@ -189,7 +200,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                             value = min.toString(),
                             onValueChange = setStr,
                             singleLine = true,
-                            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+                            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground ),
                             modifier = Modifier.align(Alignment.Center)
                         )
 
@@ -200,6 +211,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                 .align(Alignment.CenterEnd)
                                 .clickable(onClick = incr),
                             imageVector = Icons.Default.Add,
+                            tint = MaterialTheme.colorScheme.onBackground,
                             contentDescription = "Add"
                         )
                         Icon(
@@ -209,6 +221,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                 .align(Alignment.CenterStart)
                                 .clickable(onClick = decr),
                             imageVector = Icons.Default.Remove,
+                            tint = MaterialTheme.colorScheme.onBackground,
                             contentDescription = "Remove"
                         )
                     }

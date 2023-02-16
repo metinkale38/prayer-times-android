@@ -26,7 +26,6 @@ import kotlinx.serialization.Serializable
 import java.io.File
 import java.io.IOException
 
-@Serializable
 data class AppSound(
     override var name: String,
     override val size: Int,

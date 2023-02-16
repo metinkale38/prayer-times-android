@@ -86,16 +86,13 @@ class WidgetUtils : InternalBroadcastReceiver(), OnTimeTickListener {
 
         fun getTimes(widgetId: Int): Times? {
             val widgets = App.get().getSharedPreferences("widgets", 0)
-
-            // TODO remove after some versions
-            (widgets.all[widgetId.toString()] as? Long)?.let {
-                widgets.edit().putInt(widgetId.toString(), it.toInt()).commit()
-            }
-
-            val id = widgets.getInt(widgetId.toString() + "", 0)
+            val id = runCatching {
+                widgets.getInt(widgetId.toString() + "", 0).takeIf { it != 0 }
+            }.getOrNull()
+                ?: widgets.getLong(widgetId.toString() + "", 0L).toInt()
             var t: Times? = null
             if (id != 0) {
-                t = Times.getTimesById(id).value
+                t = Times.getTimesById(id).current
             }
             if (t == null) widgets.edit().remove(widgetId.toString() + "").apply()
             return t
@@ -108,7 +105,7 @@ class WidgetUtils : InternalBroadcastReceiver(), OnTimeTickListener {
             i.putExtra(WidgetConfigure.Companion.ONLYCITY, true)
             remoteViews.setOnClickPendingIntent(
                 R.id.image,
-                PendingIntent.getActivity(context, widgetId, i, PendingIntent.FLAG_CANCEL_CURRENT)
+                PendingIntent.getActivity(context, widgetId, i, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             )
             appWidgetManager.updateAppWidget(widgetId, remoteViews)
         }
@@ -134,31 +131,31 @@ class WidgetUtils : InternalBroadcastReceiver(), OnTimeTickListener {
                 val manager = AppWidgetManager.getInstance(App.get())
                 var thisWidget = ComponentName(c, WidgetProvider::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProvider.Companion.updateAppWidget(c, manager, i)
+                    WidgetProvider.updateAppWidget(c, manager, i)
                     hasWidgets = true
                 }
                 thisWidget = ComponentName(c, WidgetProviderSmall::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProviderSmall.Companion.updateAppWidget(c, manager, i)
+                    WidgetProviderSmall.updateAppWidget(c, manager, i)
                     hasWidgets = true
                 }
                 thisWidget = ComponentName(c, WidgetProviderLong::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProviderLong.Companion.updateAppWidget(c, manager, i)
+                    WidgetProviderLong.updateAppWidget(c, manager, i)
                     hasWidgets = true
                 }
                 thisWidget = ComponentName(c, WidgetProviderSilenter::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProviderSilenter.Companion.updateAppWidget(c, manager, i)
+                    WidgetProviderSilenter.updateAppWidget(c, manager, i)
                 }
                 thisWidget = ComponentName(c, WidgetProviderClock::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProviderClock.Companion.updateAppWidget(c, manager, i)
+                    WidgetProviderClock.updateAppWidget(c, manager, i)
                     hasWidgets = true
                 }
                 thisWidget = ComponentName(c, WidgetProviderClock2::class.java)
                 for (i in manager.getAppWidgetIds(thisWidget)) {
-                    WidgetProviderClock2.Companion.updateAppWidget(c, manager, i)
+                    WidgetProviderClock2.updateAppWidget(c, manager, i)
                     hasWidgets = true
                 }
                 if (hasWidgets) {

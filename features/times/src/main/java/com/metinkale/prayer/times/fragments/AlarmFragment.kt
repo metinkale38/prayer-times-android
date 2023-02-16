@@ -22,42 +22,46 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.metinkale.prayer.App
-import com.metinkale.prayer.BaseActivity
+import com.metinkale.prayer.BaseActivity.MainFragment
 import com.metinkale.prayer.times.BuildConfig
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.alarm.AlarmService
 import com.metinkale.prayer.times.alarm.sounds.SoundChooser
 import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter
+import com.metinkale.prayer.times.alarm.sounds.SoundSerializer
+import com.metinkale.prayer.times.alarm.sounds.SoundsAdapter
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.utils.HorizontalNumberWheel
-import com.metinkale.prayer.times.utils.UpdatableStateFlow
-import com.metinkale.prayer.times.utils.bindText
+import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.mapById
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.PermissionUtils
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 import org.joda.time.LocalDateTime
 import java.text.DateFormatSymbols
 import java.util.*
 import kotlin.math.abs
 
-class AlarmConfigFragment : DialogFragment() {
-    private val colorOn = App.get().resources.getColor(R.color.colorPrimary)
-    private val colorOff = App.get().resources.getColor(R.color.foregroundSecondary)
-    private val weekdays = MutableList<TextView?>(7) { null }
+class AlarmFragment : MainFragment() {
+    private val colorOn = ContextCompat.getColor(App.get(), R.color.colorPrimary)
+    private val colorOff = ContextCompat.getColor(App.get(), R.color.foregroundSecondary)
     private val timesView = MutableList<ImageView?>(6) { null }
-    private val weekdaysText = MutableList<TextView?>(7) { null }
+
+
     private val timesText = MutableList<TextView?>(6) { null }
     private lateinit var vibrate: Switch
     private lateinit var autoDelete: Switch
@@ -68,27 +72,39 @@ class AlarmConfigFragment : DialogFragment() {
     private lateinit var volumeBar: SeekBar
     private lateinit var volumeSpinner: Spinner
     private lateinit var volumeTitle: TextView
-    private lateinit var adapter: SoundChooserAdapter
+    private lateinit var adapter: SoundsAdapter
     private lateinit var delete: Button
     private lateinit var silenterUp: View
     private lateinit var silenterDown: View
     private lateinit var silenterValue: EditText
 
-    private lateinit var alarms: UpdatableStateFlow<List<Alarm>>
-    private lateinit var alarm: UpdatableStateFlow<Alarm?>
-    private lateinit var times: UpdatableStateFlow<Times?>
+    private lateinit var alarms: Store<List<Alarm>>
+    private lateinit var alarm: Store<Alarm?>
+    private lateinit var times: Store<Times?>
 
-    fun show(frag: Fragment) {
-        if (frag.resources.getBoolean(R.bool.large_layout)) {
-            val fragmentManager = frag.childFragmentManager
-            this.show(fragmentManager, "alarmconfig")
-        } else {
-            (frag.activity as? BaseActivity)?.moveToFrag(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val bdl = requireArguments()
+        times = Times.getTimesById(bdl.getInt("city"))
+        if (times.current == null) {
+            back()
         }
-    }
+        alarms =
+            times.map({ it?.alarms ?: emptyList() }, { parent, it -> parent?.copy(alarms = it) })
+        alarm = alarms.mapById(bdl.getInt("id"), Alarm::id)
 
-    override fun dismiss() {
-        if (resources.getBoolean(R.bool.large_layout)) super.dismiss() else requireActivity().onBackPressed()
+        setFragmentResultListener("addSound") { _, bundle ->
+            bundle.getString("json")?.let { Json.decodeFromString(SoundSerializer, it) }
+                ?.let { sound ->
+                    alarm.update {
+                        it?.let {
+                            it.copy(sounds = it.sounds + sound)
+                        }
+                    }
+                }
+        }
+
+
     }
 
     override fun onCreateView(
@@ -103,20 +119,7 @@ class AlarmConfigFragment : DialogFragment() {
         volumeBar = view.findViewById(R.id.volume)
         volumeSpinner = view.findViewById(R.id.volumeSpinner)
         volumeTitle = view.findViewById(R.id.volumeText)
-        weekdays[0] = view.findViewById(R.id.sunday)
-        weekdays[1] = view.findViewById(R.id.monday)
-        weekdays[2] = view.findViewById(R.id.tuesday)
-        weekdays[3] = view.findViewById(R.id.wednesday)
-        weekdays[4] = view.findViewById(R.id.thursday)
-        weekdays[5] = view.findViewById(R.id.friday)
-        weekdays[6] = view.findViewById(R.id.saturday)
-        weekdaysText[0] = view.findViewById(R.id.sundayText)
-        weekdaysText[1] = view.findViewById(R.id.mondayText)
-        weekdaysText[2] = view.findViewById(R.id.tuesdayText)
-        weekdaysText[3] = view.findViewById(R.id.wednesdayText)
-        weekdaysText[4] = view.findViewById(R.id.thursdayText)
-        weekdaysText[5] = view.findViewById(R.id.fridayText)
-        weekdaysText[6] = view.findViewById(R.id.saturdayText)
+
         timesView[0] = view.findViewById(R.id.fajr)
         timesView[1] = view.findViewById(R.id.sunrise)
         timesView[2] = view.findViewById(R.id.zuhr)
@@ -137,22 +140,15 @@ class AlarmConfigFragment : DialogFragment() {
         delete = view.findViewById(R.id.delete)
         vibrate = view.findViewById(R.id.vibrate)
         autoDelete = view.findViewById(R.id.deleteAfterSound)
+
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bdl = requireArguments()
-        times = Times.getTimesById(bdl.getInt("city"))
-        if (times.value == null) {
-            dismiss()
-        }
-        alarms =
-            times.map({ it?.alarms ?: emptyList() }, { parent, it -> parent?.copy(alarms = it) })
-        alarm = alarms.mapById(bdl.getInt("id"), Alarm::id)
-
         initMinuteAdj()
-        initWeekdays()
+        initWeekdays(view)
         initTimes()
         initSounds()
         initVolume()
@@ -164,7 +160,9 @@ class AlarmConfigFragment : DialogFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initSilenter() {
-        silenterValue.bindText(lifecycle, alarm.map { LocaleUtils.formatNumber(it?.silenter ?: 0) })
+        alarm.data.map { LocaleUtils.formatNumber(it?.silenter ?: 0) }.asLiveData()
+            .observe(viewLifecycleOwner) { silenterValue.setText(it) }
+
         val incr: Runnable = object : Runnable {
             override fun run() {
                 alarm.update { it?.copy(silenter = it.silenter + 1) }
@@ -193,7 +191,7 @@ class AlarmConfigFragment : DialogFragment() {
             }
             true
         }
-        val listener = View.OnClickListener { v: View? ->
+        val listener = View.OnClickListener {
             PermissionUtils.get(requireActivity()).needNotificationPolicy(requireActivity())
         }
         silenterUp.setOnClickListener(listener)
@@ -203,14 +201,17 @@ class AlarmConfigFragment : DialogFragment() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                alarm.update { it?.copy(silenter = s.toString().toIntOrNull() ?: 0) }
+                val value = s.toString().toIntOrNull() ?: 0
+                if (alarm.current?.silenter != value)
+                    alarm.update { it?.copy(silenter = value) }
             }
         })
     }
 
     private fun initMinuteAdj() {
         minute.setListener { newValue: Int ->
-            alarm.update { it?.copy(mins = newValue) }
+            if (alarm.current?.mins != newValue)
+                alarm.update { it?.copy(mins = newValue) }
             if (newValue == 0) {
                 minuteText.setText(R.string.onTime)
             } else if (newValue < 0) {
@@ -219,7 +220,7 @@ class AlarmConfigFragment : DialogFragment() {
                 minuteText.text = getString(R.string.afterTime, newValue)
             }
         }
-        val value = alarm.value?.mins ?: 0
+        val value = alarm.current?.mins ?: 0
         var max = 180
         if (abs(value) > max) {
             max = abs(value)
@@ -230,38 +231,35 @@ class AlarmConfigFragment : DialogFragment() {
     }
 
     private fun initAutodelete() {
-        autoDelete.isChecked = alarm.value?.removeNotification ?: false
-        autoDelete.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        autoDelete.isChecked = alarm.current?.removeNotification ?: false
+        autoDelete.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             alarm.update { it?.copy(removeNotification = isChecked) }
         }
     }
 
     private fun initVibrate() {
-        vibrate.isChecked = alarm.value?.vibrate ?: false
-        vibrate.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        vibrate.isChecked = alarm.current?.vibrate ?: false
+        vibrate.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             alarm.update { it?.copy(vibrate = isChecked) }
         }
     }
 
     private fun initDelete() {
-        delete.setOnClickListener { v: View? ->
+        delete.setOnClickListener { _: View? ->
             AlertDialog.Builder(requireActivity())
-                .setTitle(times.value?.name ?: "")
-                .setMessage(getString(R.string.delAlarmConfirm, alarm.value?.title ?: ""))
-                .setNegativeButton(R.string.no) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-                .setPositiveButton(R.string.yes) { dialog: DialogInterface?, which: Int ->
-                    alarms.update { it.filter { it.id != alarm.value?.id } }
-                    dismiss()
+                .setTitle(times.current?.name ?: "")
+                .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.title ?: ""))
+                .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+                .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                    alarms.update { it.filter { it.id != alarm.current?.id } }
+                    back()
                 }.show()
         }
-        if (BuildConfig.DEBUG) delete.setOnLongClickListener { v: View? ->
-            requireActivity().window.decorView.performHapticFeedback(
-                HapticFeedbackConstants.VIRTUAL_KEY,
-                HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-            )
+        if (BuildConfig.DEBUG) delete.setOnLongClickListener {
+            requireActivity().window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             AlarmService.setAlarm(
                 requireActivity(),
-                Pair(alarm.value, LocalDateTime.now().plusSeconds(5))
+                Pair(alarm.current, LocalDateTime.now().plusSeconds(5))
             )
             true
         }
@@ -271,41 +269,70 @@ class AlarmConfigFragment : DialogFragment() {
         for (i in 0..5) {
             val time = Vakit.getByIndex(i)
             timesText[i]?.text = time.string
-            setTime(time, isTime(time))
-            timesView[i]?.setOnClickListener { v: View? ->
-                requireActivity().window.decorView.performHapticFeedback(
-                    HapticFeedbackConstants.VIRTUAL_KEY,
-                    HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-                )
-                setTime(time, !isTime(time))
+            timesView[time.ordinal]?.setColorFilter(if (alarm.current?.times?.contains(time) == true) colorOn else colorOff)
+
+
+            timesView[i]?.setOnClickListener { _: View? ->
+                requireActivity().window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+
+                if (alarm.current?.times?.contains(time) == false) {
+                    alarm.update { it?.copy(times = it.times + time) }
+                    timesView[time.ordinal]?.setColorFilter(colorOn)
+                } else if ((alarm.current?.times?.size ?: 0) > 1) {
+                    alarm.update { it?.copy(times = it.times - time) }
+                    timesView[time.ordinal]?.setColorFilter(colorOff)
+                }
+
+
             }
+
         }
     }
 
-    private fun initWeekdays() {
-        val weekdays = DateFormatSymbols().weekdays
+    private fun initWeekdays(v: View) {
+        val weekdayNames = DateFormatSymbols().weekdays
+
+        var weekdays = listOf(
+            R.id.sunday,
+            R.id.monday,
+            R.id.tuesday,
+            R.id.wednesday,
+            R.id.thursday,
+            R.id.friday,
+            R.id.saturday
+        ).map { v.findViewById<TextView>(it) }
+        var weekdaysText = listOf(
+            R.id.sundayText,
+            R.id.mondayText,
+            R.id.tuesdayText,
+            R.id.wednesdayText,
+            R.id.thursdayText,
+            R.id.fridayText,
+            R.id.saturdayText
+        ).map { v.findViewById<TextView>(it) }
+
 
         //rotate arrays to match first weekday
-        val firstWeekday = Calendar.getInstance().firstDayOfWeek
-        if (firstWeekday != Calendar.SUNDAY) { //java default is sunday, nothing to do
-            val wds = listOf(*this.weekdays.toTypedArray())
-            val wdTs = listOf(*weekdaysText.toTypedArray())
-            for (i in 0..6) {
-                this.weekdays[i] = wds[(8 - firstWeekday + i) % 7]
-                weekdaysText[i] = wdTs[(8 - firstWeekday + i) % 7]
-            }
-        }
+        val rotate = Calendar.getInstance().firstDayOfWeek - 1
+        weekdays = weekdays.takeLast(rotate) + weekdays.dropLast(rotate)
+        weekdaysText = weekdaysText.takeLast(rotate) + weekdaysText.dropLast(rotate)
         for (i in 0..6) {
-            this.weekdays[i]?.text = weekdays[i + 1].replace("ال", "").substring(0, 1)
-            weekdaysText[i]?.text = weekdays[i + 1]
             val weekday = i + 1
-            setWeekday(i + 1, isWeekday(weekday))
-            this.weekdays[i]?.setOnClickListener { v: View? ->
-                requireActivity().window.decorView.performHapticFeedback(
-                    HapticFeedbackConstants.VIRTUAL_KEY,
-                    HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-                )
-                setWeekday(weekday, !isWeekday(weekday))
+            weekdays[i]?.text = weekdayNames[weekday].replace("ال", "").substring(0, 1)
+            weekdaysText[i]?.text = weekdayNames[weekday]
+            weekdays[i]?.setTextColor(if (alarm.current?.weekdays?.contains(weekday) == true) colorOn else colorOff)
+            weekdays[i]?.setOnClickListener { _: View? ->
+                requireActivity().window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+
+                if (alarm.current?.weekdays?.contains(weekday) == false) {
+                    alarm.update { it?.copy(weekdays = it.weekdays + weekday) }
+                    weekdays[weekday - 1]?.setTextColor(colorOn)
+                } else if ((alarm.current?.weekdays?.size ?: 0) > 1) {
+                    alarm.update { it?.copy(weekdays = it.weekdays - weekday) }
+                    weekdays[weekday - 1]?.setTextColor(colorOff)
+                }
+
+
             }
         }
     }
@@ -329,7 +356,7 @@ class AlarmConfigFragment : DialogFragment() {
         volumeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
@@ -346,19 +373,19 @@ class AlarmConfigFragment : DialogFragment() {
                         }
                     ) ?: it
                 }
-                adapter.setVolume(alarm.value?.volume ?: 0)
+                adapter.setVolume(alarm.current?.volume ?: 0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        if ((alarm.value?.volume ?: 0) >= 0) {
-            volumeBar.progress = alarm.value?.volume ?: 0
+        if ((alarm.current?.volume ?: 0) >= 0) {
+            volumeBar.progress = alarm.current?.volume ?: 0
             volumeBar.visibility = View.VISIBLE
             volumeSpinner.setSelection(0)
         } else {
             volumeBar.progress = volumeBar.max / 2
             volumeBar.visibility = View.GONE
-            volumeSpinner.setSelection(-(alarm.value?.volume ?: 0))
+            volumeSpinner.setSelection(-(alarm.current?.volume ?: 0))
         }
         volumeBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -372,71 +399,32 @@ class AlarmConfigFragment : DialogFragment() {
     }
 
     private fun initSounds() {
-        val sounds = alarm.value?.sounds ?: emptyList()
-        adapter = SoundChooserAdapter(this.sounds, sounds, alarm.value, false)
-        adapter.setVolume(alarm.value?.volume ?: 0)
-        adapter.setShowRadioButton(false)
+        val soundsStore = alarm.map({ it?.sounds ?: emptyList() },
+            { alarm, sounds -> alarm?.copy(sounds = sounds) })
+        adapter = SoundsAdapter(this.sounds, soundsStore)
+        adapter.setVolume(alarm.current?.volume ?: 0)
         this.sounds.adapter = adapter
         volumeBar.visibility = if (adapter.itemCount == 0) View.GONE else View.VISIBLE
         volumeTitle.visibility = if (adapter.itemCount == 0) View.GONE else View.VISIBLE
         volumeSpinner.visibility = if (adapter.itemCount == 0) View.GONE else View.VISIBLE
-        autoDelete.visibility = if (sounds.isEmpty()) View.GONE else View.VISIBLE
-        addSound.setOnClickListener { v: View? ->
-            alarm.value?.let {
-                SoundChooser.create(it).show(childFragmentManager, "soundchooser")
-            }
+
+
+        soundsStore.data.asLiveData().observe(viewLifecycleOwner) {
+            autoDelete.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
         }
-        adapter.setOnItemClickListener { vh, sound ->
-            val v = vh.view
-            if (sounds.contains(sound)) {
-                v.setOnLongClickListener { v1: View? ->
-                    AlertDialog.Builder(requireActivity())
-                        .setTitle(sound.name)
-                        .setMessage(getString(R.string.delAlarmConfirm, sound.name))
-                        .setNegativeButton(R.string.no) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-                        .setPositiveButton(R.string.yes) { dialog: DialogInterface?, which: Int ->
-                            alarm.update { it?.copy(sounds = it.sounds.filter { it.id != sound.id }) }
-                            initSounds()
-                            initVolume()
-                        }.show()
-                    true
-                }
-            }
+        addSound.setOnClickListener { moveToFrag(SoundChooser()) }
+
+        adapter.onDelete = { sound ->
+            AlertDialog.Builder(requireActivity())
+                .setTitle(sound.name)
+                .setMessage(getString(R.string.delAlarmConfirm, sound.name))
+                .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+                .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                    alarm.update { it?.copy(sounds = it.sounds.filter { it.id != sound.id }) }
+                    initSounds()
+                    initVolume()
+                }.show()
         }
-    }
-
-    private fun isWeekday(weekday: Int): Boolean {
-        return alarm.value?.weekdays?.contains(weekday) == true
-    }
-
-    private fun isTime(time: Vakit): Boolean {
-        return alarm.value?.times?.contains(time) == true
-    }
-
-    private fun setWeekday(weekday: Int, enable: Boolean) {
-        if (enable) {
-            alarm.update { it?.copy(weekdays = it.weekdays + weekday) }
-        } else if ((alarm.value?.weekdays?.size ?: 0) > 1) {
-            alarm.update { it?.copy(weekdays = it.weekdays.filter { it != weekday }) }
-        } else {
-            return
-        }
-        weekdays[weekday - 1]?.setTextColor(if (enable) colorOn else colorOff)
-    }
-
-    private fun setTime(time: Vakit, enable: Boolean) {
-        if (enable) {
-            alarm.update { it?.copy(times = it.times + time) }
-        } else if ((alarm.value?.times?.size ?: 0) > 1) {
-            alarm.update { it?.copy(times = it.times - time) }
-        } else {
-            return
-        }
-        timesView[time.ordinal]?.setColorFilter(if (enable) colorOn else colorOff)
-    }
-
-    fun onSoundsChanged() {
-        initSounds()
     }
 
     override fun onPause() {
@@ -446,11 +434,11 @@ class AlarmConfigFragment : DialogFragment() {
 
     companion object {
         @JvmStatic
-        fun create(alarm: Alarm): AlarmConfigFragment {
+        fun create(alarm: Alarm): AlarmFragment {
             val bdl = Bundle()
-            bdl.putInt("city", alarm.city.ID)
+            bdl.putInt("city", alarm.city.id)
             bdl.putInt("id", alarm.id)
-            val frag = AlarmConfigFragment()
+            val frag = AlarmFragment()
             frag.arguments = bdl
             return frag
         }

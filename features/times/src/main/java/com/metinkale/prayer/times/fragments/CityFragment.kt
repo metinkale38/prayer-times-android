@@ -30,6 +30,7 @@ import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.times.utils.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.Utils
@@ -39,7 +40,7 @@ import java.util.*
 
 @SuppressLint("ClickableViewAccessibility")
 class CityFragment : Fragment() {
-    private lateinit var times: StateFlow<Times?>
+    private lateinit var times: Store<Times?>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +51,7 @@ class CityFragment : Fragment() {
 
         val v = inflater.inflate(R.layout.vakit_fragment, container, false)
 
-        CityFragmentViewModel.from(times.filterNotNull()).asLiveData().observe({ lifecycle }) {
+        CityFragmentViewModel.from(times.data.filterNotNull()).asLiveData().observe(viewLifecycleOwner) {
             val arabic = Preferences.USE_ARABIC.get()
 
             v.findViewById<TextView>(R.id.date).text = it.date
@@ -123,8 +124,6 @@ class CityFragment : Fragment() {
                 if (it.isKerahat) View.VISIBLE else View.GONE
         }
 
-
-
         listOf(R.id.source1, R.id.source2).forEach {
             if (Utils.isNightMode(activity)) {
                 val matrix = floatArrayOf(
@@ -136,17 +135,14 @@ class CityFragment : Fragment() {
                 v.findViewById<ImageView>(it).colorFilter = filter
             }
         }
-
-
+        
         setHasOptionsMenu(true)
-
-
-
 
         return v
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         try {
             inflater.inflate(R.menu.vakit, menu)
@@ -156,14 +152,15 @@ class CityFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val times = times.value ?: return super.onOptionsItemSelected(item)
+        val times = times.current ?: return super.onOptionsItemSelected(item)
         val i1 = item.itemId
         if (i1 == R.id.notification) {
             val frag = requireActivity().supportFragmentManager.findFragmentByTag("notPrefs")
             if (frag == null) {
                 (parentFragment as? TimesFragment)?.setFooterText("", false)
-                (parentFragment as? TimesFragment)?.moveToFrag(AlarmsFragment.create(times.ID))
+                (parentFragment as? TimesFragment)?.moveToFrag(AlarmsFragment.create(times.id))
             } else {
                 (parentFragment as? TimesFragment)?.setFooterText(getString(R.string.monthly), true)
                 (parentFragment as? TimesFragment)?.back()
@@ -180,9 +177,7 @@ class CityFragment : Fragment() {
             val date = LocalDate.now()
             for (v in Vakit.values()) {
                 txt.append("\n   ").append(v.string).append(": ").append(
-                    LocaleUtils.formatTime(
-                        times.getTime(date, v.ordinal).toLocalTime()
-                    )
+                    LocaleUtils.formatTime(times.getTime(date, v.ordinal).toLocalTime())
                 )
             }
             val sharingIntent = Intent(Intent.ACTION_SEND)

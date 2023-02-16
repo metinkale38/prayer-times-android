@@ -24,7 +24,7 @@ plugins {
 android {
     sourceSets {
         main {
-            // res.srcDirs += 'src/main/translations'
+            res.srcDirs += 'src/main/translations'
         }
     }
     compileSdkVersion 33
@@ -68,5 +68,5 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true }
+    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true } // TODO needs update
 }

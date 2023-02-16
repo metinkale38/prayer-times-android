@@ -16,6 +16,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 
@@ -29,17 +31,21 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude '.readme'
+        exclude 'META-INF/LICENSE-LGPL-2.1.txt'
+        exclude 'META-INF/LICENSE-LGPL-3.txt'
+        exclude 'META-INF/LICENSE-W3C-TEST'
+        exclude 'META-INF/DEPENDENCIES'
     }
 
     compileSdkVersion 33
 
-
     defaultConfig {
+        targetSdkVersion 33
         applicationId "com.metinkale.prayer"
         minSdkVersion 23
         multiDexEnabled true
-        versionName '3.7.6'
-        versionCode 219
+        versionName '3.7.7'
+        versionCode 220
     }
 
     buildTypes {
@@ -102,7 +108,8 @@ dependencies {
     implementation project(':features:names')
     implementation project(':features:settings')
     implementation project(':features:times')
-
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
 }
+
+
+apply from: 'aliases.gradle.kts'

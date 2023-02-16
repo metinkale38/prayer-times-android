@@ -175,7 +175,7 @@ public class ForegroundService extends Service {
 
         Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, c.getPackageName())
                 .putExtra(Settings.EXTRA_CHANNEL_ID, channelId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c, channelId);
         builder.setContentIntent(pendingIntent);

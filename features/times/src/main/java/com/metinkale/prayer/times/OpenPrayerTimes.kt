@@ -3,8 +3,10 @@ package com.metinkale.prayer.times
 import android.content.res.Resources
 import android.os.Build
 import androidx.lifecycle.LiveData
+import com.koushikdutta.ion.Ion
 import com.metinkale.prayer.App
 import dev.metinkale.prayertimes.core.Configuration
+import dev.metinkale.prayertimes.core.DayTimes
 import dev.metinkale.prayertimes.core.Entry
 import dev.metinkale.prayertimes.core.router.Method
 import dev.metinkale.prayertimes.core.sources.Source
@@ -15,24 +17,27 @@ import kotlinx.serialization.json.Json
 private val coreRouter = dev.metinkale.prayertimes.core.router.coreRouter.also {
     // you will need your own api keys
     Configuration.GOOGLE_API_KEY = App.get().getString(R.string.GOOGLE_API_KEY)
-    Configuration.IGMG_API_KEY =  App.get().getString(R.string.IGMG_API_KEY)
-    Configuration.LONDON_PRAYER_TIMES_API_KEY =  App.get().getString(R.string.LONDON_PRAYER_TIMES_API_KEY)
+    Configuration.IGMG_API_KEY = App.get().getString(R.string.IGMG_API_KEY)
+    Configuration.LONDON_PRAYER_TIMES_API_KEY =
+        App.get().getString(R.string.LONDON_PRAYER_TIMES_API_KEY)
     Configuration.HOT_ENTRIES = true
 }
 
 
-open class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T>() {
-    private val remote = false
-    private val remoteUrl = "http://"
+abstract class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T>() {
     private val headers = mapOf<String, String>()
 
-    protected suspend fun get(path: String, params: Map<String, String>): String {
-        return if (remote) {
-            ""
-        } else {
-            coreRouter.invoke(Method.GET, path, params, headers).body ?: "[]"
+    protected suspend fun get(path: String, params: Map<String, String> = emptyMap()): String =
+        withContext(Dispatchers.IO) {
+            val remoteUrl = Config.getConfig().api_url
+            if (useRest()) {
+                Ion.with(App.get()).load("GET", remoteUrl + path).asString().get()
+            } else {
+                coreRouter.invoke(Method.GET, path, params, headers).body ?: "[]"
+            }
         }
-    }
+
+    abstract suspend fun useRest(): Boolean
 }
 
 class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
@@ -49,8 +54,26 @@ class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
             .let { postValue(it) }
     }
 
-    fun list(id: String): Job = launch(Dispatchers.IO) { value = emptyList() }
 
+    override suspend fun useRest(): Boolean = Config.getConfig().use_search_rest
+}
+
+class OpenPrayerTimesDayTimesEndpoint(val source: Source) : OpenPrayerTimesApi<Unit>() {
+    suspend fun getDayTimes(id: String): List<DayTimes> {
+        return get("/times/${source.name}/$id")
+            .let { Json.decodeFromString(ListSerializer(DayTimes.serializer()), it) }
+
+    }
+
+
+    override suspend fun useRest(): Boolean = when (source) {
+        Source.Diyanet -> Config.getConfig().use_diyanet_rest
+        Source.IGMG -> Config.getConfig().use_igmg_rest
+        Source.NVC -> Config.getConfig().use_nvc_rest
+        Source.London -> Config.getConfig().use_london_rest
+        Source.Semerkand -> Config.getConfig().use_semerkand_rest
+        else -> false
+    }
 }
 
 

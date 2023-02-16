@@ -22,13 +22,10 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.preference.PreferenceManager
-import androidx.collection.ArraySet
 import com.metinkale.prayer.App
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.sounds.Sound
-import com.metinkale.prayer.times.times.BooleanSerializer
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.utils.Utils
 import kotlinx.serialization.Serializable
@@ -46,9 +43,9 @@ import kotlin.math.abs
 data class Alarm(
     val id: Int = UUID.asInt(),
     val enabled: Boolean = false,
-    val weekdays: List<Int> = ALL_WEEKDAYS.toList(),
+    val weekdays: Set<Int> = ALL_WEEKDAYS,
     val sounds: List<Sound> = listOf(),
-    val times: List<Vakit> = ALL_TIMES.toList(),
+    val times: Set<Vakit> = ALL_TIMES,
     val mins: Int = 0,
     val vibrate: Boolean = false,
     val removeNotification: Boolean = false,
@@ -68,7 +65,7 @@ data class Alarm(
                 for (vakit in Vakit.values()) {
                     if (!times.contains(vakit)) continue
                     val time: LocalDateTime =
-                        city.getTime(date, vakit.ordinal)?.plusMinutes(mins) ?: continue
+                        city.getTime(date, vakit.ordinal).plusMinutes(mins) ?: continue
                     if (time.isAfter(now)) return time
                 }
             }
@@ -76,13 +73,13 @@ data class Alarm(
         }
 
     val city: Times
-        get() = Times.value.first { it.ID == cityId }
+        get() = Times.current.first { it.id == cityId }
 
     // avoid messages like 1 minute before/after Maghtib for minimal deviations
     fun buildNotificationTitle(): String {
         val city = city
         var time: Int = city.getCurrentTime()
-        while (!times.isEmpty() && !times.contains(Vakit.getByIndex(time))) {
+        while (times.isNotEmpty() && !times.contains(Vakit.getByIndex(time))) {
             time++
         }
         var minutes = Period(
@@ -116,40 +113,39 @@ data class Alarm(
         return ctx.getString(strRes2, abs(minutes), Vakit.getByIndex(time).string)
     }
 
-    val title: String
-        get() {
-            val eachDay = weekdays.size == 7
-            val strRes1 = if (eachDay) R.string.noti_eachDay else R.string.noti_weekday
-            var days: String? = null
-            if (!eachDay) {
-                val daysBuilder = StringBuilder()
-                val namesOfDays =
-                    if (weekdays.size == 1) DateFormatSymbols.getInstance().weekdays else DateFormatSymbols.getInstance().shortWeekdays
-                for (i in weekdays) {
-                    daysBuilder.append("/").append(namesOfDays[i])
-                }
-                days = daysBuilder.toString()
-                if (days.isNotEmpty()) days = days.substring(1)
+    val title: String by lazy {
+        val eachDay = weekdays.size == 7
+        val strRes1 = if (eachDay) R.string.noti_eachDay else R.string.noti_weekday
+        var days: String? = null
+        if (!eachDay) {
+            val daysBuilder = StringBuilder()
+            val namesOfDays =
+                if (weekdays.size == 1) DateFormatSymbols.getInstance().weekdays else DateFormatSymbols.getInstance().shortWeekdays
+            for (i in weekdays.sorted()) {
+                daysBuilder.append("/").append(namesOfDays[i])
             }
-            val eachPrayerTime = ALL_TIMES == times
-            val strRes2: Int = if (mins < 0) {
-                if (eachPrayerTime) R.string.noti_beforeAll else R.string.noti_beforeTime
-            } else if (mins > 0) {
-                if (eachPrayerTime) R.string.noti_afterAll else R.string.noti_afterTime
-            } else {
-                if (eachPrayerTime) R.string.noti_exactAll else R.string.noti_exactTime
-            }
-            var times: String? = null
-            if (!eachPrayerTime) {
-                val timesBuilder = StringBuilder()
-                for (vakit in this.times) {
-                    timesBuilder.append("/").append(vakit.string)
-                }
-                if (timesBuilder.isNotEmpty()) times = timesBuilder.toString().substring(1)
-            }
-            val ctx: Context = App.get()
-            return ctx.getString(strRes1, days, ctx.getString(strRes2, abs(mins), times))
+            days = daysBuilder.toString()
+            if (days.isNotEmpty()) days = days.substring(1)
         }
+        val eachPrayerTime = ALL_TIMES == times
+        val strRes2: Int = if (mins < 0) {
+            if (eachPrayerTime) R.string.noti_beforeAll else R.string.noti_beforeTime
+        } else if (mins > 0) {
+            if (eachPrayerTime) R.string.noti_afterAll else R.string.noti_afterTime
+        } else {
+            if (eachPrayerTime) R.string.noti_exactAll else R.string.noti_exactTime
+        }
+        var times: String? = null
+        if (!eachPrayerTime) {
+            val timesBuilder = StringBuilder()
+            for (vakit in this.times.sorted()) {
+                timesBuilder.append("/").append(vakit.string)
+            }
+            if (timesBuilder.isNotEmpty()) times = timesBuilder.toString().substring(1)
+        }
+        val ctx: Context = App.get()
+        ctx.getString(strRes1, days, ctx.getString(strRes2, abs(mins), times))
+    }
 
     override fun compareTo(other: Alarm): Int {
         var comp: Int = Collections.min(times).ordinal - Collections.min(other.times).ordinal
@@ -171,38 +167,22 @@ data class Alarm(
     }
 
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || other !is Alarm) return false
-        return id == other.id
-    }
-
-    override fun hashCode(): Int {
-        return id
-    }
-
     companion object {
-        val ALL_TIMES: MutableSet<Vakit> = Collections.unmodifiableSet(
-            ArraySet(
-                listOf(
-                    Vakit.FAJR,
-                    Vakit.DHUHR,
-                    Vakit.ASR,
-                    Vakit.MAGHRIB,
-                    Vakit.ISHAA
-                )
-            )
+        val ALL_TIMES: Set<Vakit> = setOf(
+            Vakit.FAJR,
+            Vakit.DHUHR,
+            Vakit.ASR,
+            Vakit.MAGHRIB,
+            Vakit.ISHAA
         )
-        val ALL_WEEKDAYS: MutableCollection<Int> = Collections.unmodifiableCollection(
-            listOf(
-                Calendar.MONDAY,
-                Calendar.TUESDAY,
-                Calendar.WEDNESDAY,
-                Calendar.THURSDAY,
-                Calendar.FRIDAY,
-                Calendar.SATURDAY,
-                Calendar.SUNDAY
-            )
+        val ALL_WEEKDAYS: Set<Int> = setOf(
+            Calendar.MONDAY,
+            Calendar.TUESDAY,
+            Calendar.WEDNESDAY,
+            Calendar.THURSDAY,
+            Calendar.FRIDAY,
+            Calendar.SATURDAY,
+            Calendar.SUNDAY
         )
         const val VOLUME_MODE_RINGTONE = -1
         const val VOLUME_MODE_NOTIFICATION = -2
@@ -210,7 +190,7 @@ data class Alarm(
         const val VOLUME_MODE_MEDIA = -4
 
         fun fromId(id: Int): Alarm? {
-            for (t in Times.value) {
+            for (t in Times.current) {
                 for (a in t.alarms) {
                     if (a.id == id) {
                         return a
@@ -233,7 +213,7 @@ data class Alarm(
             return 0
         }
 
-        private fun getLegacyVolumeMode(c: Context): Int {
+        fun getLegacyVolumeMode(c: Context): Int {
             return when (PreferenceManager.getDefaultSharedPreferences(c)
                 .getString("ezanvolume", "noti")) {
                 "alarm" -> VOLUME_MODE_ALARM

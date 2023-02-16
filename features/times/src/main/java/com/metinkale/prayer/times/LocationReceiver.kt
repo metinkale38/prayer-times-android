@@ -58,22 +58,22 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
         val lng = location.longitude
         val elv = location.altitude
 
-        for (t in Times.value) {
+        for (t in Times.current) {
             if (t.autoLocation) {
                 for (e in result) {
                     if (t.source === e.source) {
                         if (e.source === Source.Calc) {
-                            Times.getTimesById(t.ID).update {
-                                it?.copy(name = e.localizedName(), id = it.id?.let {
+                            Times.getTimesById(t.id).update {
+                                it?.copy(name = e.localizedName(), key = it.key?.let {
                                     PrayTimes.deserialize(it)
                                         .copy(latitude = lat, longitude = lng, elevation = elv)
                                         .serialize()
                                 })
                             }
                         } else {
-                            Times.getTimesById(t.ID).update {
+                            Times.getTimesById(t.id).update {
                                 t.copy(
-                                    name = e.localizedName(), id = e.id
+                                    name = e.localizedName(), key = e.id
                                 ).also { (it.dayTimes as? DayTimesWebProvider)?.syncAsync() }
                             }
                         }
@@ -81,7 +81,7 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
                 }
             }
         }
-        if (Times.value.any { it.autoLocation }) {
+        if (Times.current.any { it.autoLocation }) {
             Times.setAlarms()
             InternalBroadcastReceiver.sender(App.get()).sendTimeTick()
         } else {
@@ -105,7 +105,7 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
             ) == PackageManager.PERMISSION_GRANTED
         }
 
-        private fun useAutoLocation(): Boolean = Times.value.any { it.autoLocation }
+        private fun useAutoLocation(): Boolean = Times.current.any { it.autoLocation }
 
 
         @JvmStatic
@@ -128,7 +128,12 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
 
         private fun getPendingIntent(c: Context): PendingIntent {
             val i = Intent(c, LocationReceiver::class.java)
-            return PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+            return PendingIntent.getBroadcast(
+                c,
+                0,
+                i,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
         }
 
         @JvmStatic

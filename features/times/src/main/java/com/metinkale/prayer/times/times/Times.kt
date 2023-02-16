@@ -24,6 +24,7 @@ import dev.metinkale.prayertimes.calc.Method
 import dev.metinkale.prayertimes.calc.PrayTimes
 import dev.metinkale.prayertimes.core.sources.Source
 import kotlinx.datetime.TimeZone
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
@@ -33,7 +34,7 @@ import kotlin.math.roundToInt
 
 @Serializable
 data class Times(
-    val ID: Int = 0,
+    @SerialName("ID") val id: Int = 0,
     val name: String,
     val source: Source,
     val ongoing: Boolean = false,
@@ -44,16 +45,20 @@ data class Times(
     val sortId: Int = Int.MAX_VALUE,
     val minuteAdj: List<Int> = List(6) { 0 },
     val autoLocation: Boolean = false,
-    val alarms: List<Alarm> = createDefaultAlarms(ID),
+    val alarms: List<Alarm> = createDefaultAlarms(id),
     // WebTimes only
     //val times: Map<String?, String?> = ArrayMap(),
-    val id: String? = null,
+    @SerialName("id") val key: String? = null,
     //val lastSync: Long = 0,
     // calc times only (for migration)
     var prayTimes: LegacyPrayTimes? = null,
     val asrType: AsrType = AsrType.Shafi
 ) {
 
+
+    enum class AsrType {
+        Shafi, Hanafi, Both
+    }
 
     init {
         // TODO migration of old praytimes. Remove after some updates
@@ -88,113 +93,26 @@ data class Times(
                 method
             )
 
-            copy(prayTimes = null, id = pt.serialize()).save()
+            Times.add(copy(prayTimes = null, key = pt.serialize()))
 
         }
     }
 
-
-    enum class AsrType {
-        Shafi, Hanafi, Both
-    }
 
     @Transient
     val dayTimes by lazy {
         when (source) {
-            Source.Calc -> DayTimesCalcProvider(ID)
-            else -> DayTimesWebProvider.from(ID)
+            Source.Calc -> DayTimesCalcProvider(id)
+            else -> DayTimesWebProvider.from(id)
         }
     }
 
-    fun save() = save(this)
     fun delete() = delete(this)
-    fun getDayTimes(date: LocalDate): DayTimes? = dayTimes.get(date)
-
-
-    fun getTime(date: LocalDate, time: Int): LocalDateTime {
-        @Suppress("NAME_SHADOWING") var date = date
-        @Suppress("NAME_SHADOWING") var time = time
-        while (time < 0) {
-            date = date.minusDays(1)
-            time += Vakit.LENGTH
-        }
-
-        while (time >= Vakit.LENGTH) {
-            date = date.plusDays(1)
-            time -= Vakit.LENGTH
-        }
-        var dt = getDayTimes(date)?.let {
-            when (Vakit.getByIndex(time)) {
-                Vakit.FAJR -> it.fajr
-                Vakit.SUN -> it.sun
-                Vakit.DHUHR -> it.dhuhr
-                Vakit.ASR -> it.asr
-                Vakit.MAGHRIB -> it.maghrib
-                Vakit.ISHAA -> it.ishaa
-            }
-        }?.let { date.toLocalDateTime(it) }?.plusMinutes(minuteAdj[time])
-            ?.plusMinutes((timezone * 60).roundToInt())
-
-
-        if (dt != null) {
-            val h = dt.hourOfDay
-            if (time >= Vakit.DHUHR.ordinal && h < 5) {
-                dt = dt.plusDays(1)
-            }
-        }
-
-        return dt ?: date.toDateTimeAtStartOfDay().toLocalDateTime()
-    }
-
-    fun getNextTime(): Int {
-        val today = LocalDate.now()
-        val now = LocalDateTime.now()
-
-        @Suppress("KotlinConstantConditions")
-        var vakit = Vakit.FAJR.ordinal
-        while (getTime(today, vakit)?.isAfter(now) == false) {
-            vakit++
-        }
-        return vakit
-    }
-
-    fun getCurrentTime(): Int {
-        return getNextTime() - 1
-    }
-
-    fun isKerahat(): Boolean {
-        val now = LocalDateTime.now()
-
-        val sun = getTime(now.toLocalDate(), Vakit.SUN.ordinal)
-        val untilSun = Period(sun, now, PeriodType.minutes()).minutes
-        if (untilSun >= 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
-            return true
-        }
-
-        val dhuhr = getTime(now.toLocalDate(), Vakit.DHUHR.ordinal)
-        val untilDhuhr = Period(now, dhuhr, PeriodType.minutes()).minutes
-        if ((untilDhuhr >= 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
-            return true
-        }
-
-        val maghrib = getTime(now.toLocalDate(), Vakit.MAGHRIB.ordinal)
-        val untilMaghrib = Period(now, maghrib, PeriodType.minutes()).minutes
-        return (untilMaghrib >= 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))
-    }
-
 
     override fun toString(): String {
-        return "times_id_$ID"
+        return "times_id_$id"
     }
 
     companion object : TimesCompanion()
-}
-
-
-private fun createDefaultAlarms(cityId: Int) = Vakit.values().map {
-    Alarm(
-        cityId = cityId,
-        times = listOf(it)
-    )
 }
 

@@ -6,6 +6,15 @@ import com.metinkale.prayer.times.alarm.AlarmService
 import org.joda.time.LocalDateTime
 
 
+
+ fun createDefaultAlarms(cityId: Int) = Vakit.values().map {
+    Alarm(
+        cityId = cityId,
+        times = setOf(it)
+    )
+}
+
+
 private fun Times.getNextAlarm(): Pair<Alarm, LocalDateTime>? {
     var alarm: Alarm? = null
     var time: LocalDateTime? = null
@@ -25,7 +34,7 @@ private fun Times.getNextAlarm(): Pair<Alarm, LocalDateTime>? {
 
 fun TimesCompanion.getNextAlarm(): Pair<Alarm, LocalDateTime>? {
     var pair: Pair<Alarm, LocalDateTime>? = null
-    value.forEach { t ->
+    current.forEach { t ->
         t.getNextAlarm()?.let { nextAlarm ->
             if (pair == null || pair!!.second.isAfter(nextAlarm.second)
             ) {
@@ -40,5 +49,5 @@ fun TimesCompanion.getNextAlarm(): Pair<Alarm, LocalDateTime>? {
 fun TimesCompanion.setAlarms() {
     val nextAlarm = getNextAlarm()
     if (nextAlarm != null)
-        AlarmService.setAlarm(App(), androidx.core.util.Pair(nextAlarm.first, nextAlarm.second))
+        AlarmService.setAlarm(App.get(), androidx.core.util.Pair(nextAlarm.first, nextAlarm.second))
 }

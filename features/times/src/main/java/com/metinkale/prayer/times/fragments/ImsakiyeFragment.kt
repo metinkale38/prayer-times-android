@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.utils.LocaleUtils
 import org.joda.time.LocalDate
 
@@ -53,7 +54,7 @@ class ImsakiyeFragment : Fragment() {
             
             """.trimIndent()
         addMore.gravity = Gravity.CENTER
-        addMore.setOnClickListener { view: View? ->
+        addMore.setOnClickListener { _: View? ->
             adapter!!.daysInMonth += 7
             adapter!!.notifyDataSetInvalidated()
         }
@@ -87,7 +88,7 @@ class ImsakiyeFragment : Fragment() {
         }
 
         override fun getItemId(position: Int): Long {
-            return (position + (times?.ID ?: 0)).toLong()
+            return (position + (times?.id ?: 0)).toLong()
         }
 
         override fun getItem(position: Int): Any {
@@ -125,12 +126,12 @@ class ImsakiyeFragment : Fragment() {
                 )
                 a = listOf(
                     cal.toString("dd.MM"),
-                    daytimes[0]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: "",
-                    daytimes[1]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: "",
-                    daytimes[2]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: "",
-                    daytimes[3]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: "",
-                    daytimes[4]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: "",
-                    daytimes[5]?.toLocalTime().let { LocaleUtils.formatTimeForHTML(it) } ?: ""
+                    daytimes[0].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
+                    daytimes[1].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
+                    daytimes[2].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
+                    daytimes[3].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
+                    daytimes[4].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
+                    daytimes[5].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) }
                 )
             }
             for (i in 0..6) {

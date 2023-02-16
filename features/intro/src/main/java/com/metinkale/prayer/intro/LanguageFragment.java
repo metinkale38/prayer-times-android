@@ -17,6 +17,7 @@
 package com.metinkale.prayer.intro;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.utils.LocaleUtils;
@@ -41,9 +43,9 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.intro_language, container, false);
+        View v = inflater.inflate(R.layout.intro_language, container, false);
         RadioGroup radioGroup = v.findViewById(R.id.radioGroup);
-        
+
         List<LocaleUtils.Translation> langs = LocaleUtils.getSupportedLanguages(getActivity());
         String currentLang = Preferences.LANGUAGE.get();
         int pos = 0;
@@ -54,7 +56,7 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
             RadioButton button = new RadioButton(getContext());
             button.setTag(lang.getLanguage());
             button.setText(lang.getDisplayText());
-            button.setTextColor(getResources().getColor(R.color.white));
+            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
             button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
             int padding = (int) (button.getTextSize() / 2);
             button.setPadding(padding, padding, padding, padding);
@@ -65,7 +67,7 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
             ((RadioButton) radioGroup.getChildAt(pos)).setChecked(true);
         return v;
     }
-    
+
     /*
     Answers.getInstance().logCustom(new CustomEvent("Language")
                         .putCustomAttribute("lang", lang)
@@ -73,29 +75,29 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
      */
     @Override
     protected void onSelect() {
-    
+
     }
-    
+
     @Override
     protected void onEnter() {
-    
+
     }
-    
+
     @Override
     protected void onExit() {
-    
+
     }
-    
+
     @Override
     public boolean allowTouch() {
         return true;
     }
-    
+
     @Override
     protected boolean shouldShow() {
         return Preferences.SHOW_INTRO.get();
     }
-    
+
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (!b)
@@ -104,10 +106,10 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
         if (Preferences.LANGUAGE.get().equals(newlang))
             return;
         Preferences.LANGUAGE.set(newlang);
-    
-        getActivity().finish();
-        getActivity().overridePendingTransition( 0, 0);
+
+        getActivity().overridePendingTransition(0, 0);
         startActivity(getActivity().getIntent());
-        getActivity().overridePendingTransition( 0, 0);
+        getActivity().overridePendingTransition(0, 0);
+        getActivity().finish();
     }
 }

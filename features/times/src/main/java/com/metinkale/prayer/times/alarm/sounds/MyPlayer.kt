@@ -32,7 +32,7 @@ class MyPlayer private constructor() {
     private var sound: List<Sound> = emptyList()
     private var onComplete: (() -> Unit)? = null
     private var seekbar: SeekBar? = null
-    private lateinit var alarm: Alarm
+    private var alarm: Alarm? = null
 
 
     fun volume(volume: Int): MyPlayer {
@@ -83,7 +83,7 @@ class MyPlayer private constructor() {
         }
         mediaPlayers[0].start()
         setupSeekbar()
-        mediaPlayers[mediaPlayers.size - 1].setOnCompletionListener { mp: MediaPlayer? ->
+        mediaPlayers[mediaPlayers.size - 1].setOnCompletionListener {
             if (volume > 0) {
                 am.setStreamVolume(streamType, oldvol, 0)
             }
@@ -126,7 +126,7 @@ class MyPlayer private constructor() {
             mp.reset()
         }
         mediaPlayers = emptyList()
-        onComplete?.invoke()
+        onComplete?.also { onComplete = null }?.invoke()
     }
 
     private val mediaPlayer: MediaPlayer?

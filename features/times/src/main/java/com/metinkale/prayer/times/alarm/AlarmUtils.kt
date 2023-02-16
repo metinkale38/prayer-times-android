@@ -43,11 +43,12 @@ object AlarmUtils {
                 " " + difference / 1000 / 60 + "m"
             }
         }
-        var builder: NotificationCompat.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(c!!, NotificationUtils.getAlarmChannel(c))
-        } else {
-            NotificationCompat.Builder(c!!)
-        }
+        var builder: NotificationCompat.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationCompat.Builder(c!!, NotificationUtils.getAlarmChannel(c))
+            } else {
+                NotificationCompat.Builder(c!!)
+            }
         builder = builder.setContentTitle(text)
             .setContentText(txt)
             .setContentIntent(getPendingIntent(t))
@@ -80,13 +81,14 @@ object AlarmUtils {
             c,
             0,
             Intent(c, StopAlarmPlayerReceiver::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        var builder: NotificationCompat.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c))
-        } else {
-            NotificationCompat.Builder(c)
-        }
+        var builder: NotificationCompat.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c))
+            } else {
+                NotificationCompat.Builder(c)
+            }
         builder = builder.setContentTitle(text)
             .setContentText(txt)
             .setContentIntent(getPendingIntent(t))

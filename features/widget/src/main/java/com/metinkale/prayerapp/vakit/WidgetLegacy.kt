@@ -31,6 +31,7 @@ import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.widgets.R
@@ -368,7 +369,7 @@ internal object WidgetLegacy {
         val i = Intent(context, SilenterPrompt::class.java)
         remoteViews.setOnClickPendingIntent(
             R.id.widget,
-            PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         )
         val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_4444)
         val canvas = Canvas(bmp)
@@ -422,7 +423,7 @@ internal object WidgetLegacy {
                 context,
                 UUID.asInt(),
                 Intent(AlarmClock.ACTION_SHOW_ALARMS),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
         remoteViews.setOnClickPendingIntent(R.id.belowPart, getPendingIntent(times))
@@ -436,7 +437,7 @@ internal object WidgetLegacy {
                 context,
                 UUID.asInt(),
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
         val next = times.getNextTime()
@@ -585,7 +586,7 @@ internal object WidgetLegacy {
                 context,
                 UUID.asInt(),
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)

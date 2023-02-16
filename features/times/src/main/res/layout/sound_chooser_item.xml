@@ -74,9 +74,26 @@
         android:focusable="true"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/action"
-        app:layout_constraintEnd_toStartOf="@+id/radioButton"
+        app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toTopOf="@+id/action"
         android:src="@drawable/ic_arrow_down"
+        app:tint="@color/foreground"/>
+
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/action"
+        app:layout_constraintEnd_toStartOf="@+id/radioButton"
+        app:layout_constraintTop_toTopOf="@+id/action"
+        android:src="@drawable/ic_action_close"
         app:tint="@color/foreground"/>
 
 

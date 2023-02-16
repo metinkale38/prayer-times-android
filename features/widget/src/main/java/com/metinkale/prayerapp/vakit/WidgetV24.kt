@@ -38,6 +38,7 @@ import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.utils.Utils
@@ -206,7 +207,7 @@ internal object WidgetV24 {
             }
         }
         var indicator = current
-        if ("next" == Preferences.VAKIT_INDICATOR_TYPE.get()) indicator = indicator + 1
+        if ("next" == Preferences.VAKIT_INDICATOR_TYPE.get()) indicator += 1
         for (v in Vakit.values()) {
             val i = v.ordinal
             remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f)
@@ -319,12 +320,13 @@ internal object WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_PX, s / 5f)
         remoteViews.setViewPadding(R.id.countdown, 0, -s / 16, 0, -s / 16)
         appWidgetManager.updateAppWidget(widgetId, remoteViews)
+
     }
 
     fun updateSilenter(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val theme: Theme = WidgetUtils.Companion.getTheme(widgetId)
+        val theme: Theme = WidgetUtils.getTheme(widgetId)
         val size: WidgetUtils.Size =
-            WidgetUtils.Companion.getSize(context, appWidgetManager, widgetId, 1f)
+            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
         val s = size.width
         if (s <= 0) return
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_1x1_silenter)
@@ -333,7 +335,7 @@ internal object WidgetV24 {
         val i = Intent(context, SilenterPrompt::class.java)
         remoteViews.setOnClickPendingIntent(
             R.id.widget,
-            PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         )
         remoteViews.setTextViewText(R.id.text, context.getString(R.string.silent))
         remoteViews.setTextViewTextSize(R.id.text, TypedValue.COMPLEX_UNIT_PX, s / 4f)
@@ -358,7 +360,7 @@ internal object WidgetV24 {
             context,
             UUID.asInt(),
             Intent(AlarmClock.ACTION_SHOW_ALARMS),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://prayerapp.page.link/calendar"))
         intent.addCategory(Intent.CATEGORY_BROWSABLE)
@@ -366,7 +368,7 @@ internal object WidgetV24 {
             context,
             UUID.asInt(),
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val startMillis = System.currentTimeMillis()
         val builder = CalendarContract.CONTENT_URI.buildUpon()
@@ -377,7 +379,7 @@ internal object WidgetV24 {
             context,
             UUID.asInt(),
             calendarIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         remoteViews.setOnClickPendingIntent(R.id.time, pendingIntentClock)
         remoteViews.setOnClickPendingIntent(R.id.greg, pendingIntentCalendar)

@@ -4,9 +4,7 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.drawableId
-import com.metinkale.prayer.times.times.DayTimesWebProvider
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.times.utils.secondsFlow
 import com.metinkale.prayer.utils.LocaleUtils
 import kotlinx.coroutines.flow.Flow

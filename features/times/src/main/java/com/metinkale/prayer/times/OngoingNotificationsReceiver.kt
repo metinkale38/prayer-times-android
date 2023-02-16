@@ -38,8 +38,7 @@ import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnPrefsChangedLis
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnTimeTickListener
 import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.times.utils.NotificationUtils
 import com.metinkale.prayer.utils.LocaleUtils
 import org.joda.time.*
@@ -52,9 +51,9 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
         val notMan = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val cal = LocalDate.now()
         val notifications: MutableList<Pair<Int, Notification>> = ArrayList()
-        for (t in Times.value) {
+        for (t in Times.current) {
             if (!t.ongoing) {
-                notMan.cancel(t.ID)
+                notMan.cancel(t.id)
                 continue
             }
             val icon = Preferences.SHOW_ONGOING_ICON.get()
@@ -149,7 +148,7 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
             }
             val noti = builder.build()
             noti.priority = Notification.PRIORITY_LOW
-            notifications.add(Pair(t.ID, noti))
+            notifications.add(Pair(t.id, noti))
         }
         if (!notifications.isEmpty()) {
             for (i in notifications.indices) {

@@ -1,3 +1,6 @@
+### Version 3.7.7
+- Aktualisierte Gebetszeiten für IGMG (Neuregelung ab 2023)  
+
 ### Version 3.7
 - Eid-ul Fitr Datum wurde korrigiert
 - Nutze Isl. Jahre für Isl. Kalender

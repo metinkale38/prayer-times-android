@@ -19,9 +19,9 @@ import android.media.MediaPlayer
 import androidx.collection.ArraySet
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.getCurrentTime
 import kotlinx.serialization.Serializable
 
-@Serializable
 data class BundledSound(
     override val name: String,
     val subSounds: MutableMap<SoundType, Sound> = mutableMapOf()

@@ -1,3 +1,6 @@
+### Version 3.7.7
+- Fix new IGMG Times for 2023
+
 ### Version 3.7
 - corrected Eid-ul Fitr date
 - use Hijri Years in Islamic Calendar

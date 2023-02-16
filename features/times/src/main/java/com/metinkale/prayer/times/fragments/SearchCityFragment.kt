@@ -15,8 +15,10 @@
  */
 package com.metinkale.prayer.times.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.location.Criteria
@@ -27,23 +29,25 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.times.*
 import com.metinkale.prayer.times.calc.PrayTimesConfigurationFragment
 import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.utils.FileChooser
 import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.UUID
 import dev.metinkale.prayertimes.core.Entry
 import dev.metinkale.prayertimes.core.sources.Source
-import java.io.File
 import java.util.*
+
 
 class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     SearchView.OnQueryTextListener, LocationListener, View.OnClickListener,
@@ -67,15 +71,15 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         autoLocation.setOnCheckedChangeListener(this)
         var trackStates = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf(
-                resources.getColor(R.color.white),
-                resources.getColor(R.color.backgroundSecondary)
+                ContextCompat.getColor(requireContext(), R.color.white),
+                ContextCompat.getColor(requireContext(), R.color.backgroundSecondary)
             )
         )
         autoLocation.thumbTintList = trackStates
         autoLocation.thumbTintMode = PorterDuff.Mode.MULTIPLY
         trackStates = ColorStateList(
             arrayOf(intArrayOf()), intArrayOf(
-                resources.getColor(R.color.colorPrimaryDark)
+                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
         )
         autoLocation.trackTintList = trackStates
@@ -86,7 +90,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         listView.isFastScrollEnabled = true
         listView.onItemClickListener = this
         val csv = View.inflate(activity, R.layout.vakit_addcity_addcsv, null)
-        csv.setOnClickListener { v1: View? -> addFromCSV() }
+        csv.setOnClickListener { _: View? -> addFromCSV() }
         listView.addFooterView(csv)
         adapter = MyAdapter(requireContext())
         listView.adapter = adapter
@@ -167,28 +171,34 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     override fun onItemClick(arg0: AdapterView<*>?, arg1: View, pos: Int, index: Long) {
         adapter.getItem(pos)?.let {
             if (it.source != Source.Calc) {
-                Times(
-                    ID = UUID.asInt(),
-                    source = it.source,
-                    name = it.localizedName(),
-                    lat = it.lat ?: 0.0,
-                    lng = it.lng ?: 0.0,
-                    id = it.id,
-                    sortId = 99,
-                    autoLocation = autoLocation.isChecked
-                ).save()
+                Times.add(
+                    Times(
+                        id = UUID.asInt(),
+                        source = it.source,
+                        name = it.localizedName(),
+                        lat = it.lat ?: 0.0,
+                        lng = it.lng ?: 0.0,
+                        key = it.id,
+                        sortId = (Times.current.map { it.sortId }.maxOrNull() ?: 0) + 1,
+                        autoLocation = autoLocation.isChecked
+                    )
+                )
                 back()
-            }else{
-                moveToFrag(PrayTimesConfigurationFragment.from(Times(
-                    ID = UUID.asInt(),
-                    source = it.source,
-                    name = it.localizedName(),
-                    lat = it.lat ?: 0.0,
-                    lng = it.lng ?: 0.0,
-                    id = it.id,
-                    sortId = 99,
-                    autoLocation = autoLocation.isChecked
-                )))
+            } else {
+                moveToFrag(
+                    PrayTimesConfigurationFragment.from(
+                        Times(
+                            id = UUID.asInt(),
+                            source = it.source,
+                            name = it.localizedName(),
+                            lat = it.lat ?: 0.0,
+                            lng = it.lng ?: 0.0,
+                            key = it.id,
+                            sortId = (Times.current.map { it.sortId }.maxOrNull() ?: 0) + 1,
+                            autoLocation = autoLocation.isChecked
+                        )
+                    )
+                )
             }
         }
     }
@@ -225,32 +235,44 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
     override fun onProviderEnabled(provider: String) {}
     override fun onProviderDisabled(provider: String) {}
+
+
     private fun addFromCSV() {
         val builder = AlertDialog.Builder(
             requireActivity()
         )
         builder.setTitle(R.string.addFromCSV)
-            .setItems(R.array.addFromCSV) { dialogInterface: DialogInterface?, which: Int ->
+            .setItems(R.array.addFromCSV) { _: DialogInterface?, which: Int ->
                 if (which == 0) {
-                    if (!PermissionUtils.get(requireActivity()).pStorage) {
-                        PermissionUtils.get(requireActivity()).needStorage(requireActivity())
-                        return@setItems
+
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "text/csv"
                     }
-                    val chooser = FileChooser(requireActivity())
-                    chooser.setExtension("csv")
-                    chooser.showDialog()
-                    chooser.setFileListener { file: File ->
-                        var name = file.name
-                        if (name.contains(".")) name = name.substring(0, name.lastIndexOf("."))
-                        Times(
-                            source = Source.CSV,
-                            name = name,
-                            lat = 0.0,
-                            lng = 0.0,
-                            id = file.toURI().toString()
-                        ).save()
-                        back()
-                    }
+
+
+                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                        if (result.resultCode == Activity.RESULT_OK) {
+                            result?.data?.data?.also { uri ->
+                                val contentResolver = App.get().contentResolver
+
+                                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                contentResolver.takePersistableUriPermission(uri, takeFlags)
+
+                                Times.add(
+                                    Times(
+                                        source = Source.CSV,
+                                        name = "CSV",
+                                        key = uri.toString()
+                                    )
+                                )
+                                back()
+                            }
+                        }
+                    }.launch(intent)
+
+
                 } else {
                     val alert = AlertDialog.Builder(
                         requireActivity()
@@ -259,11 +281,11 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     editText.hint = "http(s)://example.com/prayertimes.csv"
                     alert.setView(editText)
                     alert.setTitle(R.string.csvFromURL)
-                    alert.setPositiveButton(R.string.ok) { dialogInterface1: DialogInterface?, i: Int ->
+                    alert.setPositiveButton(R.string.ok) { _: DialogInterface?, _: Int ->
                         val url = editText.text.toString()
                         var name = url.substring(url.lastIndexOf("/") + 1)
                         if (name.contains(".")) name = name.substring(0, name.lastIndexOf("."))
-                        Times(source = Source.CSV, name = name, id = url).save()
+                        Times.add(Times(source = Source.CSV, name = name, key = url))
                         back()
                     }
                     alert.setNegativeButton(R.string.cancel, null)

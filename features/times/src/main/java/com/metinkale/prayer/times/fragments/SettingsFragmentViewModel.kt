@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 
 class SettingsFragmentViewModel(var timesId: StateFlow<Int>) {
 
-    val times = combine(Times, timesId) { list, id -> list.firstOrNull { it.ID == id } }
+    val times = combine(Times, timesId) { list, id -> list.firstOrNull { it.id == id } }
 
     val name = times.map { it?.name ?: "" }
     val tz = times.map { it?.timezone?.toString() ?: "" }

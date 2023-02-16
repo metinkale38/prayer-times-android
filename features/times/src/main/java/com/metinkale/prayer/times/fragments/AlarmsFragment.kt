@@ -23,48 +23,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.metinkale.prayer.BaseActivity.MainFragment
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.Alarm
-import com.metinkale.prayer.times.fragments.AlarmConfigFragment.Companion.create
 import com.metinkale.prayer.times.fragments.AlarmsAdapter.SwitchItem
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
-import com.metinkale.prayer.times.utils.UpdatableStateFlow
+import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.checkBatteryOptimizations
 import com.metinkale.prayer.times.utils.isIgnoringBatteryOptimizations
 import com.metinkale.prayer.times.utils.mapById
 
-class AlarmsFragment : Fragment(), Observer<Times?> {
-    private lateinit var times: UpdatableStateFlow<Times?>
+class AlarmsFragment : MainFragment(), Observer<Times?> {
+    private lateinit var times: Store<Times?>
     private lateinit var adapter: AlarmsAdapter
-    private val alarms by lazy {
-        times.map({ it?.alarms ?: emptyList() },
-            { parent, it -> parent?.copy(alarms = it) })
-    }
+    private lateinit var alarms: Store<List<Alarm>>
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.vakit_notprefs, container, false)
         val recyclerView = v.findViewById<RecyclerView>(R.id.recycler)
         times = Times.getTimesById(requireArguments().getInt("city"))
+        alarms =
+            times.map({ it?.alarms ?: emptyList() }, { parent, it ->
+                parent?.copy(alarms = it)
+            })
 
-
-        val layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
         adapter = AlarmsAdapter()
         recyclerView.adapter = adapter
-        times.asLiveData().observe({ lifecycle }, this)
-        onChanged(times.value)
+        times.data.asLiveData().observe(viewLifecycleOwner, this)
+        onChanged(times.current)
         setHasOptionsMenu(true)
         return v
     }
@@ -74,7 +71,7 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
         if (i == R.id.add) {
             val alarm = Alarm()
             times.update { it?.copy(alarms = it.alarms + alarm) }
-            create(alarm).show(this)
+            moveToFrag(AlarmFragment.create(alarm))
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -88,7 +85,7 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
 
     override fun onResume() {
         super.onResume()
-        times.value?.name?.let { requireActivity().title = it }
+        times.current?.name?.let { requireActivity().title = it }
     }
 
     override fun onChanged(times: Times?) {
@@ -98,10 +95,12 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
                 get() = getString(R.string.ongoingNotification)
 
             override val checked: Boolean
-                get() = this@AlarmsFragment.times.value?.ongoing ?: false
+                get() = this@AlarmsFragment.times.current?.ongoing ?: false
 
             override fun onChange(checked: Boolean) {
-                this@AlarmsFragment.times.update { it?.copy(ongoing = checked) }
+                this@AlarmsFragment.times.update {
+                    it?.copy(ongoing = checked)
+                }
                 InternalBroadcastReceiver.sender(activity).sendTimeTick()
             }
         })
@@ -111,7 +110,7 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
 
             adapter.add(object : SwitchItem() {
                 override val name: String
-                    get() = alarm.value?.title ?: ""
+                    get() = alarm.current?.title ?: ""
 
                 override fun onChange(checked: Boolean) {
                     if (checked && !isIgnoringBatteryOptimizations(activity!!)) {
@@ -122,32 +121,31 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
                         dialog.setMessage(getString(R.string.batteryOptimizationsText))
                         dialog.setCancelable(false)
                         dialog.setButton(
-                            DialogInterface.BUTTON_POSITIVE,
-                            getString(R.string.yes)
-                        ) { dialogInterface: DialogInterface?, i: Int ->
+                            DialogInterface.BUTTON_POSITIVE, getString(R.string.yes)
+                        ) { _: DialogInterface?, _: Int ->
                             checkBatteryOptimizations(
                                 activity!!
                             )
                         }
                         dialog.setButton(
-                            DialogInterface.BUTTON_NEGATIVE,
-                            getString(R.string.no)
-                        ) { dialogInterface: DialogInterface?, i: Int -> }
+                            DialogInterface.BUTTON_NEGATIVE, getString(R.string.no)
+                        ) { _: DialogInterface?, _: Int -> }
                         dialog.show()
+                    } else alarm.update {
+                        it?.copy(enabled = checked)
                     }
-                    alarm.update { it?.copy(enabled = true) }
                 }
 
-                override val checked: Boolean get() = alarm.value?.enabled ?: false
+                override val checked: Boolean get() = alarm.current?.enabled ?: false
 
                 override fun onClick() {
                     if (!checked) {
                         Toast.makeText(activity, R.string.activateForMorePrefs, Toast.LENGTH_LONG)
                             .show()
                     } else {
-                        alarm.value?.let {
+                        alarm.current?.let {
                             try {
-                                create(it).show(this@AlarmsFragment)
+                                moveToFrag(AlarmFragment.create(it))
                             } catch (e: Exception) {
                                 recordException(e)
                             }
@@ -158,10 +156,10 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
 
                 override fun onLongClick(): Boolean {
                     AlertDialog.Builder(activity!!)
-                        .setTitle(this@AlarmsFragment.times.value?.name ?: "")
-                        .setMessage(getString(R.string.delAlarmConfirm, alarm.value?.title))
-                        .setNegativeButton(R.string.no) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-                        .setPositiveButton(R.string.yes) { dialog: DialogInterface?, which: Int ->
+                        .setTitle(this@AlarmsFragment.times.current?.name ?: "")
+                        .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.title))
+                        .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+                        .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
                             alarm.update { null }
                             onChanged(times)
                         }.show()
@@ -175,10 +173,10 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
                 get() = getString(R.string.addAlarm)
 
             override fun onClick() {
-                times?.ID?.also {
+                times?.id?.also {
                     val alarm = Alarm(cityId = it)
                     alarms.update { it + alarm }
-                    create(alarm).show(this@AlarmsFragment)
+                    moveToFrag(AlarmFragment.create(alarm))
                 }
             }
 
@@ -190,7 +188,7 @@ class AlarmsFragment : Fragment(), Observer<Times?> {
 
     companion object {
         @JvmStatic
-        fun create(cityId:Int): AlarmsFragment {
+        fun create(cityId: Int): AlarmsFragment {
             val bdl = Bundle()
             bdl.putInt("city", cityId)
             val frag = AlarmsFragment()

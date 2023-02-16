@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer
 
-package com.metinkale.prayer;
+import com.metinkale.prayer.times.MainActivity
 
-import com.metinkale.prayer.times.MainActivity;
-
-public class ShortcutActivity extends MainActivity {
-}
+class ShortcutActivity : MainActivity()

@@ -83,7 +83,7 @@ open class RTLViewPager : ViewPager {
     }
 
     private val isRTL: Boolean
-        private get() = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL
+        get() = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL
 
     private class RTLAdapterWrapper(
         fm: FragmentManager,
@@ -125,7 +125,7 @@ open class RTLViewPager : ViewPager {
         }
     }
 
-    private inner class RTLOnPageChangeListener internal constructor(private val list: OnPageChangeListener) :
+    private inner class RTLOnPageChangeListener(private val list: OnPageChangeListener) :
         OnPageChangeListener {
         override fun onPageScrolled(
             position: Int,

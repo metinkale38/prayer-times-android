@@ -51,8 +51,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     public static final String API_URL = "http://metinkale38.github.io/prayer-times-android";
     private static App sApp;
-    @NonNull
-    private final Handler mHandler = new Handler();
+
 
     private Thread.UncaughtExceptionHandler mDefaultUEH;
     @NonNull
@@ -94,11 +93,6 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
 
     public static void setApp(App app) {
         sApp = app;
-    }
-
-    @NonNull
-    public Handler getHandler() {
-        return mHandler;
     }
 
     public App() {

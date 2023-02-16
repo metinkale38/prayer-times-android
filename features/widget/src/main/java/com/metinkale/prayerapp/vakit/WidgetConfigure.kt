@@ -49,18 +49,18 @@ open class WidgetConfigure : AppCompatActivity() {
     open fun cityDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.cities)
-        val array = arrayOfNulls<String>(Times.value.size)
+        val array = arrayOfNulls<String>(Times.current.size)
         for (i in array.indices) {
-            val t: Times? = Times.getTimesByIndex(i).value
+            val t: Times? = Times.getTimesByIndex(i).current
             if (t == null) {
                 array[i] = "DELETED"
             } else {
-                array[i] = t.name + " (" + t.source + ")"
+                array[i] = t.name + " (" + t.source.name + ")"
             }
         }
         builder.setItems(array) { dialog: DialogInterface?, which: Int ->
             getSharedPreferences("widgets", 0).edit()
-                .putInt("" + appWidgetId, Times.getTimesById(which).value?.ID ?: 0).apply()
+                .putInt("" + appWidgetId, Times.getTimesByIndex(which).current?.id ?: 0).apply()
             if (onlyCity) result() else themeDialog()
         }
         builder.show()

@@ -22,7 +22,7 @@ plugins {
 android {
     sourceSets {
         main {
-            // res.srcDirs += 'src/main/translations'
+            res.srcDirs += 'src/main/translations'
         }
     }
     compileSdkVersion 33

@@ -1,115 +1,105 @@
 package com.metinkale.prayer.times.times
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.metinkale.prayer.App
+import com.metinkale.prayer.CrashReporter
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver
 import com.metinkale.prayer.times.LocationReceiver
-import com.metinkale.prayer.times.utils.UpdatableStateFlow
+import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.asStore
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
-open class TimesCompanion(private val state: MutableStateFlow<List<Times>> = MutableStateFlow(listOf())) :
-    UpdatableStateFlow<List<Times>> by state.asStore(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
-    private val prefs: SharedPreferences = App.get().getSharedPreferences("cities", 0)
+
+open class TimesCompanion : Flow<List<Times>> {
 
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
     }
 
+    private val prefs: SharedPreferences = App.get().getSharedPreferences("cities", 0)
+
+    private val store: Store<List<Times>> by lazy {
+        MutableStateFlow(prefs.all.keys.filter { it.startsWith("id") }
+            .mapNotNull { fromSharedPrefs(it.substring(2).toInt()) }).asStore()
+            .map({ it -> it.sortedBy { it.sortId } }, { _, new -> new })
+    }
+
     init {
         MainScope().launch {
-            state.update {
-                prefs.all.keys.filter { it.startsWith("id") }
-                    .mapNotNull { fromSharedPrefs(it.substring(2).toInt()) }.sortedBy { it.sortId }
-            }
-
-            prefs.registerOnSharedPreferenceChangeListener(this@TimesCompanion)
-
-            map { it.any { it.autoLocation } }.distinctUntilChanged().filter { it }.collect {
-                LocationReceiver.start(App.get())
+            store.data.map { it.any { it.autoLocation } }.distinctUntilChanged().filter { it }
+                .collect {
+                    LocationReceiver.start(App.get())
+                }
+        }
+        MainScope().launch {
+            store.data.distinctUntilChangedBy { it.map { it.ongoing } }.collect {
+                InternalBroadcastReceiver.sender(App.get()).sendTimeTick()
             }
         }
-    }
-
-    fun getTimesById(id: Int): UpdatableStateFlow<Times?> =
-        map(get = { it.firstOrNull { it.ID == id } },
-            set = { parent, it -> parent.apply { it?.save() } })
-
-    fun getTimesByIndex(idx: Int): UpdatableStateFlow<Times?> =
-        map(get = { it.getOrNull(idx) }, set = { parent, it -> parent.apply { it?.save() } })
-
-
-    private fun fromSharedPrefs(id: Int): Times? {
-        val json = App.get().getSharedPreferences("cities", 0).getString("id$id", null)
-        return json?.let {
-            try {
-                this.json.decodeFromString(Times.serializer(), json).copy(ID = id)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
+        MainScope().launch {
+            debounce(1000).distinctUntilChanged().collect {
+                synchronized(this) {
+                    val edit = prefs.edit()
+                    edit.clear()
+                    it.filter { it.id > 0 }.forEach {
+                        val json = json.encodeToString(it)
+                        edit.putString("id${it.id}", json)
+                    }
+                    edit.apply()
+                }
             }
         }
     }
 
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key != null && key.startsWith("id")) {
-            state.update { value ->
-                val id = key.substring(2).toInt()
-                (value.filter { it.ID != id } + fromSharedPrefs(id)).filterNotNull()
-                    .sortedBy { it.sortId }
-            }
-        }
-    }
+    fun size() = store.data.map { it.size }.distinctUntilChanged()
 
+    fun getTimesById(id: Int): Store<Times?> =
+        store.map(get = { it.firstOrNull { it.id == id } },
+            set = { parent, save ->
+                parent.map { if (it.id == save?.id) save else it }
+            })
 
-    fun save(entry: Times) {
-        Log.e("Test", entry.toString())
-        if (entry.ID > 0) {
-            val json = json.encodeToString(entry)
-            prefs.edit().putString("id${entry.ID}", json).apply()
-        } else {
-            state.update { ((it.filter { it.ID != entry.ID }) + entry).sortedBy { it.sortId } }
-        }
+    fun getTimesByIndex(idx: Int): Store<Times?> =
+        store.map(get = { it.getOrNull(idx) },
+            set = { parent, save ->
+                parent.mapIndexed { index, it -> if (save != null && index == idx) save else it }
+            })
+
+    fun add(times: Times) {
+        store.update { it + times }
     }
 
     fun delete(times: Times) {
-        prefs.edit().remove("id" + times.ID).apply()
+        store.update { it.filter { it.id != times.id } }
     }
 
-    fun clearTemporaryTimes() = state.update {
-        it.filter { it.ID > 0 }
+    fun clearTemporaryTimes() = store.update {
+        it.filter { it.id > 0 }
     }
+
+
+    private fun fromSharedPrefs(id: Int): Times? =
+        App.get().getSharedPreferences("cities", 0).getString("id$id", null)
+            ?.let {
+                try {
+                    json.decodeFromString(Times.serializer(), it).copy(id = id)
+                } catch (e: Exception) {
+                    CrashReporter.recordException(e)
+                    e.printStackTrace()
+                    null
+                }
+            }
+
+    override suspend fun collect(collector: FlowCollector<List<Times>>) =
+        store.data.collect(collector)
+
+    val current get() = store.current
 
 }
 
-object BooleanSerializer : KSerializer<Boolean> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("BooleanLegacy", PrimitiveKind.BOOLEAN)
-
-    override fun serialize(encoder: Encoder, value: Boolean) {
-        encoder.encodeBoolean(value)
-    }
-
-    override fun deserialize(decoder: Decoder): Boolean {
-        return runCatching {
-            decoder.decodeString() == "true"
-        }.getOrNull() ?: runCatching {
-            decoder.decodeInt() == 1
-        }.getOrNull() ?: runCatching {
-            decoder.decodeBoolean()
-        }.getOrNull() ?: false
-    }
-}

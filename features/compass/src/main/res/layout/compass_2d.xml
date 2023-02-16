@@ -14,111 +14,136 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundSecondary"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backgroundSecondary" />
 
     <com.metinkale.prayer.compass.magnetic.compass2D.CompassView
         android:id="@+id/compass"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_above="@+id/infobox"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="15dip"
-        android:translationZ="2dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/infobox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
 
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/infobox"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/background">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compass">
 
-        <View
-            android:id="@+id/center"
-            android:layout_width="0dip"
-            android:layout_height="0dip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/hline"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dip"
-            android:layout_toLeftOf="@+id/center"
-            android:gravity="center"
-            android:text="@string/angle"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/foreground"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/angle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dip"
-            android:layout_marginBottom="20dp"
-            android:layout_toLeftOf="@id/center"
-            android:gravity="center"
-            android:text="0°"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/foreground" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/hline"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dip"
-            android:layout_toRightOf="@id/center"
-            android:gravity="center"
-            android:text="@string/distance"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/foreground"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dip"
-            android:layout_marginBottom="20dp"
-            android:layout_toRightOf="@id/center"
-            android:gravity="center"
-            android:text="0 km"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/foreground" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-        <View
-
-            android:id="@+id/hline"
-            android:layout_width="fill_parent"
-            android:layout_height="3dip"
-            android:layout_above="@+id/angle"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="5dip"
-            android:layout_marginTop="5dip"
-            android:layout_marginEnd="5dip"
-            android:background="@color/colorPrimary" />
-
-    </RelativeLayout>
+            <View
+                android:id="@+id/center"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/hline"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/angle"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/foreground"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="0°"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hline" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/hline"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/distance"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/foreground"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="0 km"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toBottomOf="@+id/hline" />
+
+
+            <View
+
+                android:id="@+id/hline"
+                android:layout_width="fill_parent"
+                android:layout_height="3dip"
+                android:layout_above="@+id/angle"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toTopOf="@+id/angle"
+                app:layout_constraintTop_toBottomOf="@id/textView2"
+                tools:layout_editor_absoluteX="12dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

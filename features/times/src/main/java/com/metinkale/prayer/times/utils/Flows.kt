@@ -3,21 +3,13 @@ package com.metinkale.prayer.times.utils
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.joda.time.LocalDate
 
-
-inline fun <V : View, T> V.bind(
-    lifecycle: Lifecycle,
-    flow: Flow<T>,
-    crossinline binding: V.(T) -> Unit
-) = flow.distinctUntilChanged().asLiveData().observe({ lifecycle }) { binding(it) }
-
-fun TextView.bindText(lifecycle: Lifecycle, text: Flow<CharSequence>) =
-    bind(lifecycle, text) { this.text = it }
 
 
 val dateFlow: Flow<LocalDate> = flow {

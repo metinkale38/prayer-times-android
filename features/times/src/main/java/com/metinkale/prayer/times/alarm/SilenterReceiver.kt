@@ -40,7 +40,7 @@ class SilenterReceiver : BroadcastReceiver() {
                             c,
                             0,
                             Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS),
-                            0
+                            PendingIntent.FLAG_IMMUTABLE
                         )
                     )
                     .setSmallIcon(R.drawable.ic_abicon)
@@ -62,7 +62,7 @@ class SilenterReceiver : BroadcastReceiver() {
                 val am = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val i = Intent(c, SilenterReceiver::class.java)
                 i.putExtra("mode", ringermode)
-                val service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+                val service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 am[AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * mins] = service
                 aum.ringerMode =
                     if (modeVibrate) AudioManager.RINGER_MODE_VIBRATE else AudioManager.RINGER_MODE_SILENT

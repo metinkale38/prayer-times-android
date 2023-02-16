@@ -59,7 +59,7 @@ class AlarmService : IntentService("AlarmService") {
         Times.setAlarms()
         wakeLock.release()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(true)
+            stopForeground(STOP_FOREGROUND_DETACH)
         }
     }
 
@@ -74,7 +74,7 @@ class AlarmService : IntentService("AlarmService") {
         val alarm = fromId(alarmId)
         if (alarm == null || !alarm.enabled) return
         intent.removeExtra(EXTRA_ALARMID)
-        val notId = alarm.city.ID
+        val notId = alarm.city.id
         val nm = c.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(NOTIFICATION_TAG, notId)
         alarm.vibrateNow(c)
@@ -166,7 +166,7 @@ class AlarmService : IntentService("AlarmService") {
                 if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second)
                 i.putExtra(EXTRA_ALARMID, alarm.first.id)
                 i.putExtra(EXTRA_TIME, time)
-                val service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+                val service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 am.cancel(service)
                 am.setExact(AlarmManager.RTC_WAKEUP, time, service)
             }

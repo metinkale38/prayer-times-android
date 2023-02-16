@@ -15,13 +15,12 @@
  */
 package com.metinkale.prayer.times
 
-import com.evernote.android.job.JobManager
 import com.metinkale.prayer.App
-import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnPrefsChangedListener
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnStartListener
 import com.metinkale.prayer.times.LocationReceiver.Companion.start
+import com.metinkale.prayer.times.times.SyncTimesWorker
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 
@@ -37,14 +36,9 @@ class TimesBroadcastReceiver : InternalBroadcastReceiver(), OnStartListener,
     }
 
     override fun onStart() {
-        JobManager.create(App.get()).addJobCreator(SyncJobCreator())
-        try {
-            Times.value
-        } catch (e: Exception) {
-            recordException(e)
-        }
         sender(App.get()).sendTimeTick()
         start(App.get())
         Times.setAlarms()
+        SyncTimesWorker.scheduleWorker(App.get())
     }
 }

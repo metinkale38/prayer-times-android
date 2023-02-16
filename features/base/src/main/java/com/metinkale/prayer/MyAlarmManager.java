@@ -28,30 +28,30 @@ import com.metinkale.prayer.utils.Utils;
 public class MyAlarmManager {
     private final AlarmManager alarmManager;
     private final Context context;
-    
+
     private MyAlarmManager(@NonNull Context c) {
         this.context = c;
         this.alarmManager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
     }
-    
+
     protected MyAlarmManager() {
         alarmManager = null;
         context = null;
     }
-    
+
     public static MyAlarmManager with(Context c) {
         return new MyAlarmManager(c);
     }
 
-    
+
     public void set(int type, long time, PendingIntent service) {
         alarmManager.set(type, time, service);
     }
-    
+
     public void setExact(int type, long time, PendingIntent service) {
         if (Preferences.USE_ALARM.get()) {
             AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time,
-                    PendingIntent.getActivity(context, 0, Module.TIMES.buildIntent(context), PendingIntent.FLAG_UPDATE_CURRENT));
+                    PendingIntent.getActivity(context, 0, Module.TIMES.buildIntent(context), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
             alarmManager.setAlarmClock(info, service);
         } else if (type == AlarmManager.RTC_WAKEUP) {
             alarmManager.setExactAndAllowWhileIdle(type, time, service);
@@ -59,9 +59,9 @@ public class MyAlarmManager {
             alarmManager.setExact(type, time, service);
         }
     }
-    
+
     public void cancel(PendingIntent service) {
         alarmManager.cancel(service);
     }
-    
+
 }

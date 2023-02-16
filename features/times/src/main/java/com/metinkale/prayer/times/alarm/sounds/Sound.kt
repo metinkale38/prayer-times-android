@@ -16,8 +16,17 @@
 package com.metinkale.prayer.times.alarm.sounds
 
 import android.media.MediaPlayer
+import android.util.Log
 import com.metinkale.prayer.times.alarm.Alarm
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
+@Serializable(with = SoundSerializer::class)
 sealed interface Sound {
     val name: String?
     val shortName: String?
@@ -26,4 +35,23 @@ sealed interface Sound {
     val size: Int
     val id: Int
     val appSounds: Set<AppSound?>
+}
+
+object SoundSerializer : KSerializer<Sound> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("SoundSerializer", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: Sound) {
+        return if (value is UserSound) {
+            encoder.encodeString(value.uri.toString())
+        } else encoder.encodeInt(value.id)
+    }
+
+    override fun deserialize(decoder: Decoder): Sound {
+        return runCatching {
+            Sounds.getSound(decoder.decodeInt())
+        }.getOrNull() ?: runCatching {
+            Sounds.getSound(decoder.decodeString())
+        }.getOrNull()!!
+    }
 }

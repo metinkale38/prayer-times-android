@@ -1,3 +1,6 @@
+### Version 3.7.7
+- IGMG yeni Namaz Vakitleri (01.01.2023'den itibaren)  
+ 
 ### Version 3.7
 - Ramazan Bayramı Tarihi düzeltildi
 - Dini Günler Hicri Yıl'a göre düzenlendi

@@ -30,8 +30,8 @@ class PrayTimesConfigurationFragment : BaseActivity.MainFragment() {
             ComposeView(requireContext()).apply {
                 setContent {
                     val model =
-                        PrayTimesConfigurationViewModel(PrayTimes.deserialize(times.id ?: "")) {
-                            times.copy(id = it.serialize(), asrType = asrType.value).save()
+                        PrayTimesConfigurationViewModel(PrayTimes.deserialize(times.key ?: "")) {
+                            Times.add(times.copy(key = it.serialize(), asrType = asrType.value))
                             backToMain()
                         }
 
