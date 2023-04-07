@@ -33,6 +33,7 @@ import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.times.utils.*
 import com.metinkale.prayer.utils.LocaleUtils
+import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.Utils
 import kotlinx.coroutines.flow.*
 import org.joda.time.LocalDate
@@ -51,78 +52,79 @@ class CityFragment : Fragment() {
 
         val v = inflater.inflate(R.layout.vakit_fragment, container, false)
 
-        CityFragmentViewModel.from(times.data.filterNotNull()).asLiveData().observe(viewLifecycleOwner) {
-            val arabic = Preferences.USE_ARABIC.get()
+        CityFragmentViewModel.from(times.data.filterNotNull()).asLiveData()
+            .observe(viewLifecycleOwner) {
+                val arabic = Preferences.USE_ARABIC.get()
 
-            v.findViewById<TextView>(R.id.date).text = it.date
-            v.findViewById<TextView>(R.id.city).text = it.city
-            v.findViewById<TextView>(R.id.hicri).text = it.hijri
-            v.findViewById<ImageView>(R.id.source1).setImageResource(it.icon)
-            v.findViewById<ImageView>(R.id.source2).setImageResource(it.icon)
-            v.findViewById<ImageView>(R.id.gps).visibility =
-                if (it.autolocation) View.VISIBLE else View.GONE
+                v.findViewById<TextView>(R.id.date).text = it.date
+                v.findViewById<TextView>(R.id.city).text = it.city
+                v.findViewById<TextView>(R.id.hicri).text = it.hijri
+                v.findViewById<ImageView>(R.id.source1).setImageResource(it.icon)
+                v.findViewById<ImageView>(R.id.source2).setImageResource(it.icon)
+                v.findViewById<ImageView>(R.id.gps).visibility =
+                    if (it.autolocation) View.VISIBLE else View.GONE
 
-            v.findViewById<TextView>(R.id.fajrTime).apply {
-                text = it.fajrTime
-                setBackgroundResource(if (it.hoverLine == 0) R.color.accent else R.color.transparent)
-            }
-            v.findViewById<TextView>(R.id.sunTime).apply {
-                text = it.sunTime
-                setBackgroundResource(if (it.hoverLine == 1) R.color.accent else R.color.transparent)
-            }
-            v.findViewById<TextView>(R.id.zuhrTime).apply {
-                text = it.dhuhrTime
-                setBackgroundResource(if (it.hoverLine == 2) R.color.accent else R.color.transparent)
-            }
-            v.findViewById<TextView>(R.id.asrTime).apply {
-                text = it.asrTime
-                setBackgroundResource(if (it.hoverLine == 3) R.color.accent else R.color.transparent)
-            }
-            v.findViewById<TextView>(R.id.maghribTime).apply {
-                text = it.maghribTime
-                setBackgroundResource(if (it.hoverLine == 4) R.color.accent else R.color.transparent)
-            }
-            v.findViewById<TextView>(R.id.ishaaTime).apply {
-                text = it.ishaTime
-                setBackgroundResource(if (it.hoverLine == 5) R.color.accent else R.color.transparent)
-            }
+                v.findViewById<TextView>(R.id.fajrTime).apply {
+                    text = it.fajrTime
+                    setBackgroundResource(if (it.hoverLine == 0) R.color.accent else R.color.transparent)
+                }
+                v.findViewById<TextView>(R.id.sunTime).apply {
+                    text = it.sunTime
+                    setBackgroundResource(if (it.hoverLine == 1) R.color.accent else R.color.transparent)
+                }
+                v.findViewById<TextView>(R.id.zuhrTime).apply {
+                    text = it.dhuhrTime
+                    setBackgroundResource(if (it.hoverLine == 2) R.color.accent else R.color.transparent)
+                }
+                v.findViewById<TextView>(R.id.asrTime).apply {
+                    text = it.asrTime
+                    setBackgroundResource(if (it.hoverLine == 3) R.color.accent else R.color.transparent)
+                }
+                v.findViewById<TextView>(R.id.maghribTime).apply {
+                    text = it.maghribTime
+                    setBackgroundResource(if (it.hoverLine == 4) R.color.accent else R.color.transparent)
+                }
+                v.findViewById<TextView>(R.id.ishaaTime).apply {
+                    text = it.ishaTime
+                    setBackgroundResource(if (it.hoverLine == 5) R.color.accent else R.color.transparent)
+                }
 
-            v.findViewById<TextView>(R.id.fajr).apply {
-                text = it.fajrTitle
-                setBackgroundResource(if (it.hoverLine == 0) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
-            v.findViewById<TextView>(R.id.sun).apply {
-                text = it.sunTitle
-                setBackgroundResource(if (it.hoverLine == 1) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
-            v.findViewById<TextView>(R.id.zuhr).apply {
-                text = it.dhuhrTitle
-                setBackgroundResource(if (it.hoverLine == 2) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
-            v.findViewById<TextView>(R.id.asr).apply {
-                text = it.asrTitle
-                setBackgroundResource(if (it.hoverLine == 3) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
-            v.findViewById<TextView>(R.id.maghrib).apply {
-                text = it.maghribTitle
-                setBackgroundResource(if (it.hoverLine == 4) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
-            v.findViewById<TextView>(R.id.ishaa).apply {
-                text = it.ishaTitle
-                setBackgroundResource(if (it.hoverLine == 5) R.color.accent else R.color.transparent)
-                gravity = if (arabic) Gravity.START else Gravity.CENTER
-            }
+                v.findViewById<TextView>(R.id.fajr).apply {
+                    text = it.fajrTitle
+                    setBackgroundResource(if (it.hoverLine == 0) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
+                v.findViewById<TextView>(R.id.sun).apply {
+                    text = it.sunTitle
+                    setBackgroundResource(if (it.hoverLine == 1) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
+                v.findViewById<TextView>(R.id.zuhr).apply {
+                    text = it.dhuhrTitle
+                    setBackgroundResource(if (it.hoverLine == 2) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
+                v.findViewById<TextView>(R.id.asr).apply {
+                    text = it.asrTitle
+                    setBackgroundResource(if (it.hoverLine == 3) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
+                v.findViewById<TextView>(R.id.maghrib).apply {
+                    text = it.maghribTitle
+                    setBackgroundResource(if (it.hoverLine == 4) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
+                v.findViewById<TextView>(R.id.ishaa).apply {
+                    text = it.ishaTitle
+                    setBackgroundResource(if (it.hoverLine == 5) R.color.accent else R.color.transparent)
+                    gravity = if (arabic) Gravity.START else Gravity.CENTER
+                }
 
-            v.findViewById<TextView>(R.id.countdown).text = it.countdown
+                v.findViewById<TextView>(R.id.countdown).text = it.countdown
 
-            v.findViewById<View>(R.id.kerahat).visibility =
-                if (it.isKerahat) View.VISIBLE else View.GONE
-        }
+                v.findViewById<View>(R.id.kerahat).visibility =
+                    if (it.isKerahat) View.VISIBLE else View.GONE
+            }
 
         listOf(R.id.source1, R.id.source2).forEach {
             if (Utils.isNightMode(activity)) {
@@ -135,7 +137,7 @@ class CityFragment : Fragment() {
                 v.findViewById<ImageView>(it).colorFilter = filter
             }
         }
-        
+
         setHasOptionsMenu(true)
 
         return v
@@ -157,15 +159,21 @@ class CityFragment : Fragment() {
         val times = times.current ?: return super.onOptionsItemSelected(item)
         val i1 = item.itemId
         if (i1 == R.id.notification) {
-            val frag = requireActivity().supportFragmentManager.findFragmentByTag("notPrefs")
-            if (frag == null) {
-                (parentFragment as? TimesFragment)?.setFooterText("", false)
-                (parentFragment as? TimesFragment)?.moveToFrag(AlarmsFragment.create(times.id))
+            if (!PermissionUtils.get(requireContext()).pNotification) {
+                PermissionUtils.get(requireContext()).needPostNotification(requireActivity())
             } else {
-                (parentFragment as? TimesFragment)?.setFooterText(getString(R.string.monthly), true)
-                (parentFragment as? TimesFragment)?.back()
+                val frag = requireActivity().supportFragmentManager.findFragmentByTag("notPrefs")
+                if (frag == null) {
+                    (parentFragment as? TimesFragment)?.setFooterText("", false)
+                    (parentFragment as? TimesFragment)?.moveToFrag(AlarmsFragment.create(times.id))
+                } else {
+                    (parentFragment as? TimesFragment)?.setFooterText(
+                        getString(R.string.monthly),
+                        true
+                    )
+                    (parentFragment as? TimesFragment)?.back()
+                }
             }
-
             //AppRatingDialog.addToOpenedMenus("notPrefs");
         } else if (i1 == R.id.export) {
             (times.dayTimes as? DayTimesWebProvider)?.syncAsync()

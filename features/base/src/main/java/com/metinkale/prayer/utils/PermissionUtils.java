@@ -43,6 +43,7 @@ public class PermissionUtils {
     public boolean pStorage;
     public boolean pLocation;
     public boolean pNotPolicy;
+    public boolean pNotification;
 
     private PermissionUtils(@NonNull Context c) {
         checkPermissions(c);
@@ -59,6 +60,7 @@ public class PermissionUtils {
         pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        pNotification = Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(c, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         pNotPolicy = nm.isNotificationPolicyAccessGranted();
         CrashReporter.setCustomKey("pNotPolicy", pLocation);
@@ -67,6 +69,7 @@ public class PermissionUtils {
         CrashReporter.setCustomKey("pStorage", pStorage);
         CrashReporter.setCustomKey("pLocation", pLocation);
         CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
+        CrashReporter.setCustomKey("pNotification", pNotification);
 
     }
 
@@ -86,7 +89,15 @@ public class PermissionUtils {
                 ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 0);
             }
         }
+    }
 
+    public void needPostNotification(@NonNull final Activity act) {
+        if (act.isDestroyed())
+            return;
+
+        if (!pNotification) {
+            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
+        }
     }
 
     public void needLocation(@NonNull final Activity act) {
@@ -155,6 +166,9 @@ public class PermissionUtils {
                     break;
                 case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                     pStorage = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                    break;
+                case Manifest.permission.POST_NOTIFICATIONS:
+                    pNotification = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                     break;
             }
         }
