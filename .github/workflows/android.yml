@@ -27,4 +27,4 @@ jobs:
         echo "IGMGApiKey=NO_KEY" >> ./gradle.properties
         echo "GoogleApiKey=NO_KEY" >> ./gradle.properties
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assembleFdroid
