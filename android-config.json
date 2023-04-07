@@ -1,7 +1,7 @@
 {
   "api_url": "https://open-prayer-times.lm.r.appspot.com/",
   "use_diyanet_rest": false,
-  "use_igmg_rest": true,
+  "use_igmg_rest": false,
   "use_london_rest": false,
   "use_nvc_rest": false,
   "use_semerkand_rest": false,
