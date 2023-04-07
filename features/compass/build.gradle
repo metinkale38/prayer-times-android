@@ -34,7 +34,10 @@ android {
         minSdkVersion 23
         versionCode 1
         versionName "1.0"
-        resValue 'string', 'GoogleApiKey', GoogleApiKey //excludeInFDroid
+        if (project.hasProperty('GoogleApiKey'))
+            resValue 'string', 'GoogleApiKey', GoogleApiKey
+        else
+            resValue 'string', 'GoogleApiKey', ""
     }
 
     buildTypes {
@@ -68,7 +71,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // TODO consider replacing with WebView to reduce dependencies
-    playImplementation 'com.google.android.gms:play-services-maps:18.1.0' //excludeInFDroid
+    playImplementation 'com.google.android.gms:play-services-maps:18.1.0'
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
     playImplementation 'com.google.android.gms:play-services-location:21.0.1'
 }
