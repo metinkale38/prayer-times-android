@@ -16,6 +16,8 @@
 
 package com.metinkale.prayer.settings;
 
+import static com.metinkale.prayer.calendar.CalendarIntergrationKt.runCalendarIntegration;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -57,7 +59,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         else {
             findPreference("numbers").setOnPreferenceChangeListener(this);
             findPreference("backupRestore").setOnPreferenceClickListener(this);
-            findPreference("calendarIntegration").setOnPreferenceChangeListener(this);
+            findPreference("calendarIntegration").setOnPreferenceClickListener(this);
             findPreference("ongoingIcon").setOnPreferenceClickListener(this);
             findPreference("ongoingNumber").setOnPreferenceClickListener(this);
             findPreference("kerahatDuration").setOnPreferenceClickListener(this);
@@ -141,6 +143,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 bdl.putBoolean("showKerahatDuration", true);
                 frag.setArguments(bdl);
                 ((BaseActivity) getActivity()).moveToFrag(frag);
+                return true;
+            case "calendarIntegration":
+                runCalendarIntegration(requireActivity());
                 return true;
         }
         return false;

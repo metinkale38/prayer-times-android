@@ -21,11 +21,10 @@ plugins {
 android {
     sourceSets {
         main {
-           res.srcDirs += 'src/main/translations'
+            res.srcDirs += 'src/main/translations'
         }
     }
     compileSdkVersion 33
-
 
 
     defaultConfig {
@@ -55,6 +54,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -65,4 +65,5 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-   }
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+}

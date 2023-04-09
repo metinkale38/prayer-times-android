@@ -14,3 +14,15 @@ fun LocalDateTime.toJoda(): org.joda.time.LocalDateTime =
 
 fun LocalDate.toJoda(): org.joda.time.LocalDate =
     org.joda.time.LocalDate(year, monthNumber, dayOfMonth)
+
+
+fun org.joda.time.LocalTime.toJava(): LocalTime =
+    LocalTime(hourOfDay, minuteOfHour, secondOfMinute)
+
+
+fun org.joda.time.LocalDateTime.toJava(): LocalDateTime =
+    LocalDateTime(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute)
+
+fun org.joda.time.LocalDate.toJava(): LocalDate =
+    LocalDate(year, monthOfYear, dayOfMonth)
+

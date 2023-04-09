@@ -23,7 +23,6 @@ Besides from these Libraries this App does not collect any other information abo
 All Permissions are used for a specific functionality in the App:
 
   * WRITE_EXTERNAL_STORAGE/READ_EXTERNAL_STORAGE: used to download resources like Sounds, Hadith Databases etc. to your local Storage.
-  * WRITE_CALENDAR/READ_CALENDAR: used to write Holy Days to the Calendar (if setting is enabled) and remove them again later, if it gets disabled.
   * WAKE_LOCK: used while playing the Notifications
   * INTERNET/ACCESS_NETWORK_STATE: used to download extra resources, prayer times, and use funcionality of above libraries.
   * ACCESS_FINE_LOCATIO: used to find City for the Prayer Times and Qibla Compass

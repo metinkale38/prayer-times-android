@@ -35,6 +35,7 @@ android {
         exclude 'META-INF/LICENSE-LGPL-3.txt'
         exclude 'META-INF/LICENSE-W3C-TEST'
         exclude 'META-INF/DEPENDENCIES'
+
     }
 
     compileSdkVersion 33

@@ -39,7 +39,6 @@ import com.metinkale.prayer.base.R;
 public class PermissionUtils {
 
     private static PermissionUtils mInstance;
-    public boolean pCalendar;
     public boolean pStorage;
     public boolean pLocation;
     public boolean pNotPolicy;
@@ -57,7 +56,6 @@ public class PermissionUtils {
     }
 
     private void checkPermissions(@NonNull Context c) {
-        pCalendar = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         pNotification = Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(c, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
@@ -65,7 +63,6 @@ public class PermissionUtils {
         pNotPolicy = nm.isNotificationPolicyAccessGranted();
         CrashReporter.setCustomKey("pNotPolicy", pLocation);
 
-        CrashReporter.setCustomKey("pCalendar", pCalendar);
         CrashReporter.setCustomKey("pStorage", pStorage);
         CrashReporter.setCustomKey("pLocation", pLocation);
         CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
@@ -92,11 +89,13 @@ public class PermissionUtils {
     }
 
     public void needPostNotification(@NonNull final Activity act) {
-        if (act.isDestroyed())
-            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (act.isDestroyed())
+                return;
 
-        if (!pNotification) {
-            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
+            if (!pNotification) {
+                ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
+            }
         }
     }
 
@@ -114,24 +113,6 @@ public class PermissionUtils {
 
             builder.show();
         }
-    }
-
-
-    public void needCalendar(@NonNull final Activity act, boolean force) {
-        if (act.isDestroyed())
-            return;
-
-        if (!pCalendar && (!"-1".equals(Preferences.CALENDAR_INTEGRATION.get()) || force)) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(act);
-
-            builder.setTitle(R.string.permissionCalendarTitle).setMessage(R.string.permissionCalendarText)
-                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 0));
-
-
-            builder.show();
-        }
-
     }
 
 
@@ -156,11 +137,6 @@ public class PermissionUtils {
     public void onRequestPermissionResult(@NonNull String[] permissions, int[] grantResults) {
         for (int i = 0; i < permissions.length; i++) {
             switch (permissions[i]) {
-                case Manifest.permission.WRITE_CALENDAR:
-                    pCalendar = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-                    if (!pCalendar)
-                        Preferences.CALENDAR_INTEGRATION.set("-1");
-                    break;
                 case Manifest.permission.ACCESS_FINE_LOCATION:
                     pLocation = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                     break;

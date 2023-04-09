@@ -25,9 +25,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.text.style.SuperscriptSpan
-import android.util.Log
 import androidx.annotation.IntRange
-import androidx.annotation.RequiresApi
 import androidx.annotation.Size
 import androidx.core.os.LocaleListCompat
 import com.metinkale.prayer.App
@@ -36,7 +34,6 @@ import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.R
 import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.service.CalendarIntegrationService
 import org.joda.time.*
 import org.joda.time.format.PeriodFormatterBuilder
 import java.text.DateFormatSymbols

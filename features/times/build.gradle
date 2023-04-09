@@ -39,10 +39,6 @@ android {
         minSdkVersion 23
         versionCode 1
         versionName "1.0"
-        if (project.hasProperty('IGMGApiKey'))
-            resValue 'string', 'IGMGApiKey', IGMGApiKey
-        else
-            resValue 'string', 'IGMGApiKey', ""
     }
 
     buildTypes {
