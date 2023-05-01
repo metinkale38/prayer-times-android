@@ -3,6 +3,7 @@ package com.metinkale.prayer.times.times
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.work.*
+import com.metinkale.prayer.CrashReporter
 import java.util.concurrent.TimeUnit
 
 class SyncTimesWorker(appContext: Context, workerParams: WorkerParameters) :
@@ -10,11 +11,16 @@ class SyncTimesWorker(appContext: Context, workerParams: WorkerParameters) :
 
 
     override suspend fun doWork(): Result {
-        val successAll = Times.current.mapNotNull { it.dayTimes as? DayTimesWebProvider }
-            .filter { it.syncedDays < 15 }.map { it.sync() }.any { !it }
+        return try {
+            val successAll = Times.current.mapNotNull { it.dayTimes as? DayTimesWebProvider }
+                .filter { it.syncedDays < 15 }.map { it.sync() }.any { !it }
 
-        ContextCompat.getMainExecutor(applicationContext).execute { Times.setAlarms() }
-        return if (successAll) Result.success() else Result.retry()
+            ContextCompat.getMainExecutor(applicationContext).execute { Times.setAlarms() }
+            if (successAll) Result.success() else Result.retry()
+        } catch (e: Throwable) {
+            CrashReporter.recordException(e)
+            Result.retry()
+        }
     }
 
     companion object {

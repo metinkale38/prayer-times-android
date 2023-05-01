@@ -42,8 +42,6 @@ public class Preferences {
     public static Preference<String> DATE_FORMAT = new StringPreference("dateformat", "DD MMM YYYY");
     public static Preference<String> HIJRI_DATE_FORMAT = new StringPreference("hdateformat", "DD MMM YYYY");
     public static Preference<Boolean> CLOCK_12H = new BooleanPreference("use12h", false);
-    public static Preference<Integer> LAST_CAL_SYNC = new IntPreference("lastCalSync", 0);
-    public static Preference<String> CALENDAR_INTEGRATION = new StringPreference("calendarIntegration", "-1");
     public static Preference<Boolean> STOP_ALARM_ON_FACEDOWN = new BooleanPreference("stopFacedown", false);
     public static Preference<Integer> CHANGELOG_VERSION = new IntPreference("changelog_version", -1);
     public static Preference<Float> COMPASS_LNG = new FloatPreference("compassLong", 0f);

@@ -73,7 +73,6 @@ public class MagneticCompass extends Fragment implements QiblaListener, Rotation
         fragmentTransaction.add(R.id.frag2D, mFrag2D, "2d");
         fragmentTransaction.commit();
 
-
         return v;
     }
 

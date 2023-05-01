@@ -25,7 +25,7 @@ open class TimesCompanion : Flow<List<Times>> {
 
     private val store: Store<List<Times>> by lazy {
         MutableStateFlow(prefs.all.keys.filter { it.startsWith("id") }
-            .mapNotNull { fromSharedPrefs(it.substring(2).toInt()) }).asStore()
+            .mapNotNull { fromSharedPrefs(it.substring(2).toLong().hashCode()) }).asStore()
             .map({ it -> it.sortedBy { it.sortId } }, { _, new -> new })
     }
 

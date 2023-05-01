@@ -142,13 +142,8 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         if (key == null) return;
 
         InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key);
-        switch (key) {
-            case "calendarIntegration":
-                CalendarIntegrationService.startCalendarIntegration(App.get());
-                break;
-            case "language":
-                LocaleUtils.init(getBaseContext());
-
+        if ("language".equals(key)) {
+            LocaleUtils.init(getBaseContext());
         }
 
 

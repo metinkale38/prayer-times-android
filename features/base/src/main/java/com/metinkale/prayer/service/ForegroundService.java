@@ -16,6 +16,7 @@
 
 package com.metinkale.prayer.service;
 
+import android.app.ForegroundServiceStartNotAllowedException;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -67,20 +68,35 @@ public class ForegroundService extends Service {
 
     public static void addNeedy(Context c, String needy) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent intent = new Intent(c, ForegroundService.class);
-            intent.setAction(ACTION_ADD_NEEDY);
-            intent.putExtra(EXTRA_NEEDY, needy);
-            c.startForegroundService(intent);
+            try {
+                Intent intent = new Intent(c, ForegroundService.class);
+                intent.setAction(ACTION_ADD_NEEDY);
+                intent.putExtra(EXTRA_NEEDY, needy);
+                c.startForegroundService(intent);
+            } catch (Exception e) {
+                // actually we would need a ForegroundService right now, but we cant start it due to Android restrictions. Ignore
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
+                    throw e;
+                }
+            }
         }
     }
 
 
     public static void removeNeedy(Context c, String needy) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent intent = new Intent(c, ForegroundService.class);
-            intent.setAction(ACTION_REMOVE_NEEDY);
-            intent.putExtra(EXTRA_NEEDY, needy);
-            c.startForegroundService(intent);
+            try {
+                Intent intent = new Intent(c, ForegroundService.class);
+                intent.setAction(ACTION_REMOVE_NEEDY);
+                intent.putExtra(EXTRA_NEEDY, needy);
+                c.startForegroundService(intent);
+            } catch (Exception e) {
+                // ForegroundServiceStartNotAllowedException is harmless, if we are not in ForegroundState, removeNeedy is useless
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
+                    throw e;
+                }
+            }
+
         }
     }
 

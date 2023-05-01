@@ -65,4 +65,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation project(':features:calendar')
+    implementation project(':features:dhikr')
 }

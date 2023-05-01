@@ -13,29 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.dhikr.data
 
-package com.metinkale.prayer.dhikr.data;
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room.databaseBuilder
+import androidx.room.RoomDatabase
 
-import android.content.Context;
+@Database(entities = [Dhikr::class], version = 1, exportSchema = false)
+abstract class DhikrDatabase : RoomDatabase() {
+    abstract fun dhikrDao(): DhikrDao?
 
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
+    companion object {
+        private var INSTANCE: DhikrDatabase? = null
 
-@Database(entities = {Dhikr.class}, version = 1, exportSchema = false)
-public abstract class DhikrDatabase extends RoomDatabase {
-    private static DhikrDatabase INSTANCE;
-
-    public static DhikrDatabase getDatabase(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DhikrDatabase.class, "prayertimes").build();
+        @JvmStatic
+        fun getDatabase(context: Context): DhikrDatabase {
+            return INSTANCE ?: run {
+                if (!context.getDatabasePath("dhikr").exists()) {
+                    context.getDatabasePath("prayertimes").takeIf { it.exists() }
+                        ?.renameTo(context.getDatabasePath("dhikr"))
+                    context.getDatabasePath("prayertimes-shn").takeIf { it.exists() }
+                        ?.renameTo(context.getDatabasePath("dhikr-shm"))
+                    context.getDatabasePath("prayertimes-wal").takeIf { it.exists() }
+                        ?.renameTo(context.getDatabasePath("dhikr-wal"))
+                }
+                databaseBuilder(
+                    context.applicationContext,
+                    DhikrDatabase::class.java,
+                    "dhikr"
+                ).build().also { INSTANCE = it }
+            }
         }
-        return INSTANCE;
     }
-
-    public DhikrDatabase() {
-        super();
-    }
-
-    public abstract DhikrDao dhikrDao();
 }

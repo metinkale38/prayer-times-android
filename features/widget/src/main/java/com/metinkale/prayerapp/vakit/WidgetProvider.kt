@@ -52,7 +52,7 @@ class WidgetProvider : AppWidgetProvider() {
 
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-            ForegroundService.addNeedy(context, WidgetUtils.Companion.WIDGETS_FOREGROUND_NEEDY)
+            ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY)
             LocaleUtils.init(context)
             if (!Preferences.SHOW_LEGACY_WIDGET.get()) WidgetV24.update2x2(
                 context,

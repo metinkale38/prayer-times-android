@@ -13,237 +13,191 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.settings
 
-package com.metinkale.prayer.settings;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.metinkale.prayer.App
+import com.metinkale.prayer.CrashReporter.recordException
+import com.metinkale.prayer.Module
+import com.metinkale.prayer.dhikr.data.DhikrDatabase
+import java.io.*
+import java.util.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Environment;
-import android.text.format.DateFormat;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.metinkale.prayer.CrashReporter;
-import com.metinkale.prayer.Module;
-import com.metinkale.prayer.utils.PermissionUtils;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-
-public class BackupRestoreActivity extends AppCompatActivity implements OnItemClickListener {
-    
-    private MyAdapter mAdapter;
-    private File mFolder;
-    
-    @Override
-    public void onCreate(Bundle bdl) {
-        super.onCreate(bdl);
-        setContentView(R.layout.settings_backuprestore);
-        ListView list = findViewById(R.id.listView1);
-        mFolder = new File(Environment.getExternalStorageState(), "backups/com.metinkale.prayer");
-        mFolder.mkdirs();
-        mAdapter = new MyAdapter(this);
-        list.setAdapter(mAdapter);
-        list.setOnItemClickListener(this);
+class BackupRestoreActivity : AppCompatActivity() {
+    public override fun onCreate(bdl: Bundle?) {
+        super.onCreate(bdl)
+        setContentView(R.layout.settings_backuprestore)
     }
 
-    
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-        final File file = mAdapter.getFile(pos);
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(file.getName())
-                .setItems(new String[]{getString(R.string.restore), getString(R.string.delete)}, (dialogInterface, which) -> {
-                    if (which == 0) {
-                        boolean success = true;
-                        File files = getFilesDir();
-                        for (File file1 : files.listFiles()) {
-                            success &= file1.delete();
+
+    private val restore =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result?.data?.data?.also { uri ->
+                    contentResolver?.openInputStream(uri)?.use { stream ->
+                        DhikrDatabase.getDatabase(applicationContext).close()
+                        var success = true
+
+                        filesDir.listFiles()?.forEach { it.delete() }
+                        File(filesDir.parentFile, "databases").listFiles()?.forEach { it.delete() }
+                        File(filesDir.parentFile, "databases").listFiles()?.forEach { it.delete() }
+                        val unzipPath = filesDir.parentFile
+                        if (unzipPath != null) {
+                            Zip.unzip(stream, unzipPath.absolutePath + "/")
                         }
-                        success &= files.delete();
-                        files = new File(files.getParentFile(), "databases");
-                        for (File file1 : files.listFiles()) {
-                            success &= file1.delete();
-                        }
-                        success &= files.delete();
-                        files = new File(files.getParentFile(), "shared_prefs");
-                        for (File file1 : files.listFiles()) {
-                            success &= file1.delete();
-                        }
-                        success &= files.delete();
+                        System.exit(0)
+                        Module.TIMES.launch(this@BackupRestoreActivity)
 
-                        if (!success)
-                            Toast.makeText(BackupRestoreActivity.this, R.string.error, Toast.LENGTH_LONG).show();
-                        files = files.getParentFile();
+                    }
+                }
+            }
+        }
 
-                        Zip.unzip(file.getAbsolutePath(), files.getAbsolutePath() + "/");
-                        System.exit(0);
-                        Module.TIMES.launch(BackupRestoreActivity.this);
-                    } else {
-                        file.delete();
-                        mAdapter.notifyDataSetChanged();
+    fun restore(@Suppress("UNUSED_PARAMETER") v: View?) {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        intent.type = "application/zip"
+
+        restore.launch(intent)
+    }
+
+
+    private val backup =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result?.data?.data?.also { uri ->
+                    contentResolver?.openOutputStream(uri)?.use { stream ->
+                        val zip = Zip(stream)
+                        var files = filesDir
+                        if (files.exists() && files.isDirectory)
+                            files.list()
+                                ?.filter { !File(it).isDirectory }
+                                ?.filter { !it.contains(".Fabric") }
+                                ?.filter { !it.contains("leakcanary") }
+                                ?.filter { !it.contains("ion") }
+                                ?.filter { !it.contains("crashlytics") }
+                                ?.filter { !it.contains("phenotype") }
+                                ?.filter { !it.contains("google") }
+                                ?.forEach { file ->
+                                    zip.addFile("files", files.absolutePath + "/" + file)
+                                }
+
+                        files = File(files.parentFile, "databases")
+                        if (files.exists() && files.isDirectory)
+                            files.list()
+                                ?.filter { !it.contains("evernote") }
+                                ?.filter { !it.contains("google") }
+                                ?.forEach {
+                                    zip.addFile("databases", files.absolutePath + "/" + it)
+                                }
+
+
+                        files = File(files.parentFile, "shared_prefs")
+                        if (files.exists() && files.isDirectory)
+                            files.list()
+                                ?.filter { !it.contains("evernote") }
+                                ?.filter { !it.contains("google") }
+                                ?.forEach {
+                                    zip.addFile("shared_prefs", files.absolutePath + "/" + it)
+                                }
+                        zip.closeZip()
+
+
                     }
-                });
-        builder.show();
-        
-    }
-    
-    public void backup(View v) {
-        
-        if (!mFolder.exists()) {
-            mFolder.mkdirs();
+                }
+            }
         }
-        
-        File zipFile = new File(mFolder, DateFormat.format("yyyy-MM-dd HH.mm.ss", new Date()) + ".zip");
-        
-        try {
-            Zip zip = new Zip(zipFile.getAbsolutePath());
-            
-            File files = getFilesDir();
-            if (files.exists() && files.isDirectory())
-                for (String file : files.list()) {
-                    if (new File(file).isDirectory() || file.contains(".Fabric") || file.contains("leakcanary") || file.contains("ion")) {
-                        continue;
+
+    fun backup(@Suppress("UNUSED_PARAMETER") v: View?) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+        intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        intent.type = "application/zip"
+        intent.putExtra(
+            Intent.EXTRA_TITLE,
+            "com.metinkale.prayer." + DateFormat.format("yyyy-MM-dd HH.mm.ss", Date()) + ".zip"
+        );
+
+        backup.launch(intent)
+    }
+
+    class Zip(outputStream: OutputStream) {
+        var out: ZipOutputStream
+        var data: ByteArray
+
+        init {
+            out = ZipOutputStream(BufferedOutputStream(outputStream))
+            data = ByteArray(BUFFER)
+        }
+
+        @Throws(IOException::class)
+        fun addFile(folder: String?, name: String) {
+            val fi = FileInputStream(name)
+            val origin = BufferedInputStream(fi, BUFFER)
+            val entry = ZipEntry(
+                (if (folder == null) "" else "$folder/") + name.substring(
+                    name.lastIndexOf("/") + 1
+                )
+            )
+            out.putNextEntry(entry)
+            var count: Int
+            while (origin.read(data, 0, BUFFER).also { count = it } != -1) {
+                out.write(data, 0, count)
+            }
+            origin.close()
+        }
+
+        @Throws(IOException::class)
+        fun closeZip() {
+            out.close()
+        }
+
+        companion object {
+            const val BUFFER = 2048
+            fun unzip(inputStream: InputStream, to: String): Boolean {
+                try {
+                    ZipInputStream(BufferedInputStream(inputStream)).use { zis ->
+                        var ze: ZipEntry?
+                        while (true) {
+                            ze = zis.nextEntry
+                            if (ze == null) break
+                            val baos = ByteArrayOutputStream()
+                            val buffer = ByteArray(1024)
+                            var count: Int
+                            val filename = ze.name
+                            File(to + filename).parentFile?.mkdirs()
+                            try {
+                                FileOutputStream(to + filename).use { fout ->
+                                    // reading and writing
+                                    while (zis.read(buffer).also { count = it } != -1) {
+                                        baos.write(buffer, 0, count)
+                                        val bytes = baos.toByteArray()
+                                        fout.write(bytes)
+                                        baos.reset()
+                                    }
+                                }
+                            } catch (e: IOException) {
+                                Toast.makeText(App.get(), "Could not restore $filename",Toast.LENGTH_SHORT).show()
+                                recordException(e)
+                            }
+                            zis.closeEntry()
+                        }
                     }
-                    zip.addFile("files", files.getAbsolutePath() + "/" + file);
+                } catch (e: IOException) {
+                    recordException(e)
+                    return false
                 }
-            
-            files = new File(files.getParentFile(), "databases");
-            if (files.exists() && files.isDirectory())
-                for (String file : files.list()) {
-                    if (file.contains("evernote"))
-                        continue;
-                    zip.addFile("databases", files.getAbsolutePath() + "/" + file);
-                }
-            
-            files = new File(files.getParentFile(), "shared_prefs");
-            if (files.exists() && files.isDirectory())
-                for (String file : files.list()) {
-                    if (file.contains("evernote"))
-                        continue;
-                    zip.addFile("shared_prefs", files.getAbsolutePath() + "/" + file);
-                }
-            zip.closeZip();
-        } catch (IOException e) {
-            CrashReporter.recordException(e);
-            Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
-            zipFile.delete();
-        }
-        mAdapter.notifyDataSetChanged();
-    }
-    
-    
-    public static class Zip {
-        static final int BUFFER = 2048;
-        
-        ZipOutputStream out;
-        byte[] data;
-        
-        public Zip(@NonNull String name) throws FileNotFoundException {
-            FileOutputStream dest = new FileOutputStream(name);
-            out = new ZipOutputStream(new BufferedOutputStream(dest));
-            data = new byte[BUFFER];
-        }
-        
-        public static boolean unzip(@NonNull String zip, String to) {
-            InputStream is;
-            ZipInputStream zis;
-            try {
-                is = new FileInputStream(zip);
-                zis = new ZipInputStream(new BufferedInputStream(is));
-                ZipEntry ze;
-                
-                while ((ze = zis.getNextEntry()) != null) {
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int count;
-                    
-                    String filename = ze.getName();
-                    new File(to + filename).getParentFile().mkdirs();
-                    FileOutputStream fout = new FileOutputStream(to + filename);
-                    
-                    // reading and writing
-                    while ((count = zis.read(buffer)) != -1) {
-                        baos.write(buffer, 0, count);
-                        byte[] bytes = baos.toByteArray();
-                        fout.write(bytes);
-                        baos.reset();
-                    }
-                    
-                    fout.close();
-                    zis.closeEntry();
-                }
-                
-                zis.close();
-            } catch (IOException e) {
-                CrashReporter.recordException(e);
-                return false;
+                return true
             }
-            
-            return true;
-        }
-        
-        public void addFile(@Nullable String folder, @NonNull String name) throws IOException {
-            FileInputStream fi = new FileInputStream(name);
-            BufferedInputStream origin = new BufferedInputStream(fi, BUFFER);
-            ZipEntry entry = new ZipEntry((folder == null ? "" : folder + "/") + name.substring(name.lastIndexOf("/") + 1));
-            out.putNextEntry(entry);
-            int count;
-            while ((count = origin.read(data, 0, BUFFER)) != -1) {
-                out.write(data, 0, count);
-            }
-            origin.close();
-        }
-        
-        public void closeZip() throws IOException {
-            out.close();
         }
     }
-    
-    class MyAdapter extends ArrayAdapter<String> {
-        
-        public MyAdapter(@NonNull Context context) {
-            super(context, android.R.layout.simple_list_item_1, android.R.id.text1);
-        }
-        
-        @Override
-        public int getCount() {
-            if (mFolder.listFiles() == null) {
-                return 0;
-            }
-            return mFolder.listFiles().length;
-        }
-        
-        @Override
-        public String getItem(int pos) {
-            return mFolder.listFiles()[pos].getName();
-        }
-        
-        File getFile(int pos) {
-            return mFolder.listFiles()[pos];
-        }
-        
-    }
-    
 }

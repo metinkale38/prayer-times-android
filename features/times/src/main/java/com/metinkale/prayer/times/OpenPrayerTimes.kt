@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import com.koushikdutta.ion.Ion
 import com.metinkale.prayer.App
+import com.metinkale.prayer.CrashReporter
 import dev.metinkale.prayertimes.core.Configuration
 import dev.metinkale.prayertimes.core.DayTimes
 import dev.metinkale.prayertimes.core.Entry
@@ -42,16 +43,24 @@ abstract class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T
 
 class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
     fun search(q: String): Job = launch(Dispatchers.IO) {
-        get("/search", mapOf("q" to q))
-            .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-            .let { postValue(it) }
+        try {
+            get("/search", mapOf("q" to q))
+                .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
+                .let { postValue(it) }
+        } catch (e: Throwable) {
+            CrashReporter.recordException(e)
+        }
     }
 
 
     fun search(lat: Double, lng: Double): Job = launch(Dispatchers.IO) {
-        get("/search", mapOf("lat" to "$lat", "lng" to "$lng"))
-            .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-            .let { postValue(it) }
+        try {
+            get("/search", mapOf("lat" to "$lat", "lng" to "$lng"))
+                .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
+                .let { postValue(it) }
+        } catch (e: Throwable) {
+            CrashReporter.recordException(e)
+        }
     }
 
 
@@ -60,9 +69,13 @@ class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
 
 class OpenPrayerTimesDayTimesEndpoint(val source: Source) : OpenPrayerTimesApi<Unit>() {
     suspend fun getDayTimes(id: String): List<DayTimes> {
-        return get("/times/${source.name}/$id")
-            .let { Json.decodeFromString(ListSerializer(DayTimes.serializer()), it) }
-
+        return try {
+            get("/times/${source.name}/$id")
+                .let { Json.decodeFromString(ListSerializer(DayTimes.serializer()), it) }
+        } catch (e: Throwable) {
+            CrashReporter.recordException(e)
+            emptyList()
+        }
     }
 
 

@@ -57,11 +57,6 @@ object LocaleUtils {
     @JvmStatic
     fun init(c: Context) {
         initLocale(c)
-        val version = Utils.getVersionCode()
-        if (version != Preferences.LAST_CAL_SYNC.get()) {
-            CalendarIntegrationService.startCalendarIntegration(c)
-            Preferences.LAST_CAL_SYNC.set(version)
-        }
     }
 
     private fun initLocale(c: Context) {
