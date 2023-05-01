@@ -46,7 +46,7 @@ android {
         minSdkVersion 23
         multiDexEnabled true
         versionName '3.7.7'
-        versionCode 221
+        versionCode 222
     }
 
     buildTypes {
@@ -110,7 +110,7 @@ dependencies {
     implementation project(':features:names')
     implementation project(':features:settings')
     implementation project(':features:times')
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
 
 

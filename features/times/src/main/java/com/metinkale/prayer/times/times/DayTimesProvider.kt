@@ -56,7 +56,7 @@ fun Times.getNextTime(): Int {
 
     @Suppress("KotlinConstantConditions")
     var vakit = Vakit.FAJR.ordinal
-    while (getTime(today, vakit).isAfter(now) == false) {
+    while (!getTime(today, vakit).isAfter(now)) {
         vakit++
     }
     return vakit
@@ -71,17 +71,17 @@ fun Times.isKerahat(): Boolean {
 
     val sun = getTime(now.toLocalDate(), Vakit.SUN.ordinal)
     val untilSun = Period(sun, now, PeriodType.minutes()).minutes
-    if (untilSun >= 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
+    if (untilSun > 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
         return true
     }
 
     val dhuhr = getTime(now.toLocalDate(), Vakit.DHUHR.ordinal)
     val untilDhuhr = Period(now, dhuhr, PeriodType.minutes()).minutes
-    if ((untilDhuhr >= 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
+    if ((untilDhuhr > 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
         return true
     }
 
     val maghrib = getTime(now.toLocalDate(), Vakit.MAGHRIB.ordinal)
     val untilMaghrib = Period(now, maghrib, PeriodType.minutes()).minutes
-    return (untilMaghrib >= 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))
+    return (untilMaghrib > 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))
 }

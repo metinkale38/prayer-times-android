@@ -27,6 +27,7 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.SuperscriptSpan
 import androidx.annotation.IntRange
 import androidx.annotation.Size
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
@@ -74,6 +75,9 @@ object LocaleUtils {
         }
         c.resources.updateConfiguration(config, c.resources.displayMetrics)
         c.applicationContext.resources.updateConfiguration(config, c.resources.displayMetrics)
+
+        val localeListCompat = LocaleListCompat.create(*locales.toTypedArray())
+        AppCompatDelegate.setApplicationLocales(localeListCompat)
     }
 
     fun formatTimeForHTML(localTime: LocalTime?): CharSequence {
