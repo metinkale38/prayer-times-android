@@ -57,12 +57,18 @@ public class ForegroundService extends Service {
 
     public static void addNeedy(Context c, String needy, Notification not, int notId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent intent = new Intent(c, ForegroundService.class);
-            intent.setAction(ACTION_ADD_NEEDY);
-            intent.putExtra(EXTRA_NEEDY, needy);
-            intent.putExtra(EXTRA_NOTIFICATION, not);
-            intent.putExtra(EXTRA_NOTIFICATION_ID, notId);
-            c.startForegroundService(intent);
+            try {
+                Intent intent = new Intent(c, ForegroundService.class);
+                intent.setAction(ACTION_ADD_NEEDY);
+                intent.putExtra(EXTRA_NEEDY, needy);
+                intent.putExtra(EXTRA_NOTIFICATION, not);
+                intent.putExtra(EXTRA_NOTIFICATION_ID, notId);
+                c.startForegroundService(intent);
+            } catch (Exception e) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
+                    throw e;
+                }
+            }
         }
     }
 
@@ -74,7 +80,6 @@ public class ForegroundService extends Service {
                 intent.putExtra(EXTRA_NEEDY, needy);
                 c.startForegroundService(intent);
             } catch (Exception e) {
-                // actually we would need a ForegroundService right now, but we cant start it due to Android restrictions. Ignore
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
                     throw e;
                 }

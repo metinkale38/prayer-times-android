@@ -236,6 +236,27 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     override fun onProviderEnabled(provider: String) {}
     override fun onProviderDisabled(provider: String) {}
 
+    private val csvResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result?.data?.data?.also { uri ->
+                    val contentResolver = App.get().contentResolver
+
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    contentResolver.takePersistableUriPermission(uri, takeFlags)
+
+                    Times.add(
+                        Times(
+                            source = Source.CSV,
+                            name = "CSV",
+                            key = uri.toString()
+                        )
+                    )
+                    back()
+                }
+            }
+        }
 
     private fun addFromCSV() {
         val builder = AlertDialog.Builder(
@@ -251,26 +272,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     }
 
 
-                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                        if (result.resultCode == Activity.RESULT_OK) {
-                            result?.data?.data?.also { uri ->
-                                val contentResolver = App.get().contentResolver
-
-                                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                contentResolver.takePersistableUriPermission(uri, takeFlags)
-
-                                Times.add(
-                                    Times(
-                                        source = Source.CSV,
-                                        name = "CSV",
-                                        key = uri.toString()
-                                    )
-                                )
-                                back()
-                            }
-                        }
-                    }.launch(intent)
+                    csvResult.launch(intent)
 
 
                 } else {

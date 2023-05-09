@@ -37,8 +37,6 @@ android {
     defaultConfig {
         targetSdkVersion 33
         minSdkVersion 23
-        versionCode 1
-        versionName "1.0"
     }
 
     buildTypes {
@@ -57,6 +55,7 @@ android {
             dimension "store"
         }
     }
+    namespace 'com.metinkale.prayer.times'
 
 
 }

@@ -32,8 +32,6 @@ android {
     defaultConfig {
         targetSdkVersion 33
         minSdkVersion 23
-        versionCode 1
-        versionName "1.0"
     }
 
     buildTypes {
@@ -60,6 +58,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.metinkale.prayer.names'
 }
 
 dependencies {

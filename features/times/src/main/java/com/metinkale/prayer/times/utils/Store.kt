@@ -1,9 +1,10 @@
 package com.metinkale.prayer.times.utils
 
-import android.util.Log
 import com.metinkale.prayer.CrashReporter
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

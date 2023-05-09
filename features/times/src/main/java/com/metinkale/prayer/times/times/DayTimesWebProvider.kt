@@ -6,11 +6,10 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.times.OpenPrayerTimesDayTimesEndpoint
 import com.metinkale.prayer.times.R
 import dev.metinkale.prayertimes.core.sources.Source
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.joda.time.Days
@@ -65,7 +64,8 @@ class DayTimesWebProvider private constructor(val id: Int) :
         val times = Times.getTimesById(id).current
         return if (times != null && times.source != Source.Calc) {
             lastSync = System.currentTimeMillis()
-            val daytimes = OpenPrayerTimesDayTimesEndpoint(times.source).getDayTimes(times.key ?: "")
+            val daytimes =
+                OpenPrayerTimesDayTimesEndpoint(times.source).getDayTimes(times.key ?: "")
             prefs.edit().also {
                 daytimes.forEach { dt ->
                     it.putString(dt.date.toString(), Json.encodeToString(dt))
@@ -82,7 +82,9 @@ class DayTimesWebProvider private constructor(val id: Int) :
             Toast.makeText(App.get(), R.string.no_internet, Toast.LENGTH_SHORT).show()
             return
         }
-        SyncTimesWorker.syncNow(App.get())
+
+        val scope = CoroutineScope(Job() + Dispatchers.IO)
+        scope.launch { sync() }
     }
 
 
@@ -94,7 +96,6 @@ class DayTimesWebProvider private constructor(val id: Int) :
     val lastSyncedDay: LocalDate? get() = prefs.all.keys.maxOrNull()?.let { LocalDate.parse(it) }
 
     companion object {
-        const val SYNC_JOB_TAG = "SyncJob"
         private val instances: MutableMap<Int, DayTimesWebProvider> = mutableMapOf()
         fun from(id: Int) = instances.getOrPut(id) { DayTimesWebProvider(id) }
     }
