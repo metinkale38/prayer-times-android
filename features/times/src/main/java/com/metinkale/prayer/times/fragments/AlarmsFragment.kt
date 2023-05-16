@@ -113,19 +113,15 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                     get() = alarm.current?.title ?: ""
 
                 override fun onChange(checked: Boolean) {
-                    if (checked && !isIgnoringBatteryOptimizations(activity!!)) {
-                        val dialog = AlertDialog.Builder(
-                            activity!!
-                        ).create()
+                    if (checked && !isIgnoringBatteryOptimizations(requireContext())) {
+                        val dialog = AlertDialog.Builder(requireContext()).create()
                         dialog.setTitle(R.string.batteryOptimizations)
                         dialog.setMessage(getString(R.string.batteryOptimizationsText))
                         dialog.setCancelable(false)
                         dialog.setButton(
                             DialogInterface.BUTTON_POSITIVE, getString(R.string.yes)
                         ) { _: DialogInterface?, _: Int ->
-                            checkBatteryOptimizations(
-                                activity!!
-                            )
+                            checkBatteryOptimizations(requireContext())
                         }
                         dialog.setButton(
                             DialogInterface.BUTTON_NEGATIVE, getString(R.string.no)
@@ -155,7 +151,7 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                 }
 
                 override fun onLongClick(): Boolean {
-                    AlertDialog.Builder(activity!!)
+                    AlertDialog.Builder(requireContext())
                         .setTitle(this@AlarmsFragment.times.current?.name ?: "")
                         .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.title))
                         .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }

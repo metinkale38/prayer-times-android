@@ -15,10 +15,7 @@
  */
 package com.metinkale.prayer.times.alarm
 
-import android.app.AlarmManager
-import android.app.IntentService
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -133,7 +130,14 @@ class AlarmService : IntentService("AlarmService") {
                 service.putExtra(EXTRA_ALARMID, alarmId)
                 service.putExtra(EXTRA_TIME, time)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(service)
+                    try {
+                        context.startForegroundService(service)
+                    } catch (e: Exception) {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || e !is ForegroundServiceStartNotAllowedException) {
+                            throw e
+                        }
+                    }
+
                 } else {
                     context.startService(service)
                 }
@@ -149,10 +153,13 @@ class AlarmService : IntentService("AlarmService") {
         private const val EXTRA_TIME = "time"
         private val sInterrupt = AtomicBoolean(false)
         private var sLastSchedule: Pair<Alarm, LocalDateTime>? = null
+        private val ALARM_SERVICE_NEEDY = "alarmService"
         fun setAlarm(c: Context, alarm: Pair<Alarm, LocalDateTime>?) {
             val am = MyAlarmManager.with(c)
             val i = Intent(c, AlarmReceiver::class.java)
             if (alarm != null) {
+                ForegroundService.addNeedy(c, ALARM_SERVICE_NEEDY)
+
                 if (alarm == sLastSchedule && !BuildConfig.DEBUG) return
                 if (Build.MANUFACTURER != "samsung") {
                     sLastSchedule = alarm
@@ -166,9 +173,16 @@ class AlarmService : IntentService("AlarmService") {
                 if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second)
                 i.putExtra(EXTRA_ALARMID, alarm.first.id)
                 i.putExtra(EXTRA_TIME, time)
-                val service = PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                val service = PendingIntent.getBroadcast(
+                    c,
+                    0,
+                    i,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
                 am.cancel(service)
                 am.setExact(AlarmManager.RTC_WAKEUP, time, service)
+            } else {
+                ForegroundService.removeNeedy(c, ALARM_SERVICE_NEEDY)
             }
         }
     }

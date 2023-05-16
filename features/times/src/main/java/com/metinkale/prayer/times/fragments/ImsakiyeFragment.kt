@@ -17,7 +17,6 @@ package com.metinkale.prayer.times.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,10 +25,9 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.metinkale.prayer.times.R
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
-import com.metinkale.prayer.times.times.getTime
+import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
+import org.joda.time.Days
 import org.joda.time.LocalDate
 
 /**
@@ -38,69 +36,67 @@ import org.joda.time.LocalDate
 class ImsakiyeFragment : Fragment() {
     private var adapter: ImsakiyeAdapter? = null
     private var times: Times? = null
+    private val today = LocalDate.now()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         bdl: Bundle?
     ): View {
-        val lv = ListView(activity)
-        adapter = ImsakiyeAdapter(activity)
+        val lv = ListView(requireContext())
+        adapter = ImsakiyeAdapter(requireContext())
         lv.adapter = adapter
-        setTimes(times)
-        val addMore = TextView(activity)
-        addMore.text = """
-            
-            ${getString(R.string.showMore)}
-            
-            """.trimIndent()
-        addMore.gravity = Gravity.CENTER
-        addMore.setOnClickListener { _: View? ->
-            adapter!!.daysInMonth += 7
-            adapter!!.notifyDataSetInvalidated()
-        }
-        lv.addFooterView(addMore)
+        times?.let { setTimes(it) }
         lv.setBackgroundResource(R.color.background)
         return lv
     }
 
-    fun setTimes(t: Times?) {
+    fun setTimes(t: Times) {
         times = t
-        if (adapter != null) {
-            adapter!!.times = times
-            adapter!!.notifyDataSetChanged()
-            adapter!!.daysInMonth = (adapter!!.getItem(1) as LocalDate).dayOfMonth().maximumValue
+        adapter?.let { adapter ->
+            adapter.times = times
+            t.dayTimes.let {
+                when (it) {
+                    is DayTimesWebProvider -> {
+                        adapter.minDate =
+                            listOfNotNull(today.withDayOfMonth(1), it.firstSyncedDay).max()
+                        adapter.maxDate = it.lastSyncedDay ?: adapter.minDate
+                    }
+                    is DayTimesCalcProvider -> {
+                        adapter.minDate = today.withDayOfMonth(1)
+                        adapter.maxDate = adapter.minDate.plusYears(1).minusDays(1)
+                    }
+                    else -> {}
+                }
+            }
+
+            adapter.notifyDataSetInvalidated()
+
         }
     }
 
-    inner class ImsakiyeAdapter(context: Context?) : BaseAdapter() {
+    inner class ImsakiyeAdapter(context: Context) : BaseAdapter() {
         var times: Times? = null
-        var daysInMonth: Int
-        private val date: LocalDate
-        private val today: Int
-        private val inflater: LayoutInflater
+        var minDate: LocalDate = today.withDayOfMonth(1)
+        var maxDate: LocalDate = minDate.plusDays(minDate.dayOfMonth().maximumValue)
+        private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-        init {
-            val now = LocalDate.now()
-            today = now.dayOfMonth
-            date = now.withDayOfMonth(1)
-            daysInMonth = date.dayOfMonth().maximumValue
-            inflater = LayoutInflater.from(context)
-        }
 
         override fun getItemId(position: Int): Long {
             return (position + (times?.id ?: 0)).toLong()
         }
 
         override fun getItem(position: Int): Any {
-            return date.plusDays(position)
+            return minDate.plusDays(position)
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            var convertView = convertView
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.vakit_imsakiye, parent, false)
-            }
-            val v = convertView as ViewGroup?
+            val v: ViewGroup =
+                (convertView ?: inflater.inflate(
+                    R.layout.vakit_imsakiye,
+                    parent,
+                    false
+                )) as ViewGroup
             val a: List<CharSequence>
             if (position == 0) {
                 a = listOf(
@@ -115,17 +111,17 @@ class ImsakiyeFragment : Fragment() {
             } else if (times == null) {
                 a = listOf("00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00")
             } else {
-                val cal = getItem(position - 1) as LocalDate
+                val date = getItem(position - 1) as LocalDate
                 val daytimes = listOf(
-                    times!!.getTime(cal, Vakit.FAJR.ordinal),
-                    times!!.getTime(cal, Vakit.SUN.ordinal),
-                    times!!.getTime(cal, Vakit.DHUHR.ordinal),
-                    times!!.getTime(cal, Vakit.ASR.ordinal),
-                    times!!.getTime(cal, Vakit.MAGHRIB.ordinal),
-                    times!!.getTime(cal, Vakit.ISHAA.ordinal)
+                    times!!.getTime(date, Vakit.FAJR.ordinal),
+                    times!!.getTime(date, Vakit.SUN.ordinal),
+                    times!!.getTime(date, Vakit.DHUHR.ordinal),
+                    times!!.getTime(date, Vakit.ASR.ordinal),
+                    times!!.getTime(date, Vakit.MAGHRIB.ordinal),
+                    times!!.getTime(date, Vakit.ISHAA.ordinal)
                 )
                 a = listOf(
-                    cal.toString("dd.MM"),
+                    date.toString("dd.MM"),
                     daytimes[0].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
                     daytimes[1].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
                     daytimes[2].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
@@ -135,23 +131,23 @@ class ImsakiyeFragment : Fragment() {
                 )
             }
             for (i in 0..6) {
-                val tv = v!!.getChildAt(i) as TextView
+                val tv = v.getChildAt(i) as TextView
                 tv.text = a[i]
             }
-            if (position == today) {
-                v!!.setBackgroundResource(R.color.colorPrimary)
+            if (getItem(position - 1) as? LocalDate == today) {
+                v.setBackgroundResource(R.color.colorPrimary)
             } else if (position == 0) {
-                v!!.setBackgroundResource(R.color.accent)
+                v.setBackgroundResource(R.color.accent)
             } else if (position % 2 == 0) {
-                v!!.setBackgroundResource(R.color.colorPrimaryLight)
+                v.setBackgroundResource(R.color.colorPrimaryLight)
             } else {
-                v!!.setBackgroundResource(R.color.background)
+                v.setBackgroundResource(R.color.background)
             }
             return v
         }
 
         override fun getCount(): Int {
-            return daysInMonth + 1
+            return Days.daysBetween(minDate, maxDate).days + 1
         }
     }
 }

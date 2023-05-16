@@ -7,7 +7,7 @@ import org.joda.time.Period
 import org.joda.time.PeriodType
 import kotlin.math.roundToInt
 
-interface DayTimesProvider {
+sealed interface DayTimesProvider {
     fun get(key: LocalDate): DayTimes?
 }
 

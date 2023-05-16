@@ -94,7 +94,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         })
         topSlider.setOnDrawerOpenListener {
             val position = pager.currentItem
-            if (position != 0) {
+            if (position != 0 && Times.current.isNotEmpty()) {
                 val (ID) = Times.current[position - 1]
                 settingsFrag.timesId = ID
             }
@@ -154,7 +154,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
     override fun onPageScrollStateChanged(state: Int) {
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             val pos = pager.currentItem
-            if (pos != 0) {
+            if (pos != 0 && Times.current.isNotEmpty()) {
                 val t: Times = Times.current[pos - 1]
                 imsakiyeFrag.setTimes(t)
             }

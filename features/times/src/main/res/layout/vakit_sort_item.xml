@@ -31,12 +31,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:padding="8dp"
         android:visibility="gone"
         android:src="@drawable/ic_action_delete"
-        app:tint="@color/foregroundSecondary"/>
+        app:tint="@color/foregroundSecondary" />
 
 
     <ImageView
@@ -46,11 +45,9 @@
         android:layout_alignTop="@+id/city"
         android:layout_alignBottom="@+id/city"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_toEndOf="@+id/delete"
-        android:layout_toRightOf="@+id/delete"
         android:contentDescription="@null"
-        android:scaleType="center"
+        android:scaleType="centerInside"
         android:visibility="gone"
         android:src="@drawable/ic_gps"
         app:tint="@color/foregroundSecondary"/>
@@ -61,11 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/source"
         android:layout_alignEnd="@+id/source"
-        android:layout_alignRight="@+id/source"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_toEndOf="@+id/gps"
-        android:layout_toRightOf="@+id/gps"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
@@ -74,11 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_toStartOf="@+id/handle"
-        android:layout_toLeftOf="@+id/handle"
         android:layout_toEndOf="@+id/gps"
-        android:layout_toRightOf="@+id/gps"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
@@ -87,7 +78,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:contentDescription="@null"
         android:padding="8dp"
         android:scaleType="center"
