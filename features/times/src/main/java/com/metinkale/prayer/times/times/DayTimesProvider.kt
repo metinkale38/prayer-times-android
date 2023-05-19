@@ -1,10 +1,9 @@
 package com.metinkale.prayer.times.times
 
 import com.metinkale.prayer.Preferences
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.Period
-import org.joda.time.PeriodType
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
 sealed interface DayTimesProvider {
@@ -36,18 +35,18 @@ fun Times.getTime(date: LocalDate, time: Int): LocalDateTime {
             Vakit.MAGHRIB -> it.maghrib
             Vakit.ISHAA -> it.ishaa
         }
-    }?.let { date.toLocalDateTime(it) }?.plusMinutes(minuteAdj[time])
-        ?.plusMinutes((timezone * 60).roundToInt())
+    }?.let { date.atTime(it) }?.plusMinutes(minuteAdj[time].toLong())
+        ?.plusMinutes((timezone * 60).roundToInt().toLong())
 
 
     if (dt != null) {
-        val h = dt.hourOfDay
+        val h = dt.hour
         if (time >= Vakit.DHUHR.ordinal && h < 5) {
             dt = dt.plusDays(1)
         }
     }
 
-    return dt ?: date.toDateTimeAtStartOfDay().toLocalDateTime()
+    return dt ?: date.atStartOfDay()
 }
 
 fun Times.getNextTime(): Int {
@@ -70,18 +69,18 @@ fun Times.isKerahat(): Boolean {
     val now = LocalDateTime.now()
 
     val sun = getTime(now.toLocalDate(), Vakit.SUN.ordinal)
-    val untilSun = Period(sun, now, PeriodType.minutes()).minutes
+    val untilSun = ChronoUnit.MINUTES.between(sun, now)
     if (untilSun > 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
         return true
     }
 
     val dhuhr = getTime(now.toLocalDate(), Vakit.DHUHR.ordinal)
-    val untilDhuhr = Period(now, dhuhr, PeriodType.minutes()).minutes
+    val untilDhuhr = ChronoUnit.MINUTES.between(now, dhuhr)
     if ((untilDhuhr > 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
         return true
     }
 
     val maghrib = getTime(now.toLocalDate(), Vakit.MAGHRIB.ordinal)
-    val untilMaghrib = Period(now, maghrib, PeriodType.minutes()).minutes
+    val untilMaghrib = ChronoUnit.MINUTES.between(now, maghrib)
     return (untilMaghrib > 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))
 }

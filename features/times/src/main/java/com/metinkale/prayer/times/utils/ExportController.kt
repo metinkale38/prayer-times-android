@@ -40,10 +40,16 @@ import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.utils.LocaleUtils
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+private fun LocalDate.toString(pattern: String) = format(DateTimeFormatter.ofPattern(pattern))
+private fun LocalTime.toString(pattern: String) = format(DateTimeFormatter.ofPattern(pattern))
 
 object ExportController {
     @Throws(IOException::class)
@@ -259,18 +265,18 @@ object ExportController {
             var minDate: Long = 0
             var maxDate = Long.MAX_VALUE
             (times.dayTimes as? DayTimesWebProvider)?.let {
-                minDate = it.firstSyncedDay?.toDateTimeAtCurrentTime()?.millis ?: 0
-                maxDate = it.lastSyncedDay?.toDateTimeAtCurrentTime()?.millis ?: 0
+                minDate = it.firstSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0
+                maxDate = it.lastSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: 0
             }
 
             val ld = LocalDate.now()
             val finalMaxDate = maxDate
             val dlg = DatePickerDialog(
                 ctx, { _: DatePicker?, y: Int, m: Int, d: Int ->
-                    val from = LocalDate(y, m + 1, d)
+                    val from = LocalDate.of(y, m + 1, d)
                     val dlg1 = DatePickerDialog(
                         ctx, { _: DatePicker?, y1: Int, m1: Int, d1: Int ->
-                            val to = LocalDate(y1, m1 + 1, d1)
+                            val to = LocalDate.of(y1, m1 + 1, d1)
                             try {
                                 if (which == 0) {
                                     exportCSV(ctx, times, from, to)
@@ -282,7 +288,7 @@ object ExportController {
                                 CrashReporter.recordException(e)
                                 Toast.makeText(ctx, R.string.error, Toast.LENGTH_SHORT).show()
                             }
-                        }, ld.year, ld.monthOfYear - 1, ld.dayOfMonth
+                        }, ld.year, ld.monthValue - 1, ld.dayOfMonth
                     )
                     val startDate = DateTime.now().withDate(y, m + 1, d)
                     val start = startDate.millis
@@ -294,7 +300,7 @@ object ExportController {
                     )
                     dlg1.setTitle(R.string.to)
                     dlg1.show()
-                }, ld.year, ld.monthOfYear - 1, ld.dayOfMonth
+                }, ld.year, ld.monthValue - 1, ld.dayOfMonth
             )
             dlg.datePicker.minDate = minDate
             dlg.datePicker.maxDate = maxDate.coerceAtLeast(minDate)

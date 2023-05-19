@@ -27,8 +27,9 @@ import androidx.fragment.app.Fragment
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
-import org.joda.time.Days
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 
 /**
  * Created by Metin on 21.07.2015.
@@ -78,7 +79,7 @@ class ImsakiyeFragment : Fragment() {
     inner class ImsakiyeAdapter(context: Context) : BaseAdapter() {
         var times: Times? = null
         var minDate: LocalDate = today.withDayOfMonth(1)
-        var maxDate: LocalDate = minDate.plusDays(minDate.dayOfMonth().maximumValue)
+        var maxDate: LocalDate = minDate.plusDays(30)
         private val inflater: LayoutInflater = LayoutInflater.from(context)
 
 
@@ -87,7 +88,7 @@ class ImsakiyeFragment : Fragment() {
         }
 
         override fun getItem(position: Int): Any {
-            return minDate.plusDays(position)
+            return minDate.plusDays(position.toLong())
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -121,7 +122,7 @@ class ImsakiyeFragment : Fragment() {
                     times!!.getTime(date, Vakit.ISHAA.ordinal)
                 )
                 a = listOf(
-                    date.toString("dd.MM"),
+                    date.format(DateTimeFormatter.ofPattern("dd.MM")),
                     daytimes[0].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
                     daytimes[1].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
                     daytimes[2].toLocalTime().let { LocaleUtils.formatTimeForHTML(it) },
@@ -147,7 +148,7 @@ class ImsakiyeFragment : Fragment() {
         }
 
         override fun getCount(): Int {
-            return Days.daysBetween(minDate, maxDate).days + 1
+            return Period.between(minDate, maxDate).days + 1
         }
     }
 }

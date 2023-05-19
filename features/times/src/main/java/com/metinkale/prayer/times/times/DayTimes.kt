@@ -1,6 +1,7 @@
 package com.metinkale.prayer.times.times
 
-import com.metinkale.prayer.times.utils.toJoda
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toJavaLocalTime
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -8,7 +9,9 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import org.joda.time.*
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Serializable
 data class DayTimes(
@@ -42,20 +45,21 @@ data class DayTimes(
 ) {
     companion object {
         fun from(dayTimes: dev.metinkale.prayertimes.core.DayTimes) = DayTimes(
-            date = dayTimes.date.toJoda(),
-            fajr = dayTimes.fajr.toJoda(),
-            sun = dayTimes.sun.toJoda(),
-            dhuhr = dayTimes.dhuhr.toJoda(),
-            asr = dayTimes.asr.toJoda(),
-            maghrib = dayTimes.maghrib.toJoda(),
-            ishaa = dayTimes.ishaa.toJoda(),
-            asrHanafi = dayTimes.asrHanafi?.toJoda(),
-            sabah = dayTimes.sabah?.toJoda()
+            date = dayTimes.date.toJavaLocalDate(),
+            fajr = dayTimes.fajr.toJavaLocalTime(),
+            sun = dayTimes.sun.toJavaLocalTime(),
+            dhuhr = dayTimes.dhuhr.toJavaLocalTime(),
+            asr = dayTimes.asr.toJavaLocalTime(),
+            maghrib = dayTimes.maghrib.toJavaLocalTime(),
+            ishaa = dayTimes.ishaa.toJavaLocalTime(),
+            asrHanafi = dayTimes.asrHanafi?.toJavaLocalTime(),
+            sabah = dayTimes.sabah?.toJavaLocalTime()
         )
     }
 }
 
 
+// TODO check whether needed
 object LocalDateSerializer : KSerializer<LocalDate> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
@@ -69,12 +73,14 @@ object LocalDateSerializer : KSerializer<LocalDate> {
     }
 }
 
+
+// TODO check whether needed
 object LocalTimeSerializer : KSerializer<LocalTime> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("LocalTime", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalTime) {
-        encoder.encodeString(value.toString("HH:mm"))
+        encoder.encodeString(value.format(DateTimeFormatter.ofPattern("HH:mm")))
     }
 
     override fun deserialize(decoder: Decoder): LocalTime {

@@ -35,9 +35,12 @@ import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.R
 import com.metinkale.prayer.date.HijriDate
-import org.joda.time.*
-import org.joda.time.format.PeriodFormatterBuilder
 import java.text.DateFormatSymbols
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.Temporal
 import java.util.*
 
 object LocaleUtils {
@@ -45,10 +48,10 @@ object LocaleUtils {
 
     @JvmStatic
     val locales: List<Locale>
-        get() = (listOfNotNull(Preferences.LANGUAGE.get().takeIf { it != "system" })
-            .map { Locale(it) } +
-                LocaleListCompat.getDefault()
-                    .let { list -> (0 until list.size()).mapNotNull { list[it] } }).distinctBy { it.language }
+        get() = (listOfNotNull(
+            Preferences.LANGUAGE.get()
+                .takeIf { it != "system" }).map { Locale(it) } + LocaleListCompat.getDefault()
+            .let { list -> (0 until list.size()).mapNotNull { list[it] } }).distinctBy { it.language }
 
 
     @JvmStatic
@@ -96,7 +99,8 @@ object LocaleUtils {
     }
 
     fun formatTime(localTime: LocalTime?): String {
-        var time = if (localTime == null) "00:00" else localTime.toString("HH:mm")
+        var time =
+            if (localTime == null) "00:00" else localTime.format(DateTimeFormatter.ofPattern("HH:mm"))
         if (Preferences.CLOCK_12H.get() && time.contains(":")) {
             time = try {
                 val fix = time.substring(0, time.indexOf(":"))
@@ -183,12 +187,12 @@ object LocaleUtils {
         var format = getDateFormat(false)
         format = format.replace("DD", az(date.dayOfMonth, 2))
         format = try {
-            format.replace("MMM", getGregMonth(date.monthOfYear - 1))
+            format.replace("MMM", getGregMonth(date.monthValue - 1))
         } catch (ex: ArrayIndexOutOfBoundsException) {
             recordException(ex)
             return ""
         }
-        format = format.replace("MM", az(date.monthOfYear, 2))
+        format = format.replace("MM", az(date.monthValue, 2))
         format = format.replace("YYYY", az(date.year, 4))
         format = format.replace("YY", az(date.year, 2))
         return formatNumber(format)
@@ -278,41 +282,19 @@ object LocaleUtils {
         return translations
     }
 
-    private val PERIOD_FORMATTER_HMS =
-        PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours()
-            .appendLiteral(":").minimumPrintedDigits(2)
-            .appendMinutes().appendLiteral(":").appendSeconds().toFormatter()
-    private val PERIOD_FORMATTER_HM =
-        PeriodFormatterBuilder().printZeroIfSupported().minimumPrintedDigits(2).appendHours()
-            .appendLiteral(":").minimumPrintedDigits(2)
-            .appendMinutes().toFormatter()
 
-    fun formatPeriod(from: ReadableInstant?, to: ReadableInstant?): String {
-        return formatPeriod(Period(from, to, PeriodType.dayTime()), false)
-    }
-
-    fun formatPeriod(from: ReadablePartial?, to: ReadablePartial?): String {
-        return formatPeriod(Period(from, to, PeriodType.dayTime()), false)
-    }
-
-    fun formatPeriod(from: ReadableInstant?, to: ReadableInstant?, showSecs: Boolean): String {
-        return formatPeriod(Period(from, to, PeriodType.dayTime()), showSecs)
-    }
-
-    fun formatPeriod(from: ReadablePartial?, to: ReadablePartial?, showSecs: Boolean): String {
-        return formatPeriod(Period(from, to, PeriodType.dayTime()), showSecs)
-    }
-
-    fun formatPeriod(period: Period, showsecs: Boolean): String {
-        return if (showsecs) {
-            formatNumber(PERIOD_FORMATTER_HMS.print(period))
-        } else if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_FLOOR) {
-            formatNumber(PERIOD_FORMATTER_HM.print(period))
-        } else {
-            formatNumber(
-                PERIOD_FORMATTER_HM.print(period.withFieldAdded(DurationFieldType.minutes(), 1))
-            )
-        }
+    fun formatPeriod(from: Temporal, to: Temporal, showSecs: Boolean = false): String {
+        val d = Duration.between(from, to)
+        return formatNumber(
+            if (showSecs) {
+                String.format("%d:%02d:%02d", d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart())
+            } else {
+                val duration =
+                    if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_FLOOR) d
+                    else d.plusSeconds(59)
+                String.format("%d:%02d", duration.toHoursPart(), duration.toMinutesPart())
+            }
+        )
     }
 
     fun readableSize(bytes: Int): String {
@@ -321,10 +303,7 @@ object LocaleUtils {
         val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
         val pre = "kMGTPE"[exp - 1]
         return String.format(
-            Locale.getDefault(),
-            "%.1f %sB",
-            bytes / Math.pow(unit.toDouble(), exp.toDouble()),
-            pre
+            Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre
         )
     }
 
@@ -338,10 +317,8 @@ object LocaleUtils {
                 return locale.getDisplayLanguage(locale)
             }
         val displayText: CharSequence
-            get() = if (progress < 0)
-                displayLanguage
-            else
-                Html.fromHtml("$displayLanguage&nbsp;<small>($progress%)</small>")
+            get() = if (progress < 0) displayLanguage
+            else Html.fromHtml("$displayLanguage&nbsp;<small>($progress%)</small>")
     }
 
     private val GMONTHS = intArrayOf(

@@ -7,7 +7,7 @@ import androidx.core.content.FileProvider
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getHolyday
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import java.io.File
 import java.io.FileOutputStream
 

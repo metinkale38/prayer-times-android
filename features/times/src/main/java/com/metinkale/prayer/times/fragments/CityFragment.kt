@@ -36,7 +36,7 @@ import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.Utils
 import kotlinx.coroutines.flow.*
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import java.util.*
 
 @SuppressLint("ClickableViewAccessibility")

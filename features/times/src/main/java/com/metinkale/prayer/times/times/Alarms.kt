@@ -3,7 +3,7 @@ package com.metinkale.prayer.times.times
 import com.metinkale.prayer.App
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.alarm.AlarmService
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 
 

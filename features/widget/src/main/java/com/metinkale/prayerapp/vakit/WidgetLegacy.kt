@@ -35,9 +35,9 @@ import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.widgets.R
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 /**
  * Created by metin on 24.03.2017.

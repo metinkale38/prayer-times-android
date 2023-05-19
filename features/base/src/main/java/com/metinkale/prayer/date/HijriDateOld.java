@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class HijriDate implements Comparable<HijriDate> {
+public class HijriDateOld implements Comparable<HijriDateOld> {
     public static final int MUHARRAM = 1;
     public static final int SAFAR = 2;
     public static final int RABIAL_AWWAL = 3;
@@ -79,8 +79,8 @@ public class HijriDate implements Comparable<HijriDate> {
     public static final int EID_AL_ADHA_DAY4 = 18;
 
 
-    private static final TreeMap<Hijri, HijriDate> fromHijri = new TreeMap<>();
-    private static final TreeMap<Greg, HijriDate> fromGreg = new TreeMap<>();
+    private static final TreeMap<Hijri, HijriDateOld> fromHijri = new TreeMap<>();
+    private static final TreeMap<Greg, HijriDateOld> fromGreg = new TreeMap<>();
     // values will be initialized  in static{}
     private static final int MIN_GREG_YEAR;
     private static final int MAX_GREG_YEAR;
@@ -137,7 +137,7 @@ public class HijriDate implements Comparable<HijriDate> {
     private final Hijri hijri;
     private final Greg greg;
 
-    public HijriDate(Hijri hijri, Greg greg) {
+    public HijriDateOld(Hijri hijri, Greg greg) {
         this.hijri = hijri;
         this.greg = greg;
     }
@@ -156,8 +156,8 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
 
-    private static HijriDate create(Hijri hijri, Greg greg) {
-        HijriDate bundle = new HijriDate(hijri, greg);
+    private static HijriDateOld create(Hijri hijri, Greg greg) {
+        HijriDateOld bundle = new HijriDateOld(hijri, greg);
         if (hijri.day == 1) {
             fromHijri.put(hijri, bundle);
             fromGreg.put(greg, bundle);
@@ -166,29 +166,29 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
 
-    public static HijriDate fromGreg(int y, int m, int d) {
+    public static HijriDateOld fromGreg(int y, int m, int d) {
         return fromGreg(new LocalDate(y, m, d));
     }
 
-    public static HijriDate fromHijri(int y, int m, int d) {
+    public static HijriDateOld fromHijri(int y, int m, int d) {
         return fromHijri(new LocalDate(y, m, d, IslamicChronology.getInstanceUTC()));
     }
 
 
-    public static HijriDate fromHijri(LocalDate ld) {
+    public static HijriDateOld fromHijri(LocalDate ld) {
         if (!(ld.getChronology() instanceof IslamicChronology)) {
             throw new RuntimeException("fromHijri can only be used with a IslamicChronology");
         }
 
         Hijri hijri = new Hijri(ld.getYear(), ld.getMonthOfYear(), ld.getDayOfMonth());
 
-        HijriDate date = fromHijri.get(hijri);
+        HijriDateOld date = fromHijri.get(hijri);
         if (date != null) {
             return date;
         }
 
-        Map.Entry<Hijri, HijriDate> floor = fromHijri.floorEntry(hijri);
-        HijriDate last;
+        Map.Entry<Hijri, HijriDateOld> floor = fromHijri.floorEntry(hijri);
+        HijriDateOld last;
         if (floor == null || (last = floor.getValue()) == null || fromHijri.ceilingKey(hijri) == null) {
             LocalDate gregorian = ld.toDateTimeAtStartOfDay().withChronology(ISOChronology.getInstanceUTC()).toLocalDate();
             int hfix = Preferences.HIJRI_FIX.get();
@@ -209,7 +209,7 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
 
-    public static HijriDate fromGreg(LocalDate ld) {
+    public static HijriDateOld fromGreg(LocalDate ld) {
         if (!(ld.getChronology() instanceof GregorianChronology || ld.getChronology() instanceof ISOChronology)) {
             throw new RuntimeException("fromGreg can only be used with a GregorianChronology");
         }
@@ -222,13 +222,13 @@ public class HijriDate implements Comparable<HijriDate> {
 
         Greg greg = new Greg(ld.getYear(), ld.getMonthOfYear(), ld.getDayOfMonth());
 
-        HijriDate date = fromGreg.get(greg);
+        HijriDateOld date = fromGreg.get(greg);
         if (date != null) {
             return date;
         }
 
-        Map.Entry<Greg, HijriDate> floor = fromGreg.floorEntry(greg);
-        HijriDate last;
+        Map.Entry<Greg, HijriDateOld> floor = fromGreg.floorEntry(greg);
+        HijriDateOld last;
         if (floor == null || (last = floor.getValue()) == null || fromGreg.ceilingKey(greg) == null) {
             LocalDate islamic = ld.toDateTimeAtStartOfDay().withChronology(IslamicChronology.getInstanceUTC()).toLocalDate();
             Hijri hijri = new Hijri(islamic.getYear(), islamic.getMonthOfYear(), islamic.getDayOfMonth());
@@ -251,31 +251,31 @@ public class HijriDate implements Comparable<HijriDate> {
         return new LocalDate(greg.year, greg.month, greg.day);
     }
 
-    public HijriDate plusDays(int days) {
-        return HijriDate.fromGreg(getLocalDate().plusDays(days));
+    public HijriDateOld plusDays(int days) {
+        return HijriDateOld.fromGreg(getLocalDate().plusDays(days));
     }
 
 
-    public HijriDate plusYears(int years) {
-        return HijriDate.fromGreg(getLocalDate().plusYears(years));
+    public HijriDateOld plusYears(int years) {
+        return HijriDateOld.fromGreg(getLocalDate().plusYears(years));
     }
 
 
-    public HijriDate plusMonths(int month) {
-        return HijriDate.fromGreg(getLocalDate().plusMonths(month));
+    public HijriDateOld plusMonths(int month) {
+        return HijriDateOld.fromGreg(getLocalDate().plusMonths(month));
     }
 
     @NonNull
-    public static List<Pair<HijriDate, Integer>> getHolydaysForGregYear(int year) {
+    public static List<Pair<HijriDateOld, Integer>> getHolydaysForGregYear(int year) {
         int hijriYear = fromGreg(year, 1, 1).getYear();
-        List<Pair<HijriDate, Integer>> holydays = new ArrayList<>();
-        for (Pair<HijriDate, Integer> entry : getHolydaysForHijriYear(hijriYear)) {
+        List<Pair<HijriDateOld, Integer>> holydays = new ArrayList<>();
+        for (Pair<HijriDateOld, Integer> entry : getHolydaysForHijriYear(hijriYear)) {
             if (entry.first.greg.year == year) {
                 holydays.add(entry);
             }
         }
 
-        for (Pair<HijriDate, Integer> entry : getHolydaysForHijriYear(hijriYear + 1)) {
+        for (Pair<HijriDateOld, Integer> entry : getHolydaysForHijriYear(hijriYear + 1)) {
             if (entry.first.greg.year == year) {
                 holydays.add(entry);
             }
@@ -287,41 +287,41 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
     @NonNull
-    public static List<Pair<HijriDate, Integer>> getHolydaysForHijriYear(int year) {
-        List<Pair<HijriDate, Integer>> dates = new ArrayList<>();
-        dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 1), ISLAMIC_NEW_YEAR));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, MUHARRAM, 10), ASHURA));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SAFAR, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AWWAL, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AWWAL, 11), MAWLID_AL_NABI));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RABIAL_AKHIR, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, JUMADAAL_AWWAL, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, JUMADAAL_AKHIR, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 1), THREE_MONTHS));
-        HijriDate ragaib = HijriDate.fromGreg(HijriDate.fromHijri(year, RAJAB, 1).getLocalDate().withDayOfWeek(DateTimeConstants.FRIDAY));
+    public static List<Pair<HijriDateOld, Integer>> getHolydaysForHijriYear(int year) {
+        List<Pair<HijriDateOld, Integer>> dates = new ArrayList<>();
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, MUHARRAM, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, MUHARRAM, 1), ISLAMIC_NEW_YEAR));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, MUHARRAM, 10), ASHURA));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SAFAR, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RABIAL_AWWAL, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RABIAL_AWWAL, 11), MAWLID_AL_NABI));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RABIAL_AKHIR, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, JUMADAAL_AWWAL, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, JUMADAAL_AKHIR, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAJAB, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAJAB, 1), THREE_MONTHS));
+        HijriDateOld ragaib = HijriDateOld.fromGreg(HijriDateOld.fromHijri(year, RAJAB, 1).getLocalDate().withDayOfWeek(DateTimeConstants.FRIDAY));
         if (ragaib.getMonth() < RAJAB)
             ragaib = ragaib.plusDays(7);
         dates.add(new Pair<>(ragaib.plusDays(-1), RAGAIB));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAJAB, 26), MIRAJ));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHABAN, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHABAN, 14), BARAAH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 1), RAMADAN_BEGIN));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, RAMADAN, 26), LAYLATALQADR));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1).plusDays(-1), LAST_RAMADAN));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 1), EID_AL_FITR_DAY1));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 2), EID_AL_FITR_DAY2));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, SHAWWAL, 3), EID_AL_FITR_DAY3));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_QADA, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 9), ARAFAT));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 1), MONTH));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 10), EID_AL_ADHA_DAY1));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 11), EID_AL_ADHA_DAY2));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 12), EID_AL_ADHA_DAY3));
-        dates.add(new Pair<>(HijriDate.fromHijri(year, DHUL_HIJJA, 13), EID_AL_ADHA_DAY4));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAJAB, 26), MIRAJ));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHABAN, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHABAN, 14), BARAAH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAMADAN, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAMADAN, 1), RAMADAN_BEGIN));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, RAMADAN, 26), LAYLATALQADR));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHAWWAL, 1).plusDays(-1), LAST_RAMADAN));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHAWWAL, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHAWWAL, 1), EID_AL_FITR_DAY1));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHAWWAL, 2), EID_AL_FITR_DAY2));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, SHAWWAL, 3), EID_AL_FITR_DAY3));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_QADA, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 9), ARAFAT));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 1), MONTH));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 10), EID_AL_ADHA_DAY1));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 11), EID_AL_ADHA_DAY2));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 12), EID_AL_ADHA_DAY3));
+        dates.add(new Pair<>(HijriDateOld.fromHijri(year, DHUL_HIJJA, 13), EID_AL_ADHA_DAY4));
 
         Collections.sort(dates, Comparator.comparing(o -> o.first));
         return dates;
@@ -333,7 +333,7 @@ public class HijriDate implements Comparable<HijriDate> {
     }
 
     public int getHolyday() {
-        HijriDate tmp;
+        HijriDateOld tmp;
         if (hijri.day == 1 && hijri.month == MUHARRAM) {
             return ISLAMIC_NEW_YEAR;
         } else if (hijri.day == 10 && hijri.month == MUHARRAM) {
@@ -378,13 +378,13 @@ public class HijriDate implements Comparable<HijriDate> {
         return 0;
     }
 
-    public static HijriDate now() {
+    public static HijriDateOld now() {
         return fromGreg(LocalDate.now());
     }
 
 
     @Override
-    public int compareTo(HijriDate o) {
+    public int compareTo(HijriDateOld o) {
         return hijri.compareTo(o.hijri);
     }
 
@@ -450,9 +450,9 @@ public class HijriDate implements Comparable<HijriDate> {
             return false;
         if (obj == this)
             return true;
-        if (!(obj instanceof HijriDate))
+        if (!(obj instanceof HijriDateOld))
             return false;
-        return hijri.hashCode() == ((HijriDate) obj).hijri.hashCode();
+        return hijri.hashCode() == ((HijriDateOld) obj).hijri.hashCode();
     }
 
     public static int getMinGregYear() {

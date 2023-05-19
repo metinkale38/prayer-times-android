@@ -30,11 +30,11 @@ import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.utils.Utils
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import org.joda.time.DateTimeConstants
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.Period
 import java.text.DateFormatSymbols
+import java.time.DayOfWeek
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.abs
 
@@ -59,13 +59,13 @@ data class Alarm(
             val city = city
             val today = LocalDate.now()
             val now = LocalDateTime.now()
-            for (i in 0..7) {
+            for (i in 0L..7L) {
                 val date = today.plusDays(i)
-                if (!weekdays.contains(jodaWDToJavaWD(date.dayOfWeek))) continue
+                if (!weekdays.contains(date.dayOfWeek.toCalendarWeek())) continue
                 for (vakit in Vakit.values()) {
                     if (!times.contains(vakit)) continue
                     val time: LocalDateTime =
-                        city.getTime(date, vakit.ordinal).plusMinutes(mins) ?: continue
+                        city.getTime(date, vakit.ordinal).plusMinutes(mins.toLong()) ?: continue
                     if (time.isAfter(now)) return time
                 }
             }
@@ -82,15 +82,13 @@ data class Alarm(
         while (times.isNotEmpty() && !times.contains(Vakit.getByIndex(time))) {
             time++
         }
-        var minutes = Period(
-            city.getTime(LocalDate.now(), time),
-            LocalDateTime.now()
-        ).toStandardMinutes().minutes
+        var minutes =
+            Duration.between(city.getTime(LocalDate.now(), time), LocalDateTime.now()).toMinutes()
         if (minutes > 0 && times.contains(Vakit.getByIndex(time + 1))) {
-            val minutesToNext = Period(
+            val minutesToNext = Duration.between(
                 city.getTime(LocalDate.now(), time + 1),
                 LocalDateTime.now()
-            ).toStandardMinutes().minutes
+            ).toMinutes()
             if (minutes > abs(minutesToNext)) {
                 time++
                 minutes = minutesToNext
@@ -200,17 +198,16 @@ data class Alarm(
             return null
         }
 
-        private fun jodaWDToJavaWD(wd: Int): Int {
-            when (wd) {
-                DateTimeConstants.MONDAY -> return Calendar.MONDAY
-                DateTimeConstants.TUESDAY -> return Calendar.TUESDAY
-                DateTimeConstants.WEDNESDAY -> return Calendar.WEDNESDAY
-                DateTimeConstants.THURSDAY -> return Calendar.THURSDAY
-                DateTimeConstants.FRIDAY -> return Calendar.FRIDAY
-                DateTimeConstants.SATURDAY -> return Calendar.SATURDAY
-                DateTimeConstants.SUNDAY -> return Calendar.SUNDAY
+        private fun DayOfWeek.toCalendarWeek(): Int {
+            when (this) {
+                DayOfWeek.MONDAY -> return Calendar.MONDAY
+                DayOfWeek.TUESDAY -> return Calendar.TUESDAY
+                DayOfWeek.WEDNESDAY -> return Calendar.WEDNESDAY
+                DayOfWeek.THURSDAY -> return Calendar.THURSDAY
+                DayOfWeek.FRIDAY -> return Calendar.FRIDAY
+                DayOfWeek.SATURDAY -> return Calendar.SATURDAY
+                DayOfWeek.SUNDAY -> return Calendar.SUNDAY
             }
-            return 0
         }
 
         fun getLegacyVolumeMode(c: Context): Int {

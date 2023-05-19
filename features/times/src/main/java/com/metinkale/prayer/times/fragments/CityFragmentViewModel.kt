@@ -9,8 +9,8 @@ import com.metinkale.prayer.times.utils.secondsFlow
 import com.metinkale.prayer.utils.LocaleUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class CityFragmentViewModel(
     val date: String,
@@ -67,8 +67,8 @@ data class CityFragmentViewModel(
                     maghribTime = LocaleUtils.formatTimeForHTML(daytimes?.maghrib),
                     ishaTime = LocaleUtils.formatTimeForHTML(daytimes?.ishaa),
                     countdown = LocaleUtils.formatPeriod(
-                        DateTime.now(),
-                        it.getTime(LocalDate.now(), it.getNextTime()).toDateTime(),
+                        LocalDateTime.now(),
+                        it.getTime(LocalDate.now(), it.getNextTime()),
                         true
                     ),
                     icon = it.source.drawableId ?: 0,

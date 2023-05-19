@@ -36,7 +36,7 @@ import com.metinkale.prayer.times.alarm.sounds.MyPlayer
 import com.metinkale.prayer.times.fragments.NotificationPopup
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AlarmService : IntentService("AlarmService") {

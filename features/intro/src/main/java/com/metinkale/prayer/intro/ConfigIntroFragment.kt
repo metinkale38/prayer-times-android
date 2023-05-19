@@ -29,8 +29,8 @@ import com.metinkale.prayer.times.fragments.TimesFragment
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 /**
  * Created by metin on 17.07.2017.

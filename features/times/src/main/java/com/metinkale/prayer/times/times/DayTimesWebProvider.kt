@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.joda.time.Days
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class DayTimesWebProvider private constructor(val id: Int) :
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -89,9 +89,7 @@ class DayTimesWebProvider private constructor(val id: Int) :
 
 
     val syncedDays: Int
-        get() = lastSyncedDay?.let {
-            Days.daysBetween(LocalDate.now(), it).days
-        } ?: 0
+        get() = lastSyncedDay?.let { ChronoUnit.DAYS.between(LocalDate.now(), it).toInt() } ?: 0
     val firstSyncedDay: LocalDate? get() = prefs.all.keys.minOrNull()?.let { LocalDate.parse(it) }
     val lastSyncedDay: LocalDate? get() = prefs.all.keys.maxOrNull()?.let { LocalDate.parse(it) }
 

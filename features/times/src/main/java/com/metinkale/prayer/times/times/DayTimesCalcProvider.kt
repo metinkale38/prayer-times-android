@@ -1,8 +1,8 @@
 package com.metinkale.prayer.times.times
 
-import com.metinkale.prayer.times.utils.toJoda
 import dev.metinkale.prayertimes.calc.PrayTimes
-import org.joda.time.LocalDate
+import kotlinx.datetime.toJavaLocalTime
+import java.time.LocalDate
 
 class DayTimesCalcProvider(id: Int) : DayTimesProvider {
     private val times = Times.getTimesById(id).current
@@ -12,20 +12,20 @@ class DayTimesCalcProvider(id: Int) : DayTimesProvider {
         return prayTime.getTimes(
             kotlinx.datetime.LocalDate(
                 key.year,
-                key.monthOfYear,
+                key.monthValue,
                 key.dayOfMonth
             )
         ).let {
             DayTimes(
                 date = key,
-                fajr = it.imsak.toJoda(),
-                sun = it.sunrise.toJoda(),
-                dhuhr = it.dhuhr.toJoda(),
-                asr = if (times?.asrType == Times.AsrType.Hanafi) it.asrHanafi.toJoda() else it.asrShafi.toJoda(),
-                asrHanafi = if (times?.asrType == Times.AsrType.Both) it.asrHanafi.toJoda() else null,
-                maghrib = it.maghrib.toJoda(),
-                ishaa = it.ishaa.toJoda(),
-                sabah = null //it.fajr.toJoda(), imsak and fajr are the same for all Methods
+                fajr = it.imsak.toJavaLocalTime(),
+                sun = it.sunrise.toJavaLocalTime(),
+                dhuhr = it.dhuhr.toJavaLocalTime(),
+                asr = if (times?.asrType == Times.AsrType.Hanafi) it.asrHanafi.toJavaLocalTime() else it.asrShafi.toJavaLocalTime(),
+                asrHanafi = if (times?.asrType == Times.AsrType.Both) it.asrHanafi.toJavaLocalTime() else null,
+                maghrib = it.maghrib.toJavaLocalTime(),
+                ishaa = it.ishaa.toJavaLocalTime(),
+                sabah = null //it.fajr.toJavaLocalTime(), imsak and fajr are the same for all Methods
             )
         }
     }

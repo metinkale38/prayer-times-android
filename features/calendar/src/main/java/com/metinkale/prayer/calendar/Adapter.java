@@ -32,7 +32,6 @@ import androidx.core.util.Pair;
 import com.metinkale.prayer.date.HijriDate;
 import com.metinkale.prayer.utils.LocaleUtils;
 
-import org.joda.time.LocalDate;
 
 import java.util.List;
 import java.util.Locale;

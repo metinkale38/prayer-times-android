@@ -22,7 +22,6 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -39,7 +38,6 @@ import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.alarm.AlarmService
 import com.metinkale.prayer.times.alarm.sounds.SoundChooser
-import com.metinkale.prayer.times.alarm.sounds.SoundChooserAdapter
 import com.metinkale.prayer.times.alarm.sounds.SoundSerializer
 import com.metinkale.prayer.times.alarm.sounds.SoundsAdapter
 import com.metinkale.prayer.times.times.Times
@@ -51,8 +49,8 @@ import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.PermissionUtils
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import org.joda.time.LocalDateTime
 import java.text.DateFormatSymbols
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.abs
 
