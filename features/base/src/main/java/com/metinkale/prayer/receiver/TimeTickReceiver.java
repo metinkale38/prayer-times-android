@@ -28,8 +28,6 @@ import android.os.PowerManager;
 import com.metinkale.prayer.App;
 import com.metinkale.prayer.MyAlarmManager;
 
-import org.joda.time.DateTime;
-
 public class TimeTickReceiver extends BroadcastReceiver {
     private final BroadcastReceiver mReceiver = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? new TimeTickReceiverV26() : new TimeTickReceiverLegacy();
     private static int LAST_TIME_TICK; //avoid to often TIME_TICK
@@ -111,9 +109,8 @@ public class TimeTickReceiver extends BroadcastReceiver {
             }
 
             MyAlarmManager am = MyAlarmManager.with(context);
-            DateTime dt = DateTime.now();
-            am.setExact(AlarmManager.RTC, dt.plusMinutes(1).withSecondOfMinute(0).withMillisOfSecond(0).getMillis(),
-                    PendingIntent.getBroadcast(App.get(), 0, new Intent(App.get(), TimeTickReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT));
+            am.setExact(AlarmManager.RTC, (System.currentTimeMillis() + 60 * 1000) % 1000,
+                    PendingIntent.getBroadcast(App.get(), 0, new Intent(App.get(), TimeTickReceiver.class), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
         }
     }
 

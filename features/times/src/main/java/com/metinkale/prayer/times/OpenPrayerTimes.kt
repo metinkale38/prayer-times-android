@@ -32,7 +32,8 @@ abstract class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T
         withContext(Dispatchers.IO) {
             val remoteUrl = Config.getConfig().api_url
             if (useRest()) {
-                Ion.with(App.get()).load("GET", remoteUrl + path).asString().get()
+                Ion.with(App.get()).load("GET", remoteUrl + path)
+                    .addQueries(params.mapValues { listOf(it.value) }).asString().get()
             } else {
                 coreRouter.invoke(Method.GET, path, params, headers).body ?: "[]"
             }

@@ -125,12 +125,6 @@
             android:title="@string/hdateFormat" />
 
 
-        <ListPreference
-            android:dialogTitle="@string/hijriFix"
-            android:entries="@array/hijri_fix_days"
-            android:entryValues="@array/hijri_fix_days"
-            android:key="hijri_fix"
-            android:title="@string/hijriFix" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/notification">

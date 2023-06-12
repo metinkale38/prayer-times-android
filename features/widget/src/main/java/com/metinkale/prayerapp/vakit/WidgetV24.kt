@@ -36,8 +36,6 @@ import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
@@ -46,6 +44,8 @@ import com.metinkale.prayer.widgets.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
  * Created by metin on 24.03.2017.
@@ -151,7 +151,7 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .toDateTime().millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -255,7 +255,7 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .toDateTime().millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -294,7 +294,7 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .toDateTime().millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -456,7 +456,7 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .toDateTime().millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -498,9 +498,9 @@ internal object WidgetV24 {
 
     fun getPassedPart(times: Times): Float {
         val current = times.getCurrentTime()
-        val now = LocalDateTime.now().toDateTime().millis
-        val prev = times.getTime(LocalDate.now(), current).toDateTime().millis
-        val next = times.getTime(LocalDate.now(), current + 1).toDateTime().millis
+        val now = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val prev = times.getTime(LocalDate.now(), current).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val next = times.getTime(LocalDate.now(), current + 1).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
         return (now - prev) / (next - prev).toFloat()
     }
 
@@ -575,14 +575,15 @@ internal object WidgetV24 {
         val next = times.getNextTime()
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).string)
         val date = LocalDate.now()
-        remoteViews.setTextViewText(R.id.date, LocaleUtils.formatNumber(date.toString("d.MMM")))
-        val wd = date.toString("EEEE")
+        remoteViews.setTextViewText(R.id.date, LocaleUtils.formatNumber(date.format(
+            DateTimeFormatter.ofPattern("d.MMM"))))
+        val wd = date.format(DateTimeFormatter.ofPattern("EEEE"))
         remoteViews.setTextViewText(R.id.weekDay, wd)
         if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .toDateTime().millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {

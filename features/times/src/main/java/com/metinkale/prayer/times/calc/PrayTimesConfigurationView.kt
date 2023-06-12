@@ -21,7 +21,7 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import dev.metinkale.prayertimes.calc.HighLatsAdjustment
 import dev.metinkale.prayertimes.calc.Method
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toKotlinLocalDate
 import java.text.DecimalFormat
 
 
@@ -31,8 +31,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
     val praytimes = model.prayTimes.collectAsState()
     val asrType = model.asrType.collectAsState()
     val method: Method = praytimes.value.method
-    val daytimes =
-        praytimes.value.getTimes(LocalDate.parse(org.joda.time.LocalDate.now().toString()))
+    val daytimes = praytimes.value.getTimes(java.time.LocalDate.now().toKotlinLocalDate())
     val highLats: HighLatsAdjustment = praytimes.value.method.highLats
 
     val angleTranslations = HighLatsAdjustment.values().associateWith {
@@ -117,8 +116,10 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             }
             Column {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Saat", fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground)
+                    Text(
+                        "Saat", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
                 rows.forEach { (vakit, num) ->
                     Row(modifier = Modifier.height(32.dp)) {
@@ -141,8 +142,10 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
 
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Aci", fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground)
+                    Text(
+                        "Aci", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
                 rows.forEach { (vakit, _) ->
                     Box(modifier = Modifier.height(32.dp)) {
@@ -156,7 +159,10 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                 value = ONE_DECIMALS.format(angle),
                                 onValueChange = setStr,
                                 singleLine = true,
-                                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground),
+                                textStyle = LocalTextStyle.current.copy(
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                ),
                                 modifier = Modifier.align(Alignment.Center)
                             )
 
@@ -186,8 +192,10 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             }
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text("Zaman", fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground)
+                    Text(
+                        "Zaman", fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
                 rows.forEach { (vakit, num) ->
                     val min = model.getMinuteDrift(vakit, num)
@@ -200,7 +208,10 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                             value = min.toString(),
                             onValueChange = setStr,
                             singleLine = true,
-                            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground ),
+                            textStyle = LocalTextStyle.current.copy(
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onBackground
+                            ),
                             modifier = Modifier.align(Alignment.Center)
                         )
 

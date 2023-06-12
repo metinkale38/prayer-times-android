@@ -39,7 +39,6 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.utils.LocaleUtils
-import org.joda.time.DateTime
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -265,8 +264,10 @@ object ExportController {
             var minDate: Long = 0
             var maxDate = Long.MAX_VALUE
             (times.dayTimes as? DayTimesWebProvider)?.let {
-                minDate = it.firstSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0
-                maxDate = it.lastSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: 0
+                minDate = it.firstSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()
+                    ?.toEpochMilli() ?: 0
+                maxDate = it.lastSyncedDay?.atStartOfDay(ZoneId.systemDefault())?.toInstant()
+                    ?.toEpochMilli() ?: 0
             }
 
             val ld = LocalDate.now()
@@ -290,10 +291,12 @@ object ExportController {
                             }
                         }, ld.year, ld.monthValue - 1, ld.dayOfMonth
                     )
-                    val startDate = DateTime.now().withDate(y, m + 1, d)
-                    val start = startDate.millis
+                    val startDate = LocalDate.of(y, m + 1, d).atTime(LocalTime.now())
+                    val start = startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     if (which == 1) dlg1.datePicker.maxDate = Math.min(
-                        finalMaxDate, startDate.plusDays(31).millis
+                        finalMaxDate,
+                        startDate.plusDays(31).atZone(ZoneId.systemDefault()).toInstant()
+                            .toEpochMilli()
                     ) else dlg1.datePicker.maxDate = finalMaxDate
                     dlg1.datePicker.minDate = Math.min(
                         start, dlg1.datePicker.maxDate - 1000 * 60 * 60 * 24

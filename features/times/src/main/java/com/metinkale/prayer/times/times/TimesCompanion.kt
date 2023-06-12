@@ -72,7 +72,12 @@ open class TimesCompanion : Flow<List<Times>> {
             })
 
     fun add(times: Times) {
-        store.update { it + times }
+        store.update {
+            if (it.isEmpty() && times.id > 0)
+                listOf(times.copy(ongoing = true))
+            else
+                it + times
+        }
     }
 
     fun delete(times: Times) {

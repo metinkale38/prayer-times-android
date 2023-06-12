@@ -17,9 +17,8 @@
 package com.metinkale.prayer;
 
 import android.app.Application;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -33,12 +32,9 @@ import androidx.multidex.MultiDex;
 import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 import com.metinkale.prayer.receiver.TimeTickReceiver;
-import com.metinkale.prayer.receiver.TimeZoneChangedReceiver;
-import com.metinkale.prayer.utils.AndroidTimeZoneProvider;
 import com.metinkale.prayer.utils.LocaleUtils;
 import com.metinkale.prayer.utils.Utils;
 
-import org.joda.time.DateTimeZone;
 
 import java.util.Locale;
 
@@ -94,6 +90,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
     public App() {
         super();
         sApp = this;
+
     }
 
 
@@ -108,12 +105,7 @@ public class App extends Application implements SharedPreferences.OnSharedPrefer
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
 
-
-        DateTimeZone.setProvider(new AndroidTimeZoneProvider());
         LocaleUtils.init(getBaseContext());
-
-
-        registerReceiver(new TimeZoneChangedReceiver(), new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED));
 
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);

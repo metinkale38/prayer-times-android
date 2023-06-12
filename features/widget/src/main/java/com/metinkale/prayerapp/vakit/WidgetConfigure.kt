@@ -90,7 +90,7 @@ open class WidgetConfigure : AppCompatActivity() {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
         finish()
-        WidgetUtils.Companion.updateWidgets(this)
+        WidgetUtils.updateWidgets(this)
     }
 
     companion object {

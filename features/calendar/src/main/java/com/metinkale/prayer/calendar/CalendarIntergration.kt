@@ -5,11 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.metinkale.prayer.date.HijriDate
+import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getHolyday
-import java.time.LocalDate
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDate
 
 
 fun runCalendarIntegration(ctx: Context) {
@@ -23,15 +24,15 @@ fun runCalendarIntegration(ctx: Context) {
         appendLine("VERSION:2.0")
         appendLine("PRODID:-//$prodId")
         appendLine("METHOD:PUBLISH")
-        for (year in LocalDate.now().year..HijriDate.getMaxGregYear()) {
+        for (year in LocalDate.now().year..HijriDate.MAX_GREG_YEAR) {
             for (date in HijriDate.getHolydaysForGregYear(year)) {
-                if (date == null || date.second <= 0) continue
+                if (date.second != HijriDay.MONTH) continue
                 appendLine("BEGIN:VEVENT")
                 appendLine("TRANSP:TRANSPARENT")
                 appendLine("SUMMARY:" + getHolyday(date.second))
                 appendLine("DTSTAMP:$dtstamp")
                 appendLine("UID:${year}${date.second}@${ctx.packageName}")
-                appendLine("DTSTART;VALUE=DATE:" + date.first.localDate.toString().replace("-", ""))
+                appendLine("DTSTART;VALUE=DATE:" + date.first.toLocalDate().toString().replace("-", ""))
                 appendLine("DESCRIPTION:${LocaleUtils.formatDate(date.first)}")
                 appendLine("URL;VALUE=URI:https://play.google.com/store/apps/details?id=com.metinkale.prayer")
                 appendLine("END:VEVENT")

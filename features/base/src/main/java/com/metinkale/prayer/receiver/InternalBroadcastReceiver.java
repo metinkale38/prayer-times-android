@@ -30,6 +30,7 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
     private static final String ACTION_ON_START = "com.metikale.prayer.ON_START";
     private static final String ACTION_PREFSCHANGED = "com.metinkale.prayer.PREFS_CHANGED";
     private static final String ACTION_TIMETICK = "com.metinkale.prayer.TIMETICK";
+    private static final String ACTION_ON_FOREGROUND = "com.metinkale.prayer.ON_FOREGROUND";
 
 
     public static void loadAll() {
@@ -37,6 +38,7 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
         loadClass("com.metinkale.prayer.times.OngoingNotificationsReceiver");
         loadClass("com.metinkale.prayerapp.vakit.WidgetUtils");
         loadClass("com.metinkale.prayer.AliasManager");
+        loadClass("com.metinkale.prayerapp.vakit.WidgetsBroadcastReceiver");
     }
 
     private static void loadClass(Class<? extends InternalBroadcastReceiver> clz) {
@@ -82,6 +84,9 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
         if (this instanceof OnPrefsChangedListener) {
             filter.addAction(ACTION_PREFSCHANGED);
         }
+        if (this instanceof OnForegroundListener) {
+            filter.addAction(ACTION_ON_FOREGROUND);
+        }
 
         LocalBroadcastManager.getInstance(context).registerReceiver(this, filter);
     }
@@ -111,11 +116,15 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
                     ((OnStartListener) this).onStart();
                 }
                 break;
+            case ACTION_ON_FOREGROUND:
+                if (this instanceof OnForegroundListener) {
+                    ((OnForegroundListener) this).onForeground();
+                }
+                break;
             case ACTION_PREFSCHANGED:
                 if (this instanceof OnPrefsChangedListener) {
                     ((OnPrefsChangedListener) this).onPrefsChanged(intent.getStringExtra("key"));
                 }
-
                 break;
         }
     }
@@ -130,6 +139,10 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
 
     public interface OnTimeTickListener {
         void onTimeTick();
+    }
+
+    public interface OnForegroundListener {
+        void onForeground();
     }
 
 
@@ -159,6 +172,10 @@ public class InternalBroadcastReceiver extends BroadcastReceiver {
 
         public void sendTimeTick() {
             LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_TIMETICK));
+        }
+
+        public void sendOnForeground() {
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ON_FOREGROUND));
         }
     }
 

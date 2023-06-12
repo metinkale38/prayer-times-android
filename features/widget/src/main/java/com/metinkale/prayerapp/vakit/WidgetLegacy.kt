@@ -29,8 +29,6 @@ import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
-import com.metinkale.prayer.times.times.Times
-import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
@@ -38,6 +36,7 @@ import com.metinkale.prayer.widgets.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Created by metin on 24.03.2017.
@@ -628,7 +627,7 @@ internal object WidgetLegacy {
         )
         paint.strokeWidth = 1f
         val ltime = LocalDateTime.now()
-        val time = LocaleUtils.formatNumber(ltime.toString("HH:mm")).replace(":", " ").split(" ")
+        val time = LocaleUtils.formatNumber(ltime.toLocalTime().toString().substring(0,5)).replace(":", " ").split(" ")
             .toTypedArray()
         paint.textSize = h * 0.50f
         paint.style = Paint.Style.FILL
@@ -650,7 +649,7 @@ internal object WidgetLegacy {
             paint.color = -0x1
             paint.textSize = h * 0.07f
             canvas.drawText(
-                LocaleUtils.formatNumber(ltime.toString("d'.' MMM'.'")),
+                LocaleUtils.formatNumber(ltime.format(DateTimeFormatter.ofPattern("d'.' MMM'.'"))),
                 w * 0.60f,
                 h * 0.55f,
                 paint
@@ -670,7 +669,7 @@ internal object WidgetLegacy {
             paint.color = -0x1
             paint.textSize = h * 0.07f
             canvas.drawText(
-                LocaleUtils.formatNumber(ltime.toString("d'.' MMM'.'")),
+                LocaleUtils.formatNumber(ltime.format(DateTimeFormatter.ofPattern("d'.' MMM'.'"))),
                 w * 0.63f,
                 h * 0.55f,
                 paint
@@ -686,7 +685,7 @@ internal object WidgetLegacy {
             ), w / 2f, h * 0.85f, paint
         )
         paint.textSize = h * 0.12f
-        canvas.drawText(ltime.toString("EEEE"), w / 2f, h * 0.22f, paint)
+        canvas.drawText(ltime.format(DateTimeFormatter.ofPattern("EEEE")), w / 2f, h * 0.22f, paint)
         remoteViews.setImageViewBitmap(R.id.widget, bmp)
         try {
             appWidgetManager.updateAppWidget(widgetId, remoteViews)

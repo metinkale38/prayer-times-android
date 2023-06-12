@@ -85,20 +85,8 @@ public class Preferences {
                 SHOW_COMPASS_NOTE.set(true);
         }
     };
-    public static Preference<Integer> HIJRI_FIX = new Preference<Integer>("hijri_fix", 0) {
-        private final Preference<String> intern = new StringPreference("hijri_fix", "0");
 
-        @Override
-        public Integer get() {
-            return Integer.parseInt(intern.get().replace("+", ""));
-        }
-
-        @Override
-        public void set(Integer obj) {
-            intern.set(String.valueOf(obj));
-        }
-    };
-    public static Preference<String> COUNTDOWN_TYPE = new StringPreference("widget_countdown", "default");
+      public static Preference<String> COUNTDOWN_TYPE = new StringPreference("widget_countdown", "default");
 
 
     public static SharedPreferences getPrefs() {

@@ -72,11 +72,6 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <receiver
-            android:name="com.metinkale.prayer.receiver.TimeZoneChangedReceiver"
-            android:enabled="true"
-            android:exported="true" />
-
 
         <receiver android:name="com.metinkale.prayer.receiver.TimeTickReceiver"
             android:exported="true">

@@ -37,6 +37,7 @@ import com.metinkale.prayer.times.fragments.NotificationPopup
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AlarmService : IntentService("AlarmService") {
@@ -169,15 +170,12 @@ class AlarmService : IntentService("AlarmService") {
                         sLastSchedule = alarm
                     }
                 }
-                val time = alarm.second.toDateTime().millis
+                val time = alarm.second.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 if (BuildConfig.DEBUG) Log.e("ALARM", "Next Alarm: " + alarm.second)
                 i.putExtra(EXTRA_ALARMID, alarm.first.id)
                 i.putExtra(EXTRA_TIME, time)
                 val service = PendingIntent.getBroadcast(
-                    c,
-                    0,
-                    i,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
                 am.cancel(service)
                 am.setExact(AlarmManager.RTC_WAKEUP, time, service)

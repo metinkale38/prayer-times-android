@@ -16,7 +16,6 @@
  */
 package com.metinkale.prayer.times.times
 
-import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.times.LegacyPrayTimes
 import com.metinkale.prayer.times.LegacyTimes
 import com.metinkale.prayer.times.alarm.Alarm
@@ -28,8 +27,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
-import org.joda.time.*
-import kotlin.math.roundToInt
 
 
 @Serializable

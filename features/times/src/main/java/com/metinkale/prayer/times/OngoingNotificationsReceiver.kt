@@ -41,7 +41,7 @@ import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIn
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.times.utils.NotificationUtils
 import com.metinkale.prayer.utils.LocaleUtils
-import org.joda.time.*
+import java.time.*
 
 class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickListener,
     OnPrefsChangedListener {
@@ -111,16 +111,17 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
                     views.setTextColor(vakitIds[vakit.ordinal], textColor)
                 }
             }
-            val nextTime = t.getTime(cal, t.getNextTime()).toDateTime()
+            val nextTime =
+                t.getTime(cal, t.getNextTime()).atZone(ZoneId.systemDefault()).toInstant()
             if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
                 views.setChronometer(
                     R.id.countdown,
-                    nextTime.millis - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    nextTime.toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                     null,
                     true
                 )
             } else {
-                val txt = LocaleUtils.formatPeriod(DateTime.now(), nextTime, false)
+                val txt = LocaleUtils.formatPeriod(Instant.now(), nextTime, false)
                 views.setString(R.id.countdown, "setFormat", txt)
                 views.setChronometer(R.id.countdown, 0, txt, false)
             }
@@ -150,7 +151,7 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
             noti.priority = Notification.PRIORITY_LOW
             notifications.add(Pair(t.id, noti))
         }
-        if (!notifications.isEmpty()) {
+        if (notifications.isNotEmpty()) {
             for (i in notifications.indices) {
                 val pair = notifications[i]
                 if (i == 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -170,11 +171,7 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
     }
 
     private fun getIconFromMinutes(t: Times): Bitmap {
-        val left = Period(
-            LocalDateTime.now(),
-            t.getTime(LocalDate.now(), t.getNextTime()),
-            PeriodType.minutes()
-        ).minutes
+        val left = Duration.between(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime())).toMinutes()
         val r = context.resources
         val size =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, r.displayMetrics).toInt()

@@ -33,7 +33,9 @@ import androidx.annotation.RequiresApi;
 import androidx.collection.ArraySet;
 import androidx.core.app.NotificationCompat;
 
+import com.metinkale.prayer.base.BuildConfig;
 import com.metinkale.prayer.base.R;
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver;
 
 import java.util.Set;
 
@@ -82,7 +84,7 @@ public class ForegroundService extends Service {
             } catch (Exception e) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
                     throw e;
-                }
+                } else if (BuildConfig.DEBUG) e.printStackTrace();
             }
         }
     }
@@ -96,10 +98,9 @@ public class ForegroundService extends Service {
                 intent.putExtra(EXTRA_NEEDY, needy);
                 c.startForegroundService(intent);
             } catch (Exception e) {
-                // ForegroundServiceStartNotAllowedException is harmless, if we are not in ForegroundState, removeNeedy is useless
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !(e instanceof ForegroundServiceStartNotAllowedException)) {
                     throw e;
-                }
+                } else if (BuildConfig.DEBUG) e.printStackTrace();
             }
 
         }
@@ -108,6 +109,7 @@ public class ForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             if (mNotification != null) {
                 startForeground(mNotificationId, mNotification);
             } else {
@@ -119,7 +121,9 @@ public class ForegroundService extends Service {
                 switch (action) {
                     case ACTION_ADD_NEEDY: {
                         String needy = intent.getStringExtra(EXTRA_NEEDY);
-                        mForegroundNeedy.add(needy);
+                        if(!mForegroundNeedy.contains(needy))
+                            InternalBroadcastReceiver.sender(this).sendOnForeground();
+                         mForegroundNeedy.add(needy);
                         if (intent.hasExtra(EXTRA_NOTIFICATION)) {
                             mNotification = intent.getParcelableExtra(EXTRA_NOTIFICATION);
                             mNotificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, 0);

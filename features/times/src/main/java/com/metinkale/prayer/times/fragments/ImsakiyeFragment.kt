@@ -28,8 +28,8 @@ import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.utils.LocaleUtils
 import java.time.LocalDate
-import java.time.Period
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 /**
  * Created by Metin on 21.07.2015.
@@ -67,11 +67,10 @@ class ImsakiyeFragment : Fragment() {
                         adapter.minDate = today.withDayOfMonth(1)
                         adapter.maxDate = adapter.minDate.plusYears(1).minusDays(1)
                     }
-                    else -> {}
                 }
             }
 
-            adapter.notifyDataSetInvalidated()
+            adapter.notifyDataSetChanged()
 
         }
     }
@@ -148,7 +147,7 @@ class ImsakiyeFragment : Fragment() {
         }
 
         override fun getCount(): Int {
-            return Period.between(minDate, maxDate).days + 1
+            return ChronoUnit.DAYS.between(minDate, maxDate).toInt() + 1
         }
     }
 }

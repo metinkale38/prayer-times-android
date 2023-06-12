@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.base.R
+import com.metinkale.prayer.receiver.InternalBroadcastReceiver
 import com.metinkale.prayer.utils.LocaleUtils.init
 import com.metinkale.prayer.utils.LocaleUtils.wrapContext
 import com.metinkale.prayer.utils.PermissionUtils
@@ -91,7 +92,7 @@ open class BaseActivity(
         mNav = mDrawerLayout.findViewById(R.id.base_nav)
         val header = LayoutInflater.from(this).inflate(R.layout.drawer_header, mNav, false)
         try {
-            val pInfo = packageManager.getPackageInfo(packageName,0)
+            val pInfo = packageManager.getPackageInfo(packageName, 0)
             (header.findViewById<View>(R.id.version) as TextView).text = pInfo.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -188,9 +189,11 @@ open class BaseActivity(
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         mNav.setSelection(mNavPos)
+        InternalBroadcastReceiver.sender(this).sendOnForeground()
     }
 
     @SuppressLint("RtlHardcoded")

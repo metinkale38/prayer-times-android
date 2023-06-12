@@ -25,7 +25,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.text.style.SuperscriptSpan
-import androidx.annotation.IntRange
 import androidx.annotation.Size
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -35,10 +34,13 @@ import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.R
 import com.metinkale.prayer.date.HijriDate
+import com.metinkale.prayer.date.HijriDay
+import com.metinkale.prayer.date.HijriMonth
 import java.text.DateFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.Month
 import java.time.format.DateTimeFormatter
 import java.time.temporal.Temporal
 import java.util.*
@@ -138,20 +140,18 @@ object LocaleUtils {
     }
 
     @JvmStatic
-    fun getHolyday(@IntRange(from = 1, to = 18) which: Int): String {
-        return App.get().resources.getString(HOLYDAYS[which - 1])
+    fun getHolyday(which: HijriDay): String {
+        return App.get().resources.getString(which.resId)
     }
 
-    private fun getGregMonth(@IntRange(from = 0, to = 11) which: Int): String {
-        return if (Preferences.LANGUAGE.get() == "system") DateFormatSymbols(
-            locale
-        ).months[which] else App.get().resources.getString(
-            GMONTHS[which]
-        )
+    private fun getGregMonth(which: Month): String {
+        return if (Preferences.LANGUAGE.get() == "system")
+            DateFormatSymbols(locale).months[which.ordinal]
+        else App.get().resources.getString(which.resId)
     }
 
-    private fun getHijriMonth(@IntRange(from = 0, to = 11) which: Int): String {
-        return App.get().resources.getString(HMONTHS[which])
+    private fun getHijriMonth(which: HijriMonth): String {
+        return App.get().resources.getString(which.resId)
     }
 
     fun az(i: Int): String {
@@ -170,13 +170,13 @@ object LocaleUtils {
         format = format.replace("DD", az(date.day, 2))
         if (format.contains("MMM")) {
             format = try {
-                format.replace("MMM", getHijriMonth(date.month - 1))
+                format.replace("MMM", getHijriMonth(date.month))
             } catch (ex: ArrayIndexOutOfBoundsException) {
                 recordException(ex)
                 return ""
             }
         }
-        format = format.replace("MM", az(date.month, 2))
+        format = format.replace("MM", az(date.month.value, 2))
         format = format.replace("YYYY", az(date.year, 4))
         format = format.replace("YY", az(date.year, 2))
         return formatNumber(format)
@@ -187,7 +187,7 @@ object LocaleUtils {
         var format = getDateFormat(false)
         format = format.replace("DD", az(date.dayOfMonth, 2))
         format = try {
-            format.replace("MMM", getGregMonth(date.monthValue - 1))
+            format.replace("MMM", getGregMonth(date.month))
         } catch (ex: ArrayIndexOutOfBoundsException) {
             recordException(ex)
             return ""
@@ -287,12 +287,12 @@ object LocaleUtils {
         val d = Duration.between(from, to)
         return formatNumber(
             if (showSecs) {
-                String.format("%d:%02d:%02d", d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart())
+                String.format("%02d:%02d:%02d", d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart())
             } else {
                 val duration =
                     if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_FLOOR) d
                     else d.plusSeconds(59)
-                String.format("%d:%02d", duration.toHoursPart(), duration.toMinutesPart())
+                String.format("%02d:%02d", duration.toHoursPart(), duration.toMinutesPart())
             }
         )
     }
@@ -321,52 +321,21 @@ object LocaleUtils {
             else Html.fromHtml("$displayLanguage&nbsp;<small>($progress%)</small>")
     }
 
-    private val GMONTHS = intArrayOf(
-        R.string.gmonth1,
-        R.string.gmonth2,
-        R.string.gmonth3,
-        R.string.gmonth4,
-        R.string.gmonth5,
-        R.string.gmonth6,
-        R.string.gmonth7,
-        R.string.gmonth8,
-        R.string.gmonth9,
-        R.string.gmonth10,
-        R.string.gmonth11,
-        R.string.gmonth12
-    )
-    private val HMONTHS = intArrayOf(
-        R.string.hmonth1,
-        R.string.hmonth2,
-        R.string.hmonth3,
-        R.string.hmonth4,
-        R.string.hmonth5,
-        R.string.hmonth6,
-        R.string.hmonth7,
-        R.string.hmonth8,
-        R.string.hmonth9,
-        R.string.hmonth10,
-        R.string.hmonth11,
-        R.string.hmonth12
-    )
-    private val HOLYDAYS = intArrayOf(
-        R.string.holyday1,
-        R.string.holyday2,
-        R.string.holyday3,
-        R.string.holyday4,
-        R.string.holyday5,
-        R.string.holyday6,
-        R.string.holyday7,
-        R.string.holyday8,
-        R.string.holyday9,
-        R.string.holyday10,
-        R.string.holyday11,
-        R.string.holyday12,
-        R.string.holyday13,
-        R.string.holyday14,
-        R.string.holyday15,
-        R.string.holyday16,
-        R.string.holyday17,
-        R.string.holyday18
-    )
+
 }
+
+val Month.resId: Int
+    get() = when (this) {
+        Month.JANUARY -> R.string.gmonth1
+        Month.FEBRUARY -> R.string.gmonth2
+        Month.MARCH -> R.string.gmonth3
+        Month.APRIL -> R.string.gmonth4
+        Month.MAY -> R.string.gmonth5
+        Month.JUNE -> R.string.gmonth6
+        Month.JULY -> R.string.gmonth7
+        Month.AUGUST -> R.string.gmonth8
+        Month.SEPTEMBER -> R.string.gmonth9
+        Month.OCTOBER -> R.string.gmonth10
+        Month.NOVEMBER -> R.string.gmonth11
+        Month.DECEMBER -> R.string.gmonth12
+    }
