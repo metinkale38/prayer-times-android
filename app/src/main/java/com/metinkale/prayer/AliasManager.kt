@@ -26,7 +26,7 @@ import java.util.*
 
 class AliasManager : InternalBroadcastReceiver(), OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
-        if (key == Preferences.LANGUAGE.key&&false) {
+        if (key == "language") {
             val pm = context.packageManager
             val info: PackageInfo = try {
                 pm.getPackageInfo(

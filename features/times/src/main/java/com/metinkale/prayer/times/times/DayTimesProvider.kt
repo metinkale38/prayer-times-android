@@ -70,17 +70,17 @@ fun Times.isKerahat(): Boolean {
 
     val sun = getTime(now.toLocalDate(), Vakit.SUN.ordinal)
     val untilSun = ChronoUnit.MINUTES.between(sun, now)
-    if (untilSun > 0 && untilSun < Preferences.KERAHAT_SUNRISE.get()) {
+    if (untilSun > 0 && untilSun < Preferences.KERAHAT_SUNRISE) {
         return true
     }
 
     val dhuhr = getTime(now.toLocalDate(), Vakit.DHUHR.ordinal)
     val untilDhuhr = ChronoUnit.MINUTES.between(now, dhuhr)
-    if ((untilDhuhr > 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA.get()))) {
+    if ((untilDhuhr > 0) && (untilDhuhr < (Preferences.KERAHAT_ISTIWA))) {
         return true
     }
 
     val maghrib = getTime(now.toLocalDate(), Vakit.MAGHRIB.ordinal)
     val untilMaghrib = ChronoUnit.MINUTES.between(now, maghrib)
-    return (untilMaghrib > 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET.get()))
+    return (untilMaghrib > 0) && (untilMaghrib < (Preferences.KERAHAT_SUNSET))
 }

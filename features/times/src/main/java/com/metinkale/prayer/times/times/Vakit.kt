@@ -51,13 +51,13 @@ enum class Vakit {
         // Other: Imsak - Fajr (Default)
             // Background: some sources give two seperate times for imsak/fajr, to make sure, neither fasting, nor prayer gets invalid due to calculation errors
             if (this == FAJR) {
-                if (!Preferences.USE_ARABIC.get() && Preferences.LANGUAGE.get() == "tr") {
+                if (!Preferences.USE_ARABIC && Preferences.LANGUAGE == "tr") {
                     getString(0)
                 } else getString(1)
             } else getString(0)
 
     fun getString(index: Int): String {
-        return if (Preferences.USE_ARABIC.get()) {
+        return if (Preferences.USE_ARABIC) {
             arabic[index]
         } else App.get().getString(resId[index])
     }

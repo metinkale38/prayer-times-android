@@ -23,7 +23,6 @@ import android.os.Bundle
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.utils.LocaleUtils
-import com.metinkale.prayerapp.vakit.WidgetProviderClock2
 
 class WidgetProviderClock2 : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
@@ -56,7 +55,7 @@ class WidgetProviderClock2 : AppWidgetProvider() {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
             ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY)
             LocaleUtils.init(context)
-            if (!Preferences.SHOW_LEGACY_WIDGET.get()) WidgetV24.update2x2Clock(
+            if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.update2x2Clock(
                 context,
                 appWidgetManager,
                 widgetId

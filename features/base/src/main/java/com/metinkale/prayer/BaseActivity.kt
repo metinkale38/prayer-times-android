@@ -80,7 +80,7 @@ open class BaseActivity(
         super.onCreate(savedInstanceState)
         init(this)
         //AppRatingDialog.increaseAppStarts();
-        if (Preferences.SHOW_INTRO.get() || Preferences.CHANGELOG_VERSION.get() < BuildConfig.CHANGELOG_VERSION) {
+        if (Preferences.SHOW_INTRO || Preferences.CHANGELOG_VERSION < BuildConfig.CHANGELOG_VERSION) {
             Module.INTRO.launch(this)
         }
         super.setContentView(R.layout.activity_base)

@@ -13,118 +13,96 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.intro
 
-package com.metinkale.prayer.intro;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.utils.AboutShortcuts;
-
+import com.metinkale.prayer.utils.AboutShortcuts.mail
+import com.metinkale.prayer.utils.AboutShortcuts.translate
+import com.metinkale.prayer.utils.AboutShortcuts.rate
+import com.metinkale.prayer.utils.AboutShortcuts.share
+import com.metinkale.prayer.intro.IntroFragment
+import android.widget.CompoundButton
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import com.metinkale.prayer.intro.R
+import android.widget.TextView
+import android.content.pm.PackageManager
+import android.view.View
+import android.widget.Button
+import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.utils.AboutShortcuts
 
 /**
  * Created by metin on 25.07.17.
  */
-
-public class LastFragment extends IntroFragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro_last, container, false);
-
+class LastFragment : IntroFragment(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v = inflater.inflate(R.layout.intro_last, container, false)
         try {
-            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            ((TextView) v.findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            val pInfo = requireActivity().packageManager.getPackageInfo(
+                requireActivity().packageName, 0
+            )
+            (v.findViewById<View>(R.id.version) as TextView).text =
+                pInfo.versionName + " (" + pInfo.versionCode + ")"
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
         }
-
-        Button email = v.findViewById(R.id.mail);
-        Button vote = v.findViewById(R.id.vote);
-        Button showIntro = v.findViewById(R.id.showIntro);
-        Button share = v.findViewById(R.id.share);
-        Button translate = v.findViewById(R.id.translate);
-
-        email.setOnClickListener(this);
-        vote.setOnClickListener(this);
-        showIntro.setOnClickListener(this);
-        share.setOnClickListener(this);
-        translate.setOnClickListener(this);
-
-        email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mail, 0, 0, 0);
-        vote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0);
-        showIntro.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_intro, 0, 0, 0);
-        share.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share, 0, 0, 0);
-        translate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_translate, 0, 0, 0);
-        return v;
+        val email = v.findViewById<Button>(R.id.mail)
+        val vote = v.findViewById<Button>(R.id.vote)
+        val showIntro = v.findViewById<Button>(R.id.showIntro)
+        val share = v.findViewById<Button>(R.id.share)
+        val translate = v.findViewById<Button>(R.id.translate)
+        email.setOnClickListener(this)
+        vote.setOnClickListener(this)
+        showIntro.setOnClickListener(this)
+        share.setOnClickListener(this)
+        translate.setOnClickListener(this)
+        email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mail, 0, 0, 0)
+        vote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
+        showIntro.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_intro, 0, 0, 0)
+        share.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share, 0, 0, 0)
+        translate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_translate, 0, 0, 0)
+        return v
     }
 
-    @Override
-    protected void onSelect() {
-
+    override fun onSelect() {}
+    override fun onEnter() {}
+    override fun onExit() {}
+    override fun allowTouch(): Boolean {
+        return true
     }
 
-    @Override
-    protected void onEnter() {
-
+    override fun shouldShow(): Boolean {
+        return Preferences.SHOW_INTRO
     }
 
-    @Override
-    protected void onExit() {
-
+    override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
+        if (!b) return
+        val newlang = compoundButton.tag as String
+        if (Preferences.LANGUAGE.equals(newlang)) return
+        Preferences.LANGUAGE = newlang
+        requireActivity().recreate()
     }
 
-    @Override
-    public boolean allowTouch() {
-        return true;
-    }
-
-    @Override
-    protected boolean shouldShow() {
-        return Preferences.SHOW_INTRO.get();
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (!b) return;
-        String newlang = (String) compoundButton.getTag();
-        if (Preferences.LANGUAGE.get().equals(newlang)) return;
-        Preferences.LANGUAGE.set(newlang);
-        getActivity().recreate();
-    }
-
-    @Override
-    public void onClick(View view) {
-        int i = view.getId();
+    override fun onClick(view: View) {
+        val i = view.id
         if (i == R.id.mail) {
-            AboutShortcuts.mail(getActivity());
-
+            mail(requireActivity())
         } else if (i == R.id.translate) {
-            AboutShortcuts.translate(getActivity());
-
+            translate(requireActivity())
         } else if (i == R.id.vote) {
-            AboutShortcuts.rate(getActivity());
-
+            rate(requireActivity())
         } else if (i == R.id.showIntro) {
-            Preferences.SHOW_INTRO.set(true);
-            Preferences.CHANGELOG_VERSION.set(0);
-            getActivity().recreate();
-
-            AboutShortcuts.share(getActivity());
+            Preferences.SHOW_INTRO = true
+            Preferences.CHANGELOG_VERSION = 0
+            requireActivity().recreate()
+            share(requireActivity())
         } else if (i == R.id.share) {
-            AboutShortcuts.share(getActivity());
+            share(requireActivity())
         }
     }
 }

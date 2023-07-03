@@ -130,7 +130,8 @@ public class DhikrFragment extends BaseActivity.MainFragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mDhikrs.get(0).setTitle(s.toString());
+                if (mDhikrs.size() > 0)
+                    mDhikrs.get(0).setTitle(s.toString());
             }
 
             @Override

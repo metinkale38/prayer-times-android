@@ -15,21 +15,21 @@
  */
 package com.metinkale.prayer.tesbihat
 
-import com.metinkale.prayer.utils.LocaleUtils.locale
-import com.metinkale.prayer.times.times.Vakit.Companion.getByIndex
-import com.metinkale.prayer.BaseActivity
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.*
-import com.metinkale.prayer.times.times.Vakit
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.times.times.Times
+import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.Vakit.Companion.getByIndex
 import com.metinkale.prayer.times.times.getCurrentTime
+import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.util.*
 
 class TesbihatFragment : BaseActivity.MainFragment() {
@@ -66,7 +66,7 @@ class TesbihatFragment : BaseActivity.MainFragment() {
                 Vakit.ISHAA -> viewPager.currentItem = 4
             }
         }
-        TEXT_SIZE = Preferences.TESBIHAT_TEXTSIZE.get()
+        TEXT_SIZE = Preferences.TESBIHAT_TEXTSIZE
         return v
     }
 
@@ -79,7 +79,7 @@ class TesbihatFragment : BaseActivity.MainFragment() {
         val i1 = item.itemId
         if (i1 == R.id.zoomIn) {
             TEXT_SIZE++
-            Preferences.TESBIHAT_TEXTSIZE.set(TEXT_SIZE)
+            Preferences.TESBIHAT_TEXTSIZE=TEXT_SIZE
             val i = viewPager.currentItem
             viewPager.invalidate()
             viewPager.adapter = pagerAdapter

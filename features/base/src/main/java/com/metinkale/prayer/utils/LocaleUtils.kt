@@ -51,8 +51,7 @@ object LocaleUtils {
     @JvmStatic
     val locales: List<Locale>
         get() = (listOfNotNull(
-            Preferences.LANGUAGE.get()
-                .takeIf { it != "system" }).map { Locale(it) } + LocaleListCompat.getDefault()
+            Preferences.LANGUAGE.takeIf { it != "system" }).map { Locale(it) } + LocaleListCompat.getDefault()
             .let { list -> (0 until list.size()).mapNotNull { list[it] } }).distinctBy { it.language }
 
 
@@ -66,8 +65,8 @@ object LocaleUtils {
     }
 
     private fun initLocale(c: Context) {
-        setCustomKey("lang", Preferences.LANGUAGE.get())
-        setCustomKey("digits", Preferences.DIGITS.get())
+        setCustomKey("lang", Preferences.LANGUAGE)
+        setCustomKey("digits", Preferences.DIGITS)
         val config = Configuration()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val localeList = LocaleList(*locales.toTypedArray())
@@ -87,7 +86,7 @@ object LocaleUtils {
 
     fun formatTimeForHTML(localTime: LocalTime?): CharSequence {
         var time = formatTime(localTime)
-        if (!Preferences.CLOCK_12H.get()) {
+        if (!Preferences.CLOCK_12H) {
             return time
         }
         val d = time.indexOf(" ")
@@ -103,7 +102,7 @@ object LocaleUtils {
     fun formatTime(localTime: LocalTime?): String {
         var time =
             if (localTime == null) "00:00" else localTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-        if (Preferences.CLOCK_12H.get() && time.contains(":")) {
+        if (Preferences.CLOCK_12H && time.contains(":")) {
             time = try {
                 val fix = time.substring(0, time.indexOf(":"))
                 val suffix = time.substring(time.indexOf(":"))
@@ -140,12 +139,12 @@ object LocaleUtils {
     }
 
     @JvmStatic
-    fun getHolyday(which: HijriDay): String {
-        return App.get().resources.getString(which.resId)
-    }
+    fun getHolyday(which: HijriDay): String? =
+        which.resId?.let { App.get().resources.getString(it) }
+
 
     private fun getGregMonth(which: Month): String {
-        return if (Preferences.LANGUAGE.get() == "system")
+        return if (Preferences.LANGUAGE == "system")
             DateFormatSymbols(locale).months[which.ordinal]
         else App.get().resources.getString(which.resId)
     }
@@ -161,7 +160,7 @@ object LocaleUtils {
     }
 
     private fun getDateFormat(hicri: Boolean): String {
-        return if (hicri) Preferences.HIJRI_DATE_FORMAT.get() else Preferences.DATE_FORMAT.get()
+        return if (hicri) Preferences.HIJRI_DATE_FORMAT else Preferences.DATE_FORMAT
     }
 
     @JvmStatic
@@ -211,22 +210,22 @@ object LocaleUtils {
     }
 
     @JvmStatic
-    fun formatNumber(str: String): String {
-        var str = str
-        if (Preferences.DIGITS.get() == "normal") return str
+    fun formatNumber(number: String): String {
+        var str = number
+        if (Preferences.DIGITS == "normal") return str
         val arabicChars = charArrayOf('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩')
-        if (Preferences.DIGITS.get() == "farsi") {
+        if (Preferences.DIGITS == "farsi") {
             arabicChars[4] = '۴'
             arabicChars[5] = '۵'
             arabicChars[6] = '۶'
         }
         str = str.replace("AM", "ص").replace("PM", "م")
         val builder = StringBuilder()
-        for (i in 0 until str.length) {
-            if (Character.isDigit(str[i])) {
-                builder.append(arabicChars[str[i].code - 48])
+        str.forEach { char ->
+            if (char in '0' until '9') {
+                builder.append(arabicChars[char.code - 48])
             } else {
-                builder.append(str[i])
+                builder.append(char)
             }
         }
         return builder.toString()
@@ -287,10 +286,15 @@ object LocaleUtils {
         val d = Duration.between(from, to)
         return formatNumber(
             if (showSecs) {
-                String.format("%02d:%02d:%02d", d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart())
+                String.format(
+                    "%02d:%02d:%02d",
+                    d.toHoursPart(),
+                    d.toMinutesPart(),
+                    d.toSecondsPart()
+                )
             } else {
                 val duration =
-                    if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_FLOOR) d
+                    if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_FLOOR) d
                     else d.plusSeconds(59)
                 String.format("%02d:%02d", duration.toHoursPart(), duration.toMinutesPart())
             }

@@ -22,15 +22,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.SystemClock
-import android.text.Html
 import android.text.Spannable
 import android.text.style.StyleSpan
 import android.util.Pair
 import android.util.TypedValue
+import android.view.View
 import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.text.toSpannable
 import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.receiver.InternalBroadcastReceiver
@@ -45,107 +47,44 @@ import java.time.*
 
 class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickListener,
     OnPrefsChangedListener {
+    private val textColor get() = Preferences.ONGOING_TEXT_COLOR.takeIf { it != 0 }
+    private val bgColor get() = Preferences.ONGOING_BG_COLOR.takeIf { it != 0 }
+    private val icon get() = Preferences.SHOW_ONGOING_ICON
+    private val number get() = Preferences.SHOW_ONGOING_NUMBER
+
     override fun onTimeTick() {
-        val textColor = Preferences.ONGOING_TEXT_COLOR.get()
-        val bgColor = Preferences.ONGOING_BG_COLOR.get()
+
         val notMan = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val cal = LocalDate.now()
+
         val notifications: MutableList<Pair<Int, Notification>> = ArrayList()
         for (t in Times.current) {
             if (!t.ongoing) {
                 notMan.cancel(t.id)
                 continue
             }
-            val icon = Preferences.SHOW_ONGOING_ICON.get()
-            val number = Preferences.SHOW_ONGOING_NUMBER.get()
             setCustomKey("showIcon", icon)
             setCustomKey("showNumber", number)
-            val views = RemoteViews(context.packageName, R.layout.notification_layout)
-            if (Build.MANUFACTURER.lowercase().contains("xiaomi")) {
-                views.setViewPadding(R.id.notification, 0, 0, 0, 0)
-            }
-            if (bgColor != 0) {
-                views.setInt(R.id.notification, "setBackgroundColor", bgColor)
-            }
-            views.setTextViewText(android.R.id.title, t.name)
-            if (textColor != 0) views.setTextColor(android.R.id.title, textColor)
-            val timeIds =
-                intArrayOf(R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5)
-            val vakitIds =
-                intArrayOf(R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa)
-            var marker = t.getCurrentTime()
-            if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") {
-                marker += 1
-            }
-            for (vakit in Vakit.values()) {
-                val time = t.getTime(cal, vakit.ordinal).toLocalTime()
-                if (marker == vakit.ordinal) {
-                    views.setTextViewText(
-                        vakitIds[vakit.ordinal],
-                        Html.fromHtml("<strong>" + vakit.string + "</strong>")
-                    )
-                    if (Preferences.CLOCK_12H.get()) {
-                        val span = LocaleUtils.formatTimeForHTML(time) as Spannable
-                        span.setSpan(
-                            StyleSpan(Typeface.BOLD),
-                            0,
-                            span.length,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        views.setTextViewText(timeIds[vakit.ordinal], span)
-                    } else {
-                        views.setTextViewText(
-                            timeIds[vakit.ordinal],
-                            Html.fromHtml("<strong>" + LocaleUtils.formatTimeForHTML(time) + "</strong>")
-                        )
-                    }
-                } else {
-                    views.setTextViewText(vakitIds[vakit.ordinal], vakit.string)
-                    views.setTextViewText(
-                        timeIds[vakit.ordinal],
-                        LocaleUtils.formatTimeForHTML(time)
-                    )
-                }
-                if (textColor != 0) {
-                    views.setTextColor(timeIds[vakit.ordinal], textColor)
-                    views.setTextColor(vakitIds[vakit.ordinal], textColor)
-                }
-            }
-            val nextTime =
-                t.getTime(cal, t.getNextTime()).atZone(ZoneId.systemDefault()).toInstant()
-            if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
-                views.setChronometer(
-                    R.id.countdown,
-                    nextTime.toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                    null,
-                    true
-                )
-            } else {
-                val txt = LocaleUtils.formatPeriod(Instant.now(), nextTime, false)
-                views.setString(R.id.countdown, "setFormat", txt)
-                views.setChronometer(R.id.countdown, 0, txt, false)
-            }
-            if (textColor != 0) {
-                views.setTextColor(R.id.countdown, textColor)
-            }
-            val builder = Notification.Builder(context)
+
+
+            val channelId = NotificationUtils.getOngoingChannel(context)
+            val builder = NotificationCompat.Builder(context, channelId)
             builder.setContentIntent(getPendingIntent(t))
             if (!icon) {
                 builder.setSmallIcon(R.drawable.ic_placeholder)
             } else if (number) {
-                builder.setSmallIcon(Icon.createWithBitmap(getIconFromMinutes(t)))
+                builder.setSmallIcon(IconCompat.createWithBitmap(getIconFromMinutes(t)))
             } else {
                 builder.setSmallIcon(R.drawable.ic_abicon)
             }
             builder.setOngoing(true)
             builder.setWhen(if (icon) System.currentTimeMillis() else 0)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                builder.setCustomContentView(views)
+                builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                builder.setCustomContentView(buildSmallRemoteView(t))
+                builder.setCustomBigContentView(buildLargeRemoteView(t))
+                builder.setShowWhen(false)
             } else {
-                builder.setContent(views)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                builder.setChannelId(NotificationUtils.getOngoingChannel(context))
+                builder.setContent(buildLargeRemoteView(t))
             }
             val noti = builder.build()
             noti.priority = Notification.PRIORITY_LOW
@@ -170,8 +109,99 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
         }
     }
 
+
+    fun RemoteViews.initCommon(t: Times) = let { views ->
+
+        val today = LocalDate.now()
+
+        bgColor?.let { views.setInt(R.id.notification, "setBackgroundColor", it) }
+
+        // Title
+        views.setTextViewText(android.R.id.title, t.name)
+        textColor?.let { views.setTextColor(android.R.id.title, it) }
+
+        // Countdown
+        val nextTime = t.getTime(today, t.getNextTime()).atZone(ZoneId.systemDefault()).toInstant()
+        if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
+            views.setChronometer(
+                R.id.countdown,
+                nextTime.toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                null,
+                true
+            )
+        } else {
+            val txt = LocaleUtils.formatPeriod(Instant.now(), nextTime, false)
+            views.setString(R.id.countdown, "setFormat", txt)
+            views.setChronometer(R.id.countdown, 0, txt, false)
+        }
+        textColor?.let { views.setTextColor(R.id.countdown, it) }
+
+    }
+
+    private fun buildLargeRemoteView(t: Times): RemoteViews {
+        val today = LocalDate.now()
+
+
+        val nameIds = listOf(R.id.fajr, R.id.sun, R.id.zuhr, R.id.asr, R.id.maghrib, R.id.ishaa)
+        val timeIds = listOf(R.id.time0, R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5)
+
+
+        val views = RemoteViews(context.packageName, R.layout.notification_layout_large)
+        views.initCommon(t)
+
+        // Times
+        val marker = t.getCurrentTime()
+            .let { if (Preferences.VAKIT_INDICATOR_TYPE == "next") it + 1 else it }
+        for (vakit in Vakit.values()) {
+            val time = t.getTime(today, vakit.ordinal).toLocalTime()
+
+            fun Spannable.strongIfCurrent() = apply {
+                if (marker == vakit.ordinal) {
+                    setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        0,
+                        length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+
+            val timeString = LocaleUtils.formatTimeForHTML(time).toSpannable().strongIfCurrent()
+            views.setTextViewText(timeIds[vakit.ordinal], timeString)
+
+            val nameString = vakit.string.toSpannable().strongIfCurrent()
+            views.setTextViewText(nameIds[vakit.ordinal], nameString)
+
+            textColor?.let {
+                views.setTextColor(timeIds[vakit.ordinal], it)
+                views.setTextColor(nameIds[vakit.ordinal], it)
+            }
+        }
+
+
+
+
+        return views
+    }
+
+
+    private fun buildSmallRemoteView(t: Times): RemoteViews {
+        val views = RemoteViews(context.packageName, R.layout.notification_layout_small)
+        views.initCommon(t)
+
+        // Times
+        views.setViewVisibility(R.id.times, View.GONE)
+        views.setTextViewText(
+            R.id.countdownprefix,
+            Vakit.getByIndex(t.getCurrentTime()).string + " | "
+        )
+        return views
+    }
+
     private fun getIconFromMinutes(t: Times): Bitmap {
-        val left = Duration.between(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime())).toMinutes()
+        val left =
+            Duration.between(LocalDateTime.now(), t.getTime(LocalDate.now(), t.getNextTime()))
+                .toMinutes()
         val r = context.resources
         val size =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, r.displayMetrics).toInt()
@@ -189,7 +219,11 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
     }
 
     override fun onPrefsChanged(key: String) {
-        if (key == Preferences.SHOW_ONGOING_ICON.key || key == Preferences.SHOW_ONGOING_NUMBER.key || key == Preferences.ONGOING_TEXT_COLOR.key || key == Preferences.ONGOING_BG_COLOR.key) {
+        if (key == "ongoingIcon" ||
+            key == "ongoingNumber" ||
+            key == "ongoingTextColor"
+            || key == "ongoingBGColor"
+        ) {
             onTimeTick()
         }
     }

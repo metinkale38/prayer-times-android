@@ -13,59 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.intro
 
-package com.metinkale.prayer.intro;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.utils.LocaleUtils;
-
-import java.util.List;
+import android.os.Bundle
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.core.content.ContextCompat
+import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.utils.LocaleUtils.getSupportedLanguages
 
 /**
  * Created by metin on 25.07.17.
  */
-
-public class LanguageFragment extends IntroFragment implements CompoundButton.OnCheckedChangeListener {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro_language, container, false);
-        RadioGroup radioGroup = v.findViewById(R.id.radioGroup);
-
-        List<LocaleUtils.Translation> langs = LocaleUtils.getSupportedLanguages(getActivity());
-        String currentLang = Preferences.LANGUAGE.get();
-        int pos = 0;
-        for (int i = 0; i < langs.size(); i++) {
-            LocaleUtils.Translation lang = langs.get(i);
-            if (lang.getLanguage().equals(currentLang))
-                pos = i + 1;
-            RadioButton button = new RadioButton(getContext());
-            button.setTag(lang.getLanguage());
-            button.setText(lang.getDisplayText());
-            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
-            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            int padding = (int) (button.getTextSize() / 2);
-            button.setPadding(padding, padding, padding, padding);
-            button.setOnCheckedChangeListener(this);
-            radioGroup.addView(button);
+class LanguageFragment : IntroFragment(), CompoundButton.OnCheckedChangeListener {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v = inflater.inflate(R.layout.intro_language, container, false)
+        val radioGroup = v.findViewById<RadioGroup>(R.id.radioGroup)
+        val langs = getSupportedLanguages(
+            requireActivity()
+        )
+        val currentLang: String = Preferences.LANGUAGE
+        var pos = 0
+        for (i in langs.indices) {
+            val lang = langs[i]
+            if (lang.language == currentLang) pos = i + 1
+            val button = RadioButton(context)
+            button.tag = lang.language
+            button.text = lang.displayText
+            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            val padding = (button.textSize / 2).toInt()
+            button.setPadding(padding, padding, padding, padding)
+            button.setOnCheckedChangeListener(this)
+            radioGroup.addView(button)
         }
-        if (pos != 0)
-            ((RadioButton) radioGroup.getChildAt(pos)).setChecked(true);
-        return v;
+        if (pos != 0) (radioGroup.getChildAt(pos) as RadioButton).isChecked = true
+        return v
     }
 
     /*
@@ -73,43 +65,25 @@ public class LanguageFragment extends IntroFragment implements CompoundButton.On
                         .putCustomAttribute("lang", lang)
                 );
      */
-    @Override
-    protected void onSelect() {
-
+    override fun onSelect() {}
+    override fun onEnter() {}
+    override fun onExit() {}
+    override fun allowTouch(): Boolean {
+        return true
     }
 
-    @Override
-    protected void onEnter() {
-
+    override fun shouldShow(): Boolean {
+        return Preferences.SHOW_INTRO
     }
 
-    @Override
-    protected void onExit() {
-
-    }
-
-    @Override
-    public boolean allowTouch() {
-        return true;
-    }
-
-    @Override
-    protected boolean shouldShow() {
-        return Preferences.SHOW_INTRO.get();
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (!b)
-            return;
-        String newlang = (String) compoundButton.getTag();
-        if (Preferences.LANGUAGE.get().equals(newlang))
-            return;
-        Preferences.LANGUAGE.set(newlang);
-
-        getActivity().overridePendingTransition(0, 0);
-        startActivity(getActivity().getIntent());
-        getActivity().overridePendingTransition(0, 0);
-        getActivity().finish();
+    override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
+        if (!b) return
+        val newlang = compoundButton.tag as String
+        if (Preferences.LANGUAGE.equals(newlang)) return
+        Preferences.LANGUAGE = newlang
+        requireActivity().overridePendingTransition(0, 0)
+        startActivity(requireActivity().intent)
+        requireActivity().overridePendingTransition(0, 0)
+        requireActivity().finish()
     }
 }

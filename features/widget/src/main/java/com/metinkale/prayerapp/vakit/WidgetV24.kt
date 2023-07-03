@@ -83,7 +83,7 @@ internal object WidgetV24 {
         val current = times.getCurrentTime()
         val next = current + 1
         var indicator = current
-        if ("next" == Preferences.VAKIT_INDICATOR_TYPE.get()) indicator = indicator + 1
+        if ("next" == Preferences.VAKIT_INDICATOR_TYPE) indicator = indicator + 1
         val idsText = intArrayOf(
             R.id.fajrText,
             R.id.sunText,
@@ -102,10 +102,10 @@ internal object WidgetV24 {
             remoteViews.setTextColor(ids[i], theme.textcolor)
             var name = Vakit.getByIndex(i).string
             var time = LocaleUtils.formatTime(daytimes[i].toLocalTime())
-            if (Preferences.CLOCK_12H.get()) {
+            if (Preferences.CLOCK_12H) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>"
             }
-            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 if (v.ordinal == indicator) {
                     name = "<b><i>$name</i></b>"
                     time = "<b><i>$time</i></b>"
@@ -125,7 +125,7 @@ internal object WidgetV24 {
             remoteViews.setTextViewText(ids[i], Html.fromHtml(if (!rtl) time else name))
             remoteViews.setViewPadding(
                 idsText[i],
-                ((if (Preferences.CLOCK_12H.get()) 1.25 else 1.75) * scale).toInt(),
+                ((if (Preferences.CLOCK_12H) 1.25 else 1.75) * scale).toInt(),
                 0,
                 scale.toInt() / 4,
                 0
@@ -134,7 +134,7 @@ internal object WidgetV24 {
                 ids[i],
                 0,
                 0,
-                ((if (Preferences.CLOCK_12H.get()) 1.25 else 1.75) * scale).toInt(),
+                ((if (Preferences.CLOCK_12H) 1.25 else 1.75) * scale).toInt(),
                 0
             )
         }
@@ -147,7 +147,7 @@ internal object WidgetV24 {
             scale.toInt() / 2,
             scale.toInt() / 4
         )
-        if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
@@ -207,17 +207,17 @@ internal object WidgetV24 {
             }
         }
         var indicator = current
-        if ("next" == Preferences.VAKIT_INDICATOR_TYPE.get()) indicator += 1
+        if ("next" == Preferences.VAKIT_INDICATOR_TYPE) indicator += 1
         for (v in Vakit.values()) {
             val i = v.ordinal
             remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f)
             remoteViews.setTextColor(ids[i], theme.textcolor)
             var name = Vakit.getByIndex(i).string
             var time = LocaleUtils.formatTime(daytimes[i].toLocalTime())
-            if (Preferences.CLOCK_12H.get()) {
+            if (Preferences.CLOCK_12H) {
                 time = time.replace(" ", "<sup><small>") + "</small></sup>"
             }
-            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 if (v.ordinal == indicator) {
                     name = "<b><i>$name</i></b>"
                     time = "<b><i>$time</i></b>"
@@ -251,7 +251,7 @@ internal object WidgetV24 {
             scale.toInt() / 2,
             scale.toInt() / 16
         )
-        if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
@@ -290,7 +290,7 @@ internal object WidgetV24 {
         val next = times.getNextTime()
         val name = times.name
         remoteViews.setOnClickPendingIntent(R.id.widget_layout, getPendingIntent(times))
-        if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
@@ -390,8 +390,8 @@ internal object WidgetV24 {
         remoteViews.setOnClickPendingIntent(R.id.nextText, pendingIntent)
         remoteViews.setOnClickPendingIntent(R.id.countdown, pendingIntent)
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0)
-        if (Preferences.DIGITS.get() == "normal") {
-            if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.DIGITS == "normal") {
+            if (Preferences.CLOCK_12H) {
                 val cal = Calendar.getInstance()
                 var ampm = "AM"
                 if (cal[Calendar.AM_PM] == Calendar.PM) {
@@ -452,7 +452,7 @@ internal object WidgetV24 {
         remoteViews.setTextViewTextSize(R.id.lastText, TypedValue.COMPLEX_UNIT_PX, height / 9f)
         remoteViews.setTextViewTextSize(R.id.nextText, TypedValue.COMPLEX_UNIT_PX, height / 9f)
         remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, height / 5f)
-        if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
@@ -553,7 +553,7 @@ internal object WidgetV24 {
         remoteViews.setImageViewBitmap(R.id.progressBg, bmp1)
         remoteViews.setImageViewBitmap(R.id.progress, bmp2)
         remoteViews.setViewPadding(R.id.padder, width, height, 0, 0)
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             val cal = Calendar.getInstance()
             var ampm = "AM"
             if (cal[Calendar.AM_PM] == Calendar.PM) {
@@ -579,7 +579,7 @@ internal object WidgetV24 {
             DateTimeFormatter.ofPattern("d.MMM"))))
         val wd = date.format(DateTimeFormatter.ofPattern("EEEE"))
         remoteViews.setTextViewText(R.id.weekDay, wd)
-        if (Preferences.COUNTDOWN_TYPE.get() == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)

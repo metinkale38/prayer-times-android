@@ -60,7 +60,7 @@ internal object WidgetLegacy {
         val remoteViews = RemoteViews(context.packageName, R.layout.vakit_widget)
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(now, times.getTime(today, next), false)
-        if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
         val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_4444)
         val canvas = Canvas(bmp)
@@ -127,7 +127,7 @@ internal object WidgetLegacy {
         val date = dateTime.toLocalDate()
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(LocalDateTime.now(), times.getTime(date, next))
-        if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
         val canvas = Canvas(bmp)
@@ -143,7 +143,7 @@ internal object WidgetLegacy {
         paint.isAntiAlias = true
         paint.isSubpixelText = true
         paint.color = theme.hovercolor
-        if (next != Vakit.FAJR.ordinal && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get() && next <= Vakit.ISHAA.ordinal) {
+        if (next != Vakit.FAJR.ordinal && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT && next <= Vakit.ISHAA.ordinal) {
             canvas.drawRect(w * (next - 1) / 6f, h * 3 / 9f, w * next / 6f, h.toFloat(), paint)
         }
         val s = paint.strokeWidth
@@ -161,7 +161,7 @@ internal object WidgetLegacy {
         paint.textSize = h / 5f
         paint.textAlign = Paint.Align.CENTER
         var y = h * 6 / 7
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             y += h / 14
         }
         var fits = true
@@ -178,19 +178,19 @@ internal object WidgetLegacy {
         } while (!fits)
         for (v in Vakit.values()) {
             val i = v.ordinal
-            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
             }
             canvas.drawText(v.string, w * (1 + 2 * i) / 12f, y.toFloat(), paint)
-            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
             }
         }
         paint.textSize = h * 2 / 9f
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             for (v in Vakit.values()) {
                 val i = v.ordinal
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
                 }
                 var time = LocaleUtils.formatTime(times.getTime(date, v.ordinal).toLocalTime())
@@ -200,14 +200,14 @@ internal object WidgetLegacy {
                 canvas.drawText(time, w * (1 + 2 * i) / 12f, h * 6 / 10f, paint)
                 paint.textSize = h / 9f
                 canvas.drawText(suffix, w * (1 + 2 * i) / 12f, h * 7 / 10f, paint)
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
                 }
             }
         } else {
             for (v in Vakit.values()) {
                 val i = v.ordinal
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
                 }
                 canvas.drawText(
@@ -215,7 +215,7 @@ internal object WidgetLegacy {
                         times.getTime(date, v.ordinal).toLocalTime()
                     ), w * (1 + 2 * i) / 12f, h * 3 / 5f, paint
                 )
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
                 }
             }
@@ -252,7 +252,7 @@ internal object WidgetLegacy {
         val date = LocalDate.now()
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(LocalDateTime.now(), times.getTime(date, next))
-        if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
         val canvas = Canvas(bmp)
@@ -273,7 +273,7 @@ internal object WidgetLegacy {
         paint.textAlign = Paint.Align.CENTER
         canvas.drawText(times.name, w / 2f, (l * 1.8).toInt().toFloat(), paint)
         paint.textSize = (l * 8 / 10).toInt().toFloat()
-        if (next != Vakit.FAJR.ordinal && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get() && next <= Vakit.ISHAA.ordinal) {
+        if (next != Vakit.FAJR.ordinal && !Preferences.SHOW_ALT_WIDGET_HIGHLIGHT && next <= Vakit.ISHAA.ordinal) {
             paint.color = theme.hovercolor
             canvas.drawRect(
                 0f,
@@ -287,19 +287,19 @@ internal object WidgetLegacy {
         paint.textAlign = Paint.Align.LEFT
         for (v in Vakit.values()) {
             val i = v.ordinal
-            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
             }
             canvas.drawText(v.string, w / 6f, (l * (3.2 + v.ordinal)).toInt().toFloat(), paint)
-            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+            if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                 paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
             }
         }
         paint.textAlign = Paint.Align.RIGHT
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             for (v in Vakit.values()) {
                 val i = v.ordinal
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
                 }
                 var time = LocaleUtils.formatTime(times.getTime(date, v.ordinal).toLocalTime())
@@ -319,14 +319,14 @@ internal object WidgetLegacy {
                     (l * 3 + i * l).toInt().toFloat(),
                     paint
                 )
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
                 }
             }
         } else {
             for (v in Vakit.values()) {
                 val i = v.ordinal
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
                 }
                 canvas.drawText(
@@ -334,7 +334,7 @@ internal object WidgetLegacy {
                         times.getTime(date, v.ordinal).toLocalTime()
                     ), w * 5 / 6f, (l * 3.2 + i * l).toInt().toFloat(), paint
                 )
-                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT.get()) {
+                if (i == next - 1 && Preferences.SHOW_ALT_WIDGET_HIGHLIGHT) {
                     paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
                 }
             }
@@ -455,7 +455,7 @@ internal object WidgetLegacy {
         paint.color = Color.WHITE
         val ltime = LocalTime.now()
         paint.textSize = h * 0.55f
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             var time = LocaleUtils.formatTime(ltime)
             val suffix = time.substring(time.indexOf(" ") + 1)
             time = time.substring(0, time.indexOf(" "))
@@ -498,7 +498,7 @@ internal object WidgetLegacy {
         paint.color = Color.WHITE
         paint.textSize = h * 0.2f
         paint.textAlign = Paint.Align.LEFT
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             var l = LocaleUtils.formatTime(times.getTime(LocalDate.now(), last).toLocalTime())
             val s = l.substring(l.indexOf(" ") + 1)
             l = l.substring(0, l.indexOf(" "))
@@ -517,7 +517,7 @@ internal object WidgetLegacy {
         paint.color = Color.WHITE
         paint.textSize = h * 0.2f
         paint.textAlign = Paint.Align.RIGHT
-        if (Preferences.CLOCK_12H.get()) {
+        if (Preferences.CLOCK_12H) {
             var l = LocaleUtils.formatTime(times.getTime(LocalDate.now(), next).toLocalTime())
             val s = l.substring(l.indexOf(" ") + 1)
             l = l.substring(0, l.indexOf(" "))
@@ -617,7 +617,7 @@ internal object WidgetLegacy {
         }
         val next = times.getNextTime()
         var indicator = next - 1
-        if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") indicator = indicator + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") indicator = indicator + 1
         canvas.drawArc(
             RectF(w / 100f, w / 100f, w - w / 100f, h - w / 100f),
             -90f,

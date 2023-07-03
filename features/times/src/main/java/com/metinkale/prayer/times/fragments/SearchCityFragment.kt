@@ -230,6 +230,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
             location!!.latitude,
             location!!.longitude
         )
+        autoLocation.isChecked = true
     }
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}

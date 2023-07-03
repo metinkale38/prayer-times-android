@@ -128,6 +128,6 @@ class ConfigIntroFragment : IntroFragment() {
     }
 
     override fun shouldShow(): Boolean {
-        return Preferences.SHOW_INTRO.get()
+        return Preferences.SHOW_INTRO
     }
 }

@@ -22,7 +22,6 @@ import android.content.Context
 import android.os.Bundle
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.utils.LocaleUtils
-import com.metinkale.prayerapp.vakit.WidgetProviderSilenter
 
 class WidgetProviderSilenter : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
@@ -54,7 +53,7 @@ class WidgetProviderSilenter : AppWidgetProvider() {
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
             LocaleUtils.init(context)
-            if (!Preferences.SHOW_LEGACY_WIDGET.get()) WidgetV24.updateSilenter(
+            if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.updateSilenter(
                 context,
                 appWidgetManager,
                 widgetId

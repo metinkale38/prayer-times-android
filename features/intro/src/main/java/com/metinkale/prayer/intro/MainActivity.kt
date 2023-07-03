@@ -225,15 +225,15 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
             if (pos < adapter.count - 1) mPager.setCurrentItem(pos + 1, true) else {
                 Times.clearTemporaryTimes()
                 finish()
-                Preferences.CHANGELOG_VERSION.set(BuildConfig.CHANGELOG_VERSION)
-                Preferences.SHOW_INTRO.set(false)
+                Preferences.CHANGELOG_VERSION = BuildConfig.CHANGELOG_VERSION
+                Preferences.SHOW_INTRO = false
                 val bdl = Bundle()
-                if (Times.current.size == 0) {
+                if (Times.current.isEmpty()) {
                     bdl.putBoolean("openCitySearch", true)
                 }
                 Module.TIMES.launch(this, bdl)
                 var appName = "appName"
-                val lang = Preferences.LANGUAGE.get()
+                val lang = Preferences.LANGUAGE
                 if (!lang.isEmpty() && lang != "system") {
                     appName += lang[0].uppercaseChar().toString() + lang.substring(1)
                 }
@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
                 intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent)
                 intent.putExtra(
                     Intent.EXTRA_SHORTCUT_NAME,
-                    getString(getStringResId(appName, string.appName))
+                    getString(getStringResId(appName, R.string.appName))
                 )
                 intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon)
                 intent.action = "com.android.launcher.action.INSTALL_SHORTCUT"
@@ -257,7 +257,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
 
     private fun getStringResId(resName: String, def: Int): Int {
         return try {
-            val f = string::class.java.getDeclaredField(resName)
+            val f = String::class.java.getDeclaredField(resName)
             f.getInt(null)
         } catch (e: IllegalAccessException) {
             def

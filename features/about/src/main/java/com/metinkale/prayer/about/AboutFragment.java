@@ -96,8 +96,8 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
         } else if (i == R.id.share) {
             share(getActivity());
         } else if (i == R.id.showIntro) {
-            Preferences.SHOW_INTRO.set(true);
-            Preferences.CHANGELOG_VERSION.set(0);
+            Preferences.INSTANCE.setSHOW_INTRO(true);
+            Preferences.INSTANCE.setCHANGELOG_VERSION(0);
             Module.INTRO.launch(getActivity());
         }
     }
@@ -114,11 +114,7 @@ public class AboutFragment extends BaseActivity.MainFragment implements View.OnC
 
 
     public static void libLicences(@NonNull Context ctx) {
-        new LibsBuilder()
-                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                .withActivityTitle(ctx.getString(R.string.library_licenses))
-                .withLibraries()
-                .start(ctx);
+        new LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).withActivityTitle(ctx.getString(R.string.library_licenses)).withLibraries().start(ctx);
     }
 
 

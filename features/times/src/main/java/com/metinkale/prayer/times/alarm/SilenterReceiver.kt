@@ -13,7 +13,6 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.times.R
-import com.metinkale.prayer.times.alarm.SilenterReceiver
 import com.metinkale.prayer.times.utils.NotificationUtils
 import com.metinkale.prayer.utils.PermissionUtils
 
@@ -55,7 +54,7 @@ class SilenterReceiver : BroadcastReceiver() {
             }
             val aum = c.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             val ringermode = aum.ringerMode
-            val modeVibrate = "vibrate" == Preferences.SILENTER_MODE.get()
+            val modeVibrate = "vibrate" == Preferences.SILENTER_MODE
             val isSilent = ringermode == AudioManager.RINGER_MODE_SILENT
             val isVibrate = ringermode == AudioManager.RINGER_MODE_VIBRATE
             if (modeVibrate && !isVibrate && !isSilent || !modeVibrate && !isSilent) {

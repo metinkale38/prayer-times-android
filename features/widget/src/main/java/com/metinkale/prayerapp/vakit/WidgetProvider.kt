@@ -23,7 +23,6 @@ import android.os.Bundle
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.utils.LocaleUtils
-import com.metinkale.prayerapp.vakit.WidgetProvider
 
 class WidgetProvider : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
@@ -54,7 +53,7 @@ class WidgetProvider : AppWidgetProvider() {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
             ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY)
             LocaleUtils.init(context)
-            if (!Preferences.SHOW_LEGACY_WIDGET.get()) WidgetV24.update2x2(
+            if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.update2x2(
                 context,
                 appWidgetManager,
                 widgetId

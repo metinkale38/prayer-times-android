@@ -54,7 +54,7 @@ class CityFragment : Fragment() {
 
         CityFragmentViewModel.from(times.data.filterNotNull()).asLiveData()
             .observe(viewLifecycleOwner) {
-                val arabic = Preferences.USE_ARABIC.get()
+                val arabic = Preferences.USE_ARABIC
 
                 v.findViewById<TextView>(R.id.date).text = it.date
                 v.findViewById<TextView>(R.id.city).text = it.city

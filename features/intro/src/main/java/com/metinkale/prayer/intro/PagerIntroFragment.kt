@@ -13,119 +13,93 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.intro
 
-package com.metinkale.prayer.intro;
-
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Scroller;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.times.fragments.TimesFragment;
-
-
-import java.lang.reflect.Field;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Interpolator
+import android.widget.Scroller
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.times.fragments.TimesFragment
 
 /**
  * Created by metin on 17.07.2017.
  */
-
-public class PagerIntroFragment extends IntroFragment {
-
-    private ViewPager mPager;
-    private View mView;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.intro_pager, container, false);
-
-
-        Toolbar toolbar = mView.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.appName);
-        toolbar.setNavigationIcon(R.drawable.ic_action_menu);
-
-
-        return mView;
+class PagerIntroFragment : IntroFragment() {
+    private var mPager: ViewPager? = null
+    private var mView: View? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mView = inflater.inflate(R.layout.intro_pager, container, false)
+        val toolbar = mView!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setTitle(R.string.appName)
+        toolbar.setNavigationIcon(R.drawable.ic_action_menu)
+        return mView
     }
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Fragment frag = new TimesFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.basecontent, frag).commit();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val frag: Fragment = TimesFragment()
+        childFragmentManager.beginTransaction().replace(R.id.basecontent, frag).commit()
     }
 
-    private final Runnable mAction = new Runnable() {
-        @Override
-        public void run() {
+    private val mAction: Runnable = object : Runnable {
+        override fun run() {
             if (mPager == null) {
-                if (getView() == null) return;
-                mPager = getView().findViewById(R.id.pager);
-                if (mPager == null) return;
-                else {
-                    trySlowDownViewPager(mPager);
-
-
+                if (view == null) return
+                mPager = view!!.findViewById(R.id.pager)
+                if (mPager == null) return else {
+                    trySlowDownViewPager(mPager!!)
                 }
             }
-
-            int item = (mPager.getCurrentItem() + 1) % mPager.getAdapter().getCount();
-            mPager.setCurrentItem(item, true);
-            mPager.postDelayed(mAction, item == 0 ? 5000 : 2000);
-        }
-    };
-
-    private static void trySlowDownViewPager(ViewPager pager) {
-        try {
-            Field scroller = ViewPager.class.getDeclaredField("mScroller");
-            scroller.setAccessible(true);
-            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
-            interpolator.setAccessible(true);
-
-            scroller.set(pager, new Scroller(pager.getContext(), (android.view.animation.Interpolator) interpolator.get(pager)) {
-                @Override
-                public void startScroll(int startX, int startY, int dx, int dy,
-                                        int duration) {
-                    super.startScroll(startX, startY, dx, dy, duration * 10);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            //ignore
+            val item = (mPager!!.currentItem + 1) % mPager!!.adapter!!.count
+            mPager!!.setCurrentItem(item, true)
+            mPager!!.postDelayed(this, if (item == 0) 5000 else 2000.toLong())
         }
     }
 
-    @Override
-    protected void onSelect() {
+    override fun onSelect() {
         if (mView != null) {
-            mView.removeCallbacks(mAction);
-            mView.postDelayed(mAction, 500);
+            mView!!.removeCallbacks(mAction)
+            mView!!.postDelayed(mAction, 500)
         }
     }
 
-    @Override
-    protected void onEnter() {
+    override fun onEnter() {}
+    override fun onExit() {
+        if (mView != null) mView!!.removeCallbacks(mAction)
     }
 
-    @Override
-    protected void onExit() {
-        if (mView != null)
-            mView.removeCallbacks(mAction);
+    override fun shouldShow() = Preferences.SHOW_INTRO
 
-    }
-
-    @Override
-    protected boolean shouldShow() {
-        return Preferences.SHOW_INTRO.get();
+    companion object {
+        private fun trySlowDownViewPager(pager: ViewPager) {
+            try {
+                val scroller = ViewPager::class.java.getDeclaredField("mScroller")
+                scroller.isAccessible = true
+                val interpolator = ViewPager::class.java.getDeclaredField("sInterpolator")
+                interpolator.isAccessible = true
+                scroller[pager] =
+                    object : Scroller(pager.context, interpolator[pager] as Interpolator) {
+                        override fun startScroll(
+                            startX: Int, startY: Int, dx: Int, dy: Int,
+                            duration: Int
+                        ) {
+                            super.startScroll(startX, startY, dx, dy, duration * 10)
+                        }
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                //ignore
+            }
+        }
     }
 }

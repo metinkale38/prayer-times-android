@@ -83,13 +83,13 @@ class AlarmService : IntentService("AlarmService") {
             } else {
                 nm.notify(NOTIFICATION_TAG, notId, buildPlayingNotification(c, alarm, time))
             }
-            if (Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
+            if (Preferences.SHOW_NOTIFICATIONSCREEN) {
                 NotificationPopup.start(c, alarm)
                 Thread.sleep(1000)
             }
             try {
                 player.play()
-                if (Preferences.STOP_ALARM_ON_FACEDOWN.get()) {
+                if (Preferences.STOP_ALARM_ON_FACEDOWN) {
                     StopByFacedownMgr.start(this, player)
                 }
                 sInterrupt.set(false)
@@ -103,7 +103,7 @@ class AlarmService : IntentService("AlarmService") {
                 recordException(e)
             }
             nm.cancel(NOTIFICATION_TAG, notId)
-            if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN.get()) {
+            if (NotificationPopup.instance != null && Preferences.SHOW_NOTIFICATIONSCREEN) {
                 NotificationPopup.instance!!.finish()
             }
         }

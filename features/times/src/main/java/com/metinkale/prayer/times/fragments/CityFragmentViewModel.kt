@@ -72,7 +72,7 @@ data class CityFragmentViewModel(
                         true
                     ),
                     icon = it.source.drawableId ?: 0,
-                    hoverLine = it.getNextTime() + if (Preferences.VAKIT_INDICATOR_TYPE.get() == "next") 0 else -1,
+                    hoverLine = it.getNextTime() + if (Preferences.VAKIT_INDICATOR_TYPE == "next") 0 else -1,
                     autolocation = it.autoLocation,
                     isKerahat = it.isKerahat()
                 )
