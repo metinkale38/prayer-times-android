@@ -64,9 +64,9 @@ object Preferences {
 
     var VAKIT_INDICATOR_TYPE by StringPreference("vakit_indicator", "current")
     var SHOW_COMPASS_NOTE by BooleanPreference("showCompassNote", true)
-    var SHOW_ONGOING_ICON by BooleanPreference("ongoingIcon", false)
 
-    var SHOW_ONGOING_NUMBER by BooleanPreference("ongoingNumber", true)
+    var SHOW_ONGOING_ICON by BooleanPreference("ongoingIcon", true)
+    var SHOW_ONGOING_NUMBER by BooleanPreference("ongoingNumber", false)
     var SHOW_NOTIFICATIONSCREEN by BooleanPreference("notificationScreen", true)
     var SHOW_ALT_WIDGET_HIGHLIGHT by BooleanPreference("showAltWidgetHightlight", false)
 

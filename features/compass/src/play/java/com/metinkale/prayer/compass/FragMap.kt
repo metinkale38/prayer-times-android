@@ -13,183 +13,162 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.compass
 
-package com.metinkale.prayer.compass;
+import android.graphics.Color
+import android.location.Location
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.SupportMapFragment
+import com.metinkale.prayer.utils.PermissionUtils
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.location.LocationListener
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.maps.model.*
+import java.util.ArrayList
 
-import android.graphics.Color;
-import android.location.Location;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+class FragMap : Fragment(), OnMapReadyCallback, LocationListener,
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private var map: GoogleMap? = null
+    private var fab: FloatingActionButton? = null
+    private val qaabaPos = LatLng(21.42247, 39.826198)
+    private var line: Polyline? = null
+    private var googleApiClient: GoogleApiClient? = null
+    private var location: Location? = null
+    private var marker: Marker? = null
+    private var circle: Circle? = null
+    private var requestedLocation = false
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.metinkale.prayer.utils.PermissionUtils;
-
-import java.util.ArrayList;
-
-@SuppressWarnings("MissingPermission")
-public class FragMap extends Fragment
-        implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
-    private GoogleMap mMap;
-    private FloatingActionButton mFab;
-    private final LatLng mKaabePos = new LatLng(21.42247, 39.826198);
-    @Nullable
-    private Polyline mLine;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
-    @Nullable
-    private Marker mMarker;
-    @Nullable
-    private Circle mCircle;
-    private boolean mRequestedLocation;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.compass_map, container, false);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        mFab = v.findViewById(R.id.myLocationButton);
-
-        if (!PermissionUtils.get(getActivity()).pLocation) {
-            PermissionUtils.get(getActivity()).needLocation(getActivity());
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v = inflater.inflate(R.layout.compass_map, container, false)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
+        fab = v.findViewById(R.id.myLocationButton)
+        if (!PermissionUtils.get(requireActivity()).pLocation) {
+            PermissionUtils.get(requireActivity()).needLocation(requireActivity())
         }
-        return v;
+        return v
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
-            buildGoogleApiClient();
-            mGoogleApiClient.connect();
+    override fun onResume() {
+        super.onResume()
+        if (googleApiClient == null || !googleApiClient!!.isConnected) {
+            buildGoogleApiClient()
+            googleApiClient!!.connect()
         }
     }
 
-    @Override
-    public void onPause() {
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
+    override fun onPause() {
+        if (googleApiClient != null && googleApiClient!!.isConnected) {
+            googleApiClient!!.disconnect()
         }
-        if (mMarker != null)
-            mMarker.remove();
-        if (mCircle != null)
-            mCircle.remove();
-        if (mLine != null)
-            mLine.remove();
-        mMarker = null;
-        mCircle = null;
-        mLine = null;
-        super.onPause();
+        if (marker != null) marker!!.remove()
+        if (circle != null) circle!!.remove()
+        if (line != null) line!!.remove()
+        marker = null
+        circle = null
+        line = null
+        super.onPause()
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext()).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
+    @Synchronized
+    protected fun buildGoogleApiClient() {
+        googleApiClient = GoogleApiClient.Builder(requireContext()).addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .addApi(LocationServices.API).build()
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (mGoogleApiClient.isConnected() && PermissionUtils.get(getActivity()).pLocation) {
-            mRequestedLocation = true;
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+    override fun onConnected(bundle: Bundle?) {
+        val locationRequest = LocationRequest()
+        locationRequest.interval = 1000
+        locationRequest.fastestInterval = 1000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        if (googleApiClient!!.isConnected && PermissionUtils.get(requireActivity()).pLocation) {
+            requestedLocation = true
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                googleApiClient!!,
+                locationRequest,
+                this
+            )
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-
-    @SuppressWarnings("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setBuildingsEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        mMap.addMarker(new MarkerOptions().position(mKaabePos).anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_kaabe)));
-
-        mFab.setOnClickListener(view -> {
-            if (mLocation != null) {
-                if (!mRequestedLocation) onConnected(null); //start location updates
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
+    override fun onConnectionSuspended(i: Int) {}
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map!!.isBuildingsEnabled = true
+        map!!.mapType = GoogleMap.MAP_TYPE_HYBRID
+        map!!.addMarker(
+            MarkerOptions().position(qaabaPos).anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_kaabe))
+        )
+        fab!!.setOnClickListener { view: View? ->
+            if (location != null) {
+                if (!requestedLocation) onConnected(null) //start location updates
+                map!!.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            location!!.latitude,
+                            location!!.longitude
+                        ), 15f
+                    )
+                )
             }
-        });
-
-
+        }
     }
 
-
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        mLocation = location;
-        if (!isAdded() || isDetached() || mMap == null)
-            return;
-        LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-        if (mLine != null) {
-            ArrayList<LatLng> points = new ArrayList<>();
-            points.add(pos);
-            points.add(mKaabePos);
-            mLine.setPoints(points);
-            mMarker.setPosition(pos);
-            mCircle.setCenter(pos);
-            mCircle.setRadius(location.getAccuracy());
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(pos));
+    override fun onLocationChanged(location: Location) {
+        this.location = location
+        if (!isAdded || isDetached || map == null) return
+        val pos = LatLng(location.latitude, location.longitude)
+        if (line != null) {
+            val points = ArrayList<LatLng>()
+            points.add(pos)
+            points.add(qaabaPos)
+            line!!.points = points
+            marker!!.position = pos
+            circle!!.center = pos
+            circle!!.radius = location.accuracy.toDouble()
+            map!!.animateCamera(CameraUpdateFactory.newLatLng(pos))
         } else {
             //zoom first time
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-
-
-            mLine = mMap.addPolyline(
-                    new PolylineOptions().add(pos).add(mKaabePos).geodesic(true).color(Color.parseColor("#3bb2d0")).width(3).zIndex(1));
-
-            mMarker = mMap.addMarker(
-                    new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mylocation)).anchor(0.5f, 0.5f).position(pos)
-                            .zIndex(2));
-
-            mCircle = mMap.addCircle(
-                    new CircleOptions().center(pos).fillColor(0xAA4FC3F7).strokeColor(getResources().getColor(R.color.colorPrimary)).strokeWidth(2)
-                            .radius(mLocation.getAccuracy()));
+            map!!.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        location.latitude,
+                        location.longitude
+                    ), 15f
+                )
+            )
+            line = map!!.addPolyline(
+                PolylineOptions().add(pos).add(qaabaPos).geodesic(true)
+                    .color(Color.parseColor("#3bb2d0")).width(3f).zIndex(1f)
+            )
+            marker = map!!.addMarker(
+                MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mylocation))
+                    .anchor(0.5f, 0.5f).position(pos)
+                    .zIndex(2f)
+            )
+            circle = map!!.addCircle(
+                CircleOptions().center(pos).fillColor(-0x55b03c09)
+                    .strokeColor(resources.getColor(R.color.colorPrimary)).strokeWidth(2f)
+                    .radius(this.location!!.accuracy.toDouble())
+            )
         }
-
-
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {}
 }
-

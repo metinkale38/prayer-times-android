@@ -31,7 +31,8 @@
 
     <TextView
         android:id="@+id/countdownprefix"
-        style="@style/TextAppearance.Compat.Notification.Info"
+        style="@style/TextAppearance.Compat.Notification.Title"
+        android:fontFamily="normal"
         android:text="Asr | "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -39,7 +40,7 @@
     <Chronometer
         android:text="00:00"
         android:id="@+id/countdown"
-        style="@style/TextAppearance.Compat.Notification.Time"
+        style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:countDown="true" />

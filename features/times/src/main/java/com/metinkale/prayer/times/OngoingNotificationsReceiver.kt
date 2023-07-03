@@ -79,9 +79,9 @@ class OngoingNotificationsReceiver : InternalBroadcastReceiver(), OnTimeTickList
             builder.setOngoing(true)
             builder.setWhen(if (icon) System.currentTimeMillis() else 0)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                builder.setCustomContentView(buildSmallRemoteView(t))
-                builder.setCustomBigContentView(buildLargeRemoteView(t))
+                // builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                builder.setCustomContentView(buildLargeRemoteView(t))
+                // builder.setCustomBigContentView(buildLargeRemoteView(t))
                 builder.setShowWhen(false)
             } else {
                 builder.setContent(buildLargeRemoteView(t))

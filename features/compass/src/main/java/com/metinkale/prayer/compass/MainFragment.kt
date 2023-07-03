@@ -36,8 +36,8 @@ import com.metinkale.prayer.utils.PermissionUtils
 class MainFragment : BaseActivity.MainFragment(), LocationListener {
     private lateinit var refresh: MenuItem
     private lateinit var switch: MenuItem
-    private lateinit var mode: Mode
     private lateinit var selCity: TextView
+    private var mode: Mode? = null
 
     var location: Location? = null
         private set
@@ -73,7 +73,8 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
     override fun onResume() {
         super.onResume()
         if (PermissionUtils.get(requireActivity()).pLocation) {
-            val locMan = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locMan =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val providers = locMan.getProviders(true)
             for (provider in providers) {
                 locMan.requestLocationUpdates(provider!!, 0, 0f, this)
@@ -114,7 +115,7 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
                 }
             }
         } else if (switch === item) {
-            Preferences.SHOW_COMPASS_NOTE=false
+            Preferences.SHOW_COMPASS_NOTE = false
             // compass >> time >> map
             if (mode == Mode.Map) {
                 updateFrag(Mode.Compass)
@@ -160,7 +161,8 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
 
     override fun onLocationChanged(location: Location) {
         if (activity != null && System.currentTimeMillis() - location.time < (if (onlyNew) 1000 * 60 else 1000 * 60 * 60 * 24)) {
-            val locMan = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locMan =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locMan.removeUpdates(this)
         }
     }

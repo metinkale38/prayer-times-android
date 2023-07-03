@@ -19,8 +19,7 @@ package com.metinkale.prayer.compass;
 
 import androidx.fragment.app.Fragment;
 
-public class
-FragMap extends Fragment {
+public class FragMap extends Fragment {
 
 }
 

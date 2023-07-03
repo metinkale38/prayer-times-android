@@ -42,10 +42,11 @@ import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener {
-    override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings)
-        if (arguments != null && requireArguments().getBoolean("showKerahatDuration")) preferenceScreen =
-            findPreference("kerahatDuration") as PreferenceScreen else {
+        if (arguments != null && requireArguments().getBoolean("showKerahatDuration"))
+            preferenceScreen =
+                findPreference("kerahatDuration") as PreferenceScreen else {
             findPreference("numbers").onPreferenceChangeListener = this
             findPreference("backupRestore").onPreferenceClickListener = this
             findPreference("calendarIntegration").onPreferenceClickListener = this
