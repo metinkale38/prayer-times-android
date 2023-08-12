@@ -26,22 +26,50 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.times.R
+import com.metinkale.prayer.times.times.Times
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 
 /**
  * Created by Metin on 21.07.2015.
  */
 class SettingsFragment : Fragment() {
-    private val timesIdFlow = MutableStateFlow(-1)
-    var timesId: Int
-        get() = timesIdFlow.value
-        set(value) = timesIdFlow.update { value }
 
-    private val viewModel = SettingsFragmentViewModel(timesIdFlow)
 
+    private lateinit var viewModel: SettingsFragmentViewModel
+
+
+    @SuppressLint("WrongViewCast")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        bdl: Bundle?
+    ): View? {
+        val times = Times.getTimesById(requireArguments().getInt("city"))
+        viewModel = SettingsFragmentViewModel(times)
+
+        val v = inflater.inflate(R.layout.vakit_settings, container, false)
+        v.findViewById<EditText>(R.id.name).bind({ name }, { setName(it) })
+        v.findViewById<EditText>(R.id.timezonefix).bind({ tz }, { setTz(it) })
+
+        v.findViewById<ViewGroup>(R.id.tz).also {
+            it.findViewById<View>(R.id.plus).setOnClickListener { viewModel.plusTz() }
+            it.findViewById<View>(R.id.minus).setOnClickListener { viewModel.minusTz() }
+        }
+
+        val vg = v.findViewById<ViewGroup>(R.id.minAdj)
+        for (i in 0..5) {
+            vg.getChildAt(i + 1).also {
+                it.findViewById<EditText>(R.id.nr)
+                    .bind(
+                        { minuteAdj.map { it?.get(i)?.toString() ?: "0" } },
+                        { setMinAdj(i, it) })
+                it.findViewById<View>(R.id.plus).setOnClickListener { viewModel.plus(i) }
+                it.findViewById<View>(R.id.minus).setOnClickListener { viewModel.minus(i) }
+            }
+        }
+        return v
+    }
 
     private fun EditText.bind(
         get: SettingsFragmentViewModel.() -> Flow<String>,
@@ -58,31 +86,14 @@ class SettingsFragment : Fragment() {
         })
     }
 
-
-    @SuppressLint("WrongViewCast")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        bdl: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.vakit_settings, container, false)
-        v.findViewById<EditText>(R.id.name).bind({ name }, { setName(it) })
-        v.findViewById<EditText>(R.id.timezonefix).bind({ tz }, { setTz(it) })
-
-        v.findViewById<ViewGroup>(R.id.tz).also {
-            it.findViewById<View>(R.id.plus).setOnClickListener { viewModel.plusTz() }
-            it.findViewById<View>(R.id.minus).setOnClickListener { viewModel.minusTz() }
+    companion object {
+        @JvmStatic
+        fun create(cityId: Int): SettingsFragment {
+            val bdl = Bundle()
+            bdl.putInt("city", cityId)
+            val frag = SettingsFragment()
+            frag.arguments = bdl
+            return frag
         }
-
-        val vg = v.findViewById<ViewGroup>(R.id.minAdj)
-        for (i in 0..5) {
-            vg.getChildAt(i + 1).also {
-                it.findViewById<EditText>(R.id.nr)
-                    .bind({ minuteAdj.map { it?.get(i)?.toString() ?: "0" } }, { setMinAdj(i, it) })
-                it.findViewById<View>(R.id.plus).setOnClickListener { viewModel.plus(i) }
-                it.findViewById<View>(R.id.minus).setOnClickListener { viewModel.minus(i) }
-            }
-        }
-        return v
     }
 }

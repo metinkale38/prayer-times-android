@@ -96,33 +96,6 @@
         </FrameLayout>
     </com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer>
 
-    <com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer
-        android:id="@+id/topSlider"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/center"
-        android:layout_alignParentTop="true"
-        app:_orientation="top"
-        app:content="@+id/settingsContainer"
-        app:handle="@+id/handle">
-
-        <View
-            android:id="@+id/handle"
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:gravity="center" />
-
-        <FrameLayout
-            android:id="@id/settingsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:translationZ="2dp">
-
-
-        </FrameLayout>
-    </com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCity"

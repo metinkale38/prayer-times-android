@@ -21,6 +21,11 @@ class DayTimesWebProvider private constructor(val id: Int) :
 
     private val prefs: SharedPreferences = App.get().getSharedPreferences("times_$id", 0)
 
+    private val minAdj
+        get() = Times.getTimesById(id).current?.minuteAdj?.map { it.toLong() } ?: List(6) { 0L }
+    private val tzAdj
+        get() = Times.getTimesById(id).current?.timezone?.let { it * 60 }?.toLong() ?: 0
+
     private val keys = MutableStateFlow(prefs.all.keys)
     private var lastSync: Long = 0
     private var deleted: Boolean = false
@@ -50,6 +55,19 @@ class DayTimesWebProvider private constructor(val id: Int) :
     override fun get(key: LocalDate): DayTimes? =
         prefs.getString(key.toString(), null)
             ?.let { Json.decodeFromString(DayTimes.serializer(), it) }
+            ?.let {
+                it.copy(
+                    fajr = it.fajr.plusMinutes(minAdj[0] + tzAdj),
+                    sabah = it.sabah?.plusMinutes(minAdj[0] + tzAdj),
+                    sun = it.sun.plusMinutes(minAdj[1] + tzAdj),
+                    dhuhr = it.dhuhr.plusMinutes(minAdj[2] + tzAdj),
+                    asr = it.asr.plusMinutes(minAdj[3] + tzAdj),
+                    asrHanafi = it.asrHanafi?.plusMinutes(minAdj[3] + tzAdj),
+                    maghrib = it.maghrib.plusMinutes(minAdj[4] + tzAdj),
+                    ishaa = it.ishaa.plusMinutes(minAdj[5] + tzAdj),
+                )
+            }
+
 
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

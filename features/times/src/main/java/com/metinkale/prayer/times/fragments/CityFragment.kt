@@ -157,8 +157,8 @@ class CityFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val times = times.current ?: return super.onOptionsItemSelected(item)
-        val i1 = item.itemId
-        if (i1 == R.id.notification) {
+        val id = item.itemId
+        if (id == R.id.notification) {
             if (!PermissionUtils.get(requireContext()).pNotification) {
                 PermissionUtils.get(requireContext()).needPostNotification(requireActivity())
             } else {
@@ -175,12 +175,12 @@ class CityFragment : Fragment() {
                 }
             }
             //AppRatingDialog.addToOpenedMenus("notPrefs");
-        } else if (i1 == R.id.export) {
+        } else if (id == R.id.export) {
             (times.dayTimes as? DayTimesWebProvider)?.syncAsync()
             ExportController.export(requireContext(), times)
-        } else if (i1 == R.id.refresh) {
+        } else if (id == R.id.refresh) {
             (times.dayTimes as? DayTimesWebProvider)?.syncAsync()
-        } else if (i1 == R.id.share) {
+        } else if (id == R.id.share) {
             val txt = StringBuilder(getString(R.string.shareTimes, times.name) + ":")
             val date = LocalDate.now()
             for (v in Vakit.values()) {
@@ -198,6 +198,8 @@ class CityFragment : Fragment() {
                     resources.getString(R.string.share)
                 )
             )
+        }else if (id == R.id.settings){
+            (parentFragment as? TimesFragment)?.moveToFrag(SettingsFragment.create(times.id))
         }
         return super.onOptionsItemSelected(item)
     }

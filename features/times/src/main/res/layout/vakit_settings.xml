@@ -66,10 +66,9 @@
 
             <ImageView
                 android:id="@+id/minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:contentDescription="@null"
-
                 android:src="@drawable/ic_remove_circle"
                 app:tint="@color/background" />
 
@@ -85,8 +84,8 @@
 
             <ImageView
                 android:id="@+id/plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_circle_add"
                 app:tint="@color/background" />
@@ -121,8 +120,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
                     android:contentDescription="@null"
@@ -152,8 +151,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"
@@ -171,8 +170,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
                     android:contentDescription="@null"
@@ -202,8 +201,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"
@@ -221,8 +220,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
                     android:contentDescription="@null"
@@ -252,8 +251,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"
@@ -270,8 +269,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
                     android:contentDescription="@null"
@@ -301,8 +300,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"
@@ -320,8 +319,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
                     android:contentDescription="@null"
@@ -351,8 +350,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"
@@ -370,8 +369,8 @@
 
                 <ImageView
                     android:id="@id/plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignBaseline="@id/minus"
                     android:layout_alignBottom="@id/minus"
                     android:layout_alignParentRight="true"
@@ -403,8 +402,8 @@
 
                 <ImageView
                     android:id="@id/minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/text"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="@null"

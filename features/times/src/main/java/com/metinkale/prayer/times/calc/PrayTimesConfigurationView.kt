@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.metinkale.prayer.times.R
+import com.metinkale.prayer.times.compose.SelectMenu
 import com.metinkale.prayer.times.compose.theme.AppTheme
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit

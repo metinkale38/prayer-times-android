@@ -47,12 +47,10 @@ class ConfigIntroFragment : IntroFragment() {
             }
             val fm = childFragmentManager
             if (fm.isStateSaved) return
-            when (mTask % 6) {
-                0 -> mFragment?.topSlider?.animateOpen()
-                1 -> mFragment?.topSlider?.animateClose()
-                2 -> mFragment?.bottomSlider?.animateOpen()
-                3 -> mFragment?.bottomSlider?.animateClose()
-                4 -> {
+            when (mTask % 4) {
+                0 -> mFragment?.bottomSlider?.animateOpen()
+                1 -> mFragment?.bottomSlider?.animateClose()
+                2 -> {
                     mMenuItem?.icon?.alpha = 100
                     mMenuItem?.icon?.invalidateSelf()
                     mFragment?.setFooterText("", false)
@@ -62,7 +60,7 @@ class ConfigIntroFragment : IntroFragment() {
                             mPrefsFrag!!
                         ).addToBackStack("").commit()
                 }
-                5 -> {
+                3 -> {
                     mMenuItem?.icon?.alpha = 255
                     mMenuItem?.icon?.invalidateSelf()
                     mFragment?.setFooterText(getString(R.string.monthly), false)

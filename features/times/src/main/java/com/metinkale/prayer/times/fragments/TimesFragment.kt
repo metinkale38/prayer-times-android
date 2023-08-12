@@ -50,11 +50,8 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
     private lateinit var adapter: MyAdapter
     private lateinit var addCityFab: FloatingActionButton
     private lateinit var pager: RTLViewPager
-    private lateinit var settingsFrag: SettingsFragment
     private lateinit var imsakiyeFrag: ImsakiyeFragment
     private lateinit var footerText: TextView
-    lateinit var topSlider: MultipleOrientationSlidingDrawer
-        private set
     lateinit var bottomSlider: MultipleOrientationSlidingDrawer
         private set
 
@@ -67,12 +64,7 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         footerText = v.findViewById(R.id.footerText)
         pager = v.findViewById(R.id.pager)
         adapter = MyAdapter(this, childFragmentManager)
-        settingsFrag = SettingsFragment()
         imsakiyeFrag = ImsakiyeFragment()
-        childFragmentManager.beginTransaction().replace(R.id.imsakiyeContainer, imsakiyeFrag)
-            .replace(R.id.settingsContainer, settingsFrag)
-            .commit()
-        topSlider = v.findViewById(R.id.topSlider)
         bottomSlider = v.findViewById(R.id.bottomSlider)
         addCityFab = v.findViewById(R.id.addCity)
         addCityFab.setOnClickListener(this)
@@ -84,34 +76,8 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
             tv.text = LocaleUtils.getHolyday(holyday)
         }
         pager.addOnPageChangeListener(this)
-        topSlider.setOnDrawerScrollListener(object :
-            MultipleOrientationSlidingDrawer.OnDrawerScrollListener {
-            override fun onScrollStarted() {}
-            override fun onScrolling(pos: Int) {
-                pager.translationY = pos.toFloat()
-            }
 
-            override fun onScrollEnded() {}
-        })
-        topSlider.setOnDrawerOpenListener {
-            val position = pager.currentItem
-            if (position != 0 && Times.current.isNotEmpty()) {
-                val (ID) = Times.current[position - 1]
-                settingsFrag.timesId = ID
-            }
-            bottomSlider.lock()
-        }
-        topSlider.setOnDrawerCloseListener { bottomSlider.unlock() }
-        bottomSlider.setOnDrawerOpenListener { topSlider.lock() }
-        bottomSlider.setOnDrawerCloseListener { topSlider.unlock() }
-        v.findViewById<View>(R.id.topSliderCloseHandler)
-            .setOnTouchListener { _: View?, motionEvent: MotionEvent ->
-                if (motionEvent.action == MotionEvent.ACTION_DOWN && topSlider.isOpened) {
-                    topSlider.animateClose()
-                    return@setOnTouchListener true
-                }
-                false
-            }
+
         v.findViewById<View>(R.id.bottomSliderCloseHandler)
             .setOnTouchListener { _: View?, motionEvent: MotionEvent ->
                 if (motionEvent.action == MotionEvent.ACTION_DOWN && bottomSlider.isOpened) {
@@ -145,9 +111,6 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         } else if (bottomSlider.isOpened) {
             bottomSlider.animateClose()
             return true
-        } else if (topSlider.isOpened) {
-            topSlider.animateClose()
-            return true
         }
         return false
     }
@@ -164,10 +127,8 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         if (position == 0) {
-            topSlider.lock()
             bottomSlider.lock()
         } else {
-            topSlider.unlock()
             bottomSlider.unlock()
         }
         if (position == 0 && positionOffset == 0f) {

@@ -1,4 +1,4 @@
-package com.metinkale.prayer.times.calc
+package com.metinkale.prayer.times.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

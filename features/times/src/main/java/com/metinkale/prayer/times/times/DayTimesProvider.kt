@@ -4,7 +4,6 @@ import com.metinkale.prayer.Preferences
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import kotlin.math.roundToInt
 
 sealed interface DayTimesProvider {
     fun get(key: LocalDate): DayTimes?
@@ -35,8 +34,7 @@ fun Times.getTime(date: LocalDate, time: Int): LocalDateTime {
             Vakit.MAGHRIB -> it.maghrib
             Vakit.ISHAA -> it.ishaa
         }
-    }?.let { date.atTime(it) }?.plusMinutes(minuteAdj[time].toLong())
-        ?.plusMinutes((timezone * 60).roundToInt().toLong())
+    }?.let { date.atTime(it) }
 
 
     if (dt != null) {
