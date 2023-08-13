@@ -9,6 +9,7 @@ import com.metinkale.prayer.CrashReporter
 import dev.metinkale.prayertimes.core.Configuration
 import dev.metinkale.prayertimes.core.DayTimes
 import dev.metinkale.prayertimes.core.Entry
+import dev.metinkale.prayertimes.core.router.ListResponse
 import dev.metinkale.prayertimes.core.router.Method
 import dev.metinkale.prayertimes.core.sources.Source
 import kotlinx.coroutines.*
@@ -41,6 +42,24 @@ abstract class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T
 
     abstract suspend fun useRest(): Boolean
 }
+
+class OpenPrayerTimesListEndpoint : OpenPrayerTimesApi<ListResponse>() {
+    fun list(path:List<String>): Job = launch(Dispatchers.IO) {
+        try {
+            get("/list/"+path.joinToString("/"))
+                .let { Json.decodeFromString(ListResponse.serializer(), it) }
+                .let { postValue(it) }
+        } catch (e: Throwable) {
+            CrashReporter.recordException(e)
+        }
+    }
+
+
+
+    override suspend fun useRest(): Boolean = Config.getConfig().use_search_rest
+}
+
+
 
 class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
     fun search(q: String): Job = launch(Dispatchers.IO) {

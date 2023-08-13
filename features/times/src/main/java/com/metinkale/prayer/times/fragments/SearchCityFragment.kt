@@ -48,7 +48,6 @@ import dev.metinkale.prayertimes.core.Entry
 import dev.metinkale.prayertimes.core.sources.Source
 import java.util.*
 
-
 class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     SearchView.OnQueryTextListener, LocationListener, View.OnClickListener,
     CompoundButton.OnCheckedChangeListener, Observer<List<Entry?>?> {
@@ -66,7 +65,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.vakit_addcity, container, false)
+        val v = inflater.inflate(R.layout.vakit_searchcity, container, false)
         autoLocation = v.findViewById(R.id.autoLocation)
         autoLocation.setOnCheckedChangeListener(this)
         var trackStates = ColorStateList(
@@ -89,12 +88,16 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         val listView = v.findViewById<ListView>(R.id.listView)
         listView.isFastScrollEnabled = true
         listView.onItemClickListener = this
-        val csv = View.inflate(activity, R.layout.vakit_addcity_addcsv, null)
-        csv.setOnClickListener { _: View? -> addFromCSV() }
+        val csv = View.inflate(activity, R.layout.vakit_searchcity_addcsv, null)
+        csv.setOnClickListener { addFromCSV() }
         listView.addFooterView(csv)
         adapter = MyAdapter(requireContext())
         listView.adapter = adapter
         searchApi.observe(viewLifecycleOwner, this)
+
+
+        v.findViewById<View>(R.id.chooseByList)
+            .setOnClickListener { moveToFrag(ListCityFragment.create()) }
         return v
     }
 
@@ -179,7 +182,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                         lat = it.lat ?: 0.0,
                         lng = it.lng ?: 0.0,
                         key = it.id,
-                        sortId = (Times.current.map { it.sortId }.maxOrNull() ?: 0) + 1,
+                        sortId = (Times.current.maxOfOrNull { it.sortId } ?: 0) + 1,
                         autoLocation = autoLocation.isChecked
                     )
                 )
@@ -306,7 +309,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     override fun onChanged(entries: List<Entry?>?) {
         if (entries != null && entries.isNotEmpty()) {
             adapter.clear()
-            adapter.addAll(entries.distinctBy { it?.source })
+            adapter.addAll(entries.distinctBy { if (it?.source == Source.Calc) null else it })
         }
         adapter.notifyDataSetChanged()
     }
@@ -317,38 +320,41 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
             var convertView = convertView
             val vh: ViewHolder
             if (convertView == null) {
-                convertView = View.inflate(parent.context, R.layout.vakit_addcity_row, null)
-                vh = ViewHolder()
-                vh.city = convertView.findViewById(R.id.city)
-                vh.country = convertView.findViewById(R.id.country)
-                vh.sourcetxt = convertView.findViewById(R.id.sourcetext)
-                vh.source = convertView.findViewById(R.id.source)
-                vh.gpsIcon = convertView.findViewById(R.id.gps)
+                convertView = View.inflate(parent.context, R.layout.vakit_searchcity_row, null)
+                vh = ViewHolder(convertView)
                 convertView.tag = vh
             } else {
                 vh = convertView.tag as ViewHolder
             }
             val i = getItem(position)!!
-            vh.city!!.text = i.localizedName()
-            vh.country!!.text = Locale("", i.country).displayCountry
-            vh.sourcetxt!!.text = i.source.name
+            vh.city.text = i.localizedName()
+            vh.country.text = Locale("", i.country).displayCountry
+            vh.sourcetxt.text = i.source.name
             if (i.source.drawableId == 0) {
-                vh.source!!.visibility = View.INVISIBLE
+                vh.source.visibility = View.INVISIBLE
             } else {
-                vh.source!!.setImageResource(i.source.drawableId ?: 0)
-                vh.source!!.visibility = View.VISIBLE
+                vh.source.setImageResource(i.source.drawableId ?: 0)
+                vh.source.visibility = View.VISIBLE
             }
-            if (autoLocation.isChecked) vh.gpsIcon!!.visibility =
-                View.VISIBLE else vh.gpsIcon!!.visibility = View.GONE
+            if (autoLocation.isChecked) vh.gpsIcon.visibility =
+                View.VISIBLE else vh.gpsIcon.visibility = View.GONE
             return convertView!!
         }
+    }
 
-        inner class ViewHolder {
-            var country: TextView? = null
-            var city: TextView? = null
-            var sourcetxt: TextView? = null
-            var source: ImageView? = null
-            var gpsIcon: ImageView? = null
-        }
+    data class ViewHolder(
+        val country: TextView,
+        val city: TextView,
+        val sourcetxt: TextView,
+        val source: ImageView,
+        val gpsIcon: ImageView
+    ) {
+        constructor(v: View) : this(
+            v.findViewById(R.id.country),
+            v.findViewById(R.id.city),
+            v.findViewById(R.id.sourcetext),
+            v.findViewById(R.id.source),
+            v.findViewById(R.id.gps)
+        )
     }
 }
