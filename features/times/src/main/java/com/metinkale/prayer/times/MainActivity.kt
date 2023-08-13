@@ -16,10 +16,14 @@
 package com.metinkale.prayer.times
 
 import android.os.Bundle
+import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.times.LocationReceiver.Companion.triggerUpdate
 import com.metinkale.prayer.times.fragments.SearchCityFragment
 import com.metinkale.prayer.times.fragments.TimesFragment
+import kotlinx.coroutines.flow.MutableStateFlow
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, TimesFragment()) {
     override fun onStart() {
@@ -32,5 +36,20 @@ open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, T
         if (intent.getBooleanExtra("openCitySearch", false)) {
             moveToFrag(SearchCityFragment())
         }
+
+        pendingTasks.asLiveData().observe(this) {
+            setProgressDialogVisible(it > 0)
+        }
+    }
+}
+
+val pendingTasks = MutableStateFlow(0)
+private val pendingTaskLock = ReentrantLock()
+suspend fun <T> tracker(init: suspend () -> T) {
+    pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value + 1 }
+    try {
+        init.invoke()
+    } finally {
+        pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value - 1 }
     }
 }

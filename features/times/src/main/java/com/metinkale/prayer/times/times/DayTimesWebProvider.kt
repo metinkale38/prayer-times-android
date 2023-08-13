@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.metinkale.prayer.App
 import com.metinkale.prayer.times.OpenPrayerTimesDayTimesEndpoint
 import com.metinkale.prayer.times.R
+import com.metinkale.prayer.times.tracker
 import dev.metinkale.prayertimes.core.sources.Source
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +70,6 @@ class DayTimesWebProvider private constructor(val id: Int) :
             }
 
 
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         keys.update { prefs.all.keys }
     }
@@ -102,7 +102,7 @@ class DayTimesWebProvider private constructor(val id: Int) :
         }
 
         val scope = CoroutineScope(Job() + Dispatchers.IO)
-        scope.launch { sync() }
+        scope.launch { tracker { sync() } }
     }
 
 

@@ -44,42 +44,46 @@ abstract class OpenPrayerTimesApi<T> : CoroutineScope by MainScope(), LiveData<T
 }
 
 class OpenPrayerTimesListEndpoint : OpenPrayerTimesApi<ListResponse>() {
-    fun list(path:List<String>): Job = launch(Dispatchers.IO) {
-        try {
-            get("/list/"+path.joinToString("/"))
-                .let { Json.decodeFromString(ListResponse.serializer(), it) }
-                .let { postValue(it) }
-        } catch (e: Throwable) {
-            CrashReporter.recordException(e)
+    fun list(path: List<String>): Job = launch(Dispatchers.IO) {
+        tracker {
+            try {
+                get("/list/" + path.joinToString("/"))
+                    .let { Json.decodeFromString(ListResponse.serializer(), it) }
+                    .let { postValue(it) }
+            } catch (e: Throwable) {
+                CrashReporter.recordException(e)
+            }
         }
     }
-
 
 
     override suspend fun useRest(): Boolean = Config.getConfig().use_search_rest
 }
 
 
-
 class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
     fun search(q: String): Job = launch(Dispatchers.IO) {
-        try {
-            get("/search", mapOf("q" to q))
-                .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-                .let { postValue(it) }
-        } catch (e: Throwable) {
-            CrashReporter.recordException(e)
+        tracker {
+            try {
+                get("/search", mapOf("q" to q))
+                    .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
+                    .let { postValue(it) }
+            } catch (e: Throwable) {
+                CrashReporter.recordException(e)
+            }
         }
     }
 
 
     fun search(lat: Double, lng: Double): Job = launch(Dispatchers.IO) {
-        try {
-            get("/search", mapOf("lat" to "$lat", "lng" to "$lng"))
-                .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-                .let { postValue(it) }
-        } catch (e: Throwable) {
-            CrashReporter.recordException(e)
+        tracker {
+            try {
+                get("/search", mapOf("lat" to "$lat", "lng" to "$lng"))
+                    .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
+                    .let { postValue(it) }
+            } catch (e: Throwable) {
+                CrashReporter.recordException(e)
+            }
         }
     }
 

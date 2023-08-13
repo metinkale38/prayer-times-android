@@ -43,17 +43,18 @@ import com.metinkale.prayer.utils.LocaleUtils.wrapContext
 import com.metinkale.prayer.utils.PermissionUtils
 
 open class BaseActivity(
-    private val mTitleRes: Int,
-    private val mIconRes: Int,
+    private val titleRes: Int,
+    private val iconRes: Int,
     var defaultFragment: Fragment
 ) : AppCompatActivity(), FragmentManager.OnBackStackChangedListener, OnItemClickListener {
-    private var mNavPos = 0
-    private lateinit var mNav: ListView
-    private lateinit var mDrawerLayout: DrawerLayout
+    private var navPos = 0
+    private lateinit var nav: ListView
+    private lateinit var drawerLayout: DrawerLayout
 
     //private long mStartTime;
     //private Fragment mFragment;
-    private lateinit var mToolbar: Toolbar
+    private lateinit var toolbar: Toolbar
+    private lateinit var progressDialog: View
 
     /*@Override
     public void onBackPressed() {
@@ -84,47 +85,48 @@ open class BaseActivity(
             Module.INTRO.launch(this)
         }
         super.setContentView(R.layout.activity_base)
-        mToolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(mToolbar)
-        mToolbar.setBackgroundResource(R.color.colorPrimary)
-        mToolbar.setNavigationIcon(R.drawable.ic_action_menu)
-        mDrawerLayout = findViewById(R.id.drawer)
-        mNav = mDrawerLayout.findViewById(R.id.base_nav)
-        val header = LayoutInflater.from(this).inflate(R.layout.drawer_header, mNav, false)
+        toolbar = findViewById(R.id.toolbar)
+        progressDialog = findViewById(R.id.progressDlg)
+        setSupportActionBar(toolbar)
+        toolbar.setBackgroundResource(R.color.colorPrimary)
+        toolbar.setNavigationIcon(R.drawable.ic_action_menu)
+        drawerLayout = findViewById(R.id.drawer)
+        nav = drawerLayout.findViewById(R.id.base_nav)
+        val header = LayoutInflater.from(this).inflate(R.layout.drawer_header, nav, false)
         try {
             val pInfo = packageManager.getPackageInfo(packageName, 0)
             (header.findViewById<View>(R.id.version) as TextView).text = pInfo.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
-        mNav.addHeaderView(header)
+        nav.addHeaderView(header)
         val list = buildNavAdapter(this)
-        mNav.adapter = list
-        mNav.onItemClickListener = this
-        mNav.viewTreeObserver
+        nav.adapter = list
+        nav.onItemClickListener = this
+        nav.viewTreeObserver
             .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    if (mNav.height < (mNav.parent as View).height) {
-                        val diff = (mNav.parent as View).height - mNav.height
-                        mNav.dividerHeight = mNav.dividerHeight + diff / mNav.adapter.count + 1
+                    if (nav.height < (nav.parent as View).height) {
+                        val diff = (nav.parent as View).height - nav.height
+                        nav.dividerHeight = nav.dividerHeight + diff / nav.adapter.count + 1
                     } else {
-                        mNav.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        nav.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
                 }
             })
-        mDrawerLayout.post {
-            mToolbar.setTitle(mTitleRes)
+        drawerLayout.post {
+            toolbar.setTitle(titleRes)
         }
         supportFragmentManager.addOnBackStackChangedListener(this)
-        if (savedInstanceState != null) mNavPos = savedInstanceState.getInt("navPos", 0)
+        if (savedInstanceState != null) navPos = savedInstanceState.getInt("navPos", 0)
         val comp = intent.component?.className
         for (i in Module.values().indices) {
             if (comp?.contains(Module.values()[i].getKey()) == true) {
-                mNavPos = i
+                navPos = i
             }
         }
         if (Intent.ACTION_CREATE_SHORTCUT == intent.action) {
-            val icon = ShortcutIconResource.fromContext(this, mIconRes)
+            val icon = ShortcutIconResource.fromContext(this, iconRes)
             val intent = Intent()
             val launchIntent = Intent(this, BaseActivity::class.java)
             launchIntent.component = getIntent().component
@@ -132,7 +134,7 @@ open class BaseActivity(
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             launchIntent.putExtra("duplicate", false)
             intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent)
-            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(mTitleRes))
+            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(titleRes))
             intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon)
             setResult(RESULT_OK, intent)
             finish()
@@ -140,9 +142,13 @@ open class BaseActivity(
         moveToFrag(defaultFragment)
     }
 
+    fun setProgressDialogVisible(visible: Boolean) {
+        progressDialog.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("navPos", mNavPos)
+        outState.putInt("navPos", navPos)
     }
 
     fun moveToFrag(frag: Fragment) {
@@ -164,7 +170,7 @@ open class BaseActivity(
                 }
                 v.visibility = View.VISIBLE
                 (v as? TextView)?.setText(item.getTitleRes())
-                if (pos == mNavPos) {
+                if (pos == navPos) {
                     (v as? TextView?)?.setTypeface(null, Typeface.BOLD)
                 } else (v as? TextView)?.setTypeface(null, Typeface.NORMAL)
                 val icon = AppCompatResources.getDrawable(c, item.getIconRes())
@@ -192,7 +198,7 @@ open class BaseActivity(
 
     override fun onResume() {
         super.onResume()
-        mNav.setSelection(mNavPos)
+        nav.setSelection(navPos)
         InternalBroadcastReceiver.sender(this).sendOnForeground()
     }
 
@@ -203,7 +209,7 @@ open class BaseActivity(
             if (fm.backStackEntryCount > 0) {
                 onBackPressedDispatcher.onBackPressed()
             } else {
-                mDrawerLayout.openDrawer(if (isRTL) Gravity.RIGHT else Gravity.LEFT)
+                drawerLayout.openDrawer(if (isRTL) Gravity.RIGHT else Gravity.LEFT)
             }
             return true
         }
@@ -228,9 +234,9 @@ open class BaseActivity(
     override fun onBackStackChanged() {
         val fm = supportFragmentManager
         if (fm.backStackEntryCount > 0) {
-            mToolbar.setNavigationIcon(R.drawable.ic_action_chevron_left)
+            toolbar.setNavigationIcon(R.drawable.ic_action_chevron_left)
         } else {
-            mToolbar.setNavigationIcon(R.drawable.ic_action_menu)
+            toolbar.setNavigationIcon(R.drawable.ic_action_menu)
         }
     }
 
@@ -238,12 +244,12 @@ open class BaseActivity(
         @Suppress("NAME_SHADOWING") var pos = pos
         if (pos == 0) return
         pos-- // header
-        if (pos == mNavPos && mDrawerLayout.isDrawerOpen(mNav)) {
-            mDrawerLayout.closeDrawers()
+        if (pos == navPos && drawerLayout.isDrawerOpen(nav)) {
+            drawerLayout.closeDrawers()
             return
         }
         Module.values()[pos].launch(this)
-        mDrawerLayout.closeDrawers()
+        drawerLayout.closeDrawers()
         //AppRatingDialog.addToOpenedMenus(ACTS[pos]);
     }
 
