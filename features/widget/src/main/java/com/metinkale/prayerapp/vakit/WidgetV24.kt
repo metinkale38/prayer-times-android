@@ -32,6 +32,7 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.SuperscriptSpan
 import android.util.TypedValue
 import android.widget.RemoteViews
+import com.metinkale.prayer.Module
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.SilenterPrompt
@@ -151,7 +152,8 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -255,7 +257,8 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -294,7 +297,8 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -335,7 +339,12 @@ internal object WidgetV24 {
         val i = Intent(context, SilenterPrompt::class.java)
         remoteViews.setOnClickPendingIntent(
             R.id.widget,
-            PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(
+                context,
+                0,
+                i,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         )
         remoteViews.setTextViewText(R.id.text, context.getString(R.string.silent))
         remoteViews.setTextViewTextSize(R.id.text, TypedValue.COMPLEX_UNIT_PX, s / 4f)
@@ -362,7 +371,8 @@ internal object WidgetV24 {
             Intent(AlarmClock.ACTION_SHOW_ALARMS),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://prayerapp.page.link/calendar"))
+
+        val intent = Module.CALENDAR.buildIntent(context)
         intent.addCategory(Intent.CATEGORY_BROWSABLE)
         val pendingHijri = PendingIntent.getActivity(
             context,
@@ -456,7 +466,8 @@ internal object WidgetV24 {
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
@@ -499,8 +510,12 @@ internal object WidgetV24 {
     fun getPassedPart(times: Times): Float {
         val current = times.getCurrentTime()
         val now = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        val prev = times.getTime(LocalDate.now(), current).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        val next = times.getTime(LocalDate.now(), current + 1).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val prev =
+            times.getTime(LocalDate.now(), current).atZone(ZoneId.systemDefault()).toInstant()
+                .toEpochMilli()
+        val next =
+            times.getTime(LocalDate.now(), current + 1).atZone(ZoneId.systemDefault()).toInstant()
+                .toEpochMilli()
         return (now - prev) / (next - prev).toFloat()
     }
 
@@ -575,15 +590,21 @@ internal object WidgetV24 {
         val next = times.getNextTime()
         remoteViews.setTextViewText(R.id.time, Vakit.getByIndex(next - 1).string)
         val date = LocalDate.now()
-        remoteViews.setTextViewText(R.id.date, LocaleUtils.formatNumber(date.format(
-            DateTimeFormatter.ofPattern("d.MMM"))))
+        remoteViews.setTextViewText(
+            R.id.date, LocaleUtils.formatNumber(
+                date.format(
+                    DateTimeFormatter.ofPattern("d.MMM")
+                )
+            )
+        )
         val wd = date.format(DateTimeFormatter.ofPattern("EEEE"))
         remoteViews.setTextViewText(R.id.weekDay, wd)
         if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
             .setChronometer(
                 R.id.countdown,
                 times.getTime(LocalDate.now(), next)
-                    .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
+                    .atZone(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
                 null,
                 true
             ) else {
