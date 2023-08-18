@@ -65,6 +65,8 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         pager = v.findViewById(R.id.pager)
         adapter = MyAdapter(this, childFragmentManager)
         imsakiyeFrag = ImsakiyeFragment()
+        childFragmentManager.beginTransaction().replace(R.id.imsakiyeContainer, imsakiyeFrag)
+            .commit()
         bottomSlider = v.findViewById(R.id.bottomSlider)
         addCityFab = v.findViewById(R.id.addCity)
         addCityFab.setOnClickListener(this)
