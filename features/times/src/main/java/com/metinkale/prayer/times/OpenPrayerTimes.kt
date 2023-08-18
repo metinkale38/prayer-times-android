@@ -15,6 +15,7 @@ import dev.metinkale.prayertimes.core.sources.Source
 import kotlinx.coroutines.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import kotlin.math.roundToInt
 
 private val coreRouter = dev.metinkale.prayertimes.core.router.coreRouter.also {
     // you will need your own api keys
@@ -78,8 +79,13 @@ class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
     fun search(lat: Double, lng: Double): Job = launch(Dispatchers.IO) {
         tracker {
             try {
-                get("/search", mapOf("lat" to "$lat", "lng" to "$lng"))
-                    .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
+                get(
+                    "/search",
+                    mapOf(
+                        "lat" to "${lat.roundLatLng()}",
+                        "lng" to "${lng.roundLatLng()}"
+                    )
+                ).let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
                     .let { postValue(it) }
             } catch (e: Throwable) {
                 CrashReporter.recordException(e)
@@ -87,6 +93,7 @@ class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
         }
     }
 
+    private fun Double.roundLatLng(): Double = (this * 100).roundToInt() / 100.0
 
     override suspend fun useRest(): Boolean = Config.getConfig().use_search_rest
 }
