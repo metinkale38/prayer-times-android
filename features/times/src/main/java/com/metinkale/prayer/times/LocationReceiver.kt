@@ -73,7 +73,10 @@ class LocationReceiver : BroadcastReceiver(), Observer<List<Entry>> {
                         } else {
                             Times.getTimesById(t.id).update {
                                 t.copy(
-                                    name = e.localizedName(), key = e.id
+                                    name = e.localizedName(),
+                                    key = e.id,
+                                    lat = e.lat ?: 0.0,
+                                    lng = e.lng ?: 0.0
                                 ).also { (it.dayTimes as? DayTimesWebProvider)?.syncAsync() }
                             }
                         }

@@ -17,7 +17,7 @@ package com.metinkale.prayer.compass
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
+import android.content.DialogInterface
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -25,11 +25,12 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuItemCompat
-import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.compass.magnetic.MagneticCompass
+import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.PermissionUtils
 
 @SuppressLint("MissingPermission")
@@ -59,11 +60,20 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
         PermissionUtils.get(requireActivity()).needLocation(requireActivity())
         selCity = v.findViewById(R.id.selcity)
         selCity.setOnClickListener { view: View? ->
-            if (App.isOnline()) {
-                startActivity(Intent(activity, LocationPicker::class.java))
-            } else {
-                Toast.makeText(activity, R.string.noConnection, Toast.LENGTH_LONG).show()
+            val builder = AlertDialog.Builder(requireActivity())
+            builder.setTitle(R.string.cities)
+            val times = Times.current.filter { it.lat != 0.0 && it.lng != 0.0 }
+            val array = times.map { it.name + " (" + it.source.name + ")" }
+            builder.setItems(array.toTypedArray()) { _: DialogInterface?, index: Int ->
+                Preferences.COMPASS_LAT = times[index].lat.toFloat()
+                Preferences.COMPASS_LNG = times[index].lng.toFloat()
+
+                val loc = Location("custom")
+                loc.latitude = Preferences.COMPASS_LAT.toDouble()
+                loc.longitude = Preferences.COMPASS_LNG.toDouble()
+                calcQiblaAngle(loc)
             }
+            builder.show()
         }
         updateFrag(Mode.Compass)
         setHasOptionsMenu(true)
@@ -72,7 +82,7 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
 
     override fun onResume() {
         super.onResume()
-        if (PermissionUtils.get(requireActivity()).pLocation) {
+        if (PermissionUtils.get(requireActivity()).pLocation && false) {
             val locMan =
                 requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val providers = locMan.getProviders(true)

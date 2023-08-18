@@ -65,6 +65,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
+    implementation project(':features:times')
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // TODO consider replacing with WebView to reduce dependencies
     playImplementation 'com.google.android.gms:play-services-maps:18.1.0'
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
