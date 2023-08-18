@@ -67,5 +67,5 @@ dependencies {
     implementation project(':features:times')
     implementation project(':features:base')
     implementation project(':features:about')
-    implementation 'com.vladsch.flexmark:flexmark-all:0.64.0'
+    implementation 'com.vladsch.flexmark:flexmark:0.64.0'
 }
