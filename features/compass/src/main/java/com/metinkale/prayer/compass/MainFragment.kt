@@ -82,7 +82,7 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
 
     override fun onResume() {
         super.onResume()
-        if (PermissionUtils.get(requireActivity()).pLocation && false) {
+        if (PermissionUtils.get(requireActivity()).pLocation) {
             val locMan =
                 requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val providers = locMan.getProviders(true)

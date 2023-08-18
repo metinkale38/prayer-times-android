@@ -38,21 +38,17 @@
 
     <com.metinkale.prayer.times.utils.AutoResizeTextView
         android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:lines="1"
-        android:scaleX="0.80"
-        android:scaleY="0.80"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/city"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/source2"
+        app:layout_constraintStart_toEndOf="@+id/source1"
         app:layout_constraintTop_toBottomOf="@id/kerahat"
         tools:text="DATE" />
 
