@@ -20,6 +20,8 @@
 
 
     <application tools:ignore="GoogleAppIndexingWarning">
+        <service android:name="com.metinkale.prayerapp.vakit.WidgetService"/>
+
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
             android:label="Configure Widget"

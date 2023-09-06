@@ -26,6 +26,7 @@ import android.view.*
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.setFragmentResultListener
@@ -61,8 +62,8 @@ class AlarmFragment : MainFragment() {
 
 
     private val timesText = MutableList<TextView?>(6) { null }
-    private lateinit var vibrate: Switch
-    private lateinit var autoDelete: Switch
+    private lateinit var vibrate: SwitchCompat
+    private lateinit var autoDelete: SwitchCompat
     private lateinit var minute: HorizontalNumberWheel
     private lateinit var minuteText: TextView
     private lateinit var sounds: RecyclerView
@@ -434,7 +435,7 @@ class AlarmFragment : MainFragment() {
         @JvmStatic
         fun create(alarm: Alarm): AlarmFragment {
             val bdl = Bundle()
-            bdl.putInt("city", alarm.city.id)
+            bdl.putInt("city", alarm.getCity().id)
             bdl.putInt("id", alarm.id)
             val frag = AlarmFragment()
             frag.arguments = bdl

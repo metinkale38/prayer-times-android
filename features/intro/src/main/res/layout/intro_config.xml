@@ -24,6 +24,7 @@
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:autoSizeTextType="uniform"
         app:layout_heightPercent="17.5%"
         android:padding="20dp"
@@ -33,6 +34,7 @@
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:autoSizeTextType="uniform"
         app:layout_heightPercent="17.5%"
         android:padding="20dp"

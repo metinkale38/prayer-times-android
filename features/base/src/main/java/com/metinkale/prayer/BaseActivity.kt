@@ -37,7 +37,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.base.R
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
 import com.metinkale.prayer.utils.LocaleUtils.init
 import com.metinkale.prayer.utils.LocaleUtils.wrapContext
 import com.metinkale.prayer.utils.PermissionUtils
@@ -199,7 +198,6 @@ open class BaseActivity(
     override fun onResume() {
         super.onResume()
         nav.setSelection(navPos)
-        InternalBroadcastReceiver.sender(this).sendOnForeground()
     }
 
     @SuppressLint("RtlHardcoded")

@@ -94,6 +94,7 @@ dependencies {
     api "androidx.fragment:fragment-ktx:1.5.5"
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    api "androidx.lifecycle:lifecycle-service:2.5.1"
     api "androidx.cardview:cardview:1.0.0"
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')

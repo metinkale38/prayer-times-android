@@ -15,6 +15,7 @@
  */
 package com.metinkale.prayer.intro
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -25,6 +26,8 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.times.MainActivity
+import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getSupportedLanguages
 
 /**
@@ -79,10 +82,11 @@ class LanguageFragment : IntroFragment(), CompoundButton.OnCheckedChangeListener
     override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
         if (!b) return
         val newlang = compoundButton.tag as String
-        if (Preferences.LANGUAGE.equals(newlang)) return
+        if (Preferences.LANGUAGE == newlang) return
         Preferences.LANGUAGE = newlang
+        LocaleUtils.init(requireActivity())
         requireActivity().overridePendingTransition(0, 0)
-        startActivity(requireActivity().intent)
+        startActivity(Intent(requireContext(), MainActivity::class.java))
         requireActivity().overridePendingTransition(0, 0)
         requireActivity().finish()
     }

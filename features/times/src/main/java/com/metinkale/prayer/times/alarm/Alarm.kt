@@ -56,7 +56,7 @@ data class Alarm(
 
     val nextAlarm: LocalDateTime?
         get() {
-            val city = city
+            val city = getCity()
             val today = LocalDate.now()
             val now = LocalDateTime.now()
             for (i in 0L..7L) {
@@ -72,21 +72,19 @@ data class Alarm(
             return null
         }
 
-    val city: Times
-        get() = Times.current.first { it.id == cityId }
+    fun getCity(): Times = Times.current.first() { it.id == cityId }
 
-    // avoid messages like 1 minute before/after Maghtib for minimal deviations
+    // avoid messages like 1 minute before/after Maghrib for minimal deviations
     fun buildNotificationTitle(): String {
-        val city = city
-        var time: Int = city.getCurrentTime()
+        var time: Int = getCity().getCurrentTime()
         while (times.isNotEmpty() && !times.contains(Vakit.getByIndex(time))) {
             time++
         }
         var minutes =
-            Duration.between(city.getTime(LocalDate.now(), time), LocalDateTime.now()).toMinutes()
+            Duration.between(getCity().getTime(LocalDate.now(), time), LocalDateTime.now()).toMinutes()
         if (minutes > 0 && times.contains(Vakit.getByIndex(time + 1))) {
             val minutesToNext = Duration.between(
-                city.getTime(LocalDate.now(), time + 1),
+                getCity().getTime(LocalDate.now(), time + 1),
                 LocalDateTime.now()
             ).toMinutes()
             if (minutes > abs(minutesToNext)) {
@@ -219,6 +217,7 @@ data class Alarm(
                     val am = c.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                     am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2
                 }
+
                 else -> {
                     val am = c.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                     am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2

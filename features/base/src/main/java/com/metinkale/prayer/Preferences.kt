@@ -19,7 +19,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
-import java.util.*
+import java.util.Locale
 import kotlin.reflect.KProperty
 
 object Preferences {
@@ -77,6 +77,8 @@ object Preferences {
         }
     }
     var COUNTDOWN_TYPE by StringPreference("widget_countdown", "default")
+
+    fun clear() = prefs.edit().clear().commit()
 }
 
 interface Preference<T> {

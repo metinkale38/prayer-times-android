@@ -21,7 +21,6 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.graphics.*
 import android.icu.util.Calendar
-import android.net.Uri
 import android.os.SystemClock
 import android.provider.AlarmClock
 import android.provider.CalendarContract
@@ -54,14 +53,14 @@ import java.time.format.DateTimeFormatter
 @TargetApi(24)
 internal object WidgetV24 {
     fun update2x2(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 130f / 160f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -170,14 +169,14 @@ internal object WidgetV24 {
     }
 
     fun update4x1(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 300f / 60f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 300f / 60f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -277,14 +276,14 @@ internal object WidgetV24 {
     }
 
     fun update1x1(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val s = size.width
         if (s <= 0) return
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_1x1)
@@ -328,9 +327,9 @@ internal object WidgetV24 {
     }
 
     fun updateSilenter(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val s = size.width
         if (s <= 0) return
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_1x1_silenter)
@@ -353,13 +352,13 @@ internal object WidgetV24 {
     }
 
     fun update4x2Clock(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 500f / 200f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 500f / 200f)
         val width = size.width
         val height = size.height
         if (width <= 0 || height <= 0) return
@@ -520,13 +519,13 @@ internal object WidgetV24 {
     }
 
     fun update2x2Clock(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val width = size.width
         var height = size.height
         if (width <= 0 || height <= 0) return

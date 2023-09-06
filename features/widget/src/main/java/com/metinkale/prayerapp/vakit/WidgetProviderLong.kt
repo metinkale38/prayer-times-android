@@ -21,7 +21,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import com.metinkale.prayer.Preferences
-import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.utils.LocaleUtils
 
 class WidgetProviderLong : AppWidgetProvider() {
@@ -32,9 +31,7 @@ class WidgetProviderLong : AppWidgetProvider() {
     }
 
     override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
+        context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
     ) {
         for (widgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, widgetId)
@@ -43,22 +40,16 @@ class WidgetProviderLong : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {}
     override fun onAppWidgetOptionsChanged(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetId: Int,
-        newOptions: Bundle
+        context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle
     ) {
         updateAppWidget(context, appWidgetManager, appWidgetId)
     }
 
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-            ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY)
             LocaleUtils.init(context)
             if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.update4x1(
-                context,
-                appWidgetManager,
-                widgetId
+                context, appWidgetManager, widgetId
             ) else WidgetLegacy.update4x1(context, appWidgetManager, widgetId)
         }
     }

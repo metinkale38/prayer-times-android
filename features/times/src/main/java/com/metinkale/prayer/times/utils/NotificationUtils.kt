@@ -15,10 +15,16 @@
  */
 package com.metinkale.prayer.times.utils
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.provider.Settings
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import com.metinkale.prayer.times.R
 
 object NotificationUtils {
@@ -72,4 +78,45 @@ object NotificationUtils {
         }
         return "sound"
     }
+
+    fun getWidgetChannel(c: Context): String {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = c.getSystemService(
+                NotificationManager::class.java
+            )
+            var channel = notificationManager.getNotificationChannel("widget")
+                ?: notificationManager.getNotificationChannel("foreground")
+            if (channel == null) {
+                val name: CharSequence = c.getString(R.string.appName) + " - Widget"
+                channel = NotificationChannel("widget", name, NotificationManager.IMPORTANCE_HIGH)
+                notificationManager.createNotificationChannel(channel)
+            }
+            return channel.id
+        }
+        return "widget"
+    }
+
+    /**
+     * A dummy notification is a notification, which is only needed to start a foreground-service
+     * It has a special channel, so it can be simple hidden by the user by clicking on it
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    fun createDummyNotification(c: Context): Notification {
+        c.getSystemService(NotificationManager::class.java)
+        val channelId = NotificationUtils.getWidgetChannel(c)
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, c.packageName)
+            .putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+        val pendingIntent =
+            PendingIntent.getActivity(c, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val builder = NotificationCompat.Builder(c, channelId)
+        builder.setContentIntent(pendingIntent)
+        builder.setSmallIcon(R.drawable.ic_abicon)
+        builder.setContentText(c.getString(R.string.clickToDisableNotification))
+        builder.priority = NotificationCompat.PRIORITY_MIN
+        builder.setWhen(0) //show as last
+        return builder.build()
+    }
+
+    fun getDummyNotificationId() = 571
 }

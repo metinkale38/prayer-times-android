@@ -57,9 +57,13 @@ data class Times(
         Shafi, Hanafi, Both
     }
 
-    init {
+
+    fun buildNotificationId(tag: String) = (tag + id).hashCode()
+
+
+    fun migrate(): Times {
         // TODO migration of old praytimes. Remove after some updates
-        prayTimes?.let { prayTimes ->
+        return prayTimes?.let { prayTimes ->
             val method = Method(
                 highLats = prayTimes.highLats,
                 midnight = prayTimes.midnight,
@@ -90,9 +94,10 @@ data class Times(
                 method
             )
 
-            Times.add(copy(prayTimes = null, key = pt.serialize()))
 
-        }
+            copy(prayTimes = null, key = pt.serialize())
+
+        } ?: this
     }
 
 

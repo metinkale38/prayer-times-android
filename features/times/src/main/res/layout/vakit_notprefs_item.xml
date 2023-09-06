@@ -574,7 +574,7 @@
             app:layout_constraintStart_toStartOf="@+id/volumeSpinner"
             app:layout_constraintTop_toBottomOf="@+id/volumeSpinner" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/vibrate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -646,7 +646,7 @@
             app:layout_constraintStart_toEndOf="@+id/silenterIncr"
             app:layout_constraintTop_toTopOf="@+id/silenterText" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/deleteAfterSound"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

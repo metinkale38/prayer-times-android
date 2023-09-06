@@ -12,7 +12,14 @@ import dev.metinkale.prayertimes.core.Entry
 import dev.metinkale.prayertimes.core.router.ListResponse
 import dev.metinkale.prayertimes.core.router.Method
 import dev.metinkale.prayertimes.core.sources.Source
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlin.math.roundToInt
@@ -63,20 +70,21 @@ class OpenPrayerTimesListEndpoint : OpenPrayerTimesApi<ListResponse>() {
 
 
 class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
-    fun search(q: String): Job = launch(Dispatchers.IO) {
+    fun search(q: String): Deferred<List<Entry>> = async(Dispatchers.IO) {
         tracker {
             try {
                 get("/search", mapOf("q" to q))
                     .let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-                    .let { postValue(it) }
+                    .also { postValue(it) }
             } catch (e: Throwable) {
                 CrashReporter.recordException(e)
+                emptyList()
             }
         }
     }
 
 
-    fun search(lat: Double, lng: Double): Job = launch(Dispatchers.IO) {
+    fun search(lat: Double, lng: Double): Deferred<List<Entry>> = async(Dispatchers.IO) {
         tracker {
             try {
                 get(
@@ -86,9 +94,10 @@ class OpenPrayerTimesSearchEndpoint : OpenPrayerTimesApi<List<Entry>>() {
                         "lng" to "${lng.roundLatLng()}"
                     )
                 ).let { Json.decodeFromString(ListSerializer(Entry.serializer()), it) }
-                    .let { postValue(it) }
+                    .also { postValue(it) }
             } catch (e: Throwable) {
                 CrashReporter.recordException(e)
+                emptyList()
             }
         }
     }

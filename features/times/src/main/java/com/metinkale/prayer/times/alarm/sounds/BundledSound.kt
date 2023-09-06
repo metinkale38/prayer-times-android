@@ -20,7 +20,6 @@ import androidx.collection.ArraySet
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getCurrentTime
-import kotlinx.serialization.Serializable
 
 data class BundledSound(
     override val name: String,
@@ -68,7 +67,7 @@ data class BundledSound(
             subSounds.getFirstOfOrFirst(*prio.toTypedArray())
         } else {
             prio.removeLast()
-            when (Vakit.getByIndex(alarm.city.getCurrentTime())) {
+            when (Vakit.getByIndex(alarm.getCity().getCurrentTime())) {
                 Vakit.FAJR -> subSounds.getFirstOfOrFirst(*prio.toTypedArray())
                 Vakit.SUN, Vakit.DHUHR -> subSounds.getFirstOfOrFirst(*prio.drop(1).toTypedArray())
                 Vakit.ASR -> subSounds.getFirstOfOrFirst(*prio.drop(2).toTypedArray())

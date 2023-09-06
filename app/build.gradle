@@ -42,8 +42,10 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 23
         multiDexEnabled true
-        versionName '3.7.7'
-        versionCode 226
+        versionName '3.8.0'
+        versionCode 230
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -112,6 +114,12 @@ dependencies {
     implementation project(':features:times')
     implementation 'androidx.appcompat:appcompat:1.6.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+
 }
 
 

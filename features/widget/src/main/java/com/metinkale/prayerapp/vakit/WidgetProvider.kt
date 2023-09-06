@@ -21,7 +21,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import com.metinkale.prayer.Preferences
-import com.metinkale.prayer.service.ForegroundService
 import com.metinkale.prayer.utils.LocaleUtils
 
 class WidgetProvider : AppWidgetProvider() {
@@ -51,7 +50,6 @@ class WidgetProvider : AppWidgetProvider() {
 
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-            ForegroundService.addNeedy(context, WidgetUtils.WIDGETS_FOREGROUND_NEEDY)
             LocaleUtils.init(context)
             if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.update2x2(
                 context,

@@ -30,8 +30,8 @@ import com.metinkale.prayer.times.utils.NotificationUtils
 object AlarmUtils {
     @JvmStatic
     fun buildAlarmNotification(c: Context?, alarm: Alarm, time: Long): Notification {
-        val t = alarm.city
-        val text = t.name + " (" + t.source + ")"
+        val t = alarm.getCity()
+        val text = t.name + " (" + t.source.name + ")"
         var txt = alarm.buildNotificationTitle()
         if (BuildConfig.DEBUG) {
             val difference = System.currentTimeMillis() - time
@@ -64,8 +64,8 @@ object AlarmUtils {
 
     @JvmStatic
     fun buildPlayingNotification(c: Context, alarm: Alarm, time: Long): Notification {
-        val t = alarm.city
-        val text = t.name + " (" + t.source + ")"
+        val t = alarm.getCity()
+        val text = t.name + " (" + t.source.name + ")"
         var txt = alarm.buildNotificationTitle()
         if (BuildConfig.DEBUG) {
             val difference = System.currentTimeMillis() - time

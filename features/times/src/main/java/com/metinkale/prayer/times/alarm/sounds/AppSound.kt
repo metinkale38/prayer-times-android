@@ -22,7 +22,6 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.utils.MD5
-import kotlinx.serialization.Serializable
 import java.io.File
 import java.io.IOException
 

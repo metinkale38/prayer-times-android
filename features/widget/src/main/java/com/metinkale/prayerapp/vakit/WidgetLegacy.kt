@@ -19,7 +19,12 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Typeface
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.util.TypedValue
@@ -29,7 +34,11 @@ import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.times.fragments.TimesFragment.Companion.getPendingIntent
-import com.metinkale.prayer.times.times.*
+import com.metinkale.prayer.times.times.Times
+import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.getNextTime
+import com.metinkale.prayer.times.times.getTime
+import com.metinkale.prayer.times.times.isKerahat
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.widgets.R
@@ -47,14 +56,14 @@ internal object WidgetLegacy {
         val dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, r.displayMetrics)
         val now = LocalDateTime.now()
         val today = now.toLocalDate()
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val s = size.width
         if (s <= 0) return
         val remoteViews = RemoteViews(context.packageName, R.layout.vakit_widget)
@@ -111,14 +120,14 @@ internal object WidgetLegacy {
     fun update4x1(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
         val r = context.resources
         val dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, r.displayMetrics)
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.Companion.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.Companion.getSize(context, appWidgetManager, widgetId, 300f / 60f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 300f / 60f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -237,14 +246,14 @@ internal object WidgetLegacy {
     fun update2x2(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
         val r = context.resources
         val dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, r.displayMetrics)
-        val theme: Theme = WidgetUtils.getTheme(widgetId)
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 130f / 160f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 130f / 160f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -359,9 +368,9 @@ internal object WidgetLegacy {
     fun updateSilenter(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
         val r = context.resources
         val dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, r.displayMetrics)
-        val theme: Theme = WidgetUtils.Companion.getTheme(widgetId)
-        val size: WidgetUtils.Size =
-            WidgetUtils.Companion.getSize(context, appWidgetManager, widgetId, 1f)
+        val theme: Theme = WidgetService.getTheme(widgetId)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val s = size.width
         if (s <= 0) return
         val remoteViews = RemoteViews(context.packageName, R.layout.vakit_widget)
@@ -405,13 +414,13 @@ internal object WidgetLegacy {
     }
 
     fun update4x2Clock(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.Companion.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.Companion.getSize(context, appWidgetManager, widgetId, 500f / 200f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 500f / 200f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -554,13 +563,13 @@ internal object WidgetLegacy {
     }
 
     fun update2x2Clock(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
-        val times: Times? = WidgetUtils.getTimes(widgetId)
+        val times: Times? = WidgetService.getTimes(widgetId)
         if (times == null) {
-            WidgetUtils.showNoCityWidget(context, appWidgetManager, widgetId)
+            WidgetService.showNoCityWidget(context, appWidgetManager, widgetId)
             return
         }
-        val size: WidgetUtils.Size =
-            WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+        val size: WidgetService.Size =
+            WidgetService.getSize(context, appWidgetManager, widgetId, 1f)
         val w = size.width
         val h = size.height
         if (w <= 0 || h <= 0) return
@@ -571,7 +580,7 @@ internal object WidgetLegacy {
                     context,
                     System.currentTimeMillis().toInt(),
                     Intent(AlarmClock.ACTION_SHOW_ALARMS),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
         )
         remoteViews.setOnClickPendingIntent(R.id.belowPart, getPendingIntent(times))

@@ -16,28 +16,24 @@
 package com.metinkale.prayer.times
 
 import com.metinkale.prayer.App
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnPrefsChangedListener
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnStartListener
-import com.metinkale.prayer.times.LocationReceiver.Companion.start
+import com.metinkale.prayer.receiver.AppEventManager
+import com.metinkale.prayer.receiver.OnPrefsChangedListener
+import com.metinkale.prayer.receiver.OnStartListener
 import com.metinkale.prayer.times.times.SyncTimesWorker
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 
-class TimesBroadcastReceiver : InternalBroadcastReceiver(), OnStartListener,
-    OnPrefsChangedListener {
+object TimesBroadcastReceiver : OnStartListener, OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
         when (key) {
             "useAlarm" -> Times.setAlarms()
-            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "widget_countdown", "alternativeOngoing", "showLegacyWidgets" -> sender(
-                App.get()
-            ).sendTimeTick()
+            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "widget_countdown", "alternativeOngoing", "showLegacyWidgets" ->
+                AppEventManager.sendTimeTick()
         }
     }
 
     override fun onStart() {
-        sender(App.get()).sendTimeTick()
-        start(App.get())
+        AppEventManager.sendTimeTick()
         Times.setAlarms()
         SyncTimesWorker.scheduleWorker(App.get())
     }

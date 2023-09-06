@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.metinkale.prayer",
+  "variantName": "playRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 230,
+      "versionName": "3.8.0 Play Store",
+      "outputFile": "app-play-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

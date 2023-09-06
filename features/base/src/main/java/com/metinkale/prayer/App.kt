@@ -15,27 +15,22 @@
  */
 package com.metinkale.prayer
 
+import android.app.ActivityManager
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.preference.PreferenceManager
-import androidx.multidex.MultiDex
 import com.metinkale.prayer.CrashReporter.initializeApp
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.CrashReporter.setUserId
 import com.metinkale.prayer.base.BuildConfig
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
-import com.metinkale.prayer.receiver.TimeTickReceiver
+import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.utils.LocaleUtils.init
-import com.metinkale.prayer.utils.Utils
-import java.util.*
 
-class App : Application(), OnSharedPreferenceChangeListener {
+open class App : Application(), OnSharedPreferenceChangeListener {
     private var mDefaultUEH: Thread.UncaughtExceptionHandler? = null
     private val mCaughtExceptionHandler =
         Thread.UncaughtExceptionHandler { thread, ex -> //AppRatingDialog.setInstalltionTime(0);
@@ -70,18 +65,13 @@ class App : Application(), OnSharedPreferenceChangeListener {
 
         /*if (AppRatingDialog.getInstallationTime() == 0) {
             AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
-        }*/InternalBroadcastReceiver.loadAll()
-        InternalBroadcastReceiver.sender(this).sendOnStart()
-        TimeTickReceiver.start(this)
+        }*/
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        InternalBroadcastReceiver.sender(this).sendOnPrefsChanged(key)
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        key?.let { AppEventManager.sendOnPrefsChanged(key) }
         if ("language" == key) {
             init(baseContext)
         }
@@ -91,6 +81,7 @@ class App : Application(), OnSharedPreferenceChangeListener {
         const val API_URL = "http://metinkale38.github.io/prayer-times-android"
 
         private lateinit var INSTANCE: App
+
 
         @JvmStatic
         fun get(): App {
@@ -109,13 +100,5 @@ class App : Application(), OnSharedPreferenceChangeListener {
                     actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH))
         }
 
-        val userAgent: String
-            get() = String.format(
-                Locale.ENGLISH,
-                "Android/%d prayer-times-android/%d (%s) metinkale38 at gmail dot com)",
-                Build.VERSION.SDK_INT,
-                Utils.getVersionCode(),
-                Utils.getVersionName()
-            )
     }
 }

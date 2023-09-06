@@ -16,17 +16,18 @@
 package com.metinkale.prayer
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import com.metinkale.prayer.CrashReporter.recordException
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver.OnPrefsChangedListener
+import com.metinkale.prayer.receiver.OnPrefsChangedListener
 import com.metinkale.prayer.utils.LocaleUtils
-import java.util.*
+import java.util.Locale
 
-class AliasManager : InternalBroadcastReceiver(), OnPrefsChangedListener {
+object AliasManager : OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
         if (key == "language") {
+            val context: Context = App.get()
             val pm = context.packageManager
             val info: PackageInfo = try {
                 pm.getPackageInfo(

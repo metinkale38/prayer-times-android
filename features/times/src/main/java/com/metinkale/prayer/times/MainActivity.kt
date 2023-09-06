@@ -18,7 +18,6 @@ package com.metinkale.prayer.times
 import android.os.Bundle
 import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.BaseActivity
-import com.metinkale.prayer.times.LocationReceiver.Companion.triggerUpdate
 import com.metinkale.prayer.times.fragments.SearchCityFragment
 import com.metinkale.prayer.times.fragments.TimesFragment
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +27,7 @@ import kotlin.concurrent.withLock
 open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, TimesFragment()) {
     override fun onStart() {
         super.onStart()
-        triggerUpdate(this)
+        LocationService.start()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +44,10 @@ open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, T
 
 val pendingTasks = MutableStateFlow(0)
 private val pendingTaskLock = ReentrantLock()
-suspend fun <T> tracker(init: suspend () -> T) {
+suspend fun <T> tracker(init: suspend () -> T): T {
     pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value + 1 }
     try {
-        init.invoke()
+       return init.invoke()
     } finally {
         pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value - 1 }
     }

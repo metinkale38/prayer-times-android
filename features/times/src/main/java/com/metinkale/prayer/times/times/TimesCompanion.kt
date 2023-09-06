@@ -3,12 +3,17 @@ package com.metinkale.prayer.times.times
 import android.content.SharedPreferences
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
-import com.metinkale.prayer.times.LocationReceiver
+import com.metinkale.prayer.times.LocationService
 import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.asStore
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -30,17 +35,6 @@ open class TimesCompanion : Flow<List<Times>> {
     }
 
     init {
-        MainScope().launch {
-            store.data.map { it.any { it.autoLocation } }.distinctUntilChanged().filter { it }
-                .collect {
-                    LocationReceiver.start(App.get())
-                }
-        }
-        MainScope().launch {
-            store.data.distinctUntilChangedBy { it.map { it.ongoing } }.collect {
-                InternalBroadcastReceiver.sender(App.get()).sendTimeTick()
-            }
-        }
         MainScope().launch {
             debounce(1000).distinctUntilChanged().collect {
                 synchronized(this) {
@@ -84,6 +78,10 @@ open class TimesCompanion : Flow<List<Times>> {
         store.update { it.filter { it.id != times.id } }
     }
 
+    fun deleteAll() {
+        store.update { emptyList() }
+    }
+
     fun clearTemporaryTimes() = store.update {
         it.filter { it.id > 0 }
     }
@@ -93,7 +91,7 @@ open class TimesCompanion : Flow<List<Times>> {
         App.get().getSharedPreferences("cities", 0).getString("id$id", null)
             ?.let {
                 try {
-                    json.decodeFromString(Times.serializer(), it).copy(id = id)
+                    json.decodeFromString(Times.serializer(), it).copy(id = id).migrate()
                 } catch (e: Exception) {
                     CrashReporter.recordException(e)
                     e.printStackTrace()

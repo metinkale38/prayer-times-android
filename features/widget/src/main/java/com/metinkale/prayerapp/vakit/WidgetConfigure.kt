@@ -21,7 +21,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.metinkale.prayer.receiver.InternalBroadcastReceiver
+import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.widgets.R
 
@@ -85,12 +85,12 @@ open class WidgetConfigure : AppCompatActivity() {
     }
 
     fun result() {
-        InternalBroadcastReceiver.sender(this).sendTimeTick()
+        AppEventManager.sendTimeTick()
         val resultValue = Intent()
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
         finish()
-        WidgetUtils.updateWidgets(this)
+        WidgetService.updateWidgets(this)
     }
 
     companion object {
