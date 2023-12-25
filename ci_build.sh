@@ -12,6 +12,7 @@ else
   cd open-prayer-times
   chmod +x gradlew
 fi
+echo "org.gradle.daemon=false" >> gradle.properties
 ./gradlew publishToMavenLocal --no-daemon
 cd ..
 
