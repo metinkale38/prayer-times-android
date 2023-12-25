@@ -58,7 +58,7 @@ open class WidgetConfigure : AppCompatActivity() {
                 array[i] = t.name + " (" + t.source.name + ")"
             }
         }
-        builder.setItems(array) { dialog: DialogInterface?, which: Int ->
+        builder.setItems(array) { _: DialogInterface?, which: Int ->
             getSharedPreferences("widgets", 0).edit()
                 .putInt("" + appWidgetId, Times.getTimesByIndex(which).current?.id ?: 0).apply()
             if (onlyCity) result() else themeDialog()

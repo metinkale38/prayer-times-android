@@ -43,6 +43,16 @@ data class DayTimes(
     @Serializable(LocalTimeSerializer::class)
     val sabah: LocalTime? = null,
 ) {
+    fun by(v: Vakit): LocalTime =
+        when (v) {
+            Vakit.FAJR -> fajr
+            Vakit.SUN -> sun
+            Vakit.DHUHR -> dhuhr
+            Vakit.ASR -> asr
+            Vakit.MAGHRIB -> maghrib
+            Vakit.ISHAA -> ishaa
+        }
+
     companion object {
         fun from(dayTimes: dev.metinkale.prayertimes.core.DayTimes) = DayTimes(
             date = dayTimes.date.toJavaLocalDate(),

@@ -22,7 +22,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Vibrator
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter

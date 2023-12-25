@@ -3,7 +3,6 @@ package com.metinkale.prayer.times.times
 import android.content.SharedPreferences
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
-import com.metinkale.prayer.times.LocationService
 import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.asStore
 import kotlinx.coroutines.MainScope
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -71,6 +69,13 @@ open class TimesCompanion : Flow<List<Times>> {
                 listOf(times.copy(ongoing = true))
             else
                 it + times
+        }
+    }
+
+    fun queueAction(function: () -> Unit) {
+        store.update {
+            function()
+            it
         }
     }
 

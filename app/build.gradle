@@ -42,8 +42,8 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 23
         multiDexEnabled true
-        versionName '3.8.0'
-        versionCode 230
+        versionName '3.8.2'
+        versionCode 240
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
@@ -61,7 +61,7 @@ android {
         }
     }
 
-    flavorDimensions "store"
+    flavorDimensions = ["store"]
     productFlavors {
         fdroid {
             dimension "store"

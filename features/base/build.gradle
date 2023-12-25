@@ -46,7 +46,7 @@ android {
     }
 
 
-    flavorDimensions "store"
+    flavorDimensions = ["store"]
     productFlavors {
         fdroid {
             dimension "store"
@@ -96,6 +96,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     api "androidx.lifecycle:lifecycle-service:2.5.1"
     api "androidx.cardview:cardview:1.0.0"
+    api 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'

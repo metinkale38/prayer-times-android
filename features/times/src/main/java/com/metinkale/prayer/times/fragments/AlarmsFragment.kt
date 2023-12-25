@@ -66,6 +66,25 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
         return v
     }
 
+
+    fun checkBatteryOptimization() {
+        if (!isIgnoringBatteryOptimizations(requireContext())) {
+            val dialog = AlertDialog.Builder(requireContext()).create()
+            dialog.setTitle(R.string.batteryOptimizations)
+            dialog.setMessage(getString(R.string.batteryOptimizationsText))
+            dialog.setCancelable(false)
+            dialog.setButton(
+                DialogInterface.BUTTON_POSITIVE, getString(R.string.yes)
+            ) { _: DialogInterface?, _: Int ->
+                checkBatteryOptimizations(requireContext())
+            }
+            dialog.setButton(
+                DialogInterface.BUTTON_NEGATIVE, getString(R.string.no)
+            ) { _: DialogInterface?, _: Int -> }
+            dialog.show()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val i = item.itemId
         if (i == R.id.add) {
@@ -98,6 +117,7 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                 get() = this@AlarmsFragment.times.current?.ongoing ?: false
 
             override fun onChange(checked: Boolean) {
+                if (checked) checkBatteryOptimization()
                 this@AlarmsFragment.times.update {
                     it?.copy(ongoing = checked)
                 }
@@ -112,21 +132,10 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                     get() = alarm.current?.title ?: ""
 
                 override fun onChange(checked: Boolean) {
-                    if (checked && !isIgnoringBatteryOptimizations(requireContext())) {
-                        val dialog = AlertDialog.Builder(requireContext()).create()
-                        dialog.setTitle(R.string.batteryOptimizations)
-                        dialog.setMessage(getString(R.string.batteryOptimizationsText))
-                        dialog.setCancelable(false)
-                        dialog.setButton(
-                            DialogInterface.BUTTON_POSITIVE, getString(R.string.yes)
-                        ) { _: DialogInterface?, _: Int ->
-                            checkBatteryOptimizations(requireContext())
-                        }
-                        dialog.setButton(
-                            DialogInterface.BUTTON_NEGATIVE, getString(R.string.no)
-                        ) { _: DialogInterface?, _: Int -> }
-                        dialog.show()
-                    } else alarm.update {
+                    if (checked) {
+                        checkBatteryOptimization()
+                    }
+                    alarm.update {
                         it?.copy(enabled = checked)
                     }
                 }
@@ -138,6 +147,7 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                         Toast.makeText(activity, R.string.activateForMorePrefs, Toast.LENGTH_LONG)
                             .show()
                     } else {
+                        checkBatteryOptimization()
                         alarm.current?.let {
                             try {
                                 moveToFrag(AlarmFragment.create(it))

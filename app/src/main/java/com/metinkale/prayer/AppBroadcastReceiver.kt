@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import com.metinkale.prayer.receiver.AppEventListener
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.receiver.OnStartListener
 
@@ -11,8 +12,18 @@ import com.metinkale.prayer.receiver.OnStartListener
 class AppBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action ?: "") {
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_LOCKED_BOOT_COMPLETED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            Intent.ACTION_TIME_CHANGED -> {
+                AppEventManager.sendOnStart()
+            }
+
             Intent.ACTION_SCREEN_ON, Intent.ACTION_USER_UNLOCKED, Intent.ACTION_USER_PRESENT -> {
-                if (!screenOn) AppEventManager.sendScreenOn()
+                if (!screenOn) {
+                    AppEventManager.sendScreenOn()
+                    sendTimeTick()
+                }
                 screenOn = true
             }
 
@@ -22,12 +33,17 @@ class AppBroadcastReceiver : BroadcastReceiver() {
             }
 
             else -> {
-                System.currentTimeMillis().let { time ->
-                    if (time / 60000 != lastTimeTick / 60000) // only refresh if minute has changed
-                        AppEventManager.sendTimeTick()
-                    lastTimeTick = time
-                }
+                if (screenOn)
+                    sendTimeTick()
             }
+        }
+    }
+
+    private fun sendTimeTick() {
+        System.currentTimeMillis().let { time ->
+            if (time / 60000 != lastTimeTick / 60000) // only refresh if minute has changed
+                AppEventManager.sendTimeTick()
+            lastTimeTick = time
         }
     }
 
@@ -39,10 +55,10 @@ class AppBroadcastReceiver : BroadcastReceiver() {
             val receiver = AppBroadcastReceiver()
             val filter = IntentFilter()
             filter.addAction(Intent.ACTION_TIME_TICK)
-            filter.addAction(Intent.ACTION_SCREEN_ON)
             filter.addAction(Intent.ACTION_USER_PRESENT)
-            filter.addAction(Intent.ACTION_SCREEN_OFF)
             filter.addAction(Intent.ACTION_USER_UNLOCKED)
+            filter.addAction(Intent.ACTION_SCREEN_ON)
+            filter.addAction(Intent.ACTION_SCREEN_OFF)
             App.get().registerReceiver(receiver, filter)
         }
     }

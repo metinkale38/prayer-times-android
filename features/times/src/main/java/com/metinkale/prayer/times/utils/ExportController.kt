@@ -32,17 +32,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.metinkale.prayer.CrashReporter
+import com.metinkale.prayer.date.HijriDate
+import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.drawableId
 import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
+import com.metinkale.prayer.times.times.getDayTimes
 import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.utils.LocaleUtils
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -256,10 +260,94 @@ object ExportController {
         ctx.startActivity(Intent.createChooser(shareIntent, ctx.resources.getText(R.string.export)))
     }
 
+    fun exportICS(ctx: Context, times: Times, from: LocalDate, to: LocalDate) {
+
+        val prodId = "prayer-times-android/${ctx.packageName}"
+
+
+        val now = LocalDateTime.now()
+
+        val output = StringBuilder().apply {
+            appendLine("BEGIN:VCALENDAR")
+            appendLine("VERSION:2.0")
+            appendLine("PRODID:-//$prodId")
+            appendLine("METHOD:PUBLISH")
+
+            var date = from
+            do {
+                times.getDayTimes(date)?.let { daytimes ->
+
+                    Vakit.values().forEach { v ->
+
+                        appendLine("BEGIN:VEVENT")
+                        appendLine("TRANSP:TRANSPARENT")
+                        appendLine("SUMMARY:" + v.string)
+                        appendLine(
+                            "DTSTAMP:${
+                                now.withSecond(0).withNano(0).toString().replace("-", "").replace(":", "") + "00"
+                            }"
+                        )
+                        appendLine(
+                            "DTSTART:${
+                                daytimes.by(v).atDate(date).withSecond(0).withNano(0).toString().replace("-", "")
+                                    .replace(":", "") + "00"
+                            }"
+                        )
+                        appendLine(
+                            "DTEND:${
+                                daytimes.by(v).atDate(date).withSecond(0).withNano(0).toString()
+                                    .replace("-", "").replace(":", "") + "00"
+                            }"
+                        )
+                        appendLine("UID:${date.hashCode() + v.hashCode()}@${ctx.packageName}")
+                        appendLine(
+                            "DESCRIPTION:" + LocaleUtils.formatDate(
+                                HijriDate.fromLocalDate(
+                                    date
+                                )
+                            )
+                        )
+                        appendLine("LOCATION:" + times.name)
+                        appendLine("URL;VALUE=URI:https://play.google.com/store/apps/details?id=com.metinkale.prayer")
+                        appendLine("BEGIN:VALARM")
+                        appendLine("TRIGGER:PT0S")
+                        appendLine("DESCRIPTION:")
+                        appendLine("ACTION:DISPLAY")
+                        appendLine("END:VALARM")
+                        appendLine("END:VEVENT")
+                    }
+                }
+                date = date.plusDays(1)
+            } while (date <= to)
+
+            appendLine("END:VCALENDAR")
+
+
+        }.toString()
+
+        val outputDir = ctx.cacheDir
+        if (!outputDir.exists()) outputDir.mkdirs()
+        val outputFile = File(outputDir, "times.ics")
+        if (outputFile.exists()) outputFile.delete()
+        FileOutputStream(outputFile).bufferedWriter().use { it.write(output) }
+
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        val uri: Uri = FileProvider.getUriForFile(
+            ctx,
+            ctx.getString(com.metinkale.prayer.base.R.string.FILE_PROVIDER_AUTHORITIES),
+            outputFile
+        )
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        intent.setDataAndType(uri, "text/calendar")
+        ctx.startActivity(intent)
+    }
+
+
     fun export(ctx: Context, times: Times) {
         val builder = AlertDialog.Builder(ctx)
         builder.setTitle(R.string.export).setItems(
-            arrayOf<CharSequence>("CSV", "PDF")
+            arrayOf<CharSequence>("CSV", "PDF", "ICS")
         ) { _: DialogInterface?, which: Int ->
             var minDate: Long = 0
             var maxDate = Long.MAX_VALUE
@@ -281,8 +369,10 @@ object ExportController {
                             try {
                                 if (which == 0) {
                                     exportCSV(ctx, times, from, to)
-                                } else {
+                                } else if (which == 1) {
                                     exportPDF(ctx, times, from, to)
+                                } else {
+                                    exportICS(ctx, times, from, to)
                                 }
                             } catch (e: IOException) {
                                 e.printStackTrace()

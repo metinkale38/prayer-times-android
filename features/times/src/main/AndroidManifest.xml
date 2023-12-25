@@ -2,9 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application>
 
@@ -33,13 +39,18 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <service android:name=".OngoingNotificationsService" />
+        <service
+            android:name=".OngoingNotificationsService"> </service>
 
-        <service android:name=".alarm.AlarmService" />
+        <service
+            android:name=".alarm.AlarmService">  </service>
 
         <receiver android:name=".alarm.AlarmService$StopAlarmPlayerReceiver" />
         <receiver android:name=".alarm.SilenterReceiver" />
-        <service android:name=".LocationService" />
+
+        <service
+            android:name=".LocationUtil"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

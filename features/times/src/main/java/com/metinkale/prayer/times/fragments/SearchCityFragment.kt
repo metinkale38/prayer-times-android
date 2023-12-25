@@ -35,7 +35,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
@@ -45,18 +47,20 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.UUID
 import dev.metinkale.prayertimes.core.Entry
+import dev.metinkale.prayertimes.core.SearchEntry
 import dev.metinkale.prayertimes.core.sources.Source
+import kotlinx.coroutines.launch
 import java.util.*
 
 class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     SearchView.OnQueryTextListener, LocationListener, View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener, Observer<List<Entry?>?> {
+    CompoundButton.OnCheckedChangeListener, Observer<List<Entry>> {
     private lateinit var adapter: MyAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var searchItem: MenuItem
-    private val searchApi = OpenPrayerTimesSearchEndpoint()
     private lateinit var autoLocation: SwitchCompat
     private var location: Location? = null
+    private val entries = MutableLiveData<List<Entry>>()
 
     // prevent duplicate permission request
     private var askedForPermission = false
@@ -93,11 +97,12 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         listView.addFooterView(csv)
         adapter = MyAdapter(requireContext())
         listView.adapter = adapter
-        searchApi.observe(viewLifecycleOwner, this)
 
 
         v.findViewById<View>(R.id.chooseByList)
             .setOnClickListener { moveToFrag(ListCityFragment.create()) }
+
+        entries.observe(viewLifecycleOwner, this)
         return v
     }
 
@@ -127,6 +132,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     }
 
     private fun checkLocation() {
+
         if (PermissionUtils.get(requireActivity()).pLocation) {
             val lm = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             var loc: Location? = null
@@ -178,7 +184,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     Times(
                         id = UUID.asInt(),
                         source = it.source,
-                        name = it.localizedName(),
+                        name = it.localizedName,
                         lat = it.lat ?: 0.0,
                         lng = it.lng ?: 0.0,
                         key = it.id,
@@ -193,11 +199,11 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                         Times(
                             id = UUID.asInt(),
                             source = it.source,
-                            name = it.localizedName(),
+                            name = it.localizedName,
                             lat = it.lat ?: 0.0,
                             lng = it.lng ?: 0.0,
                             key = it.id,
-                            sortId = (Times.current.map { it.sortId }.maxOrNull() ?: 0) + 1,
+                            sortId = (Times.current.maxOfOrNull { it.sortId } ?: 0) + 1,
                             autoLocation = autoLocation.isChecked
                         )
                     )
@@ -208,7 +214,14 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         autoLocation.isChecked = false
-        searchApi.search((query?.trim { it <= ' ' }?.replace(" ", "+") ?: query)!!)
+
+        lifecycleScope.launch {
+            val result = tracker {
+                query?.let { SearchEntry.search(query) } ?: emptyList()
+            }
+            entries.postValue(result)
+        }
+
         return true
     }
 
@@ -221,6 +234,10 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         if (adapter.count <= 1) {
             autoLocation()
         }
+
+        if (PermissionUtils.get(requireContext()).pLocation) {
+            autoLocation.isChecked = true
+        }
     }
 
     private fun autoLocation() {
@@ -229,11 +246,18 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
             adapter.notifyDataSetChanged()
             return
         }
-        searchApi.search(
-            location!!.latitude,
-            location!!.longitude
-        )
-        autoLocation.isChecked = true
+
+        location?.let { location ->
+            lifecycleScope.launch {
+                val result = tracker {
+                    SearchEntry.search(
+                        location.latitude,
+                        location.longitude
+                    )
+                }
+                entries.postValue(result)
+            }
+        }
     }
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -302,20 +326,24 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     }
 
     override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
-        if (b) autoLocation()
-        adapter.notifyDataSetChanged()
+        if (PermissionUtils.get(requireContext()).pLocation) {
+            if (b) autoLocation()
+            adapter.notifyDataSetChanged()
+        } else {
+            autoLocation.isChecked = false
+            PermissionUtils.get(requireContext()).needLocation(requireActivity())
+        }
     }
 
-    override fun onChanged(entries: List<Entry?>?) {
-        if (entries != null && entries.isNotEmpty()) {
-            adapter.clear()
-            adapter.addAll(entries.distinctBy { if (it?.source == Source.Calc) null else it })
-        }
+
+    override fun onChanged(entries: List<Entry>) {
+        adapter.clear()
+        adapter.addAll(entries)
         adapter.notifyDataSetChanged()
     }
 
     private inner class MyAdapter(context: Context) :
-        ArrayAdapter<Entry?>(context, 0, 0) {
+        ArrayAdapter<Entry>(context, 0, 0) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var convertView = convertView
             val vh: ViewHolder
@@ -327,7 +355,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                 vh = convertView.tag as ViewHolder
             }
             val i = getItem(position)!!
-            vh.city.text = i.localizedName()
+            vh.city.text = i.localizedName
             vh.country.text = Locale("", i.country).displayCountry
             vh.sourcetxt.text = i.source.name
             if (i.source.drawableId == 0) {

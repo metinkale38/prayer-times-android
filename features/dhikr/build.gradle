@@ -42,7 +42,7 @@ android {
         }
     }
 
-    flavorDimensions "store"
+    flavorDimensions = ["store"]
     productFlavors {
         fdroid {
             dimension "store"

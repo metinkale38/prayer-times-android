@@ -46,7 +46,6 @@ class BackupRestoreActivity : AppCompatActivity() {
                 result?.data?.data?.also { uri ->
                     contentResolver?.openInputStream(uri)?.use { stream ->
                         DhikrDatabase.getDatabase(applicationContext).close()
-                        var success = true
 
                         filesDir.listFiles()?.forEach { it.delete() }
                         File(filesDir.parentFile, "databases").listFiles()?.forEach { it.delete() }

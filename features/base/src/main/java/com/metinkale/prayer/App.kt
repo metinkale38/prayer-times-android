@@ -15,13 +15,12 @@
  */
 package com.metinkale.prayer
 
-import android.app.ActivityManager
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.metinkale.prayer.CrashReporter.initializeApp
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.CrashReporter.setCustomKey

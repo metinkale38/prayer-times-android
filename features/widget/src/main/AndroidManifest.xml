@@ -18,33 +18,33 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-
     <application tools:ignore="GoogleAppIndexingWarning">
-        <service android:name="com.metinkale.prayerapp.vakit.WidgetService"/>
+        <service
+            android:name="com.metinkale.prayerapp.vakit.WidgetService">    </service>
 
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
+            android:exported="true"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:exported="true">
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigureSilenter"
+            android:exported="true"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:exported="true">
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigureClock"
+            android:exported="true"
             android:label="Configure Widget"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:exported="true">
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -53,8 +53,8 @@
 
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProvider"
-            android:label="@string/widgetLabel"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetLabel">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -65,8 +65,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock"
-            android:label="@string/widgetClock"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetClock">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -77,8 +77,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderClock2"
-            android:label="@string/widgetClock2"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetClock2">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -89,8 +89,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderLong"
-            android:label="@string/widgetLong"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetLong">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -101,8 +101,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSmall"
-            android:label="@string/widgetSmall"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetSmall">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -113,8 +113,8 @@
         </receiver>
         <receiver
             android:name="com.metinkale.prayerapp.vakit.WidgetProviderSilenter"
-            android:label="@string/widgetSilenter"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widgetSilenter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

@@ -16,6 +16,7 @@
 package com.metinkale.prayer.times
 
 import android.os.Bundle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.times.fragments.SearchCityFragment
@@ -25,11 +26,8 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, TimesFragment()) {
-    override fun onStart() {
-        super.onStart()
-        LocationService.start()
-    }
 
+    lateinit var locationScanning: LiveData<Boolean>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent.getBooleanExtra("openCitySearch", false)) {
@@ -39,6 +37,8 @@ open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, T
         pendingTasks.asLiveData().observe(this) {
             setProgressDialogVisible(it > 0)
         }
+
+        lifecycle.addObserver(LocationUtil().also { locationScanning = it.running })
     }
 }
 
@@ -47,7 +47,7 @@ private val pendingTaskLock = ReentrantLock()
 suspend fun <T> tracker(init: suspend () -> T): T {
     pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value + 1 }
     try {
-       return init.invoke()
+        return init.invoke()
     } finally {
         pendingTaskLock.withLock { pendingTasks.value = pendingTasks.value - 1 }
     }

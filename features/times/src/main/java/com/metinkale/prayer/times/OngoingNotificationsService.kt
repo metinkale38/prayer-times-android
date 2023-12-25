@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.text.Spannable
 import android.text.style.StyleSpan
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
@@ -34,6 +35,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.text.toSpannable
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.setCustomKey
@@ -51,8 +53,10 @@ import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.times.utils.NotificationUtils
 import com.metinkale.prayer.utils.LocaleUtils
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import java.lang.RuntimeException
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -65,16 +69,25 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
     private val icon get() = Preferences.SHOW_ONGOING_ICON
     private val number get() = Preferences.SHOW_ONGOING_NUMBER
 
-    private val states = Times.map { it.map { it.ongoing } }.asLiveData()
+    private val states =
+        Times.map { it.map { it.ongoing } }.distinctUntilChanged().drop(1).asLiveData()
+
+    private val channelId = NotificationUtils.getOngoingChannel(App.get())
+
+
+    private val observer: Observer<List<Boolean>> = Observer<List<Boolean>> {
+        onStartCommand(null, 0, 0)
+    }
 
     override fun onCreate() {
         super.onCreate()
         AppEventManager.register(this)
-        states.observe({ lifecycle }) { onStartCommand(null, 0, 0) }
+        states.observeForever(observer)
     }
 
     override fun onDestroy() {
         AppEventManager.unregister(this)
+        states.removeObserver(observer)
         super.onDestroy()
     }
 
@@ -95,17 +108,18 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notMan = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+
         val notifications: List<Pair<Notification, Int>> = Times.current.mapNotNull { t ->
             val notId = t.buildNotificationId("ongoing")
             if (!t.ongoing) {
-                notMan.cancel(notId)
+                if (notMan.activeNotifications.any { it.id == notId })
+                    notMan.cancel(notId)
                 null
             } else {
                 setCustomKey("showIcon", icon)
                 setCustomKey("showNumber", number)
 
 
-                val channelId = NotificationUtils.getOngoingChannel(this)
                 val builder = NotificationCompat.Builder(this, channelId)
                 builder.setContentIntent(getPendingIntent(t))
                 if (!icon) {
@@ -130,11 +144,20 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
                 noti to notId
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // remove orphaned notifications
+            notMan.activeNotifications.filter { it.notification.channelId == channelId }
+                .filter { notifications.none { not -> not.second == it.id } }.forEach {
+                    notMan.cancel(it.id)
+                }
+        }
+
         if (notifications.isNotEmpty()) {
             hasOngoingNotifications = true
             notifications.forEachIndexed { index, (noti, id) ->
                 if (index == 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForeground(id, noti)
+                    runCatching { startForeground(id, noti) }.onFailure { notMan.notify(id, noti) }
                 }
                 notMan.notify(id, noti)
             }
@@ -146,7 +169,7 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
             stopSelf()
         }
 
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
 
@@ -268,16 +291,14 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
 
         fun start() {
             if (Times.current.any { it.ongoing }) {
+                val intent = Intent(
+                    App.get(),
+                    OngoingNotificationsService::class.java
+                )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    App.get().startForegroundService(
-                        Intent(
-                            App.get(),
-                            OngoingNotificationsService::class.java
-                        )
-                    )
+                    App.get().startForegroundService(intent)
                 } else {
-                    App.get()
-                        .startService(Intent(App.get(), OngoingNotificationsService::class.java))
+                    App.get().startService(intent)
                 }
             } else {
                 hasOngoingNotifications = false
@@ -290,7 +311,6 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
 
 
     }
-
 
 
 }

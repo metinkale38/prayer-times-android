@@ -37,8 +37,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.base.R
-import com.metinkale.prayer.utils.LocaleUtils.init
-import com.metinkale.prayer.utils.LocaleUtils.wrapContext
+import com.metinkale.prayer.receiver.AppEventManager
+import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.PermissionUtils
 
 open class BaseActivity(
@@ -70,7 +70,7 @@ open class BaseActivity(
     }*/
     override fun attachBaseContext(newBase: Context) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            super.attachBaseContext(wrapContext(newBase))
+            super.attachBaseContext(LocaleUtils.wrapContext(newBase))
         } else {
             super.attachBaseContext(newBase)
         }
@@ -78,7 +78,7 @@ open class BaseActivity(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init(this)
+        LocaleUtils.init(this)
         //AppRatingDialog.increaseAppStarts();
         if (Preferences.SHOW_INTRO || Preferences.CHANGELOG_VERSION < BuildConfig.CHANGELOG_VERSION) {
             Module.INTRO.launch(this)
@@ -102,8 +102,7 @@ open class BaseActivity(
         val list = buildNavAdapter(this)
         nav.adapter = list
         nav.onItemClickListener = this
-        nav.viewTreeObserver
-            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        nav.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if (nav.height < (nav.parent as View).height) {
                         val diff = (nav.parent as View).height - nav.height
@@ -139,6 +138,8 @@ open class BaseActivity(
             finish()
         }
         moveToFrag(defaultFragment)
+
+        AppEventManager.sendOnStart()
     }
 
     fun setProgressDialogVisible(visible: Boolean) {

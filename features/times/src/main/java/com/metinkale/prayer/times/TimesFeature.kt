@@ -2,10 +2,15 @@ package com.metinkale.prayer.times
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
+import android.os.Build
+import com.metinkale.prayer.App
 import com.metinkale.prayer.MenuFeature
 import com.metinkale.prayer.base.R
+import com.metinkale.prayer.receiver.OnStartListener
+import dev.metinkale.prayertimes.core.Configuration
 
-object TimesFeature : MenuFeature {
+object TimesFeature : MenuFeature ,OnStartListener{
     override val iconRes: Int = R.drawable.ic_menu_times
     override val titleRes: Int = R.string.appName
 
@@ -13,10 +18,23 @@ object TimesFeature : MenuFeature {
 
     override fun buildIntent(c: Context): Intent = Intent(c, MainActivity::class.java)
 
+
     override val appEventListeners =
         listOf(
             TimesBroadcastReceiver,
             OngoingNotificationsService.Companion,
-            LocationService.Companion
+            this
         )
+
+    override fun onStart() {
+        Configuration.IGMG_API_KEY = App.get().getString(R.string.IGMG_API_KEY)
+        Configuration.LONDON_PRAYER_TIMES_API_KEY = App.get().getString(R.string.LONDON_PRAYER_TIMES_API_KEY)
+        Configuration.languages = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Resources.getSystem().configuration.locales.let { locales ->
+                (0 until locales.size()).map { locales[it].language }
+            }
+        } else {
+            listOf(Resources.getSystem().configuration.locale.language)
+        }
+    }
 }

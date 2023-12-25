@@ -29,13 +29,13 @@ import androidx.annotation.Size
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.metinkale.prayer.App
-import com.metinkale.prayer.CrashReporter.recordException
-import com.metinkale.prayer.CrashReporter.setCustomKey
+import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.R
 import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.date.HijriMonth
+import java.lang.IllegalStateException
 import java.text.DateFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
@@ -61,12 +61,8 @@ object LocaleUtils {
 
     @JvmStatic
     fun init(c: Context) {
-        initLocale(c)
-    }
-
-    private fun initLocale(c: Context) {
-        setCustomKey("lang", Preferences.LANGUAGE)
-        setCustomKey("digits", Preferences.DIGITS)
+        CrashReporter.setCustomKey("lang", Preferences.LANGUAGE)
+        CrashReporter.setCustomKey("digits", Preferences.DIGITS)
         val config = Configuration()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val localeList = LocaleList(*locales.toTypedArray())
@@ -81,7 +77,13 @@ object LocaleUtils {
         c.applicationContext.resources.updateConfiguration(config, c.resources.displayMetrics)
 
         val localeListCompat = LocaleListCompat.create(*locales.toTypedArray())
-        AppCompatDelegate.setApplicationLocales(localeListCompat)
+
+        try {
+            AppCompatDelegate.setApplicationLocales(localeListCompat)
+        } catch (e: IllegalStateException) {
+            // getting "Can't change activity type once set!"
+            CrashReporter.recordException(e)
+        }
     }
 
     fun formatTimeForHTML(localTime: LocalTime?): CharSequence {
@@ -117,7 +119,7 @@ object LocaleUtils {
                     az(hour - 12) + suffix + " PM"
                 }
             } catch (e: Exception) {
-                recordException(e)
+                CrashReporter.recordException(e)
                 return time
             }
         }
@@ -171,7 +173,7 @@ object LocaleUtils {
             format = try {
                 format.replace("MMM", getHijriMonth(date.month))
             } catch (ex: ArrayIndexOutOfBoundsException) {
-                recordException(ex)
+                CrashReporter.recordException(ex)
                 return ""
             }
         }
@@ -188,7 +190,7 @@ object LocaleUtils {
         format = try {
             format.replace("MMM", getGregMonth(date.month))
         } catch (ex: ArrayIndexOutOfBoundsException) {
-            recordException(ex)
+            CrashReporter.recordException(ex)
             return ""
         }
         format = format.replace("MM", az(date.monthValue, 2))

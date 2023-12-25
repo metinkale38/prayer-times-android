@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 230,
-      "versionName": "3.8.0 Play Store",
+      "versionCode": 240,
+      "versionName": "3.8.2 Play Store",
       "outputFile": "app-play-release.apk"
     }
   ],

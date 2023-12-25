@@ -57,15 +57,14 @@ public class PermissionUtils {
 
     private void checkPermissions(@NonNull Context c) {
         pStorage = ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        pLocation = ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(c, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         pNotification = Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(c, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         pNotPolicy = nm.isNotificationPolicyAccessGranted();
-        CrashReporter.setCustomKey("pNotPolicy", pLocation);
 
         CrashReporter.setCustomKey("pStorage", pStorage);
         CrashReporter.setCustomKey("pLocation", pLocation);
-        CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
+         CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
         CrashReporter.setCustomKey("pNotification", pNotification);
 
     }
@@ -138,6 +137,7 @@ public class PermissionUtils {
         for (int i = 0; i < permissions.length; i++) {
             switch (permissions[i]) {
                 case Manifest.permission.ACCESS_FINE_LOCATION:
+                case Manifest.permission.ACCESS_COARSE_LOCATION:
                     pLocation = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                     break;
                 case Manifest.permission.WRITE_EXTERNAL_STORAGE:

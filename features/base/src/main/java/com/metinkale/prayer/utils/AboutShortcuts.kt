@@ -84,10 +84,10 @@ object AboutShortcuts {
     @JvmStatic
     fun mail(ctx: Context) {
         val emailIntent =
-            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "info@prayerapp.dev", null))
+            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "prayertimes38@gmail.com", null))
         emailIntent.putExtra(
             Intent.EXTRA_SUBJECT,
-            ctx.getString(R.string.appName) + " (com.metinkaler.prayer)"
+            ctx.getString(R.string.appName) + " (com.metinkale.prayer)"
         )
         var versionCode = "Undefined"
         var versionName = "Undefined"

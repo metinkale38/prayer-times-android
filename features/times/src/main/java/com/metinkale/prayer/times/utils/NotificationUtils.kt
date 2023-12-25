@@ -101,7 +101,7 @@ object NotificationUtils {
      * It has a special channel, so it can be simple hidden by the user by clicking on it
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    fun createDummyNotification(c: Context): Notification {
+    fun createDummyNotification(c: Context, text: String? = null): Notification {
         c.getSystemService(NotificationManager::class.java)
         val channelId = NotificationUtils.getWidgetChannel(c)
         val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
@@ -112,7 +112,7 @@ object NotificationUtils {
         val builder = NotificationCompat.Builder(c, channelId)
         builder.setContentIntent(pendingIntent)
         builder.setSmallIcon(R.drawable.ic_abicon)
-        builder.setContentText(c.getString(R.string.clickToDisableNotification))
+        builder.setContentText(text ?: c.getString(R.string.clickToDisableNotification))
         builder.priority = NotificationCompat.PRIORITY_MIN
         builder.setWhen(0) //show as last
         return builder.build()

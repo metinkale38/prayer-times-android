@@ -69,9 +69,9 @@ internal object WidgetLegacy {
         val remoteViews = RemoteViews(context.packageName, R.layout.vakit_widget)
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(now, times.getTime(today, next), false)
-        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next += 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
-        val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         canvas.scale(0.99f, 0.99f, s / 2f, s / 2f)
         val paint = Paint()
@@ -136,9 +136,9 @@ internal object WidgetLegacy {
         val date = dateTime.toLocalDate()
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(LocalDateTime.now(), times.getTime(date, next))
-        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next += 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
-        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         canvas.scale(0.99f, 0.99f, w / 2f, h / 2f)
         val paint = Paint()
@@ -261,9 +261,9 @@ internal object WidgetLegacy {
         val date = LocalDate.now()
         var next = times.getNextTime()
         val left = LocaleUtils.formatPeriod(LocalDateTime.now(), times.getTime(date, next))
-        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next = next + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") next += 1
         remoteViews.setOnClickPendingIntent(R.id.widget, getPendingIntent(times))
-        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         canvas.scale(0.99f, 0.99f, w / 2f, h / 2f)
         val paint = Paint()
@@ -379,7 +379,7 @@ internal object WidgetLegacy {
             R.id.widget,
             PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         )
-        val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         canvas.scale(0.99f, 0.99f, s / 2f, s / 2f)
         val paint = Paint()
@@ -437,7 +437,7 @@ internal object WidgetLegacy {
         remoteViews.setOnClickPendingIntent(R.id.belowPart, getPendingIntent(times))
         val builder = CalendarContract.CONTENT_URI.buildUpon()
         builder.appendPath("time")
-        builder.appendPath(java.lang.Long.toString(System.currentTimeMillis()))
+        builder.appendPath(System.currentTimeMillis().toString())
         val intent = Intent(Intent.ACTION_VIEW, builder.build())
         remoteViews.setOnClickPendingIntent(
             R.id.center,
@@ -450,7 +450,7 @@ internal object WidgetLegacy {
         )
         val next = times.getNextTime()
         val last = next - 1
-        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         val paint = Paint()
         paint.isAntiAlias = true
@@ -586,7 +586,7 @@ internal object WidgetLegacy {
         remoteViews.setOnClickPendingIntent(R.id.belowPart, getPendingIntent(times))
         val builder = CalendarContract.CONTENT_URI.buildUpon()
         builder.appendPath("time")
-        builder.appendPath(java.lang.Long.toString(System.currentTimeMillis()))
+        builder.appendPath(System.currentTimeMillis().toString())
         val intent = Intent(Intent.ACTION_VIEW, builder.build())
         remoteViews.setOnClickPendingIntent(
             R.id.center,
@@ -597,7 +597,7 @@ internal object WidgetLegacy {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
-        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
+        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         val paint = Paint()
         paint.isAntiAlias = true
@@ -626,7 +626,7 @@ internal object WidgetLegacy {
         }
         val next = times.getNextTime()
         var indicator = next - 1
-        if (Preferences.VAKIT_INDICATOR_TYPE == "next") indicator = indicator + 1
+        if (Preferences.VAKIT_INDICATOR_TYPE == "next") indicator += 1
         canvas.drawArc(
             RectF(w / 100f, w / 100f, w - w / 100f, h - w / 100f),
             -90f,

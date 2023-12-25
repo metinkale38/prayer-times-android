@@ -82,7 +82,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
             )
             val ongoingColor = findPreference("ongoingColor")
             ongoingColor.onPreferenceClickListener =
-                Preference.OnPreferenceClickListener { e: Preference? ->
+                Preference.OnPreferenceClickListener {
                     val dlg = AlertDialog.Builder(
                         requireActivity()
                     )
@@ -106,7 +106,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
                                 colors[position][0] == Preferences.ONGOING_BG_COLOR && colors[position][1] == Preferences.ONGOING_TEXT_COLOR
                             return v
                         }
-                    }) { dialog: DialogInterface?, which: Int ->
+                    }) { _: DialogInterface?, which: Int ->
                         Preferences.ONGOING_BG_COLOR = colors[which][0]
                         Preferences.ONGOING_TEXT_COLOR = colors[which][1]
                     }

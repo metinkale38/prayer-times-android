@@ -22,22 +22,24 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.metinkale.prayer.BaseActivity
-import com.metinkale.prayer.times.OpenPrayerTimesListEndpoint
 import com.metinkale.prayer.times.R
-import com.metinkale.prayer.times.localizedName
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.UUID
-import dev.metinkale.prayertimes.core.router.ListResponse
+import dev.metinkale.prayertimes.core.Entry
+import dev.metinkale.prayertimes.core.SearchEntry
 import dev.metinkale.prayertimes.core.sources.Source
-import java.util.*
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 
-class ListCityFragment : BaseActivity.MainFragment(), Observer<ListResponse> {
+class ListCityFragment : BaseActivity.MainFragment(), Observer<Pair<List<String>?, Entry?>> {
 
     private lateinit var listView: ListView
-    private val listApi = OpenPrayerTimesListEndpoint()
+    private val listdata = MutableLiveData<Pair<List<String>?, Entry?>>()
     private lateinit var path: List<String>
 
 
@@ -49,36 +51,35 @@ class ListCityFragment : BaseActivity.MainFragment(), Observer<ListResponse> {
         val v = inflater.inflate(R.layout.vakit_listcity, container, false)
         listView = v.findViewById(R.id.listView)
 
-        listApi.list(path)
-        listApi.observe(viewLifecycleOwner, this)
+        lifecycleScope.launch { listdata.postValue(SearchEntry.list(path)) }
+
+        listdata.observe(viewLifecycleOwner, this)
         return v
     }
 
-    override fun onChanged(resp: ListResponse?) {
-        if (resp is ListResponse.Items) {
-            var list = resp.items
+    override fun onChanged(resp: Pair<List<String>?, Entry?>) {
 
+        resp.first?.let { list ->
             if (path.isEmpty()) {
-                list = list.map { Source.valueOf(it)?.fullName ?: it }
+                list.map { Source.valueOf(it)?.fullName ?: it }
             } else if (path.size == 1) {
-                list = list.map { Locale("", if (it == "EN") "GB" else it).displayCountry }
-            }
-
+                list.map { Locale("", if (it == "EN") "GB" else it).displayCountry }
+            } else list
+        }?.let { list ->
             listView.adapter = ArrayAdapter(
                 requireActivity(), android.R.layout.simple_list_item_1,
                 android.R.id.text1, list
             )
 
             listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-                moveToFrag(create(path + resp.items[pos]))
+                moveToFrag(create(path + resp.first!![pos]))
             }
-        }else if(resp is ListResponse.Result){
-            val entry = resp.entry
+        } ?: resp.second?.let { entry ->
             Times.add(
                 Times(
                     id = UUID.asInt(),
                     source = entry.source,
-                    name = entry.localizedName(),
+                    name = entry.localizedName,
                     lat = entry.lat ?: 0.0,
                     lng = entry.lng ?: 0.0,
                     key = entry.id,

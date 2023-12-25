@@ -15,7 +15,10 @@
  */
 package com.metinkale.prayer.receiver
 
+import android.app.ForegroundServiceStartNotAllowedException
+import android.os.Build
 import android.util.Log
+import com.metinkale.prayer.CrashReporter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -44,15 +47,15 @@ fun interface OnScreenOffListener : AppEventListener {
 }
 
 object AppEventManager {
-    private val listeners: MutableList<AppEventListener> = mutableListOf()
-    val job = Job()
+    private val listeners: MutableSet<AppEventListener> = mutableSetOf()
+    private val job = Job()
 
     fun register(listener: AppEventListener) {
         listeners.add(listener)
     }
 
     fun unregister(listener: AppEventListener) {
-        listeners.add(listener)
+        listeners.remove(listener)
     }
 
     fun sendOnPrefsChanged(key: String) = (MainScope() + job).launch {
@@ -60,7 +63,7 @@ object AppEventManager {
             try {
                 it.onPrefsChanged(key)
             } catch (e: Throwable) {
-                Log.e("AppEventManager", "Error in AppEventManager", e)
+                CrashReporter.recordException(e)
             }
         }
     }
@@ -70,7 +73,8 @@ object AppEventManager {
             try {
                 it.onStart()
             } catch (e: Throwable) {
-                Log.e("AppEventManager", "Error in AppEventManager", e)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || e !is ForegroundServiceStartNotAllowedException)
+                    CrashReporter.recordException(e)
             }
         }
     }
@@ -80,7 +84,7 @@ object AppEventManager {
             try {
                 it.onTimeTick()
             } catch (e: Throwable) {
-                Log.e("AppEventManager", "Error in AppEventManager", e)
+                CrashReporter.recordException(e)
             }
         }
     }
@@ -90,7 +94,7 @@ object AppEventManager {
             try {
                 it.onScreenOn()
             } catch (e: Throwable) {
-                Log.e("AppEventManager", "Error in AppEventManager", e)
+                CrashReporter.recordException(e)
             }
         }
     }
@@ -100,7 +104,7 @@ object AppEventManager {
             try {
                 it.onScreenOff()
             } catch (e: Throwable) {
-                Log.e("AppEventManager", "Error in AppEventManager", e)
+                CrashReporter.recordException(e)
             }
         }
     }

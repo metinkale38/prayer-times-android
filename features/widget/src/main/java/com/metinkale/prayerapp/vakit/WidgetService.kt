@@ -107,7 +107,7 @@ class WidgetService : Service(), OnTimeTickListener {
         } catch (e: Exception) {
             recordException(e)
         }
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
 
@@ -191,15 +191,13 @@ class WidgetService : Service(), OnTimeTickListener {
         val height: Int
 
         init {
-            var w = w
-            var h = h
             val r = App.get().resources
-            w = TypedValue.applyDimension(
+            val w = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 w.toFloat(),
                 r.displayMetrics
             ).toInt()
-            h = TypedValue.applyDimension(
+            val h = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 h.toFloat(),
                 r.displayMetrics

@@ -1,13 +1,23 @@
 # only shrink libraries, i do not care about deobfuscation, the app is already open source
 -keep class * extends com.metinkale.** { *; }
--keep class * extends org.metinkale.** { *; }
+-keep class * extends dev.metinkale.** { *; }
 -keep class * extends com.metinkale.**$* { *; }
--keep class * extends org.metinkale.**$* { *; }
+-keep class * extends dev.metinkale.**$* { *; }
 
 -dontobfuscate
 -printmapping mapping.txt
 
 ### see https://github.com/krschultz/android-proguard-snippets for library proguard files
+
+# Keep `INSTANCE.serializer()` of serializable objects.
+-if @kotlinx.serialization.Serializable class ** {
+    public static ** INSTANCE;
+}
+-keepclassmembers class <1> {
+    public static <1> INSTANCE;
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
 
 ## GSON 2.2.4 specific rules ##
 

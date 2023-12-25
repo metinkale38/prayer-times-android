@@ -21,7 +21,7 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.metinkale.prayer.App
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.sounds.Sound
@@ -56,7 +56,7 @@ data class Alarm(
 
     val nextAlarm: LocalDateTime?
         get() {
-            val city = getCity()
+            val city = Times.current.firstOrNull { it.id == cityId } ?: return null
             val today = LocalDate.now()
             val now = LocalDateTime.now()
             for (i in 0L..7L) {
@@ -72,7 +72,7 @@ data class Alarm(
             return null
         }
 
-    fun getCity(): Times = Times.current.first() { it.id == cityId }
+    fun getCity(): Times = Times.current.first { it.id == cityId }
 
     // avoid messages like 1 minute before/after Maghrib for minimal deviations
     fun buildNotificationTitle(): String {
@@ -81,7 +81,8 @@ data class Alarm(
             time++
         }
         var minutes =
-            Duration.between(getCity().getTime(LocalDate.now(), time), LocalDateTime.now()).toMinutes()
+            Duration.between(getCity().getTime(LocalDate.now(), time), LocalDateTime.now())
+                .toMinutes()
         if (minutes > 0 && times.contains(Vakit.getByIndex(time + 1))) {
             val minutesToNext = Duration.between(
                 getCity().getTime(LocalDate.now(), time + 1),

@@ -15,17 +15,22 @@
  */
 package com.metinkale.prayer.times.fragments
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.times.MainActivity
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
@@ -39,6 +44,7 @@ import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.util.*
 
+
 @SuppressLint("ClickableViewAccessibility")
 class CityFragment : Fragment() {
     private lateinit var times: Store<Times?>
@@ -51,6 +57,7 @@ class CityFragment : Fragment() {
         times = Times.getTimesByIndex(requireArguments().getInt("index"))
 
         val v = inflater.inflate(R.layout.vakit_fragment, container, false)
+        v.findViewById<ImageView>(R.id.gps).pulse()
 
         CityFragmentViewModel.from(times.data.filterNotNull()).asLiveData()
             .observe(viewLifecycleOwner) {
@@ -198,9 +205,30 @@ class CityFragment : Fragment() {
                     resources.getString(R.string.share)
                 )
             )
-        }else if (id == R.id.settings){
+        } else if (id == R.id.settings) {
             (parentFragment as? TimesFragment)?.moveToFrag(SettingsFragment.create(times.id))
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun ImageView.pulse(): ImageView {
+        val pulse: ValueAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0.3f, 1f)
+        pulse.duration = 1000
+        pulse.repeatCount = ObjectAnimator.INFINITE
+        pulse.repeatMode = ObjectAnimator.RESTART
+        pulse.interpolator = AccelerateDecelerateInterpolator()
+
+
+        (activity as? MainActivity)?.locationScanning?.observe({ lifecycle }) {
+            if (it) {
+                pulse.start()
+            } else {
+                pulse.cancel()
+                alpha = 1f
+            }
+        }
+
+        return this
+    }
+
 }

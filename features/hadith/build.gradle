@@ -40,7 +40,7 @@ android {
         }
     }
 
-    flavorDimensions "store"
+    flavorDimensions = ["store"]
     productFlavors {
         fdroid {
             dimension "store"
@@ -64,6 +64,5 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
-    implementation 'com.google.code.gson:gson:2.9.0'
 
 }

@@ -19,6 +19,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.OnPrefsChangedListener
 import com.metinkale.prayer.utils.LocaleUtils
@@ -32,7 +33,8 @@ object AliasManager : OnPrefsChangedListener {
             val info: PackageInfo = try {
                 pm.getPackageInfo(
                     context.applicationContext.packageName,
-                    PackageManager.GET_ACTIVITIES or PackageManager.GET_DISABLED_COMPONENTS
+                    PackageManager.GET_ACTIVITIES or
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) PackageManager.MATCH_DISABLED_COMPONENTS else PackageManager.GET_DISABLED_COMPONENTS
                 )
             } catch (e: PackageManager.NameNotFoundException) {
                 recordException(e)

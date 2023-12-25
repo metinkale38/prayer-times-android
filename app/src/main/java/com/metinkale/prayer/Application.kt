@@ -40,8 +40,4 @@ class Application : App() {
         MultiDex.install(this)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        AppEventManager.sendOnStart()
-    }
 }

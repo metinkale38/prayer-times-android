@@ -96,7 +96,7 @@ class FragMap : Fragment(), OnMapReadyCallback, LocationListener,
         locationRequest.interval = 1000
         locationRequest.fastestInterval = 1000
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        if (googleApiClient!!.isConnected && PermissionUtils.get(requireActivity()).pLocation) {
+        if (googleApiClient!!.isConnected && activity?.let { PermissionUtils.get(it).pLocation } == true) {
             requestedLocation = true
             LocationServices.FusedLocationApi.requestLocationUpdates(
                 googleApiClient!!,
