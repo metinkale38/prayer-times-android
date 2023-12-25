@@ -35,5 +35,6 @@ sed -e '/crashlytics/ s/^\/*/\/\//' -i build.gradle
 
 # build project
 echo "Build project"
+echo "org.gradle.daemon=false" >> gradle.properties
 chmod +x gradlew
 ./gradlew assembleFdroid --no-daemon
