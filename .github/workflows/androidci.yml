@@ -1,4 +1,4 @@
-name: Android CI
+name: Build with FDroid Flavor
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
 
     - name: Grant execute permission for ci_build.sh
       run: chmod +x ci_build.sh
-    - name: Build with ci_build.sj
+    - name: Build with ci_build.sh
       run: ./ci_build.sh
