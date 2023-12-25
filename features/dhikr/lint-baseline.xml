@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="LocaleFolder"
+        message="The locale folder &quot;`he`&quot; should be called &quot;`iw`&quot; instead; see the `java.util.Locale` documentation">
+        <location
+            file="src/main/translations/values-he"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="34"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-common-java8 than 2.5.1 is available: 2.6.2"
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="71"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.5.1 is available: 2.6.1"
+        errorLine1="    implementation project(&apos;:features:base&apos;)"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="73"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="StringFormatInvalid"
+        message="Format string &apos;`resetConfirmDhikr`&apos; is not a valid format string so it should not be passed to `String.format`"
+        errorLine1="            dialog.setMessage(getString(R.string.resetConfirmDhikr, dhikrs[0].title))"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/dhikr/DhikrFragment.kt"
+            line="146"
+            column="31"/>
+        <location
+            file="src/main/translations/values-hr/strings.xml"
+            line="21"
+            column="5"
+            message="This definition does not require arguments"/>
+    </issue>
+
+    <issue
+        id="StringFormatInvalid"
+        message="Format string &apos;`delConfirmDhikr`&apos; is not a valid format string so it should not be passed to `String.format`"
+        errorLine1="        dialog.setMessage(getString(R.string.delConfirmDhikr, dhikrs[0].title))"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/dhikr/DhikrFragment.kt"
+            line="186"
+            column="27"/>
+        <location
+            file="src/main/translations/values-zh/strings.xml"
+            line="18"
+            column="5"
+            message="This definition does not require arguments"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;delConfirmDhikr&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;delConfirmDhikr&quot;>Do you really want to delete \“%1$s\”?&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;dhikrCount&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;dhikrCount&quot;>Dhikr aim&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;newDhikr&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;newDhikr&quot;>New Dhikr&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;resetConfirmDhikr&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;resetConfirmDhikr&quot;>Do you really want to reset\“%1$s\”?&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;tasbih&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;tasbih&quot;>Tasbih&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="StringFormatCount"
+        message="Inconsistent number of arguments in formatting string `delConfirmDhikr`; found both 1 here and 0 in values-zh\strings.xml"
+        errorLine1="    &lt;string name=&quot;delConfirmDhikr&quot;>Do you really want to delete \“%1$s\”?&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="5"/>
+        <location
+            file="src/main/translations/values-zh/strings.xml"
+            line="18"
+            column="5"
+            message="Conflicting number of arguments (0) here"/>
+    </issue>
+
+    <issue
+        id="StringFormatCount"
+        message="Inconsistent number of arguments in formatting string `resetConfirmDhikr`; found both 1 here and 0 in values-hr\strings.xml"
+        errorLine1="    &lt;string name=&quot;resetConfirmDhikr&quot;>Do you really want to reset\“%1$s\”?&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="5"/>
+        <location
+            file="src/main/translations/values-hr/strings.xml"
+            line="21"
+            column="5"
+            message="Conflicting number of arguments (0) here"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="KaptUsageInsteadOfKsp"
+        message="This library supports using KSP instead of kapt, which greatly improves performance. Learn more: https://developer.android.com/studio/build/migrate-to-ksp"
+        errorLine1="    api &quot;androidx.lifecycle:lifecycle-extensions:2.2.0&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="74"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dhikr_main.xml"
+            line="21"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="TextFields"
+        message="This text field does not specify an `inputType`"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/dhikr_main.xml"
+            line="24"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/dhikr_main.xml"
+            line="24"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`DhikrView#onTouchEvent` should call `DhikrView#performClick` when a click is detected"
+        errorLine1="    public boolean onTouchEvent(MotionEvent event) {"
+        errorLine2="                   ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/dhikr/DhikrView.java"
+            line="103"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_alignLeft`; already defining `layout_alignStart` with `targetSdkVersion` 33"
+        errorLine1="            android:layout_alignLeft=&quot;@+id/zikr&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dhikr_main.xml"
+            line="57"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_alignRight`; already defining `layout_alignEnd` with `targetSdkVersion` 33"
+        errorLine1="            android:layout_alignRight=&quot;@id/zikr&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dhikr_main.xml"
+            line="70"
+            column="13"/>
+    </issue>
+
+</issues>

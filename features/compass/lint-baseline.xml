@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="MissingClass"
+        message="Class referenced in the layout file, `com.metinkale.prayer.compass.time.QiblaTimeView`, was not found in the project or the libraries"
+        errorLine1="    &lt;com.metinkale.prayer.compass.time.QiblaTimeView"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="22"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="LocaleFolder"
+        message="The locale folder &quot;`he`&quot; should be called &quot;`iw`&quot; instead; see the `java.util.Locale` documentation">
+        <location
+            file="src/main/translations/values-he"/>
+    </issue>
+
+    <issue
+        id="MissingConstraints"
+        message="This view is not constrained horizontally: at runtime it will jump to the left unless you add a horizontal constraint"
+        errorLine1="            &lt;View"
+        errorLine2="             ~~~~">
+        <location
+            file="src/main/res/layout/compass_2d.xml"
+            line="132"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-maps than 18.1.0 is available: 18.2.0"
+        errorLine1="    implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="70"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;angle&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;angle&quot;>Angle&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;distance&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;distance&quot;>Distance&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;noConnection&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;noConnection&quot;>No Connection&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;switchCompass&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;switchCompass&quot;>Compass/Map&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;touchToSelectCity&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;touchToSelectCity&quot;>Touch here to select City&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;permissionNotGranted&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;permissionNotGranted&quot;>Permission not granted.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;compass_type_reminder&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;compass_type_reminder&quot;>Click here to try different methods of finding the correct Qibla direction.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;compassCalibrationTitle&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ku&quot; (Kurdish), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;compassCalibrationTitle&quot;>Calibrate your compass&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="24"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;compassCalibrationSubTitle&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;compassCalibrationSubTitle&quot;>Tilt and move your phone 3 times like this:&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;accuracy&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;accuracy&quot;>Accuracy&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="26"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;accuracy_low&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;accuracy_low&quot;>Low&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="27"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;accuracy_medium&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;accuracy_medium&quot;>Medium&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="28"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;accuracy_high&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;accuracy_high&quot;>High&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="29"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/foreground20pTrans` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/foreground20pTrans&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/calibration_dialog.xml"
+            line="21"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_2d.xml"
+            line="22"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_main.xml"
+            line="20"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_main.xml"
+            line="20"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="GifUsage"
+        message="Using the `.gif` format for bitmaps is discouraged">
+        <location
+            file="src/main/res/drawable/calib_anim.gif"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/calib_anim.gif` in densityless folder">
+        <location
+            file="src/main/res/drawable/calib_anim.gif"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/kaabe.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/kaabe.png"/>
+    </issue>
+
+    <issue
+        id="TextFields"
+        message="This text field does not specify an `inputType`"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_location.xml"
+            line="22"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_location.xml"
+            line="22"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/calibration_dialog.xml"
+            line="30"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="LabelFor"
+        message="Missing accessibility label: provide either a view with an `android:labelFor` that references this view or provide an `android:hint`"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_location.xml"
+            line="22"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0°&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;0°&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_2d.xml"
+            line="94"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0 km&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;0 km&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_2d.xml"
+            line="123"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0°&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;0°&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="66"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0 km&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;0 km&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="97"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginLeft`; already defining `layout_marginStart` with `targetSdkVersion` 33"
+        errorLine1="            android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/calibration_dialog.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="            android:layout_marginRight=&quot;8dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/calibration_dialog.xml"
+            line="91"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="                android:layout_alignParentRight=&quot;true&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_2d.xml"
+            line="138"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentLeft` with `android:layout_alignParentStart=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentLeft` with `android:layout_alignParentStart=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="51"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toLeftOf` with `android:layout_toStartOf=&quot;@+id/center&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_toLeftOf=&quot;@+id/center&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="54"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentLeft` with `android:layout_alignParentStart=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="65"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toLeftOf` with `android:layout_toStartOf=&quot;@id/center&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_toLeftOf=&quot;@id/center&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="70"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="78"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/center&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_toRightOf=&quot;@id/center&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="81"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="92"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/center&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_toRightOf=&quot;@id/center&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="96"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_qiblatime.xml"
+            line="108"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `paddingLeft`; already defining `paddingStart` with `targetSdkVersion` 33"
+        errorLine1="    android:paddingLeft=&quot;16dp&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_toast_menu.xml"
+            line="23"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `paddingRight`; already defining `paddingEnd` with `targetSdkVersion` 33"
+        errorLine1="    android:paddingRight=&quot;66dp&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_toast_menu.xml"
+            line="26"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_alignRight`; already defining `layout_alignEnd` with `targetSdkVersion` 33"
+        errorLine1="        android:layout_alignRight=&quot;@+id/text&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_toast_menu.xml"
+            line="32"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 33"
+        errorLine1="        android:layout_alignParentRight=&quot;true&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/compass_toast_menu.xml"
+            line="43"
+            column="9"/>
+    </issue>
+
+</issues>

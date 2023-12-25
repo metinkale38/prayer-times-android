@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="InconsistentArrays"
+        message="Array `names_name` has an inconsistent number of items (99 in `values-de\names.xml`, 0 in `values-ar\names.xml`)"
+        errorLine1="    &lt;string-array name=&quot;names_name&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values/names.xml"
+            line="120"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-ar/names.xml"
+            line="19"
+            column="5"
+            message="Declaration with array size (0)"/>
+        <location
+            file="src/main/res/values-de/names.xml"
+            line="19"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-fr/names.xml"
+            line="19"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-tr/names.xml"
+            line="19"
+            column="5"
+            message="Declaration with array size (99)"/>
+    </issue>
+
+    <issue
+        id="InconsistentArrays"
+        message="Array `names_desc` has an inconsistent number of items (99 in `values-de\names.xml`, 0 in `values-ar\names.xml`)"
+        errorLine1="    &lt;string-array name=&quot;names_desc&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values/names.xml"
+            line="222"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-ar/names.xml"
+            line="21"
+            column="5"
+            message="Declaration with array size (0)"/>
+        <location
+            file="src/main/res/values-de/names.xml"
+            line="121"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-fr/names.xml"
+            line="121"
+            column="5"
+            message="Declaration with array size (99)"/>
+        <location
+            file="src/main/res/values-tr/names.xml"
+            line="121"
+            column="5"
+            message="Declaration with array size (99)"/>
+    </issue>
+
+    <issue
+        id="LocaleFolder"
+        message="The locale folder &quot;`he`&quot; should be called &quot;`iw`&quot; instead; see the `java.util.Locale` documentation">
+        <location
+            file="src/main/translations/values-he"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/names_main.xml"
+            line="22"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        message="This `RelativeLayout` layout or its `RelativeLayout` parent is unnecessary; transfer the `background` attribute to the other view"
+        errorLine1="    &lt;RelativeLayout"
+        errorLine2="     ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/names_item.xml"
+            line="22"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="IconMissingDensityFolder"
+        message="Missing density variation folders in `src\main\res`: drawable-mdpi, drawable-xhdpi, drawable-xxhdpi">
+        <location
+            file="src/main/res"/>
+    </issue>
+
+</issues>

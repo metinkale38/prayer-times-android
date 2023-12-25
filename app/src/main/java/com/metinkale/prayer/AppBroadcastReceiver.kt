@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import com.metinkale.prayer.receiver.AppEventListener
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.receiver.OnStartListener
@@ -56,9 +57,11 @@ class AppBroadcastReceiver : BroadcastReceiver() {
             val filter = IntentFilter()
             filter.addAction(Intent.ACTION_TIME_TICK)
             filter.addAction(Intent.ACTION_USER_PRESENT)
-            filter.addAction(Intent.ACTION_USER_UNLOCKED)
             filter.addAction(Intent.ACTION_SCREEN_ON)
             filter.addAction(Intent.ACTION_SCREEN_OFF)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                filter.addAction(Intent.ACTION_USER_UNLOCKED)
+            }
             App.get().registerReceiver(receiver, filter)
         }
     }

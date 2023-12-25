@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="LocaleFolder"
+        message="The locale folder &quot;`he`&quot; should be called &quot;`iw`&quot; instead; see the `java.util.Locale` documentation">
+        <location
+            file="src/main/translations/values-he"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="32"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SoonBlockedPrivateApi"
+        message="Reflective access to mScrollX will throw an exception when targeting API 33 and above"
+        errorLine1="            mScrollXField = View.class.getDeclaredField(&quot;mScrollX&quot;);"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/MyScrollView.java"
+            line="161"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="SoonBlockedPrivateApi"
+        message="Reflective access to mScrollY will throw an exception when targeting API 33 and above"
+        errorLine1="            mScrollYField = View.class.getDeclaredField(&quot;mScrollY&quot;);"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/MyScrollView.java"
+            line="162"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;category&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;category&quot;>Category&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;dlHadith&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;dlHadith&quot;>Download Hadith Database?&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;favorite&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;favorite&quot;>Favorite&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;foundXHadis&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;ur&quot; (Urdu), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;foundXHadis&quot;>found %1$s Hadith\&apos;s&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;mixed&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;ur&quot; (Urdu), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;mixed&quot;>Mixed&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;noFavs&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;noFavs&quot;>No favorites&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;sorted&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;uz&quot; (Uzbek), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;bn&quot; (Bangla), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;sorted&quot;>Sorted&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="This `AsyncTask` class should be static or leaks might occur (com.metinkale.prayer.hadith.HadithFragment.SearchTask)"
+        errorLine1="    private inner class SearchTask(c: Context) : AsyncTask&lt;String, String, Boolean>() {"
+        errorLine2="                        ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/HadithFragment.kt"
+            line="343"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/foregroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/foregroundSecondary&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/hadis_frag.xml"
+            line="20"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="        &lt;EditText"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="26"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `MyScrollView` overrides `onTouchEvent` but not `performClick`"
+        errorLine1="    public boolean onTouchEvent(@NonNull MotionEvent ev) {"
+        errorLine2="                   ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/MyScrollView.java"
+            line="523"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="LabelFor"
+        message="Missing accessibility label: provide either a view with an `android:labelFor` that references this view or provide an `android:hint`"
+        errorLine1="        &lt;EditText"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="26"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        ((TextView) v.findViewById(R.id.max)).setText(&quot;/&quot; + (mMax - 1));"
+        errorLine2="                                                      ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="72"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        mEdit.setText(bdl.getInt(&quot;current&quot;) + &quot;&quot;);"
+        errorLine2="                      ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="75"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                mEdit.setText(txt + view.getTag());"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="82"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            mEdit.setText((Integer.parseInt(&quot;0&quot; + txt) - 1) + &quot;&quot;);"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="95"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            mEdit.setText(Integer.parseInt(txt) + 1 + &quot;&quot;);"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="99"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                    mEdit.setText(mMin + &quot;&quot;);"
+        errorLine2="                                  ~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="119"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                    mEdit.setText(mNr + &quot;&quot;);"
+        errorLine2="                                  ~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="121"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            mEdit.setText(mNr + &quot;&quot;);"
+        errorLine2="                          ~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/hadith/utils/NumberDialog.java"
+            line="128"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;/7300&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;/7300&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="41"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;1&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;1&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="55"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;2&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;2&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="63"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;3&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;3&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="71"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;&lt;-&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;&amp;lt;-&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="79"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;4&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;4&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="92"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;5&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;5&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="100"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;6&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;6&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="108"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;&lt;&lt;&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;&amp;lt;&amp;lt;&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="116"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;7&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;7&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="129"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;8&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;8&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="137"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;9&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;9&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="145"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;>>&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;>>&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="153"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;0&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/number_dialog.xml"
+            line="161"
+            column="9"/>
+    </issue>
+
+</issues>

@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="LocaleFolder"
+        message="The locale folder &quot;`he`&quot; should be called &quot;`iw`&quot; instead; see the `java.util.Locale` documentation">
+        <location
+            file="src/main/translations/values-he"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1=""
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="35"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;report_bug&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;report_bug&quot;>Report bug&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;report_bug_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;report_bug_sum&quot;>Report bug or request new features.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;translate_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;translate_sum&quot;>Help us to translate this App in more Languages&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;github_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;cs&quot; (Czech), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;github_sum&quot;>Fork the repo and push changes or submit new issues.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;license&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;license&quot;>License&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="27"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;license_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;license_sum&quot;>Check Apache License, Version 2.0 license terms used on Prayer times&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="28"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;library_licenses&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;library_licenses&quot;>Library Licenses&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="30"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;library_licenses_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;uk&quot; (Ukrainian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;library_licenses_sum&quot;>Check third-party libs used in Prayer times&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="31"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;rate&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;rate&quot;>Rate&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="33"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;rate_desc&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;rate_desc&quot;>Leave us positive rating if you like Prayer times.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="34"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;sendMail_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;sendMail_sum&quot;>Send me an E-Mail!&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="36"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;beta_tester&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;beta_tester&quot;>Become a tester&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="38"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;beta_tester_desc&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;beta_tester_desc&quot;>Register as Beta Tester by clicking here&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="39"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;support_development&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;support_development&quot;>Support Development&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="42"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;share_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;it&quot; (Italian), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;share_sum&quot;>Share this app with others!&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;showIntro&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;showIntro&quot;>Show Intro&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;showIntro_sum&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ps&quot; (Pashto), &quot;pt&quot; (Portuguese), &quot;hr&quot; (Croatian), &quot;hu&quot; (Hungarian), &quot;hy&quot; (Armenian), &quot;af&quot; (Afrikaans), &quot;el&quot; (Greek), &quot;zh&quot; (Chinese), &quot;vi&quot; (Vietnamese), &quot;ja&quot; (Japanese), &quot;ro&quot; (Romanian), &quot;no&quot; (Norwegian), &quot;fi&quot; (Finnish), &quot;bg&quot; (Bulgarian), &quot;kaa&quot; (Kara-Kalpak), &quot;jv&quot; (Javanese), &quot;ka&quot; (Georgian), &quot;ca&quot; (Catalan), &quot;sq&quot; (Albanian), &quot;sr&quot; (Serbian), &quot;sv&quot; (Swedish), &quot;ko&quot; (Korean), &quot;ks&quot; (Kashmiri), &quot;ta&quot; (Tamil), &quot;pa&quot; (Punjabi), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew)"
+        errorLine1="    &lt;string name=&quot;showIntro_sum&quot;>Show the Introductions of this App&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="48"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="TrustAllX509TrustManager"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/23efd55747bd863155305aeda8fb7d64/transformed/jetified-androidasync-3.1.0/jars/classes.jar"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/backgroundSecondary` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/backgroundSecondary&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="21"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="33"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="84"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="124"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="165"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="205"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="245"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="287"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="330"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="376"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="428"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="468"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            ((TextView) v.findViewById(R.id.version)).setText(pInfo.versionName + &quot; (&quot; + pInfo.versionCode + &quot;)&quot;);"
+        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/metinkale/prayer/about/AboutFragment.java"
+            line="58"
+            column="63"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;metinkale38&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;metinkale38&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="61"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="89"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="99"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="109"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="129"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="139"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="149"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="170"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="180"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="190"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="210"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="220"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="230"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="250"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="261"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="271"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="292"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="303"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="313"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="335"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="346"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="356"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="381"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="392"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="402"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="433"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="444"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="453"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_marginRight`; already defining `layout_marginEnd` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_marginRight=&quot;5dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="473"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="484"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_toRightOf`; already defining `layout_toEndOf` with `targetSdkVersion` 33"
+        errorLine1="                    android:layout_toRightOf=&quot;@+id/icon&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/about_main.xml"
+            line="493"
+            column="21"/>
+    </issue>
+
+</issues>

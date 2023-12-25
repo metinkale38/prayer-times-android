@@ -20,6 +20,10 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.21'
 }
 android {
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
     sourceSets {
         main {
             res.srcDirs += 'src/main/translations'

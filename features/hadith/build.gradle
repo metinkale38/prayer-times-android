@@ -19,6 +19,10 @@ plugins {
 }
 
 android {
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
     sourceSets {
         main {
             res.srcDirs += 'src/main/translations'
