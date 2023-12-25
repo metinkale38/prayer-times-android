@@ -12,6 +12,7 @@ else
   cd open-prayer-times
   chmod +x gradlew
 fi
+echo "org.gradle.daemon=false" >> gradle.properties
 ./gradlew publishToMavenLocal --no-daemon
 cd ..
 
@@ -35,5 +36,7 @@ sed -e '/crashlytics/ s/^\/*/\/\//' -i build.gradle
 
 # build project
 echo "Build project"
+echo "org.gradle.daemon=false" >> gradle.properties
+echo "org.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m" >> gradle.properties
 chmod +x gradlew
 ./gradlew assembleFdroid --no-daemon
