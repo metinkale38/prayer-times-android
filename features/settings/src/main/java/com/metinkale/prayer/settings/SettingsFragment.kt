@@ -53,7 +53,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
             findPreference("ongoingIcon").onPreferenceClickListener = this
             findPreference("ongoingNumber").onPreferenceClickListener = this
             findPreference("kerahatDuration").onPreferenceClickListener = this
-            if (Build.VERSION.SDK_INT < 24) findPreference("showLegacyWidgets").isEnabled = false
             findPreference("arabicNames").isEnabled = Locale("ar").language != locale.language
             val lang = findPreference("language") as ListPreference
             lang.onPreferenceChangeListener = this

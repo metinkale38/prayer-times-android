@@ -64,15 +64,9 @@ object LocaleUtils {
         CrashReporter.setCustomKey("lang", Preferences.LANGUAGE)
         CrashReporter.setCustomKey("digits", Preferences.DIGITS)
         val config = Configuration()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val localeList = LocaleList(*locales.toTypedArray())
-            LocaleList.setDefault(localeList)
-            config.setLocales(localeList)
-        } else {
-            val locale = locale
-            config.setLocale(locale)
-            Locale.setDefault(locale)
-        }
+        val localeList = LocaleList(*locales.toTypedArray())
+        LocaleList.setDefault(localeList)
+        config.setLocales(localeList)
         c.resources.updateConfiguration(config, c.resources.displayMetrics)
         c.applicationContext.resources.updateConfiguration(config, c.resources.displayMetrics)
 
@@ -249,14 +243,11 @@ object LocaleUtils {
         val configuration = res.configuration
 
         return ContextWrapper(
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            run {
                 configuration.setLocale(locale)
                 val localeList = LocaleList(*locales.toTypedArray())
                 LocaleList.setDefault(localeList)
                 configuration.setLocales(localeList)
-                context.createConfigurationContext(configuration)
-            } else {
-                configuration.setLocale(locale)
                 context.createConfigurationContext(configuration)
             }
         )

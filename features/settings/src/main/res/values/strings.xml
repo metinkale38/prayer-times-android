@@ -57,8 +57,6 @@
     <string name="stopFacedown">Stop Sound by turning the screen face down.</string>
     <string name="widget_current_vakit">Widget - Alternative Current Time indicator</string>
     <string name="widget">Widget</string>
-    <string name="showLegacyWidgets">Show legacy Widgets</string>
-    <string name="showLegacyWidgetsSummary">Only use if you have problems with your Widgets</string>
     <string name="showExtraTimes">Show Morning Prayer and Asr Sani</string>
     <string name="showExtraTimesSummary">Only for FaziletTakvimi.com, NamazVakti.com and Calculated</string>
 

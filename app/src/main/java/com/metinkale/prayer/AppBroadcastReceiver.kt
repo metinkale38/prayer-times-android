@@ -59,9 +59,7 @@ class AppBroadcastReceiver : BroadcastReceiver() {
             filter.addAction(Intent.ACTION_USER_PRESENT)
             filter.addAction(Intent.ACTION_SCREEN_ON)
             filter.addAction(Intent.ACTION_SCREEN_OFF)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                filter.addAction(Intent.ACTION_USER_UNLOCKED)
-            }
+            filter.addAction(Intent.ACTION_USER_UNLOCKED)
             App.get().registerReceiver(receiver, filter)
         }
     }

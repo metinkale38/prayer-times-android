@@ -109,11 +109,7 @@ class MyPlayer private constructor() {
             seekbar!!.postDelayed(object : Runnable {
                 override fun run() {
                     if (mediaPlayer.isPlaying) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            seekbar!!.setProgress(mediaPlayer.currentPosition, true)
-                        } else {
-                            seekbar!!.progress = mediaPlayer.currentPosition
-                        }
+                        seekbar!!.setProgress(mediaPlayer.currentPosition, true)
                         seekbar!!.postDelayed(this, 100)
                     }
                 }

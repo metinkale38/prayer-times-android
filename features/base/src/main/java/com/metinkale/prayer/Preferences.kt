@@ -58,9 +58,6 @@ object Preferences {
             java.util.UUID.randomUUID().toString().also { setValue(it) }
         }
     }
-    var SHOW_LEGACY_WIDGET by object : BooleanPreference("showLegacyWidgets", false) {
-        override fun getValue() = if (Build.VERSION.SDK_INT < 24) true else super.getValue()
-    }
 
     var VAKIT_INDICATOR_TYPE by StringPreference("vakit_indicator", "current")
     var SHOW_COMPASS_NOTE by BooleanPreference("showCompassNote", true)
@@ -76,6 +73,7 @@ object Preferences {
             if (obj) SHOW_COMPASS_NOTE = true
         }
     }
+
     var COUNTDOWN_TYPE by StringPreference("widget_countdown", "default")
 
     fun clear() = prefs.edit().clear().commit()

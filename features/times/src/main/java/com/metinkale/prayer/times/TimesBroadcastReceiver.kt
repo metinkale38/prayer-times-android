@@ -27,7 +27,7 @@ object TimesBroadcastReceiver : OnStartListener, OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
         when (key) {
             "useAlarm" -> Times.setAlarms()
-            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "widget_countdown", "alternativeOngoing", "showLegacyWidgets" ->
+            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "widget_countdown", "alternativeOngoing" ->
                 AppEventManager.sendTimeTick()
         }
     }

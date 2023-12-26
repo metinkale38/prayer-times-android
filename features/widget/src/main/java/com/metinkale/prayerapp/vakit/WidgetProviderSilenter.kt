@@ -15,13 +15,19 @@
  */
 package com.metinkale.prayerapp.vakit
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
+import android.widget.RemoteViews
 import com.metinkale.prayer.Preferences
+import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.utils.LocaleUtils
+import com.metinkale.prayer.widgets.R
 
 class WidgetProviderSilenter : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
@@ -53,11 +59,27 @@ class WidgetProviderSilenter : AppWidgetProvider() {
     companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
             LocaleUtils.init(context)
-            if (!Preferences.SHOW_LEGACY_WIDGET) WidgetV24.updateSilenter(
-                context,
-                appWidgetManager,
-                widgetId
-            ) else WidgetLegacy.updateSilenter(context, appWidgetManager, widgetId)
+            val theme: Theme = WidgetUtils.getTheme(widgetId)
+            val size = WidgetUtils.getSize(context, appWidgetManager, widgetId, 1f)
+            val s = size.width
+            if (s <= 0) return
+            val remoteViews = RemoteViews(context.packageName, R.layout.widget_1x1_silenter)
+            remoteViews.setInt(R.id.widget_layout, "setBackgroundResource", theme.background)
+            remoteViews.setViewPadding(R.id.padder, s / 2, s / 2, s / 2, s / 2)
+            val i = Intent(context, SilenterPrompt::class.java)
+            remoteViews.setOnClickPendingIntent(
+                R.id.widget,
+                PendingIntent.getActivity(
+                    context,
+                    0,
+                    i,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+            remoteViews.setTextViewText(R.id.text, context.getString(R.string.silent))
+            remoteViews.setTextViewTextSize(R.id.text, TypedValue.COMPLEX_UNIT_PX, s / 4f)
+            remoteViews.setTextColor(R.id.text, theme.textcolor)
+            appWidgetManager.updateAppWidget(widgetId, remoteViews)
         }
     }
 }

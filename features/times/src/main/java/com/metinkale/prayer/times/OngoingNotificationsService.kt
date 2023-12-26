@@ -131,14 +131,10 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
                 }
                 builder.setOngoing(true)
                 builder.setWhen(if (icon) System.currentTimeMillis() else 0)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    // builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                    builder.setCustomContentView(buildLargeRemoteView(t))
-                    builder.setCustomBigContentView(buildLargeRemoteView(t))
-                    builder.setShowWhen(false)
-                } else {
-                    builder.setContent(buildLargeRemoteView(t))
-                }
+                // builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                builder.setCustomContentView(buildLargeRemoteView(t))
+                builder.setCustomBigContentView(buildLargeRemoteView(t))
+                builder.setShowWhen(false)
                 val noti = builder.build()
                 noti.priority = Notification.PRIORITY_LOW
                 noti to notId
@@ -163,9 +159,7 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
             }
         } else {
             hasOngoingNotifications = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                stopForeground(STOP_FOREGROUND_REMOVE)
-            }
+            stopForeground(STOP_FOREGROUND_REMOVE)
             stopSelf()
         }
 
@@ -185,7 +179,7 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
 
         // Countdown
         val nextTime = t.getTime(today, t.getNextTime()).atZone(ZoneId.systemDefault()).toInstant()
-        if (Build.VERSION.SDK_INT >= 24 && Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
+        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
             views.setChronometer(
                 R.id.countdown,
                 nextTime.toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),

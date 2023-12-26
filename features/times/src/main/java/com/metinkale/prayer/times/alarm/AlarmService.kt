@@ -82,11 +82,7 @@ class AlarmService : IntentService("AlarmService") {
         val nm = c.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(notId)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            startForeground(notId, buildPlayingNotification(c, alarm, time))
-        } else {
-            nm.notify(notId, buildPlayingNotification(c, alarm, time))
-        }
+        startForeground(notId, buildPlayingNotification(c, alarm, time))
 
 
         alarm.vibrateNow(c)
@@ -116,11 +112,7 @@ class AlarmService : IntentService("AlarmService") {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(STOP_FOREGROUND_REMOVE)
-        } else {
-            nm.cancel(notId)
-        }
+        stopForeground(STOP_FOREGROUND_REMOVE)
 
         if (!alarm.removeNotification || player == null) {
             val not = buildAlarmNotification(c, alarm, time)

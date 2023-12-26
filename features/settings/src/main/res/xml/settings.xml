@@ -96,11 +96,6 @@
             android:key="showAltWidgetHightlight"
             android:title="@string/widget_current_vakit" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="showLegacyWidgets"
-            android:summary="@string/showLegacyWidgetsSummary"
-            android:title="@string/showLegacyWidgets" />
 
     </PreferenceCategory>
 
