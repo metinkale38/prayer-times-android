@@ -46,8 +46,8 @@ android {
         applicationId "com.metinkale.prayer"
         minSdkVersion 24
         multiDexEnabled true
-        versionName '3.8.2'
-        versionCode 240
+        versionName '3.8.3'
+        versionCode 241
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
