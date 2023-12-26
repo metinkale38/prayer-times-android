@@ -26,13 +26,15 @@ fun runCalendarIntegration(ctx: Context) {
         appendLine("METHOD:PUBLISH")
         for (year in LocalDate.now().year..HijriDate.MAX_GREG_YEAR) {
             for (date in HijriDate.getHolydaysForGregYear(year)) {
-                if (date.second != HijriDay.MONTH) continue
+                if (date.second == HijriDay.MONTH) continue
                 appendLine("BEGIN:VEVENT")
                 appendLine("TRANSP:TRANSPARENT")
                 appendLine("SUMMARY:" + getHolyday(date.second))
                 appendLine("DTSTAMP:$dtstamp")
                 appendLine("UID:${year}${date.second}@${ctx.packageName}")
-                appendLine("DTSTART;VALUE=DATE:" + date.first.toLocalDate().toString().replace("-", ""))
+                appendLine(
+                    "DTSTART;VALUE=DATE:" + date.first.toLocalDate().toString().replace("-", "")
+                )
                 appendLine("DESCRIPTION:${LocaleUtils.formatDate(date.first)}")
                 appendLine("URL;VALUE=URI:https://play.google.com/store/apps/details?id=com.metinkale.prayer")
                 appendLine("END:VEVENT")
