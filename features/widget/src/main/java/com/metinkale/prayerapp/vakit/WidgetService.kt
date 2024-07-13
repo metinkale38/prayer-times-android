@@ -16,24 +16,18 @@
 package com.metinkale.prayerapp.vakit
 
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
-import android.util.TypedValue
-import android.widget.RemoteViews
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.receiver.OnStartListener
 import com.metinkale.prayer.receiver.OnTimeTickListener
-import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.utils.NotificationUtils
-import com.metinkale.prayer.widgets.R
 
 /**
  * Created by metin on 24.03.2017.
@@ -59,11 +53,13 @@ class WidgetService : Service(), OnTimeTickListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        runCatching {
+        try {
             startForeground(
                 NotificationUtils.getDummyNotificationId(),
                 NotificationUtils.createDummyNotification(this)
             )
+        } catch (e: Exception) {
+            recordException(e)
         }
         var hasWidgets = false
         try {

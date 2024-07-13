@@ -13,92 +13,106 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.compass.magnetic
 
-package com.metinkale.prayer.compass.magnetic;
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.os.Bundle
+import android.text.Html
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.metinkale.prayer.compass.R
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.metinkale.prayer.compass.R;
-
-public class CalibrationFragment extends Fragment implements SensorEventListener {
-    private SensorManager mSensorManager;
-    private int mAccelerometerAccuracy;
-    private int mMagneticAccuracy;
-    private TextView mAccuracy;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.calibration_dialog, container, false);
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
-        mAccuracy = view.findViewById(R.id.accuracy_text);
-        mAccuracy.setText(
-                Html.fromHtml(String.format("%s: <font color='red'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_low))));
-        view.findViewById(R.id.close).setOnClickListener(v -> getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit());
-        return view;
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        mSensorManager.unregisterListener(this);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        if (accuracy == 0)
-            accuracy = SensorManager.SENSOR_STATUS_ACCURACY_LOW;
-        switch (sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                mAccelerometerAccuracy = accuracy;
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-                mMagneticAccuracy = accuracy;
-                break;
-            default:
-                break;
+class CalibrationFragment : Fragment(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private lateinit var accuracy: TextView
+    private var accelerometerAccuracy = 0
+    private var magneticAccuracy = 0
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.calibration_dialog, container, false)
+        sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager.registerListener(
+            this,
+            sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            SensorManager.SENSOR_DELAY_GAME
+        )
+        sensorManager.registerListener(
+            this,
+            sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+            SensorManager.SENSOR_DELAY_GAME
+        )
+        accuracy = view.findViewById(R.id.accuracy_text)
+        accuracy.setText(
+            Html.fromHtml(
+                String.format(
+                    "%s: <font color='red'>%s</font>",
+                    getString(R.string.accuracy),
+                    getString(R.string.accuracy_low)
+                )
+            )
+        )
+        view.findViewById<View>(R.id.close).setOnClickListener { v: View? ->
+            parentFragment?.childFragmentManager?.beginTransaction()
+                ?.remove(this@CalibrationFragment)?.commit()
         }
-        if (mAccelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW || mMagneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
-            mAccuracy.setText(Html.fromHtml(
-                    String.format("%s: <font color='#ff0000'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_low))));
-        else if (mAccelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM ||
-                mMagneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-            mAccuracy.setText(Html.fromHtml(
-                    String.format("%s: <font color='#e6e600'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_medium))));
-        } else if (mAccelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH &&
-                mMagneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-            mAccuracy.setText(Html.fromHtml(
-                    String.format("%s: <font color='#00ff00'>%s</font>", getString(R.string.accuracy), getString(R.string.accuracy_high))));
+        return view
+    }
 
-            mAccuracy.postDelayed(() -> {
-                if (!isStateSaved())
-                    getParentFragment().getChildFragmentManager().beginTransaction().remove(CalibrationFragment.this).commit();
-            }, 3000);
+    override fun onDestroyView() {
+        sensorManager.unregisterListener(this)
+        super.onDestroyView()
+    }
 
+    override fun onSensorChanged(event: SensorEvent) {}
+    override fun onAccuracyChanged(sensor: Sensor, sensorAccuracy: Int) {
+        var accuracy = sensorAccuracy
+        if (accuracy == 0) accuracy = SensorManager.SENSOR_STATUS_ACCURACY_LOW
+        when (sensor.type) {
+            Sensor.TYPE_ACCELEROMETER -> accelerometerAccuracy = accuracy
+            Sensor.TYPE_MAGNETIC_FIELD -> magneticAccuracy = accuracy
+            else -> {}
+        }
+        if (accelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW || magneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) this.accuracy.text =
+            Html.fromHtml(
+                String.format(
+                    "%s: <font color='#ff0000'>%s</font>",
+                    getString(R.string.accuracy),
+                    getString(R.string.accuracy_low)
+                )
+            ) else if (accelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM ||
+            magneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
+        ) {
+            this.accuracy.text = Html.fromHtml(
+                String.format(
+                    "%s: <font color='#e6e600'>%s</font>",
+                    getString(R.string.accuracy),
+                    getString(R.string.accuracy_medium)
+                )
+            )
+        } else if (accelerometerAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH &&
+            magneticAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH
+        ) {
+            this.accuracy.text = Html.fromHtml(
+                String.format(
+                    "%s: <font color='#00ff00'>%s</font>",
+                    getString(R.string.accuracy),
+                    getString(R.string.accuracy_high)
+                )
+            )
+            this.accuracy.postDelayed({
+                if (!isStateSaved) parentFragment?.childFragmentManager?.beginTransaction()
+                    ?.remove(this@CalibrationFragment)?.commit()
+            }, 3000)
         }
     }
 }
