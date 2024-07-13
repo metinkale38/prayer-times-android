@@ -59,10 +59,12 @@ class WidgetService : Service(), OnTimeTickListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startForeground(
-            NotificationUtils.getDummyNotificationId(),
-            NotificationUtils.createDummyNotification(this)
-        )
+        runCatching {
+            startForeground(
+                NotificationUtils.getDummyNotificationId(),
+                NotificationUtils.createDummyNotification(this)
+            )
+        }
         var hasWidgets = false
         try {
             val ctx = this

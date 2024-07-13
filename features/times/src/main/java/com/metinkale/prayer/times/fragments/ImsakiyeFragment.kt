@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -44,12 +45,20 @@ class ImsakiyeFragment : Fragment() {
         container: ViewGroup?,
         bdl: Bundle?
     ): View {
-        val lv = ListView(requireContext())
+        val layout = LinearLayout(requireContext());
         adapter = ImsakiyeAdapter(requireContext())
+        layout.addView(adapter!!.getView(-1, null, layout))
+        val lv = ListView(requireContext())
+        layout.addView(
+            lv,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
         lv.adapter = adapter
         times?.let { setTimes(it) }
-        lv.setBackgroundResource(R.color.background)
-        return lv
+        layout.setBackgroundResource(R.color.background)
+        layout.orientation = LinearLayout.VERTICAL
+        return layout
     }
 
     fun setTimes(t: Times) {
@@ -63,6 +72,7 @@ class ImsakiyeFragment : Fragment() {
                             listOfNotNull(today.withDayOfMonth(1), it.firstSyncedDay).max()
                         adapter.maxDate = it.lastSyncedDay ?: adapter.minDate
                     }
+
                     is DayTimesCalcProvider -> {
                         adapter.minDate = today.withDayOfMonth(1)
                         adapter.maxDate = adapter.minDate.plusYears(1).minusDays(1)
@@ -98,7 +108,7 @@ class ImsakiyeFragment : Fragment() {
                     false
                 )) as ViewGroup
             val a: List<CharSequence>
-            if (position == 0) {
+            if (position == -1) {
                 a = listOf(
                     getString(R.string.date),
                     getString(R.string.fajr),
@@ -111,7 +121,7 @@ class ImsakiyeFragment : Fragment() {
             } else if (times == null) {
                 a = listOf("00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00")
             } else {
-                val date = getItem(position - 1) as LocalDate
+                val date = getItem(position) as LocalDate
                 val daytimes = listOf(
                     times!!.getTime(date, Vakit.FAJR.ordinal),
                     times!!.getTime(date, Vakit.SUN.ordinal),
@@ -134,20 +144,20 @@ class ImsakiyeFragment : Fragment() {
                 val tv = v.getChildAt(i) as TextView
                 tv.text = a[i]
             }
-            if (getItem(position - 1) as? LocalDate == today) {
+            if (getItem(position) as? LocalDate == today) {
                 v.setBackgroundResource(R.color.colorPrimary)
-            } else if (position == 0) {
+            } else if (position == -1) {
                 v.setBackgroundResource(R.color.accent)
             } else if (position % 2 == 0) {
-                v.setBackgroundResource(R.color.colorPrimaryLight)
-            } else {
                 v.setBackgroundResource(R.color.background)
+            } else {
+                v.setBackgroundResource(R.color.colorPrimaryLight)
             }
             return v
         }
 
         override fun getCount(): Int {
-            return ChronoUnit.DAYS.between(minDate, maxDate).toInt() + 1
+            return ChronoUnit.DAYS.between(minDate, maxDate).toInt()
         }
     }
 }
