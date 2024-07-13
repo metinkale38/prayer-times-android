@@ -68,9 +68,7 @@ class AlarmService : IntentService("AlarmService") {
                 }
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(STOP_FOREGROUND_DETACH)
-        }
+        stopForeground(STOP_FOREGROUND_DETACH)
         Times.setAlarms()
     }
 
@@ -155,17 +153,11 @@ class AlarmService : IntentService("AlarmService") {
                 i.putExtra(EXTRA_ALARMID, alarm.first.id)
                 i.putExtra(EXTRA_TIME, time)
 
-                val service = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val service =
                     PendingIntent.getForegroundService(
                         c, 0, i,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
-                } else {
-                    PendingIntent.getService(
-                        c, 0, i,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
-                }
                 am.cancel(service)
                 am.setExact(AlarmManager.RTC_WAKEUP, time, service)
             }

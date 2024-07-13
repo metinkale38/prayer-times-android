@@ -44,21 +44,13 @@ object AlarmUtils {
             }
         }
         var builder: NotificationCompat.Builder =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationCompat.Builder(c!!, NotificationUtils.getAlarmChannel(c))
-            } else {
-                NotificationCompat.Builder(c!!)
-            }
+            NotificationCompat.Builder(c!!, NotificationUtils.getAlarmChannel(c))
         builder = builder.setContentTitle(text)
             .setContentText(txt)
             .setContentIntent(getPendingIntent(t))
             .setSmallIcon(R.drawable.ic_abicon)
             .setWhen(time)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(NotificationUtils.getAlarmChannel(c))
-        } else {
-            builder.priority = Notification.PRIORITY_DEFAULT
-        }
+        builder.setChannelId(NotificationUtils.getAlarmChannel(c))
         return builder.build()
     }
 
@@ -84,11 +76,7 @@ object AlarmUtils {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         var builder: NotificationCompat.Builder =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c))
-            } else {
-                NotificationCompat.Builder(c)
-            }
+            NotificationCompat.Builder(c, NotificationUtils.getAlarmChannel(c))
         builder = builder.setContentTitle(text)
             .setContentText(txt)
             .setContentIntent(getPendingIntent(t))
@@ -99,11 +87,7 @@ object AlarmUtils {
                 androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0)
             )
             .setWhen(time)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(NotificationUtils.getAlarmChannel(c))
-        } else {
-            builder.priority = Notification.PRIORITY_MAX
-        }
+        builder.setChannelId(NotificationUtils.getAlarmChannel(c))
         return builder.build()
     }
 }

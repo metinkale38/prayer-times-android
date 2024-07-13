@@ -69,11 +69,7 @@ open class BaseActivity(
         mStartTime = System.currentTimeMillis();
     }*/
     override fun attachBaseContext(newBase: Context) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            super.attachBaseContext(LocaleUtils.wrapContext(newBase))
-        } else {
-            super.attachBaseContext(newBase)
-        }
+        super.attachBaseContext(LocaleUtils.wrapContext(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

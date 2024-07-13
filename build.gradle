@@ -29,7 +29,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.20'
 }
 
-apply from: 'crowdin.gradle'
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }

@@ -27,11 +27,8 @@ class SilenterReceiver : BroadcastReceiver() {
     companion object {
         fun silent(c: Context, mins: Int) {
             if (!PermissionUtils.get(c).pNotPolicy) {
-                var builder: NotificationCompat.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                var builder: NotificationCompat.Builder =
                     NotificationCompat.Builder(c, NotificationUtils.getPlayingChannel(c))
-                } else {
-                    NotificationCompat.Builder(c)
-                }
                 builder = builder.setContentTitle(c.getString(R.string.silenterNotificationTitle))
                     .setContentText(c.getString(R.string.silenterNotificationInfo))
                     .setContentIntent(
@@ -43,11 +40,7 @@ class SilenterReceiver : BroadcastReceiver() {
                         )
                     )
                     .setSmallIcon(R.drawable.ic_abicon)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    builder.setChannelId(NotificationUtils.getAlarmChannel(c))
-                } else {
-                    builder.priority = Notification.PRIORITY_DEFAULT
-                }
+                builder.setChannelId(NotificationUtils.getAlarmChannel(c))
                 val nm = c.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 nm.notify("silenter", 557457, builder.build())
                 return

@@ -29,70 +29,62 @@ import com.metinkale.prayer.times.R
 
 object NotificationUtils {
     fun getAlarmChannel(c: Context): String {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = c.getSystemService(
-                NotificationManager::class.java
-            )
-            var channel = notificationManager.getNotificationChannel("alarm")
-            if (channel == null) {
-                val name: CharSequence = c.getString(R.string.prayerNotification)
-                val importance = NotificationManager.IMPORTANCE_LOW
-                channel = NotificationChannel("alarm", name, importance)
-                notificationManager.createNotificationChannel(channel)
-            }
-            return channel.id
+        val notificationManager = c.getSystemService(
+            NotificationManager::class.java
+        )
+        var channel = notificationManager.getNotificationChannel("alarm")
+        if (channel == null) {
+            val name: CharSequence = c.getString(R.string.prayerNotification)
+            val importance = NotificationManager.IMPORTANCE_LOW
+            channel = NotificationChannel("alarm", name, importance)
+            notificationManager.createNotificationChannel(channel)
         }
+        return channel.id
         return "alarm"
     }
 
     fun getOngoingChannel(c: Context): String {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = c.getSystemService(
-                NotificationManager::class.java
-            )
-            var channel = notificationManager.getNotificationChannel("ongoing")
-            if (channel == null) {
-                val name: CharSequence = c.getString(R.string.ongoingNotification)
-                val importance = NotificationManager.IMPORTANCE_LOW
-                channel = NotificationChannel("ongoing", name, importance)
-                channel.setShowBadge(false)
-                notificationManager.createNotificationChannel(channel)
-            }
-            return channel.id
+        val notificationManager = c.getSystemService(
+            NotificationManager::class.java
+        )
+        var channel = notificationManager.getNotificationChannel("ongoing")
+        if (channel == null) {
+            val name: CharSequence = c.getString(R.string.ongoingNotification)
+            val importance = NotificationManager.IMPORTANCE_LOW
+            channel = NotificationChannel("ongoing", name, importance)
+            channel.setShowBadge(false)
+            notificationManager.createNotificationChannel(channel)
         }
+        return channel.id
         return "ongoing"
     }
 
     fun getPlayingChannel(c: Context): String {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = c.getSystemService(
-                NotificationManager::class.java
-            )
-            var channel = notificationManager.getNotificationChannel("sound")
-            if (channel == null) {
-                val name: CharSequence = c.getString(R.string.sound)
-                channel = NotificationChannel("sound", name, NotificationManager.IMPORTANCE_HIGH)
-                notificationManager.createNotificationChannel(channel)
-            }
-            return channel.id
+        val notificationManager = c.getSystemService(
+            NotificationManager::class.java
+        )
+        var channel = notificationManager.getNotificationChannel("sound")
+        if (channel == null) {
+            val name: CharSequence = c.getString(R.string.sound)
+            channel = NotificationChannel("sound", name, NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(channel)
         }
+        return channel.id
         return "sound"
     }
 
     fun getWidgetChannel(c: Context): String {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = c.getSystemService(
-                NotificationManager::class.java
-            )
-            var channel = notificationManager.getNotificationChannel("widget")
-                ?: notificationManager.getNotificationChannel("foreground")
-            if (channel == null) {
-                val name: CharSequence = c.getString(R.string.appName) + " - Widget"
-                channel = NotificationChannel("widget", name, NotificationManager.IMPORTANCE_HIGH)
-                notificationManager.createNotificationChannel(channel)
-            }
-            return channel.id
+        val notificationManager = c.getSystemService(
+            NotificationManager::class.java
+        )
+        var channel = notificationManager.getNotificationChannel("widget")
+            ?: notificationManager.getNotificationChannel("foreground")
+        if (channel == null) {
+            val name: CharSequence = c.getString(R.string.appName) + " - Widget"
+            channel = NotificationChannel("widget", name, NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(channel)
         }
+        return channel.id
         return "widget"
     }
 
@@ -103,7 +95,7 @@ object NotificationUtils {
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createDummyNotification(c: Context, text: String? = null): Notification {
         c.getSystemService(NotificationManager::class.java)
-        val channelId = NotificationUtils.getWidgetChannel(c)
+        val channelId = getWidgetChannel(c)
         val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
             .putExtra(Settings.EXTRA_APP_PACKAGE, c.packageName)
             .putExtra(Settings.EXTRA_CHANNEL_ID, channelId)

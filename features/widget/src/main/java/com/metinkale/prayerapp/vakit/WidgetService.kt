@@ -47,12 +47,10 @@ class WidgetService : Service(), OnTimeTickListener {
 
     override fun onDestroy() {
         AppEventManager.unregister(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(STOP_FOREGROUND_REMOVE)
-            val notMan =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notMan.cancel(NotificationUtils.getDummyNotificationId())
-        }
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        val notMan =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notMan.cancel(NotificationUtils.getDummyNotificationId())
         super.onDestroy()
     }
 
@@ -61,12 +59,10 @@ class WidgetService : Service(), OnTimeTickListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(
-                NotificationUtils.getDummyNotificationId(),
-                NotificationUtils.createDummyNotification(this)
-            )
-        }
+        startForeground(
+            NotificationUtils.getDummyNotificationId(),
+            NotificationUtils.createDummyNotification(this)
+        )
         var hasWidgets = false
         try {
             val ctx = this
@@ -114,11 +110,7 @@ class WidgetService : Service(), OnTimeTickListener {
     companion object : OnStartListener {
 
         fun updateWidgets(c: Context) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                c.startForegroundService(Intent(c, WidgetService::class.java))
-            } else {
-                c.startService(Intent(c, WidgetService::class.java))
-            }
+            c.startForegroundService(Intent(c, WidgetService::class.java))
         }
 
         override fun onStart() {

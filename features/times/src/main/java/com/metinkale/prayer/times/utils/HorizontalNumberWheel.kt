@@ -115,17 +115,18 @@ class HorizontalNumberWheel @JvmOverloads constructor(
                 return true
             }
 
+
             override fun onScroll(
-                e1: MotionEvent, e2: MotionEvent,
+                e1: MotionEvent?, e2: MotionEvent,
                 distanceX: Float, distanceY: Float
             ): Boolean {
                 val stepWidth = width / lines / stepsPerLine
-                setValue((startValue + (e1.rawX - e2.rawX) / stepWidth).toInt())
+                setValue((startValue + ((e1?.rawX ?: 0f) - e2.rawX) / stepWidth).toInt())
                 return true
             }
 
             override fun onFling(
-                event1: MotionEvent, event2: MotionEvent,
+                event1: MotionEvent?, event2: MotionEvent,
                 velocityX: Float, velocityY: Float
             ): Boolean {
                 val anim = ObjectAnimator.ofInt(

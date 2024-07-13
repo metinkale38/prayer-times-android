@@ -89,11 +89,8 @@ public class VibrationPreference extends EditTextPreference {
             for (int i = 0; i < pattern.length; i++) {
                 pattern[i] = mills.get(i);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
-            } else {
-                vib.vibrate(pattern, -1);
-            }
+            vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
+
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         layout.addView(editText);

@@ -30,7 +30,7 @@ android {
         }
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     buildFeatures {
         compose true
@@ -39,8 +39,8 @@ android {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
     defaultConfig {
-        targetSdkVersion 33
-        minSdkVersion 24
+        targetSdkVersion 34
+        minSdkVersion 26
     }
 
     buildTypes {

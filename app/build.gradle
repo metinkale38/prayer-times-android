@@ -39,12 +39,12 @@ android {
     }
 
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
-        targetSdkVersion 33
+        targetSdkVersion 34
         applicationId "com.metinkale.prayer"
-        minSdkVersion 24
+        minSdkVersion 26
         multiDexEnabled true
         versionName '3.8.3'
         versionCode 241
