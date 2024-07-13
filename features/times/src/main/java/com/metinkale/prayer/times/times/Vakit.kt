@@ -62,14 +62,6 @@ enum class Vakit {
         } else App.get().getString(resId[index])
     }
 
-    fun nextTime(): Vakit {
-        return values()[(ordinal + 1) % 6]
-    }
-
-    fun prevTime(): Vakit {
-        return values()[(ordinal + 5) % 6]
-    }
-
     companion object {
         val LENGTH = values().size
         @JvmStatic

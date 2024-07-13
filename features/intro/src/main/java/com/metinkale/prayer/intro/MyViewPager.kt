@@ -13,62 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.intro
 
-package com.metinkale.prayer.intro;
-
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.animation.Interpolator;
-import android.widget.Scroller;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.metinkale.prayer.times.utils.RTLViewPager;
-
-import java.lang.reflect.Field;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.animation.Interpolator
+import android.widget.Scroller
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.metinkale.prayer.times.utils.RTLViewPager
 
 /**
  * Created by metin on 25.07.17.
  */
-
-public class MyViewPager extends RTLViewPager {
-    public MyViewPager(Context context) {
-        super(context);
-        postInitViewPager();
+class MyViewPager : RTLViewPager {
+    constructor(context: Context?) : super(context!!) {
+        postInitViewPager()
     }
 
-    public MyViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        postInitViewPager();
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context!!, attrs
+    ) {
+        postInitViewPager()
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(@NonNull MotionEvent ev) {
-        IntroFragment frag = (IntroFragment) ((FragmentPagerAdapter) getAdapter()).getItem(getCurrentItem());
-        if (frag.allowTouch()) return super.onInterceptTouchEvent(ev);
-        return true;
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        val frag = (adapter as FragmentPagerAdapter?)?.getItem(currentItem) as? IntroFragment
+        return if (frag?.allowTouch() == true) super.onInterceptTouchEvent(ev) else true
     }
 
-
-    private void postInitViewPager() {
+    private fun postInitViewPager() {
         try {
-            Field scroller = ViewPager.class.getDeclaredField("mScroller");
-            scroller.setAccessible(true);
-            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
-            interpolator.setAccessible(true);
-
-
-            scroller.set(this, new Scroller(getContext(), (Interpolator) interpolator.get(this)) {
-                @Override
-                public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-                    super.startScroll(startX, startY, dx, dy, duration * 3);
+            val scroller = ViewPager::class.java.getDeclaredField("mScroller")
+            scroller.isAccessible = true
+            val interpolator = ViewPager::class.java.getDeclaredField("sInterpolator")
+            interpolator.isAccessible = true
+            scroller[this] = object : Scroller(context, interpolator[this] as Interpolator) {
+                override fun startScroll(
+                    startX: Int,
+                    startY: Int,
+                    dx: Int,
+                    dy: Int,
+                    duration: Int
+                ) {
+                    super.startScroll(startX, startY, dx, dy, duration * 3)
                 }
-            });
-        } catch (Exception ignored) {
+            }
+        } catch (ignored: Exception) {
         }
     }
-
 }

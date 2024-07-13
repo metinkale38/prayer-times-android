@@ -94,8 +94,6 @@ public class Matrix4 implements Serializable {
      */
     @NonNull
     public Matrix4 mul(@NonNull Matrix4 matrix) {
-        // mul(val, matrix.val);
-        // return this;
         return mul_java(matrix);
     }
 

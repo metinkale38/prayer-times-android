@@ -17,7 +17,6 @@
 package com.metinkale.prayer.settings;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.VibrationEffect;

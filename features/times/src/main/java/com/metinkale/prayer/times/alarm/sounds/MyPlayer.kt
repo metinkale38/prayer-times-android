@@ -18,7 +18,6 @@ package com.metinkale.prayer.times.alarm.sounds
 import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.Build
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.metinkale.prayer.App

@@ -19,7 +19,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +37,7 @@ import com.metinkale.prayer.calendar.runCalendarIntegration
 import com.metinkale.prayer.utils.LocaleUtils.getSupportedLanguages
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import com.metinkale.prayer.utils.Utils
-import java.util.*
+import java.util.Locale
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener {

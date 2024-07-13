@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.metinkale.prayer.BaseActivity.MainFragment
 import com.metinkale.prayer.CrashReporter.recordException
-import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.fragments.AlarmsAdapter.SwitchItem

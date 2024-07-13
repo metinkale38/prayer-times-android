@@ -263,7 +263,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
 
     override fun onItemSelected(adapterView: AdapterView<*>?, view: View, pos: Int, l: Long) {
         if (pos == 0) return
-        dhikrs = viewModel!!.dhikrs.value ?: listOf()
+        dhikrs = viewModel.dhikrs.value ?: listOf()
         for (i in dhikrs.indices) {
             val model = dhikrs[i]
             if (i == pos) {

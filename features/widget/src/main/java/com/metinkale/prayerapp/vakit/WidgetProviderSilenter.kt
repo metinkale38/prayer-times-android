@@ -24,7 +24,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.RemoteViews
-import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.times.SilenterPrompt
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.widgets.R

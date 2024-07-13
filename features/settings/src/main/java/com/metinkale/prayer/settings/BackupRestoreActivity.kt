@@ -119,12 +119,12 @@ class BackupRestoreActivity : AppCompatActivity() {
 
     fun backup(@Suppress("UNUSED_PARAMETER") v: View?) {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         intent.type = "application/zip"
         intent.putExtra(
             Intent.EXTRA_TITLE,
             "com.metinkale.prayer." + DateFormat.format("yyyy-MM-dd HH.mm.ss", Date()) + ".zip"
-        );
+        )
 
         backup.launch(intent)
     }

@@ -31,7 +31,7 @@ import com.metinkale.prayer.date.HijriDate.Companion.MAX_HIJRI_YEAR
 import com.metinkale.prayer.date.HijriDate.Companion.fromLocalDate
 import com.metinkale.prayer.date.HijriDate.Companion.now
 import com.metinkale.prayer.date.HijriDay
-import com.metinkale.prayer.utils.LocaleUtils.formatNumber
+import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getLanguage
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.time.LocalDate
@@ -130,10 +130,10 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
             return MAX_GREG_YEAR - MIN_GREG + 1
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
+        override fun getPageTitle(position: Int): CharSequence {
             var pos = position
             if (locale.language == Locale("ar").language) pos = count - pos - 1
-            return formatNumber(pos + MIN_GREG)
+            return LocaleUtils.formatNumber(pos + MIN_GREG)
         }
 
         override fun getItemId(position: Int): Long {
@@ -157,10 +157,10 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
             return MAX_HIJRI_YEAR - MIN_HIJRI + 1
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
+        override fun getPageTitle(position: Int): CharSequence {
             var pos = position
             if (locale.language == Locale("ar").language) pos = count - pos - 1
-            return formatNumber(pos + MIN_HIJRI)
+            return LocaleUtils.formatNumber(pos + MIN_HIJRI)
         }
 
         override fun getItemId(position: Int): Long {

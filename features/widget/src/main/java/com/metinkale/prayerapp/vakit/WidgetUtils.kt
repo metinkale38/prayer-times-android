@@ -42,7 +42,7 @@ object WidgetUtils {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_city_removed)
         val i = Intent(context, WidgetConfigure::class.java)
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-        i.putExtra(WidgetConfigure.Companion.ONLYCITY, true)
+        i.putExtra(WidgetConfigure.ONLYCITY, true)
         remoteViews.setOnClickPendingIntent(
             R.id.image,
             PendingIntent.getActivity(

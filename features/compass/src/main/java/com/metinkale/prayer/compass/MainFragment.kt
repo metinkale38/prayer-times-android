@@ -32,6 +32,10 @@ import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.compass.magnetic.MagneticCompass
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.PermissionUtils
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 @SuppressLint("MissingPermission")
 class MainFragment : BaseActivity.MainFragment(), LocationListener {
@@ -215,10 +219,7 @@ class MainFragment : BaseActivity.MainFragment(), LocationListener {
     }
 
     private fun getDirectionRad(lat1: Double, lat2: Double, dLng: Double): Double {
-        return Math.atan2(
-            Math.sin(dLng),
-            Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng)
-        )
+        return atan2(sin(dLng), cos(lat1) * tan(lat2) - sin(lat1) * cos(dLng))
     }
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}

@@ -16,15 +16,10 @@
 
 package com.metinkale.prayer.compass.magnetic.compass2D;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;

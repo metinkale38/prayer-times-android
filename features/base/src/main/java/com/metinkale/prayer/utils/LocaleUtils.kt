@@ -18,7 +18,6 @@ package com.metinkale.prayer.utils
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
-import android.os.Build
 import android.os.LocaleList
 import android.text.Html
 import android.text.Spannable
@@ -44,6 +43,8 @@ import java.time.Month
 import java.time.format.DateTimeFormatter
 import java.time.temporal.Temporal
 import java.util.*
+import kotlin.math.ln
+import kotlin.math.pow
 
 object LocaleUtils {
 
@@ -193,14 +194,14 @@ object LocaleUtils {
         return formatNumber(format)
     }
 
-    private fun az(Int: Int, num: Int): String {
-        var ret = StringBuilder(Int.toString() + "")
-        if (ret.length < num) {
-            for (i in ret.length until num) {
+    private fun az(num: Int, count: Int): String {
+        var ret = StringBuilder(num.toString() + "")
+        if (ret.length < count) {
+            for (i in ret.length until count) {
                 ret.insert(0, "0")
             }
-        } else if (ret.length > num) {
-            ret = StringBuilder(ret.substring(ret.length - num, ret.length))
+        } else if (ret.length > count) {
+            ret = StringBuilder(ret.substring(ret.length - count, ret.length))
         }
         return ret.toString()
     }
@@ -230,11 +231,6 @@ object LocaleUtils {
     @JvmStatic
     fun formatNumber(nr: Int): String {
         return formatNumber(nr.toString() + "")
-    }
-
-    @JvmStatic
-    fun formatNumber(doub: Double): String {
-        return formatNumber(String.format(locale, "%f", doub))
     }
 
     @JvmStatic
@@ -297,10 +293,10 @@ object LocaleUtils {
     fun readableSize(bytes: Int): String {
         val unit = 1024
         if (bytes < unit) return "$bytes B"
-        val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
+        val exp = (Math.log(bytes.toDouble()) / ln(unit.toDouble())).toInt()
         val pre = "kMGTPE"[exp - 1]
         return String.format(
-            Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre
+            Locale.getDefault(), "%.1f %sB", bytes / unit.toDouble().pow(exp.toDouble()), pre
         )
     }
 

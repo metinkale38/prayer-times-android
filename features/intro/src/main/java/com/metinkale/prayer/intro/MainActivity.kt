@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
                 intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent)
                 intent.putExtra(
                     Intent.EXTRA_SHORTCUT_NAME,
-                    getString(getStringResId(appName, R.string.appName))
+                    getString(getStringResId(appName, string.appName))
                 )
                 intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon)
                 intent.action = "com.android.launcher.action.INSTALL_SHORTCUT"

@@ -23,186 +23,205 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="4dp">
-
+        android:layout_height="wrap_content">
         <TextView
+            style="@style/TextAppearance.Compat.Notification.Title"
             android:id="@android:id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Braunschweig"
-            android:textSize="14dp"
-            android:textStyle="bold" />
+            android:text="Braunschweig" />
+
 
         <Chronometer
+            style="@style/TextAppearance.Compat.Notification.Title"
             android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:countDown="true"
-            android:textSize="14dp"
-            android:textStyle="bold" />
+            android:countDown="true"  />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/times"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="2dp"
         android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/time0"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:text="00:00" />
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/fajr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/fajr"
-                android:textSize="12dp" />
+                android:text="@string/fajr" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/time1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:text="00:00" />
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/sun"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/sun"
-                android:textSize="12dp" />
+                android:text="@string/sun" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/time2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:text="00:00" />
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/zuhr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/zuhr"
-                android:textSize="12dp" />
+                android:text="@string/zuhr" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/time3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="00:00"
-                android:textSize="14dp" />
+                style="@style/TextAppearance.Compat.Notification.Line2" />
 
             <TextView
                 android:id="@+id/asr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/asr"
-                android:textSize="12dp" />
+                style="@style/TextAppearance.Compat.Notification.Line2" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/time4"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:text="00:00" />
 
             <TextView
                 android:id="@+id/maghrib"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/maghrib"
-                android:textSize="12dp" />
+                style="@style/TextAppearance.Compat.Notification.Line2" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/time5"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:text="00:00"/>
 
             <TextView
+                style="@style/TextAppearance.Compat.Notification.Line2"
                 android:id="@+id/ishaa"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/ishaa"
-                android:textSize="12dp" />
+                android:text="@string/ishaa" />
         </LinearLayout>
-
-
     </LinearLayout>
 
 </LinearLayout>

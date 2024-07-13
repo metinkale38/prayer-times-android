@@ -31,6 +31,7 @@ import com.metinkale.prayer.times.times.Vakit.Companion.getByIndex
 import com.metinkale.prayer.times.times.getCurrentTime
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.util.*
+import kotlin.math.pow
 
 class TesbihatFragment : BaseActivity.MainFragment() {
     private lateinit var pagerAdapter: FragmentStatePagerAdapter
@@ -106,7 +107,7 @@ class TesbihatFragment : BaseActivity.MainFragment() {
             val rootView = inflater.inflate(R.layout.webview, container, false)
             val wv = rootView.findViewById<WebView>(R.id.webview)
             wv.settings.textZoom =
-                (102.38 * Math.pow(1.41, TEXT_SIZE.toDouble())).toInt()
+                (102.38 * 1.41.pow(TEXT_SIZE.toDouble())).toInt()
             if (Locale("tr").language == LOCALE!!.language) {
                 wv.loadUrl("file:///android_asset/tr/tesbihat/" + getAssetDir(pos))
             } else {

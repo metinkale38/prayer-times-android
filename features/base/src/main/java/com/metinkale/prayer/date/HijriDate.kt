@@ -143,12 +143,8 @@ class HijriDate private constructor(val year: Int, val monthValue: Int, val day:
             }
         }
 
-        private val MIN_GREG_YEAR: Int by lazy { entries.minOf { it.gy } }
-
         @JvmStatic
         val MAX_GREG_YEAR: Int by lazy { entries.maxOf { it.gy } }
-
-        private val MIN_HIJRI_YEAR: Int by lazy { entries.minOf { it.hy } }
 
         @JvmStatic
         val MAX_HIJRI_YEAR: Int by lazy { entries.maxOf { it.hy } }

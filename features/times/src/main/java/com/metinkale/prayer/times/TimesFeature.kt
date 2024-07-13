@@ -3,7 +3,6 @@ package com.metinkale.prayer.times
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Build
 import com.metinkale.prayer.App
 import com.metinkale.prayer.MenuFeature
 import com.metinkale.prayer.base.R

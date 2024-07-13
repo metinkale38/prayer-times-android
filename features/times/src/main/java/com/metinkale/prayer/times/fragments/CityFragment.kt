@@ -16,7 +16,6 @@
 package com.metinkale.prayer.times.fragments
 
 import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent

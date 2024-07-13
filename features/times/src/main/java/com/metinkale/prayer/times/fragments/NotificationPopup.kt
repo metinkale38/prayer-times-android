@@ -230,11 +230,11 @@ class NotificationPopup : AppCompatActivity(), SensorEventListener {
     companion object {
         var instance: NotificationPopup? = null
         fun start(c: Context, alarm: Alarm) {
-            val (ID, name, source) = alarm.getCity()
+            val (id, name, source) = alarm.getCity()
             val pm = c.getSystemService(POWER_SERVICE) as PowerManager
             if (!pm.isInteractive) {
                 val i = Intent(c, NotificationPopup::class.java)
-                i.putExtra("city", ID)
+                i.putExtra("city", id)
                 i.putExtra("name", "$name ($source)")
                 i.putExtra("vakit", alarm.buildNotificationTitle())
                 i.flags =

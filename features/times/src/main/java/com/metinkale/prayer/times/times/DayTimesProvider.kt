@@ -51,7 +51,6 @@ fun Times.getNextTime(): Int {
     val today = LocalDate.now()
     val now = LocalDateTime.now()
 
-    @Suppress("KotlinConstantConditions")
     var vakit = Vakit.FAJR.ordinal
     while (!getTime(today, vakit).isAfter(now)) {
         vakit++

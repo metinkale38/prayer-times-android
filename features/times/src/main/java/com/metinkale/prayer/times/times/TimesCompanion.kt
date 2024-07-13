@@ -72,13 +72,6 @@ open class TimesCompanion : Flow<List<Times>> {
         }
     }
 
-    fun queueAction(function: () -> Unit) {
-        store.update {
-            function()
-            it
-        }
-    }
-
     fun delete(times: Times) {
         store.update { it.filter { it.id != times.id } }
     }

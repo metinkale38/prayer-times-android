@@ -17,7 +17,6 @@ package com.metinkale.prayer.receiver
 
 import android.app.ForegroundServiceStartNotAllowedException
 import android.os.Build
-import android.util.Log
 import com.metinkale.prayer.CrashReporter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope

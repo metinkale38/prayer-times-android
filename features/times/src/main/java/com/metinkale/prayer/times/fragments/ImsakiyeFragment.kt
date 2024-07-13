@@ -45,7 +45,7 @@ class ImsakiyeFragment : Fragment() {
         container: ViewGroup?,
         bdl: Bundle?
     ): View {
-        val layout = LinearLayout(requireContext());
+        val layout = LinearLayout(requireContext())
         adapter = ImsakiyeAdapter(requireContext())
         layout.addView(adapter!!.getView(-1, null, layout))
         val lv = ListView(requireContext())

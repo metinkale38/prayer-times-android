@@ -46,6 +46,7 @@ object AliasManager : OnPrefsChangedListener {
 
             var bestAlias = "Default"
 
+
             val locales = LocaleUtils.locales
             for (element in locales) {
                 val lang = element.language
@@ -54,6 +55,7 @@ object AliasManager : OnPrefsChangedListener {
                     break
                 }
             }
+
             aliases.forEach { (key, value) ->
                 if (bestAlias == key) {
                     //enable

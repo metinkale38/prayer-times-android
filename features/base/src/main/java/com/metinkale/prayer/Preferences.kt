@@ -16,7 +16,6 @@
 package com.metinkale.prayer
 
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.util.Locale

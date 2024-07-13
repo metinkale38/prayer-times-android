@@ -68,15 +68,6 @@ public class Utils {
     }
 
 
-    public static boolean isPackageInstalled(Context c, String packagename) {
-        try {
-            c.getPackageManager().getPackageInfo(packagename, 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
     public static void close(Closeable closeable) {
         if (closeable != null) {
             try {
@@ -107,26 +98,6 @@ public class Utils {
         }
         return pattern;
 
-    }
-
-    public static String getVersionName() {
-        try {
-            PackageInfo pInfo = App.get().getPackageManager().getPackageInfo(App.get().getPackageName(), 0);
-            return pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public static int getVersionCode() {
-        try {
-            PackageInfo pInfo = App.get().getPackageManager().getPackageInfo(App.get().getPackageName(), 0);
-            return pInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
     public static boolean isNightMode(Context c) {

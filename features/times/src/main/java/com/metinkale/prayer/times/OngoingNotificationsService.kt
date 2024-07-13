@@ -103,6 +103,7 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         val notMan = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 
@@ -186,7 +187,6 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
             views.setChronometer(R.id.countdown, 0, txt, false)
         }
         textColor?.let { views.setTextColor(R.id.countdown, it) }
-
     }
 
     private fun buildLargeRemoteView(t: Times): RemoteViews {
@@ -235,19 +235,6 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
         return views
     }
 
-
-    private fun buildSmallRemoteView(t: Times): RemoteViews {
-        val views = RemoteViews(packageName, R.layout.notification_layout_small)
-        views.initCommon(t)
-
-        // Times
-        views.setViewVisibility(R.id.times, View.GONE)
-        views.setTextViewText(
-            R.id.countdownprefix,
-            Vakit.getByIndex(t.getCurrentTime()).string + " | "
-        )
-        return views
-    }
 
     private fun getIconFromMinutes(t: Times): Bitmap {
         val left =

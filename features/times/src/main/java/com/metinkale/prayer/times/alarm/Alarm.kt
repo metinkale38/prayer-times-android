@@ -18,7 +18,6 @@ package com.metinkale.prayer.times.alarm
 
 import android.content.Context
 import android.media.AudioManager
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.preference.PreferenceManager

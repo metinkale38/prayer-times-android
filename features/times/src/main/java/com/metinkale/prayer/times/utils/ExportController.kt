@@ -33,7 +33,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.drawableId
 import com.metinkale.prayer.times.times.DayTimesWebProvider
@@ -338,7 +337,7 @@ object ExportController {
             ctx.getString(com.metinkale.prayer.base.R.string.FILE_PROVIDER_AUTHORITIES),
             outputFile
         )
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         intent.setDataAndType(uri, "text/calendar")
         ctx.startActivity(intent)
     }

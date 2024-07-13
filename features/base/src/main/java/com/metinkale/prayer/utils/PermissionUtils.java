@@ -30,7 +30,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.metinkale.prayer.CrashReporter;
-import com.metinkale.prayer.Preferences;
 import com.metinkale.prayer.base.R;
 
 /**

@@ -54,7 +54,7 @@ fun runCalendarIntegration(ctx: Context) {
     val uri: Uri = FileProvider.getUriForFile(
         ctx, ctx.getString(com.metinkale.prayer.base.R.string.FILE_PROVIDER_AUTHORITIES), outputFile
     )
-    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     intent.setDataAndType(uri, "text/calendar")
     ctx.startActivity(intent)
 }

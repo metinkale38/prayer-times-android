@@ -92,7 +92,6 @@ object NotificationUtils {
      * A dummy notification is a notification, which is only needed to start a foreground-service
      * It has a special channel, so it can be simple hidden by the user by clicking on it
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     fun createDummyNotification(c: Context, text: String? = null): Notification {
         c.getSystemService(NotificationManager::class.java)
         val channelId = getWidgetChannel(c)

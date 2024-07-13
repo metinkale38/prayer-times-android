@@ -42,19 +42,6 @@ class PrayTimesConfigurationViewModel(
     }
 
 
-    fun setAngle(vakit: Vakit, angle: Double?) {
-        prayTimes.update {
-            it.copy(
-                method = when (vakit) {
-                    Vakit.FAJR -> it.method.copy(fajrAngle = angle, imsakAngle = angle)
-                    Vakit.MAGHRIB -> it.method.copy(maghribAngle = angle)
-                    Vakit.ISHAA -> it.method.copy(ishaaAngle = angle)
-                    else -> it.method
-                }
-            )
-        }
-    }
-
     fun setAngleDrift(vakit: Vakit, angle: Double) {
         prayTimes.update {
             it.copy(

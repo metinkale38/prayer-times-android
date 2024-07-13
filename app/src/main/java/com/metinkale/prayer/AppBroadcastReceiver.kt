@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
-import com.metinkale.prayer.receiver.AppEventListener
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.receiver.OnStartListener
 

@@ -16,7 +16,6 @@
 package com.metinkale.prayer.times.alarm.sounds
 
 import android.media.MediaPlayer
-import android.util.Log
 import com.metinkale.prayer.times.alarm.Alarm
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

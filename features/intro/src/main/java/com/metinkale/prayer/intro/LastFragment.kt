@@ -15,22 +15,19 @@
  */
 package com.metinkale.prayer.intro
 
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.TextView
+import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.utils.AboutShortcuts.mail
-import com.metinkale.prayer.utils.AboutShortcuts.translate
 import com.metinkale.prayer.utils.AboutShortcuts.rate
 import com.metinkale.prayer.utils.AboutShortcuts.share
-import com.metinkale.prayer.intro.IntroFragment
-import android.widget.CompoundButton
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import com.metinkale.prayer.intro.R
-import android.widget.TextView
-import android.content.pm.PackageManager
-import android.view.View
-import android.widget.Button
-import com.metinkale.prayer.Preferences
-import com.metinkale.prayer.utils.AboutShortcuts
+import com.metinkale.prayer.utils.AboutShortcuts.translate
 
 /**
  * Created by metin on 25.07.17.

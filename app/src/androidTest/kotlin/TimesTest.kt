@@ -1,4 +1,3 @@
-
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -31,7 +30,8 @@ import org.junit.runners.MethodSorters
 class TimesTest {
 
     @get:Rule
-    var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
+    var permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     @Before
     fun setUp() {
@@ -77,7 +77,7 @@ class TimesTest {
                 Thread.sleep(100)
                 count++
 
-                if(count>50) throw RuntimeException("waiting for ProgressDialog for more than 5s")
+                if (count > 50) throw RuntimeException("waiting for ProgressDialog for more than 5s")
             }
         }
     }

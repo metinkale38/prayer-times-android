@@ -10,7 +10,6 @@ import com.metinkale.prayer.hadith.HadithFeature
 import com.metinkale.prayer.intro.IntroFeature
 import com.metinkale.prayer.missedprayers.MissedPrayersFeature
 import com.metinkale.prayer.names.NamesFeature
-import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.settings.SettingsFeature
 import com.metinkale.prayer.tesbihat.TesbihatFeature
 import com.metinkale.prayer.times.TimesFeature
