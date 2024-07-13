@@ -63,7 +63,7 @@ data class CityFragmentViewModel(
                     fajrTime = LocaleUtils.formatTimeForHTML(if (hasSabah && alt) daytimes?.sabah else daytimes?.fajr),
                     sunTime = LocaleUtils.formatTimeForHTML(daytimes?.sun),
                     dhuhrTime = LocaleUtils.formatTimeForHTML(daytimes?.dhuhr),
-                    asrTime = LocaleUtils.formatTimeForHTML(if (hasSabah && alt) daytimes?.asrHanafi else daytimes?.asr),
+                    asrTime = LocaleUtils.formatTimeForHTML(if (hasAsr2 && alt) daytimes?.asrHanafi else daytimes?.asr),
                     maghribTime = LocaleUtils.formatTimeForHTML(daytimes?.maghrib),
                     ishaTime = LocaleUtils.formatTimeForHTML(daytimes?.ishaa),
                     countdown = LocaleUtils.formatPeriod(
