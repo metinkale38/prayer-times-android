@@ -18,7 +18,7 @@ fun runCalendarIntegration(ctx: Context) {
     val prodId = "prayer-times-android/${ctx.packageName}"
 
 
-    val dtstamp = LocalDate.now().toString()
+    val dtstamp = LocalDate.now().toString().replace("-", "") + "T000000"
     val output = StringBuilder().apply {
         appendLine("BEGIN:VCALENDAR")
         appendLine("VERSION:2.0")
