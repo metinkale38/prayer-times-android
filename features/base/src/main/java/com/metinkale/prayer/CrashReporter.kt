@@ -18,6 +18,7 @@ object CrashReporter {
 
     @JvmStatic
     fun recordException(e: Throwable) {
+        e.printStackTrace()
         FirebaseCrashlytics.getInstance().recordException(e)
     }
 

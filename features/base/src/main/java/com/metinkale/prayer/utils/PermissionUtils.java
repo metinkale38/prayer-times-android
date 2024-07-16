@@ -63,7 +63,7 @@ public class PermissionUtils {
 
         CrashReporter.setCustomKey("pStorage", pStorage);
         CrashReporter.setCustomKey("pLocation", pLocation);
-         CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
+        CrashReporter.setCustomKey("pNotPolicy", pNotPolicy);
         CrashReporter.setCustomKey("pNotification", pNotification);
 
     }

@@ -22,9 +22,11 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.PowerManager
 import android.util.Log
+import androidx.core.app.ServiceCompat
 import androidx.core.util.Pair
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
@@ -80,7 +82,10 @@ class AlarmService : IntentService("AlarmService") {
         val nm = c.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(notId)
 
-        startForeground(notId, buildPlayingNotification(c, alarm, time))
+        ServiceCompat.startForeground(
+            this, notId, buildPlayingNotification(c, alarm, time),
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+        )
 
 
         alarm.vibrateNow(c)

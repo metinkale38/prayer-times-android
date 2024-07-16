@@ -56,11 +56,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     namespace 'com.metinkale.prayer.compass'
 }
@@ -71,7 +71,7 @@ dependencies {
     implementation project(':features:base')
     implementation project(':features:times')
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15' // TODO consider replacing with WebView to reduce dependencies
-    playImplementation 'com.google.android.gms:play-services-maps:18.1.0'
+    playImplementation 'com.google.android.gms:play-services-maps:19.0.0'
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
-    playImplementation 'com.google.android.gms:play-services-location:21.0.1'
+    playImplementation 'com.google.android.gms:play-services-location:21.3.0'
 }

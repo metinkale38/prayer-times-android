@@ -19,6 +19,7 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -30,6 +31,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.text.toSpannable
 import androidx.lifecycle.LifecycleService
@@ -148,7 +150,13 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
             hasOngoingNotifications = true
             notifications.forEachIndexed { index, (noti, id) ->
                 if (index == 0) {
-                    runCatching { startForeground(id, noti) }.onFailure { notMan.notify(id, noti) }
+                    runCatching {
+                        ServiceCompat.startForeground(
+                            this,
+                            id, noti,
+                            ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                        )
+                    }.onFailure { notMan.notify(id, noti) }
                 }
                 notMan.notify(id, noti)
             }

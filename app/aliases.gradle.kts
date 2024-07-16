@@ -6,10 +6,10 @@ val createAppNames by tasks.creating {
                 .let { it.substringBefore("|") to it.substringAfter("|").toInt() }
         }.mapNotNull { (lang, percent) ->
             if (percent > 35) lang else null
-        }.map { it.toUpperCase().take(2) }.map {
+        }.map { it.uppercase().take(2) }.map {
             it to File(
                 projectDir,
-                "../features/base/src/main/translations/values-${it.toLowerCase()}/strings.xml"
+                "../features/base/src/main/translations/values-${it.lowercase()}/strings.xml"
             ).readText()
                 .lines().find { it.contains("<string name=\"appName\">") }!!.substringAfter(">")
                 .substringBefore("<")

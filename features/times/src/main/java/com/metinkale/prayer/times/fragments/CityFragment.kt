@@ -218,7 +218,7 @@ class CityFragment : Fragment() {
         pulse.interpolator = AccelerateDecelerateInterpolator()
 
 
-        (activity as? MainActivity)?.locationScanning?.observe({ lifecycle }) {
+        (activity as? MainActivity)?.locationScanning?.observe(viewLifecycleOwner) {
             if (it) {
                 pulse.start()
             } else {

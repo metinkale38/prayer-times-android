@@ -37,16 +37,15 @@ import androidx.core.content.ContextCompat
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.alarm.Alarm
 import com.metinkale.prayer.times.alarm.AlarmService.StopAlarmPlayerReceiver
-import com.metinkale.prayer.times.fragments.NotificationPopup
 import kotlin.math.abs
 import kotlin.math.atan
 import kotlin.math.min
 import kotlin.math.sqrt
 
 class NotificationPopup : AppCompatActivity(), SensorEventListener {
-    private var mSensorManager: SensorManager? = null
-    private var mProximity: Sensor? = null
-    private var mReceiverRegistered = false
+    private var sensorManager: SensorManager? = null
+    private var proximity: Sensor? = null
+    private var receiverRegistered = false
     public override fun onResume() {
         super.onResume()
         instance = this
@@ -71,22 +70,22 @@ class NotificationPopup : AppCompatActivity(), SensorEventListener {
         val vakit = findViewById<TextView>(R.id.vakit)
         vakit.text = intent.getStringExtra("vakit")
         vakit.keepScreenOn = true
-        mSensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        mProximity = mSensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
-        if (mProximity == null) {
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        proximity = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+        if (proximity == null) {
             val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
             registerReceiver(mReceiver, filter)
-            mReceiverRegistered = true
+            receiverRegistered = true
         } else {
-            mSensorManager!!.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager!!.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
     override fun onDestroy() {
-        if (mProximity != null) mSensorManager!!.unregisterListener(this)
-        if (mReceiverRegistered) {
+        if (proximity != null) sensorManager!!.unregisterListener(this)
+        if (receiverRegistered) {
             unregisterReceiver(mReceiver)
-            mReceiverRegistered = false
+            receiverRegistered = false
         }
         super.onDestroy()
     }
@@ -95,10 +94,10 @@ class NotificationPopup : AppCompatActivity(), SensorEventListener {
         if (event.values[0] > 0) {
             val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
             registerReceiver(mReceiver, filter)
-            mReceiverRegistered = true
-            mSensorManager!!.unregisterListener(this)
-            mProximity = null
-            mSensorManager = null
+            receiverRegistered = true
+            sensorManager!!.unregisterListener(this)
+            proximity = null
+            sensorManager = null
         }
     }
 

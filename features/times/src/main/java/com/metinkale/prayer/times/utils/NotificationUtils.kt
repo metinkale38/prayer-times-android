@@ -21,9 +21,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.Settings
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.metinkale.prayer.times.R
 
@@ -40,7 +38,6 @@ object NotificationUtils {
             notificationManager.createNotificationChannel(channel)
         }
         return channel.id
-        return "alarm"
     }
 
     fun getOngoingChannel(c: Context): String {
@@ -56,7 +53,6 @@ object NotificationUtils {
             notificationManager.createNotificationChannel(channel)
         }
         return channel.id
-        return "ongoing"
     }
 
     fun getPlayingChannel(c: Context): String {
@@ -70,7 +66,6 @@ object NotificationUtils {
             notificationManager.createNotificationChannel(channel)
         }
         return channel.id
-        return "sound"
     }
 
     fun getWidgetChannel(c: Context): String {
@@ -85,7 +80,6 @@ object NotificationUtils {
             notificationManager.createNotificationChannel(channel)
         }
         return channel.id
-        return "widget"
     }
 
     /**

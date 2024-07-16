@@ -62,12 +62,12 @@ android {
         // Flag to enable support for the new language APIs
         coreLibraryDesugaringEnabled true
         // Sets Java compatibility to Java 8
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     lint {
         disable 'MissingTranslation'
@@ -84,28 +84,28 @@ android {
 
 dependencies {
     api 'androidx.multidex:multidex:2.0.1'
-    api 'androidx.annotation:annotation:1.5.0'
+    api 'androidx.annotation:annotation:1.8.0'
     api 'androidx.percentlayout:percentlayout:1.0.0'
-    api 'androidx.appcompat:appcompat:1.6.1'
-    api 'com.google.android.material:material:1.8.0-beta01'
+    api 'androidx.appcompat:appcompat:1.7.0'
+    api 'com.google.android.material:material:1.13.0-alpha04'
     api 'com.koushikdutta.ion:ion:3.1.0'
-    api 'androidx.browser:browser:1.4.0'
+    api 'androidx.browser:browser:1.8.0'
     api 'androidx.legacy:legacy-preference-v14:1.0.0'
     api 'androidx.constraintlayout:constraintlayout:2.1.4'
-    api 'androidx.recyclerview:recyclerview:1.2.1'
-    api "androidx.core:core-ktx:1.9.0"
-    api "androidx.fragment:fragment-ktx:1.5.5"
-    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    api "androidx.lifecycle:lifecycle-service:2.5.1"
+    api 'androidx.recyclerview:recyclerview:1.3.2'
+    api "androidx.core:core-ktx:1.13.1"
+    api "androidx.fragment:fragment-ktx:1.8.1"
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.3'
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3"
+    api "androidx.lifecycle:lifecycle-service:2.8.3"
     api "androidx.cardview:cardview:1.0.0"
-    api 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+    api 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
 
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     testImplementation "io.kotest:kotest-runner-junit5:5.6.2"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation "io.mockk:mockk:1.4.1"
 }

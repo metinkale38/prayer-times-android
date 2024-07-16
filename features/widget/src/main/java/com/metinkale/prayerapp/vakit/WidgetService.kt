@@ -21,7 +21,10 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.IBinder
+import androidx.core.app.ServiceCompat
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.AppEventManager
@@ -54,9 +57,11 @@ class WidgetService : Service(), OnTimeTickListener {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         try {
-            startForeground(
+            ServiceCompat.startForeground(
+                this,
                 NotificationUtils.getDummyNotificationId(),
-                NotificationUtils.createDummyNotification(this)
+                NotificationUtils.createDummyNotification(this),
+                FOREGROUND_SERVICE_TYPE_SPECIAL_USE
             )
         } catch (e: Exception) {
             recordException(e)

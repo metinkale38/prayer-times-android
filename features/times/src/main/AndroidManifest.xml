@@ -4,13 +4,14 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application>
 
@@ -40,17 +41,20 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <service
-            android:name=".OngoingNotificationsService"> </service>
+            android:name=".OngoingNotificationsService"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Foreground-Service needed to update the countdown in the notification every minute while the screen is on. If the user does not use the notification-widget feature, no foreground-service is started." />
+        </service>
 
         <service
-            android:name=".alarm.AlarmService">  </service>
+            android:name=".alarm.AlarmService"
+            android:foregroundServiceType="mediaPlayback" />
 
         <receiver android:name=".alarm.AlarmService$StopAlarmPlayerReceiver" />
         <receiver android:name=".alarm.SilenterReceiver" />
 
-        <service
-            android:name=".LocationUtil"
-            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

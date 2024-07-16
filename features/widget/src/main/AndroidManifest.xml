@@ -20,7 +20,12 @@
 
     <application tools:ignore="GoogleAppIndexingWarning">
         <service
-            android:name="com.metinkale.prayerapp.vakit.WidgetService">    </service>
+            android:name="com.metinkale.prayerapp.vakit.WidgetService"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Foreground-Service needed to update the countdown in the widgets every minute while the screen is on. If the user does not use widgets, no foreground-service is started." />
+        </service>
 
         <activity
             android:name="com.metinkale.prayerapp.vakit.WidgetConfigure"
