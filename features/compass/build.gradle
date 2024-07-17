@@ -29,12 +29,12 @@ android {
             res.srcDirs += 'src/main/translations'
         }
     }
-    compileSdkVersion 34
 
 
 
     defaultConfig {
         targetSdkVersion 34
+        compileSdk 34
         minSdkVersion 26
     }
 

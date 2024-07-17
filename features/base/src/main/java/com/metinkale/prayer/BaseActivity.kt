@@ -113,8 +113,8 @@ open class BaseActivity(
         supportFragmentManager.addOnBackStackChangedListener(this)
         if (savedInstanceState != null) navPos = savedInstanceState.getInt("navPos", 0)
         val comp = intent.component?.className
-        for (i in Module.values().indices) {
-            if (comp?.contains(Module.values()[i].getKey()) == true) {
+        for (i in Module.entries.indices) {
+            if (comp?.contains(Module.entries[i].getKey()) == true) {
                 navPos = i
             }
         }

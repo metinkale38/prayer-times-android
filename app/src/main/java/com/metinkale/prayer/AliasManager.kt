@@ -41,8 +41,9 @@ object AliasManager : OnPrefsChangedListener {
             }
 
             val prefix = "com.metinkale.prayer.alias"
-            val aliases = info.activities.filter { it.name.startsWith(prefix) }
-                .associate { Locale(it.name.substring(prefix.length)).language to it.name }
+            val aliases = info.activities?.filter { it.name.startsWith(prefix) }
+                ?.associate { Locale(it.name.substring(prefix.length)).language to it.name }
+                ?: return
 
             var bestAlias = "Default"
 

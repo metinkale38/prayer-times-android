@@ -38,11 +38,9 @@ android {
         }
     }
 
-
-    compileSdkVersion 34
-
     defaultConfig {
         targetSdkVersion 34
+        compileSdk 34
         applicationId "com.metinkale.prayer"
         minSdkVersion 26
         multiDexEnabled true

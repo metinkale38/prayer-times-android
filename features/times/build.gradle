@@ -30,8 +30,6 @@ android {
         }
     }
 
-    compileSdkVersion 34
-
     buildFeatures {
         compose true
     }
@@ -40,6 +38,7 @@ android {
     }
     defaultConfig {
         targetSdkVersion 34
+        compileSdk 34
         minSdkVersion 26
     }
 
