@@ -50,6 +50,9 @@ object NotificationUtils {
             val importance = NotificationManager.IMPORTANCE_LOW
             channel = NotificationChannel("ongoing", name, importance)
             channel.setShowBadge(false)
+            channel.enableLights(false)
+            channel.enableVibration(false)
+            channel.setSound(null, null)
             notificationManager.createNotificationChannel(channel)
         }
         return channel.id
