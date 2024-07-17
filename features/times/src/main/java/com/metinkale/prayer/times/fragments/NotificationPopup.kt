@@ -234,7 +234,7 @@ class NotificationPopup : AppCompatActivity(), SensorEventListener {
             if (!pm.isInteractive) {
                 val i = Intent(c, NotificationPopup::class.java)
                 i.putExtra("city", id)
-                i.putExtra("name", "$name ($source)")
+                i.putExtra("name", "$name (${source.name})")
                 i.putExtra("vakit", alarm.buildNotificationTitle())
                 i.flags =
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
