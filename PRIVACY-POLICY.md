@@ -1,15 +1,17 @@
+# Privacy Policy
+
 Following Libraries, which might transfer data from your phone are used in this App:
 
-  * Crashlytics: 
+
+## Firebase Crashlytics 
   
-  Crashlytics will send Crashes and Statistics about your usage to Fabric.io Servers. These information only things like general Phone Info's (Model, Android Version, etc.) and the configuration of the App. No Private Data like Photos, Contacts, Calendar etc. will be transferred!  
+  Crashlytics will send Crashes and Statistics about your usage to Google Firebase. These information only things like general Phone Info's (Model, Android Version, etc.) and the configuration of the App. No Private Data like Photos, Contacts, Calendar etc. will be transferred!  
   I do not share this information with others, i only use them to be able to fix issues and improve user experience.  
   
-  Fabric/Crashlytics might collect data or give them to 3rd parties.  
-  See here for Fabric.io Terms: https://fabric.io/terms  
-  See here for Crashlytics.com Terms: http://try.crashlytics.com/terms/  
+  Firebase Crashlytics might collect data or give them to 3rd parties.  
+  See here for Firebase Privacy Policy: [https://firebase.google.com/support/privacy]
                  
-  * Google Play Services:
+## Google Play Services
   
   Google Play Services are only used for the (Google) Map View in the Qibla Compass.  
 
@@ -17,9 +19,9 @@ Following Libraries, which might transfer data from your phone are used in this 
   See here for Google Play Services Terms: https://play.google.com/intl/en_us/about/play-terms.html  
   
   
-  
 Besides from these Libraries this App does not collect any other information about users and their phones.
 
+## Permissions
 All Permissions are used for a specific functionality in the App:
 
   * WRITE_EXTERNAL_STORAGE/READ_EXTERNAL_STORAGE: used to download resources like Sounds, Hadith Databases etc. to your local Storage.
