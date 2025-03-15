@@ -35,8 +35,8 @@ data class LegacyPrayTimes(
     val highLats: HighLatsAdjustment,
     val midnight: Midnight,
     val timeZone: String = "UTC",
-    val minutes: List<Int> = List(LegacyTimes.values().size) { 0 },
-    val angles: List<Double> = List(LegacyTimes.values().size) { 0.0 },
+    val minutes: List<Int> = List(LegacyTimes.entries.size) { 0 },
+    val angles: List<Double> = List(LegacyTimes.entries.size) { 0.0 },
 )
 
 enum class LegacyTimes {

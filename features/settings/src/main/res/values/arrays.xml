@@ -56,42 +56,6 @@
     </string-array>
 
 
-
-    <string-array name="language">
-        <item>@string/systemLanguage</item>
-        <item>Türkçe</item>
-        <item>Deutsch</item>
-        <item>English</item>
-        <item>عربي</item>
-        <item>Indonesia</item>
-        <item>Français</item>
-        <item>Bosanski</item>
-        <item>Nederlands</item>
-        <item>Kurdish</item>
-        <item>русский</item>
-        <item>Español</item>
-        <item>Dansk</item>
-        <item>Urdu</item>
-    </string-array>
-
-
-    <string-array name="language_val">
-        <item>system</item>
-        <item>tr</item>
-        <item>de</item>
-        <item>en</item>
-        <item>ar</item>
-        <item>id</item>
-        <item>fr</item>
-        <item>bs</item>
-        <item>nl</item>
-        <item>ku</item>
-        <item>ru</item>
-        <item>es</item>
-        <item>dk</item>
-        <item>ur</item>
-    </string-array>
-
     <string-array name="silenterType">
         <item>@string/useSilenter</item>
         <item>@string/useVibration</item>

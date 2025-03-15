@@ -23,14 +23,19 @@ import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -39,6 +44,7 @@ import com.metinkale.prayer.base.R
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.PermissionUtils
+
 
 open class BaseActivity(
     private val titleRes: Int,
@@ -49,42 +55,36 @@ open class BaseActivity(
     private lateinit var nav: ListView
     private lateinit var drawerLayout: DrawerLayout
 
-    //private long mStartTime;
-    //private Fragment mFragment;
     private lateinit var toolbar: Toolbar
     private lateinit var progressDialog: View
 
-    /*@Override
-    public void onBackPressed() {
-        if (!(mFragment instanceof MainFragment) || !((MainFragment) mFragment).onBackPressed())
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0
-                    || !AppRatingDialog.showDialog(this, System.currentTimeMillis() - mStartTime))
-                super.onBackPressed();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mStartTime = System.currentTimeMillis();
-    }*/
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleUtils.wrapContext(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         LocaleUtils.init(this)
-        //AppRatingDialog.increaseAppStarts();
         if (Preferences.SHOW_INTRO || Preferences.CHANGELOG_VERSION < BuildConfig.CHANGELOG_VERSION) {
             Module.INTRO.launch(this)
         }
         super.setContentView(R.layout.activity_base)
+
+        val rootView = findViewById<RelativeLayout>(R.id.root)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            rootView.setPadding(insets.left, insets.top, insets.right, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
+        drawerLayout = findViewById(R.id.drawer)
+
         toolbar = findViewById(R.id.toolbar)
         progressDialog = findViewById(R.id.progressDlg)
         setSupportActionBar(toolbar)
         toolbar.setBackgroundResource(R.color.colorPrimary)
         toolbar.setNavigationIcon(R.drawable.ic_action_menu)
-        drawerLayout = findViewById(R.id.drawer)
         nav = drawerLayout.findViewById(R.id.base_nav)
         val header = LayoutInflater.from(this).inflate(R.layout.drawer_header, nav, false)
         try {
@@ -97,16 +97,17 @@ open class BaseActivity(
         val list = buildNavAdapter(this)
         nav.adapter = list
         nav.onItemClickListener = this
-        nav.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (nav.height < (nav.parent as View).height) {
-                        val diff = (nav.parent as View).height - nav.height
-                        nav.dividerHeight = nav.dividerHeight + diff / nav.adapter.count + 1
-                    } else {
-                        nav.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    }
+        nav.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (nav.height < (nav.parent as View).height) {
+                    val diff = (nav.parent as View).height - nav.height
+                    nav.dividerHeight = nav.dividerHeight + diff / nav.adapter.count + 1
+                } else {
+                    nav.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
-            })
+            }
+        })
         drawerLayout.post {
             toolbar.setTitle(titleRes)
         }
@@ -154,7 +155,7 @@ open class BaseActivity(
     }
 
     private fun buildNavAdapter(c: Context): ArrayAdapter<Module> {
-        return object : ArrayAdapter<Module>(c, 0, Module.values()) {
+        return object : ArrayAdapter<Module>(c, 0, Module.entries.toTypedArray()) {
             override fun getView(pos: Int, nullableView: View?, p: ViewGroup): View {
                 val v: View = nullableView ?: LayoutInflater.from(c)
                     .inflate(R.layout.drawer_list_item, p, false)
@@ -242,9 +243,8 @@ open class BaseActivity(
             drawerLayout.closeDrawers()
             return
         }
-        Module.values()[pos].launch(this)
+        Module.entries[pos].launch(this)
         drawerLayout.closeDrawers()
-        //AppRatingDialog.addToOpenedMenus(ACTS[pos]);
     }
 
     open class MainFragment : Fragment() {
@@ -263,7 +263,7 @@ open class BaseActivity(
         fun backToMain() {
             val fm = requireActivity().supportFragmentManager
             val c = fm.backStackEntryCount
-            for (i in 0 until c) {
+            (0 until c).forEach { i ->
                 fm.popBackStack()
             }
         }

@@ -46,9 +46,9 @@ import com.metinkale.prayer.times.calc.PrayTimesConfigurationFragment
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.UUID
-import dev.metinkale.prayertimes.core.Entry
-import dev.metinkale.prayertimes.core.SearchEntry
-import dev.metinkale.prayertimes.core.sources.Source
+import dev.metinkale.prayertimes.providers.Entry
+import dev.metinkale.prayertimes.providers.SearchEntry
+import dev.metinkale.prayertimes.providers.sources.Source
 import kotlinx.coroutines.launch
 import java.util.*
 

@@ -66,7 +66,7 @@ data class BundledSound(
         return if (alarm == null) {
             subSounds.getFirstOfOrFirst(*prio.toTypedArray())
         } else {
-            prio.removeLast()
+            prio.removeAt(prio.lastIndex)
             when (Vakit.getByIndex(alarm.getCity().getCurrentTime())) {
                 Vakit.FAJR -> subSounds.getFirstOfOrFirst(*prio.toTypedArray())
                 Vakit.SUN, Vakit.DHUHR -> subSounds.getFirstOfOrFirst(*prio.drop(1).toTypedArray())

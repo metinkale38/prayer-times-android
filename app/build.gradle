@@ -39,13 +39,13 @@ android {
     }
 
     defaultConfig {
-        targetSdkVersion 34
-        compileSdk 34
+        targetSdkVersion 35
+        compileSdk 35
         applicationId "com.metinkale.prayer"
         minSdkVersion 26
         multiDexEnabled true
-        versionName '3.8.3'
-        versionCode 241
+        versionName '3.8.4'
+        versionCode 248
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
@@ -71,6 +71,7 @@ android {
         play {
             versionNameSuffix " Play Store"
             dimension "store"
+            isDefault = true
         }
     }
 
@@ -115,10 +116,10 @@ dependencies {
     implementation project(':features:settings')
     implementation project(':features:times')
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-    androidTestImplementation 'androidx.test:runner:1.6.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestImplementation 'androidx.test:rules:1.6.1'
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.2.1'
 

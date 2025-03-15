@@ -34,8 +34,8 @@ android {
 
 
     defaultConfig {
-        targetSdkVersion 34
-        compileSdk 34
+        targetSdkVersion 35
+        compileSdk 35
         minSdkVersion 26
     }
 
@@ -72,7 +72,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     api "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    api "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    api "androidx.lifecycle:lifecycle-common-java8:2.8.7"
 
     api "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

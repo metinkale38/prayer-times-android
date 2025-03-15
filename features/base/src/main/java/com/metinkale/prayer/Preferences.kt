@@ -15,7 +15,10 @@
  */
 package com.metinkale.prayer
 
+import android.app.LocaleManager
 import android.content.SharedPreferences
+import android.os.Build
+import android.os.LocaleList
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.util.Locale
@@ -35,7 +38,25 @@ object Preferences {
     }
 
     var SILENTER_MODE by StringPreference("silenterType", "silent")
-    var LANGUAGE by StringPreference("language", "system")
+    var LANGUAGE by object : StringPreference("language", "system") {
+        override fun getValue(): String {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val localeManager = App.get().getSystemService(LocaleManager::class.java)
+                localeManager.applicationLocales[0]?.language ?: "system"
+            } else {
+                super.getValue()
+            }
+        }
+
+        override fun setValue(lang: String) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val localeManager = App.get().getSystemService(LocaleManager::class.java)
+                localeManager.applicationLocales = LocaleList(Locale(lang))
+            } else {
+                super.setValue(lang)
+            }
+        }
+    }
     var USE_ALARM by BooleanPreference("useAlarm", true)
     var DIGITS by StringPreference("numbers", "normal")
     var DATE_FORMAT by StringPreference("dateformat", "DD MMM YYYY")

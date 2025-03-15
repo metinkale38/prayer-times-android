@@ -15,8 +15,13 @@
  */
 package com.metinkale.prayer.times.fragments
 
+import android.app.AlarmManager
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -62,6 +67,8 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
         times.data.asLiveData().observe(viewLifecycleOwner, this)
         onChanged(times.current)
         setHasOptionsMenu(true)
+
+        checkAlarmPermission()
         return v
     }
 
@@ -82,6 +89,19 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
             ) { _: DialogInterface?, _: Int -> }
             dialog.show()
         }
+    }
+
+    fun checkAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Ab Android 12+
+            val alarmManager = requireContext().getSystemService(AlarmManager::class.java)
+            if (!alarmManager.canScheduleExactAlarms()) {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                    data = Uri.parse("package:${requireContext().packageName}")
+                }
+                startActivity(intent)
+            }
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

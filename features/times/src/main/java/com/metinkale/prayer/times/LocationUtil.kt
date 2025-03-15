@@ -32,8 +32,8 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 import com.metinkale.prayer.utils.PermissionUtils
 import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.core.SearchEntry
-import dev.metinkale.prayertimes.core.sources.Source
+import dev.metinkale.prayertimes.providers.SearchEntry
+import dev.metinkale.prayertimes.providers.sources.Source
 import kotlinx.coroutines.launch
 
 
@@ -119,13 +119,16 @@ class LocationUtil : DefaultLifecycleObserver, LocationListener {
                                     })
                                 }
                             } else {
-                                Times.getTimesById(t.id).update {
-                                    t.copy(
-                                        name = e.localizedName,
-                                        key = e.id,
-                                        lat = e.lat ?: 0.0,
-                                        lng = e.lng ?: 0.0
-                                    ).also { (it.dayTimes as? DayTimesWebProvider)?.syncAsync() }
+                                if (App.isOnline()) {
+                                    Times.getTimesById(t.id).update {
+                                        t.copy(
+                                            name = e.localizedName,
+                                            key = e.id,
+                                            lat = e.lat ?: 0.0,
+                                            lng = e.lng ?: 0.0
+                                        )
+                                            .also { (it.dayTimes as? DayTimesWebProvider)?.syncAsync() }
+                                    }
                                 }
                             }
                         }

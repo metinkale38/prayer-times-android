@@ -37,7 +37,7 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.LocaleUtils
 import dev.metinkale.prayertimes.calc.Method
 import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.core.sources.Source
+import dev.metinkale.prayertimes.providers.sources.Source
 import java.util.*
 
 /**

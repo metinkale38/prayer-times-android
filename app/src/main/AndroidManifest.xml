@@ -29,12 +29,12 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/appName"
+        android:localeConfig="@xml/locales_config"
         android:noHistory="true"
         android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:label"
-        >
+        tools:replace="android:label">
         <activity android:name=".ShortcutActivity" />
 
         <activity-alias

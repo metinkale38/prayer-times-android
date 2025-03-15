@@ -1,5 +1,5 @@
-"project_identifier": "prayer-times-android"
-"api_key": "c97e84b51d71d79c1ebd505465cb5fcf"
+"project_id": "203839"
+"api_token_env": "CROWDIN_PERSONAL_TOKEN"
 "base_path": "features"
 
 "files" : [

@@ -54,7 +54,7 @@ data class DayTimes(
         }
 
     companion object {
-        fun from(dayTimes: dev.metinkale.prayertimes.core.DayTimes) = DayTimes(
+        fun from(dayTimes: dev.metinkale.prayertimes.providers.DayTimes) = DayTimes(
             date = dayTimes.date.toJavaLocalDate(),
             fajr = dayTimes.fajr.toJavaLocalTime(),
             sun = dayTimes.sun.toJavaLocalTime(),

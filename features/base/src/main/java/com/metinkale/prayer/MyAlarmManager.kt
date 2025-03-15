@@ -47,9 +47,15 @@ class MyAlarmManager private constructor(val c: Context) {
         } else if (!canUseExact) {
             set(type, time, service)
         } else if (type == AlarmManager.RTC_WAKEUP) {
-            alarmManager.setExactAndAllowWhileIdle(type, time, service)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms())
+                alarmManager.setExactAndAllowWhileIdle(type, time, service)
+            else
+                alarmManager.setAndAllowWhileIdle(type, time, service)
         } else {
-            alarmManager.setExact(type, time, service)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms())
+                alarmManager.setExact(type, time, service)
+            else
+                alarmManager.set(type, time, service)
         }
     }
 

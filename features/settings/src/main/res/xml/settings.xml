@@ -24,8 +24,6 @@
 
         <ListPreference
             android:dialogTitle="@string/language"
-            android:entries="@array/language"
-            android:entryValues="@array/language_val"
             android:key="language"
             android:title="@string/language" />
         <SwitchPreference

@@ -33,8 +33,8 @@ android {
 
 
     defaultConfig {
-        targetSdkVersion 34
-        compileSdk 34
+        targetSdkVersion 35
+        compileSdk 35
         minSdkVersion 26
     }
 
@@ -63,6 +63,9 @@ android {
         jvmTarget = '17'
     }
     namespace 'com.metinkale.prayer.compass'
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

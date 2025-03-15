@@ -5,7 +5,7 @@ import android.widget.Toast
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.times.R
-import dev.metinkale.prayertimes.core.sources.Source
+import dev.metinkale.prayertimes.providers.sources.Source
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -113,6 +113,11 @@ class DayTimesWebProvider private constructor(val id: Int) :
                 CrashReporter.recordException(e)
             }
         }
+    }
+
+    fun forceSyncAsync() {
+        lastSync = 0
+        syncAsync()
     }
 
 

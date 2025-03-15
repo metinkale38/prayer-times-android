@@ -17,6 +17,7 @@
     <string name="activateForMorePrefs">Activate for more Preferences</string>
     <string name="adjAngle">Angle based (angle/60th of night)</string>
     <string name="adjMidnight">Midnight</string>
+    <string name="adjThird">Times based (1/3th of night)</string>
     <string name="adjTime">Time based (1/7th of night)</string>
     <string name="angle">Angle</string>
     <string name="calcMethod">Method</string>

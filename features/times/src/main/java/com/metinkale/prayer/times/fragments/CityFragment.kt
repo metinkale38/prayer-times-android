@@ -185,7 +185,7 @@ class CityFragment : Fragment() {
             (times.dayTimes as? DayTimesWebProvider)?.syncAsync()
             ExportController.export(requireContext(), times)
         } else if (id == R.id.refresh) {
-            (times.dayTimes as? DayTimesWebProvider)?.syncAsync()
+            (times.dayTimes as? DayTimesWebProvider)?.forceSyncAsync()
         } else if (id == R.id.share) {
             val txt = StringBuilder(getString(R.string.shareTimes, times.name) + ":")
             val date = LocalDate.now()

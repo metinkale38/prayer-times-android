@@ -35,13 +35,14 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
     val daytimes = praytimes.value.getTimes(java.time.LocalDate.now().toKotlinLocalDate())
     val highLats: HighLatsAdjustment = praytimes.value.method.highLats
 
-    val angleTranslations = HighLatsAdjustment.values().associateWith {
+    val angleTranslations = HighLatsAdjustment.entries.associateWith {
         stringResource(
             when (it) {
                 HighLatsAdjustment.None -> R.string.noAdjustment
                 HighLatsAdjustment.AngleBased -> R.string.adjAngle
                 HighLatsAdjustment.OneSeventh -> R.string.adjTime
                 HighLatsAdjustment.NightMiddle -> R.string.adjMidnight
+                HighLatsAdjustment.OneThird -> R.string.adjThird
             }
         )
     }

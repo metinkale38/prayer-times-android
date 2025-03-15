@@ -15,9 +15,14 @@
  */
 package com.metinkale.prayer.times.times
 
+import android.app.LocaleManager
+import android.os.Build
+import android.os.LocaleList
 import com.metinkale.prayer.App
+import com.metinkale.prayer.Preference
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.times.R
+import java.util.Locale
 
 enum class Vakit {
     FAJR(intArrayOf(R.string.imsak, R.string.fajr), arrayOf("الإمساك", "الفجر")), SUN(
@@ -51,8 +56,17 @@ enum class Vakit {
         // Other: Imsak - Fajr (Default)
             // Background: some sources give two seperate times for imsak/fajr, to make sure, neither fasting, nor prayer gets invalid due to calculation errors
             if (this == FAJR) {
-                if (!Preferences.USE_ARABIC && Preferences.LANGUAGE == "tr") {
-                    getString(0)
+                if (!Preferences.USE_ARABIC) {
+                    val language = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        val locales =
+                            App.get().getSystemService(LocaleManager::class.java).applicationLocales
+                        locales[0]?.language ?: Preferences.LANGUAGE
+                    } else {
+                        Preferences.LANGUAGE
+                    }
+                    if (language == "tr") {
+                        getString(0)
+                    } else getString(1)
                 } else getString(1)
             } else getString(0)
 
@@ -64,6 +78,7 @@ enum class Vakit {
 
     companion object {
         val LENGTH = values().size
+
         @JvmStatic
         fun getByIndex(i: Int): Vakit {
             var i = i

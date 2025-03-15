@@ -7,7 +7,7 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.MenuFeature
 import com.metinkale.prayer.base.R
 import com.metinkale.prayer.receiver.OnStartListener
-import dev.metinkale.prayertimes.core.Configuration
+import dev.metinkale.prayertimes.providers.Configuration
 
 object TimesFeature : MenuFeature, OnStartListener {
     override val iconRes: Int = R.drawable.ic_menu_times

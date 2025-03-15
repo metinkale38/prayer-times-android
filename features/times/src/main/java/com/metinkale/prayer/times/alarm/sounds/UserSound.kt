@@ -90,8 +90,7 @@ data class UserSound(val uri: Uri) : Sound {
                         Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                 }
-            } catch (e: Exception) {
-                recordException(e)
+            } catch (ignore: Exception) {
             }
             var sound = Sounds.getSound(uri.hashCode()) as? UserSound
             if (sound == null) {

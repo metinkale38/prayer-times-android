@@ -21,7 +21,7 @@ import com.metinkale.prayer.times.LegacyTimes
 import com.metinkale.prayer.times.alarm.Alarm
 import dev.metinkale.prayertimes.calc.Method
 import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.core.sources.Source
+import dev.metinkale.prayertimes.providers.sources.Source
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
