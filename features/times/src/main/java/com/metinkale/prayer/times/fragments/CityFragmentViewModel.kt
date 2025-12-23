@@ -3,6 +3,7 @@ package com.metinkale.prayer.times.fragments
 import com.metinkale.prayer.App
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.date.HijriDate
+import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.drawableId
 import com.metinkale.prayer.times.times.*
 import com.metinkale.prayer.times.utils.secondsFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 data class CityFragmentViewModel(
     val date: String,
@@ -32,7 +34,7 @@ data class CityFragmentViewModel(
     val icon: Int,
     val hoverLine: Int,
     val autolocation: Boolean,
-    val isKerahat: Boolean
+    val kerahatText: String?
 ) {
     companion object {
         fun from(times: Flow<Times>) =
@@ -74,7 +76,28 @@ data class CityFragmentViewModel(
                     icon = it.source.drawableId ?: 0,
                     hoverLine = it.getNextTime() + if (Preferences.VAKIT_INDICATOR_TYPE == "next") 0 else -1,
                     autolocation = it.autoLocation,
-                    isKerahat = it.isKerahat()
+                    kerahatText = it.takeIf { it.isKerahat() }?.let { times ->
+                        val baseText = App.get().getString(R.string.kerahatTime)
+
+                        if (times.getCurrentTime() != Vakit.SUN.ordinal) return@let baseText
+
+                        val now = LocalDateTime.now()
+                        val sun = daytimes?.sun ?: return@let baseText
+
+                        val minutesSinceSun = ChronoUnit.MINUTES.between(sun, now)
+                        if (minutesSinceSun !in 1 until Preferences.KERAHAT_SUNRISE) return@let baseText
+
+                        val secondsLeft = ChronoUnit.SECONDS.between(
+                            now,
+                            sun.plusMinutes(Preferences.KERAHAT_SUNRISE.toLong())
+                        ).coerceAtLeast(0)
+
+                        val m = secondsLeft / 60
+                        val s = secondsLeft % 60
+
+                        "$baseText ${String.format("%02d:%02d", m, s)}"
+                    }
+
                 )
             }
     }

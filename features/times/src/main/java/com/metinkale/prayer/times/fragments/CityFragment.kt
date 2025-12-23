@@ -128,8 +128,12 @@ class CityFragment : Fragment() {
 
                 v.findViewById<TextView>(R.id.countdown).text = it.countdown
 
-                v.findViewById<View>(R.id.kerahat).visibility =
-                    if (it.isKerahat) View.VISIBLE else View.GONE
+                v.findViewById<TextView>(R.id.kerahat).run {
+                    it.kerahatText?.also { kerahatText ->
+                        visibility = View.VISIBLE
+                        text = kerahatText
+                    } ?: run { visibility = View.GONE }
+                }
             }
 
         listOf(R.id.source1, R.id.source2).forEach {
