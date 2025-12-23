@@ -80,13 +80,14 @@ class BackupRestoreActivity : AppCompatActivity() {
                         var files = filesDir
                         if (files.exists() && files.isDirectory)
                             files.list()
-                                ?.filter { !File(it).isDirectory }
+                                ?.filter { File(it).isFile }
                                 ?.filter { !it.contains(".Fabric") }
                                 ?.filter { !it.contains("leakcanary") }
                                 ?.filter { !it.contains("ion") }
                                 ?.filter { !it.contains("crashlytics") }
                                 ?.filter { !it.contains("phenotype") }
                                 ?.filter { !it.contains("google") }
+                                ?.filter { !it.contains("datastore") }
                                 ?.forEach { file ->
                                     zip.addFile("files", files.absolutePath + "/" + file)
                                 }
@@ -94,6 +95,7 @@ class BackupRestoreActivity : AppCompatActivity() {
                         files = File(files.parentFile, "databases")
                         if (files.exists() && files.isDirectory)
                             files.list()
+                                ?.filter { File(it).isFile }
                                 ?.filter { !it.contains("evernote") }
                                 ?.filter { !it.contains("google") }
                                 ?.forEach {
@@ -104,6 +106,7 @@ class BackupRestoreActivity : AppCompatActivity() {
                         files = File(files.parentFile, "shared_prefs")
                         if (files.exists() && files.isDirectory)
                             files.list()
+                                ?.filter { File(it).isFile }
                                 ?.filter { !it.contains("evernote") }
                                 ?.filter { !it.contains("google") }
                                 ?.forEach {
