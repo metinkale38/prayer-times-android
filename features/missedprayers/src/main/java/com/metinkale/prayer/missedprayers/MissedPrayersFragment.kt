@@ -13,102 +13,126 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.missedprayers
 
-package com.metinkale.prayer.missedprayers;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.edit
+import com.metinkale.prayer.BaseActivity
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+class MissedPrayersFragment : BaseActivity.MainFragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.kaza_main, container, false)
+        val vg = view.findViewById<ViewGroup>(R.id.main)
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+        val ids = intArrayOf(
+            R.string.morningPrayer,
+            R.string.zuhr,
+            R.string.asr,
+            R.string.maghrib,
+            R.string.ishaa,
+            R.string.witr,
+            R.string.fasting
+        )
+        for (i in 0..6) {
+            val v = vg.getChildAt(i)
+            val name = v.findViewById<TextView>(R.id.text)
+            val nr = v.findViewById<EditText>(R.id.nr)
+            val plus = v.findViewById<ImageView>(R.id.plus)
+            val minus = v.findViewById<ImageView>(R.id.minus)
 
-import com.metinkale.prayer.BaseActivity;
+            name.setText(ids[i])
 
-public class MissedPrayersFragment extends BaseActivity.MainFragment {
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.kaza_main, container, false);
-        ViewGroup vg = view.findViewById(R.id.main);
-
-        int[] ids = {R.string.morningPrayer, R.string.zuhr, R.string.asr, R.string.maghrib, R.string.ishaa, R.string.witr, R.string.fasting};
-        for (int i = 0; i < 7; i++) {
-            View v = vg.getChildAt(i);
-            TextView name = v.findViewById(R.id.text);
-            final EditText nr = v.findViewById(R.id.nr);
-            ImageView plus = v.findViewById(R.id.plus);
-            ImageView minus = v.findViewById(R.id.minus);
-
-            name.setText(ids[i]);
-
-            plus.setOnClickListener(view12 -> {
-                String txt = nr.getText().toString();
-                if (txt.isEmpty()) txt = "0";
-                int i12 = 0;
+            plus.setOnClickListener { _: View? ->
+                var txt = nr.getText().toString()
+                if (txt.isEmpty()) txt = "0"
+                var i12 = 0
                 try {
-                    i12 = Integer.parseInt(txt);
-                } catch (Exception ignore) {
+                    i12 = txt.toInt()
+                } catch (_: Exception) {
                 } finally {
-                    i12++;
+                    i12++
+                }
+                nr.setText("$i12")
+            }
+
+            minus.setOnClickListener { _: View? ->
+                var txt = nr.getText().toString()
+                if (txt.isEmpty()) txt = "0"
+                var i1 = 0
+                try {
+                    i1 = txt.toInt()
+                } finally {
+                    i1--
+                }
+                nr.setText("$i1")
+            }
+        }
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val vg = requireView().findViewById<ViewGroup>(R.id.main)
+        val prefs = requireActivity().getSharedPreferences("kaza", 0)
+        for (i in 0..6) {
+            val v = vg.getChildAt(i)
+            val nr = v.findViewById<EditText>(R.id.nr)
+            nr.setText(prefs.getString("count" + i, "0"))
+        }
+
+
+
+        prefs.getString("updated", null)?.let { lastUpdate ->
+            val formatter = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(Locale.GERMANY)
+            val formatted = LocalDateTime.parse(lastUpdate).format(formatter)
+            vg.findViewById<TextView>(R.id.lastUpdate).text = formatted
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val vg = requireActivity().findViewById<ViewGroup>(R.id.main)
+        var updated = false
+        requireActivity().getSharedPreferences("kaza", 0).let { prefs ->
+            prefs.edit {
+                for (i in 0..6) {
+                    val v = vg.getChildAt(i)
+                    val nr = v.findViewById<EditText>(R.id.nr)
+                    val key = "count$i"
+                    val value = nr.getText().toString()
+
+                    if (prefs.getString(key, "") != value) {
+                        updated = true
+                    }
+
+                    putString(key, value)
                 }
 
-                nr.setText(i12 + "");
-
-            });
-
-            minus.setOnClickListener(view1 -> {
-                String txt = nr.getText().toString();
-                if (txt.isEmpty()) txt = "0";
-                int i1 = 0;
-                try {
-                    i1 = Integer.parseInt(txt);
-                } finally {
-                    i1--;
+                if (updated) {
+                    putString("updated", LocalDateTime.now().toString())
                 }
-
-                nr.setText(i1 + "");
-            });
-
-        }
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        ViewGroup vg = getView().findViewById(R.id.main);
-        SharedPreferences prefs = getActivity().getSharedPreferences("kaza", 0);
-        for (int i = 0; i < 7; i++) {
-            View v = vg.getChildAt(i);
-            EditText nr = v.findViewById(R.id.nr);
-            nr.setText(prefs.getString("count" + i, "0"));
-
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        ViewGroup vg = getActivity().findViewById(R.id.main);
-        SharedPreferences.Editor edit = getActivity().getSharedPreferences("kaza", 0).edit();
-        for (int i = 0; i < 7; i++) {
-            View v = vg.getChildAt(i);
-            EditText nr = v.findViewById(R.id.nr);
-            edit.putString("count" + i, nr.getText().toString());
-
+            }
         }
 
-        edit.apply();
+
     }
-
-
 }
