@@ -77,7 +77,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     implementation 'androidx.media:media:1.7.0'
-    api 'dev.metinkale.prayertimes:providers:1.0-SNAPSHOT'
+    api 'dev.metinkale:openprayertimes:1.0-SNAPSHOT'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.23'
 
     // compose

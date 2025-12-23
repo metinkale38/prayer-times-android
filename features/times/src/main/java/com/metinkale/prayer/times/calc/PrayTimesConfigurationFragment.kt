@@ -8,7 +8,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.platform.ComposeView
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.times.times.Times
-import dev.metinkale.prayertimes.calc.PrayTimes
+import dev.metinkale.calctimes.CalcTimes
+import dev.metinkale.openprayertimes.sources.Source
 import kotlinx.serialization.json.Json
 
 class PrayTimesConfigurationFragment : BaseActivity.MainFragment() {
@@ -30,8 +31,8 @@ class PrayTimesConfigurationFragment : BaseActivity.MainFragment() {
             ComposeView(requireContext()).apply {
                 setContent {
                     val model =
-                        PrayTimesConfigurationViewModel(PrayTimes.deserialize(times.key ?: "")) {
-                            Times.add(times.copy(key = it.serialize(), asrType = asrType.value))
+                        PrayTimesConfigurationViewModel(Source.Calc.deserializeCalcTimes(times.key ?: "")) {
+                            Times.add(times.copy(key =Source.Calc.serializeCalcTimes(it), asrType = asrType.value))
                             backToMain()
                         }
 

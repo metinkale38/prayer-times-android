@@ -31,9 +31,8 @@ import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 import com.metinkale.prayer.utils.PermissionUtils
-import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.providers.SearchEntry
-import dev.metinkale.prayertimes.providers.sources.Source
+import dev.metinkale.openprayertimes.SearchEntry
+import dev.metinkale.openprayertimes.sources.Source
 import kotlinx.coroutines.launch
 
 
@@ -112,22 +111,30 @@ class LocationUtil : DefaultLifecycleObserver, LocationListener {
                         if (t.source === e.source) {
                             if (e.source === Source.Calc) {
                                 Times.getTimesById(t.id).update {
-                                    it?.copy(name = e.localizedName, key = it.key?.let {
-                                        PrayTimes.deserialize(it)
-                                            .copy(latitude = lat, longitude = lng, elevation = elv)
-                                            .serialize()
-                                    })
+                                    it?.copy(
+                                        name = e.localizedName,
+                                        key = it.key?.let {
+                                            Source.Calc.serializeCalcTimes(
+                                                Source.Calc.deserializeCalcTimes(it)
+                                                    .copy(
+                                                        latitude = lat,
+                                                        longitude = lng,
+                                                        elevation = elv
+                                                    )
+                                            )
+                                        })
                                 }
                             } else {
                                 if (App.isOnline()) {
-                                    Times.getTimesById(t.id).update {
-                                        t.copy(
-                                            name = e.localizedName,
-                                            key = e.id,
-                                            lat = e.lat ?: 0.0,
-                                            lng = e.lng ?: 0.0
-                                        )
-                                            .also { (it.dayTimes as? DayTimesWebProvider)?.syncAsync() }
+                                    if ((t.dayTimes as? DayTimesWebProvider)?.sync(e.id) == true) {
+                                        Times.getTimesById(t.id).update { it: Times? ->
+                                            it?.copy(
+                                                name = e.localizedName,
+                                                key = e.id,
+                                                lat = e.lat ?: 0.0,
+                                                lng = e.lng ?: 0.0
+                                            )
+                                        }
                                     }
                                 }
                             }

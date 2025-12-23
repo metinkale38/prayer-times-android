@@ -1,6 +1,6 @@
 package com.metinkale.prayer.times
 
-import dev.metinkale.prayertimes.providers.sources.Source
+import dev.metinkale.openprayertimes.sources.Source
 
 
 val Source.drawableId: Int?

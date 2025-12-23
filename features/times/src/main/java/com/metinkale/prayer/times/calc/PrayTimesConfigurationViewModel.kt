@@ -3,19 +3,19 @@ package com.metinkale.prayer.times.calc
 import androidx.lifecycle.ViewModel
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
-import dev.metinkale.prayertimes.calc.HighLatsAdjustment
-import dev.metinkale.prayertimes.calc.Method
-import dev.metinkale.prayertimes.calc.PrayTimes
+import dev.metinkale.calctimes.CalcTimes
+import dev.metinkale.calctimes.HighLatsAdjustment
+import dev.metinkale.calctimes.Method
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 
 class PrayTimesConfigurationViewModel(
-    prayTimes: PrayTimes,
-    private val save: PrayTimesConfigurationViewModel.(PrayTimes) -> Unit
+    prayTimes: CalcTimes,
+    private val save: PrayTimesConfigurationViewModel.(CalcTimes) -> Unit
 ) :
     ViewModel() {
-    val prayTimes: MutableStateFlow<PrayTimes> = MutableStateFlow(prayTimes)
+    val prayTimes: MutableStateFlow<CalcTimes> = MutableStateFlow(prayTimes)
     val asrType = MutableStateFlow(Times.AsrType.Shafi)
 
 

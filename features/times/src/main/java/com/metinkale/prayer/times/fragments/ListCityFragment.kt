@@ -29,9 +29,9 @@ import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.times.R
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.UUID
-import dev.metinkale.prayertimes.providers.Entry
-import dev.metinkale.prayertimes.providers.SearchEntry
-import dev.metinkale.prayertimes.providers.sources.Source
+import dev.metinkale.openprayertimes.Entry
+import dev.metinkale.openprayertimes.SearchEntry
+import dev.metinkale.openprayertimes.sources.Source
 import kotlinx.coroutines.launch
 import java.util.Locale
 

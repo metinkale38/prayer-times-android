@@ -19,9 +19,9 @@ package com.metinkale.prayer.times.times
 import com.metinkale.prayer.times.LegacyPrayTimes
 import com.metinkale.prayer.times.LegacyTimes
 import com.metinkale.prayer.times.alarm.Alarm
-import dev.metinkale.prayertimes.calc.Method
-import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.providers.sources.Source
+import dev.metinkale.calctimes.CalcTimes
+import dev.metinkale.calctimes.Method
+import dev.metinkale.openprayertimes.sources.Source
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -62,6 +62,11 @@ data class Times(
 
 
     fun migrate(): Times {
+
+        if (prayTimes == null && source == Source.Calc && key?.contains("Standard") == true) {
+            return copy(key = key.replace("Standard", "SunsetSunrise"))
+        }
+
         // TODO migration of old praytimes. Remove after some updates
         return prayTimes?.let { prayTimes ->
             val method = Method(
@@ -82,11 +87,12 @@ data class Times(
                 ishaaMinute = prayTimes.minutes[LegacyTimes.Ishaa.ordinal],
                 useElevation = true
             ).let { method ->
-                Method.values().mapNotNull { it as? Method }.firstOrNull { it == method } ?: method
+                Method.values().mapNotNull { it as? Method }.firstOrNull { it == method }
+                    ?: method
             }
 
 
-            val pt = PrayTimes(
+            val pt = CalcTimes(
                 prayTimes.lat,
                 prayTimes.lng,
                 prayTimes.elv,
@@ -95,7 +101,7 @@ data class Times(
             )
 
 
-            copy(prayTimes = null, key = pt.serialize())
+            copy(prayTimes = null, key = Source.Calc.serializeCalcTimes(pt))
 
         } ?: this
     }

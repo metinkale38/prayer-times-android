@@ -1,15 +1,15 @@
 package com.metinkale.prayer.times.times
 
-import dev.metinkale.prayertimes.calc.PrayTimes
+import dev.metinkale.openprayertimes.sources.Source
 import kotlinx.datetime.toJavaLocalTime
 import java.time.LocalDate
 
 class DayTimesCalcProvider(id: Int) : DayTimesProvider {
     private val times = Times.getTimesById(id).current
-    val prayTime = PrayTimes.deserialize(times?.key ?: "")
+    val prayTime = Source.Calc.deserializeCalcTimes(times?.key ?: "")
 
     override fun get(key: LocalDate): DayTimes {
-        return prayTime.getTimes(
+        return prayTime.getPrayerTimes(
             kotlinx.datetime.LocalDate(
                 key.year,
                 key.monthValue,

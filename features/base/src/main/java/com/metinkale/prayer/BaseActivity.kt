@@ -133,9 +133,9 @@ open class BaseActivity(
             setResult(RESULT_OK, intent)
             finish()
         }
-        moveToFrag(defaultFragment)
+            moveToFrag(defaultFragment)
 
-        AppEventManager.sendOnStart()
+            AppEventManager.sendOnStart()
     }
 
     fun setProgressDialogVisible(visible: Boolean) {

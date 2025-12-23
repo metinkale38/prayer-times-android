@@ -5,7 +5,6 @@ import android.widget.Toast
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.times.R
-import dev.metinkale.prayertimes.providers.sources.Source
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,6 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import androidx.core.content.edit
+import dev.metinkale.openprayertimes.sources.Source
 
 class DayTimesWebProvider private constructor(val id: Int) :
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -37,17 +38,17 @@ class DayTimesWebProvider private constructor(val id: Int) :
         prefs.registerOnSharedPreferenceChangeListener(this)
 
         val monthStart = LocalDate.now().withDayOfMonth(1).toString()
-        prefs.edit().also {
+        prefs.edit {
             prefs.all.keys.filter { it < monthStart }.forEach { date ->
-                it.remove(date)
+                remove(date)
             }
-        }.apply()
+        }
 
         MainScope().launch {
             Times.map { it.none { it.id == id } }.collect {
                 if (it && !deleted) {
                     instances.remove(id)
-                    prefs.edit().clear().apply()
+                    prefs.edit { clear() }
                     deleted = true
                 }
             }
@@ -77,23 +78,23 @@ class DayTimesWebProvider private constructor(val id: Int) :
     }
 
 
-    suspend fun sync(): Boolean {
+    suspend fun sync(key: String? = null): Boolean {
         if (!App.isOnline()) return false
         if (System.currentTimeMillis() - lastSync < 1000 * 60) return false
         if (deleted) return false
         val times = Times.getTimesById(id).current
         return if (times != null && times.source != Source.Calc) {
             lastSync = System.currentTimeMillis()
-            val daytimes = times.source.getDayTimes(times.key ?: "")
-            prefs.edit().also {
+            val daytimes = times.source.getDayTimes(key ?: times.key ?: "")
+            prefs.edit {
                 daytimes.forEach { dt ->
-                    it.putString(
+                    putString(
                         dt.date.toString(),
                         Json.encodeToString(DayTimes.serializer(), DayTimes.from(dt))
                     )
                 }
-            }.apply()
-            daytimes.size > 25
+            }
+            daytimes.isNotEmpty()
         } else false
     }
 

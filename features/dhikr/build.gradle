@@ -67,12 +67,12 @@ android {
 }
 
 dependencies {
-    def room_version = "2.5.1"
+    def room_version = "2.8.4"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':features:base')
     api "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    api "androidx.lifecycle:lifecycle-common-java8:2.8.7"
+    api "androidx.lifecycle:lifecycle-common-java8:2.10.0"
 
     api "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

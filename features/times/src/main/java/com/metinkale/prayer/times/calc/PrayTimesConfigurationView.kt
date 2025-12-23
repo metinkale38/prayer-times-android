@@ -20,8 +20,8 @@ import com.metinkale.prayer.times.compose.SelectMenu
 import com.metinkale.prayer.times.compose.theme.AppTheme
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
-import dev.metinkale.prayertimes.calc.HighLatsAdjustment
-import dev.metinkale.prayertimes.calc.Method
+import dev.metinkale.calctimes.HighLatsAdjustment
+import dev.metinkale.calctimes.Method
 import kotlinx.datetime.toKotlinLocalDate
 import java.text.DecimalFormat
 
@@ -32,7 +32,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
     val praytimes = model.prayTimes.collectAsState()
     val asrType = model.asrType.collectAsState()
     val method: Method = praytimes.value.method
-    val daytimes = praytimes.value.getTimes(java.time.LocalDate.now().toKotlinLocalDate())
+    val daytimes = praytimes.value.getPrayerTimes(java.time.LocalDate.now().toKotlinLocalDate())
     val highLats: HighLatsAdjustment = praytimes.value.method.highLats
 
     val angleTranslations = HighLatsAdjustment.entries.associateWith {
@@ -43,6 +43,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                 HighLatsAdjustment.OneSeventh -> R.string.adjTime
                 HighLatsAdjustment.NightMiddle -> R.string.adjMidnight
                 HighLatsAdjustment.OneThird -> R.string.adjThird
+                HighLatsAdjustment.OneFifth -> R.string.adjFifth
             }
         )
     }
@@ -60,7 +61,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                 label = "Method",
                 value = method,
                 items = Method.values().mapNotNull { it as? Method },
-                itemLabel = { it.name },
+                itemLabel = { it.name ?: "Custom" },
                 itemSubLabel = { it.location },
                 onChange = { model.setMethod(it) }
             )
@@ -102,7 +103,8 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                                         asrType.value != Times.AsrType.Hanafi,
                                         { model.setAsrType(Times.AsrType.Shafi, it) })
                                 else
-                                    Checkbox(asrType.value != Times.AsrType.Shafi,
+                                    Checkbox(
+                                        asrType.value != Times.AsrType.Shafi,
                                         { model.setAsrType(Times.AsrType.Hanafi, it) })
                             }
                         }

@@ -23,8 +23,8 @@ PLEASE DO NOT REMOVE THIS COPYRIGHT BLOCK.
 */
 package com.metinkale.prayer.times
 
-import dev.metinkale.prayertimes.calc.HighLatsAdjustment
-import dev.metinkale.prayertimes.calc.Midnight
+import dev.metinkale.calctimes.HighLatsAdjustment
+import dev.metinkale.calctimes.Midnight
 import kotlinx.serialization.Serializable
 
 @Serializable

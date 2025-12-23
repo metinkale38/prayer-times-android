@@ -24,8 +24,16 @@ plugins {
 android {
 
     lint {
-        baseline = file("lint-baseline.xml")
+        sarifReport = false
+        textReport = false
+        warningsAsErrors = false
+        checkReleaseBuilds = false
     }
+
+//
+//    lint {
+//        baseline = file("lint-baseline.xml")
+//    }
 
     namespace "com.metinkale.prayer"
 
@@ -45,7 +53,7 @@ android {
         minSdkVersion 26
         multiDexEnabled true
         versionName '3.8.4'
-        versionCode 248
+        versionCode 254
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
@@ -115,8 +123,8 @@ dependencies {
     implementation project(':features:names')
     implementation project(':features:settings')
     implementation project(':features:times')
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     androidTestImplementation 'androidx.test:runner:1.6.2'

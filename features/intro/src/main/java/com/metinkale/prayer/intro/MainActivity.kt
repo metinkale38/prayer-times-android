@@ -35,9 +35,9 @@ import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.intro.R.string
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.LocaleUtils
-import dev.metinkale.prayertimes.calc.Method
-import dev.metinkale.prayertimes.calc.PrayTimes
-import dev.metinkale.prayertimes.providers.sources.Source
+import dev.metinkale.calctimes.CalcTimes
+import dev.metinkale.calctimes.Method
+import dev.metinkale.openprayertimes.sources.Source
 import java.util.*
 
 /**
@@ -185,9 +185,18 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
     ) {
         Times.add(
             Times(
-                id = id, name = name, source = Source.Companion.Calc, key = PrayTimes(
-                    lat, lng, 0.0, kotlinx.datetime.TimeZone.of(timeZone?.id ?: "UTC"), Method.MWL
-                ).serialize()
+                id = id,
+                name = name,
+                source = Source.Companion.Calc,
+                key = Source.Calc.serializeCalcTimes(
+                    CalcTimes(
+                        lat,
+                        lng,
+                        0.0,
+                        kotlinx.datetime.TimeZone.of(timeZone?.id ?: "UTC"),
+                        Method.MWL
+                    )
+                )
             )
         )
     }
