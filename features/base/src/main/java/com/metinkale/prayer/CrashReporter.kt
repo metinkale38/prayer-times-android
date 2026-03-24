@@ -1,50 +1,59 @@
 package com.metinkale.prayer
 
 import android.app.Application
-import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import io.sentry.Sentry
+import io.sentry.SentryLevel
+import io.sentry.protocol.User
 
 object CrashReporter {
+    enum class Severity {
+        DEBUG,
+        INFO,
+        WARNING,
+        ERROR,
+        FATAL
+    }
 
-    @JvmStatic
     fun initializeApp(ctx: Application) {
-        FirebaseApp.initializeApp(ctx)
+        // SentryAndroid.init(ctx)
+        // Sentry uses auto-init
     }
 
-    @JvmStatic
     fun setUserId(id: String) {
-        FirebaseCrashlytics.getInstance().setUserId(id)
+        val user = User()
+        user.id = id
+        Sentry.setUser(user)
     }
 
     @JvmStatic
-    fun recordException(e: Throwable) {
+    fun recordException(
+        e: Throwable
+    ) {
         e.printStackTrace()
-        FirebaseCrashlytics.getInstance().recordException(e)
+        Sentry.captureException(e)
     }
 
     @JvmStatic
-    fun setCustomKey(key: String, value: Boolean) {
-        FirebaseCrashlytics.getInstance().setCustomKey(key, value)
-    }
-
-    @JvmStatic
-    fun setCustomKey(key: String, value: Double) {
-        FirebaseCrashlytics.getInstance().setCustomKey(key, value)
-    }
-
-    @JvmStatic
-    fun setCustomKey(key: String, value: Float) {
-        FirebaseCrashlytics.getInstance().setCustomKey(key, value)
-    }
-
-    @JvmStatic
-    fun setCustomKey(key: String, value: Int) {
-        FirebaseCrashlytics.getInstance().setCustomKey(key, value)
+    fun recordException(
+        e: Throwable,
+        vararg fingerprint: String,
+        severity: Severity = Severity.WARNING
+    ) {
+        e.printStackTrace()
+        Sentry.captureException(e) { scope ->
+            scope.level = SentryLevel.valueOf(severity.name)
+            scope.fingerprint = listOf(*fingerprint)
+        }
     }
 
     @JvmStatic
     fun setCustomKey(key: String, value: String) {
-        FirebaseCrashlytics.getInstance().setCustomKey(key, value)
+        Sentry.setTag(key, value)
     }
 
+
+    @JvmStatic
+    fun setCustomKey(key: String, value: Boolean) {
+        Sentry.setTag(key, if (value) "true" else "false")
+    }
 }

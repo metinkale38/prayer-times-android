@@ -88,7 +88,6 @@ public class MainActivity extends BaseActivity {
 
                     dlg.dismiss();
                     if (e != null) {
-                        e.printStackTrace();
                         CrashReporter.recordException(e);
                         Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_LONG).show();
                         finish();

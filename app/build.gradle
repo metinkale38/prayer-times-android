@@ -17,7 +17,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
 }
 
 
@@ -53,7 +52,7 @@ android {
         minSdkVersion 26
         multiDexEnabled true
         versionName '3.8.4'
-        versionCode 254
+        versionCode 255
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }

@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -64,6 +65,8 @@ open class BaseActivity(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
 
         LocaleUtils.init(this)
         if (Preferences.SHOW_INTRO || Preferences.CHANGELOG_VERSION < BuildConfig.CHANGELOG_VERSION) {
@@ -133,9 +136,9 @@ open class BaseActivity(
             setResult(RESULT_OK, intent)
             finish()
         }
-            moveToFrag(defaultFragment)
+        moveToFrag(defaultFragment)
 
-            AppEventManager.sendOnStart()
+        AppEventManager.sendOnStart()
     }
 
     fun setProgressDialogVisible(visible: Boolean) {

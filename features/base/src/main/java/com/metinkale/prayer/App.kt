@@ -20,6 +20,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.CrashReporter.initializeApp
 import com.metinkale.prayer.CrashReporter.recordException
@@ -28,11 +29,16 @@ import com.metinkale.prayer.CrashReporter.setUserId
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.utils.LocaleUtils.init
+import kotlin.coroutines.cancellation.CancellationException
 
 open class App : Application(), OnSharedPreferenceChangeListener {
     private var mDefaultUEH: Thread.UncaughtExceptionHandler? = null
     private val mCaughtExceptionHandler =
         Thread.UncaughtExceptionHandler { thread, ex -> //AppRatingDialog.setInstalltionTime(0);
+            if (ex is CancellationException || ex.cause is CancellationException) {
+                CrashReporter.recordException(ex, severity = CrashReporter.Severity.INFO)
+                return@UncaughtExceptionHandler
+            }
             if (ex.javaClass.name.contains("RemoteServiceException")) {
                 if (ex.message!!.contains("Couldn't update icon")) {
                     Preferences.SHOW_ONGOING_NUMBER = false
@@ -42,7 +48,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
                     return@UncaughtExceptionHandler
                 }
             }
-            // This will make Crashlytics do its job
+            // This will make CrashReporter do its job
             mDefaultUEH!!.uncaughtException(thread, ex)
         }
 
@@ -66,7 +72,6 @@ open class App : Application(), OnSharedPreferenceChangeListener {
             AppRatingDialog.setInstalltionTime(System.currentTimeMillis());
         }*/
     }
-
 
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {

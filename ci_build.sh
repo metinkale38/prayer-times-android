@@ -31,8 +31,6 @@ fi
 # remove com.google.gms build plugin
 sed -e '/com.google.gms/ s/^\/*/\/\//' -i app/build.gradle
 sed -e '/com.google.gms/ s/^\/*/\/\//' -i build.gradle
-sed -e '/crashlytics/ s/^\/*/\/\//' -i app/build.gradle
-sed -e '/crashlytics/ s/^\/*/\/\//' -i build.gradle
 
 # build project
 echo "Build project"

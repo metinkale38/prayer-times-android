@@ -41,9 +41,11 @@ android {
     buildTypes {
         debug {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.debug.fileprovider"
+            manifestPlaceholders = [sentryDebug: "true"]
         }
         release {
             resValue "string", "FILE_PROVIDER_AUTHORITIES", "com.metinkale.prayer.fileprovider"
+            manifestPlaceholders = [sentryDebug: "false"]
         }
     }
 
@@ -103,8 +105,8 @@ dependencies {
     api "androidx.cardview:cardview:1.0.0"
     api 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3'
 
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'io.sentry:sentry-android:8.+'
+
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     testImplementation "io.kotest:kotest-runner-junit5:5.6.2"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'

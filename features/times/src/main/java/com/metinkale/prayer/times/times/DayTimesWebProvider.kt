@@ -18,6 +18,8 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import androidx.core.content.edit
 import dev.metinkale.openprayertimes.sources.Source
+import kotlinx.coroutines.supervisorScope
+import kotlin.coroutines.cancellation.CancellationException
 
 class DayTimesWebProvider private constructor(val id: Int) :
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -85,7 +87,16 @@ class DayTimesWebProvider private constructor(val id: Int) :
         val times = Times.getTimesById(id).current
         return if (times != null && times.source != Source.Calc) {
             lastSync = System.currentTimeMillis()
-            val daytimes = times.source.getDayTimes(key ?: times.key ?: "")
+
+            val daytimes: List<dev.metinkale.openprayertimes.DayTimes> = supervisorScope {
+                runCatching {
+                    times.source.getDayTimes(key ?: times.key ?: "")
+                }.getOrElse { e ->
+                    if (e is CancellationException) throw e
+                    CrashReporter.recordException(e, "sync", times.source.name)
+                    emptyList()
+                }
+            }
             prefs.edit {
                 daytimes.forEach { dt ->
                     putString(

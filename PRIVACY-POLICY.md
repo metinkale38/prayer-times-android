@@ -3,13 +3,13 @@
 Following Libraries, which might transfer data from your phone are used in this App:
 
 
-## Firebase Crashlytics 
-  
-  Crashlytics will send Crashes and Statistics about your usage to Google Firebase. These information only things like general Phone Info's (Model, Android Version, etc.) and the configuration of the App. No Private Data like Photos, Contacts, Calendar etc. will be transferred!  
-  I do not share this information with others, i only use them to be able to fix issues and improve user experience.  
-  
-  Firebase Crashlytics might collect data or give them to 3rd parties.  
-  See here for Firebase Privacy Policy: [https://firebase.google.com/support/privacy]
+## Error Reporting (GlitchTip)
+
+To improve app stability, I use **GlitchTip**, an open-source error tracking tool. If a crash occurs, technical data is sent to my **self-hosted server**
+
+* **Data collected:** Device model, OS version, app version, and technical stack traces.
+* **Privacy:** No personal data (photos, contacts, etc.) is accessed. Data is NOT shared with Google or any 3rd party.
+* **Purpose:** Exclusively for debugging and fixing software errors.
                  
 ## Google Play Services
   

@@ -35,11 +35,10 @@
 -keep class com.google.gson.stream.** { *; }
 
 
-# Crashlytics 2.+
-
--keep class com.crashlytics.** { *; }
--keep class com.crashlytics.android.**
--keepattributes SourceFile, LineNumberTable, *Annotation*
+# Sentry spezifische Regeln, damit das SDK stabil läuft
+-keepattributes LineNumberTable,SourceFile
+-keep class io.sentry.** { *; }
+-dontwarn io.sentry.**
 
 # If you are using custom exceptions, add this line so that custom exception types are skipped during obfuscation:
 -keep public class * extends java.lang.Exception

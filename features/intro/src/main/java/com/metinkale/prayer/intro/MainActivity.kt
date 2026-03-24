@@ -231,7 +231,9 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
             if (pos > 0) mPager.setCurrentItem(pos - 1, true)
         } else if (i1 == R.id.forward) {
             val pos = mPager.currentItem
-            if (pos < adapter.count - 1) mPager.setCurrentItem(pos + 1, true) else {
+            if (pos < adapter.count - 1) {
+                mPager.setCurrentItem(pos + 1, true)
+            } else {
                 Times.clearTemporaryTimes()
                 finish()
                 Preferences.CHANGELOG_VERSION = BuildConfig.CHANGELOG_VERSION

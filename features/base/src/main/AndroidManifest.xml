@@ -28,6 +28,10 @@
 
     <application>
 
+        <meta-data android:name="io.sentry.dsn" android:value="@string/SENTRY_DSN" />
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="0.01" />
+        <meta-data android:name="io.sentry.auto-init" android:value="true" />
+        <meta-data android:name="io.sentry.debug" android:value="${sentryDebug}" />
 
         <uses-library
             android:name="com.sec.android.app.multiwindow"
