@@ -21,8 +21,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.RelativeLayout
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -68,11 +72,21 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
     private lateinit var back: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
         LocaleUtils.init(this)
         createTemproraryTimes()
         setContentView(R.layout.intro_main)
-        mPager = findViewById(R.id.pager)
+
         main = findViewById(R.id.main)
+        ViewCompat.setOnApplyWindowInsetsListener(main) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            main.setPadding(insets.left, insets.top, insets.right, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
+        mPager = findViewById(R.id.pager)
+
         back = findViewById(R.id.back)
         forward = findViewById(R.id.forward)
         mPager.offscreenPageLimit = 10
@@ -90,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
         }
         var doNotShow = 0
         for (i in fragments.indices) {
-            if (fragments[i]?.shouldShow() == false) {
+            if (fragments[i]?. shouldShow() == false) {
                 fragments[i] = null
                 doNotShow++
             }

@@ -15,6 +15,7 @@
  */
 package com.metinkale.prayerapp.vakit
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.NotificationManager
 import android.app.Service
 import android.appwidget.AppWidgetManager
@@ -23,7 +24,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import androidx.core.app.ServiceCompat
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter.recordException
@@ -64,7 +67,7 @@ class WidgetService : Service(), OnTimeTickListener {
                 FOREGROUND_SERVICE_TYPE_SPECIAL_USE
             )
         } catch (e: Exception) {
-            recordException(e)
+            if (!e.javaClass.simpleName.equals("ForegroundServiceStartNotAllowedException")) throw e;
         }
         var hasWidgets = false
         try {
@@ -124,6 +127,6 @@ class WidgetService : Service(), OnTimeTickListener {
 
 
     override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
+        return null
     }
 }

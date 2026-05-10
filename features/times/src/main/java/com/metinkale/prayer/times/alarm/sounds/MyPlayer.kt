@@ -21,6 +21,7 @@ import android.media.MediaPlayer
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.metinkale.prayer.App
+import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.times.alarm.Alarm
 import java.io.IOException
 
@@ -65,11 +66,13 @@ class MyPlayer private constructor() {
                 try {
                     it.prepare()
                 } catch (e: IOException) {
-                    e.printStackTrace()
+                    CrashReporter.recordException(e);
                 }
             }
 
         }
+        if (mediaPlayers.isEmpty()) return this
+
         for (i in sound.size - 2 downTo 0) {
             mediaPlayers[i].setNextMediaPlayer(mediaPlayers[i + 1])
         }

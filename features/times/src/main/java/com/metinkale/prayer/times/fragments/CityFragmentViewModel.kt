@@ -88,7 +88,7 @@ data class CityFragmentViewModel(
                         if (minutesSinceSun !in 1 until Preferences.KERAHAT_SUNRISE) return@let baseText
 
                         val secondsLeft = ChronoUnit.SECONDS.between(
-                            now,
+                            now.toLocalTime(),
                             sun.plusMinutes(Preferences.KERAHAT_SUNRISE.toLong())
                         ).coerceAtLeast(0)
 
