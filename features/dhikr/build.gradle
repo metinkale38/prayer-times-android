@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2023 Metin Kale
+ * Copyright (c) 2013-2026 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,10 @@
  */
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id("com.google.devtools.ksp")
 }
 
 android {
-    lint {
-        baseline = file("lint-baseline.xml")
-    }
-
     sourceSets {
         main {
             res.srcDirs += 'src/main/translations'
@@ -34,7 +29,6 @@ android {
 
 
     defaultConfig {
-        targetSdkVersion 35
         compileSdk 35
         minSdkVersion 26
     }
@@ -60,10 +54,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
     namespace 'com.metinkale.prayer.dhikr'
+    testOptions {
+        targetSdk 35
+    }
 }
 
 dependencies {
@@ -75,6 +69,6 @@ dependencies {
     api "androidx.lifecycle:lifecycle-common-java8:2.10.0"
 
     api "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2023 Metin Kale
+ * Copyright (c) 2013-2026 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,8 @@
  */
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 android {
-    lint {
-        baseline = file("lint-baseline.xml")
-    }
 
     sourceSets {
         main {
@@ -55,9 +51,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = '17'
     }
     namespace 'com.metinkale.prayer.settings'
 }

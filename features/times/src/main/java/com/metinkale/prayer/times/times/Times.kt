@@ -1,6 +1,6 @@
 @file:UseSerializers(BooleanSerializer::class)
 /*
- * Copyright (c) 2013-2023 Metin Kale
+ * Copyright (c) 2013-2026 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

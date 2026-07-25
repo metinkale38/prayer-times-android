@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2023 Metin Kale
+ * Copyright (c) 2013-2026 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,11 @@
  */
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
 }
 
 
 android {
-
-    lint {
-        sarifReport = false
-        textReport = false
-        warningsAsErrors = false
-        checkReleaseBuilds = false
-    }
-
-//
-//    lint {
-//        baseline = file("lint-baseline.xml")
-//    }
 
     namespace "com.metinkale.prayer"
 
@@ -66,7 +53,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -101,9 +88,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = '17'
-    }
 
 }
 

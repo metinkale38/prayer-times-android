@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2023 Metin Kale
+ * Copyright (c) 2013-2026 Metin Kale
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import java.util.Locale
 import kotlin.reflect.KProperty
+import androidx.core.content.edit
 
 object Preferences {
     val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.get())
@@ -48,12 +49,12 @@ object Preferences {
             }
         }
 
-        override fun setValue(lang: String) {
+        override fun setValue(value: String) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val localeManager = App.get().getSystemService(LocaleManager::class.java)
-                localeManager.applicationLocales = LocaleList(Locale(lang))
+                localeManager.applicationLocales = LocaleList(Locale(value))
             } else {
-                super.setValue(lang)
+                super.setValue(value)
             }
         }
     }
@@ -88,20 +89,20 @@ object Preferences {
     var SHOW_ALT_WIDGET_HIGHLIGHT by BooleanPreference("showAltWidgetHightlight", false)
 
     var SHOW_INTRO by object : BooleanPreference("showIntro", true) {
-        override fun setValue(obj: Boolean) {
-            super.setValue(obj)
-            if (obj) SHOW_COMPASS_NOTE = true
+        override fun setValue(value: Boolean) {
+            super.setValue(value)
+            if (value) SHOW_COMPASS_NOTE = true
         }
     }
 
     var COUNTDOWN_TYPE by StringPreference("widget_countdown", "default")
 
-    fun clear() = prefs.edit().clear().commit()
+    fun clear() = prefs.edit(commit = true) { clear() }
 }
 
 interface Preference<T> {
     fun getValue(): T
-    fun setValue(obj: T)
+    fun setValue(value: T)
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T = getValue()
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
@@ -109,21 +110,21 @@ interface Preference<T> {
 
 open class StringPreference(val key: String, val def: String = "") : Preference<String> {
     override fun getValue(): String = Preferences.prefs.getString(key, def) ?: def
-    override fun setValue(obj: String) = Preferences.prefs.edit().putString(key, obj).apply()
+    override fun setValue(value: String) = Preferences.prefs.edit { putString(key, value) }
 }
 
 open class IntPreference(val key: String, val def: Int = 0) : Preference<Int> {
     override fun getValue(): Int = Preferences.prefs.getInt(key, def)
-    override fun setValue(obj: Int) = Preferences.prefs.edit().putInt(key, obj).apply()
+    override fun setValue(value: Int) = Preferences.prefs.edit { putInt(key, value) }
 }
 
 open class BooleanPreference(val key: String, val def: Boolean = false) : Preference<Boolean> {
     override fun getValue(): Boolean = Preferences.prefs.getBoolean(key, def)
-    override fun setValue(obj: Boolean) = Preferences.prefs.edit().putBoolean(key, obj).apply()
+    override fun setValue(value: Boolean) = Preferences.prefs.edit { putBoolean(key, value) }
 
 }
 
 open class FloatPreference(val key: String, val def: Float = 0f) : Preference<Float> {
     override fun getValue(): Float = Preferences.prefs.getFloat(key, def)
-    override fun setValue(obj: Float) = Preferences.prefs.edit().putFloat(key, obj).apply()
+    override fun setValue(value: Float) = Preferences.prefs.edit { putFloat(key, value)}
 }
