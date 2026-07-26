@@ -20,8 +20,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public
-class Dhikr {
+public class Dhikr {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;

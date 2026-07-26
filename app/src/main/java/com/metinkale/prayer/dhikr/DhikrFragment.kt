@@ -44,7 +44,7 @@ import android.widget.SpinnerAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.CrashReporter.recordException
@@ -100,7 +100,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         v.findViewById<View>(R.id.color6).setOnClickListener(colorlist)
         v.findViewById<View>(R.id.color7).setOnClickListener(colorlist)
         v.findViewById<View>(R.id.color8).setOnClickListener(colorlist)
-        viewModel = ViewModelProviders.of(this).get(DhikrViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(DhikrViewModel::class.java)
         viewModel.dhikrs.observe(viewLifecycleOwner, this)
         title.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

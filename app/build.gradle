@@ -111,82 +111,68 @@ android {
 
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-
-    // times
-    implementation 'androidx.media:media:1.7.0'
     api 'dev.metinkale:openprayertimes:1.0-SNAPSHOT'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.23'
 
-    // compose
-    def composeBom = platform('androidx.compose:compose-bom:2025.01.00')
-    implementation composeBom
-    androidTestImplementation composeBom
+    implementation 'io.sentry:sentry-android:8.50.1'
+    implementation 'com.vladsch.flexmark:flexmark:0.64.8'
+    // TODO needs update
+    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true }
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.32'
+    implementation 'com.koushikdutta.ion:ion:3.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:2.3.21'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0'
 
+// --- Compose ---
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.compose.material:material-icons-extended'
-    implementation "androidx.compose.ui:ui-tooling-preview:1.7.6"
-    implementation 'androidx.activity:activity-compose:1.10.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7'
     implementation 'androidx.compose.runtime:runtime-livedata'
-    implementation "androidx.work:work-runtime-ktx:2.10.0"
-    implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.11.4'
+    debugImplementation 'androidx.compose.ui:ui-tooling:1.11.4'
 
-    debugImplementation "androidx.compose.ui:ui-tooling:1.7.6"
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+// --- Lifecycle ---
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.11.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0'
+    implementation 'androidx.lifecycle:lifecycle-service:2.11.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.11.0'
 
-    // intro
-    implementation 'com.vladsch.flexmark:flexmark:0.64.0'
-    // about
-    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true }
-// TODO needs update
-    //dhikr
-    def room_version = "2.8.4"
-    api "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    api "androidx.lifecycle:lifecycle-common-java8:2.10.0"
-    api "androidx.room:room-runtime:$room_version"
-    ksp "androidx.room:room-compiler:$room_version"
-    // compass
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.29'
-    // TODO consider replacing with WebView to reduce dependencies
-    playImplementation 'com.google.android.gms:play-services-maps:19.2.0'
+// --- Room ---
+    implementation 'androidx.room:room-runtime:2.8.4'
+    ksp 'androidx.room:room-compiler:2.8.4'
+
+// --- AndroidX & Google Jetpack ---
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation 'androidx.work:work-runtime-ktx:2.11.2'
+    implementation 'androidx.documentfile:documentfile:1.1.0'
+    implementation 'androidx.annotation:annotation:1.10.0'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.browser:browser:1.10.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.core:core-ktx:1.19.0'
+    implementation 'androidx.fragment:fragment-ktx:1.8.9'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.media:media:1.8.0'
+
+    implementation 'com.google.android.material:material:1.14.0'
+    playImplementation 'com.google.android.gms:play-services-maps:20.0.0'
     playImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
-    playImplementation 'com.google.android.gms:play-services-location:21.3.0'
+    playImplementation 'com.google.android.gms:play-services-location:21.4.0'
+
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-    androidTestImplementation 'androidx.test:runner:1.6.2'
-    androidTestImplementation 'androidx.test:rules:1.6.1'
-    androidTestImplementation 'androidx.test.ext:junit-ktx:1.2.1'
+    testImplementation "io.kotest:kotest-runner-junit5:6.2.3"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.1.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.1.2'
+    testImplementation "io.mockk:mockk:1.14.11"
 
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test:rules:1.7.0'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.3.0'
 
-    // base
-
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.annotation:annotation:1.9.1'
-    implementation 'androidx.percentlayout:percentlayout:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.13.0-alpha09'
-    implementation 'com.koushikdutta.ion:ion:3.1.0'
-    implementation 'androidx.browser:browser:1.8.0'
-    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.4.0'
-    implementation "androidx.core:core-ktx:1.15.0"
-    implementation "androidx.fragment:fragment-ktx:1.8.5"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.7'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
-    implementation "androidx.lifecycle:lifecycle-service:2.8.7"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3'
-
-    implementation 'io.sentry:sentry-android:8.+'
-
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-    testImplementation "io.kotest:kotest-runner-junit5:5.6.2"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation "io.mockk:mockk:1.4.1"
 }
 
 
