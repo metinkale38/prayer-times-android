@@ -14,7 +14,7 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.base.BuildConfig
 import com.metinkale.prayer.times.MainActivity
-import com.metinkale.prayer.times.R
+
 import com.metinkale.prayer.times.times.Times
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before

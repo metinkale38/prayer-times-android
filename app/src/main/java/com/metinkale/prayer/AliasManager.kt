@@ -19,7 +19,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
 import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.receiver.OnPrefsChangedListener
 import com.metinkale.prayer.utils.LocaleUtils
