@@ -220,7 +220,7 @@ object ExportController {
         val outputFile = File(outputDir, times.name.replace(" ", "_") + ".csv")
         if (outputFile.exists()) outputFile.delete()
         val outputStream = FileOutputStream(outputFile)
-        outputStream.write("HijriDate;Fajr;Shuruq;Dhuhr;Asr;Maghrib;Ishaa\n".toByteArray())
+        outputStream.write("Date;Fajr;Shuruq;Dhuhr;Asr;Maghrib;Ishaa\n".toByteArray())
         do {
             outputStream.write((date.toString("yyyy-MM-dd") + ";").toByteArray())
             outputStream.write(
@@ -251,7 +251,7 @@ object ExportController {
         outputStream.close()
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
-        shareIntent.type = "name/csv"
+        shareIntent.type = "text/csv"
         val uri: Uri = FileProvider.getUriForFile(
             ctx, ctx.getString(R.string.FILE_PROVIDER_AUTHORITIES), outputFile
         )
