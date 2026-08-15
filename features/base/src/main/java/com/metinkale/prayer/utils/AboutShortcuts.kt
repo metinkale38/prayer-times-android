@@ -33,7 +33,7 @@ object AboutShortcuts {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.shareText))
-        sendIntent.type = "name/plain"
+        sendIntent.type = "text/plain"
         ctx.startActivity(sendIntent)
     }
 
