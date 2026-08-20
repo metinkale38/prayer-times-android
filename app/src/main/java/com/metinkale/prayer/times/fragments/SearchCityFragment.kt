@@ -54,26 +54,26 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.calc.PrayTimesConfigurationFragment
-import com.metinkale.prayer.times.drawableId
+import com.metinkale.prayer.times.times.Source
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.tracker
 import com.metinkale.prayer.utils.PermissionUtils
 import com.metinkale.prayer.utils.UUID
-import dev.metinkale.openprayertimes.Entry
-import dev.metinkale.openprayertimes.SearchEntry
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.City
+import dev.metinkale.openprayertimes.OpenPrayerTimes
+import dev.metinkale.openprayertimes.Provider
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     SearchView.OnQueryTextListener, LocationListener, View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener, Observer<List<Entry>> {
+    CompoundButton.OnCheckedChangeListener, Observer<List<City>> {
     private lateinit var adapter: MyAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var searchItem: MenuItem
     private lateinit var autoLocation: SwitchCompat
     private var location: Location? = null
-    private val entries = MutableLiveData<List<Entry>>()
+    private val entries = MutableLiveData<List<City>>()
 
     // prevent duplicate permission request
     private var askedForPermission = false
@@ -192,14 +192,14 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
 
     override fun onItemClick(arg0: AdapterView<*>?, arg1: View, pos: Int, index: Long) {
         adapter.getItem(pos)?.let {
-            if (it.source != Source.Calc) {
+            if (it.provider != Provider.Calc) {
                 Times.add(
                     Times(
                         id = UUID.asInt(),
-                        source = it.source,
-                        name = it.localizedName,
-                        lat = it.lat ?: 0.0,
-                        lng = it.lng ?: 0.0,
+                        source = Source.valueOf(it.provider.name),
+                        name = it.names.last(),
+                        lat = it.lat?.toDouble() ?: 0.0,
+                        lng = it.lng?.toDouble() ?: 0.0,
                         key = it.id,
                         sortId = (Times.current.maxOfOrNull { it.sortId } ?: 0) + 1,
                         autoLocation = autoLocation.isChecked
@@ -211,10 +211,10 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                     PrayTimesConfigurationFragment.from(
                         Times(
                             id = UUID.asInt(),
-                            source = it.source,
-                            name = it.localizedName,
-                            lat = it.lat ?: 0.0,
-                            lng = it.lng ?: 0.0,
+                            source = Source.Calc,
+                            name = it.names.last(),
+                            lat = it.lat?.toDouble() ?: 0.0,
+                            lng = it.lng?.toDouble() ?: 0.0,
                             key = it.id,
                             sortId = (Times.current.maxOfOrNull { it.sortId } ?: 0) + 1,
                             autoLocation = autoLocation.isChecked
@@ -230,7 +230,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
 
         lifecycleScope.launch {
             val result = tracker {
-                query?.let { SearchEntry.search(query) } ?: emptyList()
+                query?.let { OpenPrayerTimes.search(query) } ?: emptyList()
             }
             entries.postValue(result)
         }
@@ -263,7 +263,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
         location?.let { location ->
             lifecycleScope.launch {
                 val result = tracker {
-                    SearchEntry.search(
+                    OpenPrayerTimes.search(
                         location.latitude,
                         location.longitude
                     )
@@ -280,7 +280,7 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     private val csvResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                result?.data?.data?.also { uri ->
+                result.data?.data?.also { uri ->
                     val contentResolver = App.get().contentResolver
 
                     val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
@@ -309,9 +309,12 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
 
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "text/csv"
+                        type = "*/*"
+                        putExtra(
+                            Intent.EXTRA_MIME_TYPES,
+                            arrayOf("text/csv", "text/comma-separated-values")
+                        )
                     }
-
 
                     csvResult.launch(intent)
 
@@ -349,14 +352,14 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
     }
 
 
-    override fun onChanged(entries: List<Entry>) {
+    override fun onChanged(value: List<City>) {
         adapter.clear()
-        adapter.addAll(entries)
+        adapter.addAll(value)
         adapter.notifyDataSetChanged()
     }
 
     private inner class MyAdapter(context: Context) :
-        ArrayAdapter<Entry>(context, 0, 0) {
+        ArrayAdapter<City>(context, 0, 0) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var convertView = convertView
             val vh: ViewHolder
@@ -368,13 +371,14 @@ class SearchCityFragment : BaseActivity.MainFragment(), OnItemClickListener,
                 vh = convertView.tag as ViewHolder
             }
             val i = getItem(position)!!
-            vh.city.text = i.localizedName
+            vh.city.text = i.names.last()
             vh.country.text = Locale("", i.country).displayCountry
-            vh.sourcetxt.text = i.source.name
-            if (i.source.drawableId == 0) {
+            val source = Source.valueOf(i.provider.name)
+            vh.sourcetxt.text = source.fullName
+            if (source.drawableId == 0) {
                 vh.source.visibility = View.INVISIBLE
             } else {
-                vh.source.setImageResource(i.source.drawableId ?: 0)
+                vh.source.setImageResource(source.drawableId ?: 0)
                 vh.source.visibility = View.VISIBLE
             }
             if (autoLocation.isChecked) vh.gpsIcon.visibility =

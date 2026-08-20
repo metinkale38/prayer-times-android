@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Namaska Vremena</string>
+    <string name="calendar">Blagdani</string>
+    <string name="compass">Pokazivač smijera kible</string>
+    <string name="dhikr">Zikr</string>
+    <string name="hadith">Buharijin Sahih</string>
+    <string name="names">99 Allahovih imena</string>
+    <string name="tesbihat">Pohvale</string>
+    <string name="missedPrayers">Propuštene molitve</string>
+    <string name="settings">Postavke</string>
+    <string name="about">O nama</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Ako želite da vam se prikazuju obavjesti o blagdanima na kalendaru vašeg telefona , morate dopustiti pristup kalendaru, U suprotnom neće vam se prikazivati.</string>
+    <string name="permissionCalendarTitle">Dozvola za kalendar</string>
+    <string name="permissionCameraText">Da biste koristili 3D-kompas, morate omogućiti pristup kameri. Inače ćete moći koristiti samo 2D-kompas.</string>
+    <string name="permissionCameraTitle">Dozvola za kameru</string>
+    <string name="permissionLocationText">Lokacijska dozvola je potrebna da biste pronašli svoj grad. Ako ne dopustite ovoj aplikaciji da pristupi vašoj lokaciji, morate svoj grad tražiti ručno.</string>
+    <string name="permissionLocationTitle">Lokalna dozvola</string>
+    <string name="permissionStorageText">Potrebno je odobrenje za pohranu. Bez te dozvole neke stvari neće raditi.</string>
+    <string name="permissionStorageTitle">Dozvola za pohranu</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muharrem</string>
+    <string name="hmonth2">Safer</string>
+    <string name="hmonth3">Rabi el evel</string>
+    <string name="hmonth4">Rabi el-ahir</string>
+    <string name="hmonth5">Džumade l-ula</string>
+    <string name="hmonth6">Džumade el-ahira</string>
+    <string name="hmonth7">Redžep</string>
+    <string name="hmonth8">Šaban</string>
+    <string name="hmonth9">Ramazan</string>
+    <string name="hmonth10">Ševval</string>
+    <string name="hmonth11">Zul kade</string>
+    <string name="hmonth12">Zul-hidže</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Januar</string>
+    <string name="gmonth2">Februar</string>
+    <string name="gmonth3">Mart</string>
+    <string name="gmonth4">April</string>
+    <string name="gmonth5">Maj</string>
+    <string name="gmonth6">Juni</string>
+    <string name="gmonth7">Juli</string>
+    <string name="gmonth8">Agust</string>
+    <string name="gmonth9">Septembar</string>
+    <string name="gmonth10">Oktobar</string>
+    <string name="gmonth11">Novembar</string>
+    <string name="gmonth12">Decembar</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Islamska Nova Godina</string>
+    <string name="holyday2">Ašura</string>
+    <string name="holyday3">Novotarija</string>
+    <string name="holyday4">Početak tri sveta mjeseca</string>
+    <string name="holyday5">Lejletul Regaib</string>
+    <string name="holyday6">Noć isra i miradža</string>
+    <string name="holyday7">Lejletul Berah</string>
+    <string name="holyday8">Početak Ramazana</string>
+    <!-- Dialog Actions -->
+    <!-- Other -->
+    <!-- Prayer Times -->
+</resources>

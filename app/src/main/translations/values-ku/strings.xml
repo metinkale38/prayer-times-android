@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Demên Nimêjê</string>
+    <string name="calendar">Rojên dînî</string>
+    <string name="compass">Pisûla qiblê</string>
+    <string name="dhikr">Zikr</string>
+    <string name="hadith">Sehîh el-Buxarî</string>
+    <string name="names">Esma-ûl Husna</string>
+    <string name="tesbihat">Tizbeh</string>
+    <string name="missedPrayers">Nimêjên nekirî</string>
+    <string name="settings">Eyar</string>
+    <string name="about">Derbar</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Heke tu bixwazî rojên dînî di teqwîma te ya telefonê de xuya bikin, divê tu destûra teqwîmê bidî. Wekî dî destûrê nede.</string>
+    <string name="permissionCalendarTitle">Destûra teqwîmê</string>
+    <string name="permissionCameraText">Deqene tu pisûleya 3D bi kar bînî, tu hewce yî destûra qemerayê bidî. Naxwe tê tenê karibe pisûleya 2D bi kar bînî.</string>
+    <string name="permissionCameraTitle">Destûra Qemerayê</string>
+    <string name="permissionLocationText">Destûra cihê hewce ye ji bo dîtina bajarê te. Ku tu nehêlî ku ev sepan cihê te bibîne, tu hewce jî bixwe li bajarê xwe bigerî.</string>
+    <string name="permissionLocationTitle">Destûra deverê</string>
+    <string name="permissionStorageText">Destûra Qeydkirinê hewce ye. Bê wê destûrê hin tişt wê nexebitin.</string>
+    <string name="permissionStorageTitle">Destûra Qeydkirinê</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muherem</string>
+    <string name="hmonth2">Safer</string>
+    <string name="hmonth3">Rebî\'ulewel</string>
+    <string name="hmonth4">Rebî\'usanî</string>
+    <string name="hmonth5">Cumadalûla</string>
+    <string name="hmonth6">Cumadasaniye</string>
+    <string name="hmonth7">Receb</string>
+    <string name="hmonth8">Şeban</string>
+    <string name="hmonth9">Remezan</string>
+    <string name="hmonth10">Şewal</string>
+    <string name="hmonth11">Zîlqe\'de</string>
+    <string name="hmonth12">Zîlhice</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Çileya paşî</string>
+    <string name="gmonth2">Sibat</string>
+    <string name="gmonth3">Adar</string>
+    <string name="gmonth4">Nîsan</string>
+    <string name="gmonth5">Gulan</string>
+    <string name="gmonth6">Hezîran</string>
+    <string name="gmonth7">Temûz</string>
+    <string name="gmonth8">Tebax</string>
+    <string name="gmonth9">Îlon</string>
+    <string name="gmonth10">Tişrîna pêşî</string>
+    <string name="gmonth11">Tişrîna paşî</string>
+    <string name="gmonth12">Çileya pêşî</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Sersala Îslamî</string>
+    <string name="holyday2">Eşûre</string>
+    <string name="holyday3">Mewlûda nebî</string>
+    <string name="holyday4">Destpêka sê mehên pîroz</string>
+    <string name="holyday5">Şeva Regaîba</string>
+    <string name="holyday6">Şeva Îsra û Mîraca</string>
+    <string name="holyday7">Şeva Beraeta</string>
+    <string name="holyday8">Remezan dest pê dike</string>
+    <string name="holyday9">Şeva Qedrê</string>
+    <string name="holyday10">(Erefata Cejna Remezanê)</string>
+    <string name="holyday11">Eyda Remezanê roja 1ê</string>
+    <string name="holyday12">Eyda Remezanê roja 2yan</string>
+    <string name="holyday13">Eyda Remezanê roja 3yan</string>
+    <string name="holyday14">Roja Erefatê</string>
+    <string name="holyday15">Eyda Qurbanê roja 1ê</string>
+    <string name="holyday16">Eyda Qurbanê roja 2yan</string>
+    <string name="holyday17">Eyda Qurbanê roja 3yan</string>
+    <string name="holyday18">Eyda Qurbanê roja 4an</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Baş e</string>
+    <string name="yes">Erê</string>
+    <string name="no">Na</string>
+    <string name="cancel">Betal</string>
+    <string name="back">Paş</string>
+    <string name="finish">Xilas</string>
+    <string name="continue_">Dewam bike</string>
+    <string name="vote">Şîrovekirin</string>
+    <string name="mail">E-poste</string>
+    <string name="test">Biceribîne</string>
+    <string name="share">Parve bike</string>
+    <string name="refresh">Rojaneyî</string>
+    <string name="translate">Tercime bike</string>
+    <string name="language">Ziman</string>
+    <string name="shareText">Merheba, li vê programa wextên nimêjê binerin: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Zimanê sîstemê</string>
+    <string name="notification">Agahdarî</string>
+    <string name="version">Versiyon</string>
+    <string name="search">Lê bigere</string>
+    <string name="delete">Jê bibe</string>
+    <string name="no_internet">Girêdana înternetê tune</string>
+    <string name="error">Xeletiyek çêbû</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Nimêja sibehê</string>
+    <string name="imsak">Îmsak</string>
+    <string name="fajr">Berbang</string>
+    <string name="zuhr">Nîvro</string>
+    <string name="asr">Esir</string>
+    <string name="maghrib">Êvar</string>
+    <string name="ishaa">Eşa</string>
+    <string name="off">Girtî</string>
+    <string name="clickToDisableNotification">Pê li vir bike ji bo girtina vê agahiyê</string>
+</resources>

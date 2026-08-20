@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Problemekê bi me bide zanîn</string>
+    <string name="report_bug_sum">Me li ser problemekê agahdar bike yan jî tiştekî bixwaze.</string>
+    <string name="translate_sum">Tevkarî ji bo wergerandina vê App li Zimanên din</string>
+    <string name="github_sum">Projeyê kopî bike yan jî problemekê bişiyîne.</string>
+    <string name="license">Lîsans</string>
+    <string name="license_sum">Li Lîsansa Apacheyê, Versiyona 2.0 meyzîne, şertên lîsansê ên ko di Wextên Nimêjê de tên şuxilandin</string>
+    <string name="library_licenses">Lîsansên kitêbxanan</string>
+    <string name="library_licenses_sum">Kitêbxaneyên ne ji me ku di Wextên nimêjê de tên bikaranîn bibîne</string>
+    <string name="rate">Binirxîne</string>
+    <string name="rate_desc">Me biecibîne heke kêfa te ji Demên Nimêjê re werê.</string>
+    <string name="sendMail_sum">E-postekê bişîne min!</string>
+    <string name="beta_tester">Bibe tester</string>
+    <string name="beta_tester_desc">Pê li vir bike ji bo qeydkirina xwe ji bo ceribandina betayê</string>
+    <string name="support_development">Arîkariya programkirinê (pêşvebirinê) bike</string>
+    <string name="share_sum">Vê programê bi kesên dî re parve bike!</string>
+    <string name="showIntro">Rûpela xêrhatinê şanî bike</string>
+    <string name="showIntro_sum">Rûpela xêrhatine ya programê şanî bike</string>
+</resources>

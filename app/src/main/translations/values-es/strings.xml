@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Horario de Oraciones</string>
+    <string name="calendar">Días Santos</string>
+    <string name="compass">Qiblah</string>
+    <string name="dhikr">Dhikr</string>
+    <string name="hadith">Sahih al-Bukhary</string>
+    <string name="names">99 nombres de Allah</string>
+    <string name="tesbihat">Contador</string>
+    <string name="missedPrayers">Oraciones perdidas</string>
+    <string name="settings">Configuración</string>
+    <string name="about">Acerca de</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Si deseas que los días santos aparezcan en el calendario del teléfono, debes permitir el acceso al calendario.</string>
+    <string name="permissionCalendarTitle">Permiso del calendario</string>
+    <string name="permissionCameraText">Para usar la qiblah 3D, necesitas permitir el acceso a la cámara, de lo contrario solo podrás usar la brújula 2D.</string>
+    <string name="permissionCameraTitle">Permiso para acceder a la cámara</string>
+    <string name="permissionLocationText">Se necesita permiso de ubicación para encontrar tu ciudad. Si no permites que esta aplicación acceda a tu Ubicación, tienes que buscar tu Ciudad manualmente.</string>
+    <string name="permissionLocationTitle">Permiso de ubicación</string>
+    <string name="permissionStorageText">Se necesita permiso de almacenamiento. Sin ese permiso algunas cosas no funcionarán.</string>
+    <string name="permissionStorageTitle">Permiso de almacenamiento</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muharram</string>
+    <string name="hmonth2">Safar</string>
+    <string name="hmonth3">Rabi al-awwal</string>
+    <string name="hmonth4">Rabi al-ajir</string>
+    <string name="hmonth5">Jumada al-ula</string>
+    <string name="hmonth6">Jumada al-ajira</string>
+    <string name="hmonth7">Rajab</string>
+    <string name="hmonth8">Shaban</string>
+    <string name="hmonth9">Ramadán</string>
+    <string name="hmonth10">Shawwal</string>
+    <string name="hmonth11">Dhu l-Qaʿda</string>
+    <string name="hmonth12">Dhū l-Hijja</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Enero</string>
+    <string name="gmonth2">Febrero</string>
+    <string name="gmonth3">Marzo</string>
+    <string name="gmonth4">Abril</string>
+    <string name="gmonth5">Mayo</string>
+    <string name="gmonth6">Junio</string>
+    <string name="gmonth7">Julio</string>
+    <string name="gmonth8">Agosto</string>
+    <string name="gmonth9">Septiembre</string>
+    <string name="gmonth10">Octubre</string>
+    <string name="gmonth11">Noviembre</string>
+    <string name="gmonth12">Diciembre</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Año Nuevo Islámico</string>
+    <string name="holyday2">Ashura</string>
+    <string name="holyday3">Mawlid al-Nabi ( Nacimento del profeta)</string>
+    <string name="holyday4">Inicio de los tres meses sagrados</string>
+    <string name="holyday5">Laylat ul Ragaib (la noche de las peticiones)</string>
+    <string name="holyday6">Laylat ul Isra y Miraj (la noche del viaje nocturno y de la asunción)</string>
+    <string name="holyday7">Laylat ul Bara’ah</string>
+    <string name="holyday8">Ramadán comienza</string>
+    <string name="holyday9">Noche del destino</string>
+    <string name="holyday10">(Arafat de Eid al-Fitr)</string>
+    <string name="holyday11">1er día Celebración de la ruptura del ayuno</string>
+    <string name="holyday12">2° día Celebración de la ruptura del ayuno</string>
+    <string name="holyday13">3r día Celebración de la ruptura del ayuno</string>
+    <string name="holyday14">Día de Arafat</string>
+    <string name="holyday15">1er día de la conmemoración del sacrificio (Fiesta del cordero)</string>
+    <string name="holyday16">2° día de la conmemoración del sacrificio (Fiesta del cordero)</string>
+    <string name="holyday17">3r día de la conmemoración del sacrificio (Fiesta del cordero)</string>
+    <string name="holyday18">4° día de la conmemoración del sacrificio (Fiesta del cordero)</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Ok</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancelar</string>
+    <string name="back">Regresar</string>
+    <string name="finish">Hecho</string>
+    <string name="continue_">Continuar</string>
+    <string name="vote">Votar</string>
+    <string name="mail">Correo electrónico</string>
+    <string name="test">Probar</string>
+    <string name="share">Compartir</string>
+    <string name="refresh">Sincronizar</string>
+    <string name="translate">Traducir</string>
+    <string name="language">Idioma</string>
+    <string name="shareText">Hey, prueba está aplicación para las horas de oración: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Idioma del sistema</string>
+    <string name="notification">Notificación</string>
+    <string name="version">Versión</string>
+    <string name="search">Buscar</string>
+    <string name="delete">Borrar</string>
+    <string name="no_internet">No hay conexión a Internet</string>
+    <string name="error">Ocurrió un error</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Oración dela mañana</string>
+    <string name="imsak">Momento para dejar de comer antes del ayuno</string>
+    <string name="fajr">Fajr</string>
+    <string name="zuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Isha\'a</string>
+    <string name="off">Off</string>
+    <string name="clickToDisableNotification">Clic aquí para ocultar esta notificación</string>
+</resources>

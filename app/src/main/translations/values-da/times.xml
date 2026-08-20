@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Aktiver for flere indstillinger</string>
+    <string name="adjAngle">Vinkelbaseret (vinkel/60. nat)</string>
+    <string name="adjMidnight">Midnat</string>
+    <string name="adjTime">Tidsbaseret (1/7 af natten)</string>
+    <string name="calcMethod">Metode</string>
+    <string name="cities">Byer</string>
+    <string name="customVolume">Vælg lydstyrke</string>
+    <string name="date">Dato</string>
+    <string name="dlSound">Hent %1$s (%2$s)?</string>
+    <string name="juristicHanafi">Hanafi</string>
+    <string name="juristicShafi">Shafi (Default)</string>
+    <string name="showMore">Vis mere</string>
+    <string name="other">Andet</string>
+    <string name="sun">Sol</string>
+    <string name="timeBased">Minutter</string>
+    <string name="time">Tid</string>
+    <string name="calculated">Beregnet</string>
+    <string name="export">Eksport</string>
+    <string name="from">Fra</string>
+    <string name="to">Til</string>
+    <string name="addFromCSV">Tilføj fra CSV</string>
+    <string name="csvFromFile">Indlæs CSV fra fil</string>
+    <string name="csvFromURL">Indlæs CSV fra URL</string>
+    <string name="asrSani">Asr Sani</string>
+    <string name="asrAwwal">Asr Awwal</string>
+    <string name="noAdjustment">Ikke justeringer</string>
+    <string name="stop">Stop</string>
+    <string name="onTime">Til tiden</string>
+    <string name="beforeTime">%1$d minutter før</string>
+    <string name="afterTime">%1$d minutter senere</string>
+    <string name="noti_eachDay">Hverdag %2$s</string>
+    <string name="noti_weekday">Hver %1$s %2$s</string>
+    <string name="ongoingNotification">Meddelelse-Widget</string>
+    <string name="prayerNotification">Bøn Meddelelse</string>
+    <string name="sound">Lyd</string>
+    <string name="vibration">Vibration</string>
+    <string name="noti_afterTime">%1$s minutter efter %2$s</string>
+    <string name="midnight">Midnat</string>
+    <string name="silenter">Stille</string>
+    <string name="minutes">Minutter</string>
+    <string name="both">Begge</string>
+    <string name="addAlarm">Tilføj alarm</string>
+    <string name="silenterNotificationTitle">Stille</string>
+</resources>

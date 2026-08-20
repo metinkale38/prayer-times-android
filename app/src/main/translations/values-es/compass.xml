@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="angle">Ángulo</string>
+    <string name="distance">Distancia</string>
+    <string name="noConnection">No hay conexión</string>
+    <string name="switchCompass">Brújula / Mapa</string>
+    <string name="touchToSelectCity">Toque aquí para seleccionar Ciudad</string>
+    <string name="permissionNotGranted">Permiso no concedido.</string>
+    <string name="compass_type_reminder">Haga clic aquí para probar diferentes métodos para encontrar la dirección correcta de Qibla.</string>
+    <string name="compassCalibrationTitle">Calibra tu brújula</string>
+    <string name="compassCalibrationSubTitle">Ladear y mover tu teléfono 3 veces así:</string>
+    <string name="accuracy">Precisión</string>
+    <string name="accuracy_low">Bajo</string>
+    <string name="accuracy_medium">Mediano</string>
+    <string name="accuracy_high">Alto</string>
+</resources>

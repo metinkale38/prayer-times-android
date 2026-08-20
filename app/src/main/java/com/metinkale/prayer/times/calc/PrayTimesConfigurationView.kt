@@ -35,9 +35,11 @@ import com.metinkale.prayer.times.compose.theme.AppTheme
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import dev.metinkale.calctimes.HighLatsAdjustment
+import dev.metinkale.calctimes.HighLatsType
 import dev.metinkale.calctimes.Method
 import kotlinx.datetime.toKotlinLocalDate
 import java.text.DecimalFormat
+import java.time.LocalDate
 
 
 @ExperimentalMaterial3Api
@@ -46,7 +48,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
     val praytimes = model.prayTimes.collectAsState()
     val asrType = model.asrType.collectAsState()
     val method: Method = praytimes.value.method
-    val daytimes = praytimes.value.getPrayerTimes(java.time.LocalDate.now().toKotlinLocalDate())
+    val daytimes = praytimes.value.getPrayerTimes(LocalDate.now().toKotlinLocalDate())
     val highLats: HighLatsAdjustment = praytimes.value.method.highLats
 
     val angleTranslations = HighLatsAdjustment.entries.associateWith {
@@ -71,27 +73,52 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                 .padding(all = 8.dp)
                 .fillMaxWidth()
         ) {
+            val customCalcLabel = stringResource(R.string.customCalc)
+
             SelectMenu(
-                label = "Method",
+                label = stringResource(R.string.calcMethod),
                 value = method,
                 items = Method.values().mapNotNull { it as? Method },
-                itemLabel = { it.name ?: "Custom" },
+                itemLabel = { it.name ?: customCalcLabel },
                 itemSubLabel = { it.location },
                 onChange = { model.setMethod(it) }
             )
             SelectMenu(
-                label = "Anpassung für hohe Breitengrade",
+                label = stringResource(R.string.highlatsAdj),
                 value = highLats,
-                items = HighLatsAdjustment.values().toList(),
+                items = HighLatsAdjustment.entries,
                 itemLabel = { angleTranslations[it] ?: "" },
                 onChange = { model.setHighLats(it) },
                 modifier = Modifier.padding(top = 16.dp)
             )
+
+
+            if (highLats != HighLatsAdjustment.None)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { model.swapHighLatsType() },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(
+                        checked = method.highLatsType == HighLatsType.Strict,
+                        onCheckedChange = { model.swapHighLatsType(if (it) HighLatsType.Strict else HighLatsType.Max) }
+                    )
+                    Text(
+                        text = stringResource(R.string.highlatsAdjOnlyImpossible),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
         }
 
 
-        val rows = Vakit.values()
-            .flatMap { if (it == Vakit.ASR) listOf(it to 0, it to 1) else listOf(it to 0) }
+        val rows = Vakit.entries.flatMap {
+            if (it == Vakit.ASR) listOf(
+                it to 0,
+                it to 1
+            ) else listOf(it to 0)
+        }
 
 
         Row(
@@ -103,7 +130,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             Column {
                 Row(modifier = Modifier.height(32.dp)) {
                     Text(
-                        "Vakit",
+                        stringResource(R.string.time),
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -124,8 +151,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
                         }
                         Text(
                             modifier = Modifier.padding(start = if (vakit == Vakit.ASR) 4.dp else 0.dp),
-                            text = runCatching { vakit.getString(num) }.getOrNull()
-                                ?: "Time",
+                            text = vakit.getString(num),
                             maxLines = 1,
                             color = MaterialTheme.colorScheme.onBackground
                         )
@@ -134,10 +160,6 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             }
             Column {
                 Row(modifier = Modifier.height(32.dp)) {
-                    Text(
-                        "Saat", fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
                 }
                 rows.forEach { (vakit, num) ->
                     Row(modifier = Modifier.height(32.dp)) {
@@ -161,7 +183,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
                     Text(
-                        "Aci", fontWeight = FontWeight.Bold,
+                        stringResource(R.string.angle), fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
@@ -211,7 +233,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             Column(modifier = Modifier.width(90.dp)) {
                 Row(modifier = Modifier.height(32.dp)) {
                     Text(
-                        "Zaman", fontWeight = FontWeight.Bold,
+                        stringResource(R.string.minutes), fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
@@ -264,7 +286,7 @@ fun PrayTimesConfigurationView(model: PrayTimesConfigurationViewModel) = AppThem
             horizontalAlignment = Alignment.End
         ) {
             Button(onClick = { model.save() }) {
-                Text(text = "Speichern")
+                Text(text = stringResource(R.string.save))
             }
         }
 
@@ -281,6 +303,8 @@ private val Method.location
         Method.UOIF -> "France"
         Method.Tehran -> "Iran, Some Shia communities"
         Method.Jafari -> "Some Shia communities worldwide"
+        Method.Russia -> ""
+        Method.Singapore -> ""
         else -> ""
     }
 

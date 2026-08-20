@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Namaz Vaxtları</string>
+    <string name="calendar">Dini Günlər</string>
+    <string name="compass">Qiblə Kompası</string>
+    <string name="dhikr">Zikr</string>
+    <string name="hadith">Səhih al-Buxari</string>
+    <string name="names">Allahın 99 Adı</string>
+    <string name="tesbihat">Təsbihat</string>
+    <string name="missedPrayers">Qəza namazları</string>
+    <string name="settings">Tənzimləmələr</string>
+    <string name="about">Haqqında</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">İstəyirsinizsə müqəddəs günlər telefon təqviminizdə görünsün təqvim girişinə icazə verməlisiniz. Əks təqdirdə görə bilməzsiniz.</string>
+    <string name="permissionCalendarTitle">Təqvim İcazəsi</string>
+    <string name="permissionCameraText">3D-Compass istifadə etmək üçün Kamera girişinə icazə verməlisiniz. Əks təqdirdə yalnız 2D-Kompasdan istifadə edə biləcəksiniz.</string>
+    <string name="permissionCameraTitle">Camera İcazəsi</string>
+    <string name="permissionLocationText">Yerinizi izləmək üçün şəhərinizi tapmaq lazımdır. Bu Tətbiqə Məkanınıza daxil olmaq üçün icazə verməsəniz, şəhərinizi əl ilə axtarmalısınız.</string>
+    <string name="permissionLocationTitle">Yer İzni</string>
+    <string name="permissionStorageText">Yaddaş icazəsi lazımdır. İcazəsiz bəzi şeylər işləməyəcəkdir.</string>
+    <string name="permissionStorageTitle">Yaddaş izni</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muhərrəm</string>
+    <string name="hmonth2">Səfər</string>
+    <string name="hmonth3">Rəbi\' əl-əvvəl</string>
+    <string name="hmonth4">Rəbi\' əl-əxir</string>
+    <string name="hmonth5">Cəmadi əl-əvvəl</string>
+    <string name="hmonth6">Cəmadi əs-əxir</string>
+    <string name="hmonth7">Rəcəb</string>
+    <string name="hmonth8">Şaban</string>
+    <string name="hmonth9">Ramazan</string>
+    <string name="hmonth10">Şəvval</string>
+    <string name="hmonth11">Zul-qadə</string>
+    <string name="hmonth12">Zul-hiccə</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Yanvar</string>
+    <string name="gmonth2">Fevral</string>
+    <string name="gmonth3">Mart</string>
+    <string name="gmonth4">Aprel</string>
+    <string name="gmonth5">May</string>
+    <string name="gmonth6">Iyun</string>
+    <string name="gmonth7">Iyul</string>
+    <string name="gmonth8">Avqust</string>
+    <string name="gmonth9">Senyabr</string>
+    <string name="gmonth10">Oktyabr</string>
+    <string name="gmonth11">Noyabr</string>
+    <string name="gmonth12">Dekabr</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Islam yeni ili</string>
+    <string name="holyday2">Aşura</string>
+    <string name="holyday3">Peyğəmbərin movludu</string>
+    <string name="holyday4">Üç müqəddəs ayın başlanğıcı</string>
+    <string name="holyday5">Ləylət ər-rəqaib</string>
+    <string name="holyday6">Ista və merac gecəsi</string>
+    <string name="holyday7">Bəraət gecəsi</string>
+    <string name="holyday8">Ramazan ayı başlayır</string>
+    <string name="holyday9">Qədr gecəsi</string>
+    <string name="holyday10">(Fitr bayramı ərəfatı)</string>
+    <string name="holyday11">Fitr bqyramı</string>
+    <string name="holyday12">Fitr bayramın ikinci günü</string>
+    <string name="holyday13">Fitr bayramın üçüncü günü</string>
+    <string name="holyday14">Ərəfə günü</string>
+    <string name="holyday15">Qurban bayramın birinci günü</string>
+    <string name="holyday16">Qurban bayramın ikinci günü</string>
+    <string name="holyday17">Qurban bayramın üçüncü günü</string>
+    <string name="holyday18">Qurban bayramın dördüncü günü</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Tamam</string>
+    <string name="yes">Bəli</string>
+    <string name="no">Xeyr</string>
+    <string name="cancel">İmtina</string>
+    <string name="back">Geri</string>
+    <string name="finish">Hazırdır</string>
+    <string name="continue_">Davam et</string>
+    <string name="vote">Səs verin</string>
+    <string name="mail">E-mail</string>
+    <string name="test">Cəhd et</string>
+    <string name="share">Paylaş</string>
+    <string name="refresh">Sinxronlaşdırmaq</string>
+    <string name="translate">Tərcümə</string>
+    <string name="language">Dil</string>
+    <string name="shareText">Salamun əleykum! Bu namaz vaxtları tətbiqinə baxın: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Sistem dili</string>
+    <string name="notification">Bildirişlər</string>
+    <string name="version">Versiya</string>
+    <string name="search">Axtarış</string>
+    <string name="delete">Sil</string>
+    <string name="no_internet">İnternet bağlantısı yoxdur</string>
+    <string name="error">Xəta baş verdi</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Sübh namazı</string>
+    <string name="imsak">Imsak</string>
+    <string name="fajr">Fəcr</string>
+    <string name="zuhr">Zöhr</string>
+    <string name="asr">Əsr</string>
+    <string name="maghrib">Məğrib</string>
+    <string name="ishaa">Işa</string>
+    <string name="off">Qapalı</string>
+    <string name="clickToDisableNotification">Bu bildirişi deaktiv etmək üçün buraya toxunun</string>
+</resources>

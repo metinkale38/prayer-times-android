@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Activar para más preferencias</string>
+    <string name="adjAngle">Basado en ángulos (ángulo/60 avo de la noche)</string>
+    <string name="adjMidnight">Medianoche</string>
+    <string name="adjTime">Basado en tiempo (1/7° de la noche)</string>
+    <string name="calcMethod">Método</string>
+    <string name="cities">Ciudades</string>
+    <string name="customVolume">Elegir volumen</string>
+    <string name="date">Fecha</string>
+    <string name="delCityConfirm">¿Está seguro que desea borrar la ciudad \"%1$s\"?</string>
+    <string name="delAlarmConfirm">¿Está seguro que desea borrar la alarma \"%1$s\"?</string>
+    <string name="dlSound">¿Descargar “%1$s” (%2$s)?</string>
+    <string name="highlatsAdj">Ajuste de altas latitudes:</string>
+    <string name="fixTimezone">Zona horaria +/-:</string>
+    <string name="juristicHanafi">Hanafi</string>
+    <string name="juristicShafi">Shafi (por defecto)</string>
+    <string name="kerahatTime">Tiempo de Oración de Makruh</string>
+    <string name="monthly">Vista mensual</string>
+    <string name="newAddCity">Usar nuevo Selector de Ciudad</string>
+    <string name="shareTimes">Oraciones de hoy para %1$s</string>
+    <string name="showMore">Mostrar más</string>
+    <string name="soundPicker">Selector de sonido</string>
+    <string name="filePicker">Selector de archivos</string>
+    <string name="other">Otro</string>
+    <string name="sun">Amanecer</string>
+    <string name="timeBased">Minutos</string>
+    <string name="time">Hora</string>
+    <string name="volumeAlarm">Volumen de alarma</string>
+    <string name="volumeMedia">Volumen multimedia</string>
+    <string name="volumeRingtone">Volumen del tono de llamada</string>
+    <string name="calculated">Calculado</string>
+    <string name="autoremove_notification">Quitar notificación después del llamado a la oración</string>
+    <string name="export">Exportar</string>
+    <string name="versionNotSupported">¡Tu versión de Android no es compatible!</string>
+    <string name="from">Desde</string>
+    <string name="to">Hasta</string>
+    <string name="addFromCSV">Añadir desde CSV</string>
+    <string name="csvFromFile">Cargar CSV desde un archivo</string>
+    <string name="csvFromURL">Cargar CSV desde una URL</string>
+    <string name="asrSani">2do Asr</string>
+    <string name="asrAwwal">1er Asr</string>
+    <string name="noAdjustment">Sin ajustes</string>
+    <string name="customCalc">Personalizar</string>
+    <string name="customCalcDesc">Establecer parámetros de cálculo personalizados</string>
+    <string name="autoLocation">Ubicación automática</string>
+    <string name="stop">Parar</string>
+    <string name="onTime">Tiempo encendido</string>
+    <string name="beforeTime">%1$d minutos antes</string>
+    <string name="afterTime">%1$d minutos después</string>
+    <string name="addAudio">Agregar sonido nuevo</string>
+    <string name="fajrShort">Asalatu Khairum Minan Naum</string>
+    <string name="takbir">Takbeer</string>
+    <string name="adhanDua">Dua Athan</string>
+    <string name="salavat">Salawat</string>
+    <string name="volume">Volumen</string>
+    <string name="volumeNotification">Volumen de notificación</string>
+    <string name="noti_beforeTime">%1$d minutos antes %2$s</string>
+    <string name="noti_exactTime">a las %2$s</string>
+    <string name="noti_exactAll">en cada hora de oración</string>
+    <string name="noti_beforeAll">%1$s minutos antes de cada hora de oración</string>
+    <string name="noti_afterAll">%1$s minutos después de cada hora de oración</string>
+    <string name="noti_eachDay">Cada %2$s días</string>
+    <string name="noti_weekday">Cada %1$s %2$s</string>
+    <string name="ongoingNotification">Widget de notificación</string>
+    <string name="prayerNotification">Notificación de oración</string>
+    <string name="sound">Sonido</string>
+    <string name="vibration">Vibración</string>
+    <string name="noti_afterTime">%1$s minutos después de %2$s</string>
+    <string name="midnight">Medianoche</string>
+    <string name="silenter">Silenciar por</string>
+    <string name="minutes">Minutos</string>
+    <string name="both">Ambos</string>
+    <string name="addAlarm">Añadir alarma</string>
+    <string name="silenterNotificationTitle">Silencioso</string>
+    <string name="silenterNotificationInfo">Por favor, concede permisos a Prayer Times para silenciar tu teléfono</string>
+    <string name="batteryOptimizations">Optimización de batería</string>
+    <string name="batteryOptimizationsText">Para obtener alarmas precisas, debe desactivar la optimización de batería para esta aplicación. ¿Quiere hacerlo ahora?</string>
+</resources>

@@ -1,7 +1,6 @@
 package com.metinkale.prayer
 
 import android.content.Context
-import androidx.multidex.MultiDex
 import com.metinkale.prayer.about.AboutFeature
 import com.metinkale.prayer.calendar.CalendarFeature
 import com.metinkale.prayer.compass.CompassFeature
@@ -36,7 +35,6 @@ class Application : App() {
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
     }
 
 }

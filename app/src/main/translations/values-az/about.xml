@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Xətaları bildir</string>
+    <string name="report_bug_sum">Nöqsanı bildir və ya yeni xüsusiyyətləri tələb et.</string>
+    <string name="translate_sum">Bu tətbiqi daha çox dillərə tərcümə etmək üçün bizə kömək edin</string>
+    <string name="github_sum">Deponi doldurun ve dəyişikliklər edin ya da yeni problemləri gönderin.</string>
+    <string name="license">Lisenziya</string>
+    <string name="license_sum">Namaz vaxtlarında istifadə olunan Apache Lisenziyası, Versiya 2.0 lisenziya şərtlərini yoxlayın</string>
+    <string name="library_licenses">Kitabxana lisenziyaları</string>
+    <string name="library_licenses_sum">Namaz vaxtlarında istifadə olunan üçüncü tərəf kitabxanaları yoxlayın</string>
+    <string name="rate">Qiymətləndir</string>
+    <string name="rate_desc">Namaz vaxtlarını bəyənmisinizsə bizə müsbət reytinq qoyun.</string>
+    <string name="sendMail_sum">Mənə bir e-poçt göndər!</string>
+    <string name="beta_tester">Beta təcrübəçi olun</string>
+    <string name="beta_tester_desc">Buraya toxunaraq beta tester olmaq üçün qeydiyyatdan keçin</string>
+    <string name="support_development">Tərtibatçı Dəstəyi</string>
+    <string name="share_sum">Bu tətbiqi başqaları ilə paylaşın!</string>
+    <string name="showIntro">Intro göstər</string>
+    <string name="showIntro_sum">Bu tətbiqinin giriş məlumatlarını göstərin</string>
+</resources>

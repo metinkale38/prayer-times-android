@@ -1,3 +1,9 @@
+### Version 3.9
+- Städtesuche wurde auf einen eigenen Server ausgelagert (kleinere APK Größe, schnellere Suche)
+- Alle Gebetszeiten (außer Berechnete Zeiten) werden von einem eigenen Server abgerufen (erhöhte Verfügbarkeit)
+- neues Widget hinzugefügt
+- einige Fehlerbehebungen und Verbesserungen wurden durchgeführt
+
 ### Version 3.7.7
 - Aktualisierte Gebetszeiten für IGMG (Neuregelung ab 2023)  
 

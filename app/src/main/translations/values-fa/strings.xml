@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">اوقات نماز</string>
+    <string name="calendar">روزهای مقدس</string>
+    <string name="compass">قطب نمای نماز</string>
+    <string name="dhikr">ذکر</string>
+    <string name="hadith">صحیح بخاری</string>
+    <string name="names">99 نام خداوند متعال</string>
+    <string name="tesbihat">تسبیحات</string>
+    <string name="missedPrayers">نمازهای قضا</string>
+    <string name="settings">تنظیمات</string>
+    <string name="about">درباره</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">اگر می خواهید که روزهای مقدس در تقویم تلفن شما ظاهر می شود ، باید دسترسی تقویم را مجاز کنید. در غیر این صورت انجام ندهید.</string>
+    <string name="permissionCalendarTitle">دسترسی تقویم</string>
+    <string name="permissionCameraText">برای استفاده از 3D-Compass ، باید دسترسی به دوربین را مجاز کنید. در غیر این صورت فقط می توانید از قطب نما 2D استفاده کنید.</string>
+    <string name="permissionCameraTitle">دسترسی دوربین</string>
+    <string name="permissionLocationText">برای یافتن شهر خود به مجوز موقعیت مکانی لازم است. اگر به این برنامه اجازه ندارید که به موقعیت مکانی خود دسترسی پیدا کنید ، باید به صورت دستی شهر خود را جستجو کنید.</string>
+    <string name="permissionLocationTitle">دسترسی موقعیت مکانی</string>
+    <string name="permissionStorageText">مجوز ذخیره سازی مورد نیاز است. بدون آن مجوز برخی از موارد کار نمی کنند.</string>
+    <string name="permissionStorageTitle">مجوز ذخیره سازی</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">محرم</string>
+    <string name="hmonth2">صفر</string>
+    <string name="hmonth3">ربیع الاول</string>
+    <string name="hmonth4">ربیع الثانی</string>
+    <string name="hmonth5">جمادی الاول</string>
+    <string name="hmonth6">جمادی الثانی</string>
+    <string name="hmonth7">رجب</string>
+    <string name="hmonth8">شعبان</string>
+    <string name="hmonth9">رمضان</string>
+    <string name="hmonth10">شوال</string>
+    <string name="hmonth11">ذی القعده</string>
+    <string name="hmonth12">ذی الحجه</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">ژانویه</string>
+    <string name="gmonth2">فوریه</string>
+    <string name="gmonth3">مارس</string>
+    <string name="gmonth4">آوریل</string>
+    <string name="gmonth5">مِی</string>
+    <string name="gmonth6">ژوئن</string>
+    <string name="gmonth7">جولای</string>
+    <string name="gmonth8">آگوست‌</string>
+    <string name="gmonth9">سپتامبر</string>
+    <string name="gmonth10">اکتبر</string>
+    <string name="gmonth11">نوامبر</string>
+    <string name="gmonth12">دسامبر</string>
+    <!-- Holy Days -->
+    <string name="holyday1">سال جدید اسلامی</string>
+    <string name="holyday2">عاشورا</string>
+    <string name="holyday3">موالید پیامبر</string>
+    <string name="holyday4">آغاز سه ماه مقدس</string>
+    <string name="holyday5">لیله الرغائب</string>
+    <string name="holyday6">لیله الاسرا و معراج</string>
+    <string name="holyday7">لیله البرائه</string>
+    <string name="holyday8">شروع رمضان</string>
+    <string name="holyday9">لیله القدر</string>
+    <string name="holyday10">عرفات عید فطر</string>
+    <string name="holyday11">روز اول عید فطر</string>
+    <string name="holyday12">روز دوم عید فطر</string>
+    <string name="holyday13">روز سوم عید فطر</string>
+    <string name="holyday14">روز عرفه</string>
+    <string name="holyday15">روز اول عید قربان</string>
+    <string name="holyday16">روز دوم عید قربان</string>
+    <string name="holyday17">روز سوم عید قربان</string>
+    <string name="holyday18">روز چهارم عید قربان</string>
+    <!-- Dialog Actions -->
+    <string name="ok">تأیید</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
+    <string name="cancel">انصراف</string>
+    <string name="back">برگشت</string>
+    <string name="finish">انجام شد</string>
+    <string name="continue_">ادامه</string>
+    <string name="vote">رای</string>
+    <string name="mail">ایمیل</string>
+    <string name="test">امتحان کنید</string>
+    <string name="share">به اشتراک گذاری</string>
+    <string name="refresh">همگام سازی</string>
+    <string name="translate">ترجمه</string>
+    <string name="language">زبان</string>
+    <string name="shareText">سلام ، این برنامه زمان دعا را بررسی کنید: https://play.google.com/store/apps/details؟id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">زبان دستگاه</string>
+    <string name="notification">اطلاع رسانی</string>
+    <string name="version">نسخه</string>
+    <string name="search">جست‌وجو</string>
+    <string name="delete">حذف</string>
+    <string name="no_internet">اینترنت قطع است</string>
+    <string name="error">یک خطا روی داده است</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">نماز صبحگاهی</string>
+    <string name="imsak">روزه</string>
+    <string name="fajr">طلوع</string>
+    <string name="zuhr">ظهر</string>
+    <string name="asr">عصر</string>
+    <string name="maghrib">مغرب</string>
+    <string name="ishaa">عشا</string>
+    <string name="off">خاموش</string>
+    <string name="clickToDisableNotification">برای غیر فعال کردن اعلان این جا کلیک کنید</string>
+</resources>

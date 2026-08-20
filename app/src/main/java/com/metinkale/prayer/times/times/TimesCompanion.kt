@@ -51,13 +51,15 @@ open class TimesCompanion : Flow<List<Times>> {
     fun size() = store.data.map { it.size }.distinctUntilChanged()
 
     fun getTimesById(id: Int): Store<Times?> =
-        store.map(get = { it.firstOrNull { it.id == id } },
+        store.map(
+            get = { it.firstOrNull { it.id == id } },
             set = { parent, save ->
                 parent.map { if (it.id == save?.id) save else it }
             })
 
     fun getTimesByIndex(idx: Int): Store<Times?> =
-        store.map(get = { it.getOrNull(idx) },
+        store.map(
+            get = { it.getOrNull(idx) },
             set = { parent, save ->
                 parent.mapIndexed { index, it -> if (save != null && index == idx) save else it }
             })
@@ -67,7 +69,7 @@ open class TimesCompanion : Flow<List<Times>> {
             if (it.isEmpty() && times.id > 0)
                 listOf(times.copy(ongoing = true))
             else
-                it + times
+                it.filter { it.id != times.id } + times
         }
     }
 

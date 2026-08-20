@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Copia de seguridad</string>
+    <string name="backupRestore">Respaldo/Restauración</string>
+    <string name="calendarIntegration">Integración de calendario</string>
+    <string name="dateAndTime">Fecha y Hora</string>
+    <string name="dateFormat1">31 de diciembre de 2013</string>
+    <string name="dateFormat2">31 de diciembre de 13</string>
+    <string name="dateFormat">Formato de fecha</string>
+    <string name="hDateFormat1">30 de Muharram de 1434</string>
+    <string name="hDateFormat2">30 de Muharram de 34</string>
+    <string name="hdateFormat">Formato de fecha de la Hégira</string>
+    <string name="hijriFix">Ajuste de fecha de la Hégira</string>
+    <string name="kerahatMaghrib">Puesta del sol (antes de la oración del ocaso)</string>
+    <string name="kerahatSun">Salida del sol (después de la oración de la mañana)</string>
+    <string name="ongoingIcon">Icono de la notificación</string>
+    <string name="restore">Restaurar</string>
+    <string name="silenterType">Modo silencioso</string>
+    <string name="use12h">Usar formato de 12 horas</string>
+    <string name="useArabicNames">Usar los tiempos de oración en árabe</string>
+    <string name="useSilenter">Silencioso</string>
+    <string name="useVibration">Vibración</string>
+    <string name="vibrationDesc">Milisegundos - esperar vibrar esperar…</string>
+    <string name="vibrationPattern">Patrón de vibración</string>
+    <string name="widgetCountdownType">Widget - Cuenta atrás en minutos</string>
+    <string name="numbers">Dígitos</string>
+    <string name="dateFormat3">31 de diciembre </string>
+    <string name="hDateFormat3">30 de Muharram </string>
+    <string name="useAlarm">Usar alarma para notificaciones</string>
+    <string name="useAlarmDesc">EXPERIMENTAL - Si las notificaciones no se activan a tiempo, puede probar esta Configuración. ¡Se añadirá un icono de reloj de alarma
+        a la barra de estado!
+    </string>
+    <string name="ongoingNumber">Mostrar minutos en el icono de notificación</string>
+    <string name="ongoingColor">Colores del widget de notificación</string>
+    <string name="vakit_indicator">Indicador de tiempo de oración</string>
+    <string name="vakit_indicator_next">Siguiente hora de oración</string>
+    <string name="vakit_indicator_current">Tiempo de oración actual</string>
+    <string name="show_notification_screen">Mostrar pantalla de notificación</string>
+    <string name="stopFacedown">Detenga el sonido girando la pantalla hacia abajo.</string>
+    <string name="widget_current_vakit">Widget - Indicador alternativo de hora actual</string>
+    <string name="widget">Widget</string>
+    <string name="showExtraTimes">Mostrar oración de la mañana y Asr sani</string>
+    <string name="showExtraTimesSummary">Sólo por FaziletTakvimi.com, NamazVakti.com y calculado</string>
+</resources>

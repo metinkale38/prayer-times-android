@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="silent">Silencioso</string>
+    <string name="widgetDesign">Tema</string>
+    <!-- Widget Themes -->
+    <string name="transWhiteWidget">Widget Blanco transparente</string>
+    <string name="transWidget">Widget transparente</string>
+    <string name="whiteWidget">Widget Blanco</string>
+    <string name="blackWidget">Widget negro</string>
+    <!-- Widget Types -->
+    <string name="widgetClock">Horario de oraciones - reloj 4*2</string>
+    <string name="widgetLong">Horario de oraciones - Widget 4*1</string>
+    <string name="widgetLabel">Horarios de oraciones - Widget 2*2</string>
+    <string name="widgetSilenter">Horario de oraciones - Widget silencioso</string>
+    <string name="widgetSmall">Horarios de oración - Widget 1*1</string>
+    <string name="widgetClock2">Horarios de oración - Reloj 2*2</string>
+</resources>

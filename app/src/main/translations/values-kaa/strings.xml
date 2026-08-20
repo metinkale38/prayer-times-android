@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Namaz waqıtları</string>
+    <string name="calendar">Estelik kúnleri</string>
+    <string name="dhikr">Zikr</string>
+    <string name="settings">Sazlawlar</string>
+    <string name="about">Baǵdarlama haqqında</string>
+    <!--Permission dialogs-->
+    <!-- Hijri Months -->
+    <string name="hmonth9">Ramazan</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Dálıw</string>
+    <string name="gmonth2">Hut</string>
+    <string name="gmonth3">Hamal</string>
+    <string name="gmonth4">Sáwir</string>
+    <string name="gmonth5">Jawza</string>
+    <string name="gmonth6">Saratan</string>
+    <string name="gmonth7">Háset</string>
+    <string name="gmonth8">Súmbile</string>
+    <string name="gmonth9">Miyzan</string>
+    <string name="gmonth10">Aqırap</string>
+    <string name="gmonth11">Qawıs</string>
+    <string name="gmonth12">Jeddi</string>
+    <!-- Holy Days -->
+    <string name="holyday14">Arafa kúni</string>
+    <!-- Dialog Actions -->
+    <string name="ok">MAQUL</string>
+    <string name="yes">Awa</string>
+    <string name="no">Yaq</string>
+    <string name="cancel">Biykarlaw</string>
+    <string name="back">Artqa</string>
+    <string name="finish">Orınlandı</string>
+    <string name="continue_">Dawam etiw</string>
+    <string name="vote">Dawıs beriw</string>
+    <string name="mail">E-Mail</string>
+    <string name="test">Urınıp kóriw</string>
+    <string name="share">Bólisiw</string>
+    <string name="refresh">Sáykeslestiriw</string>
+    <string name="translate">Awdarıw</string>
+    <string name="language">Til</string>
+    <!-- Other -->
+    <string name="notification">Xabarlandırıw</string>
+    <string name="version">Versiya</string>
+    <string name="search">Izlew</string>
+    <string name="delete">Óshiriw</string>
+    <string name="error">Qátelik juz berdi</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Tań namaz</string>
+    <string name="fajr">Tań namaz</string>
+    <string name="zuhr">Pesin</string>
+    <string name="asr">Namazlıger</string>
+    <string name="maghrib">Sham</string>
+    <string name="ishaa">Quptan</string>
+    <string name="off">Óshirilgen</string>
+    <string name="clickToDisableNotification">Bul xabarnamanı óshiriw ushın, usı jerge basıń</string>
+</resources>

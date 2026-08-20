@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Өҫтәмә көйләүҙәр өсөн Активациялаштырығыҙ</string>
+    <string name="adjAngle">Мөгөш нигеҙҙә (мөгөш/60-сы төн)</string>
+    <string name="adjMidnight">Төн уртаһы</string>
+    <string name="adjTime">Ваҡыт нигеҙҙә (1/7-се төн)</string>
+    <string name="calcMethod">Ысул</string>
+    <string name="cities">Ҡалалар</string>
+    <string name="customVolume">Яңғырауҙы Һайларға</string>
+    <string name="date">Дата</string>
+    <string name="delCityConfirm">Һеҙ ысынлап та был ҡаланы \"%1$s\" юйғы киләһегеҙ ме?</string>
+    <string name="delAlarmConfirm">Һеҙ ысынлап та был уятҡысты \"%1$s\" юйғы киләһегеҙ ме?</string>
+    <string name="dlSound">“%1$s” (%2$s) йөкләргә ме?</string>
+    <string name="highlatsAdj">Юғары Киңлек Үҙгәртеүе:</string>
+    <string name="fixTimezone">Сәғәт бүлкәте +/-:</string>
+    <string name="juristicHanafi">Хәнәфи</string>
+    <string name="juristicShafi">Шәфий (Default)</string>
+    <string name="kerahatTime">Мәкруһ Намаҙ Ваҡыты</string>
+    <string name="monthly">Айлыҡ Күҙәтеү</string>
+    <string name="newAddCity">Яңы Ҡала Һайлауысты ҡулланығыҙ</string>
+    <string name="shareTimes">Бөгөнгө Намаҙ өсөн %1$s</string>
+    <string name="showMore">Күберәк күргәтергә</string>
+    <string name="soundPicker">Өндәрҙе Һайлау</string>
+    <string name="filePicker">Файлды Һайлау</string>
+    <string name="other">Икенсе</string>
+    <string name="sun">Ҡояш</string>
+    <string name="timeBased">Минуттар</string>
+    <string name="time">Ваҡыт</string>
+    <string name="volumeAlarm">Уятҡыстың-Яңғырауы</string>
+    <string name="volumeMedia">Медианың - Яңғырауы</string>
+    <string name="volumeRingtone">Шылтрауҙын - Яңғырауы</string>
+    <string name="calculated">Хәсәптәнгән</string>
+    <string name="autoremove_notification">Аҙандан һуң Белдереүҙе юйырға</string>
+    <string name="export">Экспорт</string>
+    <string name="versionNotSupported">Һеҙҙең Android Версия мыны поддерживать итмәй!</string>
+    <string name="from">Башланғыс</string>
+    <string name="to">Кемгә</string>
+    <string name="addFromCSV">CSV-нән өҫтәргә</string>
+    <string name="csvFromFile">CSV Файлдан йөкләргә</string>
+    <string name="csvFromURL">CSV Һылтанманан йөкләргә</string>
+    <string name="asrSani">Әср-Сәни</string>
+    <string name="asrAwwal">Әср Әүүәл</string>
+    <string name="noAdjustment">Үҙгәртеүҙәр юҡ</string>
+    <string name="customCalc">Ҡулланыусы</string>
+    <string name="customCalcDesc">Ҡулланыусы хәсәптәү төҙөлөштәрҙе ҡуйырға</string>
+    <string name="autoLocation">Автолокация</string>
+    <string name="stop">Туҡтатырға</string>
+    <string name="onTime">Ваҡытында</string>
+    <string name="beforeTime">%1$d минуттар тиклем</string>
+    <string name="afterTime">%1$d минуттар һуң</string>
+    <string name="addAudio">Яңы өн өҫтәргә</string>
+    <string name="fajrShort">Әссәләтү Хәйрүм Минән Нәүм</string>
+    <string name="takbir">Тәҡбир</string>
+    <string name="adhanDua">Аҙан Доғаһы</string>
+    <string name="salavat">Салауат</string>
+    <string name="volume">Яңғырауыш</string>
+    <string name="volumeNotification">Белдереү - Яңғырауыш</string>
+    <string name="noti_beforeTime">%2$s тиклем %1$d минуттар</string>
+    <string name="noti_exactTime">%2$s ваҡытында</string>
+    <string name="noti_exactAll">һәр намаҙ ваҡытында</string>
+    <string name="noti_beforeAll">Намаҙ ваҡытына тиклем %1$s минуттар</string>
+    <string name="noti_afterAll">Намаҙ ваҡытынан һуң %1$s минуттар</string>
+    <string name="noti_eachDay">Һәр Көн %2$s</string>
+    <string name="noti_weekday">Хәр %1$s %2$s</string>
+    <string name="ongoingNotification">Белдереү - Виджет</string>
+    <string name="prayerNotification">Намаҙ Белдереүе</string>
+    <string name="sound">Тауыш</string>
+    <string name="vibration">Тирбәлеш</string>
+    <string name="noti_afterTime">%2$s һуң %1$s минуттар</string>
+    <string name="midnight">Төн уртаһы</string>
+    <string name="silenter">Өнһөҙ Режим:</string>
+    <string name="minutes">Минуттар</string>
+    <string name="both">Икеһе лә</string>
+    <string name="addAlarm">Уятҡыс ҡушырға</string>
+    <string name="silenterNotificationTitle">Өнһөҙ</string>
+    <string name="silenterNotificationInfo">Өнһөҙ режимды яндырыу өсөн ҡушымтаға доступ бирегеҙ, зинһар</string>
+    <string name="batteryOptimizations">Батарея оптимизациялаштырыу</string>
+    <string name="batteryOptimizationsText">Белдереүҙәр эшләү өсөн батарея оптимизациялаштырыуҙы һүндерергә кәрәк. Һеҙ быны хәҙер эштәге киләһегеҙ ме?</string>
+</resources>

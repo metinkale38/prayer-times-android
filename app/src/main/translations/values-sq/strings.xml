@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Kohet e namazit</string>
+    <string name="calendar">Ditet e Shenjëta</string>
+    <string name="compass">Drejtimi i Faljes</string>
+    <string name="dhikr">Dhikri</string>
+    <string name="hadith">Sahih Al Bukhari</string>
+    <string name="names">99 emrat e Allahut</string>
+    <string name="tesbihat">Tesbihet</string>
+    <string name="missedPrayers">Famljet e munguara</string>
+    <string name="settings">Konfigurimet</string>
+    <string name="about">Rreth</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Nese deshironi qe te shfaqen ditet e shenjta ne kalendarin e telefonit tuaj, ju duhet te lejoni Aksesin ne Kalendar. Ne te kundert mos e lejoni ate.</string>
+    <string name="permissionCalendarTitle">Qasja në kalendar</string>
+    <string name="permissionCameraText">Për ta përdorur kompasin 3D ju dhet te lejoni qasjen ne kamerë Ne te kundert ju do te mund te perdorni vetem kompasin 2D.</string>
+    <string name="permissionCameraTitle">Lejimi në kamerë</string>
+    <string name="permissionLocationText">Lejimi i vendndodhjes eshte i nevojshëm, per te gjetur qytetin tuaj. Nese nuk e lejoni kete aplikacion te qaset në vendodhjen tuaj ju duhet ta gjeni qytetin tuaj manualisht.</string>
+    <string name="permissionLocationTitle">Lejimi në vendndodhje</string>
+    <string name="permissionStorageText">Kerkohet lejimi në memories. Pa kete lejim disa funksione nuk do te punojne.</string>
+    <string name="permissionStorageTitle">Lejimi në memorie</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muharrem muaj</string>
+    <string name="hmonth2">Safar muaj</string>
+    <string name="hmonth3">Rabi al-Auval</string>
+    <string name="hmonth4">Rabi al -Aqir</string>
+    <string name="hmonth5">Jumada al auval</string>
+    <string name="hmonth6">Jumada al akhira</string>
+    <string name="hmonth7">Rexhep muaji</string>
+    <string name="hmonth8">Muaji Shaban</string>
+    <string name="hmonth9">muaji Ramazan</string>
+    <string name="hmonth10">Sheval</string>
+    <string name="hmonth11">Dhu l-Kada</string>
+    <string name="hmonth12">Dhul hixh</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Janar.</string>
+    <string name="gmonth2">February</string>
+    <string name="gmonth3">March</string>
+    <string name="gmonth4">April</string>
+    <string name="gmonth5">May</string>
+    <string name="gmonth6">June</string>
+    <string name="gmonth7">Korriku </string>
+    <string name="gmonth8">August</string>
+    <string name="gmonth9">Shtatore</string>
+    <string name="gmonth10">Tetorë</string>
+    <string name="gmonth11">Nentor. m</string>
+    <string name="gmonth12">Dhjetorë </string>
+    <!-- Holy Days -->
+    <string name="holyday1">Viti ri Islam</string>
+    <string name="holyday2">Hashur</string>
+    <string name="holyday3">Mawlid al-Nabi</string>
+    <string name="holyday4">Fillimi i tre muajve te shenjt</string>
+    <string name="holyday5">Nata e mirë Regaibit</string>
+    <string name="holyday6">Nata e mirë Isra dhe Miraxhit</string>
+    <string name="holyday7">Nata e mirë Baraah</string>
+    <string name="holyday8">Fillimi i muajit të Ramazanit</string>
+    <string name="holyday9">Nata e mirë e madhe Kadrit</string>
+    <string name="holyday10">(Arafat of Eid al-Fitr)</string>
+    <string name="holyday11">Eid al-Fitr 1st day</string>
+    <string name="holyday12">Eid al-Fitr 2nd day</string>
+    <string name="holyday13">Eid al-Fitr 3rd day</string>
+    <string name="holyday14">Nata e Arafatitë</string>
+    <string name="holyday15">Eid al-Adha  1st day</string>
+    <string name="holyday16">Eid al-Adha  2nd day</string>
+    <string name="holyday17">Eid al-Adha  3rd day</string>
+    <string name="holyday18">Eid al-Adha  4th day</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Ok*</string>
+    <string name="yes">Okej</string>
+    <string name="no">JO</string>
+    <string name="cancel">Anuloje </string>
+    <string name="back">Këthehu</string>
+    <string name="finish">Mbaroj</string>
+    <string name="continue_">Vazhdon </string>
+    <string name="vote">Votojeni</string>
+    <string name="mail">E mail:</string>
+    <string name="test">Provojeni </string>
+    <string name="share">Shpërndajeni_</string>
+    <string name="refresh">Sinkronizuar </string>
+    <string name="translate">Përkëthe </string>
+    <string name="language">Gjuhët tjera</string>
+    <string name="shareText">Hej, provoni këtë aplikacion faljesh: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Gjuha e sistemit operativ të paisjes </string>
+    <string name="notification">Lajmërimi</string>
+    <string name="version">Version</string>
+    <string name="search">Search</string>
+    <string name="delete">Fshijë </string>
+    <string name="no_internet">Nuk keni qasje në internet</string>
+    <string name="error">Diqka vajti gabim kontrolloni </string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer"> Namazi i mëngjesit</string>
+    <string name="imsak">Syfyr</string>
+    <string name="fajr">Sabahu-mëngjesi</string>
+    <string name="zuhr">Dreka </string>
+    <string name="asr">Ikindia </string>
+    <string name="maghrib">Akshami </string>
+    <string name="ishaa">Jacisë</string>
+    <string name="off">Fike</string>
+    <string name="clickToDisableNotification">Anuloje këtë njoftim </string>
+</resources>

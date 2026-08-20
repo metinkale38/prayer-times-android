@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Хата тураһында хәбәр итергә</string>
+    <string name="report_bug_sum">Хаталар тураһында хәбәр итегеҙ йәки яңы функциялар һорағыҙ.</string>
+    <string name="translate_sum">Был ҡушылманы икенсе телдәргә тәржемә итергә ярҙам итегеҙ</string>
+    <string name="github_sum">Репозиторийҙы тармаҡлағыҙ һәм үҙегеҙ төҙөлөштәр менән тәҡдим итегеҙ йәки хаталар тураһында хәбәр итегеҙ.</string>
+    <string name="license">Лицензия</string>
+    <string name="license_sum">Ҡулланылған Apache Лицензияны Версия 2 тикшерегеҙ</string>
+    <string name="library_licenses">Китапхана лицензиялары</string>
+    <string name="library_licenses_sum">Намаҙ ваҡытында ҡулланылған яҡлы китапханаларҙы тикшерегеҙ</string>
+    <string name="rate">Билдә</string>
+    <string name="rate_desc">Әгәр Намаҙ Ваҡыты һеҙгә оҡшаһа, беҙҙе баһалағыҙ.</string>
+    <string name="sendMail_sum">Миңә email ебәр!</string>
+    <string name="beta_tester">Тестсы булығыҙ</string>
+    <string name="beta_tester_desc">Мында баҫып, Бета Тестсы һымаҡ теркәләнегеҙ</string>
+    <string name="support_development">Асышты Ярҙам итегеҙ</string>
+    <string name="share_sum">Был ҡушымтаны икенселәр менән бүленегеҙ!</string>
+    <string name="showIntro">Инеште Күргәтеү</string>
+    <string name="showIntro_sum">Был ҡушымтала инеште күргәтегеҙ</string>
+</resources>

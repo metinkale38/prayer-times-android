@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Rapporter bug</string>
+    <string name="report_bug_sum">Rapporter bug eller anmode om nye funktioner.</string>
+    <string name="translate_sum">Hjælp os med at oversætte denne app på flere sprog</string>
+    <string name="github_sum">Fork repo og skub ændringer eller indsend nye problemer/spørgsmål.</string>
+    <string name="license">Licens</string>
+    <string name="license_sum">Kontroller Apache License, Version 2.0 licensvilkår der bruges på Prayer Times</string>
+    <string name="library_licenses">Bibliotekslicenser</string>
+    <string name="library_licenses_sum">Kontroller biblioteker fra tredjepart der bruges i Prayer Times</string>
+    <string name="rate">Sats</string>
+    <string name="rate_desc">Efterlad os en positiv vurdering, hvis du kan lide Prayer Times.</string>
+    <string name="sendMail_sum">Send mig en E-Mail!</string>
+    <string name="beta_tester">Bliv tester</string>
+    <string name="beta_tester_desc">Registrer dig som Beta Tester ved at klikke her</string>
+    <string name="support_development">Supportudvikling</string>
+    <string name="share_sum">Del denne app med andre!</string>
+    <string name="showIntro">Vis Intro</string>
+    <string name="showIntro_sum">Vis introduktionerne til denne app</string>
+</resources>

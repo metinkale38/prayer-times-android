@@ -6,7 +6,8 @@ import androidx.core.content.edit
 import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.R
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.OpenPrayerTimes
+import dev.metinkale.openprayertimes.Provider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -88,9 +89,13 @@ class DayTimesWebProvider private constructor(val id: Int) :
         return if (times != null && times.source != Source.Calc) {
             lastSync = System.currentTimeMillis()
 
-            val daytimes: List<dev.metinkale.openprayertimes.DayTimes> = supervisorScope {
+            val daytimes: List<DayTimes> = supervisorScope {
                 runCatching {
-                    times.source.getDayTimes(key ?: times.key ?: "")
+                    if (times.source == Source.CSV) getDayTimesFromCSV(key ?: times.key ?: "")
+                    else OpenPrayerTimes.fetch(
+                        Provider.valueOf(times.source.name),
+                        key ?: times.key ?: ""
+                    ).map { DayTimes.from(it) }
                 }.getOrElse { e ->
                     if (e is CancellationException) throw e
                     CrashReporter.recordException(e, "sync", times.source.name)
@@ -101,7 +106,7 @@ class DayTimesWebProvider private constructor(val id: Int) :
                 daytimes.forEach { dt ->
                     putString(
                         dt.date.toString(),
-                        Json.encodeToString(DayTimes.serializer(), DayTimes.from(dt))
+                        Json.encodeToString(DayTimes.serializer(), dt)
                     )
                 }
             }

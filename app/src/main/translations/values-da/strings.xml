@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Bønstider</string>
+    <string name="calendar">Helligedage</string>
+    <string name="compass">Bøn kompas</string>
+    <string name="dhikr">Dhikr</string>
+    <string name="hadith">Sahih Al-Bukhari</string>
+    <string name="names">99 Navne på Allah</string>
+    <string name="tesbihat">Tasbihaat</string>
+    <string name="missedPrayers">Ubesvarede Bønner</string>
+    <string name="settings">Indstillinger</string>
+    <string name="about">Om</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Hvis du vil at de hellige dage vises i din telefonskalender, skal du tillade kalenderadgang. Ellers ikke.</string>
+    <string name="permissionCalendarTitle">Kalender Adgange</string>
+    <string name="permissionCameraText">For at bruge 3D-kompas skal du tillade kameraadgang. Ellers kan du kun bruge 2D-kompas.</string>
+    <string name="permissionCameraTitle">Kamera adgang</string>
+    <string name="permissionLocationText">Adgang til placering/location er nødvendig for at finde din by. Hvis du ikke tillader denne app at få adgang til din placering, skal du søge efter din by manuelt.</string>
+    <string name="permissionLocationTitle">Adgang til placering / location</string>
+    <string name="permissionStorageText">Adgang til lagerplads er nødvendig. Uden denne tilladelse vil nogle ting ikke fungere.</string>
+    <string name="permissionStorageTitle">Adgang til lagerplads</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muharram</string>
+    <string name="hmonth2">Safar</string>
+    <string name="hmonth3">Rabi Ul-Awwal</string>
+    <string name="hmonth4">Rabi Ul-Thani</string>
+    <string name="hmonth5">Jumada Al-Awwal</string>
+    <string name="hmonth6">Jumada Al-Thani</string>
+    <string name="hmonth7">Rajab</string>
+    <string name="hmonth8">Shaban</string>
+    <string name="hmonth9">Ramadan</string>
+    <string name="hmonth10">Shawwal</string>
+    <string name="hmonth11">Dhul-Qa\'da</string>
+    <string name="hmonth12">Dhul-Hajj</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Januar</string>
+    <string name="gmonth2">Februar</string>
+    <string name="gmonth3">Marts</string>
+    <string name="gmonth4">April</string>
+    <string name="gmonth5">Maj</string>
+    <string name="gmonth6">Juni</string>
+    <string name="gmonth7">Juli</string>
+    <string name="gmonth8">August</string>
+    <string name="gmonth9">September</string>
+    <string name="gmonth10">Oktober</string>
+    <string name="gmonth11">November</string>
+    <string name="gmonth12">December</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Islamisk Nytår</string>
+    <string name="holyday2">Ashura</string>
+    <string name="holyday3">Milad Un-Nabi</string>
+    <string name="holyday4">Begyndelsen af de tre hellige måneder</string>
+    <string name="holyday5">Laylat Ul Ragaib</string>
+    <string name="holyday6">Laylat Ul Israa og Mi\'raj</string>
+    <string name="holyday7">Laylat Ul Bara\'ah</string>
+    <string name="holyday8">Ramadan begynder</string>
+    <string name="holyday9">Laylat Ul Qadr</string>
+    <string name="holyday10">(Arafat af Eid Ul Fitr)</string>
+    <string name="holyday11">Eid Ul Fitrs 1. dag</string>
+    <string name="holyday12">Eid Ul Fitrs 2. dag</string>
+    <string name="holyday13">Eid Ul Fitrs 3. dag</string>
+    <string name="holyday14">Arafatsdag</string>
+    <string name="holyday15">Eid Ul Adha 1. dag</string>
+    <string name="holyday16">Eid Ul Adha 2. dag</string>
+    <string name="holyday17">Eid Ul Adha 3. dag</string>
+    <string name="holyday18">Eid Ul Adha 4. dag</string>
+    <!-- Dialog Actions -->
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="cancel">Annuller</string>
+    <string name="back">Tilbage</string>
+    <string name="finish">Udført</string>
+    <string name="continue_">Fortsæt</string>
+    <string name="vote">Stem</string>
+    <string name="mail">E-Mail</string>
+    <string name="test">Prøv</string>
+    <string name="share">Del</string>
+    <string name="refresh">Synkronisere</string>
+    <string name="translate">Oversæt</string>
+    <string name="language">Sprog</string>
+    <string name="shareText">Hej, tjek denne app for bønstider: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Systemsproget</string>
+    <string name="notification">Notifikation</string>
+    <string name="version">Version</string>
+    <string name="search">Søg</string>
+    <string name="delete">Slet</string>
+    <string name="no_internet">Ingen internetforbindelse</string>
+    <string name="error">Der opstod en fejl</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Morgensbøn</string>
+    <string name="imsak">Imsaak</string>
+    <string name="fajr">Fajr</string>
+    <string name="zuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Ishaa</string>
+    <string name="off">Sluk</string>
+</resources>

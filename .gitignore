@@ -6,5 +6,4 @@
 /crowdin.properties
 /local.properties
 app/mapping.txt
-**/translations
 app/play

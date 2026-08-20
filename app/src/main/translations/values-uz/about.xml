@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Xato haqida xabar berish</string>
+    <string name="report_bug_sum">Xato haqida xabar berish yoki yangi imkoniyatlarni so\'rash.</string>
+    <string name="translate_sum">Ushbu dasturni boshqa tillarga tarjima qilishda bizga yordam bering</string>
+    <string name="github_sum">Repozitoriyani fork qiling va o\'zgarishlarni push qiling yoki yangi kamchiliklarni jo\'nating.</string>
+    <string name="license">Litsenziya</string>
+    <string name="license_sum">Apache Licenseni tekshirin. 2.0 versiya litseziya shartlari Prayer timesda ishlatilgan</string>
+    <string name="library_licenses">Kutubxona litsenziyalari</string>
+    <string name="library_licenses_sum">Prayer times\'da ishlatiladigan boshqa litsenziyalarni tekshiring</string>
+    <string name="rate">Baholash</string>
+    <string name="rate_desc">Prayer times sizga ma\'qul bo\'lsa bizga ijobiy baholar qoldiring.</string>
+    <string name="sendMail_sum">E-Mail yuboring!</string>
+    <string name="beta_tester">Testlovchi bo\'lish</string>
+    <string name="beta_tester_desc">Ushbu yerni belgilab Beta Tester bo\'ling</string>
+    <string name="support_development">Dasturni qo\'llab-quvvatlash</string>
+    <string name="share_sum">Dasturni boshqalar bilan bo\'lishing!</string>
+    <string name="showIntro">Kirish qismini ko\'rsatish</string>
+    <string name="showIntro_sum">Ushbu dasturga kirish qismini ko\'rsatish</string>
+</resources>

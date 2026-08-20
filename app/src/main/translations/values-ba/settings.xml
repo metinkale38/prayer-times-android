@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Резерв күсермә</string>
+    <string name="backupRestore">Резервтағы копирлау/Тергеҙеү</string>
+    <string name="calendarIntegration">Календарьҙы Берҙәштереү</string>
+    <string name="dateAndTime">Дата һәм Сәғәт</string>
+    <string name="dateFormat1">31 Аҡъюлай 2013</string>
+    <string name="dateFormat2">31 Аҡъюлай 13</string>
+    <string name="dateFormat">Датаның Форматы</string>
+    <string name="hDateFormat1">30 Мөхәррәм 1434</string>
+    <string name="hDateFormat2">30 Мөхәррәм 34</string>
+    <string name="hdateFormat">Хижри Датаның Форматы</string>
+    <string name="hijriFix">Хижри Датаның Төҙәтеүе</string>
+    <string name="kerahatDuration">Мәкруһ Ваҡыты - Оҙаҡлыҡ</string>
+    <string name="kerahatIstiwa">Истива Ваҡыты (Өйлә Доғанан борон) </string>
+    <string name="kerahatMaghrib">Ҡояшбатыу (Аҡшам Доғанан борон)</string>
+    <string name="kerahatSun">Ҡояштыуышы (Иртәнге Доғанан борон)</string>
+    <string name="ongoingIcon">Белдереүҙен-Билдәсәге</string>
+    <string name="restore">Кире ҡайтарыу</string>
+    <string name="silenterType">Өнһөҙ Режим</string>
+    <string name="use12h">12 Сәғәт Форматты ҡулланырға</string>
+    <string name="useArabicNames">Ғәрәпсә Намаҙ Ваҡытын ҡулланырға</string>
+    <string name="useSilenter">Тауышһыҙ режим</string>
+    <string name="useVibration">Тирбәлеш</string>
+    <string name="vibrationDesc">Миллисекундтар - көтөү тирбәлеш көтөү…</string>
+    <string name="vibrationPattern">Тирбәлештен төрө</string>
+    <string name="widgetCountdownType">Виджет - Минуттарҙын Кире Хәсәптәү</string>
+    <string name="numbers">Һандар</string>
+    <string name="dateFormat3">31 Аҡъюлай </string>
+    <string name="hDateFormat3">30 Мөхәррәм </string>
+    <string name="useAlarm">Белдереү өсөн Уятҡыстын өндәрен ҡулланырға</string>
+    <string name="useAlarmDesc">Тәжрибә - әгәр Белдереүҙәр ваҡытында эшләмәһә, был Көйләүҙе һынап ҡарағыҙ. Статус юлында уятҡыс билдәсәһе ҡушыла!    </string>
+    <string name="ongoingNumber">Белдереү-Билдәсәһендә минуттар күргәтергә</string>
+    <string name="ongoingColor">Белдереү - Виджеттын Төҫтәре</string>
+    <string name="vakit_indicator">Намаҙ ваҡыттың индикаторы</string>
+    <string name="vakit_indicator_next">Артабан намаҙҙын ваҡыты</string>
+    <string name="vakit_indicator_current">Хәҙерге намаҙҙын ваҡыты</string>
+    <string name="show_notification_screen">Белдереү Экранды күргәтергә</string>
+    <string name="stopFacedown">Экранды аҫҡа борған саҡта Өндәр һүнә.</string>
+    <string name="widget_current_vakit">Виджет - Хәҙерге Ваҡыттың Альтернатив Индикаторы</string>
+    <string name="widget">Виджет</string>
+    <string name="showExtraTimes">Иртәнге Намаҙты һәм Әср Сәни күргәтергә</string>
+    <string name="showExtraTimesSummary">Тик FaziletTakvimi.com, NamazVakti.com һәм Ваҡыт Хәсәптәү өсөн</string>
+</resources>

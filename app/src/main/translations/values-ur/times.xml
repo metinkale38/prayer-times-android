@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">مزید ترجیحات کے لیے چالو کریں</string>
+    <string name="adjMidnight">آدھی رات</string>
+    <string name="calcMethod">طریقہ</string>
+    <string name="cities">شہر</string>
+    <string name="date">تاریخ</string>
+    <string name="delCityConfirm">کیا آپ واقعی %s شہر کو حذف کرنا چاہتے ہیں؟</string>
+    <string name="juristicHanafi">حنفی</string>
+    <string name="juristicShafi">شافعی</string>
+    <string name="kerahatTime">مکروہ وقت نماز</string>
+    <string name="showMore">مزید دکھائیں</string>
+    <string name="filePicker">فائل چننے والا</string>
+    <string name="other">دیگر
+</string>
+    <string name="sun">سورج</string>
+    <string name="timeBased">منٹ</string>
+    <string name="time">وقت</string>
+    <string name="volumeAlarm">الارم والیوم</string>
+    <string name="volumeMedia">میڈیا والیوم</string>
+    <string name="volumeRingtone">رنگ ٹون والیوم</string>
+    <string name="calculated">کیلکولیٹڈ</string>
+    <string name="autoremove_notification">اذان کے بعد نوٹیفیکیشن کو ہٹا دیں</string>
+    <string name="export">برآمد</string>
+    <string name="versionNotSupported">آپ کا اینڈرائیڈ ورژن اس کی حمایت نہیں کرتا!</string>
+    <string name="from">کی طرف سے</string>
+    <string name="to">تا</string>
+    <string name="asrSani">عصر ثانی</string>
+    <string name="asrAwwal">عصر اول</string>
+    <string name="customCalc">مرضی کے مطابق</string>
+    <string name="autoLocation">خودکار مقام</string>
+    <string name="stop">روکیں</string>
+    <string name="onTime">وقت پر</string>
+    <string name="beforeTime">%d منٹ پہلے</string>
+    <string name="afterTime">%1$d منٹ بعد میں</string>
+    <string name="addAudio">نئی آواز شامل کریں</string>
+    <string name="fajrShort">الصَّلَاۃُ خَیْر مِنَ النَّوْمِ</string>
+    <string name="takbir">تکبیر</string>
+    <string name="adhanDua">اذان کی دعا</string>
+    <string name="salavat">صلوات</string>
+    <string name="volume">صوت</string>
+    <string name="volumeNotification">اطلاع کا والیوم</string>
+    <string name="noti_exactAll">ہر نماز کے وقت</string>
+    <string name="ongoingNotification">نوٹیفیکیشن وجٹ</string>
+    <string name="prayerNotification">نوٹیفیکیشن برائے نماز</string>
+    <string name="sound">آواز</string>
+    <string name="vibration">وائبریشن</string>
+    <string name="midnight">آدھی رات</string>
+    <string name="silenter">۔۔۔ کیلئے خاموش</string>
+    <string name="minutes">منٹ</string>
+    <string name="both">دونوں</string>
+    <string name="addAlarm">الارم شامل کریں</string>
+    <string name="silenterNotificationTitle">خاموش کرانے والا</string>
+    <string name="silenterNotificationInfo">برائے مہربانی اوقات صلوۃ کو اپنا فون خاموش کرنے کی اجازت دیجئے</string>
+</resources>

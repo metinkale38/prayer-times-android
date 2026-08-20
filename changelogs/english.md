@@ -1,3 +1,9 @@
+### Version 3.9
+- City search has been outsourced to a dedicated server (smaller APK size, faster search)
+- All prayer times (except calculated times) are retrieved from a dedicated server (increased availability)
+- added new Widget
+- some fixes and improvements
+
 ### Version 3.7.7
 - Fix new IGMG Times for 2023
 

@@ -5,6 +5,7 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import dev.metinkale.calctimes.CalcTimes
 import dev.metinkale.calctimes.HighLatsAdjustment
+import dev.metinkale.calctimes.HighLatsType
 import dev.metinkale.calctimes.Method
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -34,6 +35,7 @@ class PrayTimesConfigurationViewModel(
                     Vakit.DHUHR -> it.method.copy(dhuhrMinute = mins)
                     Vakit.ASR -> if (num == 0) it.method.copy(asrShafiMinute = mins)
                     else it.method.copy(asrHanafiMinute = mins)
+
                     Vakit.MAGHRIB -> it.method.copy(maghribMinute = mins)
                     Vakit.ISHAA -> it.method.copy(ishaaMinute = mins)
                 }
@@ -49,6 +51,7 @@ class PrayTimesConfigurationViewModel(
                     Vakit.FAJR -> it.method.copy(
                         fajrAngle = angle.takeIf { it != 0.0 },
                         imsakAngle = angle.takeIf { it != 0.0 })
+
                     Vakit.MAGHRIB -> it.method.copy(maghribAngle = angle.takeIf { it != 0.0 })
                     Vakit.ISHAA -> it.method.copy(ishaaAngle = angle.takeIf { it != 0.0 })
                     else -> it.method
@@ -59,6 +62,17 @@ class PrayTimesConfigurationViewModel(
 
     fun setHighLats(highLatsAdjustment: HighLatsAdjustment) {
         prayTimes.update { it.copy(method = it.method.copy(highLatsAdjustment)) }
+    }
+
+    fun swapHighLatsType(type: HighLatsType? = null) {
+        prayTimes.update {
+            it.copy(
+                method = it.method.copy(
+                    highLatsType = type
+                        ?: if (it.method.highLatsType == HighLatsType.Max) HighLatsType.Strict else HighLatsType.Max
+                )
+            )
+        }
     }
 
     fun getAngle(vakit: Vakit): Double? = when (vakit) {

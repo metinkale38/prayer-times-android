@@ -35,8 +35,8 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.Module
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDay
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.utils.MultipleOrientationSlidingDrawer
 import com.metinkale.prayer.times.utils.RTLViewPager
@@ -71,8 +71,8 @@ class TimesFragment : BaseActivity.MainFragment(), OnPageChangeListener, View.On
         addCityFab = v.findViewById(R.id.addCity)
         addCityFab.setOnClickListener(this)
         pager.setRTLSupportAdapter(childFragmentManager, adapter)
-        val holyday = HijriDate.now().getHijriDay()
-        if (holyday != null && holyday != HijriDay.MONTH) {
+        val holyday = HijriDate.now().getEvent()
+        if (holyday != null && holyday != HijriEvent.MONTH) {
             val tv = v.findViewById<TextView>(R.id.holyday)
             tv.visibility = View.VISIBLE
             tv.text = LocaleUtils.getHolyday(holyday)

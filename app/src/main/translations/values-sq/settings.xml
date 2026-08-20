@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Rikëthimet</string>
+    <string name="backupRestore">Rikëthe këthe mrapa detajet</string>
+    <string name="calendarIntegration">Calendar Integration</string>
+    <string name="dateAndTime">Data dhe ora koha</string>
+    <string name="dateFormat1">31 Dhjetor 2013</string>
+    <string name="dateFormat2">31 Dhjetorë 13</string>
+    <string name="dateFormat">Forma e datës d m v</string>
+    <string name="hDateFormat1">30 Muharrem 1434,</string>
+    <string name="hDateFormat2">30 Muharrem 34,</string>
+    <string name="hdateFormat">Forma e datës Hijgjri d m v</string>
+    <string name="hijriFix">Akordimi i datës Hijgjri d m v</string>
+    <string name="kerahatDuration">Kohëzgjatja e ndalesës minuta</string>
+    <string name="kerahatIstiwa">Koha istiwa, para namazit të drekës </string>
+    <string name="kerahatMaghrib">Përëndimi (koha para faljes së akshamit)</string>
+    <string name="kerahatSun">Lindja e diellit (pas, namazit të sabahut)</string>
+    <string name="ongoingIcon">Shenjë e lajmërimit</string>
+    <string name="restore">Rikëthe,</string>
+    <string name="silenterType">pa zë</string>
+    <string name="use12h">Forma i orës12 ore</string>
+    <string name="useArabicNames">Përdorimi kohës së faljes Arabe</string>
+    <string name="useSilenter">PA ZË</string>
+    <string name="useVibration">Në dridhje mod</string>
+    <string name="vibrationDesc">Milisekonda -dridhje pritje dridhje…</string>
+    <string name="vibrationPattern">Dridhjet për patern</string>
+    <string name="widgetCountdownType">Widget - Countdown Minutes</string>
+    <string name="numbers">Numrat,</string>
+    <string name="dateFormat3">31 Dhjetorë </string>
+    <string name="hDateFormat3">30 Muharrem ,</string>
+    <string name="useAlarm">Përdoreni alarmin për njoftimet</string>
+    <string name="useAlarmDesc">Eksperimentale * mund të mos punojë gjithëqka siq duhet! Ju lutemi për mirëkuptim    </string>
+    <string name="ongoingNumber">Shfaq minutat te njoftimi</string>
+    <string name="ongoingColor">Ngjyra e widget njoftimit</string>
+    <string name="vakit_indicator">Ndërhyj në kohët e namazit</string>
+    <string name="vakit_indicator_next">Namazi në vijim</string>
+    <string name="vakit_indicator_current">Koha e namazit të tanishëm</string>
+    <string name="show_notification_screen">Shfaq njoftimet</string>
+    <string name="stopFacedown">Ndalo zërin duke e këthyer telefonin me ekran përmbys në rrafsh.</string>
+    <string name="widget_current_vakit">Widget- Mënyra tjera për ndërhyrje në kohë(të lajmërimit të namazit)</string>
+    <string name="widget">Widgets</string>
+    <string name="showExtraTimes">Shfaq lutjet e mëngjesit dhe drekës sani</string>
+    <string name="showExtraTimesSummary">E llogaritur vetëm për Fazilet Takvim.com,Namaz vakti.com</string>
+</resources>

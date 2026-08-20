@@ -33,7 +33,7 @@ object AboutShortcuts {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.shareText))
-        sendIntent.type = "name/plain"
+        sendIntent.type = "text/plain"
         ctx.startActivity(sendIntent)
     }
 
@@ -84,7 +84,7 @@ object AboutShortcuts {
     @JvmStatic
     fun mail(ctx: Context) {
         val emailIntent =
-            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "prayertimes38@gmail.com", null))
+            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "prayer-times-android@mk38.de", null))
         emailIntent.putExtra(
             Intent.EXTRA_SUBJECT,
             ctx.getString(R.string.appName) + " (com.metinkale.prayer)"

@@ -36,11 +36,12 @@ import com.metinkale.prayer.BuildConfig
 import com.metinkale.prayer.Module
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
+import com.metinkale.prayer.times.times.Source
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.LocaleUtils
 import dev.metinkale.calctimes.CalcTimes
 import dev.metinkale.calctimes.Method
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.CalcTimesSerializer
 import java.util.*
 
 /**
@@ -201,7 +202,7 @@ class MainActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickList
                 id = id,
                 name = name,
                 source = Source.Calc,
-                key = Source.Calc.serializeCalcTimes(
+                key = CalcTimesSerializer.serializeCalcTimes(
                     CalcTimes(
                         lat,
                         lng,

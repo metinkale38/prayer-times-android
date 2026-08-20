@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">گزارش اشکال</string>
+    <string name="report_bug_sum">گزارش مشکلات یا درخواست قابلیت جدید.</string>
+    <string name="translate_sum">به ما کمک کنید برای ترجمه این برنامه به زبانهای بیشتر</string>
+    <string name="github_sum">تغییر کار را فشار دهید و تغییرات را انجام دهید یا موضوعات جدید ارسال کنید.</string>
+    <string name="license">مجوز</string>
+    <string name="license_sum">مجوز آپاچی ، اصطلاحات مجوز نسخه 2.0 را که در روزهای نماز استفاده می شود ، بررسی کنید</string>
+    <string name="library_licenses">مجوزهای کتابخانه</string>
+    <string name="library_licenses_sum">نسخه های شخص ثالث را که در زمان نماز استفاده می شود ، بررسی کنید</string>
+    <string name="rate">امتیاز دادن</string>
+    <string name="rate_desc">اگر برنامه زمان نماز را دوست دارید ، رتبه مثبت به ما بدهید.</string>
+    <string name="sendMail_sum">برای من یک ایمیل بفرست!</string>
+    <string name="beta_tester">آزمایشگر نسخه‌ی بتا باشید</string>
+    <string name="beta_tester_desc">با کلیک کردن در اینجا به عنوان Beta Tester ثبت نام کنید</string>
+    <string name="support_development">حمایت از توسعه دهنده</string>
+    <string name="share_sum">به‌اشتراک‌گذاری برنامه با دوستان!</string>
+    <string name="showIntro">نمایش مقدمه</string>
+    <string name="showIntro_sum">معرفی مقدمات این برنامه</string>
+</resources>

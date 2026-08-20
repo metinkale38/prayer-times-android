@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Prijavi napako</string>
+    <string name="report_bug_sum">Prijavi napako ali zahtevaj nove funkcije.</string>
+    <string name="translate_sum">Pomagajte nam prevesti to aplikacijo v druge jezike</string>
+    <string name="github_sum">Vpeljite spremembe v repositorij in jih prijavite ali pošljite nove izdaje.</string>
+    <string name="license">Licence</string>
+    <string name="license_sum">Preglej licence Apache, različica licenčnih pogojev 2.0 se uporablja v Prayer times</string>
+    <string name="library_licenses">Licence knjižnic</string>
+    <string name="library_licenses_sum">Preveri knjižnice uporabljene v Prayer times</string>
+    <string name="rate">Oceni</string>
+    <string name="rate_desc">Pustite nam pozitivno oceno, če vam je všeč Prayer times.</string>
+    <string name="sendMail_sum">Pošljite mi e-mail!</string>
+    <string name="beta_tester">Postani preizkuševalec Beta</string>
+    <string name="beta_tester_desc">Registrirajte se kot preizkuševalec Beta s klikom tu</string>
+    <string name="support_development">Podprite razvoj</string>
+    <string name="share_sum">Delite to aplikacijo z drugimi!</string>
+    <string name="showIntro">Oglejte si intro</string>
+    <string name="showIntro_sum">Poglejte si navodila te aplikacije</string>
+</resources>

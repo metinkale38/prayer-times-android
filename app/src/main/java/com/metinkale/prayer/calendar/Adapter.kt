@@ -24,25 +24,18 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDate.Companion.getHolydaysForGregYear
-import com.metinkale.prayer.date.HijriDate.Companion.getHolydaysForHijriYear
-import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.utils.LocaleUtils.formatDate
 import com.metinkale.prayer.utils.LocaleUtils.getHolyday
 import com.metinkale.prayer.utils.LocaleUtils.locale
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent
 import java.util.Locale
 
 class Adapter(private val ctx: Context, year: Int, private val isHijri: Boolean) :
     ArrayAdapter<IntArray?>(ctx, R.layout.calendar_item) {
-    private var hijridays: List<Pair<HijriDate, HijriDay>>
+    private var hijridays: List<Pair<HijriDate, HijriEvent>> = (if (isHijri) HijriDate.getEventsForHijriYear(year) else HijriDate.getEventsForGregYear(year)).toList()
     private var hasInfo: Boolean =
         Locale("de").language == locale.language || Locale("tr").language == locale.language
-
-    init {
-        hijridays =
-            (if (isHijri) getHolydaysForHijriYear(year) else getHolydaysForGregYear(year)).toList()
-    }
 
     override fun getView(pos: Int, convertView: View?, parent: ViewGroup): View {
         lateinit var vh: ViewHolder
@@ -58,10 +51,10 @@ class Adapter(private val ctx: Context, year: Int, private val isHijri: Boolean)
             }
         }
 
-        val pair: Pair<HijriDate, HijriDay> = hijridays[pos]
+        val pair: Pair<HijriDate, HijriEvent> = hijridays[pos]
         val hijri = pair.first
         val holyday = pair.second
-        if (holyday === HijriDay.MONTH) {
+        if (holyday === HijriEvent.MONTH) {
             val greg = hijri.toLocalDate()
             vh.hicri.text = formatDate(hijri)
             vh.date.text = formatDate(greg)

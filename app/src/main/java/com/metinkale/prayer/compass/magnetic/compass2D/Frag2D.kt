@@ -13,80 +13,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.compass.magnetic.compass2D
 
-package com.metinkale.prayer.compass.magnetic.compass2D;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import com.metinkale.prayer.R
+import com.metinkale.prayer.compass.QiblaListener
+import com.metinkale.prayer.compass.magnetic.DegreeLowPassFilter
+import com.metinkale.prayer.utils.LocaleUtils.formatNumber
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-
-import com.metinkale.prayer.R;
-import com.metinkale.prayer.compass.QiblaListener;
-;
-import com.metinkale.prayer.compass.magnetic.DegreeLowPassFilter;
-import com.metinkale.prayer.utils.LocaleUtils;
-
-public class Frag2D extends Fragment implements QiblaListener {
-    private CompassView mCompassView;
-    private TextView mAngleTV;
-    private TextView mDistanceTV;
-    private int mAngle;
-    private double mQiblaDistance;
-    private double mQiblaAngle;
+class Frag2D : Fragment(), QiblaListener {
+    private var compassView: CompassView? = null
+    private var angleTV: TextView? = null
+    private var distanceTV: TextView? = null
+    private var angle = 0
+    private var qiblaDistance = 0.0
+    private var qiblaAngle = 0.0
 
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bdl) {
-        View v = inflater.inflate(R.layout.compass_2d, container, false);
-        mCompassView = v.findViewById(R.id.compass);
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, bdl: Bundle?): View {
+        val v = inflater.inflate(R.layout.compass_2d, container, false)
+        compassView = v.findViewById<CompassView?>(R.id.compass)
 
-        
-        mAngleTV = v.findViewById(R.id.angle);
-        mDistanceTV = v.findViewById(R.id.distance);
-        View info = (View) mAngleTV.getParent();
-        ViewCompat.setElevation(info, info.getPaddingTop());
-        
-        setAngle(mAngle);
-        setQiblaAngle(mQiblaAngle);
-        setQiblaDistance(mQiblaDistance);
-        return v;
+
+        angleTV = v.findViewById<TextView?>(R.id.angle)
+        distanceTV = v.findViewById<TextView?>(R.id.distance)
+        val info = angleTV!!.getParent() as View
+        ViewCompat.setElevation(info, info.getPaddingTop().toFloat())
+
+        setAngle(angle)
+        setQiblaAngle(qiblaAngle)
+        setQiblaDistance(qiblaDistance)
+        return v
     }
-    
 
-    @Override
-    public void setUserLocation(double lat, double lng, double alt) {
-    
+
+    override fun setUserLocation(lat: Double, lng: Double, alt: Double) {
     }
-    
-    @Override
-    public void setQiblaAngle(double angle) {
-        mQiblaAngle = angle;
-        if (mAngleTV != null) {
-            mAngleTV.setText(LocaleUtils.formatNumber(Math.round(angle) + "°"));
-            mCompassView.setQiblaAngle((int) Math.round(angle));
+
+    override fun setQiblaAngle(angle: Double) {
+        qiblaAngle = angle
+        if (angleTV != null) {
+            angleTV!!.setText(formatNumber(Math.round(angle).toString() + "°"))
+            compassView!!.setQiblaAngle(Math.round(angle).toInt())
         }
     }
-    
-    @Override
-    public void setQiblaDistance(double distance) {
-        mQiblaDistance = distance;
-        if (mDistanceTV != null)
-            mDistanceTV.setText(LocaleUtils.formatNumber(Math.round(distance) + "km"));
+
+    override fun setQiblaDistance(distance: Double) {
+        qiblaDistance = distance
+        if (distanceTV != null) distanceTV!!.setText(
+            formatNumber(
+                Math.round(distance).toString() + "km"
+            )
+        )
     }
-    
-    private final DegreeLowPassFilter lowPassFilter = new DegreeLowPassFilter();
-    
-    public void setAngle(int angle) {
-        mAngle = angle;
-        if (mCompassView == null)
-            return;
-        mCompassView.setAngle(lowPassFilter.filter(angle)[0]);
+
+    private val lowPassFilter = DegreeLowPassFilter()
+
+    fun setAngle(angle: Int) {
+        this@Frag2D.angle = angle
+        if (compassView == null) return
+        compassView!!.angle = lowPassFilter.filter(angle.toFloat())[0]
     }
-    
 }

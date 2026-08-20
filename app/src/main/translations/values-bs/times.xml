@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Uključi za više podešavanja</string>
+    <string name="adjAngle">Ugaonski način (ugao/60ti noći)</string>
+    <string name="adjMidnight">Ponoć</string>
+    <string name="adjTime">Vremenski način (1/7 noći)</string>
+    <string name="calcMethod">Metoda</string>
+    <string name="cities">Gradovi</string>
+    <string name="customVolume">Izaberi jačinu tona</string>
+    <string name="date">Datum</string>
+    <string name="delCityConfirm">Želite li zaista da izbrišete ovaj grad \"%1$s\"?</string>
+    <string name="delAlarmConfirm">Želite li zaista da izbrišete ovaj alarm \"%1$s\"?</string>
+    <string name="dlSound">Skini “%1$s” (%2$s)?</string>
+    <string name="highlatsAdj">Podešavanje za visoke geografske širine:</string>
+    <string name="fixTimezone">Vremenska zona +/-:</string>
+    <string name="juristicHanafi">Hanefi</string>
+    <string name="juristicShafi">Shafi (standard)</string>
+    <string name="kerahatTime">Mekruh vrijeme za namaz</string>
+    <string name="monthly">Mjesečni prikaz</string>
+    <string name="newAddCity">Koristi novi birač gradova</string>
+    <string name="shareTimes">Današnja vaktija za %1$s</string>
+    <string name="showMore">Pokaži više</string>
+    <string name="soundPicker">Izabirač tona</string>
+    <string name="filePicker">Birač fajla</string>
+    <string name="other">Ostalo</string>
+    <string name="sun">Sunce</string>
+    <string name="timeBased">Minute</string>
+    <string name="time">Vrijeme</string>
+    <string name="volumeAlarm">Jačina alarma</string>
+    <string name="volumeMedia">Jačina zvuka medija</string>
+    <string name="volumeRingtone">Jačina telefonskog tona</string>
+    <string name="calculated">Izračunato</string>
+    <string name="autoremove_notification">Izbriši obavjest poslje ezana</string>
+    <string name="export">Izvoz</string>
+    <string name="versionNotSupported">Vaša verzija Androida ne podržava ovu funkciju!</string>
+    <string name="from">Od</string>
+    <string name="to">Do</string>
+    <string name="addFromCSV">Dodaj iz CSV fajla</string>
+    <string name="csvFromFile">Unesi CSV iz fajla</string>
+    <string name="csvFromURL">Učitaj CSV iz URLa</string>
+    <string name="asrSani">Druga ikindija</string>
+    <string name="asrAwwal">Prva ikindija</string>
+    <string name="noAdjustment">Bez podešavanja</string>
+    <string name="customCalc">Prilagođeno</string>
+    <string name="customCalcDesc">Koristi prilagođene parametre za proračun vremena</string>
+    <string name="autoLocation">Automatska lokacija</string>
+    <string name="stop">Stop</string>
+    <string name="onTime">Na vrijeme</string>
+    <string name="beforeTime">%1$d minuta prije</string>
+    <string name="afterTime">%1$d minuta kasnije</string>
+    <string name="addAudio">Dodaj novi ton</string>
+    <string name="fajrShort">Namaz je bolji od spavanja</string>
+    <string name="takbir">Tekbir</string>
+    <string name="adhanDua">Ezan i dova</string>
+    <string name="salavat">Salavat</string>
+    <string name="volume">Jačina</string>
+    <string name="volumeNotification">Jačina zvuka za obavijesti</string>
+    <string name="noti_beforeTime">%1$d minuta prije %2$s</string>
+    <string name="noti_exactTime">u %2$s</string>
+    <string name="noti_exactAll">na svakom namaskom vremenu</string>
+    <string name="noti_beforeAll">%1$s minuta prije svakog namaskog vremena</string>
+    <string name="noti_afterAll">%1$s minuta poslje svakog namaskog vremena</string>
+    <string name="noti_eachDay">Svakog dana %2$s</string>
+    <string name="noti_weekday">Svaki %1$s %2$s</string>
+    <string name="ongoingNotification">Widget obavijesti</string>
+    <string name="prayerNotification">Obavijest namaza</string>
+    <string name="sound">Zvuk</string>
+    <string name="vibration">Vibracije</string>
+    <string name="noti_afterTime">%1$s minuta poslje %2$s</string>
+    <string name="midnight">Ponoć</string>
+    <string name="silenter">Bezvučno za</string>
+    <string name="minutes">Minuta</string>
+    <string name="both">Oboje</string>
+    <string name="addAlarm">Dodaj alarm</string>
+    <string name="silenterNotificationTitle">Bezvučno</string>
+    <string name="silenterNotificationInfo">Molimo Vas dodajte dozvolu Vaktiji da isključi ton vašeg mobitela</string>
+    <string name="batteryOptimizations">Optimizacija baterije</string>
+    <string name="batteryOptimizationsText">Za tačan alarm potrebno je da se optimizacija baterije za ovaj app isključi. Da li želite da to sada uradite?</string>
+</resources>

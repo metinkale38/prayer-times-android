@@ -37,7 +37,9 @@ import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.MainActivity
+import com.metinkale.prayer.times.calc.PrayTimesConfigurationFragment
 import com.metinkale.prayer.times.times.DayTimesWebProvider
+import com.metinkale.prayer.times.times.Source
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
@@ -215,7 +217,10 @@ class CityFragment : Fragment() {
                 )
             )
         } else if (id == R.id.settings) {
-            (parentFragment as? TimesFragment)?.moveToFrag(SettingsFragment.create(times.id))
+            if (times.source == Source.Calc)
+                (parentFragment as? TimesFragment)?.moveToFrag(PrayTimesConfigurationFragment.from(times))
+            else
+                (parentFragment as? TimesFragment)?.moveToFrag(SettingsFragment.create(times.id))
         }
         return super.onOptionsItemSelected(item)
     }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Activer pour plus Préférences</string>
+    <string name="adjAngle">Basé sur l\'angle (angle/60ème de la nuit)</string>
+    <string name="adjMidnight">Minuit</string>
+    <string name="adjTime">Basé sur le temps (1/7ème de la nuit)</string>
+    <string name="calcMethod">Méthode</string>
+    <string name="cities">Villes</string>
+    <string name="customVolume">Choisissez le niveau du volume</string>
+    <string name="date">Date</string>
+    <string name="delCityConfirm">Voulez-vous vraiment supprimer l\'emplacement %1$s ?</string>
+    <string name="delAlarmConfirm">Voulez-vous vraiment supprimer le rappel \"%1$s\" ?</string>
+    <string name="dlSound">Télécharger les voix “%1$s” (%2$s)?</string>
+    <string name="highlatsAdj">Ajustement des Latitudes hautes :</string>
+    <string name="fixTimezone">Fuseau horaire +/-:</string>
+    <string name="juristicHanafi">Hanafi</string>
+    <string name="juristicShafi">Shafi\'i (par défaut)</string>
+    <string name="kerahatTime">Temps de prière détestable</string>
+    <string name="monthly">Vue mensuelle</string>
+    <string name="newAddCity">Choisir une nouvelle ville</string>
+    <string name="shareTimes">Les temps de prières d\'aujourd\'hui pour %1$s</string>
+    <string name="showMore">Afficher plus</string>
+    <string name="soundPicker">Choix du son</string>
+    <string name="filePicker">Choix du fichier</string>
+    <string name="other">Autres</string>
+    <string name="sun">Soleil</string>
+    <string name="timeBased">Minutes</string>
+    <string name="time">Temps</string>
+    <string name="volumeAlarm">Volume d\'alarme</string>
+    <string name="volumeMedia">Volume du multimédia</string>
+    <string name="volumeRingtone">Volume de la sonnerie</string>
+    <string name="calculated">Déterminé par calcul</string>
+    <string name="autoremove_notification">Supprimer la Notification après l’Adhan</string>
+    <string name="export">Exporter</string>
+    <string name="versionNotSupported">Votre version d’Android ne supporte pas cela !</string>
+    <string name="from">De</string>
+    <string name="to">À</string>
+    <string name="addFromCSV">Ajouter depuis un fichier CSV</string>
+    <string name="csvFromFile">Charger le contenu CSV depuis un fichier</string>
+    <string name="csvFromURL">Charger le contenu CSV depuis une URL</string>
+    <string name="asrSani">Asr Sânî</string>
+    <string name="asrAwwal">Asr Awwal</string>
+    <string name="noAdjustment">Aucun ajustement</string>
+    <string name="customCalc">Personnalisé</string>
+    <string name="customCalcDesc">Personnaliser les paramètres de calcul</string>
+    <string name="autoLocation">Position automatique</string>
+    <string name="stop">Arrêter</string>
+    <string name="onTime">À l\'heure</string>
+    <string name="beforeTime">%1$d minutes avant</string>
+    <string name="afterTime">%1$d minutes plus tard</string>
+    <string name="addAudio">Ajouter un nouveau son</string>
+    <string name="fajrShort">La prière vaut mieux que le sommeil</string>
+    <string name="takbir">Takbir (Allahou Akbar)</string>
+    <string name="adhanDua">Supplication de l\'Adhan</string>
+    <string name="salavat">Louanges et supplications</string>
+    <string name="volume">Volume</string>
+    <string name="volumeNotification">Volume des notifications</string>
+    <string name="noti_beforeTime">%1$d minutes avant %2$s</string>
+    <string name="noti_exactTime">à %2$s</string>
+    <string name="noti_exactAll">à chaque heure de prière</string>
+    <string name="noti_beforeAll">%1$s minutes avant chaque heure de prière</string>
+    <string name="noti_afterAll">%1$s minutes après chaque heure de prière</string>
+    <string name="noti_eachDay">Tous les jours %2$s</string>
+    <string name="noti_weekday">Chaque %1$s %2$s</string>
+    <string name="ongoingNotification">Widget de notification</string>
+    <string name="prayerNotification">Notification pour le temps de la prière</string>
+    <string name="sound">Son</string>
+    <string name="vibration">Vibration</string>
+    <string name="noti_afterTime">%1$s minutes après %2$s</string>
+    <string name="midnight">Minuit</string>
+    <string name="silenter">Mode silencieux pendant</string>
+    <string name="minutes">Minutes</string>
+    <string name="both">Les deux</string>
+    <string name="addAlarm">Ajouter une alarme</string>
+    <string name="silenterNotificationTitle">Silencieux</string>
+    <string name="silenterNotificationInfo">Veuillez accorder à l\'application Prayer Times la permission d\'activer le mode silencieux de votre téléphone</string>
+    <string name="batteryOptimizations">Optimisations de la batterie</string>
+    <string name="batteryOptimizationsText">Pour des notifications précises, vous devez désactiver les optimisations de batterie pour cette application. Voulez-vous le faire maintenant ?</string>
+</resources>

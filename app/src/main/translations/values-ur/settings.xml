@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">بیک اپ</string>
+    <string name="backupRestore">بیک اپ/بحالی</string>
+    <string name="calendarIntegration">کیلنڈر انٹیگریشن</string>
+    <string name="dateAndTime">تاریخ اور وقت</string>
+    <string name="dateFormat1">31 دسمبر2013</string>
+    <string name="dateFormat2">31 دسمبر13</string>
+    <string name="dateFormat">تاریخ کی وضع</string>
+    <string name="hDateFormat1">30 محرم 1434</string>
+    <string name="hDateFormat2">30 محرم 34</string>
+    <string name="hdateFormat">ہجری وضع تاریخ</string>
+    <string name="hijriFix">ہجری تاریخ کی ترتیب</string>
+    <string name="kerahatDuration">مکروہ وقت - مدت</string>
+    <string name="kerahatMaghrib">غروبِ آفتاب (مغرب نماز سے پہلے)</string>
+    <string name="kerahatSun">طلوعِ آفتاب (صبح نماز کے بعد)</string>
+    <string name="ongoingIcon">اطلاعات کا آئیکن</string>
+    <string name="restore">بحال کریں</string>
+    <string name="silenterType">خاموش وضع</string>
+    <string name="use12h">12 گھنٹے کا فارمیٹ استعمال کریں</string>
+    <string name="useArabicNames">عربی نماز کے اوقات استعمال کریں</string>
+    <string name="useSilenter">خاموش</string>
+    <string name="useVibration">وائبریشن</string>
+    <string name="vibrationDesc">ملی سیکنڈز - انتظار، وائبریشن، انتظار…</string>
+    <string name="vibrationPattern">وائبریشن کا نمونہ</string>
+    <string name="widgetCountdownType">ویجٹ - منٹوں کا کاؤنٹ ڈاؤن</string>
+    <string name="numbers">ڈجٹس</string>
+    <string name="dateFormat3">31 دسمبر </string>
+    <string name="hDateFormat3">30 محرم </string>
+    <string name="useAlarm">اطلاعات کے لیے الم استعمال کریں</string>
+    <string name="useAlarmDesc">تجرباتی - اگر اطلاعات وقت پر نہیں ہو رہی ہیں، تو آپ یہ ترتیب آزما سکتے ہیں۔ اس سیٹنگ کے تحت، ایک الم کلاک آئیکن سٹیٹس بار میں شامل ہوگا!    </string>
+    <string name="ongoingNumber">نوٹیفیکیشن آئیکن میں منٹ دکھائیں</string>
+</resources>

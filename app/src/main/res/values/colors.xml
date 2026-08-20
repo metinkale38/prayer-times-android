@@ -15,7 +15,7 @@
   -->
 
 <resources>
-
+    <color name="ic_background">#FFFFFF</color>
     <color name="colorPrimaryDark">#01579b</color>
     <color name="colorPrimary">#0288d1</color>
     <color name="accent">#4fc3f7</color>

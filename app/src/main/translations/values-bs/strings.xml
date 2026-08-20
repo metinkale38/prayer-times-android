@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Vaktija</string>
+    <string name="calendar">Islamski praznici</string>
+    <string name="compass">Kibla kompas</string>
+    <string name="dhikr">Zikr</string>
+    <string name="hadith">Sahih al-Bukhary</string>
+    <string name="names">99 Allahovih imena</string>
+    <string name="tesbihat">Tespihati</string>
+    <string name="missedPrayers">Propušteni namazi</string>
+    <string name="settings">Postavke</string>
+    <string name="about">O ovoj aplikaciji</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Ako želite da Vam se islamski praznici unesu u kalendar onda morate ovoj aplikaciji dati pristup kalendaru, inače to nije potrebno.</string>
+    <string name="permissionCalendarTitle">Dozvola za kalendar</string>
+    <string name="permissionCameraText">Potrebno je dati pristup kameri ako želite koristiti 3D kompas. Inače možete samo 2D kompas koristiti.</string>
+    <string name="permissionCameraTitle">Dozvola za kameru</string>
+    <string name="permissionLocationText">Pristup lokaciji je potreban da bi našli Vaš grad. Ako ne dozvolite pristup ovoj aplikaciji na lokaciju, onda morate unijeti svoj grad ručno.</string>
+    <string name="permissionLocationTitle">Pristup lokaciji</string>
+    <string name="permissionStorageText">Pristup memoriji je potreban. Bez ovog pristupa neke funkcije neće raditi.</string>
+    <string name="permissionStorageTitle">Pristup memoriji</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Muharrem</string>
+    <string name="hmonth2">Safer</string>
+    <string name="hmonth3">Rebiu-l-evvel</string>
+    <string name="hmonth4">Rebiu-l-ahir</string>
+    <string name="hmonth5">Džumade-l-ula</string>
+    <string name="hmonth6">Džumade-l-uhra</string>
+    <string name="hmonth7">Redžeb</string>
+    <string name="hmonth8">Ša\'ban</string>
+    <string name="hmonth9">Ramazan</string>
+    <string name="hmonth10">Ševval</string>
+    <string name="hmonth11">Zu-l-Kade</string>
+    <string name="hmonth12">Zu-l-hidže</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Januar</string>
+    <string name="gmonth2">Februar</string>
+    <string name="gmonth3">Mart</string>
+    <string name="gmonth4">April</string>
+    <string name="gmonth5">Maj</string>
+    <string name="gmonth6">Juni</string>
+    <string name="gmonth7">Juli</string>
+    <string name="gmonth8">August</string>
+    <string name="gmonth9">Septembar</string>
+    <string name="gmonth10">Oktobar</string>
+    <string name="gmonth11">Novembar</string>
+    <string name="gmonth12">Decembar</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Nova hidžretska godina</string>
+    <string name="holyday2">Ašura</string>
+    <string name="holyday3">Mevlud</string>
+    <string name="holyday4">Početak tri sveta mjeseca</string>
+    <string name="holyday5">Lejletu-r-regaib</string>
+    <string name="holyday6">Lejletu-l-mi\'radž</string>
+    <string name="holyday7">Lejletu-l-berat</string>
+    <string name="holyday8">Početak ramazana</string>
+    <string name="holyday9">Lejletu-l-Kadr</string>
+    <string name="holyday10">Ramazanski Arefat </string>
+    <string name="holyday11">Ramazanski bajram, 1. dan</string>
+    <string name="holyday12">Ramazanski bajram, 2. dan</string>
+    <string name="holyday13">Ramazanski bajram, 3. dan</string>
+    <string name="holyday14">Dan Arefata</string>
+    <string name="holyday15">Kurban bajram, 1. dan</string>
+    <string name="holyday16">Kurban bajram 2. dan</string>
+    <string name="holyday17">Kurban bajram 3. dan</string>
+    <string name="holyday18">Kurban bajram 4. dan</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Ok</string>
+    <string name="yes">Ja</string>
+    <string name="no">Ne</string>
+    <string name="cancel">Poništi</string>
+    <string name="back">Nazad</string>
+    <string name="finish">Završeno</string>
+    <string name="continue_">Nastavi</string>
+    <string name="vote">Ocijeni</string>
+    <string name="mail">E-mail</string>
+    <string name="test">Pokušaj</string>
+    <string name="share">Podijeliti</string>
+    <string name="refresh">Sinkronizacija</string>
+    <string name="translate">Prevesti</string>
+    <string name="language">Jezik</string>
+    <string name="shareText">Hej, pogledaj i ovu aplikaciju za namaska vremena: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Jezik sistema</string>
+    <string name="notification">Obavijest</string>
+    <string name="version">Verzija</string>
+    <string name="search">Potraga</string>
+    <string name="delete">Izbriši</string>
+    <string name="no_internet">Nema konekcije sa internetom</string>
+    <string name="error">Došlo je do greške</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Sabah</string>
+    <string name="imsak">Zora</string>
+    <string name="fajr">Sabah</string>
+    <string name="zuhr">Podne</string>
+    <string name="asr">Ikindija</string>
+    <string name="maghrib">Akšam</string>
+    <string name="ishaa">Jacija</string>
+    <string name="off">Isključen</string>
+    <string name="clickToDisableNotification">Kliknite ovdje da bi ovu obavijest isključili</string>
+</resources>

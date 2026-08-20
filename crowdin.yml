@@ -5,74 +5,64 @@
 
 "files": [
   {
-    "source": "features/base/src/main/res/values/strings.xml",
-    "translation": "features/base/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/strings.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/strings.xml",
     "dest": "base.xml"
   },
   {
-    "source": "features/about/src/main/res/values/strings.xml",
-    "translation": "features/about/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/about.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/about.xml",
     "dest": "about.xml"
   },
   {
-    "source": "features/calendar/src/main/res/values/strings.xml",
-    "translation": "features/calendar/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/calendar.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/calendar.xml",
     "dest": "calendar.xml"
   },
   {
-    "source": "features/compass/src/main/res/values/strings.xml",
-    "translation": "features/compass/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/compass.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/compass.xml",
     "dest": "compass.xml"
   },
   {
-    "source": "features/dhikr/src/main/res/values/strings.xml",
-    "translation": "features/dhikr/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/dhikr.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/dhikr.xml",
     "dest": "dhikr.xml"
   },
   {
-    "source": "features/hadith/src/main/res/values/strings.xml",
-    "translation": "features/hadith/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/hadith.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/hadith.xml",
     "dest": "hadith.xml"
   },
   {
-    "source": "features/intro/src/main/res/values/strings.xml",
-    "translation": "features/intro/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/intro.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/intro.xml",
     "dest": "intro.xml"
   },
   {
-    "source": "features/missedprayers/src/main/res/values/strings.xml",
-    "translation": "features/missedprayers/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/missedprayers.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/missedprayers.xml",
     "dest": "missedprayers.xml"
   },
   {
-    "source": "features/names/src/main/res/values/strings.xml",
-    "translation": "features/names/src/main/translations/values-%two_letters_code%/strings.xml",
-    "dest": "names.xml"
-  },
-  {
-    "source": "features/settings/src/main/res/values/strings.xml",
-    "translation": "features/settings/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/settings.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/settings.xml",
     "dest": "settings.xml"
   },
   {
-    "source": "features/tesbihat/src/main/res/values/strings.xml",
-    "translation": "features/tesbihat/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/tesbihat.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/tesbihat.xml",
     "dest": "tesbihat.xml"
   },
   {
-    "source": "features/times/src/main/res/values/strings.xml",
-    "translation": "features/times/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/times.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/times.xml",
     "dest": "times.xml"
   },
   {
-    "source": "features/widget/src/main/res/values/strings.xml",
-    "translation": "features/widget/src/main/translations/values-%two_letters_code%/strings.xml",
+    "source": "app/src/main/res/values/widget.xml",
+    "translation": "app/src/main/translations/values-%two_letters_code%/widget.xml",
     "dest": "widget.xml"
-  },
-  {
-    "source": "wear/src/main/res/values/strings.xml",
-    "translation": "wear/src/main/translations/values-%two_letters_code%/strings.xml",
-    "dest": "wear.xml"
   }
 ]
 

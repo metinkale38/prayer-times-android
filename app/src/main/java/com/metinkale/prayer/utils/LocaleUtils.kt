@@ -31,9 +31,11 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDay
-import com.metinkale.prayer.date.HijriMonth
+import com.metinkale.prayer.calendar.nameRes
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent
+import dev.metinkale.openprayertimes.hijri.HijriMonth
+import kotlinx.datetime.toJavaLocalDate
 import java.text.DateFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
@@ -48,18 +50,18 @@ import kotlin.math.pow
 object LocaleUtils {
 
 
-    @JvmStatic
+
     val locales: List<Locale>
         get() = (listOfNotNull(
             Preferences.LANGUAGE.takeIf { it != "system" }).map { Locale(it) } + LocaleListCompat.getDefault()
             .let { list -> (0 until list.size()).mapNotNull { list[it] } }).distinctBy { it.language }
 
 
-    @JvmStatic
+
     val locale
         get() = locales.first()
 
-    @JvmStatic
+
     fun init(c: Context) {
         CrashReporter.setCustomKey("lang", Preferences.LANGUAGE)
         CrashReporter.setCustomKey("digits", Preferences.DIGITS)
@@ -121,7 +123,7 @@ object LocaleUtils {
     }
 
 
-    @JvmStatic
+
     fun getLanguage(@Size(min = 1) vararg allow: String): String {
         val lang = locale
         val locales = arrayOfNulls<Locale>(allow.size)
@@ -134,9 +136,9 @@ object LocaleUtils {
         return allow[0]
     }
 
-    @JvmStatic
-    fun getHolyday(which: HijriDay): String? =
-        which.resId?.let { App.get().resources.getString(it) }
+
+    fun getHolyday(which: HijriEvent): String? =
+        which.nameRes?.let { App.get().resources.getString(it) }
 
 
     private fun getGregMonth(which: Month): String {
@@ -146,7 +148,7 @@ object LocaleUtils {
     }
 
     private fun getHijriMonth(which: HijriMonth): String {
-        return App.get().resources.getString(which.resId)
+        return App.get().resources.getString(which.nameRes)
     }
 
     fun az(i: Int): String {
@@ -159,7 +161,7 @@ object LocaleUtils {
         return if (hicri) Preferences.HIJRI_DATE_FORMAT else Preferences.DATE_FORMAT
     }
 
-    @JvmStatic
+
     fun formatDate(date: HijriDate): String {
         var format = getDateFormat(true)
         format = format.replace("DD", az(date.day, 2))
@@ -177,7 +179,9 @@ object LocaleUtils {
         return formatNumber(format)
     }
 
-    @JvmStatic
+    fun formatDate(date: kotlinx.datetime.LocalDate) = formatDate(date.toJavaLocalDate())
+
+
     fun formatDate(date: LocalDate): String {
         var format = getDateFormat(false)
         format = format.replace("DD", az(date.dayOfMonth, 2))
@@ -205,7 +209,7 @@ object LocaleUtils {
         return ret.toString()
     }
 
-    @JvmStatic
+
     fun formatNumber(number: String): String {
         var str = number
         if (Preferences.DIGITS == "normal") return str
@@ -227,12 +231,12 @@ object LocaleUtils {
         return builder.toString()
     }
 
-    @JvmStatic
+
     fun formatNumber(nr: Int): String {
         return formatNumber(nr.toString() + "")
     }
 
-    @JvmStatic
+
     fun wrapContext(context: Context): Context {
         val res = context.resources
         val configuration = res.configuration
@@ -248,7 +252,7 @@ object LocaleUtils {
         )
     }
 
-    @JvmStatic
+
     fun getSupportedLanguages(c: Context): List<Translation> {
         val languages = c.resources.getStringArray(R.array.languages)
         val translations: MutableList<Translation> = ArrayList()

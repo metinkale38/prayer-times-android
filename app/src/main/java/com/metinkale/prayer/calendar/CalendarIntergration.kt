@@ -5,10 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getHolyday
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
@@ -26,8 +26,8 @@ fun runCalendarIntegration(ctx: Context) {
         appendLine("PRODID:-//$prodId")
         appendLine("METHOD:PUBLISH")
         for (year in LocalDate.now().year..HijriDate.MAX_GREG_YEAR) {
-            for (date in HijriDate.getHolydaysForGregYear(year)) {
-                if (date.second == HijriDay.MONTH) continue
+            for (date in HijriDate.getEventsForGregYear(year)) {
+                if (date.second == HijriEvent.MONTH) continue
                 appendLine("BEGIN:VEVENT")
                 appendLine("TRANSP:TRANSPARENT")
                 appendLine("SUMMARY:" + getHolyday(date.second))

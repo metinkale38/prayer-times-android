@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="silent">خاموش</string>
+    <string name="widgetDesign">تھیم</string>
+    <!-- Widget Themes -->
+    <string name="transWhiteWidget">شفاف سفید وجٹ</string>
+    <string name="transWidget">شفاف وجٹ</string>
+    <string name="whiteWidget">سفید وجٹ</string>
+    <string name="blackWidget">سیاہ وجٹ</string>
+    <!-- Widget Types -->
+    <string name="widgetClock">اوقات نماز 4x2 کلاک</string>
+    <string name="widgetLong">اوقات نماز 4x1 وجٹ</string>
+    <string name="widgetLabel">اوقات نماز 2x2 وجٹ</string>
+    <string name="widgetSilenter">اوقات نماز خاموش وجٹ</string>
+    <string name="widgetSmall">اوقات نماز 1x1 وجٹ</string>
+    <string name="widgetClock2">اوقات نماز 2x2 کلاک</string>
+</resources>

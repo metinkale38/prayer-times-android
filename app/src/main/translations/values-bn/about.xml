@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">বাগ রিপোর্ট</string>
+    <string name="report_bug_sum">বাগ রিপোর্ট করুন বা নতুন ফিচারের জন্য অনুরোধ করুন।.</string>
+    <string name="translate_sum">এই অ্যাপ্লিকেশন অন্যান্য ভাষায় অনুবাদ করতে আমাদের সহায়তা করুন</string>
+    <string name="github_sum">রেপো কাঁটাচামচ করুন এবং পরিবর্তন দিন বা নতুন সমস্যা জমা দিন।.</string>
+    <string name="license">লাইসেন্স</string>
+    <string name="license_sum">নামাজের সময় অ্যাপাচি লাইসেন্স দেখুন, সংস্করণ 2.0 লাইসেন্স শর্তাদি ব্যবহার করুন Check</string>
+    <string name="library_licenses">গ্রন্থাগার লাইসেন্স</string>
+    <string name="library_licenses_sum">নামাজের সময় ব্যবহৃত তৃতীয় পক্ষের libs চেক করুন</string>
+    <string name="rate">রেট দিন</string>
+    <string name="rate_desc">নামাজের সময় পছন্দ হলে আমাদের ইতিবাচক রেটিং দিন।.</string>
+    <string name="sendMail_sum">আমাকে একটি ইমেইল পাঠান!</string>
+    <string name="beta_tester">একটি বিটা পরীক্ষক হয়ে উঠুন</string>
+    <string name="beta_tester_desc">এখানে ক্লিক করে বিটা পরীক্ষক হিসাবে নিবন্ধন করুন</string>
+    <string name="support_development">আমাদের উন্নয়নে সহায়তা করুন</string>
+    <string name="share_sum">অন্যদের সাথে এই অ্যাপটি শেয়ার করুন!</string>
+    <string name="showIntro">পরিচয় দেখুন</string>
+    <string name="showIntro_sum">এই অ্যাপ্লিকেশন এর ভূমিকা দেখুন</string>
+</resources>

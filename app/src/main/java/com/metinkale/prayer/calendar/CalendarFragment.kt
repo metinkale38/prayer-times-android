@@ -33,16 +33,16 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate.Companion.MAX_GREG_YEAR
-import com.metinkale.prayer.date.HijriDate.Companion.MAX_HIJRI_YEAR
-import com.metinkale.prayer.date.HijriDate.Companion.fromLocalDate
-import com.metinkale.prayer.date.HijriDate.Companion.now
-import com.metinkale.prayer.date.HijriDay
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.LocaleUtils.getLanguage
 import com.metinkale.prayer.utils.LocaleUtils.locale
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent
+import kotlinx.datetime.toKotlinLocalDate
 import java.time.LocalDate
 import java.util.Locale
+
+
 
 class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
     private lateinit var adapter: PagerAdapter
@@ -57,7 +57,7 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
         adapter = HijriPagerAdapter(childFragmentManager)
         viewPager = v.findViewById(R.id.pager)
         viewPager.adapter = adapter
-        viewPager.currentItem = now().year - MIN_HIJRI
+        viewPager.currentItem = HijriDate.now().year - MIN_HIJRI
         return v
     }
 
@@ -75,7 +75,7 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
             } else {
                 adapter = HijriPagerAdapter(childFragmentManager)
                 viewPager.adapter = adapter
-                viewPager.currentItem = now().year - MIN_HIJRI
+                viewPager.currentItem = HijriDate.now().year - MIN_HIJRI
             }
             adapter.notifyDataSetChanged()
         }
@@ -83,7 +83,7 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
     }
 
     override fun onItemClick(arg0: AdapterView<*>?, v: View, pos: Int, arg3: Long) {
-        val hijriday = v.tag as? HijriDay
+        val hijriday = v.tag as? HijriEvent
         hijriday?.assetPath?.let { path ->
             val asset = getLanguage("en", "de", "tr") + path
             if (Locale("de").language == locale.language || Locale("tr").language == locale.language) {
@@ -134,7 +134,7 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
         }
 
         override fun getCount(): Int {
-            return MAX_GREG_YEAR - MIN_GREG + 1
+            return HijriDate.MAX_GREG_YEAR - MIN_GREG + 1
         }
 
         override fun getPageTitle(position: Int): CharSequence {
@@ -161,7 +161,7 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
         }
 
         override fun getCount(): Int {
-            return MAX_HIJRI_YEAR - MIN_HIJRI + 1
+            return HijriDate.MAX_HIJRI_YEAR - MIN_HIJRI + 1
         }
 
         override fun getPageTitle(position: Int): CharSequence {
@@ -177,6 +177,6 @@ class CalendarFragment : BaseActivity.MainFragment(), OnItemClickListener {
 
     companion object {
         private const val MIN_GREG = 1900
-        private val MIN_HIJRI = fromLocalDate(LocalDate.of(MIN_GREG, 1, 1)).year
+        private val MIN_HIJRI = HijriDate.fromLocalDate(LocalDate.of(MIN_GREG, 1, 1).toKotlinLocalDate()).year
     }
 }

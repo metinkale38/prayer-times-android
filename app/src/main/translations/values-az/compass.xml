@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="angle">Bucaq</string>
+    <string name="distance">Məsafə</string>
+    <string name="noConnection">Bağlantı yoxdur</string>
+    <string name="switchCompass">Kompas/Xəritə</string>
+    <string name="touchToSelectCity">Şəhər seçmək üçün buraya toxunun</string>
+    <string name="permissionNotGranted">İcazə verilmədi.</string>
+    <string name="compass_type_reminder">Düzgün qiblə istiqamətini tapmağın fərqli üsullarını sınamaq üçün buraya vurun.</string>
+    <string name="compassCalibrationTitle">Kompası kalibrlə</string>
+    <string name="compassCalibrationSubTitle">Telefonunuzu 3 dəfə belə əyərək hərəkət etdirin:</string>
+    <string name="accuracy">Dəqiqlik</string>
+    <string name="accuracy_low">Az</string>
+    <string name="accuracy_medium">Orta</string>
+    <string name="accuracy_high">Yüksək</string>
+</resources>

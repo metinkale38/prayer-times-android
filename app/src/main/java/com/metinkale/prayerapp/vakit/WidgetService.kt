@@ -98,6 +98,11 @@ class WidgetService : Service(), OnTimeTickListener {
                 WidgetProviderClock2.updateAppWidget(ctx, manager, i)
                 hasWidgets = true
             }
+            thisWidget = ComponentName(ctx, WidgetProviderProgress::class.java)
+            for (i in manager.getAppWidgetIds(thisWidget)) {
+                WidgetProviderProgress.updateAppWidget(ctx, manager, i)
+                hasWidgets = true
+            }
 
             if (!hasWidgets) {
                 stopSelf()

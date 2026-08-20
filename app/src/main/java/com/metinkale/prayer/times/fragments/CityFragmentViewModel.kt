@@ -3,8 +3,6 @@ package com.metinkale.prayer.times.fragments
 import com.metinkale.prayer.App
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.times.drawableId
 import com.metinkale.prayer.times.times.DayTimesWebProvider
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
@@ -14,6 +12,7 @@ import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.times.times.isKerahat
 import com.metinkale.prayer.times.utils.secondsFlow
 import com.metinkale.prayer.utils.LocaleUtils
+import dev.metinkale.openprayertimes.hijri.HijriDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDate
@@ -68,10 +67,10 @@ data class CityFragmentViewModel(
                     else Vakit.ASR.getString(1),
                     maghribTitle = Vakit.MAGHRIB.string,
                     ishaTitle = Vakit.ISHAA.string,
-                    fajrTime = LocaleUtils.formatTimeForHTML(if (hasSabah && alt) daytimes?.sabah else daytimes?.fajr),
+                    fajrTime = LocaleUtils.formatTimeForHTML(if (hasSabah && alt) daytimes.sabah else daytimes?.fajr),
                     sunTime = LocaleUtils.formatTimeForHTML(daytimes?.sun),
                     dhuhrTime = LocaleUtils.formatTimeForHTML(daytimes?.dhuhr),
-                    asrTime = LocaleUtils.formatTimeForHTML(if (hasAsr2 && alt) daytimes?.asrHanafi else daytimes?.asr),
+                    asrTime = LocaleUtils.formatTimeForHTML(if (hasAsr2 && alt) daytimes.asrHanafi else daytimes?.asr),
                     maghribTime = LocaleUtils.formatTimeForHTML(daytimes?.maghrib),
                     ishaTime = LocaleUtils.formatTimeForHTML(daytimes?.ishaa),
                     countdown = LocaleUtils.formatPeriod(

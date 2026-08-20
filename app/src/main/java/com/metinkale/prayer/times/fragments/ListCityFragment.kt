@@ -27,19 +27,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.R
+import com.metinkale.prayer.times.times.Source
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.utils.UUID
-import dev.metinkale.openprayertimes.Entry
-import dev.metinkale.openprayertimes.SearchEntry
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.City
+import dev.metinkale.openprayertimes.OpenPrayerTimes
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 
-class ListCityFragment : BaseActivity.MainFragment(), Observer<Pair<List<String>?, Entry?>> {
+class ListCityFragment : BaseActivity.MainFragment(), Observer<Pair<List<String>?, City?>> {
 
     private lateinit var listView: ListView
-    private val listdata = MutableLiveData<Pair<List<String>?, Entry?>>()
+    private val listdata = MutableLiveData<Pair<List<String>?, City?>>()
     private lateinit var path: List<String>
 
 
@@ -51,17 +51,17 @@ class ListCityFragment : BaseActivity.MainFragment(), Observer<Pair<List<String>
         val v = inflater.inflate(R.layout.vakit_listcity, container, false)
         listView = v.findViewById(R.id.listView)
 
-        lifecycleScope.launch { listdata.postValue(SearchEntry.list(path)) }
+        lifecycleScope.launch { listdata.postValue(OpenPrayerTimes.list(path)) }
 
         listdata.observe(viewLifecycleOwner, this)
         return v
     }
 
-    override fun onChanged(resp: Pair<List<String>?, Entry?>) {
+    override fun onChanged(value: Pair<List<String>?, City?>) {
 
-        resp.first?.let { list ->
+        value.first?.let { list ->
             if (path.isEmpty()) {
-                list.map { Source.valueOf(it)?.fullName ?: it }
+                list.map { Source.valueOf(it).fullName }
             } else if (path.size == 1) {
                 list.map { Locale("", if (it == "EN") "GB" else it).displayCountry }
             } else list
@@ -72,16 +72,16 @@ class ListCityFragment : BaseActivity.MainFragment(), Observer<Pair<List<String>
             )
 
             listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
-                moveToFrag(create(path + resp.first!![pos]))
+                moveToFrag(create(path + value.first!![pos]))
             }
-        } ?: resp.second?.let { entry ->
+        } ?: value.second?.let { entry ->
             Times.add(
                 Times(
                     id = UUID.asInt(),
-                    source = entry.source,
-                    name = entry.localizedName,
-                    lat = entry.lat ?: 0.0,
-                    lng = entry.lng ?: 0.0,
+                    source =Source.valueOf(entry.provider.name),
+                    name = entry.names.last(),
+                    lat = entry.lat?.toDouble() ?: 0.0,
+                    lng = entry.lng?.toDouble() ?: 0.0,
                     key = entry.id,
                     sortId = (Times.current.maxOfOrNull { it.sortId } ?: 0) + 1,
                     autoLocation = false

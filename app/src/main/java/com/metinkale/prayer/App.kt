@@ -80,7 +80,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
     }
 
     companion object {
-        const val API_URL = "http://metinkale38.github.io/prayer-times-android"
+        const val API_URL = "https://metinkale38.github.io/prayer-times-android"
 
         private lateinit var INSTANCE: App
 

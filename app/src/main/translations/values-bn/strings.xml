@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">নামাজের সময়</string>
+    <string name="calendar">পবিত্র দিনসমূহ</string>
+    <string name="compass">নামাজের কম্পাস</string>
+    <string name="dhikr">জিকির</string>
+    <string name="hadith">সহিহ বুখারী</string>
+    <string name="names">আল্লাহর ৯৯ নাম</string>
+    <string name="tesbihat">তাসবীহ</string>
+    <string name="missedPrayers">ছূটে যাওয়া নামায</string>
+    <string name="settings">সেটিংস</string>
+    <string name="about">সম্পর্কে</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">আপনি কি চান উৎসবের দিনগুলো আপনার ফোনের ক্যালেন্ডারে যোগ হোক.</string>
+    <string name="permissionCalendarTitle">ক্যালেন্ডারের জন্য অনুমতি</string>
+    <string name="permissionCameraText">থ্রি ডি কম্পাস ব্যাবহারের জন্য ক্যামেরা ব্যবহারের অনুমতি দরকার অন্যথায় শুধুমাত্র টু ডি কম্পাস ব্যাভার করতে পারবেন।</string>
+    <string name="permissionCameraTitle">ক্যামেরার জন্য অনুমতি</string>
+    <string name="permissionLocationTitle">লোকেশনের অনুমতি</string>
+    <string name="permissionStorageText">Storage Permission is needed. Without that Permission some things will not work.</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">মহররম</string>
+    <string name="hmonth2">সফর</string>
+    <string name="hmonth3">রবি আল-আওয়াল</string>
+    <string name="hmonth4">রবি আল-আচির</string>
+    <string name="hmonth7">রযব</string>
+    <string name="hmonth8">শাবান</string>
+    <string name="hmonth9">রমজান</string>
+    <string name="hmonth10">শাওয়াল</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">জানুয়ারি</string>
+    <string name="gmonth2">ফেব্রুয়ারি</string>
+    <string name="gmonth3">মার্চ</string>
+    <string name="gmonth4">এপ্রিল</string>
+    <string name="gmonth5">মে</string>
+    <string name="gmonth6">জুন</string>
+    <string name="gmonth7">জুলাই</string>
+    <string name="gmonth8">আগস্ট</string>
+    <string name="gmonth9">সেপ্টেম্বর</string>
+    <string name="gmonth10">অক্টোবর</string>
+    <string name="gmonth11">নভেম্বর</string>
+    <string name="gmonth12">ডিসেম্বর</string>
+    <!-- Holy Days -->
+    <string name="holyday2">আশুরা</string>
+    <string name="holyday14">আরাফাতের দিন</string>
+    <!-- Dialog Actions -->
+    <string name="ok">আচ্ছা</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <string name="cancel">বাতিল</string>
+    <string name="back">পেছনে</string>
+    <string name="finish">সম্পন্ন</string>
+    <string name="continue_">চালিয়ে যাও</string>
+    <string name="vote">ভোট</string>
+    <string name="mail">ইমেইল</string>
+    <string name="test">চেষ্টা করো</string>
+    <string name="share">শেয়ার</string>
+    <string name="refresh">সমন্বয় করুন</string>
+    <string name="translate">অনুবাদ</string>
+    <string name="language">ভাষা</string>
+    <string name="shareText">দেখুন নামাযের সময়সুচি নিয়ে অ্যাপঃ https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">সিস্টেমের ভাষা</string>
+    <string name="notification">নোটিফিকেশন</string>
+    <string name="version">সংস্করণ</string>
+    <string name="search">খুঁজো</string>
+    <string name="delete">মুছো</string>
+    <string name="no_internet">কোন ইন্টারনেট সংযোগ নেই</string>
+    <string name="error">একটি ত্রুটি ঘটেছে।</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">সকালের নামায</string>
+    <string name="imsak">ইমসাক</string>
+    <string name="fajr">ফজর</string>
+    <string name="zuhr">যোহর</string>
+    <string name="asr">আসর</string>
+    <string name="maghrib">মাগরিব</string>
+    <string name="ishaa">এশা</string>
+    <string name="off">বন্ধ</string>
+</resources>

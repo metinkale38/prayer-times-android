@@ -1,3 +1,9 @@
+### Version 3.9
+- Şehir arama özelliği ayrı bir sunucuya taşındı (daha küçük APK boyutu, daha hızlı arama)
+- Tüm namaz vakitleri (hesaplanan vakitler hariç) özel bir sunucudan çekilmektedir (daha yüksek erişim)
+- Yeni Widget eklendi
+- hatalar düzeltildi ve birkaç değişiklik yapıldı
+
 ### Version 3.7.7
 - IGMG yeni Namaz Vakitleri (01.01.2023'den itibaren)  
  

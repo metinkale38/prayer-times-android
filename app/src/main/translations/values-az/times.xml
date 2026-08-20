@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="activateForMorePrefs">Daha çox üstünlük üçün aktivləşdirin</string>
+    <string name="adjAngle">Bucaq əsaslı (bucaq/gecənin 60-cı hissəsi)</string>
+    <string name="adjMidnight">Gecəyarı</string>
+    <string name="adjTime">Vaxt əsaslı (gecənin 1/7-si)</string>
+    <string name="calcMethod">Metod</string>
+    <string name="cities">Şəhərlər</string>
+    <string name="customVolume">Həcmi seçin</string>
+    <string name="date">Tarix</string>
+    <string name="delCityConfirm">\"%1$s\" şəhəri həqiqətən silmək istəyirsiniz?</string>
+    <string name="delAlarmConfirm">Həqiqətən bütün \"%1$s\" xəbərdarlıqları silmək istəyirsən?</string>
+    <string name="dlSound">“%1$s” (%2$s) endirilsin?</string>
+    <string name="highlatsAdj">Yüksək enliklərdə tənzimləmə:</string>
+    <string name="fixTimezone">Vaxt zonası +/-:</string>
+    <string name="juristicHanafi">Hənəfi</string>
+    <string name="juristicShafi">Şafei (Defolt)</string>
+    <string name="kerahatTime">Məkruh namaz vaxtı</string>
+    <string name="monthly">Aylıq bax</string>
+    <string name="newAddCity">Yeni şəhər seçimini istifadə edin</string>
+    <string name="shareTimes">Bugünki namaz üçün %1$s</string>
+    <string name="showMore">Daha çox göstər</string>
+    <string name="soundPicker">Səs seçimi</string>
+    <string name="filePicker">Fail seçimi</string>
+    <string name="other">Digər</string>
+    <string name="sun">Günəş</string>
+    <string name="timeBased">Dəqiqələr</string>
+    <string name="time">Vaxt</string>
+    <string name="volumeAlarm">Siqnal səsi</string>
+    <string name="volumeMedia">Media həcmi</string>
+    <string name="volumeRingtone">Zəng səsi həcmi</string>
+    <string name="calculated">Hesablandı</string>
+    <string name="autoremove_notification">Azandan sonra bildirişi silin</string>
+    <string name="export">İxrac et</string>
+    <string name="versionNotSupported">Android versiyanız bunu dəstəkləmir!</string>
+    <string name="from">Mənbə</string>
+    <string name="to">Dək</string>
+    <string name="addFromCSV">CSV dan əlavə</string>
+    <string name="csvFromFile">CSV-ni fayldan yükləyin</string>
+    <string name="csvFromURL">CSV-ni URL-dan yükləyin</string>
+    <string name="asrSani">Əsr sani</string>
+    <string name="asrAwwal">Əsr əvvəl</string>
+    <string name="noAdjustment">Düzəliş yoxdur</string>
+    <string name="customCalc">Özəl</string>
+    <string name="customCalcDesc">Xüsusi hesablama parametrlərini təyin edin</string>
+    <string name="autoLocation">Yerin avomatik olaraq təyin ddilməsi</string>
+    <string name="stop">Dayandır</string>
+    <string name="onTime">Vaxtında</string>
+    <string name="beforeTime">%1$d dəqiqə əvvəl</string>
+    <string name="afterTime">%1$d dəqiqə sonra</string>
+    <string name="addAudio">Yeni səs əlavə et</string>
+    <string name="fajrShort">Əssələtu xayrun minənnəum</string>
+    <string name="takbir">Təkbir</string>
+    <string name="adhanDua">Azan duası</string>
+    <string name="salavat">Salavat</string>
+    <string name="volume">Səs</string>
+    <string name="volumeNotification">Bildiriş səsi</string>
+    <string name="noti_beforeTime">%1$d dəqiqə əvvəl %2$s</string>
+    <string name="noti_exactTime">saat %2$s</string>
+    <string name="noti_exactAll">hər namaz vaxtı</string>
+    <string name="noti_beforeAll">hər namaz vaxtından %1$s dəqiqə əvvəl</string>
+    <string name="noti_afterAll">hər namaz vaxtından %1$s dəqiqə sonra</string>
+    <string name="noti_eachDay">Hər gün %2$s</string>
+    <string name="noti_weekday">Hər biri %1$s %2$s</string>
+    <string name="ongoingNotification">Bildiriş-Vidjet</string>
+    <string name="prayerNotification">Namaz Bildirişi</string>
+    <string name="sound">Səs</string>
+    <string name="vibration">Titrəmə</string>
+    <string name="noti_afterTime">%1$s dəqiqə sonra %2$s</string>
+    <string name="midnight">Gecəyarı</string>
+    <string name="silenter">Səssiz üçün</string>
+    <string name="minutes">Dəqiqələr</string>
+    <string name="both">Hər ikisi də</string>
+    <string name="addAlarm">Siqnal əlavə et</string>
+    <string name="silenterNotificationTitle">Səssiz rejim</string>
+    <string name="silenterNotificationInfo">Zəhmət olmasa telefonunuzu susdurmaq üçün Namaz vaxtları tətbiqinə icazə verin</string>
+    <string name="batteryOptimizations">Batareya optimallaşdırılması</string>
+    <string name="batteryOptimizationsText">Dəqiq həyəcan siqnalları üçün bu tətbiq üçün batareya optimallaşdırmasını söndürməlisiniz. İndi istəyirsən?</string>
+</resources>

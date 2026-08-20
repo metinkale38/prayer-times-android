@@ -125,4 +125,6 @@
     <string name="ishaa">Ishaa</string>
     <string name="off">Off</string>
     <string name="clickToDisableNotification">Click here to disable this notification</string>
+    <string name="save">Save</string>
+    <string name="highlatsAdjOnlyImpossible">High Latitudes Adjustment only if it is impossible to calculate a time</string>
 </resources>

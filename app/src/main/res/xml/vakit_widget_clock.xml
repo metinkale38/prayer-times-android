@@ -21,6 +21,7 @@
     android:previewImage="@drawable/widget_clock"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="6000"
+    android:initialLayout="@layout/widget_4x2_clock"
     android:widgetCategory="keyguard|home_screen">
 
 </appwidget-provider>

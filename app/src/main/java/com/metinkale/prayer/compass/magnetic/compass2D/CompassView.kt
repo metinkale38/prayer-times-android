@@ -13,162 +13,134 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.compass.magnetic.compass2D
 
-package com.metinkale.prayer.compass.magnetic.compass2D;
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.drawable.Drawable
+import android.util.AttributeSet
+import android.view.View
+import androidx.core.content.ContextCompat
+import com.metinkale.prayer.R
+import com.metinkale.prayer.utils.LocaleUtils.formatNumber
+import kotlin.math.min
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
-import android.view.View;
+class CompassView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : View(context, attrs, defStyle) {
+    private val path = Path()
+    private val paint = Paint()
+    private val kabeIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.compass_kaabe)
+    private var currentAngle
+    = -80f
+    private var qiblaAngle = 0f
+    private val bgColor: Int = Color.WHITE
+    private val textColor: Int = Color.BLACK
+    private val scndTextColor: Int = Color.GRAY
+    private val strokeColor: Int = context.getColor(R.color.colorPrimary)
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+    public override fun onMeasure(widthSpec: Int, heightSpec: Int) {
+        val size = min(MeasureSpec.getSize(widthSpec), MeasureSpec.getSize(heightSpec))
 
-;
-import com.metinkale.prayer.R;
-import com.metinkale.prayer.utils.LocaleUtils;
+        val center = size / 2
 
-public class CompassView extends View {
-    private final Path mPath = new Path();
-    private final Paint mPaint = new Paint();
-    private final Drawable mKaabe;
-    private float mAngle = -80;
-    private float mqAngle;
+        path.reset()
+        path.setFillType(Path.FillType.EVEN_ODD)
+        path.moveTo(center.toFloat(), center / 8f)
 
-    private final int mBGColor;
-    private final int mTextColor;
-    private final int m2ndTextColor;
-    private final int mStrokeColor;
+        path.lineTo((center * 15) / 20f, center / 3f)
 
-    public CompassView(@NonNull Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mKaabe = ContextCompat.getDrawable(context, R.drawable.compass_kaabe);
+        path.lineTo(center.toFloat(), center / 4f)
 
-        mBGColor = Color.WHITE;
-        mTextColor = Color.BLACK;
-        m2ndTextColor = Color.GRAY;
-        mStrokeColor = context.getColor(R.color.colorPrimary);
+        path.lineTo((center * 25) / 20f, center / 3f)
+        path.close()
 
+        setMeasuredDimension(size, size)
     }
 
-    public CompassView(@NonNull Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    override fun onDraw(canvas: Canvas) {
+        val width = getWidth()
+        val center = width / 2
 
+        paint.setTextAlign(Paint.Align.CENTER)
+        paint.setAntiAlias(true)
+
+        paint.setStrokeWidth(center / 15f)
+
+        paint.setColor(bgColor)
+        paint.setStyle(Paint.Style.FILL_AND_STROKE)
+        canvas.drawCircle(center.toFloat(), center.toFloat(), (center * 19) / 20f, paint)
+        paint.setStyle(Paint.Style.STROKE)
+
+        paint.setColor(strokeColor)
+        canvas.drawCircle(center.toFloat(), center.toFloat(), (center * 19) / 20f, paint)
+        paint.setStrokeWidth(1f)
+
+        paint.setColor(textColor)
+
+        paint.setTextSize((center * 2) / 5f)
+
+        paint.setStyle(Paint.Style.FILL_AND_STROKE)
+        canvas.drawText(
+            formatNumber(
+                Math.round(
+                    this.angle
+                )
+            ) + "°", center.toFloat(), center + (center / 5f), paint
+        )
+        paint.setStyle(Paint.Style.STROKE)
+
+        canvas.rotate(-currentAngle, center.toFloat(), center.toFloat())
+
+        paint.setColor(scndTextColor)
+
+        paint.setStyle(Paint.Style.FILL_AND_STROKE)
+        canvas.drawPath(path, paint)
+        paint.setStyle(Paint.Style.STROKE)
+
+        paint.setTextSize(center / 5f)
+
+        paint.setStyle(Paint.Style.FILL_AND_STROKE)
+        canvas.drawText("N", center.toFloat(), (center * 9) / 20f, paint)
+        paint.setStyle(Paint.Style.STROKE)
+
+        canvas.rotate(qiblaAngle, center.toFloat(), center.toFloat())
+
+        if (qiblaAngle != 0f) {
+            val y = (center * 9) / 20
+            val size = center / 8
+
+            kabeIcon!!.setBounds(center - size, y - size, center + size, y + size)
+            kabeIcon.draw(canvas)
+
+            paint.setColor(textColor)
+
+            paint.setStyle(Paint.Style.FILL_AND_STROKE)
+            canvas.drawPath(path, paint)
+            paint.setStyle(Paint.Style.STROKE)
+        }
     }
 
-    public CompassView(@NonNull Context context) {
-        this(context, null);
-
-    }
-
-    @Override
-    public void onMeasure(int widthSpec, int heightSpec) {
-        int size = Math.min(MeasureSpec.getSize(widthSpec), MeasureSpec.getSize(heightSpec));
-
-        int center = size / 2;
-
-        mPath.reset();
-        mPath.setFillType(Path.FillType.EVEN_ODD);
-        mPath.moveTo(center, center / 8f);
-
-        mPath.lineTo((center * 15) / 20f, center / 3f);
-
-        mPath.lineTo(center, center / 4f);
-
-        mPath.lineTo((center * 25) / 20f, center / 3f);
-        mPath.close();
-
-        setMeasuredDimension(size, size);
-    }
-
-    @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        int width = getWidth();
-        int center = width / 2;
-
-        mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setAntiAlias(true);
-
-        mPaint.setStrokeWidth(center / 15f);
-
-        mPaint.setColor(mBGColor);
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawCircle(center, center, (center * 19) / 20f, mPaint);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-        mPaint.setColor(mStrokeColor);
-        canvas.drawCircle(center, center, (center * 19) / 20f, mPaint);
-        mPaint.setStrokeWidth(1);
-
-        mPaint.setColor(mTextColor);
-
-        mPaint.setTextSize((center * 2) / 5f);
-
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText(LocaleUtils.formatNumber(Math.round(getAngle())) + "°", center, center + (center / 5f), mPaint);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-        canvas.rotate(-mAngle, center, center);
-
-        mPaint.setColor(m2ndTextColor);
-
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawPath(mPath, mPaint);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-        mPaint.setTextSize(center / 5f);
-
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawText("N", center, (center * 9) / 20f, mPaint);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-        canvas.rotate(mqAngle, center, center);
-
-        if (mqAngle != 0) {
-            int y = (center * 9) / 20;
-            int size = center / 8;
-
-            mKaabe.setBounds(center - size, y - size, center + size, y + size);
-            mKaabe.draw(canvas);
-
-            mPaint.setColor(mTextColor);
-
-            mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawPath(mPath, mPaint);
-            mPaint.setStyle(Paint.Style.STROKE);
-
+    var angle: Float
+        get() {
+            var angle = currentAngle
+            if (angle < 0) {
+                angle += 360f
+            }
+            return angle
+        }
+        set(rot) {
+            currentAngle = rot
+            invalidate()
         }
 
-    }
-
-    float getAngle() {
-        float angle = mAngle;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
-
-    }
-
-    public void setAngle(float rot) {
-        mAngle = rot;
-        invalidate();
-    }
-
-    public float getQiblaAngle() {
-        float angle = mqAngle;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
-    }
-
-    public void setQiblaAngle(int qiblaAngle) {
-        mqAngle = qiblaAngle;
-        invalidate();
+    fun setQiblaAngle(qiblaAngle: Int) {
+        this@CompassView.qiblaAngle = qiblaAngle.toFloat()
+        invalidate()
     }
 }

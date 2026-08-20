@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="report_bug">Reportar un error</string>
+    <string name="report_bug_sum">Reporte errores o solicite nuevas características.</string>
+    <string name="translate_sum">Ayúdanos a traducir Prayer Times en más idiomas</string>
+    <string name="github_sum">Bifurcar el repositorio y empujar cambios o enviar nuevos problemas.</string>
+    <string name="license">Licencia</string>
+    <string name="license_sum">Ver la licencia de Apache versión 2.0, cuyos términos de licencia se aplican a Prayer Times</string>
+    <string name="library_licenses">Licencias de las librerías usadas por Prayer Times</string>
+    <string name="library_licenses_sum">Ver librerías de terceros utilizadas en Prayer Times</string>
+    <string name="rate">Puntuar</string>
+    <string name="rate_desc">Déjanos una valoración positiva si te gusta Prayer Times.</string>
+    <string name="sendMail_sum">¡Envíame un E-Mail!</string>
+    <string name="beta_tester">¡Hazte tester!</string>
+    <string name="beta_tester_desc">Regístrate como Beta Tester haciendo clic aquí</string>
+    <string name="support_development">Apoyar al Desarrollo</string>
+    <string name="share_sum">¡Comparte esta aplicación con un amigo!</string>
+    <string name="showIntro">Mostrar Introducción</string>
+    <string name="showIntro_sum">Mostrar las introducciones de esta aplicación</string>
+</resources>

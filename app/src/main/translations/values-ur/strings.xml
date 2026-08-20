@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">اوقات نماز</string>
+    <string name="calendar">مقدس ایام</string>
+    <string name="compass">نماز قطب نما</string>
+    <string name="dhikr">ذكر</string>
+    <string name="hadith">صحیح البخاری</string>
+    <string name="names">اللہ تعالی کے 99 صفاتی نام</string>
+    <string name="tesbihat">تسبیحات</string>
+    <string name="missedPrayers">قضاء نمازیں</string>
+    <string name="settings">سیٹنگز یا ترتیبات</string>
+    <string name="about">کے بارے میں</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">اگر آپ مقدس ایام اپنے فون کے کیلنڈر میں دیکھنا چاہتے ہیں تو کیلنڈر کی رسائی دیجئے ، وگرنہ رہنے دیں۔</string>
+    <string name="permissionCalendarTitle">کیلنڈر کی رسائی یا اجازت</string>
+    <string name="permissionCameraText">اگر آپ 3D کمپاس استعمال کرنا چاہتے ہیں تو کیمرے کی رسائی دیجئے ، وگرنہ آپ صرف 2D کمپاس دیکھ سکیں گے۔</string>
+    <string name="permissionCameraTitle">کیمرے کی رسائی یا اجازت</string>
+    <string name="permissionLocationText">اپنے شہر کو تلاش کرنے کے لے ،آپکے مقام مغلوم کرنے کی اجازت ضروری ہے۔ اگر آپ اس ایپ کو اپنے مقام تک رسائی کی اجازت نہیں دیتے ہیں تو ، آپ کو اپنے شہر کو خود تلاش کرنا ہوگا۔</string>
+    <string name="permissionLocationTitle">لوکیشن کی اجازت</string>
+    <string name="permissionStorageText">محفوظ کرنے کی اجازت ضروری ہے۔ اس اجازت کے بغیر ، کچھ چیزیں کام نہیں کریں گی.</string>
+    <string name="permissionStorageTitle">محفوظ کرنے کی اجازت</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">محرم</string>
+    <string name="hmonth2">صفر</string>
+    <string name="hmonth3">ربیع الاول</string>
+    <string name="hmonth4">ربیع الثانی</string>
+    <string name="hmonth5">جمادی الاول</string>
+    <string name="hmonth6">جمادی الثانی</string>
+    <string name="hmonth7">رجب</string>
+    <string name="hmonth8">شعبان</string>
+    <string name="hmonth9">رمضان</string>
+    <string name="hmonth10">شوال</string>
+    <string name="hmonth11">ذوالقعدہ</string>
+    <string name="hmonth12">ذوالحجہ</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">جنوری</string>
+    <string name="gmonth2">فروری</string>
+    <string name="gmonth3">مارچ</string>
+    <string name="gmonth4">اپریل</string>
+    <string name="gmonth5">مئی</string>
+    <string name="gmonth6">جون</string>
+    <string name="gmonth7">جولائی</string>
+    <string name="gmonth8">اگست</string>
+    <string name="gmonth9">ستمبر</string>
+    <string name="gmonth10">اکتوبر</string>
+    <string name="gmonth11">نومبر</string>
+    <string name="gmonth12">دسمبر</string>
+    <!-- Holy Days -->
+    <string name="holyday1">اسلامی نیا سال</string>
+    <string name="holyday2">عاشورہ</string>
+    <string name="holyday3">میلاد النبى</string>
+    <string name="holyday4">تین مبارک مہینوں کا آغاز</string>
+    <string name="holyday5">لیلۃ راغب</string>
+    <string name="holyday6">لیلۃ السراء اور معراج</string>
+    <string name="holyday7">لیلۃ Bara\'ah</string>
+    <string name="holyday8">رمضان کا آغاز</string>
+    <string name="holyday9">لیلۃ القدر</string>
+    <string name="holyday10">(عید الفطر کی عرفات)</string>
+    <string name="holyday11">عید الفطر کا پہلا دن</string>
+    <string name="holyday12">عید الفطر کا دوسرا دن</string>
+    <string name="holyday13">عید الفطر کا تیسرا دن</string>
+    <string name="holyday14">یوم عرفات</string>
+    <string name="holyday15">عید الاضحی کا پہلا دن</string>
+    <string name="holyday16">عید الاضحی کا دوسرا دن</string>
+    <string name="holyday17">عید الاضحی کا تیسرا دن</string>
+    <string name="holyday18">عید الاضحی کا چوتھا دن</string>
+    <!-- Dialog Actions -->
+    <string name="ok">ٹھیک ہے</string>
+    <string name="yes">جی ہاں</string>
+    <string name="no">جی نہیں</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="back">واپس</string>
+    <string name="finish">مکمل</string>
+    <string name="continue_">جاری رکھیں</string>
+    <string name="vote">ووٹ</string>
+    <string name="mail">ای-میل</string>
+    <string name="test">کوشش کریں</string>
+    <string name="share">حصہ</string>
+    <string name="refresh">ہم وقت سازی</string>
+    <string name="translate">ترجمہ</string>
+    <string name="language">زبان</string>
+    <string name="shareText">  نمازکی یہ اپلی کیشن دیکھیں : https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">سسٹم کی زبان</string>
+    <string name="notification">اطلاعات</string>
+    <string name="version">ورژن</string>
+    <string name="search">تلاش</string>
+    <string name="delete">ختم کریں</string>
+    <string name="no_internet">انٹرنیٹ کنکشن موجود نہیں</string>
+    <string name="error">ایک خرابی واقع ہوئی ہے</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">صبح کی نماز</string>
+    <string name="imsak">امساک</string>
+    <string name="fajr">فجر</string>
+    <string name="zuhr">ظہر</string>
+    <string name="asr">عصر</string>
+    <string name="maghrib">مغرب</string>
+    <string name="ishaa">Ishaa</string>
+    <string name="off">بند</string>
+    <string name="clickToDisableNotification">اس اطلاع کو ختم کرنے کے لئے یہاں کلک کریں</string>
+</resources>

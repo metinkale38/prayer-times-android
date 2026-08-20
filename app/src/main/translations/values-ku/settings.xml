@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Yêdek</string>
+    <string name="backupRestore">Yêdek/Restore</string>
+    <string name="calendarIntegration">Rojên dînî li teqwîmê zêde bike</string>
+    <string name="dateAndTime">Tarîx û wext</string>
+    <string name="dateFormat1">31 çileya pêşî 2013</string>
+    <string name="dateFormat2">31 çileya pêşî 13</string>
+    <string name="dateFormat">Formata tarîxê</string>
+    <string name="hDateFormat1">30 muherem 1434</string>
+    <string name="hDateFormat2">30 muherem 34</string>
+    <string name="hdateFormat">Formata tarîxa hicrî</string>
+    <string name="hijriFix">Eyarkirina tarîxa hicrî</string>
+    <string name="kerahatDuration">Pêla wextê mekrûh</string>
+    <string name="kerahatIstiwa">Wextê îstîwayê (berî limêja nîvro) </string>
+    <string name="kerahatMaghrib">Rojava (berî nimêja êvarê)</string>
+    <string name="kerahatSun">Rojhilat (piştî nimêja şeveqê)</string>
+    <string name="ongoingIcon">Agahdarî</string>
+    <string name="restore">Vehanîn</string>
+    <string name="silenterType">Moda bêdeng</string>
+    <string name="use12h">Formata 12 saet bi kar bîne</string>
+    <string name="useArabicNames">Wextên nimêjê yên erebî bi kar bîne</string>
+    <string name="useSilenter">Bêdeng</string>
+    <string name="useVibration">Hejandin</string>
+    <string name="vibrationDesc">Mîlîsaniye - bisekine biheje bisekine…</string>
+    <string name="vibrationPattern">Neqşa hejandinê</string>
+    <string name="widgetCountdownType">Wîdget - Jimartina deqeyan</string>
+    <string name="numbers">Reqem</string>
+    <string name="dateFormat3">31 çileya pêşî </string>
+    <string name="hDateFormat3">30 muherem </string>
+    <string name="useAlarm">Ji bo agahdariyê alarmê bi kar bîne</string>
+    <string name="useAlarmDesc">NECERIBANDÎ - Heke agahdarî di wextê xwe de newin çêkirin, tu dikarî vê eyarê biceribînî. Şaniyeke saeta alarmê wê li cihê agahdariyan were zêdekirin!    </string>
+    <string name="ongoingNumber">Deqeyan di agahdariyê de şanî bike</string>
+    <string name="ongoingColor">Rengên agahdariyê</string>
+    <string name="vakit_indicator">Şanîkera wextê limêjê</string>
+    <string name="vakit_indicator_next">Wextê were</string>
+    <string name="vakit_indicator_current">Wextê nimêjê yê niha</string>
+    <string name="show_notification_screen">Rûpela agahdariyê şanî bike</string>
+    <string name="stopFacedown">Deng bisekinîne wextê ku ruwê telefonê xwar de were qulibandin.</string>
+    <string name="widget_current_vakit">Wîdget - Şiklê şanîkirina wext ê dî</string>
+    <string name="widget">Wîdget</string>
+    <string name="showExtraTimes">Nimêja şeveqê û Esir Sanî şanî bike</string>
+    <string name="showExtraTimesSummary">Tenê ji bo FaziletTakvimi.com, NamazVakti.com û Hesabkirî</string>
+</resources>

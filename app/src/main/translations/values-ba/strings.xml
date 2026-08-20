@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Намаҙ Ваҡыты</string>
+    <string name="calendar">Иҙге Көндәр</string>
+    <string name="compass">Намаҙ Ҡыбламаһы</string>
+    <string name="dhikr">Зекер</string>
+    <string name="hadith">Сәһиһ Аль-Бухари</string>
+    <string name="names">99 Аллаһ исемдәре</string>
+    <string name="tesbihat">Тәҫбихәт</string>
+    <string name="missedPrayers">Ҡалған Доғалар</string>
+    <string name="settings">Көйләүҙәр</string>
+    <string name="about">Ҡушымта тураһында</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Иҙге Көндәр һеҙҙең Телефон Календарьҙа күргәтелһен өсөн ҡушымтаға доступ бирергә кәрәк һеҙҙең календарға.</string>
+    <string name="permissionCalendarTitle">Календарь өсөн рөхсәт</string>
+    <string name="permissionCameraText">3Д-Ҡыблама менән ҡулланыу өсөн Камераға доступ кәрәк. Насар хәлдә тик 2Д-Ҡыблама менән генә ҡулланырға мөмкин.</string>
+    <string name="permissionCameraTitle">Камера өсөн рөхсәт</string>
+    <string name="permissionLocationText">Ҡаланы билдәләү өсөн геомәғлүмәттәргә доступ кәрәк. Доступ булмаһа, ҡаланы ҡулдан ҡуйырға кәрәк.</string>
+    <string name="permissionLocationTitle">Урынлашыуға Рөхсәт</string>
+    <string name="permissionStorageText">Һаҡлауысҡа доступ кәрәк. Рөхсәтһеҙ бер нисә функциялар эшләмәй.</string>
+    <string name="permissionStorageTitle">Һаҡлауға Рөхсәт</string>
+    <!-- Hijri Months -->
+    <string name="hmonth1">Мөхәррәм</string>
+    <string name="hmonth2">Сәфәр</string>
+    <string name="hmonth3">Раби әл-әүәл</string>
+    <string name="hmonth4">Раби әл-әхир</string>
+    <string name="hmonth5">Йомада әл-әүүәл</string>
+    <string name="hmonth6">Йомада әл-ахир</string>
+    <string name="hmonth7">Рәжәп</string>
+    <string name="hmonth8">Шабан</string>
+    <string name="hmonth9">Рамаҙан</string>
+    <string name="hmonth10">Шәүүәл</string>
+    <string name="hmonth11">Зөлҡәғиҙә</string>
+    <string name="hmonth12">Зөлхизә</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Ғинуар</string>
+    <string name="gmonth2">Федераль</string>
+    <string name="gmonth3">Март</string>
+    <string name="gmonth4">Апрель</string>
+    <string name="gmonth5">Май</string>
+    <string name="gmonth6">Июнь</string>
+    <string name="gmonth7">Июль</string>
+    <string name="gmonth8">Август</string>
+    <string name="gmonth9">Сентябрь</string>
+    <string name="gmonth10">Октябрь</string>
+    <string name="gmonth11">Ноябрь</string>
+    <string name="gmonth12">Декабрь</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Исламдың яңы йылы</string>
+    <string name="holyday2">Ашура</string>
+    <string name="holyday3">Мәүлит</string>
+    <string name="holyday4">Өс ыйыҡ айҙарҙың башланғыстары</string>
+    <string name="holyday5">Ләйләт әр-Рәғәйеп</string>
+    <string name="holyday6">Исра һәм Мираж төнө</string>
+    <string name="holyday7">Барағат төнө</string>
+    <string name="holyday8">Рамаҙан башланғысы</string>
+    <string name="holyday9">Ҡәҙер төнө</string>
+    <string name="holyday10">(Ғәрәфә көнө)</string>
+    <string name="holyday11">Ураҙа байрамдың 1-се көнө</string>
+    <string name="holyday12">Ураҙа байрамдың 2-се көнө</string>
+    <string name="holyday13">Ураҙа байрамдың 3-сө көнө</string>
+    <string name="holyday14">Ғәрәфә көнө</string>
+    <string name="holyday15">Ҡорбан байрамдың 1-се көнө</string>
+    <string name="holyday16">Ҡорбан байрамдың 2-се көнө</string>
+    <string name="holyday17">Ҡорбан байрамдың 3-сө көнө</string>
+    <string name="holyday18">Ҡорбан байрамдың 4-се көнө</string>
+    <!-- Dialog Actions -->
+    <string name="ok">Ярай</string>
+    <string name="yes">Эйе</string>
+    <string name="no">Юҡ</string>
+    <string name="cancel">Бөтөрөү</string>
+    <string name="back">Артҡа</string>
+    <string name="finish">Әҙер</string>
+    <string name="continue_">Дауам итергә</string>
+    <string name="vote">Тауыш бирергә</string>
+    <string name="mail">E-Mail</string>
+    <string name="test">Һынап ҡарарға</string>
+    <string name="share">Бүлешергә</string>
+    <string name="refresh">Синхронлаштырыу</string>
+    <string name="translate">Тәржемә итергә</string>
+    <string name="language">Тел</string>
+    <string name="shareText">Эй, был ҡушымта Play Market-та бар: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Системаның теле</string>
+    <string name="notification">Белдереүҙәр</string>
+    <string name="version">Юрау</string>
+    <string name="search">Эҙләү</string>
+    <string name="delete">Юйырға</string>
+    <string name="no_internet">Интернет Бәйләнеше юҡ</string>
+    <string name="error">Хаталыҡ булды</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Иртәнге Доға</string>
+    <string name="imsak">Имсак</string>
+    <string name="fajr">Иртә</string>
+    <string name="zuhr">Өйлә</string>
+    <string name="asr">Икенде</string>
+    <string name="maghrib">Аҡшам</string>
+    <string name="ishaa">Йәстү</string>
+    <string name="off">Һүн</string>
+    <string name="clickToDisableNotification">Белдереүҙе һүндереү өсөн мында баҫығыҙ</string>
+</resources>

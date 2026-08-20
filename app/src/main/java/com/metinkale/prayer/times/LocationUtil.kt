@@ -27,13 +27,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.metinkale.prayer.App
 import com.metinkale.prayer.BuildConfig
+import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.times.times.DayTimesWebProvider
+import com.metinkale.prayer.times.times.Source
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 import com.metinkale.prayer.utils.PermissionUtils
-import dev.metinkale.openprayertimes.SearchEntry
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.CalcTimesSerializer
+import dev.metinkale.openprayertimes.OpenPrayerTimes
+import dev.metinkale.openprayertimes.Provider
 import kotlinx.coroutines.launch
 
 
@@ -93,13 +96,17 @@ class LocationUtil : DefaultLifecycleObserver, LocationListener {
         lifecycleOwner?.lifecycleScope?.launch {
             location = it
             lastLocation = it.time
-            update(it)
+            try {
+                update(it)
+            } catch (e: Exception) {
+                CrashReporter.recordException(e)
+            }
             lifecycleOwner?.let { onStop(it) }
         }
     }
 
     private suspend fun update(location: Location) {
-        val result = SearchEntry.search(location.latitude, location.longitude)
+        val result = OpenPrayerTimes.search(location.latitude, location.longitude)
 
         val lat = location.latitude
         val lng = location.longitude
@@ -109,14 +116,14 @@ class LocationUtil : DefaultLifecycleObserver, LocationListener {
             for (t in Times.current) {
                 if (t.autoLocation) {
                     for (e in result) {
-                        if (t.source === e.source) {
-                            if (e.source === Source.Calc) {
+                        if (t.source.name == e.provider.name) {
+                            if (e.provider == Provider.Calc) {
                                 Times.getTimesById(t.id).update {
                                     it?.copy(
-                                        name = e.localizedName,
+                                        name = e.names.last(),
                                         key = it.key?.let {
-                                            Source.Calc.serializeCalcTimes(
-                                                Source.Calc.deserializeCalcTimes(it)
+                                            CalcTimesSerializer.serializeCalcTimes(
+                                                CalcTimesSerializer.deserializeCalcTimes(it)
                                                     .copy(
                                                         latitude = lat,
                                                         longitude = lng,
@@ -130,10 +137,10 @@ class LocationUtil : DefaultLifecycleObserver, LocationListener {
                                     if ((t.dayTimes as? DayTimesWebProvider)?.sync(e.id) == true) {
                                         Times.getTimesById(t.id).update { it: Times? ->
                                             it?.copy(
-                                                name = e.localizedName,
+                                                name = e.names.last(),
                                                 key = e.id,
-                                                lat = e.lat ?: 0.0,
-                                                lng = e.lng ?: 0.0
+                                                lat = e.lat?.toDouble() ?: 0.0,
+                                                lng = e.lng?.toDouble() ?: 0.0
                                             )
                                         }
                                     }

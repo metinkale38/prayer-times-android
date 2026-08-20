@@ -24,6 +24,7 @@ import android.os.SystemClock
 import android.text.Html
 import android.util.TypedValue
 import android.widget.RemoteViews
+import android.widget.TextView
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.fragments.TimesFragment
@@ -103,9 +104,10 @@ class WidgetProviderLong : AppWidgetProvider() {
             }
             var indicator = current
             if ("next" == Preferences.VAKIT_INDICATOR_TYPE) indicator += 1
-            for (v in Vakit.values()) {
+            for (v in Vakit.entries) {
                 val i = v.ordinal
-                remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.25f)
+                remoteViews.setTextViewTextSize(ids[i], TypedValue.COMPLEX_UNIT_PX, scale * 1.15f)
+
                 remoteViews.setTextColor(ids[i], theme.textcolor)
                 var name = Vakit.getByIndex(i).string
                 var time = LocaleUtils.formatTime(daytimes[i].toLocalTime())

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Backup</string>
+    <string name="backupRestore">Backup/Gendanne</string>
+    <string name="calendarIntegration">Kalenderintegration</string>
+    <string name="dateAndTime">Dato og tid</string>
+    <string name="dateFormat1">31. December 2013</string>
+    <string name="dateFormat2">31. December 13</string>
+    <string name="dateFormat">Datoformat</string>
+    <string name="hDateFormat1">30. Muharram 1434</string>
+    <string name="hDateFormat2">30. Muharram 34</string>
+    <string name="hdateFormat">Hijri Datoformat</string>
+    <string name="hijriFix">Hijri Datojustering</string>
+    <string name="kerahatDuration">Makruh-tid - Varighed</string>
+    <string name="kerahatIstiwa">Istiwa-tid (før Zuhr-bøn)</string>
+    <string name="kerahatMaghrib">Solnedgang (før Maghrib-bøn)</string>
+    <string name="kerahatSun">Solopgang (efter morgenbøn)</string>
+    <string name="ongoingIcon">Notifikation Ikon</string>
+    <string name="restore">Gendan</string>
+    <string name="silenterType"> Stille/Lydløs Tilstand</string>
+    <string name="use12h">Brug 12 Timers Formatet</string>
+    <string name="useArabicNames">Brug Arabisk Bøntider</string>
+    <string name="useSilenter">Stille</string>
+    <string name="useVibration">Vibration</string>
+    <string name="vibrationDesc">Millisekunder - vent vibrer vent…</string>
+    <string name="vibrationPattern">Vibrations mønstre</string>
+    <string name="widgetCountdownType">Widget - Nedtællingsminutter</string>
+    <string name="numbers">Cifre</string>
+    <string name="dateFormat3">31. December </string>
+    <string name="hDateFormat3">30. Muharram </string>
+    <string name="useAlarm">Brug alarm til anmeldelse</string>
+    <string name="ongoingNumber">Vis minutter i meddelelsesikon</string>
+    <string name="vakit_indicator">Bøntidersindikator</string>
+    <string name="vakit_indicator_next">Næste bøntid</string>
+    <string name="vakit_indicator_current">Nuværende bøntid</string>
+    <string name="show_notification_screen">Vis meddelelsesskærm</string>
+    <string name="stopFacedown">Stop lyd ved at dreje skærmen med forsiden nedad.</string>
+    <string name="widget_current_vakit">Widget - Alternativ for nuværende tid indikator</string>
+    <string name="widget">Widget</string>
+    <string name="showExtraTimes">Vis morgenbøn og Asr-Sani</string>
+    <string name="showExtraTimesSummary">Kun til FaziletTakvimi.com, NamazVakti.com og beregnet</string>
+</resources>

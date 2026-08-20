@@ -28,7 +28,9 @@ android {
 
     sourceSets {
         main.assets.srcDirs += ['../changelogs']
+        main.res.srcDirs += 'src/main/translations'
     }
+
     packagingOptions {
         resources {
             excludes += ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', '.readme', 'META-INF/LICENSE-LGPL-2.1.txt', 'META-INF/LICENSE-LGPL-3.txt', 'META-INF/LICENSE-W3C-TEST', 'META-INF/DEPENDENCIES']
@@ -36,17 +38,17 @@ android {
     }
 
     defaultConfig {
-        targetSdkVersion 36
-        compileSdk 36
+        targetSdkVersion 37
+        compileSdk 37
         applicationId "com.metinkale.prayer"
         minSdkVersion 26
         multiDexEnabled true
-        versionName '3.8.4'
+        versionName '3.9.0'
         versionCode 256
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         vectorDrawables.useSupportLibrary = true
-        buildConfigField 'int', 'CHANGELOG_VERSION', '20'
+        buildConfigField 'int', 'CHANGELOG_VERSION', '21'
     }
 
     buildTypes {
@@ -111,9 +113,19 @@ android {
 
 
 dependencies {
-    api 'dev.metinkale:openprayertimes:1.0-SNAPSHOT'
+    implementation 'dev.metinkale:open-prayer-times-client:1.0-SNAPSHOT'
+    implementation 'dev.metinkale:calctimes:1.0-SNAPSHOT'
+    implementation 'dev.metinkale:hijri:1.0-SNAPSHOT'
 
-    implementation 'io.sentry:sentry-android:8.50.1'
+    implementation("io.ktor:ktor-client-cio:3.5.2")
+    implementation("io.ktor:ktor-client-core:3.5.2")
+    implementation("io.ktor:ktor-client-logging:3.5.2")
+    implementation("io.ktor:ktor-client-content-negotiation:3.5.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
+
+
+    implementation 'io.sentry:sentry-android:8.51.0'
     implementation 'com.vladsch.flexmark:flexmark:0.64.8'
     // TODO needs update
     implementation('com.mikepenz:aboutlibraries:7.1.0@aar') { transitive = true }
@@ -123,10 +135,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0'
 
 // --- Compose ---
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.material:material-icons-extended'
     implementation 'androidx.compose.runtime:runtime-livedata'
     implementation 'androidx.compose.ui:ui-tooling-preview:1.11.4'
+    implementation "androidx.compose.material3:material3:1.4.0"
+    implementation 'androidx.compose.material:material-icons-extended:1.7.8'
     debugImplementation 'androidx.compose.ui:ui-tooling:1.11.4'
 
 // --- Lifecycle ---

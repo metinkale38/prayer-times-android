@@ -36,7 +36,6 @@ import android.widget.RemoteViews
 import com.metinkale.prayer.Module
 import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
-import com.metinkale.prayer.date.HijriDate
 import com.metinkale.prayer.times.fragments.TimesFragment
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
@@ -47,6 +46,7 @@ import com.metinkale.prayer.times.times.isKerahat
 import com.metinkale.prayer.utils.LocaleUtils
 import com.metinkale.prayer.utils.UUID
 import com.metinkale.prayer.utils.Utils
+import dev.metinkale.openprayertimes.hijri.HijriDate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

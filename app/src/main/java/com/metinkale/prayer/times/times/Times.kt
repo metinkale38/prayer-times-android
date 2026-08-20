@@ -21,7 +21,7 @@ import com.metinkale.prayer.times.LegacyTimes
 import com.metinkale.prayer.times.alarm.Alarm
 import dev.metinkale.calctimes.CalcTimes
 import dev.metinkale.calctimes.Method
-import dev.metinkale.openprayertimes.sources.Source
+import dev.metinkale.openprayertimes.CalcTimesSerializer
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -101,7 +101,7 @@ data class Times(
             )
 
 
-            copy(prayTimes = null, key = Source.Calc.serializeCalcTimes(pt))
+            copy(prayTimes = null, key = CalcTimesSerializer.serializeCalcTimes(pt))
 
         } ?: this
     }

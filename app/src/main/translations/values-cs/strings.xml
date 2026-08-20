@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <!-- Feature Titles -->
+    <string name="appName">Modlitební časy</string>
+    <string name="calendar">Posvátné dny</string>
+    <string name="compass">Modlitební kompas</string>
+    <string name="dhikr">Dhikr</string>
+    <string name="names">99 jmen Alláha</string>
+    <string name="missedPrayers">Zameškané modlitby</string>
+    <string name="settings">Nastavení</string>
+    <string name="about">Podrobnosti</string>
+    <!--Permission dialogs-->
+    <string name="permissionCalendarText">Pokud chcete, aby se svaté dny objevily v kalendáři telefonu, musíte povolit přístup do kalendáře. V opačném případě nepovolujte.</string>
+    <string name="permissionCalendarTitle">Oprávnění kalendáře</string>
+    <string name="permissionCameraText">Pro použití 3D-Compasu musíte povolit přístup k fotoaparátu. V opačném případě budete moci používat pouze 2D-Compass.</string>
+    <string name="permissionCameraTitle">Oprávnění fotoaparátu</string>
+    <string name="permissionLocationText">Pro nalezení vašeho města je potřeba oprávnění k poloze. Pokud tuto aplikaci nepovolíte, abyste mohli přistupovat k vaší poloze, budete muset hledat vaše město ručně.</string>
+    <string name="permissionLocationTitle">Oprávnění přístupu k poloze</string>
+    <string name="permissionStorageText">Je potřebné povolit oprávnění k úložišti, jinak některé věci nebudou fungovat.</string>
+    <string name="permissionStorageTitle">Oprávnění úložiště</string>
+    <!-- Hijri Months -->
+    <string name="hmonth9">Ramadán</string>
+    <!-- Holy Days -->
+    <string name="gmonth1">Leden</string>
+    <string name="gmonth2">Únor</string>
+    <string name="gmonth3">Březen</string>
+    <string name="gmonth4">Duben</string>
+    <string name="gmonth5">Květen</string>
+    <string name="gmonth6">Červen</string>
+    <string name="gmonth7">Červenec</string>
+    <string name="gmonth8">Srpen</string>
+    <string name="gmonth9">Září</string>
+    <string name="gmonth10">Říjen</string>
+    <string name="gmonth11">Listopad</string>
+    <string name="gmonth12">Prosinec</string>
+    <!-- Holy Days -->
+    <string name="holyday1">Islámský Nový rok</string>
+    <string name="holyday4">Začátek tří posvátných měsíců</string>
+    <string name="holyday8">Začíná Ramadán</string>
+    <!-- Dialog Actions -->
+    <string name="ok">OK</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="cancel">Zrušit</string>
+    <string name="back">Zpět</string>
+    <string name="finish">Hotovo</string>
+    <string name="continue_">Pokračovat</string>
+    <string name="vote">Hlasovat</string>
+    <string name="mail">E-mail</string>
+    <string name="test">Zkusit</string>
+    <string name="share">Sdílet</string>
+    <string name="refresh">Synchronizovat</string>
+    <string name="translate">Přeložit</string>
+    <string name="language">Jazyk</string>
+    <string name="shareText">Hej, podívejte se na tuto modlitební aplikaci: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+    <!-- Other -->
+    <string name="systemLanguage">Systémový jazyk</string>
+    <string name="notification">Oznámení</string>
+    <string name="version">Verze</string>
+    <string name="search">Hledat</string>
+    <string name="delete">Smazat</string>
+    <string name="no_internet">Nejste připojeni k internetu</string>
+    <string name="error">Došlo k chybě</string>
+    <!-- Prayer Times -->
+    <string name="morningPrayer">Ranní modlitba</string>
+</resources>

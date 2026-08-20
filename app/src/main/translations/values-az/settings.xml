@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013-2026 Metin Kale
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="backup">Nüsxələmə</string>
+    <string name="backupRestore">Nüsxələmə/Bərpa</string>
+    <string name="calendarIntegration">Təqvim inteqrasiyası</string>
+    <string name="dateAndTime">Tarix və vaxt</string>
+    <string name="dateFormat1">31 Dekabr 2013</string>
+    <string name="dateFormat2">31 Dekabr 13</string>
+    <string name="dateFormat">Tarix formatı</string>
+    <string name="hDateFormat1">30 Muhərrəm 1434</string>
+    <string name="hDateFormat2">30 Muhərrəm 34</string>
+    <string name="hdateFormat">Hicri tarixin formatı</string>
+    <string name="hijriFix">Hicri tarixi düzəlişi</string>
+    <string name="kerahatDuration">Məkruh Vaxtı - Müddət</string>
+    <string name="kerahatIstiwa">İstiwa vaxtı (Zöhr namazından əvvəl) </string>
+    <string name="kerahatMaghrib">Gün batma (Məğrib namazından əvvəl)</string>
+    <string name="kerahatSun">Günəşin doğuşu (Sübh namazından sonra)</string>
+    <string name="ongoingIcon">Bildiriş simgəsi</string>
+    <string name="restore">Bərpa etmək</string>
+    <string name="silenterType">Səssiz rejim</string>
+    <string name="use12h">12 saat formatından istifadə edin</string>
+    <string name="useArabicNames">Namaz vaxtlarını ərəb dilində istifadə et</string>
+    <string name="useSilenter">Səssiz</string>
+    <string name="useVibration">Titrəmə</string>
+    <string name="vibrationDesc">Millisaniyələr - gözləmə titrəmə gözləmə…</string>
+    <string name="vibrationPattern">Titrəmə forması</string>
+    <string name="widgetCountdownType">Vidjet - Geri sayma dəqiqələri</string>
+    <string name="numbers">Rəqəmsal</string>
+    <string name="dateFormat3">31 Dekabr </string>
+    <string name="hDateFormat3">30 Muhərrəm </string>
+    <string name="useAlarm">Bildiriş üçün siqnaldan istifadə edin</string>
+    <string name="useAlarmDesc">TƏCRÜBƏ - Bildirişlər vaxtında işə salınmazsa, bu Ayarı sınaya bilərsiniz. Status sətirinə zəngli saat işarəsi əlavə olunacaq!    </string>
+    <string name="ongoingNumber">Bildiriş nişanında dəqiqələri göstərin</string>
+    <string name="ongoingColor">Bildiriş-Rəngli vidjet</string>
+    <string name="vakit_indicator">Namaz vaxtı indikatoru</string>
+    <string name="vakit_indicator_next">Növbəti namazın vaxtı</string>
+    <string name="vakit_indicator_current">Hazırkı namazın vaxtı</string>
+    <string name="show_notification_screen">Ekranda bildiriş göstərin</string>
+    <string name="stopFacedown">Ekranı üzü aşağı çevirib səsi dayandırın.</string>
+    <string name="widget_current_vakit">Widget - Alternativ Cari Saat göstəricisi</string>
+    <string name="widget">Vidjet</string>
+    <string name="showExtraTimes">Sübh namazını və Əsr sani göstərin</string>
+    <string name="showExtraTimesSummary">Yalnız FaziletTakvimi.com üçün, NamazVakti.com və Hesablandı</string>
+</resources>
