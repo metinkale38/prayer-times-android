@@ -28,7 +28,6 @@ import com.metinkale.prayer.Preferences.UUID
 import com.metinkale.prayer.R
 
 object AboutShortcuts {
-    @JvmStatic
     fun share(ctx: Context) {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
@@ -50,13 +49,11 @@ object AboutShortcuts {
         }
     }
 
-    @JvmStatic
     fun github(ctx: Context) {
         val url = "https://github.com/metinkale38/prayer-times-android"
         openUrl(ctx, url)
     }
 
-    @JvmStatic
     fun rate(ctx: Context) {
         val uri = Uri.parse("market://details?id=" + ctx.packageName)
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
@@ -75,13 +72,11 @@ object AboutShortcuts {
         openUrl(ctx, url)
     }
 
-    @JvmStatic
     fun reportBug(ctx: Context) {
         val url = "https://github.com/metinkale38/prayer-times-android/issues"
         openUrl(ctx, url)
     }
 
-    @JvmStatic
     fun mail(ctx: Context) {
         val emailIntent =
             Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "prayer-times-android@mk38.de", null))
@@ -114,13 +109,5 @@ object AboutShortcuts {
                 """.trimIndent()
         )
         ctx.startActivity(Intent.createChooser(emailIntent, ctx.getString(R.string.mail)))
-    }
-
-    @JvmStatic
-    fun beta(ctx: Context) {
-        val url = "https://play.google.com/apps/testing/com.metinkale.prayer"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        ctx.startActivity(i)
     }
 }

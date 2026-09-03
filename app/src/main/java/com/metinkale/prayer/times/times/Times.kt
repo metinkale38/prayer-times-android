@@ -59,54 +59,6 @@ data class Times(
 
 
     fun buildNotificationId(tag: String) = (tag + id).hashCode()
-
-
-    fun migrate(): Times {
-
-        if (prayTimes == null && source == Source.Calc && key?.contains("Standard") == true) {
-            return copy(key = key.replace("Standard", "SunsetSunrise"))
-        }
-
-        // TODO migration of old praytimes. Remove after some updates
-        return prayTimes?.let { prayTimes ->
-            val method = Method(
-                highLats = prayTimes.highLats,
-                midnight = prayTimes.midnight,
-                imsakAngle = prayTimes.angles[LegacyTimes.Imsak.ordinal],
-                imsakMinute = prayTimes.minutes[LegacyTimes.Imsak.ordinal],
-                fajrAngle = prayTimes.angles[LegacyTimes.Fajr.ordinal],
-                fajrMinute = prayTimes.minutes[LegacyTimes.Fajr.ordinal],
-                sunriseMinute = prayTimes.minutes[LegacyTimes.Sunrise.ordinal],
-                dhuhrMinute = prayTimes.minutes[LegacyTimes.Dhuhr.ordinal],
-                asrShafiMinute = prayTimes.minutes[LegacyTimes.AsrShafi.ordinal],
-                asrHanafiMinute = prayTimes.minutes[LegacyTimes.AsrHanafi.ordinal],
-                sunsetMinutes = prayTimes.minutes[LegacyTimes.Sunset.ordinal],
-                maghribAngle = prayTimes.angles[LegacyTimes.Maghrib.ordinal],
-                maghribMinute = prayTimes.minutes[LegacyTimes.Maghrib.ordinal],
-                ishaaAngle = prayTimes.angles[LegacyTimes.Ishaa.ordinal],
-                ishaaMinute = prayTimes.minutes[LegacyTimes.Ishaa.ordinal],
-                useElevation = true
-            ).let { method ->
-                Method.values().mapNotNull { it as? Method }.firstOrNull { it == method }
-                    ?: method
-            }
-
-
-            val pt = CalcTimes(
-                prayTimes.lat,
-                prayTimes.lng,
-                prayTimes.elv,
-                TimeZone.of(prayTimes.timeZone),
-                method
-            )
-
-
-            copy(prayTimes = null, key = CalcTimesSerializer.serializeCalcTimes(pt))
-
-        } ?: this
-    }
-
-
     @Transient
     val dayTimes by lazy {
         when (source) {

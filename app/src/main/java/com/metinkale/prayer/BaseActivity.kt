@@ -119,7 +119,7 @@ open class BaseActivity(
         if (savedInstanceState != null) navPos = savedInstanceState.getInt("navPos", 0)
         val comp = intent.component?.className
         for (i in Module.entries.indices) {
-            if (comp?.contains(Module.entries[i].getKey()) == true) {
+            if (comp?.contains(Module.entries[i].key) == true) {
                 navPos = i
             }
         }
@@ -164,16 +164,16 @@ open class BaseActivity(
                 val v: View = nullableView ?: LayoutInflater.from(c)
                     .inflate(R.layout.drawer_list_item, p, false)
                 val item = getItem(pos)
-                if (item!!.getIconRes() == 0 && item.getTitleRes() == 0) {
+                if (item!!.iconRes == 0 && item.titleRes == 0) {
                     v.visibility = View.GONE
                     return v
                 }
                 v.visibility = View.VISIBLE
-                (v as? TextView)?.setText(item.getTitleRes())
+                (v as? TextView)?.setText(item.titleRes)
                 if (pos == navPos) {
                     (v as? TextView?)?.setTypeface(null, Typeface.BOLD)
                 } else (v as? TextView)?.setTypeface(null, Typeface.NORMAL)
-                val icon = AppCompatResources.getDrawable(c, item.getIconRes())
+                val icon = AppCompatResources.getDrawable(c, item.iconRes)
                 icon?.mutate()?.setTint(resources.getColor(R.color.foreground, null))
                 if (c.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                     (v as? TextView)?.setCompoundDrawablesWithIntrinsicBounds(

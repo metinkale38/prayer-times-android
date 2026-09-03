@@ -69,7 +69,6 @@ data class DayTimes(
 }
 
 
-// TODO check whether needed
 object LocalDateSerializer : KSerializer<LocalDate> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
@@ -84,7 +83,6 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 }
 
 
-// TODO check whether needed
 object LocalTimeSerializer : KSerializer<LocalTime> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("LocalTime", PrimitiveKind.STRING)

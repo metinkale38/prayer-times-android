@@ -100,7 +100,7 @@ class HadithFragment : BaseActivity.MainFragment(), View.OnClickListener,
                 get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
                 "$lang/hadis.db"
             ).delete()
-            Module.TIMES.launch(activity)
+            Module.TIMES.launch(requireActivity())
         }
         return v
     }
@@ -143,7 +143,7 @@ class HadithFragment : BaseActivity.MainFragment(), View.OnClickListener,
 
     override fun onPause() {
         super.onPause()
-        prefs.edit().putInt(last(), pager.currentItem).putInt("state", state).apply()
+        prefs.edit { putInt(last(), pager.currentItem).putInt("state", state) }
         storeFavs()
     }
 
@@ -211,7 +211,7 @@ class HadithFragment : BaseActivity.MainFragment(), View.OnClickListener,
             }
             builder.setTitle(items[state]).setItems(
                 items.toTypedArray<CharSequence>()
-            ) { dialog: DialogInterface?, which: Int ->
+            ) { _: DialogInterface?, which: Int ->
                 if (!setState(which)) {
                     Toast.makeText(activity, R.string.noFavs, Toast.LENGTH_LONG).show()
                 }

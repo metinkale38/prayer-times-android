@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.about
 
-package com.metinkale.prayer.about;
+import com.metinkale.prayer.BaseActivity
+import com.metinkale.prayer.R
 
-import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.R;
-
-public class MainActivity extends BaseActivity {
-
-
-    public MainActivity() {
-        super(R.string.about, R.mipmap.ic_launcher, new AboutFragment());
-    }
-}
+class MainActivity : BaseActivity(R.string.about, R.mipmap.ic_launcher, AboutFragment())

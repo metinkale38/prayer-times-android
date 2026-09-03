@@ -13,110 +13,101 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.metinkale.prayer.about
 
-package com.metinkale.prayer.about;
-
-import static com.metinkale.prayer.utils.AboutShortcuts.beta;
-import static com.metinkale.prayer.utils.AboutShortcuts.github;
-import static com.metinkale.prayer.utils.AboutShortcuts.mail;
-import static com.metinkale.prayer.utils.AboutShortcuts.rate;
-import static com.metinkale.prayer.utils.AboutShortcuts.reportBug;
-import static com.metinkale.prayer.utils.AboutShortcuts.share;
-import static com.metinkale.prayer.utils.AboutShortcuts.translate;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-
-import com.metinkale.prayer.BaseActivity;
-import com.metinkale.prayer.Module;
-import com.metinkale.prayer.Preferences;
-import com.metinkale.prayer.R;
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import com.metinkale.prayer.BaseActivity
+import com.metinkale.prayer.Module
+import com.metinkale.prayer.Preferences.CHANGELOG_VERSION
+import com.metinkale.prayer.Preferences.SHOW_INTRO
+import com.metinkale.prayer.R
+import com.metinkale.prayer.utils.AboutShortcuts.github
+import com.metinkale.prayer.utils.AboutShortcuts.mail
+import com.metinkale.prayer.utils.AboutShortcuts.rate
+import com.metinkale.prayer.utils.AboutShortcuts.reportBug
+import com.metinkale.prayer.utils.AboutShortcuts.share
+import com.metinkale.prayer.utils.AboutShortcuts.translate
 
 /**
  * Created by metin on 30.10.16.
  */
-public class AboutFragment extends BaseActivity.MainFragment implements View.OnClickListener {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.about_main, container, false);
+class AboutFragment : BaseActivity.MainFragment(), View.OnClickListener {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v = inflater.inflate(R.layout.about_main, container, false)
 
         try {
-            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            ((TextView) v.findViewById(R.id.version)).setText(pInfo.versionName + " (" + pInfo.versionCode + ")");
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            val pInfo = requireActivity().getPackageManager()
+                .getPackageInfo(requireActivity().getPackageName(), 0)
+            (v.findViewById<View?>(R.id.version) as TextView).text =
+                "${pInfo.versionName} (${pInfo.versionCode})"
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
         }
 
-        v.findViewById(R.id.beta).setOnClickListener(this);
-        v.findViewById(R.id.mail).setOnClickListener(this);
-        v.findViewById(R.id.libLicences).setOnClickListener(this);
-        v.findViewById(R.id.licenses).setOnClickListener(this);
-        v.findViewById(R.id.reportBug).setOnClickListener(this);
-        v.findViewById(R.id.translate).setOnClickListener(this);
-        v.findViewById(R.id.rate).setOnClickListener(this);
-        v.findViewById(R.id.github).setOnClickListener(this);
-        v.findViewById(R.id.share).setOnClickListener(this);
-        v.findViewById(R.id.showIntro).setOnClickListener(this);
-        return v;
+        v.findViewById<View>(R.id.mail).setOnClickListener(this)
+        v.findViewById<View>(R.id.libLicences).setOnClickListener(this)
+        v.findViewById<View>(R.id.licenses).setOnClickListener(this)
+        v.findViewById<View>(R.id.reportBug).setOnClickListener(this)
+        v.findViewById<View>(R.id.translate).setOnClickListener(this)
+        v.findViewById<View>(R.id.rate).setOnClickListener(this)
+        v.findViewById<View>(R.id.github).setOnClickListener(this)
+        v.findViewById<View>(R.id.share).setOnClickListener(this)
+        v.findViewById<View>(R.id.showIntro).setOnClickListener(this)
+        return v
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.beta) {
-            beta(getActivity());
-        } else if (i == R.id.mail) {
-            mail(getActivity());
+    override fun onClick(v: View) {
+        val i = v.getId()
+        if (i == R.id.mail) {
+            mail(requireActivity())
         } else if (i == R.id.libLicences) {
-            libLicences(getActivity());
+            libLicences()
         } else if (i == R.id.licenses) {
-            licenses(getActivity());
+            licenses(requireActivity())
         } else if (i == R.id.reportBug) {
-            reportBug(getActivity());
+            reportBug(requireActivity())
         } else if (i == R.id.translate) {
-            translate(getActivity());
+            translate(requireActivity())
         } else if (i == R.id.rate) {
-            rate(getActivity());
+            rate(requireActivity())
         } else if (i == R.id.github) {
-            github(getActivity());
+            github(requireActivity())
         } else if (i == R.id.share) {
-            share(getActivity());
+            share(requireActivity())
         } else if (i == R.id.showIntro) {
-            Preferences.INSTANCE.setSHOW_INTRO(true);
-            Preferences.INSTANCE.setCHANGELOG_VERSION(0);
-            Module.INTRO.launch(getActivity());
+            SHOW_INTRO = true
+            CHANGELOG_VERSION = 0
+            Module.INTRO.launch(requireActivity())
         }
     }
 
 
-    public static void licenses(@NonNull Context ctx) {
-        WebView wv = new WebView(ctx);
-        wv.loadUrl("file:///android_asset/license.html");
-        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(ctx.getResources().getString(R.string.license)).setView(wv).setCancelable(false);
-        builder.setNegativeButton(ctx.getResources().getString(R.string.ok), null);
-        builder.show();
+    fun libLicences() {
+        moveToFrag(AboutLibsFragment())
     }
 
 
-    public static void libLicences(@NonNull Context ctx) {
-        new LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).withActivityTitle(ctx.getString(R.string.library_licenses)).withLibraries().start(ctx);
+    companion object {
+        fun licenses(ctx: Context) {
+            val wv = WebView(ctx)
+            wv.loadUrl("file:///android_asset/license.html")
+            val builder = AlertDialog.Builder(ctx)
+            builder.setTitle(ctx.getResources().getString(R.string.license)).setView(wv)
+                .setCancelable(false)
+            builder.setNegativeButton(ctx.getResources().getString(R.string.ok), null)
+            builder.show()
+        }
     }
-
-
 }

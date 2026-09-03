@@ -90,7 +90,7 @@ open class TimesCompanion : Flow<List<Times>> {
         App.get().getSharedPreferences("cities", 0).getString("id$id", null)
             ?.let {
                 try {
-                    json.decodeFromString(Times.serializer(), it).copy(id = id).migrate()
+                    json.decodeFromString(Times.serializer(), it).copy(id = id)
                 } catch (e: Exception) {
                     CrashReporter.recordException(e)
                     e.printStackTrace()

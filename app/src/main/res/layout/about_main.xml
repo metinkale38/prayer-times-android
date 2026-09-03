@@ -234,47 +234,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/beta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@id/icon"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_about_beta"
-                    app:tint="@color/foregroundSecondary"
-                    />
-
-                <TextView
-                    android:id="@id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/icon"
-                    android:layout_toRightOf="@+id/icon"
-                    android:text="@string/beta_tester"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@id/summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/title"
-                    android:layout_toEndOf="@+id/icon"
-                    android:layout_toRightOf="@+id/icon"
-                    android:text="@string/beta_tester_desc"
-                    android:textColor="@color/foregroundSecondary"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/github"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
