@@ -58,7 +58,7 @@ class AlarmService : IntentService("AlarmService") {
                         PowerManager.PARTIAL_WAKE_LOCK,
                         "prayer-times:AlarmService"
                     )
-                    wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
+                    wakeLock.acquire(MAX_ALARM_DURATION_MS)
 
                     try {
                         runBlocking { fireAlarm(alarmId, time) }
@@ -96,17 +96,26 @@ class AlarmService : IntentService("AlarmService") {
                 delay(1000)
             }
             try {
-                player.play()
+                sInterrupt.set(false)
                 if (Preferences.STOP_ALARM_ON_FACEDOWN) {
                     StopByFacedownMgr.start(this, player)
                 }
-                sInterrupt.set(false)
-                while (!sInterrupt.get() && player.isPlaying) {
-                    delay(500)
-                }
-                if (player.isPlaying) {
+                // Keep re-playing the alarm sound until the user dismisses it
+                // (via the notification/popup) or the face-down sensor stops it.
+                // Capped at MAX_ALARM_DURATION_MS, matching the wake lock above,
+                // so it eventually falls silent if nobody is around to stop it.
+                val deadline = System.currentTimeMillis() + MAX_ALARM_DURATION_MS
+                while (!sInterrupt.get() && System.currentTimeMillis() < deadline) {
+                    player.play()
+                    if (!player.isPlaying) break // sound failed to load/start
+                    while (!sInterrupt.get() && player.isPlaying && System.currentTimeMillis() < deadline) {
+                        delay(500)
+                    }
                     player.stop()
                 }
+                // Mark the session as over even if we merely hit the deadline,
+                // so listeners like StopByFacedownMgr know to stop watching.
+                sInterrupt.set(true)
             } catch (e: Exception) {
                 recordException(e)
             }
@@ -136,8 +145,25 @@ class AlarmService : IntentService("AlarmService") {
     companion object {
         private const val EXTRA_ALARMID = "alarmId"
         private const val EXTRA_TIME = "time"
+
+        // Maximum time the alarm sound is allowed to keep repeating if nobody
+        // dismisses it. Also used as the wake lock duration in onHandleIntent.
+        private const val MAX_ALARM_DURATION_MS = 10 * 60 * 1000L
+
         private val sInterrupt = AtomicBoolean(false)
         private var sLastSchedule: Pair<Alarm, LocalDateTime>? = null
+
+        // Called from outside this class (e.g. StopByFacedownMgr) to stop the
+        // alarm loop for good, the same way StopAlarmPlayerReceiver does.
+        fun interrupt() {
+            sInterrupt.set(true)
+        }
+
+        // True once the current alarm session has been told to stop (or has
+        // ended on its own). Used by StopByFacedownMgr to know when to stop
+        // listening, since the player briefly stops between repeat cycles
+        // even while the alarm is still active.
+        fun isInterrupted(): Boolean = sInterrupt.get()
 
         fun setAlarm(c: Context, alarm: Pair<Alarm, LocalDateTime>?) {
             val am = MyAlarmManager.with(c)

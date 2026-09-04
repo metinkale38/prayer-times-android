@@ -29,7 +29,10 @@ class StopByFacedownMgr private constructor(
 ) : SensorEventListener {
     private var isFaceDown = 1
     override fun onSensorChanged(event: SensorEvent) {
-        if (!player.isPlaying) {
+        // Note: the player is intentionally checked via AlarmService.isInterrupted()
+        // rather than player.isPlaying, since the alarm now repeats in a loop and
+        // briefly stops playing between cycles while still very much active.
+        if (AlarmService.isInterrupted()) {
             sensorManager.unregisterListener(this)
             return
         }
@@ -37,6 +40,7 @@ class StopByFacedownMgr private constructor(
             if (isFaceDown != 1) { //ignore if already was off
                 isFaceDown += 2
                 if (isFaceDown >= 15) { //prevent accident
+                    AlarmService.interrupt()
                     player.stop()
                     sensorManager.unregisterListener(this)
                 }
