@@ -15,23 +15,13 @@ append_gradle_property() {
   fi
 }
 
-# checkout open-prayer-times and run publishToMavenLocal
-if [ -d "open-prayer-times" ]; then
-  echo "open-prayer-times exists, fetch latest"
-  cd open-prayer-times
-  git fetch origin
-  git reset --hard origin/main
-else
-  echo "open-prayer-times does not exist, checkout"
-  git clone https://github.com/metinkale38/open-prayer-times
-  cd open-prayer-times
+# The open-prayer-times sources are pinned as a git submodule.
+if [ ! -f "open-prayer-times/settings.gradle.kts" ]; then
+  echo "Initializing open-prayer-times submodule"
+  git submodule update --init --recursive
 fi
-chmod +x gradlew
-append_gradle_property gradle.properties org.gradle.daemon false
-./gradlew publishToMavenLocal --no-daemon
-cd ..
 
-# create secrets.xml
+# create secrets.xml with empty values; release secrets are injected by the release workflow
 SECRETS_FILE="app/src/main/res/values/secrets.xml"
 if [ -f "$SECRETS_FILE" ]; then
   echo "secrets.xml already exists, skip"
@@ -48,12 +38,20 @@ else
 EOF
 fi
 
-# remove com.google.gms build plugin (not needed for the fdroid flavor)
-sed -i '/com\.google\.gms/s|^|//|' app/build.gradle build.gradle
+# Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
+# heap is bounded so the two release builds do not exhaust small CI containers.
+GRADLE_ARGS=(
+  --no-daemon
+  --max-workers=1
+  -Pkotlin.compiler.execution.strategy=in-process
+  -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
+)
 
-# build project
-echo "Build project"
 append_gradle_property gradle.properties org.gradle.daemon false
-append_gradle_property gradle.properties org.gradle.jvmargs "-Xmx2g -XX:MaxMetaspaceSize=512m"
 chmod +x gradlew
-./gradlew assembleFdroid --no-daemon
+
+echo "Build F-Droid flavor"
+./gradlew assembleFdroid "${GRADLE_ARGS[@]}"
+
+echo "Build Play flavor"
+./gradlew assemblePlay "${GRADLE_ARGS[@]}"

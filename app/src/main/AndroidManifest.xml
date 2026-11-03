@@ -36,10 +36,6 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
 
-    <uses-permission
-        android:name="com.google.android.gms.permission.AD_ID"
-        tools:node="remove" />
-
     <application
         android:name="com.metinkale.prayer.Application"
         android:hardwareAccelerated="true"
@@ -52,11 +48,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
 
-
-        <meta-data android:name="io.sentry.dsn" android:value="@string/SENTRY_DSN" />
-        <meta-data android:name="io.sentry.traces.sample-rate" android:value="0.0" />
-        <meta-data android:name="io.sentry.auto-init" android:value="true" />
-        <meta-data android:name="io.sentry.debug" android:value="${sentryDebug}" />
 
         <uses-library
             android:name="com.sec.android.app.multiwindow"

@@ -25,8 +25,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
     }
 }
 
 include ':app'
+
+// Build the open-prayer-times library directly from the pinned git submodule.
+include ':calctimes'
+project(':calctimes').projectDir = new File(settingsDir, 'open-prayer-times/calctimes')
+include ':client'
+project(':client').projectDir = new File(settingsDir, 'open-prayer-times/client')
+include ':hijri'
+project(':hijri').projectDir = new File(settingsDir, 'open-prayer-times/hijri')

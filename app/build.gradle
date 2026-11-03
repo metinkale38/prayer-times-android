@@ -15,7 +15,6 @@
  */
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
     id("com.google.devtools.ksp")
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'org.jetbrains.kotlin.plugin.compose'
@@ -114,9 +113,9 @@ android {
 
 
 dependencies {
-    implementation 'dev.metinkale:open-prayer-times-client:1.0-SNAPSHOT'
-    implementation 'dev.metinkale:calctimes:1.0-SNAPSHOT'
-    implementation 'dev.metinkale:hijri:1.0-SNAPSHOT'
+    implementation project(':client')
+    implementation project(':calctimes')
+    implementation project(':hijri')
 
     implementation("io.ktor:ktor-client-cio:3.5.2")
     implementation("io.ktor:ktor-client-core:3.5.2")
@@ -126,7 +125,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
 
 
-    implementation 'io.sentry:sentry-android:8.53.0'
+    playImplementation 'io.sentry:sentry-android:8.53.0'
     implementation 'com.vladsch.flexmark:flexmark:0.64.8'
     implementation("com.mikepenz:aboutlibraries-compose-m3:15.1.0")
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.32'
