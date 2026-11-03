@@ -1,0 +1,44 @@
+Categories:
+  - Time
+License: Apache-2.0
+AuthorName: Metin Kale
+AuthorEmail: metinkale38@gmail.com
+SourceCode: https://github.com/metinkale38/prayer-times-android
+IssueTracker: https://github.com/metinkale38/prayer-times-android/issues
+Translation: https://crowdin.com/project/prayer-times-android
+Changelog: https://github.com/metinkale38/prayer-times-android/blob/master/changelogs/english.md
+AutoName: Prayer Times
+
+RepoType: git
+Repo: https://github.com/metinkale38/prayer-times-android.git
+
+Builds:
+  - versionName: 3.9.0
+    versionCode: 257
+    commit: 948159b5372118127a680751218cea28164a35f1
+    submodules: true
+    timeout: 3600
+    gradle:
+      - fdroidRelease
+    gradleprops:
+      - kotlin.compiler.execution.strategy=in-process
+      - org.gradle.workers.max=1
+    prebuild:
+      - mkdir -p app/src/main/res/values
+      - printf '%s\n' '<resources>' '  <string name="GOOGLE_API_KEY"></string>' '  <string name="IGMG_API_KEY"></string>' '  <string name="LONDON_PRAYER_TIMES_API_KEY"></string>' '  <string name="SENTRY_DSN"></string>' '</resources>' > app/src/main/res/values/secrets.xml
+    output: app/build/outputs/apk/fdroid/release/app-fdroid-release-unsigned.apk
+
+AntiFeatures: TetheredNet
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags ^fdroid-v.*
+CurrentVersion: 3.9.0
+CurrentVersionCode: 257
+
+MaintainerNotes: |-
+  The open-prayer-times git submodule does not yet declare a license. Do not
+  merge this metadata until that is resolved and the PrayTimes port license is
+  clarified. Only the fdroidRelease flavor is built. The prebuild step creates
+  secrets.xml with empty values; the F-Droid flavor does not need a Google API
+  key or a Sentry DSN. If this branch is squash-merged, update the commit field
+  to the merge commit on master.
