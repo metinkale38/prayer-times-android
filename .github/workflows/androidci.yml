@@ -27,4 +27,4 @@ jobs:
         cache: gradle
 
     - name: Build both flavors
-      run: ./ci_build.sh
+      run: bash ci_build.sh
