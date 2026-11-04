@@ -2,7 +2,21 @@
 set -euo pipefail
 
 OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
-OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-f44a7ed8fbf68ef9416eb4c487df8ea940adfed3}"
+OPEN_PRAYER_TIMES_COMMIT_FILE="${OPEN_PRAYER_TIMES_COMMIT_FILE:-open-prayer-times.commit}"
+
+if [ -z "${OPEN_PRAYER_TIMES_REF:-}" ]; then
+  if [ -f "$OPEN_PRAYER_TIMES_COMMIT_FILE" ]; then
+    OPEN_PRAYER_TIMES_REF="$(tr -d '[:space:]' < "$OPEN_PRAYER_TIMES_COMMIT_FILE")"
+  else
+    echo "Missing ${OPEN_PRAYER_TIMES_COMMIT_FILE}" >&2
+    exit 1
+  fi
+fi
+
+if ! [[ "$OPEN_PRAYER_TIMES_REF" =~ ^[0-9a-f]{40}$ ]]; then
+  echo "Invalid open-prayer-times commit: ${OPEN_PRAYER_TIMES_REF}" >&2
+  exit 1
+fi
 
 # Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
 # heap is bounded so the release builds do not exhaust small CI containers.

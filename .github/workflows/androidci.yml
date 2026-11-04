@@ -22,11 +22,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
+    - name: Read open-prayer-times commit
+      id: open-prayer-times-ref
+      run: echo "ref=$(tr -d '[:space:]' < open-prayer-times.commit)" >> "$GITHUB_OUTPUT"
     - name: Checkout open-prayer-times
       uses: actions/checkout@v5
       with:
         repository: metinkale38/open-prayer-times
-        ref: f44a7ed8fbf68ef9416eb4c487df8ea940adfed3
+        ref: ${{ steps.open-prayer-times-ref.outputs.ref }}
         path: open-prayer-times
     - name: set up JDK 17
       uses: actions/setup-java@v5

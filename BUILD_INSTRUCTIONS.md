@@ -13,12 +13,13 @@ git clone https://github.com/metinkale38/prayer-times-android.git
 cd prayer-times-android
 ```
 
-`open-prayer-times` is not a git submodule. Check it out next to the app at the
-pinned commit and publish it to the local Maven repository:
+`open-prayer-times` is not a git submodule. The pinned commit is stored in
+`open-prayer-times.commit`. Check it out next to the app and publish it to the
+local Maven repository:
 
 ```bash
 git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
-git -C open-prayer-times checkout --detach f44a7ed8fbf68ef9416eb4c487df8ea940adfed3
+git -C open-prayer-times checkout --detach "$(cat open-prayer-times.commit)"
 (cd open-prayer-times && bash ./gradlew publishToMavenLocal)
 ```
 
