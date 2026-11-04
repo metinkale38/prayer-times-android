@@ -18,11 +18,7 @@ Builds:
     commit: 30972144ef2105153edf97e0258ce360cc357fe9
     timeout: 3600
     gradle:
-      - fdroidRelease
-    gradleprops:
-      - kotlin.compiler.execution.strategy=in-process
-      - org.gradle.workers.max=1
-      - org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=768m
+      - fdroid
     prebuild:
       - git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
       - git -C open-prayer-times checkout --detach f44a7ed8fbf68ef9416eb4c487df8ea940adfed3
