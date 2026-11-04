@@ -3,40 +3,32 @@
 These items need a maintainer decision or an upstream change before the F-Droid
 metadata is submitted.
 
-## 1. `open-prayer-times` has no license file (blocker)
+## 1. Licensing (resolved upstream)
 
-`https://github.com/metinkale38/open-prayer-times` has no top-level `LICENSE`,
-`COPYING`, or `NOTICE` file. The app is Apache-2.0, but the separately published
-library source does not declare a license. F-Droid requires a clear license for
-all source that is built into the APK.
+`open-prayer-times` PR #3 adds the missing license files and POM metadata:
 
-Options:
+- Apache-2.0 for the root, `client`, `hijri`, `diyanet-client`, and `server`.
+- LGPL-3.0 for `calctimes`.
+- Full LGPL-3.0 and GPL-3.0 texts for `calctimes`.
+- PrayTimes.js 2.3 attribution in `calctimes/NOTICE.txt`.
 
-- Add an explicit license to `open-prayer-times` (must be compatible with
-  Apache-2.0 and with the PrayTimes port).
-- Replace the library with an in-repo, clearly licensed implementation.
-- Do not submit until the license question is resolved.
+The build pins `2891167b2896c17e98145b7e8258ed3c7a213eeb`, which contains these
+files. The overall F-Droid metadata license is `LGPL-3.0-only`. Merge PR #3
+before submission and update the pin if the merge commit differs.
 
-This repository cannot fix this without modifying `open-prayer-times`, which is
-out of scope.
+## 2. PrayTimes port license (resolved)
 
-## 2. PrayTimes port license (blocker)
-
-`open-prayer-times/calctimes/NOTICE.txt` contains only:
+`open-prayer-times/calctimes/NOTICE.txt` now states:
 
 ```text
-This module is a kotlin port of http://praytimes.org/
+This module is a Kotlin port of PrayTimes.js 2.3.
+PrayTimes.js: Prayer Times Calculator (ver 2.3)
+Copyright (C) 2007-2011 PrayTimes.org
+License: GNU LGPL v3.0
 ```
 
-The PrayTimes project changed licenses over time:
-
-- v1: GPL-3.0
-- v2: LGPL-3.0
-- v3: MIT
-
-The port does not state which version it is based on. If it is based on v1 or
-v2, the current Apache-2.0 app license may be incompatible. This needs a
-license review and an explicit attribution/license in `open-prayer-times`.
+The module is licensed under LGPL-3.0 and includes the GPL-3.0 terms
+incorporated by reference.
 
 ## 3. Screenshots and feature graphic (screenshots resolved)
 

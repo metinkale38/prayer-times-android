@@ -2,7 +2,7 @@
 set -euo pipefail
 
 OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
-OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-0378851c10cc0a188908d93ea2dbb75fec6e9546}"
+OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-2891167b2896c17e98145b7e8258ed3c7a213eeb}"
 
 # Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
 # heap is bounded so the release builds do not exhaust small CI containers.
@@ -14,10 +14,15 @@ GRADLE_ARGS=(
 )
 
 # CI checks this repository out at the pinned commit before running this script.
-# For local builds, clone it on demand.
+# For local builds, clone it on demand and keep it at the pinned commit.
 if [ ! -f "open-prayer-times/settings.gradle.kts" ]; then
   echo "Cloning open-prayer-times at ${OPEN_PRAYER_TIMES_REF}"
   git clone "$OPEN_PRAYER_TIMES_REPO" open-prayer-times
+fi
+
+if [ "$(git -C open-prayer-times rev-parse HEAD)" != "$OPEN_PRAYER_TIMES_REF" ]; then
+  echo "Checking out open-prayer-times at ${OPEN_PRAYER_TIMES_REF}"
+  git -C open-prayer-times fetch origin "$OPEN_PRAYER_TIMES_REF"
   git -C open-prayer-times checkout --detach "$OPEN_PRAYER_TIMES_REF"
 fi
 

@@ -12,7 +12,7 @@ Status: preparation only. No submission to F-Droid has been made.
 | Version code | `257` |
 | Minimum SDK | 26 |
 | Target / compile SDK | 37 |
-| License | Apache-2.0 (`LICENSE`) |
+| License | App Apache-2.0; bundled `calctimes` LGPL-3.0; F-Droid metadata `LGPL-3.0-only` |
 | Source | https://github.com/metinkale38/prayer-times-android |
 | Issue tracker | https://github.com/metinkale38/prayer-times-android/issues |
 | Translations | https://crowdin.com/project/prayer-times-android |
@@ -59,13 +59,15 @@ licenses:
   `listenablefuture`, `error_prone_annotations`, JSpecify, Relinker.
 - BSD-2-Clause: Flexmark.
 - MIT: SLF4J API, android-gif-drawable.
-- Unknown: the three `open-prayer-times` modules. Their repository does not
-  declare a license; see the blocker below.
+- Apache-2.0: `open-prayer-times` root, `client`, `hijri`, `diyanet-client`, and
+  `server` modules.
+- LGPL-3.0: `open-prayer-times/calctimes`, a Kotlin port of PrayTimes.js 2.3
+  (LGPL-3.0) with the upstream NOTICE and full LGPL/GPL texts.
 
 The `fdroidReleaseRuntimeClasspath` does **not** contain
 `com.google.android.gms:*`, Firebase, Sentry, or other proprietary libraries.
 
-See `FDROID_DEPENDENCIES.md` for details and the upstream license question.
+See `FDROID_DEPENDENCIES.md` for details.
 
 ## Anti-features
 
@@ -104,22 +106,17 @@ wake lock, network, vibration, keyguard, notification-policy, and shortcut
 permissions. All are tied to user-visible features. There is no request for
 the advertising ID in the F-Droid flavor.
 
-## Blockers before submission
+## Remaining submission items
 
-1. **`open-prayer-times` has no top-level LICENSE file.** The main app is
-   Apache-2.0, but the library repository does not declare a license. F-Droid
-   needs a clear license for every included source repository. This must be
-   fixed upstream, or the library must be relicensed/removed. This is a hard
-   blocker.
-2. **`open-prayer-times/calctimes/NOTICE.txt` says the module is a Kotlin port
-   of praytimes.org.** The original PrayTimes code was GPL-3.0 (v1), then
-   LGPL-3.0 (v2), and is MIT since v3. The port does not state which version it
-   is based on. This needs a legal/license review and an explicit license and
-   attribution in `open-prayer-times` before F-Droid submission.
-3. **No feature graphic is stored in the repository.** Eight Play Store phone
-   screenshots are included in
-   `fastlane/metadata/android/en-US/images/phoneScreenshots/`; a feature graphic
-   is optional.
+1. **Merge `open-prayer-times` PR #3 before submission.** The pinned commit
+   `2891167b2896c17e98145b7e8258ed3c7a213eeb` adds the Apache-2.0 and LGPL-3.0
+   license files and the PrayTimes.js 2.3 attribution. If upstream rewrites or
+   squash-merges the PR, update the pinned ref to the resulting commit.
+2. **Declare the `TetheredNet` anti-feature** in the F-Droid metadata.
+3. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
+   9.3.1, Gradle 9.6.1, Kotlin 2.4.10, and JDK 17.
+4. **Feature graphic is optional.** Eight Play Store phone screenshots are
+   included in `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 
 ## Reproducible build notes
 
@@ -134,25 +131,6 @@ the advertising ID in the F-Droid flavor.
   environment because `fdroidserver` and Docker/Podman are not installed.
   The Gradle build itself was verified for `fdroidDebug`, `fdroidRelease`,
   `playDebug`, and `playRelease`.
-
-## Verification performed
-
-- `bash ci_build.sh` end-to-end, including the pinned `open-prayer-times` clone and `publishToMavenLocal`
-- `:app:assembleFdroidDebug`
-- `:app:assembleFdroidRelease`
-- `:app:assemblePlayDebug`
-- `:app:assemblePlayRelease`
-- `:app:testFdroidDebugUnitTest`
-- Dependency graph inspection for `fdroidReleaseRuntimeClasspath`
-- Merged F-Droid manifest inspection (no GMS, Firebase, Sentry, or AD_ID)
-
-`lintFdroidRelease` could not complete because of an Android lint tooling
-failure in this environment: the `BidirectionalTextDetector` crashes on JDK 17
-(`List.removeLast()` is a newer JDK API), and the build-script analyzer crashes
-with `findFirCompiledSymbol` when using Kotlin 2.4.10. These are lint/AGP
-toolchain issues, not app findings. The app source compiles and the unit tests
-pass. Run lint with a supported JDK (for example JDK 21) before submission.
-
-The local container has an 8 GB cgroup memory limit. Release builds were run
-sequentially with a bounded Gradle heap and the Kotlin compiler in-process; see
-`FDROID_BUILD.md`.
+- Run lint with a supported JDK (for example JDK 21) before submission. Android
+  lint crashes on JDK 17 with Kotlin 2.4.10 in `BidirectionalTextDetector` and
+  `findFirCompiledSymbol`; these are tooling issues, not app findings.

@@ -25,17 +25,19 @@ Firebase, Sentry, or other known proprietary runtime libraries.
 
 ### First-party source
 
-| Module | License status |
+| Module | License |
 | --- | --- |
-| `open-prayer-times/client` | No top-level license file in the repository. Needs an explicit license. |
-| `open-prayer-times/calctimes` | No top-level license file. `calctimes/NOTICE.txt` says it is a Kotlin port of praytimes.org; the applicable PrayTimes version/license is not stated. |
-| `open-prayer-times/hijri` | No top-level license file in the repository. Needs an explicit license. |
+| `open-prayer-times/client` | Apache-2.0 |
+| `open-prayer-times/calctimes` | LGPL-3.0, with `NOTICE.txt` attributing PrayTimes.js 2.3 (LGPL-3.0) |
+| `open-prayer-times/hijri` | Apache-2.0 |
+| `open-prayer-times/diyanet-client` | Apache-2.0 |
+| `open-prayer-times/server` | Apache-2.0 |
 | `prayer-times-android` app | Apache-2.0 (`LICENSE`) |
 
-This is the main licensing risk for F-Droid. The app's Apache-2.0 license does
-not automatically cover the separately published `open-prayer-times` artifacts.
-That repository must declare a license that is compatible with Apache-2.0 and
-with the PrayTimes port.
+The overall F-Droid license is `LGPL-3.0-only` because the app combines
+Apache-2.0 and LGPL-3.0 source. The license files and POM metadata are added by
+`open-prayer-times` PR #3; the build pins the license commit
+`2891167b2896c17e98145b7e8258ed3c7a213eeb`.
 
 ### Removed or avoided dependencies
 
@@ -74,5 +76,5 @@ The `play` flavor still uses the Google Maps API key from `secrets.xml`. The
 - The app does not use Google Play Services in the `fdroid` flavor.
 - Sentry is not present in the `fdroid` flavor.
 - The `fdroid` release APK is built from `fdroidRelease` and is unsigned.
-- The only non-permissive license question is the `open-prayer-times` source
-  itself, not a binary dependency.
+- `calctimes` is LGPL-3.0; the full LGPL-3.0 and GPL-3.0 texts and the
+  PrayTimes.js attribution are included in the `open-prayer-times` source.

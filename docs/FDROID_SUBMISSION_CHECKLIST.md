@@ -22,8 +22,10 @@ Status: not submitted.
 ## License
 
 - [x] App license file present (Apache-2.0)
-- [ ] `open-prayer-times` top-level license added (blocker)
-- [ ] PrayTimes port license clarified (blocker)
+- [x] `open-prayer-times` root, `client`, `hijri`, `diyanet-client`, and `server` license files present (Apache-2.0)
+- [x] `calctimes` license and PrayTimes.js attribution present (LGPL-3.0)
+- [x] F-Droid metadata uses the combined LGPL-3.0-only license
+- [ ] `open-prayer-times` PR #3 merged and pinned ref updated if needed
 - [x] Dependency license audit documented
 
 ## Metadata and store listing

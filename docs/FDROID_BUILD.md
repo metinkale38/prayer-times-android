@@ -19,7 +19,7 @@ pinned commit and publish it to Maven local:
 
 ```bash
 git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
-git -C open-prayer-times checkout --detach 0378851c10cc0a188908d93ea2dbb75fec6e9546
+git -C open-prayer-times checkout --detach 2891167b2896c17e98145b7e8258ed3c7a213eeb
 (cd open-prayer-times && bash ./gradlew publishToMavenLocal)
 ```
 
