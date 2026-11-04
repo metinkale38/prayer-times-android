@@ -65,9 +65,6 @@ bash ./gradlew :app:assembleFdroidRelease \
   -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
 ```
 
-See `docs/FDROID_BUILD.md` for F-Droid-specific instructions and
-`docs/FDROID_AUDIT.md` for the readiness audit.
-
 ## Notes
 
 If you find more steps that have to be done, please create an issue or a pull
