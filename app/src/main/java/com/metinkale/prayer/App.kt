@@ -26,8 +26,8 @@ import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.CrashReporter.setUserId
 import com.metinkale.prayer.receiver.AppEventManager
+import com.metinkale.prayer.settings.FlavorSettings
 import com.metinkale.prayer.utils.LocaleUtils.init
-import dev.metinkale.openprayertimes.OpenPrayerTimes
 import kotlin.coroutines.cancellation.CancellationException
 
 open class App : Application(), OnSharedPreferenceChangeListener {
@@ -63,7 +63,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler)
         init(baseContext)
-        configureServerUrl()
+        FlavorSettings.configure()
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this)
 
@@ -76,25 +76,10 @@ open class App : Application(), OnSharedPreferenceChangeListener {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         key?.let { AppEventManager.sendOnPrefsChanged(key) }
-        when (key) {
-            "language" -> init(baseContext)
-            "server_url" -> configureServerUrl()
+        if ("language" == key) {
+            init(baseContext)
         }
-    }
-
-    private fun configureServerUrl() {
-        try {
-            OpenPrayerTimes.configure(Preferences.SERVER_URL)
-        } catch (_: IllegalArgumentException) {
-            Preferences.SERVER_URL = OpenPrayerTimes.DEFAULT_BASE_URL
-            OpenPrayerTimes.configure(OpenPrayerTimes.DEFAULT_BASE_URL)
-            return
-        }
-
-        val normalized = OpenPrayerTimes.baseUrl()
-        if (Preferences.SERVER_URL != normalized) {
-            Preferences.SERVER_URL = normalized
-        }
+        FlavorSettings.onPreferenceChanged(key)
     }
 
     companion object {

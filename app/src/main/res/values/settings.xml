@@ -16,10 +16,6 @@
 <resources>
     <string name="backup">Backup</string>
     <string name="backupRestore">Backup/Restore</string>
-    <string name="serverUrl">Server URL</string>
-    <string name="serverUrlDescription">Use the default server or a self-hosted open-prayer-times instance.</string>
-    <string name="serverUrlReset">Reset server URL</string>
-    <string name="serverUrlInvalid">Invalid server URL. Use http:// or https:// and include a host.</string>
     <string name="calendarIntegration">Calendar Integration</string>
     <string name="dateAndTime">Date and Time</string>
     <string name="dateFormat1">31 December 2013</string>

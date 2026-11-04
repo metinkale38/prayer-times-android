@@ -22,7 +22,6 @@ import android.os.LocaleList
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
-import dev.metinkale.openprayertimes.OpenPrayerTimes
 import java.util.Locale
 import kotlin.reflect.KProperty
 
@@ -82,7 +81,6 @@ object Preferences {
     }
 
     var VAKIT_INDICATOR_TYPE by StringPreference("vakit_indicator", "current")
-    var SERVER_URL by StringPreference("server_url", OpenPrayerTimes.DEFAULT_BASE_URL)
     var SHOW_COMPASS_NOTE by BooleanPreference("showCompassNote", true)
 
     var SHOW_ONGOING_ICON by BooleanPreference("ongoingIcon", true)

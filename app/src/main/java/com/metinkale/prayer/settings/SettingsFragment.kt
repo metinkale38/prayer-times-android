@@ -25,10 +25,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -40,7 +38,6 @@ import com.metinkale.prayer.calendar.runCalendarIntegration
 import com.metinkale.prayer.utils.LocaleUtils.getSupportedLanguages
 import com.metinkale.prayer.utils.LocaleUtils.locale
 import com.metinkale.prayer.utils.Utils
-import dev.metinkale.openprayertimes.OpenPrayerTimes
 import java.util.Locale
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener,
@@ -51,8 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
             preferenceScreen =
                 findPreference<PreferenceScreen>("kerahatDuration") else {
             findPreference<Preference>("numbers")!!.onPreferenceChangeListener = this
-            findPreference<Preference>("server_url")!!.onPreferenceChangeListener = this
-            findPreference<Preference>("serverUrlReset")!!.onPreferenceClickListener = this
             findPreference<Preference>("backupRestore")!!.onPreferenceClickListener = this
             findPreference<Preference>("calendarIntegration")!!.onPreferenceClickListener = this
             findPreference<Preference>("ongoingIcon")!!.onPreferenceClickListener = this
@@ -117,6 +112,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
                     dlg.show()
                     true
                 }
+            FlavorSettings.addPreferences(this)
         }
     }
 
@@ -136,12 +132,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
             }
             "calendarIntegration" -> {
                 runCalendarIntegration(requireActivity())
-                return true
-            }
-            "serverUrlReset" -> {
-                OpenPrayerTimes.configure(OpenPrayerTimes.DEFAULT_BASE_URL)
-                findPreference<EditTextPreference>("server_url")?.text =
-                    OpenPrayerTimes.DEFAULT_BASE_URL
                 return true
             }
         }
@@ -179,16 +169,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
     }
 
     override fun onPreferenceChange(pref: Preference, newValue: Any): Boolean {
-        if ("server_url" == pref.key) {
-            return try {
-                OpenPrayerTimes.configure(newValue.toString())
-                true
-            } catch (_: IllegalArgumentException) {
-                Toast.makeText(requireContext(), R.string.serverUrlInvalid, Toast.LENGTH_LONG)
-                    .show()
-                false
-            }
-        }
         if ("language" == pref.key || "digits" == pref.key) {
             if ("language" == pref.key) Preferences.LANGUAGE = newValue as String
             val act: Activity? = activity
