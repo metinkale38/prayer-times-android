@@ -41,8 +41,27 @@ else
 EOF
 fi
 
-echo "Build F-Droid flavor"
-bash ./gradlew assembleFdroid "${GRADLE_ARGS[@]}"
+FLAVORS=("$@")
+if [ ${#FLAVORS[@]} -eq 0 ]; then
+  FLAVORS=(fdroid play)
+fi
 
-echo "Build Play flavor"
-bash ./gradlew assemblePlay "${GRADLE_ARGS[@]}"
+for flavor in "${FLAVORS[@]}"; do
+  case "${flavor,,}" in
+    fdroid)
+      task=assembleFdroid
+      label=F-Droid
+      ;;
+    play)
+      task=assemblePlay
+      label=Play
+      ;;
+    *)
+      echo "Unknown flavor: ${flavor}" >&2
+      exit 1
+      ;;
+  esac
+
+  echo "Build ${label} flavor"
+  bash ./gradlew "$task" "${GRADLE_ARGS[@]}"
+done

@@ -46,7 +46,8 @@ See `FDROID_FLAVORS.md` for the complete difference list.
 - Sentry manifest metadata moved from the main manifest to the Play manifest.
 - The Google Advertising ID removal declaration moved to the Play manifest,
   where Google Play Services is actually present.
-- CI builds both flavors sequentially with bounded memory.
+- CI builds each flavor in a separate matrix job with bounded memory, so an
+  F-Droid failure cannot hide a Play failure.
 
 ## FOSS dependency status
 

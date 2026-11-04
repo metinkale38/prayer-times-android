@@ -14,7 +14,7 @@ Status: not submitted.
 - [x] Sentry moved to the Play flavor
 - [x] `CrashReporter` no-op in the F-Droid flavor
 - [x] Unused direct dependencies removed and preference library updated
-- [x] CI builds both flavors sequentially with bounded memory
+- [x] CI builds each flavor in a separate matrix job with bounded memory
 - [x] `fdroidDebug`, `fdroidRelease`, `playDebug`, and `playRelease` verified
 - [ ] `fdroidserver` build verified in an `fdroiddata` checkout
 - [ ] Reproducible-build comparison with the F-Droid signing key

@@ -86,7 +86,8 @@ daemon, but it exits after the build. The in-process Kotlin setting prevents a
 separate Kotlin daemon from surviving the build.
 
 `ci_build.sh` follows this strategy and builds the F-Droid and Play flavors in
-separate invocations.
+separate invocations. Pass `fdroid` or `play` to build a single flavor; with no
+argument it builds both.
 
 ## F-Droid build recipe
 

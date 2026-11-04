@@ -12,8 +12,13 @@ permissions:
 
 jobs:
   build:
+    name: Build ${{ matrix.flavor }} flavor
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [fdroid, play]
 
     steps:
     - uses: actions/checkout@v5
@@ -30,5 +35,5 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Build both flavors
-      run: bash ci_build.sh
+    - name: Build ${{ matrix.flavor }} flavor
+      run: bash ci_build.sh ${{ matrix.flavor }}
