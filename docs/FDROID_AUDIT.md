@@ -108,14 +108,10 @@ the advertising ID in the F-Droid flavor.
 
 ## Remaining submission items
 
-1. **Merge `open-prayer-times` PR #3 before submission.** The pinned commit
-   `2891167b2896c17e98145b7e8258ed3c7a213eeb` adds the Apache-2.0 and LGPL-3.0
-   license files and the PrayTimes.js 2.3 attribution. If upstream rewrites or
-   squash-merges the PR, update the pinned ref to the resulting commit.
-2. **Declare the `TetheredNet` anti-feature** in the F-Droid metadata.
-3. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
+1. **Declare the `TetheredNet` anti-feature** in the F-Droid metadata.
+2. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
    9.3.1, Gradle 9.6.1, Kotlin 2.4.10, and JDK 17.
-4. **Feature graphic is optional.** Eight Play Store phone screenshots are
+3. **Feature graphic is optional.** Eight Play Store phone screenshots are
    included in `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 
 ## Reproducible build notes

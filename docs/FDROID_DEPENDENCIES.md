@@ -35,9 +35,9 @@ Firebase, Sentry, or other known proprietary runtime libraries.
 | `prayer-times-android` app | Apache-2.0 (`LICENSE`) |
 
 The overall F-Droid license is `LGPL-3.0-only` because the app combines
-Apache-2.0 and LGPL-3.0 source. The license files and POM metadata are added by
-`open-prayer-times` PR #3; the build pins the license commit
-`2891167b2896c17e98145b7e8258ed3c7a213eeb`.
+Apache-2.0 and LGPL-3.0 source. The license files and POM metadata were added by
+the merged `open-prayer-times` PR #3; the build pins merge commit
+`9dddb6c107a3f76b306452618a5a8dd7e5e37560`.
 
 ### Removed or avoided dependencies
 

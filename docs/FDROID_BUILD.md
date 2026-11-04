@@ -19,7 +19,7 @@ pinned commit and publish it to Maven local:
 
 ```bash
 git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
-git -C open-prayer-times checkout --detach 2891167b2896c17e98145b7e8258ed3c7a213eeb
+git -C open-prayer-times checkout --detach 9dddb6c107a3f76b306452618a5a8dd7e5e37560
 (cd open-prayer-times && bash ./gradlew publishToMavenLocal)
 ```
 
@@ -37,8 +37,6 @@ that need the Play flavor, create it with real values:
 ```xml
 <resources>
   <string name="GOOGLE_API_KEY">YOUR_API_KEY</string>
-  <string name="IGMG_API_KEY"></string>
-  <string name="LONDON_PRAYER_TIMES_API_KEY"></string>
   <string name="SENTRY_DSN">YOUR_SENTRY_DSN</string>
 </resources>
 ```

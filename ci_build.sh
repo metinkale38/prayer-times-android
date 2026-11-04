@@ -2,7 +2,7 @@
 set -euo pipefail
 
 OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
-OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-2891167b2896c17e98145b7e8258ed3c7a213eeb}"
+OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-9dddb6c107a3f76b306452618a5a8dd7e5e37560}"
 
 # Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
 # heap is bounded so the release builds do not exhaust small CI containers.
@@ -39,8 +39,6 @@ else
   cat > "$SECRETS_FILE" <<'EOF'
 <resources>
   <string name="GOOGLE_API_KEY"></string>
-  <string name="IGMG_API_KEY"></string>
-  <string name="LONDON_PRAYER_TIMES_API_KEY"></string>
   <string name="SENTRY_DSN"></string>
 </resources>
 EOF
