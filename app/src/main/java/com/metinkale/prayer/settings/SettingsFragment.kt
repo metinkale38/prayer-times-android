@@ -46,15 +46,15 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
         addPreferencesFromResource(R.xml.settings)
         if (arguments != null && requireArguments().getBoolean("showKerahatDuration"))
             preferenceScreen =
-                findPreference("kerahatDuration") as PreferenceScreen else {
-            findPreference("numbers").onPreferenceChangeListener = this
-            findPreference("backupRestore").onPreferenceClickListener = this
-            findPreference("calendarIntegration").onPreferenceClickListener = this
-            findPreference("ongoingIcon").onPreferenceClickListener = this
-            findPreference("ongoingNumber").onPreferenceClickListener = this
-            findPreference("kerahatDuration").onPreferenceClickListener = this
-            findPreference("arabicNames").isEnabled = Locale("ar").language != locale.language
-            val lang = findPreference("language") as ListPreference
+                findPreference<PreferenceScreen>("kerahatDuration") else {
+            findPreference<Preference>("numbers")!!.onPreferenceChangeListener = this
+            findPreference<Preference>("backupRestore")!!.onPreferenceClickListener = this
+            findPreference<Preference>("calendarIntegration")!!.onPreferenceClickListener = this
+            findPreference<Preference>("ongoingIcon")!!.onPreferenceClickListener = this
+            findPreference<Preference>("ongoingNumber")!!.onPreferenceClickListener = this
+            findPreference<Preference>("kerahatDuration")!!.onPreferenceClickListener = this
+            findPreference<Preference>("arabicNames")!!.isEnabled = Locale("ar").language != locale.language
+            val lang = findPreference<ListPreference>("language")!!
             lang.onPreferenceChangeListener = this
             val languages = getSupportedLanguages(
                 requireActivity()
@@ -79,7 +79,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
                 intArrayOf(-0xddddde, -0x222223),
                 intArrayOf(-0x1000000, -0x333334)
             )
-            val ongoingColor = findPreference("ongoingColor")
+            val ongoingColor = findPreference<Preference>("ongoingColor")!!
             ongoingColor.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     val dlg = AlertDialog.Builder(

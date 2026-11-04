@@ -17,8 +17,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
+    - name: Checkout open-prayer-times
+      uses: actions/checkout@v5
       with:
-        submodules: recursive
+        repository: metinkale38/open-prayer-times
+        ref: 0378851c10cc0a188908d93ea2dbb75fec6e9546
+        path: open-prayer-times
     - name: set up JDK 17
       uses: actions/setup-java@v5
       with:

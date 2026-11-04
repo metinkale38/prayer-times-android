@@ -6,12 +6,14 @@ Status: not submitted.
 
 - [x] FOSS `fdroid` flavor builds without Google Play Services or Sentry
 - [x] Play flavor still builds with its proprietary dependencies
-- [x] `open-prayer-times` is a pinned git submodule
-- [x] `mavenLocal()` removed
+- [x] `open-prayer-times` removed as a git submodule
+- [x] CI and `ci_build.sh` clone the pinned `open-prayer-times` checkout and run `publishToMavenLocal`
+- [x] App consumes `dev.metinkale:*:1.0-SNAPSHOT` from `mavenLocal()`
 - [x] `jitpack.io` removed
 - [x] `google-services` plugin removed (no Firebase)
 - [x] Sentry moved to the Play flavor
 - [x] `CrashReporter` no-op in the F-Droid flavor
+- [x] Unused direct dependencies removed and preference library updated
 - [x] CI builds both flavors sequentially with bounded memory
 - [x] `fdroidDebug`, `fdroidRelease`, `playDebug`, and `playRelease` verified
 - [ ] `fdroidserver` build verified in an `fdroiddata` checkout
@@ -30,7 +32,7 @@ Status: not submitted.
 - [x] Fastlane title, short description, full description
 - [x] Fastlane changelog for version 257
 - [x] 512x512 icon copied to fastlane
-- [ ] Phone screenshots added
+- [x] Eight phone screenshots added from the Play Store listing
 - [ ] Feature graphic added (optional)
 - [ ] Localized fastlane metadata reviewed
 - [ ] `TetheredNet` anti-feature confirmed by F-Droid reviewers
@@ -40,8 +42,8 @@ Status: not submitted.
 
 - [x] No secrets committed
 - [x] `secrets.xml` remains ignored
-- [x] No local Maven artifacts required
-- [x] Submodule commit pinned
+- [x] `open-prayer-times` checkout remains ignored
+- [x] `open-prayer-times` commit pinned
 - [ ] `repomix-output.xml` removed from the working tree (untracked local file)
 
 ## Submission

@@ -1,25 +1,28 @@
 #!/bin/bash
 set -euo pipefail
 
-append_gradle_property() {
-  local file="$1"
-  local key="$2"
-  local value="$3"
+OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
+OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-0378851c10cc0a188908d93ea2dbb75fec6e9546}"
 
-  touch "$file"
-  if [ -s "$file" ] && [ -n "$(tail -c 1 "$file")" ]; then
-    echo >> "$file"
-  fi
-  if ! grep -qF "${key}=" "$file"; then
-    echo "${key}=${value}" >> "$file"
-  fi
-}
+# Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
+# heap is bounded so the release builds do not exhaust small CI containers.
+GRADLE_ARGS=(
+  --no-daemon
+  --max-workers=1
+  -Pkotlin.compiler.execution.strategy=in-process
+  -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
+)
 
-# The open-prayer-times sources are pinned as a git submodule.
+# CI checks this repository out at the pinned commit before running this script.
+# For local builds, clone it on demand.
 if [ ! -f "open-prayer-times/settings.gradle.kts" ]; then
-  echo "Initializing open-prayer-times submodule"
-  git submodule update --init --recursive
+  echo "Cloning open-prayer-times at ${OPEN_PRAYER_TIMES_REF}"
+  git clone "$OPEN_PRAYER_TIMES_REPO" open-prayer-times
+  git -C open-prayer-times checkout --detach "$OPEN_PRAYER_TIMES_REF"
 fi
+
+echo "Publish open-prayer-times to Maven local"
+(cd open-prayer-times && bash gradlew publishToMavenLocal "${GRADLE_ARGS[@]}")
 
 # create secrets.xml with empty values; release secrets are injected by the release workflow
 SECRETS_FILE="app/src/main/res/values/secrets.xml"
@@ -38,20 +41,8 @@ else
 EOF
 fi
 
-# Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
-# heap is bounded so the two release builds do not exhaust small CI containers.
-GRADLE_ARGS=(
-  --no-daemon
-  --max-workers=1
-  -Pkotlin.compiler.execution.strategy=in-process
-  -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
-)
-
-append_gradle_property gradle.properties org.gradle.daemon false
-chmod +x gradlew
-
 echo "Build F-Droid flavor"
-./gradlew assembleFdroid "${GRADLE_ARGS[@]}"
+bash ./gradlew assembleFdroid "${GRADLE_ARGS[@]}"
 
 echo "Build Play flavor"
-./gradlew assemblePlay "${GRADLE_ARGS[@]}"
+bash ./gradlew assemblePlay "${GRADLE_ARGS[@]}"

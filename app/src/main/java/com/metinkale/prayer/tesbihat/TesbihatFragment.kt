@@ -93,7 +93,7 @@ class TesbihatFragment : BaseActivity.MainFragment() {
             viewPager.currentItem = i
         } else if (i1 == R.id.zoomOut) {
             TEXT_SIZE--
-            PreferenceManager.getDefaultSharedPreferences(activity).edit()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
                 .putInt("tesbihatTextSize", TEXT_SIZE).apply()
             val i = viewPager.currentItem
             viewPager.invalidate()

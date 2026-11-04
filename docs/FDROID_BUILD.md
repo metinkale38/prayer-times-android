@@ -4,24 +4,29 @@
 
 - JDK 17
 - Android SDK with platform 37 and build-tools 36.0.0 or newer
-- Git (for the `open-prayer-times` submodule)
-- No local Maven repository is required
+- Git
+- A local Maven repository populated from the pinned `open-prayer-times` checkout
 
 ## Checkout
 
 ```bash
-git clone --recurse-submodules https://github.com/metinkale38/prayer-times-android.git
+git clone https://github.com/metinkale38/prayer-times-android.git
 cd prayer-times-android
 ```
 
-If the repository was cloned without submodules:
+`open-prayer-times` is not a git submodule. Clone it next to the app at the
+pinned commit and publish it to Maven local:
 
 ```bash
-git submodule update --init --recursive
+git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
+git -C open-prayer-times checkout --detach 0378851c10cc0a188908d93ea2dbb75fec6e9546
+(cd open-prayer-times && bash ./gradlew publishToMavenLocal)
 ```
 
-The submodule is pinned to a fixed `open-prayer-times` commit. Do not replace it
-with `origin/main` during a release build.
+The app consumes the resulting `dev.metinkale:*:1.0-SNAPSHOT` artifacts from
+`mavenLocal()`. Do not replace the pinned checkout with `origin/main` during a
+release build. `ci_build.sh` performs the clone and publish step automatically
+when `open-prayer-times` is missing.
 
 ## Secrets
 
@@ -44,7 +49,7 @@ are sufficient.
 ## Build commands
 
 ```bash
-./gradlew :app:assembleFdroidRelease
+bash ./gradlew :app:assembleFdroidRelease
 ```
 
 Output:
@@ -56,7 +61,7 @@ app/build/outputs/apk/fdroid/release/app-fdroid-release-unsigned.apk
 For the Play flavor:
 
 ```bash
-./gradlew :app:assemblePlayRelease
+bash ./gradlew :app:assemblePlayRelease
 ```
 
 The release APKs are unsigned. F-Droid signs the F-Droid APK with its own key.
@@ -69,7 +74,7 @@ especially because Gradle and the Kotlin compiler run in separate JVMs by
 default. Use a bounded heap, one worker, and the in-process Kotlin compiler:
 
 ```bash
-./gradlew :app:assembleFdroidRelease \
+bash ./gradlew :app:assembleFdroidRelease \
   --no-daemon \
   --max-workers=1 \
   -Pkotlin.compiler.execution.strategy=in-process \
@@ -87,9 +92,9 @@ separate invocations.
 
 The draft metadata in `metadata/com.metinkale.prayer.yml` uses:
 
-- `submodules: true`
 - `gradle: [fdroidRelease]`
-- a `prebuild` step that creates `secrets.xml` with empty values
+- a `prebuild` step that clones `open-prayer-times` at the pinned commit, runs
+  `publishToMavenLocal`, and creates `secrets.xml` with empty values
 
 F-Droid builds the release variant with its own signing key and does not use
 the `play` flavor.
@@ -97,9 +102,9 @@ the `play` flavor.
 ## Reproducibility
 
 The build uses the Gradle wrapper (9.6.1), Android Gradle Plugin 9.3.1, Kotlin
-2.4.10, and Java 17. The `open-prayer-times` submodule is pinned. Avoid
-`mavenLocal()` and avoid resolving SNAPSHOT artifacts from a mutable local
-repository.
+2.4.10, and Java 17. The `open-prayer-times` checkout is pinned and published
+locally before the app build. The `1.0-SNAPSHOT` version is resolved only from
+that local publish; no remote snapshot repository is used.
 
 A full `fdroidserver` build was not run in this environment. Run
 `fdroid build com.metinkale.prayer` in an `fdroiddata` checkout before

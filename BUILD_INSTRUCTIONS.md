@@ -9,19 +9,23 @@
 ## Checkout
 
 ```bash
-git clone --recurse-submodules https://github.com/metinkale38/prayer-times-android.git
+git clone https://github.com/metinkale38/prayer-times-android.git
 cd prayer-times-android
 ```
 
-If the repository was cloned without submodules:
+`open-prayer-times` is not a git submodule. Check it out next to the app at the
+pinned commit and publish it to the local Maven repository:
 
 ```bash
-git submodule update --init --recursive
+git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
+git -C open-prayer-times checkout --detach 0378851c10cc0a188908d93ea2dbb75fec6e9546
+(cd open-prayer-times && bash ./gradlew publishToMavenLocal)
 ```
 
-`open-prayer-times` is pinned as a git submodule. The `client`, `calctimes`, and
-`hijri` modules are built directly from it. There is no `mavenLocal()` step and
-no `publishToMavenLocal` step.
+The app resolves `dev.metinkale:open-prayer-times-client:1.0-SNAPSHOT`,
+`dev.metinkale:calctimes:1.0-SNAPSHOT`, and `dev.metinkale:hijri:1.0-SNAPSHOT`
+from `mavenLocal()`. `ci_build.sh` performs the clone and publish step
+automatically when `open-prayer-times` is missing.
 
 ## secrets.xml
 
@@ -51,16 +55,16 @@ flavor does not need a Google API key or a Sentry DSN; empty values are enough.
 
 ```bash
 # F-Droid flavor
-./gradlew :app:assembleFdroidRelease
+bash ./gradlew :app:assembleFdroidRelease
 
 # Play flavor
-./gradlew :app:assemblePlayRelease
+bash ./gradlew :app:assemblePlayRelease
 ```
 
 For low-memory environments, build one flavor at a time:
 
 ```bash
-./gradlew :app:assembleFdroidRelease \
+bash ./gradlew :app:assembleFdroidRelease \
   --no-daemon \
   --max-workers=1 \
   -Pkotlin.compiler.execution.strategy=in-process \

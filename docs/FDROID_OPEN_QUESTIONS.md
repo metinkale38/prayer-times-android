@@ -6,15 +6,15 @@ metadata is submitted.
 ## 1. `open-prayer-times` has no license file (blocker)
 
 `https://github.com/metinkale38/open-prayer-times` has no top-level `LICENSE`,
-`COPYING`, or `NOTICE` file. The app is Apache-2.0, but the submodule source
-does not declare a license. F-Droid requires a clear license for all source
-that is built into the APK.
+`COPYING`, or `NOTICE` file. The app is Apache-2.0, but the separately published
+library source does not declare a license. F-Droid requires a clear license for
+all source that is built into the APK.
 
 Options:
 
 - Add an explicit license to `open-prayer-times` (must be compatible with
   Apache-2.0 and with the PrayTimes port).
-- Replace the submodule with an in-repo, clearly licensed implementation.
+- Replace the library with an in-repo, clearly licensed implementation.
 - Do not submit until the license question is resolved.
 
 This repository cannot fix this without modifying `open-prayer-times`, which is
@@ -38,20 +38,17 @@ The port does not state which version it is based on. If it is based on v1 or
 v2, the current Apache-2.0 app license may be incompatible. This needs a
 license review and an explicit attribution/license in `open-prayer-times`.
 
-## 3. Screenshots and feature graphic (submission asset)
+## 3. Screenshots and feature graphic (screenshots resolved)
 
-The repository contains 512x512 launcher icons, but no phone screenshots and no
-feature graphic. F-Droid can use the icon, but a useful listing needs
-screenshots. Do not fabricate screenshots; they must be captured from the app.
-
-Needed files:
+Eight phone screenshots from the Play Store listing are stored in:
 
 ```text
-fastlane/metadata/android/en-US/images/phoneScreenshots/1.png
-fastlane/metadata/android/en-US/images/phoneScreenshots/2.png
+fastlane/metadata/android/en-US/images/phoneScreenshots/01.png
 ...
-fastlane/metadata/android/en-US/images/featureGraphic.png (optional)
+fastlane/metadata/android/en-US/images/phoneScreenshots/08.png
 ```
+
+A feature graphic is optional and is not included.
 
 ## 4. TetheredNet anti-feature
 

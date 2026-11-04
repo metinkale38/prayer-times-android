@@ -19,7 +19,7 @@ Firebase, Sentry, or other known proprietary runtime libraries.
 
 | License | Libraries |
 | --- | --- |
-| Apache-2.0 | AndroidX (`androidx.*`), Jetpack Compose and Compose Multiplatform runtime, Material Components, Kotlin stdlib/reflect, kotlinx coroutines/datetime/io/serialization, Ktor client, ION and AndroidAsync, AboutLibraries, Gson, Guava `listenablefuture`, `error_prone_annotations`, JSpecify, Relinker |
+| Apache-2.0 | AndroidX (`androidx.*`), Jetpack Compose and Compose Multiplatform runtime, Material Components, Kotlin stdlib, kotlinx coroutines/datetime/io/serialization, Ktor client, ION and AndroidAsync, AboutLibraries, Gson, Guava `listenablefuture`, `error_prone_annotations`, JSpecify, Relinker |
 | BSD-2-Clause | Flexmark and its `flexmark-util-*` modules |
 | MIT | SLF4J API, android-gif-drawable |
 
@@ -33,16 +33,26 @@ Firebase, Sentry, or other known proprietary runtime libraries.
 | `prayer-times-android` app | Apache-2.0 (`LICENSE`) |
 
 This is the main licensing risk for F-Droid. The app's Apache-2.0 license does
-not automatically cover the submodule. The submodule repository must declare a
-license that is compatible with Apache-2.0 and with the PrayTimes port.
+not automatically cover the separately published `open-prayer-times` artifacts.
+That repository must declare a license that is compatible with Apache-2.0 and
+with the PrayTimes port.
 
 ### Removed or avoided dependencies
 
 | Dependency | Status |
 | --- | --- |
 | `com.google.gms:google-services` Gradle plugin | Removed. The app does not use Firebase and does not need `google-services.json`. |
-| `mavenLocal()` | Removed. All dependencies are resolved from `google()` and `mavenCentral()` or built from the pinned submodule. |
+| `com.google.android.gms:play-services-gcm` | Removed. The app did not use it. |
+| `org.jetbrains.kotlin:kotlin-reflect` | Removed. The app did not use reflection directly. |
+| `androidx.legacy:legacy-preference-v14` | Replaced with `androidx.preference:preference:1.2.1`. |
+| `androidx.documentfile:documentfile` | Removed as a direct dependency; a transitive 1.0.0 copy remains. |
+| `androidx.compose.ui:ui-tooling` | Removed from debug builds; no Compose previews are used. |
+| `io.ktor:ktor-client-logging` | Removed. The app does not install Ktor logging. |
 | `https://jitpack.io` | Removed. No dependency required it. |
+
+`mavenLocal()` is required for the locally published `open-prayer-times`
+`1.0-SNAPSHOT` artifacts. It is populated by the pinned checkout before the app
+build; no remote snapshot repository is used.
 
 ## Play flavor only
 
@@ -52,7 +62,6 @@ These are deliberately kept out of the `fdroid` flavor:
 | --- | --- | --- |
 | `com.google.android.gms:play-services-maps` | Proprietary | Google Maps in the Qibla map screen |
 | `com.google.android.gms:play-services-location` | Proprietary | Fused location in the Play map screen |
-| `com.google.android.gms:play-services-gcm` | Proprietary | Currently unused; retained to avoid changing Play behavior in this preparation |
 | `io.sentry:sentry-android` | MIT | Crash reporting |
 
 The `play` flavor still uses the Google Maps API key from `secrets.xml`. The

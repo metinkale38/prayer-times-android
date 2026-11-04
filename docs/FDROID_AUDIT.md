@@ -30,10 +30,11 @@ See `FDROID_FLAVORS.md` for the complete difference list.
 
 ## Build changes made for F-Droid
 
-- `open-prayer-times` is now a pinned git submodule instead of a local Maven
-  dependency. The `client`, `calctimes`, and `hijri` modules are included as
-  Gradle projects.
-- `mavenLocal()` was removed from `settings.gradle`.
+- `open-prayer-times` is no longer a git submodule. CI and `ci_build.sh` clone
+  it at a pinned commit, run `publishToMavenLocal`, and the app consumes the
+  `dev.metinkale:*:1.0-SNAPSHOT` artifacts from `mavenLocal()`.
+- `settings.gradle` includes only `:app` and resolves Maven local before
+  `google()` and `mavenCentral()`.
 - `jitpack.io` was removed from the repository list. No dependency required it.
 - The `com.google.gms.google-services` Gradle plugin was removed. The app does
   not use Firebase; the plugin only required an unnecessary
@@ -114,9 +115,10 @@ the advertising ID in the F-Droid flavor.
    LGPL-3.0 (v2), and is MIT since v3. The port does not state which version it
    is based on. This needs a legal/license review and an explicit license and
    attribution in `open-prayer-times` before F-Droid submission.
-3. **No screenshots or feature graphic are stored in the repository.** Fastlane
-   metadata can only include the existing 512x512 icon. Screenshots must be
-   added by the maintainer.
+3. **No feature graphic is stored in the repository.** Eight Play Store phone
+   screenshots are included in
+   `fastlane/metadata/android/en-US/images/phoneScreenshots/`; a feature graphic
+   is optional.
 
 ## Reproducible build notes
 
@@ -124,7 +126,8 @@ the advertising ID in the F-Droid flavor.
 - Android Gradle Plugin: 9.3.1
 - Kotlin: 2.4.10
 - Java: 17
-- The submodule commit is pinned in `.gitmodules`/the gitlink.
+- The `open-prayer-times` commit is pinned in `ci_build.sh`, the CI workflow,
+  and the F-Droid metadata prebuild step.
 - Release APKs are unsigned by the project; F-Droid signs them with its own key.
 - A full `fdroidserver` reproducibility check was not possible in this
   environment because `fdroidserver` and Docker/Podman are not installed.
@@ -133,6 +136,7 @@ the advertising ID in the F-Droid flavor.
 
 ## Verification performed
 
+- `bash ci_build.sh` end-to-end, including the pinned `open-prayer-times` clone and `publishToMavenLocal`
 - `:app:assembleFdroidDebug`
 - `:app:assembleFdroidRelease`
 - `:app:assemblePlayDebug`
