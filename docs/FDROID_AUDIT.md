@@ -101,11 +101,34 @@ wake lock, network, vibration, keyguard, notification-policy, and shortcut
 permissions. All are tied to user-visible features. There is no request for
 the advertising ID in the F-Droid flavor.
 
+## Docker test build
+
+The fdroiddata recipe was tested in the prepared Docker/SSH environment on
+2026-11-04:
+
+- `fdroid lint -f com.metinkale.prayer` passed.
+- `fdroid build --verbose com.metinkale.prayer` succeeded from app commit
+  `dfa93eb1a5da015334a3388afc6af5925db7b381`.
+- APK: `app-fdroid-release-unsigned.apk`, `6.5 MB`, SHA-256
+  `86babcf7707f32b8a95cf29dba6594a2875b01ae40520996183ed64d402f9ca7`.
+- Package `com.metinkale.prayer`, versionCode `257`, versionName `3.9.0`,
+  minSdk `26`, target/compileSdk `37`.
+- No GMS, Firebase, Sentry, or advertising-ID permission was found. No
+  proprietary packages are defined in the DEX.
+- A class-name string reference to
+  `com.google.android.gms.security.ProviderInstaller` remains in the DEX, but
+  no GMS classes are defined and no GMS dependency is on the runtime classpath.
+- The APK is unsigned as expected; F-Droid signs it.
+
+This is a Docker test build, not the official F-Droid buildserver VM.
+
 ## Remaining submission items
 
 1. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
    9.3.1, Gradle 9.6.1, Kotlin 2.4.10, and JDK 17.
-2. **Feature graphic is optional.** Eight Play Store phone screenshots are
+2. **Run official reproducibility checks** and add `AllowedAPKSigningKeys`
+   after the first successful F-Droid build.
+3. **Feature graphic is optional.** Eight Play Store phone screenshots are
    included in `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 
 ## Reproducible build notes
@@ -117,10 +140,8 @@ the advertising ID in the F-Droid flavor.
 - The `open-prayer-times` commit is pinned in `ci_build.sh`, the CI workflow,
   and the F-Droid metadata prebuild step.
 - Release APKs are unsigned by the project; F-Droid signs them with its own key.
-- A full `fdroidserver` reproducibility check was not possible in this
-  environment because `fdroidserver` and Docker/Podman are not installed.
-  The Gradle build itself was verified for `fdroidDebug`, `fdroidRelease`,
-  `playDebug`, and `playRelease`.
+- A Docker `fdroid build` succeeded; official F-Droid reproducibility and
+  signing-key verification are still pending.
 - Run lint with a supported JDK (for example JDK 21) before submission. Android
   lint crashes on JDK 17 with Kotlin 2.4.10 in `BidirectionalTextDetector` and
   `findFirCompiledSymbol`; these are tooling issues, not app findings.

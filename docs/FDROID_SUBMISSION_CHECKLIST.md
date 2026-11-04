@@ -16,7 +16,7 @@ Status: not submitted.
 - [x] Unused direct dependencies removed and preference library updated
 - [x] CI builds each flavor in a separate matrix job with bounded memory
 - [x] `fdroidDebug`, `fdroidRelease`, `playDebug`, and `playRelease` verified
-- [ ] `fdroidserver` build verified in the prepared Docker/SSH environment
+- [x] `fdroidserver` Docker test build verified in the prepared SSH environment
 - [ ] Reproducible-build comparison with the F-Droid signing key
 
 ## License
@@ -55,5 +55,5 @@ Status: not submitted.
 - [x] `fdroiddata` fork cloned and feature branch created
 - [x] Metadata file added under `metadata/com.metinkale.prayer.yml`
 - [x] `fdroid lint -f com.metinkale.prayer` passes
-- [ ] `fdroid build com.metinkale.prayer` passes in the Docker/SSH environment
+- [x] `fdroid build com.metinkale.prayer` passed in the Docker/SSH environment
 - [ ] Merge request opened against `fdroiddata`

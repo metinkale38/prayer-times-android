@@ -119,9 +119,32 @@ test build:
 - persistent Gradle, Maven, Android, and F-Droid caches
 - no Docker socket and no privileged container
 
-The environment is prepared but has not been started. The practical
-`fdroid build com.metinkale.prayer` test is intentionally deferred until the
-user starts it and provides SSH access.
+The environment was started and the recipe was tested on 2026-11-04:
+
+- `fdroid lint -f com.metinkale.prayer` passed.
+- `fdroid build --verbose com.metinkale.prayer` succeeded from app commit
+  `dfa93eb1a5da015334a3388afc6af5925db7b381`.
+- The srclib was cloned at `f44a7ed8fbf68ef9416eb4c487df8ea940adfed3` and
+  published to the container-local Maven repository before the app build.
+- Result:
+  `app/build/outputs/apk/fdroid/release/app-fdroid-release-unsigned.apk`,
+  `6.5 MB`, SHA-256
+  `86babcf7707f32b8a95cf29dba6594a2875b01ae40520996183ed64d402f9ca7`.
+- Package: `com.metinkale.prayer`, versionCode `257`, versionName `3.9.0`,
+  minSdk `26`, target/compileSdk `37`.
+- APK inspection found no defined `com.google.android.gms`, Firebase, Sentry, or
+  ads packages and no advertising-ID permission.
+- The APK is unsigned, as expected; `apksigner verify` reports
+  `DOES NOT VERIFY` because F-Droid will sign it.
+
+Docker-specific notes:
+
+- `platforms;android-37.0` is the correct SDK package; `platforms;android-37`
+  does not exist.
+- The fdroidserver 2.4.5 wheel does not ship `gradlew-fdroid`; the image
+  installs the upstream script with Gradle 9.6.1/9.8.2 hashes and uses
+  `--no-daemon --no-watch-fs` to work around a container Gradle daemon issue.
+- The container shell PATH is set through `/etc/profile.d/99-fdroid.sh`.
 
 ## Reproducibility
 
@@ -130,6 +153,6 @@ The build uses the Gradle wrapper (9.6.1), Android Gradle Plugin 9.3.1, Kotlin
 locally before the app build. The `1.0-SNAPSHOT` version is resolved only from
 that local publish; no remote snapshot repository is used.
 
-`fdroid lint -f com.metinkale.prayer` passes. The official `fdroid build` and
-reproducibility comparison remain to be run in the Docker/SSH environment or
-on the official F-Droid buildserver.
+This was a Docker test build, not the official F-Droid buildserver VM.
+Reproducibility comparison, official buildserver Gradle 9.6.1/9.8.2 support,
+and `AllowedAPKSigningKeys` remain to be verified.
