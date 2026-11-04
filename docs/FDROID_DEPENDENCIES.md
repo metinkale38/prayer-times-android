@@ -36,8 +36,9 @@ Firebase, Sentry, or other known proprietary runtime libraries.
 
 The overall F-Droid license is `LGPL-3.0-only` because the app combines
 Apache-2.0 and LGPL-3.0 source. The license files and POM metadata were added by
-the merged `open-prayer-times` PR #3; the build pins merge commit
-`9dddb6c107a3f76b306452618a5a8dd7e5e37560`.
+the merged `open-prayer-times` PR #3; the build pins current main merge commit
+`f44a7ed8fbf68ef9416eb4c487df8ea940adfed3`, which also includes the configurable
+client URL from PR #4.
 
 ### Removed or avoided dependencies
 

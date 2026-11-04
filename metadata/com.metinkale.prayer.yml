@@ -25,13 +25,11 @@ Builds:
       - org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=768m
     prebuild:
       - git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
-      - git -C open-prayer-times checkout --detach 9dddb6c107a3f76b306452618a5a8dd7e5e37560
+      - git -C open-prayer-times checkout --detach f44a7ed8fbf68ef9416eb4c487df8ea940adfed3
       - cd open-prayer-times && bash ./gradlew publishToMavenLocal --no-daemon --max-workers=1 -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
       - mkdir -p app/src/main/res/values
       - printf '%s\n' '<resources>' '  <string name="GOOGLE_API_KEY"></string>' '  <string name="SENTRY_DSN"></string>' '</resources>' > app/src/main/res/values/secrets.xml
     output: app/build/outputs/apk/fdroid/release/app-fdroid-release-unsigned.apk
-
-AntiFeatures: TetheredNet
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^fdroid-v.*
@@ -41,8 +39,9 @@ CurrentVersionCode: 257
 MaintainerNotes: |-
   The app is Apache-2.0. The bundled calctimes module is LGPL-3.0; its NOTICE
   attributes PrayTimes.js 2.3 (LGPL-3.0). The overall F-Droid license is
-  therefore LGPL-3.0-only. The build pins the merged open-prayer-times PR #3
-  commit. Only the fdroidRelease flavor is built. The prebuild step clones the
+  therefore LGPL-3.0-only. The build pins current open-prayer-times main, which
+  includes licensing and the configurable client URL. Only the fdroidRelease
+  flavor is built. The prebuild step clones the
   pinned open-prayer-times checkout, publishes its 1.0-SNAPSHOT artifacts to
   the local Maven repository, and creates secrets.xml with empty values; the
   F-Droid flavor does not need a Google API key or a Sentry DSN. If this branch

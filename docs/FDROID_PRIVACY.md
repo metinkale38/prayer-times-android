@@ -22,10 +22,11 @@ The app requests `ACCESS_COARSE_LOCATION` and `ACCESS_FINE_LOCATION` for
 automatic location and the Qibla compass. Location is used locally to calculate
 prayer times and the Qibla direction.
 
-When automatic location is enabled, the coordinates are sent to
-`https://opt.mk38.de/search?lat=...&lng=...` to find matching cities and
-providers. This happens for both flavors. The app does not request background
-location.
+When automatic location is enabled, the coordinates are sent to the configured
+server's `/search?lat=...&lng=...` endpoint to find matching cities and
+providers. The default server is `https://opt.mk38.de`; users can configure a
+self-hosted server URL in the settings. This happens for both flavors. The app
+does not request background location.
 
 The Play flavor also uses Google Play Services fused location in the map screen.
 The F-Droid flavor does not use Google Play Services.
@@ -34,9 +35,7 @@ The F-Droid flavor does not use Google Play Services.
 
 | Destination | Data | When |
 | --- | --- | --- |
-| `https://opt.mk38.de/search?lat=...&lng=...` | Coordinates | Automatic location |
-| `https://opt.mk38.de/search?q=...` | Search text | Manual city search |
-| `https://opt.mk38.de/<provider>/<key>/json` | Provider and city key | Selecting a non-calculated provider |
+| Configured server URL, default `https://opt.mk38.de` | Coordinates, search text, provider and city key | City search and non-calculated provider data |
 | `https://metinkale38.github.io/prayer-times-android/...` | None (static download) | Downloading sounds or hadith data |
 | Sentry DSN | Crash reports, app version, device/OS info, user UUID, tags | Play flavor only |
 
@@ -66,11 +65,10 @@ send the UUID.
 - No advertising ID permission in the F-Droid flavor.
 - No Sentry in the F-Droid flavor.
 
-## Third-party services and TetheredNet
+## Third-party services
 
-The city search and non-calculated prayer times depend on a developer-hosted
-server. The server source is in `open-prayer-times`, but the URL is not
-configurable in the app. This is the reason the app may need the `TetheredNet`
-anti-feature in F-Droid. The app can still calculate prayer times offline with
-the built-in calculation methods, but city search and provider data require the
-server.
+The city search and non-calculated prayer times use a server whose URL is
+configurable in the app. The default is `https://opt.mk38.de`, and the server
+source is in `open-prayer-times`, so users can self-host it. No `TetheredNet`
+anti-feature is needed. The app can also calculate prayer times fully offline
+with the built-in calculation methods.

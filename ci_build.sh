@@ -2,7 +2,7 @@
 set -euo pipefail
 
 OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
-OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-9dddb6c107a3f76b306452618a5a8dd7e5e37560}"
+OPEN_PRAYER_TIMES_REF="${OPEN_PRAYER_TIMES_REF:-f44a7ed8fbf68ef9416eb4c487df8ea940adfed3}"
 
 # Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
 # heap is bounded so the release builds do not exhaust small CI containers.

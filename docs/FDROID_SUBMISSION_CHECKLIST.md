@@ -37,7 +37,7 @@ Status: not submitted.
 - [x] Eight phone screenshots added from the Play Store listing
 - [ ] Feature graphic added (optional)
 - [ ] Localized fastlane metadata reviewed
-- [ ] `TetheredNet` anti-feature confirmed by F-Droid reviewers
+- [x] Server URL configurable; no `TetheredNet` anti-feature declared
 - [ ] `AllowedAPKSigningKeys` filled after first reproducible build
 
 ## Repository hygiene

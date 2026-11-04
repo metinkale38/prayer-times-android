@@ -176,6 +176,16 @@
 
     <PreferenceCategory android:title="@string/other">
 
+        <EditTextPreference
+            android:defaultValue="https://opt.mk38.de"
+            android:dialogMessage="@string/serverUrlDescription"
+            android:key="server_url"
+            android:title="@string/serverUrl"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="serverUrlReset"
+            android:title="@string/serverUrlReset" />
 
         <Preference
             android:key="backupRestore"

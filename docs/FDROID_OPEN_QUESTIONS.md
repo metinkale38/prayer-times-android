@@ -13,8 +13,10 @@ metadata:
 - Full LGPL-3.0 and GPL-3.0 texts for `calctimes`.
 - PrayTimes.js 2.3 attribution in `calctimes/NOTICE.txt`.
 
-The build pins merge commit `9dddb6c107a3f76b306452618a5a8dd7e5e37560`, which
-contains these files. The overall F-Droid metadata license is `LGPL-3.0-only`.
+The build pins current main merge commit
+`f44a7ed8fbf68ef9416eb4c487df8ea940adfed3`, which contains these files and the
+configurable client URL. The overall F-Droid metadata license is
+`LGPL-3.0-only`.
 
 ## 2. PrayTimes port license (resolved)
 
@@ -42,12 +44,11 @@ fastlane/metadata/android/en-US/images/phoneScreenshots/08.png
 
 A feature graphic is optional and is not included.
 
-## 4. TetheredNet anti-feature
+## 4. TetheredNet anti-feature (resolved)
 
-The server URL `https://opt.mk38.de` is hard-coded in `open-prayer-times`.
-Users cannot point the app at another server. F-Droid will likely require the
-`TetheredNet` anti-feature. Removing it would require an upstream change in
-`open-prayer-times` (configurable base URL).
+`open-prayer-times` PR #4 makes the client base URL configurable, and the app
+exposes it as "Server URL" in the advanced settings. The default remains
+`https://opt.mk38.de`. No `TetheredNet` anti-feature is declared.
 
 ## 5. Signing and reproducible builds
 

@@ -71,29 +71,24 @@ See `FDROID_DEPENDENCIES.md` for details.
 
 ## Anti-features
 
-### TetheredNet (likely)
+No anti-features are declared.
 
-The app uses a developer-hosted service at `https://opt.mk38.de` for city
-search and for prayer times from providers other than the offline calculation
-providers. The server source is part of `open-prayer-times`, but the server
-URL is compiled into the library and is not user-configurable. The app also
-downloads sounds and hadith databases from
-`https://metinkale38.github.io/prayer-times-android`.
+The city-search and non-calculated prayer-time service defaults to
+`https://opt.mk38.de`, but the URL is user-configurable in the app settings.
+`open-prayer-times` PR #4 added the runtime configuration API and the app
+exposes it as "Server URL". The optional sound and hadith downloads still use
+`https://metinkale38.github.io/prayer-times-android`; they are not required for
+the core prayer-time functionality.
 
-F-Droid may therefore classify the app as `TetheredNet`. This does not block
-inclusion, but it must be declared in the F-Droid metadata. Making the server
-URL configurable would remove the anti-feature, but it would require changes in
-`open-prayer-times`, which is outside this repository.
-
-No other anti-features were found: there are no ads, no tracking SDKs, no
-non-free assets, and no proprietary dependencies in the `fdroid` flavor.
+There are no ads, tracking SDKs, non-free assets, or proprietary dependencies
+in the `fdroid` flavor.
 
 ## Network access
 
 | Endpoint | Purpose | Flavor |
 | --- | --- | --- |
-| `https://opt.mk38.de` | City search and non-calculated prayer times | both |
-| `https://metinkale38.github.io/prayer-times-android` | Sound catalog, sound files, hadith databases | both |
+| Configurable server URL, default `https://opt.mk38.de` | City search and non-calculated prayer times | both |
+| `https://metinkale38.github.io/prayer-times-android` | Optional sound catalog, sound files, hadith databases | both |
 | Sentry DSN (configured at build time) | Crash reports | Play only |
 
 Location data is used locally and is sent to the city-search service when the
@@ -108,10 +103,9 @@ the advertising ID in the F-Droid flavor.
 
 ## Remaining submission items
 
-1. **Declare the `TetheredNet` anti-feature** in the F-Droid metadata.
-2. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
+1. **Confirm buildserver toolchain support** for compile/target SDK 37, AGP
    9.3.1, Gradle 9.6.1, Kotlin 2.4.10, and JDK 17.
-3. **Feature graphic is optional.** Eight Play Store phone screenshots are
+2. **Feature graphic is optional.** Eight Play Store phone screenshots are
    included in `fastlane/metadata/android/en-US/images/phoneScreenshots/`.
 
 ## Reproducible build notes
