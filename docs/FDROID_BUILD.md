@@ -87,16 +87,41 @@ separate Kotlin daemon from surviving the build.
 separate invocations. Pass `fdroid` or `play` to build a single flavor; with no
 argument it builds both.
 
-## F-Droid build recipe
+## fdroiddata entry
 
-The draft metadata in `metadata/com.metinkale.prayer.yml` uses:
+The submission metadata lives in the personal fdroiddata fork on branch
+`fdroid-prayer-times`:
 
-- `gradle: [fdroidRelease]`
-- a `prebuild` step that clones `open-prayer-times` at the pinned commit, runs
-  `publishToMavenLocal`, and creates `secrets.xml` with empty values
+```text
+metadata/com.metinkale.prayer.yml
+srclibs/open-prayer-times.yml
+```
 
-F-Droid builds the release variant with its own signing key and does not use
-the `play` flavor.
+The app entry uses:
+
+- `gradle: [fdroid]`
+- `srclibs: open-prayer-times@f44a7ed8fbf68ef9416eb4c487df8ea940adfed3`
+- a `build` step that publishes the srclib to Maven local before Gradle builds
+  the app
+- a `prebuild` step that creates `secrets.xml` with empty values
+
+The app commit referenced by the entry is
+`dfa93eb1a5da015334a3388afc6af5925db7b381`. Update it to the merge commit after
+this branch is merged.
+
+## Docker test environment
+
+`/workspace/fdroidserver` contains a Docker Compose environment for the actual
+test build:
+
+- Debian with OpenJDK 17, Android SDK 37/build-tools 36.0.0, and fdroidserver
+- SSH access on port 2234 as user `fdroid`
+- persistent Gradle, Maven, Android, and F-Droid caches
+- no Docker socket and no privileged container
+
+The environment is prepared but has not been started. The practical
+`fdroid build com.metinkale.prayer` test is intentionally deferred until the
+user starts it and provides SSH access.
 
 ## Reproducibility
 
@@ -105,6 +130,6 @@ The build uses the Gradle wrapper (9.6.1), Android Gradle Plugin 9.3.1, Kotlin
 locally before the app build. The `1.0-SNAPSHOT` version is resolved only from
 that local publish; no remote snapshot repository is used.
 
-A full `fdroidserver` build was not run in this environment. Run
-`fdroid build com.metinkale.prayer` in an `fdroiddata` checkout before
-submitting the metadata.
+`fdroid lint -f com.metinkale.prayer` passes. The official `fdroid build` and
+reproducibility comparison remain to be run in the Docker/SSH environment or
+on the official F-Droid buildserver.
