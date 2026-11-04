@@ -82,7 +82,14 @@ changes. If this branch is squash-merged, update the `commit:` field in
 `metadata/com.metinkale.prayer.yml` to the merge commit on `master` before
 opening the `fdroiddata` PR.
 
-## 8. Version code / release process
+## 8. SDK and toolchain availability on the F-Droid buildserver
+
+The app compiles with `compileSdk 37`, `targetSdk 37`, AGP 9.3.1, Gradle 9.6.1,
+and Kotlin 2.4.10. Confirm that the F-Droid buildserver has the matching Android
+platform and a supported JDK before submission. If not, the build may need a
+newer buildserver image or a temporary SDK downgrade.
+
+## 9. Version code / release process
 
 F-Droid uses `versionCode 257` and `versionName 3.9.0`. Future releases must
 update both values in `app/build.gradle` and add a matching fastlane changelog.
