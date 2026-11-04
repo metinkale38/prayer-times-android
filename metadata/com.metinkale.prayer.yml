@@ -15,15 +15,18 @@ Repo: https://github.com/metinkale38/prayer-times-android.git
 Builds:
   - versionName: 3.9.0
     versionCode: 257
-    commit: 948159b5372118127a680751218cea28164a35f1
-    submodules: true
+    commit: 30972144ef2105153edf97e0258ce360cc357fe9
     timeout: 3600
     gradle:
       - fdroidRelease
     gradleprops:
       - kotlin.compiler.execution.strategy=in-process
       - org.gradle.workers.max=1
+      - org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=768m
     prebuild:
+      - git clone https://github.com/metinkale38/open-prayer-times.git open-prayer-times
+      - git -C open-prayer-times checkout --detach 0378851c10cc0a188908d93ea2dbb75fec6e9546
+      - cd open-prayer-times && bash ./gradlew publishToMavenLocal --no-daemon --max-workers=1 -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
       - mkdir -p app/src/main/res/values
       - printf '%s\n' '<resources>' '  <string name="GOOGLE_API_KEY"></string>' '  <string name="IGMG_API_KEY"></string>' '  <string name="LONDON_PRAYER_TIMES_API_KEY"></string>' '  <string name="SENTRY_DSN"></string>' '</resources>' > app/src/main/res/values/secrets.xml
     output: app/build/outputs/apk/fdroid/release/app-fdroid-release-unsigned.apk
@@ -36,9 +39,10 @@ CurrentVersion: 3.9.0
 CurrentVersionCode: 257
 
 MaintainerNotes: |-
-  The open-prayer-times git submodule does not yet declare a license. Do not
-  merge this metadata until that is resolved and the PrayTimes port license is
-  clarified. Only the fdroidRelease flavor is built. The prebuild step creates
-  secrets.xml with empty values; the F-Droid flavor does not need a Google API
-  key or a Sentry DSN. If this branch is squash-merged, update the commit field
-  to the merge commit on master.
+  The open-prayer-times repository does not yet declare a license. Do not merge
+  this metadata until that is resolved and the PrayTimes port license is
+  clarified. Only the fdroidRelease flavor is built. The prebuild step clones
+  the pinned open-prayer-times checkout, publishes its 1.0-SNAPSHOT artifacts
+  to the local Maven repository, and creates secrets.xml with empty values; the
+  F-Droid flavor does not need a Google API key or a Sentry DSN. If this branch
+  is squash-merged, update the commit field to the merge commit on master.
