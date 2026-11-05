@@ -1,0 +1,33 @@
+يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
+"Kolaylaştırınız, zorlaştırmayınız... Müjdeleyiniz, nefret ettirmeyiniz" (Hadis-i Şerif)
+
+Bu Hadisten yola çıkarak bu Uygulama Allahın izniyle sizin hayatınızı kolaylaştıracaktır: Namaz Vakti Uygulaması ile Namaz'inizi İnşaAllah bir daha kaçırmayacaksınız, Kıble'yi kolayca bulacaksınız ve daha fazla özellikleriyle sizlere yardımcı olacaktır.
+
+Namaz Vakti Uygulamasının içerikleri:
+
+- Değişik Takvimlerin Vakitleri
+    -   Diyanet.gov.tr
+    -   IGMG.org
+    -   NamazVakti.com
+    -   Semerkandtakvimi.com
+    -   Habous.gov.ma
+    -   e-solat.gov.my
+    -   Kemenag.go.id
+    -   Londonprayertimes.com
+    -   CSV
+    -   Calculated (offline) Methods
+    - Otomatik Şehir bulma
+- Bütün Dünyadaki Namaz Vakitlerini kapsamaktadır
+- Namaz Vakitlerinde Ezan okuma özelliği (kapatmak için Notification'u silin)
+- Namaz Vaktin'de/Widget ile sessize almak
+- Namaz Vakti girmeden erken uyarı
+- Kerahat Vakti bildirisi
+- Widget/Notification
+- Kıble Pusulası (2D/3D/Harita/Kıble Saati)
+- Esmau'l Hüsna / Allahın 99 İsimleri
+- Dini Günler ve Açıklamaları
+- Namaz Tesbihatı
+- Kutub-i Sitte'den 7300 Hadis
+- Zikir/Tesbih çekme
+- Kaza Takibi
+- Çok seçenekli Ses ayarlari
