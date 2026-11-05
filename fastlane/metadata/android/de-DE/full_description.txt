@@ -20,7 +20,7 @@ Die Inhalte der Gebetszeit-Anwendungen:
 - Frühwarnung für Gebetszeiten
 - Anzeige für Makruh Gebetszeit
 - Widget / Mitteilung
-- Qibla Compass (2D/3D/Karte)
+- Qibla Compass (2D/Karte)
 - 99 Namen von Allah
 - Religiöse Feiertage mit Beschreibungen
 - Dhikr für nachdem Gebet

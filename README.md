@@ -32,7 +32,7 @@ Features
 - Early Notification for prayer times
 - Indicator for Makruh prayer time
 - Widget / Notification
-- Qibla Compass (2D/3D/Map)
+- Qibla Compass (2D/Map)
 - 99 Names of Allah
 - Religious holidays with descriptions
 - Dhikr after prayer
@@ -64,7 +64,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - Namaz Vakti girmeden erken uyarı
 - Kerahat Vakti bildirisi
 - Widget/Notification
-- Kıble Pusulası (2D/3D/Harita)
+- Kıble Pusulası (2D/Harita)
 - Esmau'l Hüsna / Allahın 99 İsimleri
 - Dini Günler ve Açıklamaları
 - Namaz Tesbihatı
@@ -95,7 +95,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - تذكير قبل دخول وقت الصلاة
 - تحذير لدخول الوقت المكروه للصلاة
 - إمكانية وضع تطبيق مصغر (Widget) على الشاشة الرئيسية وإمكانية وضع تنبيه دائم (Notification) لأوقات الصلاة
-- بوصلة القبلة (ثنائية الأبعاد أو ثلاثية الأبعاد بالإضافة إلى خريطة)
+- بوصلة القبلة (ثنائية الأبعاد بالإضافة إلى خريطة)
 - أسماء الله الحسنى
 - تقويم للأعياد والمناسبات الدينية 
 - ذكر بعد الصلاة
@@ -127,7 +127,7 @@ Die Inhalte der Gebetszeit-Anwendungen:
 - Frühwarnung für Gebetszeiten
 - Anzeige für Makruh Gebetszeit
 - Widget / Mitteilung
-- Qibla Compass (2D/3D/Karte)
+- Qibla Compass (2D/Karte)
 - 99 Namen von Allah
 - Religiöse Feiertage mit Beschreibungen
 - Dhikr für nachdem Gebet
