@@ -20,7 +20,7 @@ Namaz Vakti Uygulamasının içerikleri:
 - Namaz Vakti girmeden erken uyarı
 - Kerahat Vakti bildirisi
 - Widget/Notification
-- Kıble Pusulası (2D/3D/Harita/Kıble Saati)
+- Kıble Pusulası (2D/3D/Harita)
 - Esmau'l Hüsna / Allahın 99 İsimleri
 - Dini Günler ve Açıklamaları
 - Namaz Tesbihatı

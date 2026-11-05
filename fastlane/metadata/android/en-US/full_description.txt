@@ -8,7 +8,7 @@ Features:
 - Automatic silent mode around prayer times
 - Early reminders and Makruh time indicator
 - Home-screen widgets and ongoing notification
-- Qibla compass (2D, 3D, map and clock)
+- Qibla compass (2D, 3D, map)
 - 99 Names of Allah
 - Islamic holidays with descriptions
 - Dhikr after prayer
@@ -16,5 +16,3 @@ Features:
 - Dhikr counter
 - Missed prayer counter
 - Downloadable adhan and dua sounds
-
-The F-Droid build contains no Google Play Services, Firebase, advertising, analytics, or crash-reporting SDK.
