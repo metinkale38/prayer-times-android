@@ -24,4 +24,4 @@ jobs:
           fetch-tags: true
 
       - name: Create version tag
-        run: bash .github/scripts/create-fdroid-tag.sh
+        run: bash .github/scripts/create-version-tag.sh
