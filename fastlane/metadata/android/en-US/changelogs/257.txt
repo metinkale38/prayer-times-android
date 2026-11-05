@@ -1,0 +1,4 @@
+- City search moved to a dedicated server (smaller APK, faster search)
+- Non-calculated prayer times are fetched from a dedicated server
+- Added a new widget
+- Bug fixes and improvements
