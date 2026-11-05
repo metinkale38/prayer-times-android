@@ -1,10 +1,3 @@
-Info zum Fazilet Kalender und zu den Religiösen Tagen 2019:
-
-Die Zeiten vom Fazilet Kalender sind nicht mehr auf www.fazilettakvimi.com abrufbar, daher wird der Fazilet Kalender in kürze aus der App entfernt.
-
-In den Religiösen Tagen 2019 befinden sich einige Fehler, die korrigiert werden müssen.
-Für genauere Daten besuchen sie bitte die diyanet.gov.tr
-
 يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا
 Macht es leicht und erschwert nicht; bringt frohe Kunde und schreckt nicht ab. (Hadith)
 
@@ -17,9 +10,6 @@ Die Inhalte der Gebetszeit-Anwendungen:
     -   IGMG.org
     -   NamazVakti.com
     -   Semerkandtakvimi.com
-    -   Habous.gov.ma
-    -   e-solat.gov.my
-    -   Kemenag.go.id
     -   Londonprayertimes.com
     -   CSV
     -   Calculated (offline) Methods
