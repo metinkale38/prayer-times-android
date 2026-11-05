@@ -1,29 +1,26 @@
-import com.metinkale.prayer.date.HijriDate
-import com.metinkale.prayer.date.HijriDay.LAST_RAMADAN
-import com.metinkale.prayer.date.HijriDay.RAGAIB
-import com.metinkale.prayer.date.HijriMonth.*
-import com.metinkale.prayer.date.toHijriDate
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriEvent.LAST_RAMADAN
+import dev.metinkale.openprayertimes.hijri.HijriEvent.RAGAIB
+import dev.metinkale.openprayertimes.hijri.HijriMonth.*
+import dev.metinkale.openprayertimes.hijri.toHijriDate
 import io.kotest.matchers.shouldBe
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toKotlinLocalDate
 import org.junit.jupiter.api.Test
-import java.io.File
 import java.time.LocalDate
 
 class HijriTest {
 
-    init {
-        HijriDate.openTSVFile = { File("src/main/res/raw/hijri.tsv").inputStream() }
-    }
-
     @Test
     fun testConversion() {
-        HijriDate.of(1444, 5, 1).toLocalDate() shouldBe LocalDate.of(2022, 11, 25)
-        HijriDate.of(1444, 10, 29).toLocalDate() shouldBe LocalDate.of(2023, 5, 19)
-        LocalDate.of(2023, 5, 19).toHijriDate() shouldBe HijriDate.of(1444, 10, 29)
+        HijriDate.of(1444, 5, 1).toLocalDate().toJavaLocalDate() shouldBe LocalDate.of(2022, 11, 25)
+        HijriDate.of(1444, 10, 29).toLocalDate().toJavaLocalDate() shouldBe LocalDate.of(2023, 5, 19)
+        LocalDate.of(2023, 5, 19).toKotlinLocalDate().toHijriDate() shouldBe HijriDate.of(1444, 10, 29)
     }
 
     @Test
     fun testNow() {
-        HijriDate.now().toLocalDate() shouldBe LocalDate.now()
+        HijriDate.now().toLocalDate().toJavaLocalDate() shouldBe LocalDate.now()
     }
 
     @Test
@@ -39,21 +36,21 @@ class HijriTest {
 
     @Test
     fun testRegaib() {
-        val list = HijriDate.getHolydaysForHijriYear(1444)
+        val list = HijriDate.getEventsForHijriYear(1444)
         list.first { it.second == RAGAIB }.first shouldBe HijriDate.of(1444, RAJAB, 4)
     }
 
     @Test
     fun testLastRamadan() {
-        val list = HijriDate.getHolydaysForHijriYear(1444)
+        val list = HijriDate.getEventsForHijriYear(1444)
         list.first { it.second == LAST_RAMADAN }.first.month shouldBe RAMADAN
         list.first { it.second == LAST_RAMADAN }.first.plusDays(1).month shouldBe SHAWWAL
     }
 
     @Test
     fun testPrior1433() {
-        LocalDate.of(1996, 8, 6).toHijriDate() shouldBe HijriDate.of(1417, RABIAL_AWWAL, 21)
-        HijriDate.of(1417, RABIAL_AWWAL, 21).toLocalDate() shouldBe LocalDate.of(1996, 8, 6)
+        LocalDate.of(1996, 8, 6).toKotlinLocalDate().toHijriDate() shouldBe HijriDate.of(1417, RABIAL_AWWAL, 21)
+        HijriDate.of(1417, RABIAL_AWWAL, 21).toLocalDate().toJavaLocalDate() shouldBe LocalDate.of(1996, 8, 6)
     }
 
 }

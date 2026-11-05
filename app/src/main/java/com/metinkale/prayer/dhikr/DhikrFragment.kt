@@ -78,7 +78,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         reset = v.findViewById(R.id.reset)
         reset.setOnClickListener(this)
-        vibrate = PreferenceManager.getDefaultSharedPreferences(activity).getInt("zikrvibrate2", 0)
+        vibrate = PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt("zikrvibrate2", 0)
         (v.findViewById<View>(R.id.vibration) as VibrationModeView).setPrefFunctions(object :
             PrefsFunctions {
             override fun getValue(): Int {
@@ -86,7 +86,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
             }
 
             override fun setValue(obj: Int) {
-                PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
                     .putInt("zikrvibrate2", obj).apply()
                 vibrate = obj
             }

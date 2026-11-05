@@ -26,6 +26,7 @@ import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.CrashReporter.setCustomKey
 import com.metinkale.prayer.CrashReporter.setUserId
 import com.metinkale.prayer.receiver.AppEventManager
+import com.metinkale.prayer.settings.FlavorSettings
 import com.metinkale.prayer.utils.LocaleUtils.init
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -62,6 +63,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler)
         init(baseContext)
+        FlavorSettings.configure()
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this)
 
@@ -77,6 +79,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
         if ("language" == key) {
             init(baseContext)
         }
+        FlavorSettings.onPreferenceChanged(key)
     }
 
     companion object {

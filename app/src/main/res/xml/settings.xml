@@ -174,8 +174,9 @@
     </PreferenceCategory>
 
 
-    <PreferenceCategory android:title="@string/other">
-
+    <PreferenceCategory
+        android:key="other"
+        android:title="@string/other">
 
         <Preference
             android:key="backupRestore"

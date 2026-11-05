@@ -1,37 +1,49 @@
 #!/bin/bash
 set -euo pipefail
 
-append_gradle_property() {
-  local file="$1"
-  local key="$2"
-  local value="$3"
+OPEN_PRAYER_TIMES_REPO="https://github.com/metinkale38/open-prayer-times.git"
+OPEN_PRAYER_TIMES_COMMIT_FILE="${OPEN_PRAYER_TIMES_COMMIT_FILE:-open-prayer-times.commit}"
 
-  touch "$file"
-  if [ -s "$file" ] && [ -n "$(tail -c 1 "$file")" ]; then
-    echo >> "$file"
+if [ -z "${OPEN_PRAYER_TIMES_REF:-}" ]; then
+  if [ -f "$OPEN_PRAYER_TIMES_COMMIT_FILE" ]; then
+    OPEN_PRAYER_TIMES_REF="$(tr -d '[:space:]' < "$OPEN_PRAYER_TIMES_COMMIT_FILE")"
+  else
+    echo "Missing ${OPEN_PRAYER_TIMES_COMMIT_FILE}" >&2
+    exit 1
   fi
-  if ! grep -qF "${key}=" "$file"; then
-    echo "${key}=${value}" >> "$file"
-  fi
-}
-
-# checkout open-prayer-times and run publishToMavenLocal
-if [ -d "open-prayer-times" ]; then
-  echo "open-prayer-times exists, fetch latest"
-  cd open-prayer-times
-  git fetch origin
-  git reset --hard origin/main
-else
-  echo "open-prayer-times does not exist, checkout"
-  git clone https://github.com/metinkale38/open-prayer-times
-  cd open-prayer-times
 fi
-chmod +x gradlew
-append_gradle_property gradle.properties org.gradle.daemon false
-./gradlew publishToMavenLocal --no-daemon
-cd ..
 
-# create secrets.xml
+if ! [[ "$OPEN_PRAYER_TIMES_REF" =~ ^[0-9a-f]{40}$ ]]; then
+  echo "Invalid open-prayer-times commit: ${OPEN_PRAYER_TIMES_REF}" >&2
+  exit 1
+fi
+
+# Build one flavor at a time. The Kotlin compiler runs in-process and the Gradle
+# heap is bounded so the release builds do not exhaust small CI containers.
+GRADLE_ARGS=(
+  --no-daemon
+  --max-workers=1
+  -Pkotlin.compiler.execution.strategy=in-process
+  -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
+)
+
+# CI checks this repository out at the pinned commit before running this script.
+# For local builds, clone it on demand and keep it at the pinned commit.
+if [ ! -f "open-prayer-times/settings.gradle.kts" ]; then
+  echo "Cloning open-prayer-times at ${OPEN_PRAYER_TIMES_REF}"
+  git clone "$OPEN_PRAYER_TIMES_REPO" open-prayer-times
+fi
+
+if [ "$(git -C open-prayer-times rev-parse HEAD)" != "$OPEN_PRAYER_TIMES_REF" ]; then
+  echo "Checking out open-prayer-times at ${OPEN_PRAYER_TIMES_REF}"
+  git -C open-prayer-times fetch origin "$OPEN_PRAYER_TIMES_REF"
+  git -C open-prayer-times checkout --detach "$OPEN_PRAYER_TIMES_REF"
+fi
+
+echo "Publish open-prayer-times to Maven local"
+(cd open-prayer-times && bash gradlew publishToMavenLocal "${GRADLE_ARGS[@]}")
+
+# create secrets.xml with empty values; release secrets are injected by the release workflow
 SECRETS_FILE="app/src/main/res/values/secrets.xml"
 if [ -f "$SECRETS_FILE" ]; then
   echo "secrets.xml already exists, skip"
@@ -41,19 +53,32 @@ else
   cat > "$SECRETS_FILE" <<'EOF'
 <resources>
   <string name="GOOGLE_API_KEY"></string>
-  <string name="IGMG_API_KEY"></string>
-  <string name="LONDON_PRAYER_TIMES_API_KEY"></string>
   <string name="SENTRY_DSN"></string>
 </resources>
 EOF
 fi
 
-# remove com.google.gms build plugin (not needed for the fdroid flavor)
-sed -i '/com\.google\.gms/s|^|//|' app/build.gradle build.gradle
+FLAVORS=("$@")
+if [ ${#FLAVORS[@]} -eq 0 ]; then
+  FLAVORS=(fdroid play)
+fi
 
-# build project
-echo "Build project"
-append_gradle_property gradle.properties org.gradle.daemon false
-append_gradle_property gradle.properties org.gradle.jvmargs "-Xmx2g -XX:MaxMetaspaceSize=512m"
-chmod +x gradlew
-./gradlew assembleFdroid --no-daemon
+for flavor in "${FLAVORS[@]}"; do
+  case "${flavor,,}" in
+    fdroid)
+      task=assembleFdroid
+      label=F-Droid
+      ;;
+    play)
+      task=assemblePlay
+      label=Play
+      ;;
+    *)
+      echo "Unknown flavor: ${flavor}" >&2
+      exit 1
+      ;;
+  esac
+
+  echo "Build ${label} flavor"
+  bash ./gradlew "$task" "${GRADLE_ARGS[@]}"
+done
