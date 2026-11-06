@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
@@ -259,6 +260,22 @@ private fun DhikrCard(
             val topLeft = Offset(center.x - faceRadius, center.y - faceRadius)
             val arcSize = Size(faceRadius * 2f, faceRadius * 2f)
 
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Color(0xFF232323), Color(0xFF171717)),
+                    center = center,
+                    radius = faceRadius
+                ),
+                radius = faceRadius,
+                center = center
+            )
+            drawCircle(
+                color = Color(0xFF2C3A40),
+                radius = faceRadius - ringStroke / 2f + 1.dp.toPx(),
+                center = center,
+                style = Stroke(width = 1.dp.toPx())
+            )
+
             drawArc(
                 color = accent.copy(alpha = 0.22f),
                 startAngle = -90f,
@@ -270,6 +287,13 @@ private fun DhikrCard(
             )
 
             val displayProgress = if (roundPulse) 1f else progress
+            drawCircle(
+                color = accent.copy(alpha = 0.22f),
+                radius = faceRadius - ringStroke / 2f + 1.dp.toPx(),
+                center = center,
+                style = Stroke(width = 1.dp.toPx())
+            )
+
             if (displayProgress > 0f) {
                 drawArc(
                     color = accent,

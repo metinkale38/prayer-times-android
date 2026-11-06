@@ -100,6 +100,7 @@ fun QiblaMapPage(
             isIndoorEnabled = false,
             isMyLocationEnabled = false,
             isTrafficEnabled = false,
+            maxZoomPreference = 21f,
             mapType = MapType.HYBRID
         ),
         uiSettings = MapUiSettings(
@@ -175,4 +176,4 @@ private fun MapMessage(
     }
 }
 
-private const val MAP_ZOOM = 14f
+private const val MAP_ZOOM = 21f
