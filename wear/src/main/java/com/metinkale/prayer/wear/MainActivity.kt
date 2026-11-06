@@ -318,7 +318,7 @@ private fun PrayerTimesPage(
         initialPage = TODAY_PAGE,
         pageCount = { PAGE_COUNT }
     )
-    val largeScreen = LocalConfiguration.current.screenWidthDp >= 200
+    val largeScreen = LocalConfiguration.current.screenWidthDp >= 192
 
     HorizontalPager(
         state = pagerState,
