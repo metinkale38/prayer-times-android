@@ -11,6 +11,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.metinkale.prayer.CrashReporter
+import com.metinkale.prayer.wear.scheduleWearSync
 import java.util.concurrent.TimeUnit
 
 class SyncTimesWorker(appContext: Context, workerParams: WorkerParameters) :
@@ -23,6 +24,7 @@ class SyncTimesWorker(appContext: Context, workerParams: WorkerParameters) :
                 .filter { it.syncedDays < 15 }.map { it.sync() }.any { !it }
 
             ContextCompat.getMainExecutor(applicationContext).execute { Times.setAlarms() }
+            scheduleWearSync(applicationContext)
             if (successAll) Result.success() else Result.retry()
         } catch (e: Throwable) {
             CrashReporter.recordException(e)
