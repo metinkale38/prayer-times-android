@@ -6,10 +6,13 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.metinkale.prayer.sync.DhikrDefaults
 import com.metinkale.prayer.sync.WearDhikr
+import com.metinkale.prayer.sync.mergeWearDhikrs
 import java.io.InputStream
 import java.io.OutputStream
+import java.util.UUID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -48,42 +51,94 @@ class DhikrRepository private constructor(
 ) {
     val dhikrs: Flow<List<WearDhikr>> = dataStore.data
         .catch { emit(emptyList()) }
+        .map { list ->
+            list.filterNot { it.deleted }.sortedBy { it.position }
+        }
+
+    val allDhikrs: Flow<List<WearDhikr>> = dataStore.data
+        .catch { emit(emptyList()) }
         .map { list -> list.sortedBy { it.position } }
+
+    suspend fun ensureSyncIds() {
+        val current = dataStore.data.first()
+        if (current.none { it.syncId.isBlank() }) return
+        val now = System.currentTimeMillis()
+        dataStore.updateData { list ->
+            list.map { dhikr ->
+                if (dhikr.syncId.isBlank()) {
+                    dhikr.copy(
+                        syncId = UUID.randomUUID().toString(),
+                        updatedAt = if (dhikr.updatedAt == 0L) now else dhikr.updatedAt
+                    )
+                } else {
+                    dhikr
+                }
+            }
+        }
+    }
 
     suspend fun add(title: String, target: Int) {
         val cleanTitle = title.trim().take(20)
         if (cleanTitle.isEmpty()) return
+        val now = System.currentTimeMillis()
         dataStore.updateData { current ->
-            val nextId = (current.maxOfOrNull { it.id } ?: 0L) + 1L
             val nextPosition = (current.maxOfOrNull { it.position } ?: -1) + 1
             current + WearDhikr(
-                id = nextId,
+                syncId = UUID.randomUUID().toString(),
                 title = cleanTitle,
                 target = target.coerceIn(1, 100_000),
                 position = nextPosition,
-                color = DhikrDefaults.color
+                color = DhikrDefaults.color,
+                updatedAt = now
             )
         }
     }
 
-    suspend fun increment(id: Long) {
+    suspend fun increment(syncId: String) {
+        val now = System.currentTimeMillis()
         dataStore.updateData { current ->
             current.map { dhikr ->
-                if (dhikr.id == id) dhikr.copy(count = dhikr.count + 1) else dhikr
+                if (dhikr.syncId == syncId && !dhikr.deleted) {
+                    dhikr.copy(count = dhikr.count + 1, updatedAt = now)
+                } else {
+                    dhikr
+                }
             }
         }
     }
 
-    suspend fun reset(id: Long) {
+    suspend fun reset(syncId: String) {
+        val now = System.currentTimeMillis()
         dataStore.updateData { current ->
             current.map { dhikr ->
-                if (dhikr.id == id) dhikr.copy(count = 0) else dhikr
+                if (dhikr.syncId == syncId && !dhikr.deleted) {
+                    dhikr.copy(count = 0, updatedAt = now)
+                } else {
+                    dhikr
+                }
             }
         }
     }
 
-    suspend fun delete(id: Long) {
-        dataStore.updateData { current -> current.filterNot { it.id == id } }
+    suspend fun delete(syncId: String) {
+        val now = System.currentTimeMillis()
+        dataStore.updateData { current ->
+            current.map { dhikr ->
+                if (dhikr.syncId == syncId) {
+                    dhikr.copy(deleted = true, updatedAt = now)
+                } else {
+                    dhikr
+                }
+            }
+        }
+    }
+
+    suspend fun mergeRemote(remote: List<WearDhikr>) {
+        val current = dataStore.data.first()
+        val merged = mergeWearDhikrs(current, remote)
+        if (merged != current) {
+            dataStore.updateData { merged }
+        }
     }
 
     companion object {

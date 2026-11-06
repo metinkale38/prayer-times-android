@@ -9,3 +9,7 @@ import android.content.Context
 fun scheduleWearSync(context: Context) {
     // no-op
 }
+
+fun scheduleDhikrSync(context: Context) {
+    // no-op
+}

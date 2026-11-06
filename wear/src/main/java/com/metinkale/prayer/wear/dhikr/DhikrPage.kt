@@ -97,9 +97,9 @@ fun DhikrPage(repository: DhikrRepository, modifier: Modifier = Modifier) {
             val dhikr = dhikrs[page]
             DhikrCard(
                 dhikr = dhikr,
-                onIncrement = { scope.launch { repository.increment(dhikr.id) } },
-                onReset = { scope.launch { repository.reset(dhikr.id) } },
-                onDelete = { scope.launch { repository.delete(dhikr.id) } }
+                onIncrement = { scope.launch { repository.increment(dhikr.syncId) } },
+                onReset = { scope.launch { repository.reset(dhikr.syncId) } },
+                onDelete = { scope.launch { repository.delete(dhikr.syncId) } }
             )
         } else {
             AddDhikrPage(

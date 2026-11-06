@@ -50,6 +50,7 @@ import com.metinkale.prayer.wear.data.DhikrRepository
 import com.metinkale.prayer.wear.data.WearTimesRepository
 import com.metinkale.prayer.wear.dhikr.DhikrPage
 import com.metinkale.prayer.wear.qibla.QiblaPage
+import com.metinkale.prayer.wear.sync.WearDhikrDataLayer
 import com.metinkale.prayer.wear.sync.WearTimesDataLayer
 import dev.metinkale.openprayertimes.hijri.HijriDate
 import dev.metinkale.openprayertimes.hijri.HijriMonth
@@ -60,6 +61,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.datetime.LocalDate as KLocalDate
 
 private val Background = Color(0xFF121212)
@@ -144,6 +146,20 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(repository) {
                     WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
+                }
+
+                LaunchedEffect(dhikrRepository) {
+                    dhikrRepository.ensureSyncIds()
+                    WearDhikrDataLayer.fetchExisting(context)?.let { payload ->
+                        dhikrRepository.mergeRemote(payload.dhikrs)
+                    }
+                }
+
+                LaunchedEffect(dhikrRepository) {
+                    dhikrRepository.allDhikrs.collectLatest { dhikrs ->
+                        delay(500)
+                        WearDhikrDataLayer.push(context, dhikrs)
+                    }
                 }
 
                 val pagerState = rememberPagerState(
