@@ -20,4 +20,39 @@
     <string name="hmonth11">Dhu l-qaʿda</string>
     <string name="hmonth12">Dhū l-Hiddscha</string>
     <string name="date">Datum</string>
+    <string name="wear_setup_on_phone_title">Auf dem Smartphone einrichten</string>
+    <string name="wear_setup_on_phone_text">Öffne die Prayer Times App auf deinem Smartphone und richte deine erste Stadt ein.</string>
+    <string name="wear_no_data">Keine Gebetszeiten für diesen Tag</string>
+
+    <string name="qibla">Qibla</string>
+    <string name="compass">Kompass</string>
+    <string name="map">Karte</string>
+    <string name="distance">Distanz</string>
+    <string name="heading">Kurs</string>
+    <string name="kaaba">Kaaba</string>
+    <string name="your_location">Dein Standort</string>
+    <string name="location_searching">Standort wird gesucht…</string>
+    <string name="location_permission">Standortberechtigung</string>
+    <string name="grant_permission">Standort erlauben</string>
+    <string name="location_from_city">Standort aus Stadt: %1$s</string>
+    <string name="location_ready">Standort gefunden</string>
+    <string name="qibla_angle">%1$d°</string>
+    <string name="qibla_distance">%1$s</string>
+    <string name="google_maps_key_missing">Google-Maps-Key fehlt</string>
+    <string name="google_maps_key_missing_body">Trage GOOGLE_API_KEY in wear/src/main/res/values/secrets.xml ein, um die Karte auf deiner Uhr anzuzeigen.</string>
+    <string name="compass_sensor_unavailable">Kompasssensor nicht verfügbar</string>
+
+    <string name="dhikr">Dhikr</string>
+    <string name="dhikr_new">Neuer Dhikr</string>
+    <string name="dhikr_name">Name</string>
+    <string name="dhikr_name_hint">z. B. Tesbih</string>
+    <string name="dhikr_target">Ziel</string>
+    <string name="dhikr_target_hint">33</string>
+    <string name="dhikr_add">Dhikr hinzufügen</string>
+    <string name="dhikr_reset">Zurücksetzen</string>
+    <string name="dhikr_delete">Löschen</string>
+    <string name="dhikr_cancel">Abbrechen</string>
+    <string name="dhikr_rounds">Runden: %1$d</string>
+    <string name="dhikr_tap_hint">Tippen zum Zählen</string>
+    <string name="dhikr_hold_hint">Halten für Optionen</string>
 </resources>
