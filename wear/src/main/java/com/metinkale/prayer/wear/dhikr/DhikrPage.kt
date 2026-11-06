@@ -613,7 +613,7 @@ private fun AddDhikrPage(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 14.dp),
+                    .padding(bottom = 24.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
