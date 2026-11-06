@@ -1,10 +1,9 @@
 package com.metinkale.prayer.wear.sync
 
 import android.content.Context
-import android.net.Uri
+import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataMapItem
-import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.Wearable
 import com.metinkale.prayer.sync.SyncConstants
 import com.metinkale.prayer.sync.SyncJson
@@ -36,15 +35,23 @@ object WearTimesDataLayer {
     suspend fun fetchExisting(context: Context): WearTimesPayload? = withContext(Dispatchers.IO) {
         runCatching {
             val appContext = context.applicationContext
-            val dataItem = Tasks.await(
-                Wearable.getDataClient(appContext).getDataItem(Uri.parse(SyncConstants.DATA_PATH)),
+            val dataItems = Tasks.await(
+                Wearable.getDataClient(appContext).dataItems,
                 10,
                 TimeUnit.SECONDS
-            ) ?: return@runCatching null
+            )
+            val dataItem = dataItems.firstOrNull {
+                it.uri.path == SyncConstants.DATA_PATH
+            } ?: run {
+                Log.d("WearTimesSync", "fetch: no data item at ${SyncConstants.DATA_PATH}")
+                return@runCatching null
+            }
             val json = DataMapItem.fromDataItem(dataItem)
                 .dataMap.getString(SyncConstants.KEY_JSON)
                 ?: return@runCatching null
-            SyncJson.decode(json)
+            val payload = SyncJson.decode(json)
+            Log.d("WearTimesSync", "fetch: days=${payload?.days?.size ?: -1}")
+            payload
         }.getOrNull()
     }
 }

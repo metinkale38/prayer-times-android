@@ -1,5 +1,6 @@
 package com.metinkale.prayer.wear.sync
 
+import android.util.Log
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -24,6 +25,7 @@ class WearTimesListenerService : WearableListenerService() {
                 val json = DataMapItem.fromDataItem(event.dataItem)
                     .dataMap.getString(SyncConstants.KEY_JSON) ?: continue
                 val payload = SyncJson.decode(json) ?: continue
+                Log.d("WearTimesSync", "listener: days=${payload.days.size}")
                 scope.launch {
                     WearTimesRepository.get(applicationContext).save(payload)
                 }
