@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.metinkale.prayer.wear'
+        applicationId 'com.metinkale.prayer'
         minSdk 30
         targetSdk 37
         versionCode 1
