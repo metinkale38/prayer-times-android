@@ -522,8 +522,8 @@ private fun DayCard(
         ""
     }
     val horizontalPadding = if (largeScreen) 16.dp else 24.dp
-    val topPadding = if (largeScreen) 20.dp else 28.dp
-    val bottomPadding = if (largeScreen) 14.dp else 24.dp
+    val topPadding = if (largeScreen) 22.dp else 28.dp
+    val bottomPadding = if (largeScreen) 10.dp else 24.dp
     val gridSpacing = if (largeScreen) 5.dp else 4.dp
 
     Box(
