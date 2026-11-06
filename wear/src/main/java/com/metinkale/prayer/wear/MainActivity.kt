@@ -180,6 +180,7 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(repository) {
                     prayerSyncing = true
+                    WearTimesDataLayer.requestSync(context)
                     WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
                     delay(500)
                     prayerSyncing = false
@@ -217,6 +218,7 @@ class MainActivity : ComponentActivity() {
                                 onRetry = {
                                     prayerScope.launch {
                                         prayerSyncing = true
+                                        WearTimesDataLayer.requestSync(context)
                                         WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
                                         delay(500)
                                         prayerSyncing = false
