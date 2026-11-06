@@ -52,6 +52,8 @@ import com.metinkale.prayer.R
 import com.metinkale.prayer.dhikr.VibrationModeView.PrefsFunctions
 import com.metinkale.prayer.dhikr.data.Dhikr
 import com.metinkale.prayer.dhikr.data.DhikrViewModel
+import com.metinkale.prayer.wear.scheduleDhikrSync
+import java.util.UUID
 
 @Suppress("deprecation")
 class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongClickListener,
@@ -66,6 +68,13 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
     private var dhikrs: List<Dhikr> = listOf()
     private var vibrate: Int = 0
     private var createdViews: Boolean = false
+    private var bindingTitle: Boolean = false
+
+    private fun markChanged(dhikr: Dhikr) {
+        dhikr.updatedAt = System.currentTimeMillis()
+        viewModel.saveDhikr(dhikr)
+        scheduleDhikrSync(requireContext())
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -105,7 +114,12 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         title.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (dhikrs.isNotEmpty()) dhikrs[0].title = s.toString()
+                if (bindingTitle) return
+                if (dhikrs.isNotEmpty()) {
+                    val dhikr = dhikrs[0]
+                    dhikr.title = s.toString()
+                    markChanged(dhikr)
+                }
             }
 
             override fun afterTextChanged(s: Editable) {}
@@ -116,13 +130,13 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
 
     override fun onPause() {
         super.onPause()
-        if (dhikrs.isEmpty()) return
-        viewModel.saveDhikr(dhikrs[0])
     }
 
     fun changeColor(v: View) {
         val c = Color.parseColor(v.tag as String)
-        dhikrs[0].color = c
+        val dhikr = dhikrs[0]
+        dhikr.color = c
+        markChanged(dhikr)
         dhikrView.invalidate()
     }
 
@@ -131,6 +145,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         if (v === dhikrView) {
             val dhikr = dhikrs[0]
             dhikr.value = dhikr.value + 1
+            markChanged(dhikr)
             if (dhikr.value % dhikr.max == 0) {
                 if (vibrate != -1) {
                     vibrator.vibrate(longArrayOf(0, 100, 100, 100, 100, 100), -1)
@@ -151,6 +166,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
             ) { dialogInterface: DialogInterface?, i: Int ->
                 val dhikr = dhikrs[0]
                 dhikr.value = 0
+                markChanged(dhikr)
                 dhikrView.invalidate()
             }
             dialog.setButton(
@@ -189,7 +205,9 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         dialog.setButton(
             DialogInterface.BUTTON_POSITIVE, getString(R.string.yes)
         ) { _: DialogInterface?, i: Int ->
-            viewModel.deleteDhikr(dhikrs[0])
+            val dhikr = dhikrs[0]
+            dhikr.isDeleted = true
+            markChanged(dhikr)
         }
         dialog.setButton(
             DialogInterface.BUTTON_NEGATIVE,
@@ -221,12 +239,15 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
             builder1.setView(input1)
             builder1.setPositiveButton(R.string.ok) { dialogInterface1: DialogInterface?, i12: Int ->
                 val count = input1.text.toString().toInt()
-                viewModel.saveDhikr(dhikrs[0])
+                markChanged(dhikrs[0])
                 val model = Dhikr()
+                model.syncId = UUID.randomUUID().toString()
+                model.updatedAt = System.currentTimeMillis()
                 model.title = title
                 model.max = count
-                model.position = -1
+                model.position = (dhikrs.maxOfOrNull { it.position } ?: -1) + 1
                 viewModel.addDhikr(model)
+                scheduleDhikrSync(requireContext())
             }
             builder1.setNegativeButton(R.string.cancel) { dialog: DialogInterface, i1: Int -> dialog.cancel() }
             builder1.show()
@@ -251,7 +272,9 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         // Set up the buttons
         builder.setPositiveButton(R.string.ok) { dialogInterface: DialogInterface?, i: Int ->
             try {
-                dhikrs[0].max = input.text.toString().toInt()
+                val dhikr = dhikrs[0]
+                dhikr.max = input.text.toString().toInt()
+                markChanged(dhikr)
                 dhikrView.invalidate()
             } catch (e: Exception) {
                 recordException(e)
@@ -265,8 +288,10 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
     override fun onItemSelected(adapterView: AdapterView<*>?, view: View, pos: Int, l: Long) {
         if (pos == 0) return
         dhikrs = viewModel.dhikrs.value ?: listOf()
+        val now = System.currentTimeMillis()
         for (i in dhikrs.indices) {
             val model = dhikrs[i]
+            model.updatedAt = now
             if (i == pos) {
                 model.position = 0
             } else if (i < pos) {
@@ -276,6 +301,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
             }
         }
         viewModel.saveDhikr(*dhikrs.toTypedArray())
+        scheduleDhikrSync(requireContext())
     }
 
     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -289,13 +315,19 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         }
         if (dhikrs.isEmpty()) {
             val model = Dhikr()
+            model.syncId = UUID.randomUUID().toString()
+            model.updatedAt = System.currentTimeMillis()
             model.title = getString(R.string.tasbih)
             model.max = 33
+            model.position = 0
             viewModel.addDhikr(model)
+            scheduleDhikrSync(requireContext())
         } else {
             val model = dhikrs[0]
+            bindingTitle = true
             title.setText(model.title)
             title.setSelection(title.text.length)
+            bindingTitle = false
             dhikrView.dhikr = model
             dhikrView.invalidate()
         }
