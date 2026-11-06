@@ -43,6 +43,7 @@ data class WearDayTimes(
 object SyncConstants {
     const val SCHEMA_VERSION = 1
     const val DATA_PATH = "/prayer-times/times"
+    const val REQUEST_PATH = "/prayer-times/request"
     const val KEY_JSON = "payload"
 }
 

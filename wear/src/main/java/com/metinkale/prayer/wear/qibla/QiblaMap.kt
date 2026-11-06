@@ -14,7 +14,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,18 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberUpdatedMarkerState
 import com.metinkale.prayer.wear.R
 
 private val MapBackground = Color(0xFF0E1113)
@@ -43,7 +38,6 @@ private val MapText = Color(0xFFF2F2F2)
 private val MapSecondary = Color(0xFFA9B0B4)
 private val MapLine = Color(0xFF3BB2D0)
 private val MapAction = Color(0xFF4A768A)
-private val MapAccuracyFill = Color(0x333BB2D0)
 
 @Composable
 fun QiblaMapPage(
@@ -98,12 +92,6 @@ fun QiblaMapPage(
         )
     }
 
-    val userMarkerState = rememberUpdatedMarkerState(position = userPosition)
-    val kaabaMarkerState = rememberUpdatedMarkerState(position = kaabaPosition)
-
-    val userMarkerTitle = stringResource(R.string.your_location)
-    val kaabaMarkerTitle = stringResource(R.string.kaaba)
-
     GoogleMap(
         modifier = modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
@@ -124,7 +112,7 @@ fun QiblaMapPage(
             scrollGesturesEnabledDuringRotateOrZoom = false,
             tiltGesturesEnabled = false,
             zoomControlsEnabled = false,
-            zoomGesturesEnabled = false
+            zoomGesturesEnabled = true
         )
     ) {
         Polyline(
@@ -133,33 +121,6 @@ fun QiblaMapPage(
             color = MapLine,
             width = 4f,
             zIndex = 1f
-        )
-
-        location.accuracyMeters?.takeIf { it > 0f }?.let { accuracy ->
-            Circle(
-                center = userPosition,
-                fillColor = MapAccuracyFill,
-                radius = accuracy.toDouble(),
-                strokeColor = MapLine,
-                strokeWidth = 2f,
-                zIndex = 0f
-            )
-        }
-
-        Marker(
-            state = userMarkerState,
-            title = userMarkerTitle,
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE),
-            anchor = Offset(0.5f, 0.5f),
-            zIndex = 2f
-        )
-
-        Marker(
-            state = kaabaMarkerState,
-            title = kaabaMarkerTitle,
-            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_compass_kaabe),
-            anchor = Offset(0.5f, 0.5f),
-            zIndex = 3f
         )
     }
 }

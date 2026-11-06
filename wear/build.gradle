@@ -7,6 +7,10 @@ android {
     namespace 'com.metinkale.prayer.wear'
     compileSdk 37
 
+    sourceSets {
+        main.res.srcDirs += 'src/main/translations'
+    }
+
     defaultConfig {
         applicationId 'com.metinkale.prayer.wear'
         minSdk 30

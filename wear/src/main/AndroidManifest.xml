@@ -16,7 +16,9 @@
 
     <application
         android:allowBackup="true"
-        android:label="Prayer Times Wear"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/appName"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
 
