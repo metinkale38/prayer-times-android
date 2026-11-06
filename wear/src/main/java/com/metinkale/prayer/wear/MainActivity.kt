@@ -318,6 +318,7 @@ private fun PrayerTimesPage(
         initialPage = TODAY_PAGE,
         pageCount = { PAGE_COUNT }
     )
+    val largeScreen = LocalConfiguration.current.screenWidthDp >= 200
 
     HorizontalPager(
         state = pagerState,
@@ -340,6 +341,7 @@ private fun PrayerTimesPage(
                 nextDate = nextDate,
                 nextIndex = nextIndex,
                 syncedDay = syncedDays[date.toString()],
+                largeScreen = largeScreen,
                 onBackToToday = {
                     scope.launch {
                         pagerState.animateScrollToPage(TODAY_PAGE)
@@ -483,6 +485,7 @@ private fun DayCard(
     nextDate: LocalDate?,
     nextIndex: Int,
     syncedDay: WearDayTimes?,
+    largeScreen: Boolean,
     onBackToToday: () -> Unit
 ) {
     val monthName = date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
@@ -518,6 +521,10 @@ private fun DayCard(
     } else {
         ""
     }
+    val horizontalPadding = if (largeScreen) 16.dp else 24.dp
+    val topPadding = if (largeScreen) 22.dp else 28.dp
+    val bottomPadding = if (largeScreen) 16.dp else 24.dp
+    val gridSpacing = if (largeScreen) 5.dp else 4.dp
 
     Box(
         modifier = Modifier
@@ -555,7 +562,12 @@ private fun DayCard(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 24.dp),
+                .padding(
+                    start = horizontalPadding,
+                    end = horizontalPadding,
+                    top = topPadding,
+                    bottom = bottomPadding
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -566,47 +578,47 @@ private fun DayCard(
                 Text(
                     text = dateText,
                     color = TextPrimary,
-                    fontSize = 11.sp,
-                    lineHeight = 12.sp,
+                    fontSize = if (largeScreen) 12.sp else 11.sp,
+                    lineHeight = if (largeScreen) 13.sp else 12.sp,
                     fontWeight = FontWeight.Normal
                 )
                 Text(
                     text = hijriText,
                     color = TextSecondary,
-                    fontSize = 8.sp,
-                    lineHeight = 9.sp,
+                    fontSize = if (largeScreen) 9.sp else 8.sp,
+                    lineHeight = if (largeScreen) 10.sp else 9.sp,
                     fontWeight = FontWeight.Light
                 )
             }
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(if (largeScreen) 3.dp else 2.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(gridSpacing)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(gridSpacing)
                 ) {
                     prayers.take(3).forEach { prayer ->
-                        PrayerTile(prayer, Modifier.weight(1f))
+                        PrayerTile(prayer, Modifier.weight(1f), largeScreen)
                     }
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(gridSpacing)
                 ) {
                     prayers.drop(3).forEach { prayer ->
-                        PrayerTile(prayer, Modifier.weight(1f))
+                        PrayerTile(prayer, Modifier.weight(1f), largeScreen)
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(if (largeScreen) 3.dp else 2.dp))
 
             if (isToday && countdown != null && nextPrayer != null) {
-                Countdown(label = countdownLabel, text = countdown)
+                Countdown(label = countdownLabel, text = countdown, largeScreen = largeScreen)
             } else {
                 Spacer(modifier = Modifier.height(18.dp))
             }
@@ -615,14 +627,18 @@ private fun DayCard(
 }
 
 @Composable
-private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
+private fun RowScope.PrayerTile(
+    prayer: PrayerUi,
+    modifier: Modifier,
+    largeScreen: Boolean
+) {
     val isSunrise = prayer.labelRes == R.string.sun
     val active = prayer.isCurrent && !isSunrise
     val next = prayer.isNext && !isSunrise && !active
 
     Card(
         modifier = modifier
-            .height(38.dp)
+            .height(if (largeScreen) 42.dp else 38.dp)
             .then(
                 if (next) {
                     Modifier.border(1.dp, Highlight, RoundedCornerShape(14.dp))
@@ -635,7 +651,10 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
             containerColor = if (active) Highlight else TileBackground,
             contentColor = if (active) Color.White else TextPrimary
         ),
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 3.dp)
+        contentPadding = PaddingValues(
+            horizontal = if (largeScreen) 5.dp else 4.dp,
+            vertical = if (largeScreen) 4.dp else 3.dp
+        )
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -645,7 +664,7 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
             Text(
                 text = stringResource(prayer.labelRes),
                 color = if (active) Color.White else TextSecondary,
-                fontSize = 8.sp,
+                fontSize = if (largeScreen) 9.sp else 8.sp,
                 fontWeight = if (active) FontWeight.Medium else FontWeight.Normal,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -658,7 +677,7 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
                     isSunrise -> TextSecondary
                     else -> TextPrimary
                 },
-                fontSize = 14.sp,
+                fontSize = if (largeScreen) 15.sp else 14.sp,
                 fontWeight = if (active) FontWeight.Medium else FontWeight.Light,
                 maxLines = 1,
                 textAlign = TextAlign.Center
@@ -668,7 +687,7 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
 }
 
 @Composable
-private fun Countdown(label: String, text: String) {
+private fun Countdown(label: String, text: String, largeScreen: Boolean) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(1.dp)
@@ -676,14 +695,14 @@ private fun Countdown(label: String, text: String) {
         Text(
             text = text,
             color = TextPrimary,
-            fontSize = 15.sp,
+            fontSize = if (largeScreen) 16.sp else 15.sp,
             fontWeight = FontWeight.Medium,
             maxLines = 1
         )
         Text(
             text = label,
             color = TextSecondary,
-            fontSize = 8.sp,
+            fontSize = if (largeScreen) 9.sp else 8.sp,
             fontWeight = FontWeight.Normal,
             maxLines = 1
         )
