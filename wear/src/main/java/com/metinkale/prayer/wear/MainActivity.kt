@@ -141,11 +141,12 @@ private fun nextPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
 }
 
 private fun currentPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
+    if (now < times.fajr) return -1
+    if (!now.isBefore(times.ishaa)) return 5
     val nextIndex = times.asList().indexOfFirst { it > now }
     return if (nextIndex <= 0) 5 else nextIndex - 1
 }
 
-@Composable
 private fun countdownText(times: PrayerTimes, now: LocalTime): String {
     val next = times.asList().firstOrNull { it > now } ?: times.fajr
     var seconds = Duration.between(now, next).seconds
@@ -154,16 +155,7 @@ private fun countdownText(times: PrayerTimes, now: LocalTime): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
     val secs = seconds % 60
-    return when {
-        seconds < 600 -> String.format(Locale.US, "%02d:%02d", minutes, secs)
-        hours > 0 -> stringResource(
-            R.string.wear_countdown_hours_minutes,
-            hours.toInt(),
-            minutes.toInt()
-        )
-
-        else -> stringResource(R.string.wear_countdown_minutes, minutes.toInt())
-    }
+    return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, secs)
 }
 
 class MainActivity : ComponentActivity() {
@@ -287,6 +279,18 @@ private fun PrayerTimesPage(
     }
     val baseDate = remember { LocalDate.now() }
     val hasData = payload != null && payload.days.isNotEmpty()
+    val now = rememberCurrentTime()
+    val baseTimes = remember(syncedDays, baseDate) {
+        syncedDays[baseDate.toString()]?.toPrayerTimes()
+    }
+    val nextIsTomorrow = baseTimes != null && !now.isBefore(baseTimes.ishaa)
+    val nextIndex = baseTimes?.let {
+        if (nextIsTomorrow) 0 else nextPrayerIndex(it, now)
+    } ?: -1
+    val nextDate = baseTimes?.let {
+        if (nextIsTomorrow) baseDate.plusDays(1) else baseDate
+    }
+    val scope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
         initialPage = TODAY_PAGE,
@@ -310,7 +314,15 @@ private fun PrayerTimesPage(
             DayCard(
                 date = date,
                 isToday = date == baseDate,
-                syncedDay = syncedDays[date.toString()]
+                now = if (date == baseDate) now else null,
+                nextDate = nextDate,
+                nextIndex = nextIndex,
+                syncedDay = syncedDays[date.toString()],
+                onBackToToday = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(TODAY_PAGE)
+                    }
+                }
             )
         }
     }
@@ -445,7 +457,11 @@ private fun MissingDataCard(dateText: String, hijriText: String) {
 private fun DayCard(
     date: LocalDate,
     isToday: Boolean,
-    syncedDay: WearDayTimes?
+    now: LocalTime?,
+    nextDate: LocalDate?,
+    nextIndex: Int,
+    syncedDay: WearDayTimes?,
+    onBackToToday: () -> Unit
 ) {
     val monthName = date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
     val dateText = String.format(Locale.US, "%02d. %s %d", date.dayOfMonth, monthName, date.year)
@@ -463,79 +479,115 @@ private fun DayCard(
         return
     }
 
-    val now = if (isToday) rememberCurrentTime() else null
-    val currentIndex = if (now != null) currentPrayerIndex(times, now) else -1
-    val nextIndex = if (now != null) nextPrayerIndex(times, now) else -1
-    val countdown = if (now != null) countdownText(times, now) else null
+    val currentIndex = if (isToday && now != null) currentPrayerIndex(times, now) else -1
+    val countdown = if (isToday && now != null) countdownText(times, now) else null
 
     val prayers = listOf(
-        PrayerUi(R.string.fajr, times.fajr.format(TimeFormat), currentIndex == 0, nextIndex == 0),
-        PrayerUi(R.string.sun, times.sun.format(TimeFormat), currentIndex == 1, nextIndex == 1),
-        PrayerUi(R.string.zuhr, times.dhuhr.format(TimeFormat), currentIndex == 2, nextIndex == 2),
-        PrayerUi(R.string.asr, times.asr.format(TimeFormat), currentIndex == 3, nextIndex == 3),
-        PrayerUi(R.string.maghrib, times.maghrib.format(TimeFormat), currentIndex == 4, nextIndex == 4),
-        PrayerUi(R.string.ishaa, times.ishaa.format(TimeFormat), currentIndex == 5, nextIndex == 5)
+        PrayerUi(R.string.fajr, times.fajr.format(TimeFormat), currentIndex == 0, nextDate == date && nextIndex == 0),
+        PrayerUi(R.string.sun, times.sun.format(TimeFormat), currentIndex == 1, nextDate == date && nextIndex == 1),
+        PrayerUi(R.string.zuhr, times.dhuhr.format(TimeFormat), currentIndex == 2, nextDate == date && nextIndex == 2),
+        PrayerUi(R.string.asr, times.asr.format(TimeFormat), currentIndex == 3, nextDate == date && nextIndex == 3),
+        PrayerUi(R.string.maghrib, times.maghrib.format(TimeFormat), currentIndex == 4, nextDate == date && nextIndex == 4),
+        PrayerUi(R.string.ishaa, times.ishaa.format(TimeFormat), currentIndex == 5, nextDate == date && nextIndex == 5)
     )
     val nextPrayer = prayers.getOrNull(nextIndex)
+    val countdownLabel = if (isToday && nextPrayer != null) {
+        stringResource(R.string.wear_until, stringResource(nextPrayer.labelRes))
+    } else {
+        ""
+    }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
-            .padding(start = 24.dp, end = 24.dp, top = 14.dp, bottom = 12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
     ) {
+        if (!isToday) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 2.dp)
+                    .width(120.dp)
+                    .height(44.dp)
+                    .clickable(onClick = onBackToToday),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(66.dp)
+                        .height(22.dp)
+                        .background(TileBackground, RoundedCornerShape(50))
+                        .border(1.dp, Highlight, RoundedCornerShape(50)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "‹ " + stringResource(R.string.wear_today),
+                        color = HighlightBright,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
+        }
+
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(1.dp)
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = dateText,
-                color = TextSecondary,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light
-            )
-            Text(
-                text = hijriText,
-                color = TextSecondary.copy(alpha = 0.8f),
-                fontSize = 8.sp,
-                fontWeight = FontWeight.Light
-            )
-        }
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(1.dp)
             ) {
-                prayers.take(3).forEach { prayer ->
-                    PrayerTile(prayer, Modifier.weight(1f))
+                Text(
+                    text = dateText,
+                    color = TextPrimary,
+                    fontSize = 11.sp,
+                    lineHeight = 12.sp,
+                    fontWeight = FontWeight.Normal
+                )
+                Text(
+                    text = hijriText,
+                    color = TextSecondary,
+                    fontSize = 8.sp,
+                    lineHeight = 9.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    prayers.take(3).forEach { prayer ->
+                        PrayerTile(prayer, Modifier.weight(1f))
+                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    prayers.drop(3).forEach { prayer ->
+                        PrayerTile(prayer, Modifier.weight(1f))
+                    }
                 }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                prayers.drop(3).forEach { prayer ->
-                    PrayerTile(prayer, Modifier.weight(1f))
-                }
-            }
-        }
 
-        if (isToday && countdown != null && nextPrayer != null) {
-            Countdown(
-                label = stringResource(
-                    R.string.wear_next_in,
-                    stringResource(nextPrayer.labelRes)
-                ),
-                text = countdown
-            )
-        } else {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(2.dp))
+
+            if (isToday && countdown != null && nextPrayer != null) {
+                Countdown(label = countdownLabel, text = countdown)
+            } else {
+                Spacer(modifier = Modifier.height(18.dp))
+            }
         }
     }
 }
@@ -548,7 +600,7 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
 
     Card(
         modifier = modifier
-            .height(44.dp)
+            .height(38.dp)
             .then(
                 if (next) {
                     Modifier.border(1.dp, Highlight, RoundedCornerShape(14.dp))
@@ -584,7 +636,7 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
                     isSunrise -> TextSecondary
                     else -> TextPrimary
                 },
-                fontSize = 13.sp,
+                fontSize = 14.sp,
                 fontWeight = if (active) FontWeight.Medium else FontWeight.Light,
                 maxLines = 1,
                 textAlign = TextAlign.Center
@@ -600,17 +652,17 @@ private fun Countdown(label: String, text: String) {
         verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         Text(
-            text = label,
-            color = TextSecondary,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Normal,
+            text = text,
+            color = TextPrimary,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
             maxLines = 1
         )
         Text(
-            text = text,
-            color = TextPrimary,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
+            text = label,
+            color = TextSecondary,
+            fontSize = 8.sp,
+            fontWeight = FontWeight.Normal,
             maxLines = 1
         )
     }

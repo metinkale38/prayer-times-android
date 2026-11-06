@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fajr">Fajr</string>
-    <string name="sun">Sunrise</string>
+    <string name="sun">Sun</string>
     <string name="zuhr">Zuhr</string>
     <string name="asr">Asr</string>
     <string name="maghrib">Maghrib</string>
@@ -52,6 +52,9 @@
     <string name="google_maps_key_missing_body">Add your GOOGLE_API_KEY to wear/src/main/res/values/secrets.xml to show the map on your watch.</string>
     <string name="compass_sensor_unavailable">Compass sensor unavailable</string>
 
+    <string name="wear_until">until %1$s</string>
+    <string name="wear_today">Today</string>
+    <string name="wear_tomorrow_in">%1$s tomorrow</string>
     <string name="wear_next_in">%1$s in</string>
     <string name="wear_countdown_minutes">%1$d min</string>
     <string name="wear_countdown_hours_minutes">%1$d h %2$d min</string>
