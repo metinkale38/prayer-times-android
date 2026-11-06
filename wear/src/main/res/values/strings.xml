@@ -20,4 +20,39 @@
     <string name="hmonth11">Dhu l-Qaʿda</string>
     <string name="hmonth12">Dhū l-Hijja</string>
     <string name="date">Date</string>
+    <string name="wear_setup_on_phone_title">Set up on your phone</string>
+    <string name="wear_setup_on_phone_text">Open the Prayer Times app on your phone and set up your first city.</string>
+    <string name="wear_no_data">No prayer times for this day</string>
+
+    <string name="qibla">Qibla</string>
+    <string name="compass">Compass</string>
+    <string name="map">Map</string>
+    <string name="distance">Distance</string>
+    <string name="heading">Heading</string>
+    <string name="kaaba">Kaaba</string>
+    <string name="your_location">Your location</string>
+    <string name="location_searching">Looking for location…</string>
+    <string name="location_permission">Location permission</string>
+    <string name="grant_permission">Allow location</string>
+    <string name="location_from_city">Using city: %1$s</string>
+    <string name="location_ready">Location found</string>
+    <string name="qibla_angle">%1$d°</string>
+    <string name="qibla_distance">%1$s</string>
+    <string name="google_maps_key_missing">Google Maps key missing</string>
+    <string name="google_maps_key_missing_body">Add your GOOGLE_API_KEY to wear/src/main/res/values/secrets.xml to show the map on your watch.</string>
+    <string name="compass_sensor_unavailable">Compass sensor unavailable</string>
+
+    <string name="dhikr">Dhikr</string>
+    <string name="dhikr_new">New Dhikr</string>
+    <string name="dhikr_name">Name</string>
+    <string name="dhikr_name_hint">e.g. Tesbih</string>
+    <string name="dhikr_target">Target</string>
+    <string name="dhikr_target_hint">33</string>
+    <string name="dhikr_add">Add Dhikr</string>
+    <string name="dhikr_reset">Reset</string>
+    <string name="dhikr_delete">Delete</string>
+    <string name="dhikr_cancel">Cancel</string>
+    <string name="dhikr_rounds">Rounds: %1$d</string>
+    <string name="dhikr_tap_hint">Tap to count</string>
+    <string name="dhikr_hold_hint">Hold for options</string>
 </resources>

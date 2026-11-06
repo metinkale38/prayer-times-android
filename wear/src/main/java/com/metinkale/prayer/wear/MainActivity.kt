@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -34,13 +35,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.VerticalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.OpenOnPhoneDialogContent
+import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import com.metinkale.prayer.sync.WearDayTimes
+import com.metinkale.prayer.sync.WearTimesPayload
+import com.metinkale.prayer.wear.data.DhikrRepository
 import com.metinkale.prayer.wear.data.WearTimesRepository
+import com.metinkale.prayer.wear.dhikr.DhikrPage
+import com.metinkale.prayer.wear.qibla.QiblaPage
 import com.metinkale.prayer.wear.sync.WearTimesDataLayer
 import dev.metinkale.openprayertimes.hijri.HijriDate
 import dev.metinkale.openprayertimes.hijri.HijriMonth
@@ -61,6 +70,7 @@ private val TextSecondary = Color(0xFFA9B0B4)
 
 private const val PAGE_COUNT = 10001
 private const val TODAY_PAGE = 5000
+private const val TOP_LEVEL_PAGE_COUNT = 3
 private val TimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
 private data class PrayerUi(
@@ -90,18 +100,6 @@ private fun WearDayTimes.toPrayerTimes(): PrayerTimes? = runCatching {
         ishaa = LocalTime.parse(ishaa)
     )
 }.getOrNull()
-
-private fun mockPrayerCycle(): List<PrayerTimes> = (0 until 30).map { index ->
-    val offset = index - 4
-    PrayerTimes(
-        fajr = LocalTime.of(5, 24).plusMinutes((offset / 3).toLong()),
-        sun = LocalTime.of(7, 13).plusMinutes((offset / 3).toLong()),
-        dhuhr = LocalTime.of(12, 7).plusMinutes((offset / 5).toLong()),
-        asr = LocalTime.of(14, 20).plusMinutes((offset / 4).toLong()),
-        maghrib = LocalTime.of(16, 50).minusMinutes((offset / 4).toLong()),
-        ishaa = LocalTime.of(18, 26).minusMinutes((offset / 3).toLong())
-    )
-}
 
 private fun hijriMonthRes(month: HijriMonth): Int = when (month) {
     HijriMonth.MUHARRAM -> R.string.hmonth1
@@ -141,36 +139,36 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 val context = LocalContext.current
                 val repository = remember(context) { WearTimesRepository.get(context) }
+                val dhikrRepository = remember(context) { DhikrRepository.get(context) }
                 val payload by repository.payload.collectAsStateWithLifecycle(initialValue = null)
 
                 LaunchedEffect(repository) {
                     WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
                 }
 
-                val syncedDays = remember(payload) {
-                    payload?.days?.associateBy { it.date } ?: emptyMap()
-                }
-                val baseDate = remember { LocalDate.now() }
-                val prayerCycle = remember { mockPrayerCycle() }
                 val pagerState = rememberPagerState(
-                    initialPage = TODAY_PAGE,
-                    pageCount = { PAGE_COUNT }
+                    initialPage = 0,
+                    pageCount = { TOP_LEVEL_PAGE_COUNT }
                 )
+                val currentPage = pagerState.currentPage
 
-                HorizontalPager(
+                VerticalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
-                    val dayOffset = page - TODAY_PAGE
-                    val date = baseDate.plusDays(dayOffset.toLong())
-                    val cycleIndex = ((dayOffset + 4) % 30 + 30) % 30
+                    when (page) {
+                        0 -> PrayerTimesPage(payload = payload)
+                        1 -> QiblaPage(
+                            fallbackCity = payload?.city,
+                            isActive = currentPage == 1,
+                            modifier = Modifier.fillMaxSize()
+                        )
 
-                    DayCard(
-                        date = date,
-                        isToday = date == baseDate,
-                        fallbackTimes = prayerCycle[cycleIndex],
-                        syncedDay = syncedDays[date.toString()]
-                    )
+                        2 -> DhikrPage(
+                            repository = dhikrRepository,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
                 }
             }
         }
@@ -178,13 +176,104 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+private fun PrayerTimesPage(payload: WearTimesPayload?) {
+    val syncedDays = remember(payload) {
+        payload?.days?.associateBy { it.date } ?: emptyMap()
+    }
+    val baseDate = remember { LocalDate.now() }
+    val hasData = payload != null && payload.days.isNotEmpty()
+
+    val pagerState = rememberPagerState(
+        initialPage = TODAY_PAGE,
+        pageCount = { PAGE_COUNT }
+    )
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier.fillMaxSize()
+    ) { page ->
+        if (!hasData) {
+            SetupOnPhoneContent()
+        } else {
+            val dayOffset = page - TODAY_PAGE
+            val date = baseDate.plusDays(dayOffset.toLong())
+
+            DayCard(
+                date = date,
+                isToday = date == baseDate,
+                syncedDay = syncedDays[date.toString()]
+            )
+        }
+    }
+}
+
+@Composable
+private fun SetupOnPhoneContent() {
+    val title = stringResource(R.string.wear_setup_on_phone_title)
+    val curvedTextStyle = OpenOnPhoneDialogDefaults.curvedTextStyle
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        OpenOnPhoneDialogContent(
+            curvedText = {
+                openOnPhoneDialogCurvedText(title, curvedTextStyle)
+            },
+            durationMillis = OpenOnPhoneDialogDefaults.DurationMillis,
+            content = {
+                Text(
+                    text = stringResource(R.string.wear_setup_on_phone_text),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+private fun MissingDataCard(dateText: String, hijriText: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background)
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = dateText,
+            color = TextPrimary,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Light
+        )
+        Text(
+            text = hijriText,
+            color = TextSecondary,
+            fontSize = 9.sp,
+            fontWeight = FontWeight.Light,
+            fontStyle = FontStyle.Italic
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = stringResource(R.string.wear_no_data),
+            color = TextSecondary,
+            fontSize = 11.sp,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
 private fun DayCard(
     date: LocalDate,
     isToday: Boolean,
-    fallbackTimes: PrayerTimes,
     syncedDay: WearDayTimes?
 ) {
-    val times = syncedDay?.toPrayerTimes() ?: fallbackTimes
     val monthName = date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
     val dateText = String.format(Locale.US, "%02d. %s %d", date.dayOfMonth, monthName, date.year)
 
@@ -194,6 +283,12 @@ private fun DayCard(
     val hijriText = hijri?.let {
         "${it.day}. " + stringResource(hijriMonthRes(it.month)) + " ${it.year}"
     } ?: ""
+
+    val times = syncedDay?.toPrayerTimes()
+    if (times == null) {
+        MissingDataCard(dateText, hijriText)
+        return
+    }
 
     val now = if (isToday) rememberCurrentTime() else null
     val currentIndex = if (now != null) currentPrayerIndex(times, now) else -1
