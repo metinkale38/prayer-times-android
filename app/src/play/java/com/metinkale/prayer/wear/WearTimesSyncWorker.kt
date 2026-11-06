@@ -1,6 +1,7 @@
 package com.metinkale.prayer.wear
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.tasks.Tasks
@@ -32,7 +33,10 @@ class WearTimesSyncWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            val times = Times.current.firstOrNull() ?: return@withContext Result.success()
+            val times = Times.current.firstOrNull() ?: run {
+                Log.w("WearTimesSync", "phone: no city configured")
+                return@withContext Result.success()
+            }
             val provider = times.dayTimes
 
             if (provider is DayTimesWebProvider) {
@@ -81,6 +85,7 @@ class WearTimesSyncWorker(
 
             val payload = WearTimesPayloadFactory.payload(times, days)
             val json = SyncJson.encode(payload)
+            Log.d("WearTimesSync", "phone: city=${times.name} days=${days.size} bytes=${json.length}")
             val data = DataMap().apply {
                 putString(SyncConstants.KEY_JSON, json)
             }.toByteArray()
@@ -91,6 +96,7 @@ class WearTimesSyncWorker(
                 30,
                 TimeUnit.SECONDS
             )
+            Log.d("WearTimesSync", "phone: put succeeded")
             Result.success()
         } catch (e: CancellationException) {
             throw e
