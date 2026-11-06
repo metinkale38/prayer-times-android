@@ -45,6 +45,7 @@ fun QiblaCompass(
     headingDegrees: Float,
     qiblaBearingDegrees: Float?,
     isAligned: Boolean,
+    largeScreen: Boolean,
     modifier: Modifier = Modifier
 ) {
     val textMeasurer = rememberTextMeasurer()
@@ -91,11 +92,12 @@ fun QiblaCompass(
         )
 
         val heading = QiblaMath.normalizeDegrees(headingDegrees).roundToInt()
+        val headingScale = if (largeScreen) 0.32f else 0.28f
         val headingLayout = textMeasurer.measure(
             text = AnnotatedString(heading.toString()),
             style = TextStyle(
                 color = CompassHeading,
-                fontSize = (compassCenter * 0.28f).toSp(),
+                fontSize = (compassCenter * headingScale).toSp(),
                 fontWeight = FontWeight.Normal
             ),
             maxLines = 1
@@ -110,7 +112,7 @@ fun QiblaCompass(
             text = AnnotatedString("°"),
             style = TextStyle(
                 color = CompassDegree,
-                fontSize = (compassCenter * 0.22f).toSp(),
+                fontSize = (compassCenter * if (largeScreen) 0.24f else 0.22f).toSp(),
                 fontWeight = FontWeight.Normal
             ),
             maxLines = 1

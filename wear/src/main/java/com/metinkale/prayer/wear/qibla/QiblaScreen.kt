@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -96,6 +97,7 @@ fun QiblaPage(
     val headingState = rememberMagneticHeading(enabled = compassActive)
 
     val scope = rememberCoroutineScope()
+    val largeScreen = LocalConfiguration.current.screenWidthDp >= 220
 
     Box(modifier = modifier.fillMaxSize()) {
         HorizontalPager(
@@ -105,7 +107,8 @@ fun QiblaPage(
             when (page) {
                 0 -> QiblaCompassPage(
                     headingState = headingState,
-                    locationState = locationState
+                    locationState = locationState,
+                    largeScreen = largeScreen
                 )
 
                 1 -> QiblaMapPage(
@@ -150,6 +153,7 @@ private fun QiblaSubPageIndicator(currentPage: Int, modifier: Modifier = Modifie
 private fun QiblaCompassPage(
     headingState: CompassHeadingState,
     locationState: UserLocationState,
+    largeScreen: Boolean,
     modifier: Modifier = Modifier
 ) {
     val location = locationState.location
@@ -230,6 +234,7 @@ private fun QiblaCompassPage(
             headingDegrees = trueHeading,
             qiblaBearingDegrees = qiblaBearing,
             isAligned = isAligned,
+            largeScreen = largeScreen,
             modifier = Modifier.fillMaxSize()
         )
 

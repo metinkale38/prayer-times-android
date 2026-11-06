@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,11 +38,14 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -158,11 +162,29 @@ private fun countdownText(times: PrayerTimes, now: LocalTime): String {
     return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, secs)
 }
 
+@Composable
+private fun ScaledMaterialTheme(content: @Composable () -> Unit) {
+    val configuration = LocalConfiguration.current
+    val baseDensity = LocalDensity.current
+    val shortestDp = minOf(
+        configuration.screenWidthDp,
+        configuration.screenHeightDp
+    ).toFloat()
+    val scale = (shortestDp / 192f).coerceIn(1f, 1.25f)
+    val scaledDensity = Density(
+        density = baseDensity.density * scale,
+        fontScale = baseDensity.fontScale
+    )
+    CompositionLocalProvider(LocalDensity provides scaledDensity) {
+        MaterialTheme(content = content)
+    }
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            ScaledMaterialTheme {
                 val context = LocalContext.current
                 val repository = remember(context) { WearTimesRepository.get(context) }
                 val dhikrRepository = remember(context) { DhikrRepository.get(context) }
