@@ -522,8 +522,8 @@ private fun DayCard(
         ""
     }
     val horizontalPadding = if (largeScreen) 16.dp else 24.dp
-    val topPadding = if (largeScreen) 22.dp else 28.dp
-    val bottomPadding = if (largeScreen) 16.dp else 24.dp
+    val topPadding = if (largeScreen) 20.dp else 28.dp
+    val bottomPadding = if (largeScreen) 14.dp else 24.dp
     val gridSpacing = if (largeScreen) 5.dp else 4.dp
 
     Box(
@@ -531,15 +531,76 @@ private fun DayCard(
             .fillMaxSize()
             .background(Background)
     ) {
-        if (!isToday) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(
+                    start = horizontalPadding,
+                    end = horizontalPadding,
+                    top = topPadding
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(1.dp)
+        ) {
+            Text(
+                text = dateText,
+                color = TextPrimary,
+                fontSize = if (largeScreen) 12.sp else 11.sp,
+                lineHeight = if (largeScreen) 13.sp else 12.sp,
+                fontWeight = FontWeight.Normal
+            )
+            Text(
+                text = hijriText,
+                color = TextSecondary,
+                fontSize = if (largeScreen) 9.sp else 8.sp,
+                lineHeight = if (largeScreen) 10.sp else 9.sp,
+                fontWeight = FontWeight.Light
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
+            verticalArrangement = Arrangement.spacedBy(gridSpacing)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(gridSpacing)
+            ) {
+                prayers.take(3).forEach { prayer ->
+                    PrayerTile(prayer, Modifier.weight(1f), largeScreen)
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(gridSpacing)
+            ) {
+                prayers.drop(3).forEach { prayer ->
+                    PrayerTile(prayer, Modifier.weight(1f), largeScreen)
+                }
+            }
+        }
+
+        if (isToday && countdown != null && nextPrayer != null) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 2.dp)
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = bottomPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Countdown(label = countdownLabel, text = countdown, largeScreen = largeScreen)
+            }
+        } else if (!isToday) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 8.dp)
                     .width(120.dp)
-                    .height(44.dp)
+                    .height(38.dp)
                     .clickable(onClick = onBackToToday),
-                contentAlignment = Alignment.TopCenter
+                contentAlignment = Alignment.BottomCenter
             ) {
                 Box(
                     modifier = Modifier
@@ -556,71 +617,6 @@ private fun DayCard(
                         fontWeight = FontWeight.Medium
                     )
                 }
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = horizontalPadding,
-                    end = horizontalPadding,
-                    top = topPadding,
-                    bottom = bottomPadding
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(1.dp)
-            ) {
-                Text(
-                    text = dateText,
-                    color = TextPrimary,
-                    fontSize = if (largeScreen) 12.sp else 11.sp,
-                    lineHeight = if (largeScreen) 13.sp else 12.sp,
-                    fontWeight = FontWeight.Normal
-                )
-                Text(
-                    text = hijriText,
-                    color = TextSecondary,
-                    fontSize = if (largeScreen) 9.sp else 8.sp,
-                    lineHeight = if (largeScreen) 10.sp else 9.sp,
-                    fontWeight = FontWeight.Light
-                )
-            }
-
-            Spacer(modifier = Modifier.height(if (largeScreen) 3.dp else 2.dp))
-
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(gridSpacing)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(gridSpacing)
-                ) {
-                    prayers.take(3).forEach { prayer ->
-                        PrayerTile(prayer, Modifier.weight(1f), largeScreen)
-                    }
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(gridSpacing)
-                ) {
-                    prayers.drop(3).forEach { prayer ->
-                        PrayerTile(prayer, Modifier.weight(1f), largeScreen)
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(if (largeScreen) 3.dp else 2.dp))
-
-            if (isToday && countdown != null && nextPrayer != null) {
-                Countdown(label = countdownLabel, text = countdown, largeScreen = largeScreen)
-            } else {
-                Spacer(modifier = Modifier.height(18.dp))
             }
         }
     }
