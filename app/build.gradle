@@ -113,6 +113,8 @@ android {
 
 
 dependencies {
+    implementation project(':sync')
+
     implementation 'dev.metinkale:open-prayer-times-client:1.0-SNAPSHOT'
     implementation 'dev.metinkale:calctimes:1.0-SNAPSHOT'
     implementation 'dev.metinkale:hijri:1.0-SNAPSHOT'
@@ -158,6 +160,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.14.0'
     playImplementation 'com.google.android.gms:play-services-maps:20.0.0'
     playImplementation 'com.google.android.gms:play-services-location:21.4.0'
+    playImplementation 'com.google.android.gms:play-services-wearable:20.0.1'
 
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
