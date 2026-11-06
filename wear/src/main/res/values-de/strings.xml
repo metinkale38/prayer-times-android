@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fajr">Fajr</string>
-    <string name="sun">Sonne</string>
+    <string name="sun">Aufgang</string>
     <string name="zuhr">Zuhr</string>
     <string name="asr">Asr</string>
     <string name="maghrib">Maghrib</string>
@@ -20,6 +20,13 @@
     <string name="hmonth11">Dhu l-qaʿda</string>
     <string name="hmonth12">Dhū l-Hiddscha</string>
     <string name="date">Datum</string>
+    <string name="wear_prayer_times">Gebetszeiten</string>
+    <string name="wear_no_connection_title">Noch keine Daten</string>
+    <string name="wear_no_connection_body">Öffne die App auf dem Smartphone und synchronisiere.</string>
+    <string name="wear_no_times_title">Keine Gebetszeiten</string>
+    <string name="wear_no_times_body">Keine Daten geladen. Öffne die App und aktualisiere.</string>
+    <string name="wear_sync_action">Erneut synchronisieren</string>
+    <string name="wear_syncing">Synchronisiere…</string>
     <string name="wear_setup_on_phone_title">Auf dem Smartphone einrichten</string>
     <string name="wear_setup_on_phone_text">Öffne die Prayer Times App auf deinem Smartphone und richte deine erste Stadt ein.</string>
     <string name="wear_no_data">Keine Gebetszeiten für diesen Tag</string>
@@ -36,14 +43,24 @@
     <string name="grant_permission">Standort erlauben</string>
     <string name="location_from_city">Standort aus Stadt: %1$s</string>
     <string name="location_ready">Standort gefunden</string>
-    <string name="qibla_angle">%1$d°</string>
+    <string name="qibla_angle">Qibla %1$d°</string>
     <string name="qibla_distance">%1$s</string>
+    <string name="qibla_aligned">Ausgerichtet</string>
+    <string name="map_unavailable_body">Die Karte kann auf der Uhr gerade nicht angezeigt werden. Nutze den Kompass.</string>
+    <string name="open_compass">Zum Kompass</string>
     <string name="google_maps_key_missing">Google-Maps-Key fehlt</string>
     <string name="google_maps_key_missing_body">Trage GOOGLE_API_KEY in wear/src/main/res/values/secrets.xml ein, um die Karte auf deiner Uhr anzuzeigen.</string>
     <string name="compass_sensor_unavailable">Kompasssensor nicht verfügbar</string>
 
+    <string name="wear_next_in">%1$s in</string>
+    <string name="wear_countdown_minutes">%1$d Min</string>
+    <string name="wear_countdown_hours_minutes">%1$d Std %2$d Min</string>
     <string name="dhikr">Dhikr</string>
+    <string name="dhikr_custom">Eigener Dhikr</string>
     <string name="dhikr_new">Neuer Dhikr</string>
+    <string name="dhikr_templates">Vorlagen</string>
+    <string name="dhikr_invalid_target">Ziel: 1–100.000</string>
+    <string name="dhikr_swipe_hint">wischen</string>
     <string name="dhikr_name">Name</string>
     <string name="dhikr_name_hint">z. B. Tesbih</string>
     <string name="dhikr_target">Ziel</string>
@@ -52,6 +69,9 @@
     <string name="dhikr_reset">Zurücksetzen</string>
     <string name="dhikr_delete">Löschen</string>
     <string name="dhikr_cancel">Abbrechen</string>
+    <string name="dhikr_goal_reached">Ziel erreicht</string>
+    <string name="dhikr_goal_exceeded">Ziel übertroffen</string>
+    <string name="dhikr_round">Runde %1$d</string>
     <string name="dhikr_rounds">Runden: %1$d</string>
     <string name="dhikr_tap_hint">Tippen zum Zählen</string>
     <string name="dhikr_hold_hint">Halten für Optionen</string>

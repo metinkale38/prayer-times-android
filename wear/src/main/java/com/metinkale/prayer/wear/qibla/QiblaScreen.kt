@@ -1,12 +1,21 @@
 package com.metinkale.prayer.wear.qibla
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -23,16 +32,24 @@ import androidx.wear.compose.foundation.basicCurvedText
 import androidx.wear.compose.foundation.padding
 import androidx.wear.compose.foundation.pager.HorizontalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
+import androidx.wear.compose.material3.Text
 import com.metinkale.prayer.sync.WearCity
 import com.metinkale.prayer.wear.BuildConfig
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.debug.DebugHeadingOverride
+import java.text.NumberFormat
+import java.util.Locale
+import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 import kotlin.math.roundToLong
 
 private val StatusText = Color(0xFF8D989E)
 private val EdgeText = Color(0xFFE7EEF2)
 private val QiblaBackground = Color(0xFF121212)
+private val QiblaAccent = Color(0xFF4A768A)
+private val QiblaAccentBright = Color(0xFF7FB3C6)
+private val QiblaIndicatorInactive = Color(0xFF6B757B)
 
 private val AngleTextStyle = CurvedTextStyle(
     color = EdgeText,
@@ -78,19 +95,52 @@ fun QiblaPage(
     val compassActive = isActive && currentPage == 0
     val headingState = rememberMagneticHeading(enabled = compassActive)
 
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier.fillMaxSize()
-    ) { page ->
-        when (page) {
-            0 -> QiblaCompassPage(
-                headingState = headingState,
-                locationState = locationState
-            )
+    val scope = rememberCoroutineScope()
 
-            1 -> QiblaMapPage(
-                locationState = locationState,
-                modifier = Modifier.fillMaxSize()
+    Box(modifier = modifier.fillMaxSize()) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
+            when (page) {
+                0 -> QiblaCompassPage(
+                    headingState = headingState,
+                    locationState = locationState
+                )
+
+                1 -> QiblaMapPage(
+                    locationState = locationState,
+                    onShowCompass = { scope.launch { pagerState.animateScrollToPage(0) } },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+
+        QiblaSubPageIndicator(
+            currentPage = currentPage,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 6.dp)
+        )
+    }
+}
+
+@Composable
+private fun QiblaSubPageIndicator(currentPage: Int, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        repeat(QIBLA_PAGE_COUNT) { index ->
+            val selected = index == currentPage
+            Box(
+                modifier = Modifier
+                    .size(if (selected) 6.dp else 4.dp)
+                    .background(
+                        if (selected) QiblaAccentBright else QiblaIndicatorInactive,
+                        CircleShape
+                    )
             )
         }
     }
@@ -145,6 +195,11 @@ private fun QiblaCompassPage(
         }
     }
 
+    val isAligned = qiblaBearing != null && run {
+        val diff = ((trueHeading - qiblaBearing + 540f) % 360f) - 180f
+        abs(diff) <= 5f
+    }
+
     val distanceKm = remember(latitude, longitude) {
         if (latitude != null && longitude != null) {
             QiblaMath.distanceToKaabaKm(latitude, longitude)
@@ -174,6 +229,7 @@ private fun QiblaCompassPage(
         QiblaCompass(
             headingDegrees = trueHeading,
             qiblaBearingDegrees = qiblaBearing,
+            isAligned = isAligned,
             modifier = Modifier.fillMaxSize()
         )
 
@@ -219,7 +275,7 @@ private fun CurvedEdgeLabel(
     ) {
         basicCurvedText(
             text = text,
-            modifier = CurvedModifier.padding(radial = 4.dp),
+            modifier = CurvedModifier.padding(radial = 8.dp),
             style = style
         )
     }
@@ -227,7 +283,8 @@ private fun CurvedEdgeLabel(
 
 private fun formatDistance(distanceKm: Double): String {
     val rounded = distanceKm.roundToLong()
-    return "${rounded}km"
+    val formatted = NumberFormat.getIntegerInstance(Locale.getDefault()).format(rounded)
+    return "$formatted km"
 }
 
 private const val QIBLA_PAGE_COUNT = 2
