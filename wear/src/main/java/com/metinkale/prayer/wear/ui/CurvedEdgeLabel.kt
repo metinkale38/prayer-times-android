@@ -26,8 +26,8 @@ val EdgeTitleStyle = CurvedTextStyle(
 
 val EdgeBodyStyle = CurvedTextStyle(
     color = EdgeMutedText,
-    fontSize = 10.sp,
-    fontWeight = FontWeight.Thin
+    fontSize = 11.sp,
+    fontWeight = FontWeight.Normal
 )
 
 @Composable
@@ -48,7 +48,7 @@ fun CurvedEdgeLabel(
     ) {
         basicCurvedText(
             text = text,
-            modifier = CurvedModifier.padding(radial = 4.dp),
+            modifier = CurvedModifier.padding(radial = 8.dp),
             style = style
         )
     }

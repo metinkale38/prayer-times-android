@@ -3,7 +3,10 @@ package com.metinkale.prayer.wear
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,21 +16,29 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -50,6 +61,8 @@ import com.metinkale.prayer.wear.data.DhikrRepository
 import com.metinkale.prayer.wear.data.WearTimesRepository
 import com.metinkale.prayer.wear.dhikr.DhikrPage
 import com.metinkale.prayer.wear.qibla.QiblaPage
+import com.metinkale.prayer.wear.ui.CurvedEdgeLabel
+import com.metinkale.prayer.wear.ui.EdgeTitleStyle
 import com.metinkale.prayer.wear.sync.WearDhikrDataLayer
 import com.metinkale.prayer.wear.sync.WearTimesDataLayer
 import dev.metinkale.openprayertimes.hijri.HijriDate
@@ -61,12 +74,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.datetime.LocalDate as KLocalDate
 
 private val Background = Color(0xFF121212)
 private val TileBackground = Color(0xFF242424)
-private val Highlight = Color(0xFF3E6B7A)
+private val Highlight = Color(0xFF4A768A)
+private val HighlightBright = Color(0xFF7FB3C6)
+private val IndicatorInactive = Color(0xFF6B757B)
 private val TextPrimary = Color(0xFFF2F2F2)
 private val TextSecondary = Color(0xFFA9B0B4)
 
@@ -78,7 +94,8 @@ private val TimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 private data class PrayerUi(
     val labelRes: Int,
     val time: String,
-    val isCurrent: Boolean
+    val isCurrent: Boolean,
+    val isNext: Boolean
 )
 
 private data class PrayerTimes(
@@ -118,11 +135,17 @@ private fun hijriMonthRes(month: HijriMonth): Int = when (month) {
     HijriMonth.DHUL_HIJJA -> R.string.hmonth12
 }
 
+private fun nextPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
+    val nextIndex = times.asList().indexOfFirst { it > now }
+    return if (nextIndex < 0) 0 else nextIndex
+}
+
 private fun currentPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
     val nextIndex = times.asList().indexOfFirst { it > now }
     return if (nextIndex <= 0) 5 else nextIndex - 1
 }
 
+@Composable
 private fun countdownText(times: PrayerTimes, now: LocalTime): String {
     val next = times.asList().firstOrNull { it > now } ?: times.fajr
     var seconds = Duration.between(now, next).seconds
@@ -131,7 +154,16 @@ private fun countdownText(times: PrayerTimes, now: LocalTime): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
     val secs = seconds % 60
-    return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, secs)
+    return when {
+        seconds < 600 -> String.format(Locale.US, "%02d:%02d", minutes, secs)
+        hours > 0 -> stringResource(
+            R.string.wear_countdown_hours_minutes,
+            hours.toInt(),
+            minutes.toInt()
+        )
+
+        else -> stringResource(R.string.wear_countdown_minutes, minutes.toInt())
+    }
 }
 
 class MainActivity : ComponentActivity() {
@@ -143,9 +175,14 @@ class MainActivity : ComponentActivity() {
                 val repository = remember(context) { WearTimesRepository.get(context) }
                 val dhikrRepository = remember(context) { DhikrRepository.get(context) }
                 val payload by repository.payload.collectAsStateWithLifecycle(initialValue = null)
+                val prayerScope = rememberCoroutineScope()
+                var prayerSyncing by remember { mutableStateOf(false) }
 
                 LaunchedEffect(repository) {
+                    prayerSyncing = true
                     WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
+                    delay(500)
+                    prayerSyncing = false
                 }
 
                 LaunchedEffect(dhikrRepository) {
@@ -168,23 +205,44 @@ class MainActivity : ComponentActivity() {
                 )
                 val currentPage = pagerState.currentPage
 
-                VerticalPager(
-                    state = pagerState,
-                    modifier = Modifier.fillMaxSize()
-                ) { page ->
-                    when (page) {
-                        0 -> PrayerTimesPage(payload = payload)
-                        1 -> QiblaPage(
-                            fallbackCity = payload?.city,
-                            isActive = currentPage == 1,
-                            modifier = Modifier.fillMaxSize()
-                        )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    VerticalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        when (page) {
+                            0 -> PrayerTimesPage(
+                                payload = payload,
+                                isSyncing = prayerSyncing,
+                                onRetry = {
+                                    prayerScope.launch {
+                                        prayerSyncing = true
+                                        WearTimesDataLayer.fetchExisting(context)?.let { repository.save(it) }
+                                        delay(500)
+                                        prayerSyncing = false
+                                    }
+                                }
+                            )
+                            1 -> QiblaPage(
+                                fallbackCity = payload?.city,
+                                isActive = currentPage == 1,
+                                modifier = Modifier.fillMaxSize()
+                            )
 
-                        2 -> DhikrPage(
-                            repository = dhikrRepository,
-                            modifier = Modifier.fillMaxSize()
-                        )
+                            2 -> DhikrPage(
+                                repository = dhikrRepository,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                     }
+
+                    PageIndicator(
+                        pageCount = TOP_LEVEL_PAGE_COUNT,
+                        currentPage = currentPage,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 8.dp)
+                    )
                 }
             }
         }
@@ -192,7 +250,36 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun PrayerTimesPage(payload: WearTimesPayload?) {
+private fun PageIndicator(
+    pageCount: Int,
+    currentPage: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        repeat(pageCount) { index ->
+            val selected = index == currentPage
+            Box(
+                modifier = Modifier
+                    .size(if (selected) 5.dp else 3.dp)
+                    .background(
+                        if (selected) HighlightBright else IndicatorInactive,
+                        CircleShape
+                    )
+            )
+        }
+    }
+}
+
+@Composable
+private fun PrayerTimesPage(
+    payload: WearTimesPayload?,
+    isSyncing: Boolean,
+    onRetry: () -> Unit
+) {
     val syncedDays = remember(payload) {
         payload?.days?.associateBy { it.date } ?: emptyMap()
     }
@@ -209,7 +296,11 @@ private fun PrayerTimesPage(payload: WearTimesPayload?) {
         modifier = Modifier.fillMaxSize()
     ) { page ->
         if (!hasData) {
-            SetupOnPhoneContent()
+            SetupOnPhoneContent(
+                hasPayload = payload != null,
+                isSyncing = isSyncing,
+                onRetry = onRetry
+            )
         } else {
             val dayOffset = page - TODAY_PAGE
             val date = baseDate.plusDays(dayOffset.toLong())
@@ -224,30 +315,95 @@ private fun PrayerTimesPage(payload: WearTimesPayload?) {
 }
 
 @Composable
-private fun SetupOnPhoneContent() {
-    val title = stringResource(R.string.wear_setup_on_phone_title)
-    val curvedTextStyle = OpenOnPhoneDialogDefaults.curvedTextStyle
+private fun SetupOnPhoneContent(
+    hasPayload: Boolean,
+    isSyncing: Boolean,
+    onRetry: () -> Unit
+) {
+    val sectionTitle = stringResource(R.string.wear_prayer_times)
+    val headline = stringResource(
+        if (hasPayload) R.string.wear_no_times_title else R.string.wear_no_connection_title
+    )
+    val body = stringResource(
+        if (hasPayload) R.string.wear_no_times_body else R.string.wear_no_connection_body
+    )
+    val action = stringResource(
+        if (isSyncing) R.string.wear_syncing else R.string.wear_sync_action
+    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
     ) {
-        OpenOnPhoneDialogContent(
-            curvedText = {
-                openOnPhoneDialogCurvedText(title, curvedTextStyle)
-            },
-            durationMillis = OpenOnPhoneDialogDefaults.DurationMillis,
-            content = {
-                Text(
-                    text = stringResource(R.string.wear_setup_on_phone_text),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            },
-            modifier = Modifier.fillMaxSize()
+        CurvedEdgeLabel(
+            text = sectionTitle,
+            alignTop = true,
+            style = EdgeTitleStyle
         )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Box(
+                modifier = Modifier.size(64.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    drawCircle(
+                        color = Highlight.copy(alpha = 0.22f),
+                        radius = size.minDimension / 2f - 2.dp.toPx(),
+                        style = Stroke(width = 4.dp.toPx())
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Filled.Phone,
+                    contentDescription = null,
+                    tint = TextPrimary,
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = headline,
+                color = TextPrimary,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = body,
+                color = TextSecondary,
+                fontSize = 9.sp,
+                textAlign = TextAlign.Center,
+                maxLines = 2
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Box(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(30.dp)
+                    .background(
+                        if (isSyncing) TileBackground else Highlight,
+                        RoundedCornerShape(15.dp)
+                    )
+                    .clickable(enabled = !isSyncing, onClick = onRetry),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = action,
+                    color = if (isSyncing) TextSecondary else Color.White,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
     }
 }
 
@@ -263,16 +419,15 @@ private fun MissingDataCard(dateText: String, hijriText: String) {
     ) {
         Text(
             text = dateText,
-            color = TextPrimary,
-            fontSize = 11.sp,
+            color = TextSecondary,
+            fontSize = 10.sp,
             fontWeight = FontWeight.Light
         )
         Text(
             text = hijriText,
-            color = TextSecondary,
-            fontSize = 9.sp,
-            fontWeight = FontWeight.Light,
-            fontStyle = FontStyle.Italic
+            color = TextSecondary.copy(alpha = 0.8f),
+            fontSize = 8.sp,
+            fontWeight = FontWeight.Light
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
@@ -308,22 +463,24 @@ private fun DayCard(
 
     val now = if (isToday) rememberCurrentTime() else null
     val currentIndex = if (now != null) currentPrayerIndex(times, now) else -1
+    val nextIndex = if (now != null) nextPrayerIndex(times, now) else -1
     val countdown = if (now != null) countdownText(times, now) else null
 
     val prayers = listOf(
-        PrayerUi(R.string.fajr, times.fajr.format(TimeFormat), currentIndex == 0),
-        PrayerUi(R.string.sun, times.sun.format(TimeFormat), currentIndex == 1),
-        PrayerUi(R.string.zuhr, times.dhuhr.format(TimeFormat), currentIndex == 2),
-        PrayerUi(R.string.asr, times.asr.format(TimeFormat), currentIndex == 3),
-        PrayerUi(R.string.maghrib, times.maghrib.format(TimeFormat), currentIndex == 4),
-        PrayerUi(R.string.ishaa, times.ishaa.format(TimeFormat), currentIndex == 5)
+        PrayerUi(R.string.fajr, times.fajr.format(TimeFormat), currentIndex == 0, nextIndex == 0),
+        PrayerUi(R.string.sun, times.sun.format(TimeFormat), currentIndex == 1, nextIndex == 1),
+        PrayerUi(R.string.zuhr, times.dhuhr.format(TimeFormat), currentIndex == 2, nextIndex == 2),
+        PrayerUi(R.string.asr, times.asr.format(TimeFormat), currentIndex == 3, nextIndex == 3),
+        PrayerUi(R.string.maghrib, times.maghrib.format(TimeFormat), currentIndex == 4, nextIndex == 4),
+        PrayerUi(R.string.ishaa, times.ishaa.format(TimeFormat), currentIndex == 5, nextIndex == 5)
     )
+    val nextPrayer = prayers.getOrNull(nextIndex)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
-            .padding(start = 14.dp, end = 14.dp, top = 20.dp, bottom = 18.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 14.dp, bottom = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -333,16 +490,15 @@ private fun DayCard(
         ) {
             Text(
                 text = dateText,
-                color = TextPrimary,
-                fontSize = 11.sp,
+                color = TextSecondary,
+                fontSize = 10.sp,
                 fontWeight = FontWeight.Light
             )
             Text(
                 text = hijriText,
-                color = TextSecondary,
-                fontSize = 9.sp,
-                fontWeight = FontWeight.Light,
-                fontStyle = FontStyle.Italic
+                color = TextSecondary.copy(alpha = 0.8f),
+                fontSize = 8.sp,
+                fontWeight = FontWeight.Light
             )
         }
 
@@ -368,8 +524,14 @@ private fun DayCard(
             }
         }
 
-        if (isToday && countdown != null) {
-            Countdown(countdown)
+        if (isToday && countdown != null && nextPrayer != null) {
+            Countdown(
+                label = stringResource(
+                    R.string.wear_next_in,
+                    stringResource(nextPrayer.labelRes)
+                ),
+                text = countdown
+            )
         } else {
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -378,12 +540,24 @@ private fun DayCard(
 
 @Composable
 private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
+    val isSunrise = prayer.labelRes == R.string.sun
+    val active = prayer.isCurrent && !isSunrise
+    val next = prayer.isNext && !isSunrise && !active
+
     Card(
-        modifier = modifier.height(44.dp),
+        modifier = modifier
+            .height(44.dp)
+            .then(
+                if (next) {
+                    Modifier.border(1.dp, Highlight, RoundedCornerShape(14.dp))
+                } else {
+                    Modifier
+                }
+            ),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (prayer.isCurrent) Highlight else TileBackground,
-            contentColor = if (prayer.isCurrent) Color.White else TextPrimary
+            containerColor = if (active) Highlight else TileBackground,
+            contentColor = if (active) Color.White else TextPrimary
         ),
         contentPadding = PaddingValues(horizontal = 4.dp, vertical = 3.dp)
     ) {
@@ -394,18 +568,22 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
         ) {
             Text(
                 text = stringResource(prayer.labelRes),
-                color = if (prayer.isCurrent) Color.White else TextSecondary,
+                color = if (active) Color.White else TextSecondary,
                 fontSize = 8.sp,
-                fontWeight = if (prayer.isCurrent) FontWeight.Medium else FontWeight.Normal,
+                fontWeight = if (active) FontWeight.Medium else FontWeight.Normal,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = prayer.time,
-                color = if (prayer.isCurrent) Color.White else TextPrimary,
+                color = when {
+                    active -> Color.White
+                    isSunrise -> TextSecondary
+                    else -> TextPrimary
+                },
                 fontSize = 13.sp,
-                fontWeight = if (prayer.isCurrent) FontWeight.Medium else FontWeight.Light,
+                fontWeight = if (active) FontWeight.Medium else FontWeight.Light,
                 maxLines = 1,
                 textAlign = TextAlign.Center
             )
@@ -414,13 +592,26 @@ private fun RowScope.PrayerTile(prayer: PrayerUi, modifier: Modifier) {
 }
 
 @Composable
-private fun Countdown(text: String) {
-    Text(
-        text = text,
-        color = TextPrimary,
-        fontSize = 13.sp,
-        fontWeight = FontWeight.Light
-    )
+private fun Countdown(label: String, text: String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(1.dp)
+    ) {
+        Text(
+            text = label,
+            color = TextSecondary,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Normal,
+            maxLines = 1
+        )
+        Text(
+            text = text,
+            color = TextPrimary,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1
+        )
+    }
 }
 
 @Composable

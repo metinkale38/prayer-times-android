@@ -1,11 +1,14 @@
 package com.metinkale.prayer.wear.qibla
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -39,11 +42,13 @@ private val MapBackground = Color(0xFF0E1113)
 private val MapText = Color(0xFFF2F2F2)
 private val MapSecondary = Color(0xFFA9B0B4)
 private val MapLine = Color(0xFF3BB2D0)
+private val MapAction = Color(0xFF4A768A)
 private val MapAccuracyFill = Color(0x333BB2D0)
 
 @Composable
 fun QiblaMapPage(
     locationState: UserLocationState,
+    onShowCompass: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -51,8 +56,10 @@ fun QiblaMapPage(
 
     if (apiKey.isBlank()) {
         MapMessage(
-            title = stringResource(R.string.google_maps_key_missing),
-            body = stringResource(R.string.google_maps_key_missing_body),
+            title = stringResource(R.string.map),
+            body = stringResource(R.string.map_unavailable_body),
+            actionLabel = stringResource(R.string.open_compass),
+            onAction = onShowCompass,
             modifier = modifier
         )
         return
@@ -61,12 +68,14 @@ fun QiblaMapPage(
     val location = locationState.location
     if (location == null) {
         MapMessage(
-            title = if (locationState.permissionGranted) {
+            title = stringResource(R.string.map),
+            body = if (locationState.permissionGranted) {
                 stringResource(R.string.location_searching)
             } else {
                 stringResource(R.string.location_permission)
             },
-            body = stringResource(R.string.location_searching),
+            actionLabel = stringResource(R.string.open_compass),
+            onAction = onShowCompass,
             modifier = modifier
         )
         return
@@ -159,6 +168,8 @@ fun QiblaMapPage(
 private fun MapMessage(
     title: String,
     body: String,
+    actionLabel: String,
+    onAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -168,7 +179,9 @@ private fun MapMessage(
         contentAlignment = Alignment.Center
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp),
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
@@ -183,6 +196,18 @@ private fun MapMessage(
                 text = body,
                 color = MapSecondary,
                 fontSize = 10.sp,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = actionLabel,
+                modifier = Modifier
+                    .heightIn(min = 40.dp)
+                    .background(MapAction, RoundedCornerShape(50))
+                    .clickable(onClick = onAction)
+                    .padding(horizontal = 14.dp, vertical = 8.dp),
+                color = Color.White,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
         }
