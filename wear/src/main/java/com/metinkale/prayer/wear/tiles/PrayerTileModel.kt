@@ -9,6 +9,7 @@ import dev.metinkale.openprayertimes.hijri.HijriMonth
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlinx.coroutines.flow.first
@@ -28,7 +29,12 @@ internal data class PrayerTileModel(
     val countdownMinutes: Int,
     val justStarted: Boolean,
     val dateText: String,
-    val hijriText: String
+    val hijriText: String,
+    val hijriDay: String,
+    val hijriMonthYear: String,
+    val nextEpochMillis: Long,
+    val periodStartEpochMillis: Long,
+    val periodEndEpochMillis: Long
 )
 
 private data class PrayerTimes(
@@ -128,13 +134,36 @@ internal suspend fun loadPrayerTileModel(
         todayDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
         todayDate.year
     )
-    val hijriText = runCatching {
+    val hijri = runCatching {
         HijriDate.fromLocalDate(
             KLocalDate(todayDate.year, todayDate.monthValue, todayDate.dayOfMonth)
         )
-    }.getOrNull()?.let {
-        "${it.day}. " + context.getString(hijriMonthRes(it.month)) + " ${it.year}"
-    } ?: ""
+    }.getOrNull()
+    val hijriMonth = hijri?.let { context.getString(hijriMonthRes(it.month)) }
+    val hijriDay = hijri?.day?.toString() ?: ""
+    val hijriMonthYear = if (hijri != null && hijriMonth != null) {
+        "$hijriMonth ${hijri.year}"
+    } else {
+        ""
+    }
+    val hijriText = if (hijri != null && hijriMonth != null) {
+        "${hijri.day}. $hijriMonth ${hijri.year}"
+    } else {
+        ""
+    }
+    val zone = ZoneId.systemDefault()
+    val nextEpochMillis = target.atZone(zone).toInstant().toEpochMilli()
+    val periodStart = if (currentIndex >= 0) {
+        LocalDateTime.of(todayDate, times[currentIndex])
+    } else {
+        val previousIshaa = days[todayDate.minusDays(1).toString()]?.toPrayerTimes()?.ishaa
+        if (previousIshaa != null) {
+            LocalDateTime.of(todayDate.minusDays(1), previousIshaa)
+        } else {
+            LocalDateTime.of(todayDate, LocalTime.MIDNIGHT)
+        }
+    }
+    val periodStartEpochMillis = periodStart.atZone(zone).toInstant().toEpochMilli()
 
     return PrayerTileModel(
         today = times.mapIndexed { index, time ->
@@ -147,6 +176,11 @@ internal suspend fun loadPrayerTileModel(
         countdownMinutes = countdownMinutes,
         justStarted = justStarted,
         dateText = dateText,
-        hijriText = hijriText
+        hijriText = hijriText,
+        hijriDay = hijriDay,
+        hijriMonthYear = hijriMonthYear,
+        nextEpochMillis = nextEpochMillis,
+        periodStartEpochMillis = periodStartEpochMillis,
+        periodEndEpochMillis = nextEpochMillis
     )
 }
