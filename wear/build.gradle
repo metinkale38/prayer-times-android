@@ -58,4 +58,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:20.1.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0'
+    implementation 'androidx.wear.tiles:tiles:1.6.2'
+    implementation 'androidx.wear.protolayout:protolayout:1.4.2'
+    implementation 'androidx.wear.protolayout:protolayout-material3:1.4.2'
+    implementation 'com.google.guava:guava:33.4.8-android'
 }
