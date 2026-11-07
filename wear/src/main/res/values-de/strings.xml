@@ -64,7 +64,6 @@
     <string name="dhikr_invalid_target">Ziel: 1–100.000</string>
     <string name="dhikr_swipe_hint">wischen</string>
     <string name="dhikr_name">Name</string>
-    <string name="dhikr_name_hint">z. B. Tasbih</string>
     <string name="dhikr_target">Ziel</string>
     <string name="dhikr_target_hint">33</string>
     <string name="dhikr_add">Dhikr hinzufügen</string>

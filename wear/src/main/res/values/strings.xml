@@ -64,7 +64,6 @@
     <string name="dhikr_invalid_target">Target: 1–100000</string>
     <string name="dhikr_swipe_hint">swipe</string>
     <string name="dhikr_name">Name</string>
-    <string name="dhikr_name_hint">e.g. Tasbih</string>
     <string name="dhikr_target">Target</string>
     <string name="dhikr_target_hint">33</string>
     <string name="dhikr_add">Add Dhikr</string>

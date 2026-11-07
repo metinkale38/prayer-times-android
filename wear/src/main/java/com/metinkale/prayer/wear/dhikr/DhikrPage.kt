@@ -432,18 +432,13 @@ private fun AddDhikrPage(
     onAdd: (String, Int) -> Unit,
     onCancel: () -> Unit
 ) {
-    var editing by rememberSaveable { mutableStateOf(false) }
     var title by rememberSaveable { mutableStateOf("") }
     var target by rememberSaveable { mutableStateOf("33") }
     val defaultTitle = stringResource(R.string.dhikr)
     val parsedTarget = target.toIntOrNull()?.takeIf { it in 1..100_000 }
-    val invalidTarget = editing && target.isNotEmpty() && parsedTarget == null
-    val canAdd = editing && title.isNotBlank() && parsedTarget != null
+    val invalidTarget = target.isNotEmpty() && parsedTarget == null
+    val canAdd = parsedTarget != null
     val scrollState = rememberScrollState()
-
-    LaunchedEffect(editing) {
-        scrollState.scrollTo(0)
-    }
 
     Box(
         modifier = Modifier
@@ -459,91 +454,90 @@ private fun AddDhikrPage(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 24.dp, end = 24.dp, top = 30.dp)
+                .padding(start = 24.dp, end = 24.dp, top = 26.dp)
         ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .verticalScroll(scrollState)
             ) {
-                if (!editing) {
-                    DhikrTargetTemplates.chunked(2).forEach { targets ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            targets.forEach { value ->
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(30.dp)
-                                        .background(DhikrTile, RoundedCornerShape(9.dp))
-                                        .clickable {
-                                            editing = true
-                                            title = defaultTitle
-                                            target = value.toString()
-                                        },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = value.toString(),
-                                        color = DhikrText,
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(4.dp))
-                    }
-                } else {
+                val templateRows = DhikrTargetTemplates.chunked(3)
+                templateRows.forEachIndexed { index, targets ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.Bottom
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Column(modifier = Modifier.weight(2f)) {
-                            Text(
-                                text = stringResource(R.string.dhikr_name),
-                                color = DhikrSecondary,
-                                fontSize = 7.sp
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            CompactField(
-                                value = title,
-                                onValueChange = { if (it.length <= 20) title = it },
-                                placeholder = stringResource(R.string.dhikr_name_hint),
-                                keyboardType = KeyboardType.Text,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = stringResource(R.string.dhikr_target),
-                                color = DhikrSecondary,
-                                fontSize = 7.sp
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            CompactField(
-                                value = target,
-                                onValueChange = { value ->
-                                    if (value.length <= 5 && value.all(Char::isDigit)) target = value
-                                },
-                                placeholder = stringResource(R.string.dhikr_target_hint),
-                                keyboardType = KeyboardType.Number,
-                                invalid = invalidTarget,
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                        targets.forEach { value ->
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(24.dp)
+                                    .background(DhikrTile, RoundedCornerShape(8.dp))
+                                    .clickable { target = value.toString() },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = value.toString(),
+                                    color = DhikrText,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
                         }
                     }
-                    if (invalidTarget) {
+                    if (index < templateRows.lastIndex) {
+                        Spacer(modifier = Modifier.height(3.dp))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Column(modifier = Modifier.weight(2f)) {
                         Text(
-                            text = stringResource(R.string.dhikr_invalid_target),
-                            color = Color(0xFFFF8A80),
-                            fontSize = 8.sp,
-                            modifier = Modifier.padding(top = 2.dp)
+                            text = stringResource(R.string.dhikr_name),
+                            color = DhikrSecondary,
+                            fontSize = 7.sp
+                        )
+                        Spacer(modifier = Modifier.height(1.dp))
+                        CompactField(
+                            value = title,
+                            onValueChange = { if (it.length <= 20) title = it },
+                            placeholder = defaultTitle,
+                            keyboardType = KeyboardType.Text,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.dhikr_target),
+                            color = DhikrSecondary,
+                            fontSize = 7.sp
+                        )
+                        Spacer(modifier = Modifier.height(1.dp))
+                        CompactField(
+                            value = target,
+                            onValueChange = { value ->
+                                if (value.length <= 5 && value.all(Char::isDigit)) target = value
+                            },
+                            placeholder = stringResource(R.string.dhikr_target_hint),
+                            keyboardType = KeyboardType.Number,
+                            invalid = invalidTarget,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+                if (invalidTarget) {
+                    Text(
+                        text = stringResource(R.string.dhikr_invalid_target),
+                        color = Color(0xFFFF8A80),
+                        fontSize = 8.sp,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
                 }
             }
 
@@ -551,52 +545,41 @@ private fun AddDhikrPage(
                 text = stringResource(R.string.dhikr_cancel),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .clickable {
-                        if (editing) {
-                            editing = false
-                        } else {
-                            onCancel()
-                        }
-                    }
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                    .clickable(onClick = onCancel)
+                    .padding(horizontal = 12.dp, vertical = 1.dp),
                 color = DhikrSecondary,
                 fontSize = 9.sp
             )
 
-            if (editing) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 18.dp),
+                contentAlignment = Alignment.Center
+            ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp),
+                        .width(112.dp)
+                        .height(30.dp)
+                        .background(
+                            if (canAdd) DhikrAccent else DhikrTile,
+                            RoundedCornerShape(17.dp)
+                        )
+                        .clickable(enabled = canAdd) {
+                            val count = parsedTarget ?: return@clickable
+                            onAdd(title.trim().ifBlank { defaultTitle }, count)
+                            title = ""
+                            target = "33"
+                        },
                     contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .width(112.dp)
-                            .height(32.dp)
-                            .background(
-                                if (canAdd) DhikrAccent else DhikrTile,
-                                RoundedCornerShape(17.dp)
-                            )
-                            .clickable(enabled = canAdd) {
-                                val count = parsedTarget ?: return@clickable
-                                onAdd(title.trim(), count)
-                                title = defaultTitle
-                                target = "33"
-                                editing = false
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.dhikr_add),
-                            color = if (canAdd) Color.White else DhikrSecondary,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+                    Text(
+                        text = stringResource(R.string.dhikr_add),
+                        color = if (canAdd) Color.White else DhikrSecondary,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
-            } else {
-                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }
@@ -626,7 +609,7 @@ private fun CompactField(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(30.dp)
+                    .height(26.dp)
                     .background(DhikrTile, RoundedCornerShape(9.dp))
                     .then(
                         if (invalid) {
