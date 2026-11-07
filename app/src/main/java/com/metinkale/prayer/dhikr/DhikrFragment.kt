@@ -285,7 +285,7 @@ class DhikrFragment : BaseActivity.MainFragment(), View.OnClickListener, OnLongC
         return false
     }
 
-    override fun onItemSelected(adapterView: AdapterView<*>?, view: View, pos: Int, l: Long) {
+    override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, pos: Int, l: Long) {
         if (pos == 0) return
         dhikrs = viewModel.dhikrs.value ?: listOf()
         val now = System.currentTimeMillis()
