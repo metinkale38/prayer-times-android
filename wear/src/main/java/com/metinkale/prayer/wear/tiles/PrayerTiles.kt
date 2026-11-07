@@ -11,10 +11,11 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
+import androidx.wear.protolayout.material3.Typography.BODY_EXTRA_SMALL
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
+import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
-import androidx.wear.protolayout.material3.Typography.LABEL_SMALL
 import androidx.wear.protolayout.material3.Typography.TITLE_LARGE
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.materialScope
@@ -32,6 +33,7 @@ import com.google.common.util.concurrent.SettableFuture
 import com.metinkale.prayer.wear.MainActivity
 import com.metinkale.prayer.wear.R
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -40,10 +42,19 @@ import kotlinx.coroutines.launch
 
 private const val RESOURCES_VERSION = "1"
 private const val REFRESH_INTERVAL_MILLIS = 60_000L
-private const val CELL_HEIGHT_DP = 36f
-private const val ROW_HEIGHT_DP = 38f
-private const val ROW_SPACING_DP = 4f
-private const val GRID_SPACING_DP = 2f
+private const val CELL_HEIGHT_DP = 42f
+private const val ROW_HEIGHT_DP = 42f
+private const val ROW_SPACING_DP = 5f
+private const val GRID_SPACING_DP = 5f
+private const val GRID_SIDE_PADDING_DP = 16f
+private const val GRID_TOP_PADDING_DP = 22f
+private const val GRID_BOTTOM_PADDING_DP = 18f
+private const val BACKGROUND_ARGB = 0xFF121212.toInt()
+private const val CELL_ARGB = 0xFF242424.toInt()
+private const val HIGHLIGHT_ARGB = 0xFF4A768A.toInt()
+private const val TEXT_PRIMARY_ARGB = 0xFFF2F2F2.toInt()
+private const val TEXT_SECONDARY_ARGB = 0xFFA9B0B4.toInt()
+private const val ACTIVE_TEXT_ARGB = 0xFFFFFFFF.toInt()
 
 private val TileTimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
@@ -128,9 +139,19 @@ private fun LayoutColor.toColorProp(): ColorBuilders.ColorProp =
         dynamicArgb?.let(::setDynamicValue)
     }.build()
 
+private fun colorProp(argb: Int): ColorBuilders.ColorProp =
+    ColorBuilders.ColorProp.Builder(argb).build()
+
+private fun textColor(argb: Int): LayoutColor = LayoutColor(argb)
+
 private fun verticalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
     LayoutElementBuilders.Spacer.Builder()
         .setHeight(DimensionBuilders.dp(dp))
+        .build()
+
+private fun weightedVerticalSpacer(weight: Float): LayoutElementBuilders.LayoutElement =
+    LayoutElementBuilders.Spacer.Builder()
+        .setHeight(DimensionBuilders.weight(weight))
         .build()
 
 private fun horizontalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
@@ -148,6 +169,9 @@ private fun countdownText(context: Context, minutes: Int): String = when {
         minutes % 60
     )
 }
+
+private fun countdownClock(minutes: Int): String =
+    String.format(Locale.US, "%02d:%02d", minutes / 60, minutes % 60)
 
 private fun MaterialScope.nextPrayerLayout(
     context: Context,
@@ -243,22 +267,22 @@ private fun MaterialScope.prayerTimesLayout(
     context: Context,
     model: PrayerTileModel?
 ): LayoutElementBuilders.LayoutElement {
-    return primaryLayout(
-        titleSlot = {
-            text(
-                context.getString(R.string.wear_today).layoutString,
-                typography = LABEL_MEDIUM,
-                color = colorScheme.onSurfaceVariant
-            )
-        },
-        mainSlot = {
-            LayoutElementBuilders.Box.Builder()
-                .setWidth(DimensionBuilders.expand())
-                .setHeight(DimensionBuilders.expand())
-                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                .addContent(
-                    if (model == null) {
+    if (model == null) {
+        return primaryLayout(
+            titleSlot = {
+                text(
+                    context.getString(R.string.wear_today).layoutString,
+                    typography = LABEL_MEDIUM,
+                    color = colorScheme.onSurfaceVariant
+                )
+            },
+            mainSlot = {
+                LayoutElementBuilders.Box.Builder()
+                    .setWidth(DimensionBuilders.expand())
+                    .setHeight(DimensionBuilders.expand())
+                    .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                    .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                    .addContent(
                         LayoutElementBuilders.Column.Builder()
                             .setWidth(DimensionBuilders.expand())
                             .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
@@ -278,21 +302,91 @@ private fun MaterialScope.prayerTimesLayout(
                                 )
                             )
                             .build()
-                    } else {
-                        LayoutElementBuilders.Column.Builder()
-                            .setWidth(DimensionBuilders.expand())
-                            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                            .addContent(prayerRow(context, model, model.today.take(3), 0))
-                            .addContent(verticalSpacer(GRID_SPACING_DP))
-                            .addContent(prayerRow(context, model, model.today.drop(3), 3))
-                            .build()
-                    }
+                    )
+                    .build()
+            },
+            onClick = openApp(context),
+            margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN
+        )
+    }
+
+    val nextName = context.getString(model.next.labelRes)
+    return LayoutElementBuilders.Box.Builder()
+        .setWidth(DimensionBuilders.expand())
+        .setHeight(DimensionBuilders.expand())
+        .setModifiers(
+            ModifiersBuilders.Modifiers.Builder()
+                .setClickable(openApp(context))
+                .setBackground(
+                    ModifiersBuilders.Background.Builder()
+                        .setColor(colorProp(BACKGROUND_ARGB))
+                        .build()
                 )
                 .build()
-        },
-        onClick = openApp(context),
-        margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN
-    )
+        )
+        .addContent(
+            LayoutElementBuilders.Column.Builder()
+                .setWidth(DimensionBuilders.expand())
+                .setHeight(DimensionBuilders.expand())
+                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                .setModifiers(
+                    ModifiersBuilders.Modifiers.Builder()
+                        .setPadding(
+                            ModifiersBuilders.Padding.Builder()
+                                .setStart(DimensionBuilders.dp(GRID_SIDE_PADDING_DP))
+                                .setEnd(DimensionBuilders.dp(GRID_SIDE_PADDING_DP))
+                                .setTop(DimensionBuilders.dp(GRID_TOP_PADDING_DP))
+                                .setBottom(DimensionBuilders.dp(GRID_BOTTOM_PADDING_DP))
+                                .build()
+                        )
+                        .build()
+                )
+                .addContent(
+                    text(
+                        model.dateText.layoutString,
+                        typography = BODY_SMALL,
+                        color = textColor(TEXT_PRIMARY_ARGB)
+                    )
+                )
+                .apply {
+                    if (model.hijriText.isNotEmpty()) {
+                        addContent(
+                            text(
+                                model.hijriText.layoutString,
+                                typography = BODY_EXTRA_SMALL,
+                                color = textColor(TEXT_SECONDARY_ARGB)
+                            )
+                        )
+                    }
+                }
+                .addContent(weightedVerticalSpacer(1f))
+                .addContent(
+                    LayoutElementBuilders.Column.Builder()
+                        .setWidth(DimensionBuilders.expand())
+                        .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                        .addContent(prayerRow(context, model, model.today.take(3), 0))
+                        .addContent(verticalSpacer(GRID_SPACING_DP))
+                        .addContent(prayerRow(context, model, model.today.drop(3), 3))
+                        .build()
+                )
+                .addContent(weightedVerticalSpacer(1f))
+                .addContent(
+                    text(
+                        countdownClock(model.countdownMinutes).layoutString,
+                        typography = TITLE_MEDIUM,
+                        color = textColor(TEXT_PRIMARY_ARGB)
+                    )
+                )
+                .addContent(
+                    text(
+                        context.getString(R.string.wear_until, nextName).layoutString,
+                        typography = BODY_EXTRA_SMALL,
+                        color = textColor(TEXT_SECONDARY_ARGB)
+                    )
+                )
+                .build()
+        )
+        .build()
 }
 
 private fun MaterialScope.prayerRow(
@@ -324,31 +418,25 @@ private fun MaterialScope.prayerCell(
     val isSun = entry.labelRes == R.string.sun
     val isCurrent = !isSun && index == model.currentIndex
     val isNext = !isSun && index == model.nextIndex && !isCurrent
-    val containerColor = if (isCurrent) colorScheme.primary else colorScheme.surfaceContainer
-    val labelColor = if (isCurrent) {
-        colorScheme.onPrimary
-    } else {
-        colorScheme.onSurfaceVariant
-    }
-    val timeColor = if (isCurrent) {
-        colorScheme.onPrimary
-    } else if (isSun) {
-        colorScheme.onSurfaceVariant
-    } else {
-        colorScheme.onSurface
+    val containerColor = if (isCurrent) HIGHLIGHT_ARGB else CELL_ARGB
+    val labelColor = if (isCurrent) ACTIVE_TEXT_ARGB else TEXT_SECONDARY_ARGB
+    val timeColor = when {
+        isCurrent -> ACTIVE_TEXT_ARGB
+        isSun -> TEXT_SECONDARY_ARGB
+        else -> TEXT_PRIMARY_ARGB
     }
 
     val modifiers = ModifiersBuilders.Modifiers.Builder()
         .setBackground(
             ModifiersBuilders.Background.Builder()
-                .setColor(containerColor.toColorProp())
+                .setColor(colorProp(containerColor))
                 .setCorner(shapes.small)
                 .build()
         )
     if (isNext) {
         modifiers.setBorder(
             ModifiersBuilders.Border.Builder()
-                .setColor(colorScheme.primary.toColorProp())
+                .setColor(colorProp(HIGHLIGHT_ARGB))
                 .setWidth(DimensionBuilders.dp(1f))
                 .build()
         )
@@ -366,15 +454,15 @@ private fun MaterialScope.prayerCell(
                 .addContent(
                     text(
                         context.getString(entry.labelRes).layoutString,
-                        typography = LABEL_SMALL,
-                        color = labelColor
+                        typography = BODY_EXTRA_SMALL,
+                        color = textColor(labelColor)
                     )
                 )
                 .addContent(
                     text(
                         entry.time.format(TileTimeFormat).layoutString,
                         typography = LABEL_MEDIUM,
-                        color = timeColor
+                        color = textColor(timeColor)
                     )
                 )
                 .build()
