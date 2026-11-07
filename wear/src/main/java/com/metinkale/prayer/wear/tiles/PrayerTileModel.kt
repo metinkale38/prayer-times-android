@@ -25,9 +25,7 @@ internal data class PrayerTileModel(
     val currentIndex: Int,
     val nextIndex: Int,
     val next: PrayerTimeEntry,
-    val nextIsTomorrow: Boolean,
     val countdownMinutes: Int,
-    val justStarted: Boolean,
     val dateText: String,
     val hijriText: String,
     val hijriDay: String,
@@ -121,11 +119,6 @@ internal suspend fun loadPrayerTileModel(
     val target = LocalDateTime.of(nextDate, nextTime)
     val seconds = Duration.between(now, target).seconds
     val countdownMinutes = if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
-    val justStarted = currentIndex >= 0 && currentIndex != 1 &&
-        Duration.between(
-            LocalDateTime.of(todayDate, times[currentIndex]),
-            now
-        ).seconds in 0..59
 
     val dateText = String.format(
         Locale.US,
@@ -172,9 +165,7 @@ internal suspend fun loadPrayerTileModel(
         currentIndex = currentIndex,
         nextIndex = if (nextIsTomorrow) -1 else nextTodayIndex,
         next = PrayerTimeEntry(labelResForIndex(nextIndexInList), nextTime),
-        nextIsTomorrow = nextIsTomorrow,
         countdownMinutes = countdownMinutes,
-        justStarted = justStarted,
         dateText = dateText,
         hijriText = hijriText,
         hijriDay = hijriDay,

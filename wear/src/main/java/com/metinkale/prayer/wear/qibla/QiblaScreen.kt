@@ -35,9 +35,7 @@ import androidx.wear.compose.foundation.pager.HorizontalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.Text
 import com.metinkale.prayer.sync.WearCity
-import com.metinkale.prayer.wear.BuildConfig
 import com.metinkale.prayer.wear.R
-import com.metinkale.prayer.wear.debug.DebugHeadingOverride
 import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.abs
@@ -161,13 +159,7 @@ private fun QiblaCompassPage(
     val longitude = location?.longitude
     val altitude = location?.altitudeMeters
 
-    val debugHeading by DebugHeadingOverride.heading.collectAsStateWithLifecycle()
-    val sensorHeading = headingState.headingDegrees
-    val effectiveHeading = if (BuildConfig.DEBUG) {
-        debugHeading ?: sensorHeading
-    } else {
-        sensorHeading
-    }
+    val effectiveHeading = headingState.headingDegrees
 
     val declination = remember(latitude, longitude, altitude) {
         if (latitude != null && longitude != null) {
@@ -181,15 +173,10 @@ private fun QiblaCompassPage(
         }
     }
 
-    val debugHeadingValue = debugHeading
-    val trueHeading = if (BuildConfig.DEBUG && debugHeadingValue != null) {
-        QiblaMath.normalizeDegrees(debugHeadingValue)
-    } else {
-        QiblaMath.trueHeadingDegrees(
-            magneticHeadingDegrees = effectiveHeading,
-            declinationDegrees = declination
-        )
-    }
+    val trueHeading = QiblaMath.trueHeadingDegrees(
+        magneticHeadingDegrees = effectiveHeading,
+        declinationDegrees = declination
+    )
 
     val qiblaBearing = remember(latitude, longitude) {
         if (latitude != null && longitude != null) {

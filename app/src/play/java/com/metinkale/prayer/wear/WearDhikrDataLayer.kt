@@ -5,13 +5,16 @@ import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataMap
 import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
+import com.metinkale.prayer.R
 import com.metinkale.prayer.dhikr.data.Dhikr
+import com.metinkale.prayer.dhikr.data.DhikrDao
 import com.metinkale.prayer.dhikr.data.DhikrDatabase
 import com.metinkale.prayer.sync.DhikrSyncConstants
 import com.metinkale.prayer.sync.DhikrSyncJson
 import com.metinkale.prayer.sync.WearDhikr
 import com.metinkale.prayer.sync.WearDhikrPayload
 import com.metinkale.prayer.sync.mergeWearDhikrs
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,11 +22,27 @@ import kotlinx.coroutines.withContext
 internal object WearDhikrDataLayer {
     suspend fun pushPhoneState(context: Context) = withContext(Dispatchers.IO) {
         val dao = DhikrDatabase.getDatabase(context.applicationContext).dhikrDao() ?: return@withContext
+        ensureDefaultDhikr(context, dao)
         val payload = WearDhikrPayload(
             generatedAtEpochMillis = System.currentTimeMillis(),
             dhikrs = dao.getAllDhikrsForSync().map(::toWear)
         )
         put(context.applicationContext, payload)
+    }
+
+    private fun ensureDefaultDhikr(context: Context, dao: DhikrDao) {
+        if (dao.getAllDhikrsForSync().isNotEmpty()) return
+
+        val now = System.currentTimeMillis()
+        dao.addDhikr(
+            Dhikr().apply {
+                syncId = UUID.randomUUID().toString()
+                title = context.getString(R.string.tasbih)
+                max = 33
+                position = 0
+                updatedAt = now
+            }
+        )
     }
 
     suspend fun mergeWearState(context: Context, payload: WearDhikrPayload) = withContext(Dispatchers.IO) {

@@ -40,18 +40,22 @@ object WearTimesDataLayer {
                 10,
                 TimeUnit.SECONDS
             )
-            val dataItem = dataItems.firstOrNull {
-                it.uri.path == SyncConstants.DATA_PATH
-            } ?: run {
-                Log.d("WearTimesSync", "fetch: no data item at ${SyncConstants.DATA_PATH}")
-                return@runCatching null
+            try {
+                val dataItem = dataItems.firstOrNull {
+                    it.uri.path == SyncConstants.DATA_PATH
+                } ?: run {
+                    Log.d("WearTimesSync", "fetch: no data item at ${SyncConstants.DATA_PATH}")
+                    return@runCatching null
+                }
+                val json = DataMapItem.fromDataItem(dataItem)
+                    .dataMap.getString(SyncConstants.KEY_JSON)
+                    ?: return@runCatching null
+                val payload = SyncJson.decode(json)
+                Log.d("WearTimesSync", "fetch: days=${payload?.days?.size ?: -1}")
+                payload
+            } finally {
+                dataItems.release()
             }
-            val json = DataMapItem.fromDataItem(dataItem)
-                .dataMap.getString(SyncConstants.KEY_JSON)
-                ?: return@runCatching null
-            val payload = SyncJson.decode(json)
-            Log.d("WearTimesSync", "fetch: days=${payload?.days?.size ?: -1}")
-            payload
         }.getOrNull()
     }
 }

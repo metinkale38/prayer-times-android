@@ -17,14 +17,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
-private const val DEFAULT_DHIKR_TITLE = "Tasbih"
-private const val DEFAULT_DHIKR_TARGET = 33
-
-private val DefaultDhikr = WearDhikr(
-    title = DEFAULT_DHIKR_TITLE,
-    target = DEFAULT_DHIKR_TARGET
-)
-
 private val Context.dhikrDataStore: DataStore<List<WearDhikr>> by dataStore(
     fileName = "wear_dhikr.json",
     serializer = DhikrListSerializer
@@ -36,7 +28,7 @@ private object DhikrListSerializer : Serializer<List<WearDhikr>> {
         encodeDefaults = true
     }
 
-    override val defaultValue: List<WearDhikr> = listOf(DefaultDhikr)
+    override val defaultValue: List<WearDhikr> = emptyList()
 
     override suspend fun readFrom(input: InputStream): List<WearDhikr> {
         val text = input.readBytes().decodeToString()
@@ -66,22 +58,6 @@ class DhikrRepository private constructor(
     val allDhikrs: Flow<List<WearDhikr>> = dataStore.data
         .catch { emit(emptyList()) }
         .map { list -> list.sortedBy { it.position } }
-
-    suspend fun ensureDefault() {
-        val now = System.currentTimeMillis()
-        dataStore.updateData { current ->
-            if (current.isNotEmpty()) {
-                current
-            } else {
-                listOf(
-                    DefaultDhikr.copy(
-                        syncId = UUID.randomUUID().toString(),
-                        updatedAt = now
-                    )
-                )
-            }
-        }
-    }
 
     suspend fun ensureSyncIds() {
         val current = dataStore.data.first()

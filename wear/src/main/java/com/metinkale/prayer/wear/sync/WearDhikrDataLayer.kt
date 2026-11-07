@@ -1,7 +1,6 @@
 package com.metinkale.prayer.wear.sync
 
 import android.content.Context
-import android.net.Uri
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataMap
 import com.google.android.gms.wearable.DataMapItem
@@ -19,16 +18,22 @@ object WearDhikrDataLayer {
     suspend fun fetchExisting(context: Context): WearDhikrPayload? = withContext(Dispatchers.IO) {
         runCatching {
             val appContext = context.applicationContext
-            val dataItem = Tasks.await(
-                Wearable.getDataClient(appContext)
-                    .getDataItem(Uri.parse(DhikrSyncConstants.PHONE_DATA_PATH)),
+            val dataItems = Tasks.await(
+                Wearable.getDataClient(appContext).dataItems,
                 10,
                 TimeUnit.SECONDS
-            ) ?: return@runCatching null
-            val json = DataMapItem.fromDataItem(dataItem)
-                .dataMap.getString(DhikrSyncConstants.KEY_JSON)
-                ?: return@runCatching null
-            DhikrSyncJson.decode(json)
+            )
+            try {
+                val json = dataItems.firstOrNull {
+                    it.uri.path == DhikrSyncConstants.PHONE_DATA_PATH
+                }?.let { dataItem ->
+                    DataMapItem.fromDataItem(dataItem)
+                        .dataMap.getString(DhikrSyncConstants.KEY_JSON)
+                } ?: return@runCatching null
+                DhikrSyncJson.decode(json)
+            } finally {
+                dataItems.release()
+            }
         }.getOrNull()
     }
 

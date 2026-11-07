@@ -634,17 +634,5 @@ private fun CompactField(
     )
 }
 
-@Composable
-private fun FieldLabel(text: String) {
-    Text(
-        text = text,
-        modifier = Modifier.fillMaxWidth(),
-        color = DhikrSecondary,
-        fontSize = 11.sp,
-        textAlign = TextAlign.Center
-    )
-    Spacer(modifier = Modifier.height(3.dp))
-}
-
 private fun dhikrAccent(dhikr: WearDhikr): Color =
     if (dhikr.color == 0) Color(DhikrDefaults.color) else Color(dhikr.color)

@@ -39,7 +39,15 @@ class WearTimesRepository private constructor(
     val payload: Flow<WearTimesPayload?> = dataStore.data.catch { emit(null) }
 
     suspend fun save(payload: WearTimesPayload) {
-        dataStore.updateData { payload }
+        dataStore.updateData { current ->
+            if (current == null ||
+                payload.generatedAtEpochMillis >= current.generatedAtEpochMillis
+            ) {
+                payload
+            } else {
+                current
+            }
+        }
         PrayerComplicationsUpdater.requestUpdates(context)
     }
 

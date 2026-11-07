@@ -29,7 +29,6 @@ data class UserLocation(
     val latitude: Double,
     val longitude: Double,
     val altitudeMeters: Double,
-    val accuracyMeters: Float?,
     val isDeviceLocation: Boolean,
     val cityName: String? = null
 )
@@ -37,8 +36,7 @@ data class UserLocation(
 data class UserLocationState(
     val location: UserLocation?,
     val permissionGranted: Boolean,
-    val isSearchingDeviceLocation: Boolean,
-    val hasFallback: Boolean
+    val isSearchingDeviceLocation: Boolean
 )
 
 class LocationPermissionState(
@@ -207,8 +205,7 @@ fun rememberUserLocation(
         permissionGranted = permissionGranted,
         isSearchingDeviceLocation = permissionGranted &&
             trackingEnabled &&
-            deviceLocation.value == null,
-        hasFallback = fallback != null
+            deviceLocation.value == null
     )
 }
 
@@ -216,7 +213,6 @@ private fun Location.toUserLocation(): UserLocation = UserLocation(
     latitude = latitude,
     longitude = longitude,
     altitudeMeters = altitude,
-    accuracyMeters = if (hasAccuracy()) accuracy else null,
     isDeviceLocation = true
 )
 
@@ -224,7 +220,6 @@ private fun WearCity.toUserLocation(): UserLocation = UserLocation(
     latitude = latitude,
     longitude = longitude,
     altitudeMeters = 0.0,
-    accuracyMeters = null,
     isDeviceLocation = false,
     cityName = name
 )

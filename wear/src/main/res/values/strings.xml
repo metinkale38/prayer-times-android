@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="imsak">Imsak</string>
     <string name="fajr">Fajr</string>
     <string name="sun">Sun</string>
     <string name="zuhr">Zuhr</string>
     <string name="asr">Asr</string>
+    <string name="asrSani">Asr Sânî</string>
     <string name="maghrib">Maghrib</string>
     <string name="ishaa">Ishaa</string>
-    <string name="gmonth11">November</string>
+
     <string name="hmonth1">Muharram</string>
     <string name="hmonth2">Safar</string>
     <string name="hmonth3">Rabi al-awwal</string>
@@ -19,7 +21,7 @@
     <string name="hmonth10">Shawwal</string>
     <string name="hmonth11">Dhu l-Qaʿda</string>
     <string name="hmonth12">Dhū l-Hijja</string>
-    <string name="date">Date</string>
+
     <string name="wear_prayer_times">Prayer times</string>
     <string name="wear_no_connection_title">No data yet</string>
     <string name="wear_no_connection_body">Open the app on your phone and sync.</string>
@@ -27,20 +29,19 @@
     <string name="wear_no_times_body">No data loaded. Open the app and refresh.</string>
     <string name="wear_sync_action">Sync again</string>
     <string name="wear_syncing">Syncing…</string>
-    <string name="wear_setup_on_phone_title">Set up on your phone</string>
-    <string name="wear_setup_on_phone_text">Open the Prayer Times app on your phone and set up your first city.</string>
+
+
     <string name="wear_no_data">No prayer times for this day</string>
 
-    <string name="qibla">Qibla</string>
-    <string name="compass">Compass</string>
+
     <string name="map">Map</string>
-    <string name="distance">Distance</string>
+
     <string name="heading">Heading</string>
-    <string name="kaaba">Kaaba</string>
-    <string name="your_location">Your location</string>
+
+
     <string name="location_searching">Looking for location…</string>
     <string name="location_permission">Location permission</string>
-    <string name="grant_permission">Allow location</string>
+
     <string name="location_from_city">Using city: %1$s</string>
     <string name="location_ready">Location found</string>
     <string name="qibla_angle">Qibla %1$d°</string>
@@ -48,17 +49,15 @@
     <string name="qibla_aligned">Aligned</string>
     <string name="map_unavailable_body">The map cannot be shown on your watch right now. Use the compass.</string>
     <string name="open_compass">Open compass</string>
-    <string name="google_maps_key_missing">Google Maps key missing</string>
-    <string name="google_maps_key_missing_body">Add your GOOGLE_API_KEY to wear/src/main/res/values/secrets.xml to show the map on your watch.</string>
-    <string name="compass_sensor_unavailable">Compass sensor unavailable</string>
+
+
 
     <string name="wear_until">until %1$s</string>
     <string name="wear_today">Today</string>
     <string name="wear_tile_times_name">Prayer times</string>
     <string name="wear_tile_times_description">All of today\'s prayer times at a glance</string>
     <string name="wear_tile_open_app">Open the app and refresh.</string>
-    <string name="wear_tomorrow_in">%1$s tomorrow</string>
-    <string name="wear_next_in">%1$s in</string>
+
 
     <string name="complication_next_prayer_name">Next prayer</string>
     <string name="complication_countdown_name">Prayer countdown</string>
@@ -77,7 +76,7 @@
     <string name="dhikr">Dhikr</string>
     <string name="dhikr_new">New Dhikr</string>
     <string name="dhikr_invalid_target">Target: 1–100000</string>
-    <string name="dhikr_swipe_hint">swipe</string>
+
     <string name="dhikr_name">Name</string>
     <string name="dhikr_target">Target</string>
     <string name="dhikr_target_hint">33</string>
@@ -85,10 +84,10 @@
     <string name="dhikr_reset">Reset</string>
     <string name="dhikr_delete">Delete</string>
     <string name="dhikr_cancel">Cancel</string>
-    <string name="dhikr_goal_reached">Target reached</string>
-    <string name="dhikr_goal_exceeded">Target exceeded</string>
+
+
     <string name="dhikr_round">Round %1$d</string>
-    <string name="dhikr_rounds">Rounds: %1$d</string>
+
     <string name="dhikr_tap_hint">Tap to count</string>
     <string name="dhikr_hold_hint">Hold for options</string>
     <string name="appName">Prayer Times</string>

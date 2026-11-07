@@ -172,14 +172,6 @@
                     android:pathPrefix="/dhikr/state" />
             </intent-filter>
         </service>
-
-        <receiver
-            android:name=".debug.DebugHeadingReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.metinkale.prayer.wear.DEBUG_HEADING" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

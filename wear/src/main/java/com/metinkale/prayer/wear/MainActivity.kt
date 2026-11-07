@@ -73,6 +73,7 @@ import dev.metinkale.openprayertimes.hijri.HijriDate
 import dev.metinkale.openprayertimes.hijri.HijriMonth
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -108,7 +109,9 @@ private data class PrayerTimes(
     val dhuhr: LocalTime,
     val asr: LocalTime,
     val maghrib: LocalTime,
-    val ishaa: LocalTime
+    val ishaa: LocalTime,
+    val sabah: LocalTime? = null,
+    val asrHanafi: LocalTime? = null
 ) {
     fun asList(): List<LocalTime> = listOf(fajr, sun, dhuhr, asr, maghrib, ishaa)
 }
@@ -120,7 +123,9 @@ private fun WearDayTimes.toPrayerTimes(): PrayerTimes? = runCatching {
         dhuhr = LocalTime.parse(dhuhr),
         asr = LocalTime.parse(asr),
         maghrib = LocalTime.parse(maghrib),
-        ishaa = LocalTime.parse(ishaa)
+        ishaa = LocalTime.parse(ishaa),
+        sabah = sabah?.let { runCatching { LocalTime.parse(it) }.getOrNull() },
+        asrHanafi = asrHanafi?.let { runCatching { LocalTime.parse(it) }.getOrNull() }
     )
 }.getOrNull()
 
@@ -151,10 +156,15 @@ private fun currentPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
     return if (nextIndex <= 0) 5 else nextIndex - 1
 }
 
-private fun countdownText(times: PrayerTimes, now: LocalTime): String {
-    val next = times.asList().firstOrNull { it > now } ?: times.fajr
-    var seconds = Duration.between(now, next).seconds
-    if (seconds < 0) seconds += 24 * 60 * 60
+private fun countdownText(
+    times: PrayerTimes,
+    now: LocalTime,
+    nextDayFajr: LocalTime?
+): String {
+    val next = times.asList().firstOrNull { it > now }
+    val target = next ?: nextDayFajr ?: times.fajr
+    var seconds = Duration.between(now, target).seconds
+    if (next == null && seconds < 0) seconds += 24 * 60 * 60
 
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
@@ -201,7 +211,6 @@ class MainActivity : ComponentActivity() {
                 }
 
                 LaunchedEffect(dhikrRepository) {
-                    dhikrRepository.ensureDefault()
                     dhikrRepository.ensureSyncIds()
                     WearDhikrDataLayer.fetchExisting(context)?.let { payload ->
                         dhikrRepository.mergeRemote(payload.dhikrs)
@@ -300,9 +309,10 @@ private fun PrayerTimesPage(
     val syncedDays = remember(payload) {
         payload?.days?.associateBy { it.date } ?: emptyMap()
     }
-    val baseDate = remember { LocalDate.now() }
+    val nowDateTime = rememberCurrentDateTime()
+    val baseDate = nowDateTime.toLocalDate()
     val hasData = payload != null && payload.days.isNotEmpty()
-    val now = rememberCurrentTime()
+    val now = nowDateTime.toLocalTime()
     val baseTimes = remember(syncedDays, baseDate) {
         syncedDays[baseDate.toString()]?.toPrayerTimes()
     }
@@ -342,6 +352,7 @@ private fun PrayerTimesPage(
                 nextDate = nextDate,
                 nextIndex = nextIndex,
                 syncedDay = syncedDays[date.toString()],
+                nextDay = syncedDays[date.plusDays(1).toString()],
                 largeScreen = largeScreen,
                 onBackToToday = {
                     scope.launch {
@@ -486,6 +497,7 @@ private fun DayCard(
     nextDate: LocalDate?,
     nextIndex: Int,
     syncedDay: WearDayTimes?,
+    nextDay: WearDayTimes?,
     largeScreen: Boolean,
     onBackToToday: () -> Unit
 ) {
@@ -506,13 +518,24 @@ private fun DayCard(
     }
 
     val currentIndex = if (isToday && now != null) currentPrayerIndex(times, now) else -1
-    val countdown = if (isToday && now != null) countdownText(times, now) else null
+    val nextDayFajr = nextDay?.toPrayerTimes()?.fajr
+    val countdown = if (isToday && now != null) {
+        countdownText(times, now, nextDayFajr)
+    } else {
+        null
+    }
+    val alternate = isToday && now != null
+    val alt = alternate && (now.second / 3) % 2 == 0
+    val fajrLabel = if (times.sabah != null && alternate && !alt) R.string.imsak else R.string.fajr
+    val fajrTime = if (times.sabah != null && alternate && alt) times.sabah else times.fajr
+    val asrLabel = if (times.asrHanafi != null && alternate && alt) R.string.asrSani else R.string.asr
+    val asrTime = if (times.asrHanafi != null && alternate && alt) times.asrHanafi else times.asr
 
     val prayers = listOf(
-        PrayerUi(R.string.fajr, times.fajr.format(TimeFormat), currentIndex == 0, nextDate == date && nextIndex == 0),
+        PrayerUi(fajrLabel, fajrTime.format(TimeFormat), currentIndex == 0, nextDate == date && nextIndex == 0),
         PrayerUi(R.string.sun, times.sun.format(TimeFormat), currentIndex == 1, nextDate == date && nextIndex == 1),
         PrayerUi(R.string.zuhr, times.dhuhr.format(TimeFormat), currentIndex == 2, nextDate == date && nextIndex == 2),
-        PrayerUi(R.string.asr, times.asr.format(TimeFormat), currentIndex == 3, nextDate == date && nextIndex == 3),
+        PrayerUi(asrLabel, asrTime.format(TimeFormat), currentIndex == 3, nextDate == date && nextIndex == 3),
         PrayerUi(R.string.maghrib, times.maghrib.format(TimeFormat), currentIndex == 4, nextDate == date && nextIndex == 4),
         PrayerUi(R.string.ishaa, times.ishaa.format(TimeFormat), currentIndex == 5, nextDate == date && nextIndex == 5)
     )
@@ -707,12 +730,12 @@ private fun Countdown(label: String, text: String, largeScreen: Boolean) {
 }
 
 @Composable
-private fun rememberCurrentTime(): LocalTime {
-    var now by remember { mutableStateOf(LocalTime.now()) }
+private fun rememberCurrentDateTime(): LocalDateTime {
+    var now by remember { mutableStateOf(LocalDateTime.now()) }
     LaunchedEffect(Unit) {
         while (true) {
             delay(1_000)
-            now = LocalTime.now()
+            now = LocalDateTime.now()
         }
     }
     return now
