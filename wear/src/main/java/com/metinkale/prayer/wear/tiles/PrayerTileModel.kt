@@ -4,10 +4,15 @@ import android.content.Context
 import com.metinkale.prayer.sync.WearDayTimes
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.data.WearTimesRepository
+import dev.metinkale.openprayertimes.hijri.HijriDate
+import dev.metinkale.openprayertimes.hijri.HijriMonth
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.LocalDate as KLocalDate
 
 internal data class PrayerTimeEntry(
     val labelRes: Int,
@@ -21,7 +26,9 @@ internal data class PrayerTileModel(
     val next: PrayerTimeEntry,
     val nextIsTomorrow: Boolean,
     val countdownMinutes: Int,
-    val justStarted: Boolean
+    val justStarted: Boolean,
+    val dateText: String,
+    val hijriText: String
 )
 
 private data class PrayerTimes(
@@ -53,6 +60,21 @@ private fun labelResForIndex(index: Int): Int = when (index) {
     3 -> R.string.asr
     4 -> R.string.maghrib
     else -> R.string.ishaa
+}
+
+private fun hijriMonthRes(month: HijriMonth): Int = when (month) {
+    HijriMonth.MUHARRAM -> R.string.hmonth1
+    HijriMonth.SAFAR -> R.string.hmonth2
+    HijriMonth.RABIAL_AWWAL -> R.string.hmonth3
+    HijriMonth.RABIAL_AKHIR -> R.string.hmonth4
+    HijriMonth.JUMADAAL_AWWAL -> R.string.hmonth5
+    HijriMonth.JUMADAAL_AKHIR -> R.string.hmonth6
+    HijriMonth.RAJAB -> R.string.hmonth7
+    HijriMonth.SHABAN -> R.string.hmonth8
+    HijriMonth.RAMADAN -> R.string.hmonth9
+    HijriMonth.SHAWWAL -> R.string.hmonth10
+    HijriMonth.DHUL_QADA -> R.string.hmonth11
+    HijriMonth.DHUL_HIJJA -> R.string.hmonth12
 }
 
 private fun currentPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
@@ -99,6 +121,21 @@ internal suspend fun loadPrayerTileModel(
             now
         ).seconds in 0..59
 
+    val dateText = String.format(
+        Locale.US,
+        "%02d. %s %d",
+        todayDate.dayOfMonth,
+        todayDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+        todayDate.year
+    )
+    val hijriText = runCatching {
+        HijriDate.fromLocalDate(
+            KLocalDate(todayDate.year, todayDate.monthValue, todayDate.dayOfMonth)
+        )
+    }.getOrNull()?.let {
+        "${it.day}. " + context.getString(hijriMonthRes(it.month)) + " ${it.year}"
+    } ?: ""
+
     return PrayerTileModel(
         today = times.mapIndexed { index, time ->
             PrayerTimeEntry(labelResForIndex(index), time)
@@ -108,6 +145,8 @@ internal suspend fun loadPrayerTileModel(
         next = PrayerTimeEntry(labelResForIndex(nextIndexInList), nextTime),
         nextIsTomorrow = nextIsTomorrow,
         countdownMinutes = countdownMinutes,
-        justStarted = justStarted
+        justStarted = justStarted,
+        dateText = dateText,
+        hijriText = hijriText
     )
 }
