@@ -51,18 +51,6 @@
         </service>
 
         <service
-            android:name=".tiles.NextPrayerTileService"
-            android:description="@string/wear_tile_next_description"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/wear_tile_next_name"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
-            <intent-filter>
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-        </service>
-
-        <service
             android:name=".tiles.PrayerTimesTileService"
             android:description="@string/wear_tile_times_description"
             android:exported="true"

@@ -12,11 +12,9 @@ import androidx.wear.protolayout.TimelineBuilders.Timeline
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.BODY_EXTRA_SMALL
-import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
-import androidx.wear.protolayout.material3.Typography.TITLE_LARGE
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
@@ -94,19 +92,6 @@ abstract class PrayerTileService : TileService() {
     }
 }
 
-class NextPrayerTileService : PrayerTileService() {
-    override suspend fun buildTile(
-        context: Context,
-        requestParams: RequestBuilders.TileRequest
-    ): Tile {
-        val model = loadPrayerTileModel(context)
-        val layout = materialScope(context, requestParams.deviceConfiguration) {
-            nextPrayerLayout(context, model)
-        }
-        return tile(layout)
-    }
-}
-
 class PrayerTimesTileService : PrayerTileService() {
     override suspend fun buildTile(
         context: Context,
@@ -134,11 +119,6 @@ private fun openApp(context: Context) = clickable(
     )
 )
 
-private fun LayoutColor.toColorProp(): ColorBuilders.ColorProp =
-    ColorBuilders.ColorProp.Builder(staticArgb).apply {
-        dynamicArgb?.let(::setDynamicValue)
-    }.build()
-
 private fun colorProp(argb: Int): ColorBuilders.ColorProp =
     ColorBuilders.ColorProp.Builder(argb).build()
 
@@ -159,109 +139,8 @@ private fun horizontalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
         .setWidth(DimensionBuilders.dp(dp))
         .build()
 
-private fun countdownText(context: Context, minutes: Int): String = when {
-    minutes <= 0 -> context.getString(R.string.wear_now)
-    minutes < 60 -> context.getString(R.string.wear_countdown_minutes, minutes)
-    minutes % 60 == 0 -> context.getString(R.string.wear_countdown_hours, minutes / 60)
-    else -> context.getString(
-        R.string.wear_countdown_hours_minutes,
-        minutes / 60,
-        minutes % 60
-    )
-}
-
 private fun countdownClock(minutes: Int): String =
     String.format(Locale.US, "%02d:%02d", minutes / 60, minutes % 60)
-
-private fun MaterialScope.nextPrayerLayout(
-    context: Context,
-    model: PrayerTileModel?
-): LayoutElementBuilders.LayoutElement {
-    val header: String
-    val name: String
-    val countdown: String
-    val time: String
-
-    if (model == null) {
-        header = context.getString(R.string.wear_tile_next_prayer)
-        name = context.getString(R.string.wear_no_times_title)
-        countdown = context.getString(R.string.wear_tile_open_app)
-        time = ""
-    } else if (model.justStarted) {
-        val current = model.today.getOrNull(model.currentIndex)
-        header = context.getString(R.string.wear_now)
-        name = context.getString(current?.labelRes ?: model.next.labelRes)
-        countdown = context.getString(R.string.wear_now)
-        time = (current?.time ?: model.next.time).format(TileTimeFormat)
-    } else {
-        header = if (model.nextIsTomorrow) {
-            context.getString(R.string.wear_tile_next_tomorrow)
-        } else {
-            context.getString(R.string.wear_tile_next_prayer)
-        }
-        name = context.getString(model.next.labelRes)
-        countdown = context.getString(
-            R.string.wear_tile_in,
-            countdownText(context, model.countdownMinutes)
-        )
-        time = model.next.time.format(TileTimeFormat)
-    }
-
-    return primaryLayout(
-        titleSlot = {
-            text(
-                header.layoutString,
-                typography = LABEL_MEDIUM,
-                color = colorScheme.onSurfaceVariant
-            )
-        },
-        mainSlot = {
-            LayoutElementBuilders.Box.Builder()
-                .setWidth(DimensionBuilders.expand())
-                .setHeight(DimensionBuilders.expand())
-                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                .addContent(
-                    LayoutElementBuilders.Column.Builder()
-                        .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                        .apply {
-                            addContent(
-                                text(
-                                    name.layoutString,
-                                    typography = if (model == null) TITLE_MEDIUM else TITLE_LARGE,
-                                    color = colorScheme.onSurface
-                                )
-                            )
-                            addContent(verticalSpacer(2f))
-                            addContent(
-                                text(
-                                    countdown.layoutString,
-                                    typography = if (model == null) BODY_MEDIUM else TITLE_LARGE,
-                                    color = if (model == null) {
-                                        colorScheme.onSurfaceVariant
-                                    } else {
-                                        colorScheme.primary
-                                    }
-                                )
-                            )
-                            if (time.isNotEmpty()) {
-                                addContent(verticalSpacer(2f))
-                                addContent(
-                                    text(
-                                        time.layoutString,
-                                        typography = BODY_LARGE,
-                                        color = colorScheme.onSurfaceVariant
-                                    )
-                                )
-                            }
-                        }
-                        .build()
-                )
-                .build()
-        },
-        onClick = openApp(context)
-    )
-}
 
 private fun MaterialScope.prayerTimesLayout(
     context: Context,

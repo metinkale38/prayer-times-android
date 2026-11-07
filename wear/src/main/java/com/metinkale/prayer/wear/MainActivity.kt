@@ -201,6 +201,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 LaunchedEffect(dhikrRepository) {
+                    dhikrRepository.ensureDefault()
                     dhikrRepository.ensureSyncIds()
                     WearDhikrDataLayer.fetchExisting(context)?.let { payload ->
                         dhikrRepository.mergeRemote(payload.dhikrs)

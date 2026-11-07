@@ -85,7 +85,7 @@ private val DhikrIndicatorInactive = Color(0xFF6B757B)
 private data class DhikrPreset(val title: String, val target: Int)
 
 private val DhikrPresets = listOf(
-    DhikrPreset("Tesbih", 33),
+    DhikrPreset("Tasbih", 33),
     DhikrPreset("Salawat", 100),
     DhikrPreset("Istighfar", 100),
     DhikrPreset("SubhanAllah", 33),

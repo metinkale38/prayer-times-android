@@ -53,21 +53,12 @@
     <string name="compass_sensor_unavailable">Kompasssensor nicht verfügbar</string>
 
     <string name="wear_until">bis %1$s</string>
-    <string name="wear_now">Jetzt</string>
     <string name="wear_today">Heute</string>
-    <string name="wear_tile_next_name">Nächstes Gebet</string>
-    <string name="wear_tile_next_description">Nächstes Gebet mit Countdown und Uhrzeit</string>
     <string name="wear_tile_times_name">Gebetszeiten</string>
     <string name="wear_tile_times_description">Alle heutigen Gebetszeiten auf einen Blick</string>
-    <string name="wear_tile_next_prayer">Nächstes Gebet</string>
-    <string name="wear_tile_next_tomorrow">Morgen · Nächstes Gebet</string>
-    <string name="wear_tile_in">in %1$s</string>
     <string name="wear_tile_open_app">App öffnen und aktualisieren.</string>
-    <string name="wear_countdown_hours">%1$d Std</string>
     <string name="wear_tomorrow_in">%1$s morgen</string>
     <string name="wear_next_in">%1$s in</string>
-    <string name="wear_countdown_minutes">%1$d Min</string>
-    <string name="wear_countdown_hours_minutes">%1$d Std %2$d Min</string>
     <string name="dhikr">Dhikr</string>
     <string name="dhikr_custom">Eigener Dhikr</string>
     <string name="dhikr_new">Neuer Dhikr</string>
@@ -75,7 +66,7 @@
     <string name="dhikr_invalid_target">Ziel: 1–100.000</string>
     <string name="dhikr_swipe_hint">wischen</string>
     <string name="dhikr_name">Name</string>
-    <string name="dhikr_name_hint">z. B. Tesbih</string>
+    <string name="dhikr_name_hint">z. B. Tasbih</string>
     <string name="dhikr_target">Ziel</string>
     <string name="dhikr_target_hint">33</string>
     <string name="dhikr_add">Dhikr hinzufügen</string>
