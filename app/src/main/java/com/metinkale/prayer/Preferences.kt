@@ -125,6 +125,9 @@ object Preferences {
         HijriConfig.current = HijriConfiguration(calculation, HIJRI_DAY_OFFSET)
     }
 
+    var WEAR_SYNC_CITY by IntPreference("wearSyncCity", 0)
+    var WEAR_INSTALL_PROMPT_DISMISSED by BooleanPreference("wearInstallPromptDismissed", false)
+
     fun clear() = prefs.edit(commit = true) { clear() }
 }
 

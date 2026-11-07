@@ -9,6 +9,7 @@ import com.google.android.gms.wearable.DataMap
 import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
 import com.metinkale.prayer.CrashReporter
+import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.sync.SyncConstants
 import com.metinkale.prayer.sync.SyncJson
 import com.metinkale.prayer.times.times.DayTimesCalcProvider
@@ -21,7 +22,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * Sends the prayer times of the first city in the list to the Wear app.
+ * Sends the prayer times of the city selected for the watch to the Wear app,
+ * falling back to the first city when no selection exists.
  *
  * The payload contains the current month and, for calculated sources, the
  * following month as well. Web sources send whatever is cached after a sync.
@@ -33,10 +35,13 @@ class WearTimesSyncWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            val times = Times.current.firstOrNull() ?: run {
-                Log.w("WearTimesSync", "phone: no city configured")
-                return@withContext Result.success()
-            }
+            val selectedCityId = Preferences.WEAR_SYNC_CITY
+            val times = Times.current.firstOrNull { it.id == selectedCityId }
+                ?: Times.current.firstOrNull()
+                ?: run {
+                    Log.w("WearTimesSync", "phone: no city configured")
+                    return@withContext Result.success()
+                }
             val provider = times.dayTimes
 
             if (provider is DayTimesWebProvider) {

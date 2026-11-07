@@ -161,6 +161,7 @@ dependencies {
     playImplementation 'com.google.android.gms:play-services-maps:20.0.0'
     playImplementation 'com.google.android.gms:play-services-location:21.4.0'
     playImplementation 'com.google.android.gms:play-services-wearable:20.0.1'
+    playImplementation 'androidx.wear:wear-remote-interactions:1.2.0'
 
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'

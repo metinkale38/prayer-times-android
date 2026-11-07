@@ -27,18 +27,25 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.times.Times
+import com.metinkale.prayer.wear.WearPhoneSupport
+import com.metinkale.prayer.wear.scheduleWearSync
 import java.util.Collections
+import kotlinx.coroutines.launch
 
 class SortFragment : Fragment() {
     private lateinit var adapter: MyAdapter
@@ -47,6 +54,8 @@ class SortFragment : Fragment() {
     private lateinit var callback: SimpleItemTouchHelperCallback
 
     private var deleteMode = false
+    private var watchAppInstalled = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,6 +75,10 @@ class SortFragment : Fragment() {
         setHasOptionsMenu(true)
         Times.asLiveData().observe(viewLifecycleOwner, adapter)
         adapter.onChanged(Times.current)
+        viewLifecycleOwner.lifecycleScope.launch {
+            watchAppInstalled = WearPhoneSupport.isWatchAppInstalled(requireContext())
+            adapter.notifyDataSetChanged()
+        }
         return v
     }
 
@@ -135,12 +148,24 @@ class SortFragment : Fragment() {
         dialog.show()
     }
 
+    private fun onWearSync(cityId: Int, cityName: String) {
+        Preferences.WEAR_SYNC_CITY = cityId
+        scheduleWearSync(requireContext())
+        adapter.notifyDataSetChanged()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.wearSyncCitySelected, cityName),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     internal class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var city: TextView
         var source: TextView
         var handler: View
         var delete: View
         var gps: View
+        var wearSync: ImageView
 
         init {
             city = v.findViewById(R.id.city)
@@ -148,6 +173,7 @@ class SortFragment : Fragment() {
             handler = v.findViewById(R.id.handle)
             delete = v.findViewById(R.id.delete)
             gps = v.findViewById(R.id.gps)
+            wearSync = v.findViewById(R.id.wearSync)
         }
     }
 
@@ -165,6 +191,27 @@ class SortFragment : Fragment() {
             vh.gps.visibility = if (c.autoLocation) View.VISIBLE else View.GONE
             vh.delete.visibility = if (deleteMode) View.VISIBLE else View.GONE
             vh.delete.setOnClickListener { onItemDismiss(vh.bindingAdapterPosition) }
+
+            val showWearSync = watchAppInstalled && Times.current.size > 1 && !deleteMode
+            vh.wearSync.visibility = if (showWearSync) View.VISIBLE else View.GONE
+            if (showWearSync) {
+                val selectedId =
+                    Times.current.firstOrNull { it.id == Preferences.WEAR_SYNC_CITY }?.id
+                        ?: Times.current.firstOrNull()?.id
+                val selected = c.id == selectedId
+                vh.wearSync.setColorFilter(
+                    ContextCompat.getColor(
+                        vh.itemView.context,
+                        if (selected) R.color.accent else R.color.foregroundSecondary
+                    )
+                )
+                vh.wearSync.contentDescription = vh.itemView.context.getString(
+                    if (selected) R.string.wearSyncCityCurrent else R.string.wearSyncCity
+                )
+                vh.wearSync.setOnClickListener { onWearSync(c.id, c.name) }
+            } else {
+                vh.wearSync.setOnClickListener(null)
+            }
             vh.handler.setOnTouchListener { _: View?, event: MotionEvent? ->
                 if (event?.action == MotionEvent.ACTION_DOWN) {
                     itemTouchHelper.startDrag(vh)
