@@ -5,6 +5,7 @@ import com.metinkale.prayer.App
 import com.metinkale.prayer.CrashReporter
 import com.metinkale.prayer.times.utils.Store
 import com.metinkale.prayer.times.utils.asStore
+import com.metinkale.prayer.utils.UUID
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -65,11 +66,12 @@ open class TimesCompanion : Flow<List<Times>> {
             })
 
     fun add(times: Times) {
+        val entry = if (times.id == 0) times.copy(id = UUID.asInt()) else times
         store.update {
-            if (it.isEmpty() && times.id > 0)
-                listOf(times.copy(ongoing = true))
+            if (it.isEmpty() && entry.id > 0)
+                listOf(entry.copy(ongoing = true))
             else
-                it.filter { it.id != times.id } + times
+                it.filter { it.id != entry.id } + entry
         }
     }
 
