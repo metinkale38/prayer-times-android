@@ -82,16 +82,7 @@ private val DhikrAccent = Color(0xFF4A768A)
 private val DhikrAccentBright = Color(0xFF7FB3C6)
 private val DhikrIndicatorInactive = Color(0xFF6B757B)
 
-private data class DhikrPreset(val title: String, val target: Int)
-
-private val DhikrPresets = listOf(
-    DhikrPreset("Tasbih", 33),
-    DhikrPreset("Salawat", 100),
-    DhikrPreset("Istighfar", 100),
-    DhikrPreset("SubhanAllah", 33),
-    DhikrPreset("Alhamdulillah", 33),
-    DhikrPreset("Allahu Akbar", 34)
-)
+private val DhikrTargetTemplates = listOf(33, 50, 100, 200, 500, 1000)
 
 @Composable
 fun DhikrPage(repository: DhikrRepository, modifier: Modifier = Modifier) {
@@ -441,21 +432,16 @@ private fun AddDhikrPage(
     onAdd: (String, Int) -> Unit,
     onCancel: () -> Unit
 ) {
-    var customMode by rememberSaveable { mutableStateOf(false) }
-    var selectedPreset by rememberSaveable { mutableStateOf<String?>(null) }
+    var editing by rememberSaveable { mutableStateOf(false) }
     var title by rememberSaveable { mutableStateOf("") }
     var target by rememberSaveable { mutableStateOf("33") }
-    val selected = DhikrPresets.firstOrNull { it.title == selectedPreset }
+    val defaultTitle = stringResource(R.string.dhikr)
     val parsedTarget = target.toIntOrNull()?.takeIf { it in 1..100_000 }
-    val invalidTarget = customMode && target.isNotEmpty() && parsedTarget == null
-    val canAdd = if (customMode) {
-        title.isNotBlank() && parsedTarget != null
-    } else {
-        selected != null
-    }
+    val invalidTarget = editing && target.isNotEmpty() && parsedTarget == null
+    val canAdd = editing && title.isNotBlank() && parsedTarget != null
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(customMode) {
+    LaunchedEffect(editing) {
         scrollState.scrollTo(0)
     }
 
@@ -465,7 +451,7 @@ private fun AddDhikrPage(
             .background(DhikrBackground)
     ) {
         CurvedEdgeLabel(
-            text = stringResource(if (customMode) R.string.dhikr_custom else R.string.dhikr_new),
+            text = stringResource(R.string.dhikr_new),
             alignTop = true,
             style = EdgeTitleStyle
         )
@@ -475,73 +461,40 @@ private fun AddDhikrPage(
                 .fillMaxSize()
                 .padding(start = 24.dp, end = 24.dp, top = 30.dp)
         ) {
-            if (!customMode) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 3.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.dhikr_templates),
-                        color = DhikrSecondary,
-                        fontSize = 9.sp
-                    )
-                    Text(
-                        text = stringResource(R.string.dhikr_custom),
-                        modifier = Modifier.clickable {
-                            customMode = true
-                            selectedPreset = null
-                            title = ""
-                            target = "33"
-                        },
-                        color = DhikrAccent,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
-
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .verticalScroll(scrollState)
             ) {
-                if (!customMode) {
-                    DhikrPresets.forEach { preset ->
-                        val isSelected = selectedPreset == preset.title
+                if (!editing) {
+                    DhikrTargetTemplates.chunked(2).forEach { targets ->
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(32.dp)
-                                .background(
-                                    if (isSelected) DhikrAccent else DhikrTile,
-                                    RoundedCornerShape(9.dp)
-                                )
-                                .clickable {
-                                    selectedPreset = preset.title
-                                    title = preset.title
-                                    target = preset.target.toString()
-                                }
-                                .padding(horizontal = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
-                            Text(
-                                text = preset.title,
-                                modifier = Modifier.weight(1f),
-                                color = if (isSelected) Color.White else DhikrText,
-                                fontSize = 10.sp,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Text(
-                                text = preset.target.toString(),
-                                color = if (isSelected) Color.White.copy(alpha = 0.8f) else DhikrSecondary,
-                                fontSize = 9.sp
-                            )
+                            targets.forEach { value ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(30.dp)
+                                        .background(DhikrTile, RoundedCornerShape(9.dp))
+                                        .clickable {
+                                            editing = true
+                                            title = defaultTitle
+                                            target = value.toString()
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = value.toString(),
+                                        color = DhikrText,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
                         }
-                        Spacer(modifier = Modifier.height(3.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                     }
                 } else {
                     Row(
@@ -599,8 +552,8 @@ private fun AddDhikrPage(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .clickable {
-                        if (customMode) {
-                            customMode = false
+                        if (editing) {
+                            editing = false
                         } else {
                             onCancel()
                         }
@@ -610,41 +563,40 @@ private fun AddDhikrPage(
                 fontSize = 9.sp
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 24.dp),
-                contentAlignment = Alignment.Center
-            ) {
+            if (editing) {
                 Box(
                     modifier = Modifier
-                        .width(112.dp)
-                        .height(32.dp)
-                        .background(
-                            if (canAdd) DhikrAccent else DhikrTile,
-                            RoundedCornerShape(17.dp)
-                        )
-                        .clickable(enabled = canAdd) {
-                            if (customMode) {
-                                val count = parsedTarget ?: return@clickable
-                                onAdd(title.trim(), count)
-                                title = ""
-                                target = "33"
-                            } else {
-                                val preset = selected ?: return@clickable
-                                onAdd(preset.title, preset.target)
-                                selectedPreset = null
-                            }
-                        },
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = stringResource(R.string.dhikr_add),
-                        color = if (canAdd) Color.White else DhikrSecondary,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium
-                    )
+                    Box(
+                        modifier = Modifier
+                            .width(112.dp)
+                            .height(32.dp)
+                            .background(
+                                if (canAdd) DhikrAccent else DhikrTile,
+                                RoundedCornerShape(17.dp)
+                            )
+                            .clickable(enabled = canAdd) {
+                                val count = parsedTarget ?: return@clickable
+                                onAdd(title.trim(), count)
+                                title = defaultTitle
+                                target = "33"
+                                editing = false
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.dhikr_add),
+                            color = if (canAdd) Color.White else DhikrSecondary,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
                 }
+            } else {
+                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }

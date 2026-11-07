@@ -60,9 +60,7 @@
     <string name="wear_tomorrow_in">%1$s tomorrow</string>
     <string name="wear_next_in">%1$s in</string>
     <string name="dhikr">Dhikr</string>
-    <string name="dhikr_custom">Custom Dhikr</string>
     <string name="dhikr_new">New Dhikr</string>
-    <string name="dhikr_templates">Templates</string>
     <string name="dhikr_invalid_target">Target: 1–100000</string>
     <string name="dhikr_swipe_hint">swipe</string>
     <string name="dhikr_name">Name</string>
