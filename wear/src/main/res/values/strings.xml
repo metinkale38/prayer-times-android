@@ -80,10 +80,16 @@
     <string name="complication_custom_name">Prayer text</string>
     <string name="complication_custom_config_title">Prayer text builder</string>
     <string name="complication_templates">Templates</string>
+    <string name="complication_remove_token">Remove %1$s</string>
+    <string name="complication_selected">Selected</string>
     <string name="complication_blocks">Blocks</string>
+    <string name="complication_short_preview">Short preview</string>
+    <string name="complication_long_preview">Long preview</string>
     <string name="complication_preview">Preview</string>
     <string name="complication_custom">Custom</string>
     <string name="complication_back">Back</string>
+    <string name="complication_undo">Undo</string>
+    <string name="complication_empty">No blocks selected</string>
     <string name="complication_clear">Clear</string>
     <string name="complication_done">Done</string>
     <string name="complication_until">until</string>
@@ -99,7 +105,7 @@
     <string name="complication_token_current_time">Current time</string>
     <string name="complication_token_next_time">Next time</string>
     <string name="complication_token_counter">Counter</string>
-    <string name="complication_token_separator">|</string>
+    <string name="complication_token_separator">Separator</string>
     <string name="dhikr">Dhikr</string>
     <string name="dhikr_new">New Dhikr</string>
     <string name="dhikr_invalid_target">Target: 1–100000</string>

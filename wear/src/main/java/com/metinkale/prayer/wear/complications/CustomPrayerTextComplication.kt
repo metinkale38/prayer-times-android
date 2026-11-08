@@ -50,51 +50,103 @@ internal object CustomPrayerTextSettings {
     }
 }
 
+internal data class PrayerTextValues(
+    val currentName: String,
+    val currentTime: String,
+    val nextName: String,
+    val nextTime: String,
+    val countdown: String
+)
+
 class CustomPrayerTextComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         val model = model() ?: return noData()
         val tokens = CustomPrayerTextSettings.tokens(this, request.complicationInstanceId)
         if (tokens.isEmpty()) return noData()
-        val text = buildPrayerText(this, model, tokens)
+        val values = prayerTextValues(this, model)
+        val shortText = formatShortPrayerText(tokens, values)
+        val longText = formatPrayerText(this, tokens, values)
+        if (longText.isBlank()) return noData()
         return buildTextComplication(
             request.complicationType,
             TextComplicationContent(
-                shortText = text,
-                longText = text,
-                contentDescription = text
+                shortText = shortText.ifEmpty { longText },
+                longText = longText,
+                contentDescription = longText
             ),
             tapAction()
         )
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
-        val text = "Ishaa 18:22 | Fajr 05:30"
+        val values = PrayerTextValues("Ishaa", "18:22", "Fajr", "05:30", "2h 8m")
+        val tokens = CustomPrayerTextSettings.defaultTokens
         return buildTextComplication(
             type,
             TextComplicationContent(
-                shortText = text,
-                longText = text,
-                contentDescription = text
+                shortText = formatShortPrayerText(tokens, values),
+                longText = formatPrayerText(this, tokens, values),
+                contentDescription = formatPrayerText(this, tokens, values)
             )
         )
     }
-
 }
 
-internal fun buildPrayerText(
+internal fun prayerTextValues(context: Context, model: PrayerTileModel) = PrayerTextValues(
+    currentName = context.getString(model.current.labelRes),
+    currentTime = model.current.time.format(ComplicationTimeFormat),
+    nextName = context.getString(model.next.labelRes),
+    nextTime = model.next.time.format(ComplicationTimeFormat),
+    countdown = context.formatCountdown(model.countdownMinutes)
+)
+
+internal fun formatPrayerText(
     context: Context,
-    model: PrayerTileModel,
-    tokens: List<PrayerTextToken>
+    tokens: List<PrayerTextToken>,
+    values: PrayerTextValues
 ): String = tokens.joinToString(" ") { token ->
     when (token) {
-        PrayerTextToken.CURRENT_NAME -> context.getString(model.current.labelRes)
-        PrayerTextToken.NEXT_NAME -> context.getString(model.next.labelRes)
-        PrayerTextToken.CURRENT_TIME ->
-            model.current.time.format(ComplicationTimeFormat)
-
-        PrayerTextToken.NEXT_TIME -> model.next.time.format(ComplicationTimeFormat)
-        PrayerTextToken.COUNTDOWN -> context.formatCountdown(model.countdownMinutes)
+        PrayerTextToken.CURRENT_NAME -> values.currentName
+        PrayerTextToken.NEXT_NAME -> values.nextName
+        PrayerTextToken.CURRENT_TIME -> values.currentTime
+        PrayerTextToken.NEXT_TIME -> values.nextTime
+        PrayerTextToken.COUNTDOWN -> values.countdown
         PrayerTextToken.SEPARATOR -> "|"
         PrayerTextToken.UNTIL -> context.getString(R.string.complication_until)
     }
+}
+
+internal fun formatShortPrayerText(
+    tokens: List<PrayerTextToken>,
+    values: PrayerTextValues
+): String {
+    val hasTime = PrayerTextToken.CURRENT_TIME in tokens ||
+        PrayerTextToken.NEXT_TIME in tokens
+    if (PrayerTextToken.COUNTDOWN in tokens && !hasTime) return values.countdown
+
+    tokens.forEachIndexed { index, token ->
+        when (token) {
+            PrayerTextToken.CURRENT_NAME -> {
+                return if (tokens.getOrNull(index + 1) == PrayerTextToken.CURRENT_TIME) {
+                    "${values.currentName} ${values.currentTime}"
+                } else {
+                    values.currentName
+                }
+            }
+
+            PrayerTextToken.NEXT_NAME -> {
+                return if (tokens.getOrNull(index + 1) == PrayerTextToken.NEXT_TIME) {
+                    "${values.nextName} ${values.nextTime}"
+                } else {
+                    values.nextName
+                }
+            }
+
+            PrayerTextToken.CURRENT_TIME -> return values.currentTime
+            PrayerTextToken.NEXT_TIME -> return values.nextTime
+            PrayerTextToken.COUNTDOWN -> return values.countdown
+            PrayerTextToken.SEPARATOR, PrayerTextToken.UNTIL -> Unit
+        }
+    }
+    return ""
 }

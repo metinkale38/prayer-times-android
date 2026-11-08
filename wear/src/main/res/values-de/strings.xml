@@ -80,10 +80,16 @@
     <string name="complication_custom_name">Gebetstext</string>
     <string name="complication_custom_config_title">Gebetstext zusammenstellen</string>
     <string name="complication_templates">Vorlagen</string>
+    <string name="complication_remove_token">%1$s entfernen</string>
+    <string name="complication_selected">Ausgewählt</string>
     <string name="complication_blocks">Bausteine</string>
+    <string name="complication_short_preview">Kurz-Vorschau</string>
+    <string name="complication_long_preview">Lang-Vorschau</string>
     <string name="complication_preview">Vorschau</string>
     <string name="complication_custom">Benutzerdefiniert</string>
     <string name="complication_back">Zurück</string>
+    <string name="complication_undo">Rückgängig</string>
+    <string name="complication_empty">Keine Bausteine gewählt</string>
     <string name="complication_clear">Löschen</string>
     <string name="complication_done">Fertig</string>
     <string name="complication_until">bis</string>
@@ -99,7 +105,7 @@
     <string name="complication_token_current_time">Zeit aktuell</string>
     <string name="complication_token_next_time">Zeit nächstes</string>
     <string name="complication_token_counter">Counter</string>
-    <string name="complication_token_separator">|</string>
+    <string name="complication_token_separator">Trenner</string>
     <string name="dhikr">Dhikr</string>
     <string name="dhikr_new">Neuer Dhikr</string>
     <string name="dhikr_invalid_target">Ziel: 1–100.000</string>
