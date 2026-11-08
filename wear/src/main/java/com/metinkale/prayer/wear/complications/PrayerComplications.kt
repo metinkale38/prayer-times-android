@@ -106,7 +106,7 @@ class NextPrayerComplicationService : PrayerComplicationService() {
                 getString(R.string.complication_next_description, name, time)
             )
         )
-            .setTitle(plain(name))
+            .setTitle(plain(getString(R.string.complication_next_prayer_title, name)))
             .setTapAction(tapAction())
             .build()
     }
@@ -117,7 +117,7 @@ class NextPrayerComplicationService : PrayerComplicationService() {
                 text = plain("05:30"),
                 contentDescription = plain("Next prayer: Fajr at 05:30")
             )
-                .setTitle(plain("Fajr"))
+                .setTitle(plain("Next: Fajr"))
                 .build()
         } else {
             null
@@ -223,7 +223,6 @@ class HijriDateComplicationService : PrayerComplicationService() {
                 text = plain(model.hijriText),
                 contentDescription = description
             )
-                .setTitle(plain(getString(R.string.complication_hijri_title)))
                 .setTapAction(tapAction())
                 .build()
 
@@ -243,7 +242,6 @@ class HijriDateComplicationService : PrayerComplicationService() {
             text = plain("27. Jumada al-awwal 1448"),
             contentDescription = plain("Hijri date: 27. Jumada al-awwal 1448")
         )
-            .setTitle(plain("Hijri"))
             .build()
 
         else -> null

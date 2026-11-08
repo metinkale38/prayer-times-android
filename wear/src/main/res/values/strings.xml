@@ -65,12 +65,12 @@
     <string name="complication_hijri_name">Hijri date</string>
     <string name="complication_prayer_time_name">Prayer time</string>
     <string name="complication_prayer_time_config_title">Choose prayer</string>
+    <string name="complication_next_prayer_title">Next: %1$s</string>
     <string name="complication_next_description">Next prayer: %1$s at %2$s</string>
     <string name="complication_countdown_description">Countdown to %1$s</string>
     <string name="complication_progress_description">Prayer progress from %1$s to %2$s</string>
     <string name="complication_progress_title">Prayer</string>
     <string name="complication_progress_text">%1$s → %2$s</string>
-    <string name="complication_hijri_title">Hijri</string>
     <string name="complication_hijri_description">Hijri date: %1$s</string>
     <string name="complication_prayer_time_description">%1$s at %2$s</string>
     <string name="dhikr">Dhikr</string>
