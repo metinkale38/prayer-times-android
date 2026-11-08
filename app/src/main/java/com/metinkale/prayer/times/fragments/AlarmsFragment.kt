@@ -148,7 +148,7 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
 
             adapter.add(object : SwitchItem() {
                 override val name: String
-                    get() = alarm.current?.title ?: ""
+                    get() = alarm.current?.displayName ?: ""
 
                 override fun onChange(checked: Boolean) {
                     if (checked) {
@@ -181,7 +181,7 @@ class AlarmsFragment : MainFragment(), Observer<Times?> {
                 override fun onLongClick(): Boolean {
                     AlertDialog.Builder(requireContext())
                         .setTitle(this@AlarmsFragment.times.current?.name ?: "")
-                        .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.title))
+                        .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.displayName))
                         .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
                         .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
                             alarm.update { null }

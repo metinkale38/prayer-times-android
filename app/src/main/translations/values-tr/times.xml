@@ -27,6 +27,8 @@
     <string name="date">Tarih</string>
     <string name="delCityConfirm">\"%1$s\" Şehirini gerçekten silmek istiyormusunuz?</string>
     <string name="delAlarmConfirm">\"%1$s\" Bildirisini gerçekten silmek istiyormusunuz?</string>
+    <string name="alarmName">Alarm adı</string>
+    <string name="alarmNameHint">İsteğe bağlı; boş bırakılırsa otomatik ad kullanılır</string>
     <string name="dlSound">“%1$s” (%2$s) Sesini indirmek istiyormusunuz?</string>
     <string name="highlatsAdj">Takdir Metodu (Yüksek enlemler için)</string>
     <string name="fixTimezone">Zaman dilimi +/-:</string>
