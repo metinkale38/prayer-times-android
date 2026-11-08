@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,8 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService
 import com.metinkale.prayer.wear.R
+import com.metinkale.prayer.wear.tiles.PrayerTileModel
+import com.metinkale.prayer.wear.tiles.loadPrayerTileModel
 
 private val ConfigBackground = Color(0xFF121212)
 private val ConfigTile = Color(0xFF242424)
@@ -40,50 +43,50 @@ private val ConfigAccent = Color(0xFF4A768A)
 private val ConfigText = Color(0xFFF2F2F2)
 
 private data class PrayerTextTemplate(
-    val labelRes: Int,
-    val tokens: List<PrayerTextToken>
+    val tokens: List<PrayerTextToken>,
+    val fallback: String
 )
 
 private val Templates = listOf(
     PrayerTextTemplate(
-        R.string.complication_template_current_next,
         listOf(
             PrayerTextToken.CURRENT_NAME,
             PrayerTextToken.CURRENT_TIME,
             PrayerTextToken.SEPARATOR,
             PrayerTextToken.NEXT_NAME,
             PrayerTextToken.NEXT_TIME
-        )
+        ),
+        "Ishaa 18:22 | Fajr 03:44"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_countdown,
         listOf(
             PrayerTextToken.CURRENT_NAME,
             PrayerTextToken.SEPARATOR,
             PrayerTextToken.COUNTDOWN,
             PrayerTextToken.UNTIL,
             PrayerTextToken.NEXT_NAME
-        )
+        ),
+        "Ishaa | 2h 2m until Fajr"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_current,
-        listOf(PrayerTextToken.CURRENT_NAME, PrayerTextToken.CURRENT_TIME)
+        listOf(PrayerTextToken.CURRENT_NAME, PrayerTextToken.CURRENT_TIME),
+        "Ishaa 18:22"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_next,
-        listOf(PrayerTextToken.NEXT_NAME, PrayerTextToken.NEXT_TIME)
+        listOf(PrayerTextToken.NEXT_NAME, PrayerTextToken.NEXT_TIME),
+        "Fajr 03:44"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_counter,
-        listOf(PrayerTextToken.COUNTDOWN)
+        listOf(PrayerTextToken.COUNTDOWN),
+        "2h 2m"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_current_time,
-        listOf(PrayerTextToken.CURRENT_TIME)
+        listOf(PrayerTextToken.CURRENT_TIME),
+        "18:22"
     ),
     PrayerTextTemplate(
-        R.string.complication_template_next_time,
-        listOf(PrayerTextToken.NEXT_TIME)
+        listOf(PrayerTextToken.NEXT_TIME),
+        "03:44"
     )
 )
 
@@ -113,7 +116,7 @@ class CustomPrayerTextComplicationConfigActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                PrayerTextBuilder(
+                PrayerTextConfig(
                     instanceId = instanceId,
                     onDone = {
                         setResult(RESULT_OK)
@@ -126,10 +129,16 @@ class CustomPrayerTextComplicationConfigActivity : ComponentActivity() {
 }
 
 @Composable
-private fun PrayerTextBuilder(instanceId: Int, onDone: () -> Unit) {
+private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
     val context = LocalContext.current
+    var model by remember { mutableStateOf<PrayerTileModel?>(null) }
     var tokens by remember {
         mutableStateOf(CustomPrayerTextSettings.tokens(context, instanceId))
+    }
+    var showBuilder by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        model = loadPrayerTileModel(context)
     }
 
     fun apply(newTokens: List<PrayerTextToken>) {
@@ -142,6 +151,39 @@ private fun PrayerTextBuilder(instanceId: Int, onDone: () -> Unit) {
         )
     }
 
+    fun preview(template: PrayerTextTemplate): String =
+        model?.let { buildPrayerText(context, it, template.tokens) } ?: template.fallback
+
+    fun livePreview(): String =
+        model?.let { buildPrayerText(context, it, tokens) } ?: "Ishaa 18:22 | Fajr 03:44"
+
+    if (showBuilder) {
+        BuilderScreen(
+            tokens = tokens,
+            preview = livePreview(),
+            onToken = { apply(tokens + it) },
+            onClear = { apply(emptyList()) },
+            onBack = { showBuilder = false },
+            onDone = onDone
+        )
+    } else {
+        TemplateScreen(
+            previews = Templates.map { preview(it) },
+            onTemplate = {
+                apply(it.tokens)
+                onDone()
+            },
+            onCustom = { showBuilder = true }
+        )
+    }
+}
+
+@Composable
+private fun TemplateScreen(
+    previews: List<String>,
+    onTemplate: (PrayerTextTemplate) -> Unit,
+    onCustom: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -156,18 +198,52 @@ private fun PrayerTextBuilder(instanceId: Int, onDone: () -> Unit) {
             color = ConfigText,
             fontSize = 12.sp
         )
-
         Text(
             text = stringResource(R.string.complication_templates),
             color = ConfigText,
             fontSize = 10.sp
         )
-        Templates.forEach { template ->
-            BuilderButton(stringResource(template.labelRes)) {
-                apply(template.tokens)
-            }
+        Templates.forEachIndexed { index, template ->
+            BuilderButton(previews[index]) { onTemplate(template) }
         }
+        Spacer(Modifier.height(4.dp))
+        BuilderButton(stringResource(R.string.complication_custom), onClick = onCustom)
+    }
+}
 
+@Composable
+private fun BuilderScreen(
+    tokens: List<PrayerTextToken>,
+    preview: String,
+    onToken: (PrayerTextToken) -> Unit,
+    onClear: () -> Unit,
+    onBack: () -> Unit,
+    onDone: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ConfigBackground)
+            .verticalScroll(rememberScrollState())
+            .padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.complication_custom_config_title),
+            color = ConfigText,
+            fontSize = 12.sp
+        )
+        Text(
+            text = stringResource(R.string.complication_preview),
+            color = ConfigText,
+            fontSize = 10.sp
+        )
+        Text(
+            text = preview,
+            color = ConfigAccent,
+            fontSize = 11.sp
+        )
         Spacer(Modifier.height(4.dp))
         Text(
             text = stringResource(R.string.complication_blocks),
@@ -175,56 +251,43 @@ private fun PrayerTextBuilder(instanceId: Int, onDone: () -> Unit) {
             fontSize = 10.sp
         )
         PrayerTextToken.entries.forEach { token ->
-            BuilderButton(stringResource(token.labelRes)) {
-                apply(tokens + token)
-            }
+            BuilderButton(stringResource(token.labelRes)) { onToken(token) }
         }
-
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.complication_preview),
-            color = ConfigText,
-            fontSize = 10.sp
-        )
-        Text(
-            text = tokens.map { stringResource(it.labelRes) }.joinToString(" "),
-            color = ConfigAccent,
-            fontSize = 10.sp
-        )
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(26.dp)
-                    .background(ConfigTile, RoundedCornerShape(8.dp))
-                    .clickable { apply(emptyList()) },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.complication_clear),
-                    color = ConfigText,
-                    fontSize = 10.sp
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(26.dp)
-                    .background(ConfigAccent, RoundedCornerShape(8.dp))
-                    .clickable(onClick = onDone),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.complication_done),
-                    color = Color.White,
-                    fontSize = 10.sp
-                )
-            }
+            ActionButton(stringResource(R.string.complication_back), Modifier.weight(1f), onBack)
+            ActionButton(stringResource(R.string.complication_clear), Modifier.weight(1f), onClear)
+            ActionButton(
+                stringResource(R.string.complication_done),
+                Modifier.weight(1f),
+                onDone,
+                accent = true
+            )
         }
+    }
+}
+
+@Composable
+private fun ActionButton(
+    label: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    accent: Boolean = false
+) {
+    Box(
+        modifier = modifier
+            .height(26.dp)
+            .background(if (accent) ConfigAccent else ConfigTile, RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            color = if (accent) Color.White else ConfigText,
+            fontSize = 10.sp
+        )
     }
 }
 
@@ -233,7 +296,7 @@ private fun BuilderButton(label: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(22.dp)
+            .height(26.dp)
             .background(ConfigTile, RoundedCornerShape(7.dp))
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center

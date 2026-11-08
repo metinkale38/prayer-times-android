@@ -82,6 +82,8 @@
     <string name="complication_templates">Vorlagen</string>
     <string name="complication_blocks">Bausteine</string>
     <string name="complication_preview">Vorschau</string>
+    <string name="complication_custom">Benutzerdefiniert</string>
+    <string name="complication_back">Zurück</string>
     <string name="complication_clear">Löschen</string>
     <string name="complication_done">Fertig</string>
     <string name="complication_until">bis</string>

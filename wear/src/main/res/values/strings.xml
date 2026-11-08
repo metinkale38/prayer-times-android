@@ -82,6 +82,8 @@
     <string name="complication_templates">Templates</string>
     <string name="complication_blocks">Blocks</string>
     <string name="complication_preview">Preview</string>
+    <string name="complication_custom">Custom</string>
+    <string name="complication_back">Back</string>
     <string name="complication_clear">Clear</string>
     <string name="complication_done">Done</string>
     <string name="complication_until">until</string>

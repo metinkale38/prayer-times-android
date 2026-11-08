@@ -55,7 +55,7 @@ class CustomPrayerTextComplicationService : PrayerComplicationService() {
         val model = model() ?: return noData()
         val tokens = CustomPrayerTextSettings.tokens(this, request.complicationInstanceId)
         if (tokens.isEmpty()) return noData()
-        val text = buildText(model, tokens)
+        val text = buildPrayerText(this, model, tokens)
         return buildTextComplication(
             request.complicationType,
             TextComplicationContent(
@@ -79,18 +79,22 @@ class CustomPrayerTextComplicationService : PrayerComplicationService() {
         )
     }
 
-    private fun buildText(model: PrayerTileModel, tokens: List<PrayerTextToken>): String =
-        tokens.joinToString(" ") { token ->
-            when (token) {
-                PrayerTextToken.CURRENT_NAME -> getString(model.current.labelRes)
-                PrayerTextToken.NEXT_NAME -> getString(model.next.labelRes)
-                PrayerTextToken.CURRENT_TIME ->
-                    model.current.time.format(ComplicationTimeFormat)
+}
 
-                PrayerTextToken.NEXT_TIME -> model.next.time.format(ComplicationTimeFormat)
-                PrayerTextToken.COUNTDOWN -> formatCountdown(model.countdownMinutes)
-                PrayerTextToken.SEPARATOR -> "|"
-                PrayerTextToken.UNTIL -> getString(R.string.complication_until)
-            }
-        }
+internal fun buildPrayerText(
+    context: Context,
+    model: PrayerTileModel,
+    tokens: List<PrayerTextToken>
+): String = tokens.joinToString(" ") { token ->
+    when (token) {
+        PrayerTextToken.CURRENT_NAME -> context.getString(model.current.labelRes)
+        PrayerTextToken.NEXT_NAME -> context.getString(model.next.labelRes)
+        PrayerTextToken.CURRENT_TIME ->
+            model.current.time.format(ComplicationTimeFormat)
+
+        PrayerTextToken.NEXT_TIME -> model.next.time.format(ComplicationTimeFormat)
+        PrayerTextToken.COUNTDOWN -> context.formatCountdown(model.countdownMinutes)
+        PrayerTextToken.SEPARATOR -> "|"
+        PrayerTextToken.UNTIL -> context.getString(R.string.complication_until)
+    }
 }
