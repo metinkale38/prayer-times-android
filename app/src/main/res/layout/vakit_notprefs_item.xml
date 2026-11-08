@@ -26,6 +26,38 @@
 
 
         <TextView
+            android:id="@+id/nameTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/alarmName"
+            android:textColor="@color/foreground"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/alarmName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="@string/alarmNameHint"
+            android:inputType="textCapSentences"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textColor="@color/foreground"
+            android:textColorHint="@color/foregroundSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle" />
+
+        <TextView
             android:id="@+id/weekdaysTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,7 +69,7 @@
             android:textColor="@color/foreground"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/alarmName" />
 
         <TextView
             android:id="@+id/sunday"

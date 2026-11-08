@@ -88,6 +88,7 @@ class AlarmFragment : MainFragment() {
     private lateinit var silenterUp: View
     private lateinit var silenterDown: View
     private lateinit var silenterValue: EditText
+    private lateinit var name: EditText
 
     private lateinit var alarms: Store<List<Alarm>>
     private lateinit var alarm: Store<Alarm?>
@@ -130,6 +131,7 @@ class AlarmFragment : MainFragment() {
         volumeBar = view.findViewById(R.id.volume)
         volumeSpinner = view.findViewById(R.id.volumeSpinner)
         volumeTitle = view.findViewById(R.id.volumeText)
+        name = view.findViewById(R.id.alarmName)
 
         timesView[0] = view.findViewById(R.id.fajr)
         timesView[1] = view.findViewById(R.id.sunrise)
@@ -158,6 +160,7 @@ class AlarmFragment : MainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initName()
         initMinuteAdj()
         initWeekdays(view)
         initTimes()
@@ -167,6 +170,20 @@ class AlarmFragment : MainFragment() {
         initDelete()
         initAutodelete()
         initSilenter()
+    }
+
+    private fun initName() {
+        name.setText(alarm.current?.customName ?: "")
+        alarm.data.map { it?.title }.asLiveData().observe(viewLifecycleOwner) {
+            name.hint = it
+        }
+        name.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                alarm.update { it?.copy(customName = s.toString().trim()) }
+            }
+        })
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -259,7 +276,7 @@ class AlarmFragment : MainFragment() {
         delete.setOnClickListener { _: View? ->
             AlertDialog.Builder(requireActivity())
                 .setTitle(times.current?.name ?: "")
-                .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.title ?: ""))
+                .setMessage(getString(R.string.delAlarmConfirm, alarm.current?.displayName ?: ""))
                 .setNegativeButton(R.string.no) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
                 .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
                     alarms.update { it.filter { it.id != alarm.current?.id } }

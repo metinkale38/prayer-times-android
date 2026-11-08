@@ -27,6 +27,8 @@
     <string name="date">Date</string>
     <string name="delCityConfirm">Do you really want to delete the city \"%1$s\"?</string>
     <string name="delAlarmConfirm">Do you really want to delete the alarm \"%1$s\"?</string>
+    <string name="alarmName">Alarm name</string>
+    <string name="alarmNameHint">Optional; generated name is used if empty</string>
     <string name="dlSound">Download “%1$s” (%2$s)?</string>
     <string name="highlatsAdj">High Latitudes Adjustment:</string>
     <string name="fixTimezone">Timezone +/-:</string>

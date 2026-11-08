@@ -27,6 +27,8 @@
     <string name="date">Datum</string>
     <string name="delCityConfirm">Möchtest du die Stadt \"%1$s\" wirklich löschen?</string>
     <string name="delAlarmConfirm">Möchtest du die Benachrichtigung \"%1$s\" wirklich löschen?</string>
+    <string name="alarmName">Alarmname</string>
+    <string name="alarmNameHint">Optional; leer lassen für den generierten Namen</string>
     <string name="dlSound">“%1$s” (%2$s) runterladen?</string>
     <string name="highlatsAdj">Anpassung für hohe Breitengrade:</string>
     <string name="fixTimezone">Zeitzone +/-:</string>

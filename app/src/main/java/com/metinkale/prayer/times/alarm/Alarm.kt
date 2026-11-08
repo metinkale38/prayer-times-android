@@ -55,7 +55,8 @@ data class Alarm(
     val removeNotification: Boolean = false,
     val silenter: Int = 0,
     val volume: Int = getLegacyVolumeMode(App.get()),
-    val cityId: Int = 0
+    val cityId: Int = 0,
+    val customName: String = ""
 ) : Comparable<Alarm> {
 
     val nextAlarm: LocalDateTime?
@@ -147,6 +148,9 @@ data class Alarm(
         val ctx: Context = App.get()
         ctx.getString(strRes1, days, ctx.getString(strRes2, abs(mins), times))
     }
+
+    val displayName: String
+        get() = customName.trim().ifBlank { title }
 
     override fun compareTo(other: Alarm): Int {
         var comp: Int = Collections.min(times).ordinal - Collections.min(other.times).ordinal
