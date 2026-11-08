@@ -39,6 +39,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.tiles.PrayerTileModel
@@ -118,12 +119,21 @@ class CustomPrayerTextComplicationConfigActivity : ComponentActivity() {
             finish()
             return
         }
+        val type = runCatching {
+            ComplicationType.fromWireType(
+                intent.getIntExtra(
+                    ComplicationDataSourceService.EXTRA_CONFIG_COMPLICATION_TYPE,
+                    -1
+                )
+            )
+        }.getOrNull()
 
         setContent {
             MaterialTheme {
                 AppScaffold {
                     PrayerTextConfig(
                         instanceId = instanceId,
+                        type = type,
                         onDone = {
                             setResult(RESULT_OK)
                             finish()
@@ -136,7 +146,11 @@ class CustomPrayerTextComplicationConfigActivity : ComponentActivity() {
 }
 
 @Composable
-private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
+private fun PrayerTextConfig(
+    instanceId: Int,
+    type: ComplicationType?,
+    onDone: () -> Unit
+) {
     val context = LocalContext.current
     var model by remember { mutableStateOf<PrayerTileModel?>(null) }
     var tokens by remember {
@@ -170,6 +184,7 @@ private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
         BuilderScreen(
             tokens = tokens,
             values = values,
+            type = type,
             onToken = {
                 tokens = tokens + it
                 removedToken = null
@@ -201,6 +216,7 @@ private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
     } else {
         TemplateScreen(
             values = values,
+            type = type,
             onTemplate = {
                 apply(it.tokens)
                 onDone()
@@ -213,6 +229,7 @@ private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
 @Composable
 private fun TemplateScreen(
     values: PrayerTextValues,
+    type: ComplicationType?,
     onTemplate: (PrayerTextTemplate) -> Unit,
     onCustom: () -> Unit
 ) {
@@ -248,20 +265,24 @@ private fun TemplateScreen(
                         text = stringResource(template.labelRes),
                         style = MaterialTheme.typography.labelSmall
                     )
-                    Text(
-                        text = "${stringResource(R.string.complication_short_preview)}: " +
-                                formatShortPrayerText(template.tokens, values),
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = "${stringResource(R.string.complication_long_preview)}: " +
-                                formatPrayerText(context, template.tokens, values),
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    if (type != ComplicationType.LONG_TEXT) {
+                        Text(
+                            text = "${stringResource(R.string.complication_short_preview)}: " +
+                                    formatShortPrayerText(template.tokens, values),
+                            style = MaterialTheme.typography.bodySmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    if (type != ComplicationType.SHORT_TEXT) {
+                        Text(
+                            text = "${stringResource(R.string.complication_long_preview)}: " +
+                                    formatPrayerText(context, template.tokens, values),
+                            style = MaterialTheme.typography.bodySmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             }
             item {
@@ -285,6 +306,7 @@ private fun TemplateScreen(
 private fun BuilderScreen(
     tokens: List<PrayerTextToken>,
     values: PrayerTextValues,
+    type: ComplicationType?,
     onToken: (PrayerTextToken) -> Unit,
     onRemove: (Int) -> Unit,
     canUndoRemove: Boolean,
@@ -310,19 +332,23 @@ private fun BuilderScreen(
                     style = MaterialTheme.typography.titleSmall
                 )
             }
-            item {
-                PreviewCard(
-                    label = stringResource(R.string.complication_short_preview),
-                    text = shortText.ifEmpty { stringResource(R.string.complication_empty) },
-                    maxLines = 1
-                )
+            if (type != ComplicationType.LONG_TEXT) {
+                item {
+                    PreviewCard(
+                        label = stringResource(R.string.complication_short_preview),
+                        text = shortText.ifEmpty { stringResource(R.string.complication_empty) },
+                        maxLines = 1
+                    )
+                }
             }
-            item {
-                PreviewCard(
-                    label = stringResource(R.string.complication_long_preview),
-                    text = longText.ifEmpty { stringResource(R.string.complication_empty) },
-                    maxLines = 2
-                )
+            if (type != ComplicationType.SHORT_TEXT) {
+                item {
+                    PreviewCard(
+                        label = stringResource(R.string.complication_long_preview),
+                        text = longText.ifEmpty { stringResource(R.string.complication_empty) },
+                        maxLines = 2
+                    )
+                }
             }
             item {
                 FilledTonalButton(
