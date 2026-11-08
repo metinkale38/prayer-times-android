@@ -74,6 +74,38 @@ object PrayerComplicationsUpdater {
 private fun plain(text: CharSequence): PlainComplicationText =
     PlainComplicationText.Builder(text).build()
 
+private data class TextComplicationContent(
+    val shortText: CharSequence,
+    val shortTitle: CharSequence? = null,
+    val longText: CharSequence,
+    val longTitle: CharSequence? = null,
+    val contentDescription: CharSequence
+)
+
+private fun buildTextComplication(
+    type: ComplicationType,
+    content: TextComplicationContent,
+    tapAction: PendingIntent? = null
+): ComplicationData? = when (type) {
+    ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
+        text = plain(content.shortText),
+        contentDescription = plain(content.contentDescription)
+    ).apply {
+        content.shortTitle?.let { setTitle(plain(it)) }
+        tapAction?.let { setTapAction(it) }
+    }.build()
+
+    ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
+        text = plain(content.longText),
+        contentDescription = plain(content.contentDescription)
+    ).apply {
+        content.longTitle?.let { setTitle(plain(it)) }
+        tapAction?.let { setTapAction(it) }
+    }.build()
+
+    else -> null
+}
+
 private fun Context.formatCountdown(minutes: Int): String {
     val hours = minutes / 60
     val remaining = minutes % 60
@@ -102,82 +134,84 @@ abstract class PrayerComplicationService : SuspendingComplicationDataSourceServi
 
 class NextPrayerComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        if (request.complicationType != ComplicationType.SHORT_TEXT) return null
         val model = model() ?: return noData()
         val currentName = getString(model.current.labelRes)
         val currentTime = model.current.time.format(ComplicationTimeFormat)
         val nextName = getString(model.next.labelRes)
         val nextTime = model.next.time.format(ComplicationTimeFormat)
-        return ShortTextComplicationData.Builder(
-            text = plain(
-                getString(
+        return buildTextComplication(
+            request.complicationType,
+            TextComplicationContent(
+                shortText = nextTime,
+                shortTitle = nextName,
+                longText = getString(
                     R.string.complication_current_next_text,
                     currentName,
                     currentTime,
                     nextName,
                     nextTime
-                )
-            ),
-            contentDescription = plain(
-                getString(
+                ),
+                contentDescription = getString(
                     R.string.complication_current_next_description,
                     currentName,
                     currentTime,
                     nextName,
                     nextTime
                 )
-            )
+            ),
+            tapAction()
         )
-            .setTapAction(tapAction())
-            .build()
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
-        if (type == ComplicationType.SHORT_TEXT) {
-            ShortTextComplicationData.Builder(
-                text = plain("Ishaa 18:22 | Fajr 05:30"),
-                contentDescription = plain("Current: Ishaa at 18:22; next: Fajr at 05:30")
+        buildTextComplication(
+            type,
+            TextComplicationContent(
+                shortText = "05:30",
+                shortTitle = "Fajr",
+                longText = "Ishaa 18:22 | Fajr 05:30",
+                contentDescription = "Current: Ishaa at 18:22; next: Fajr at 05:30"
             )
-                .build()
-        } else {
-            null
-        }
+        )
 }
 
 class PrayerCountdownComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        if (request.complicationType != ComplicationType.SHORT_TEXT) return null
         val model = model() ?: return noData()
         val currentName = getString(model.current.labelRes)
         val nextName = getString(model.next.labelRes)
         val countdown = formatCountdown(model.countdownMinutes)
-        return ShortTextComplicationData.Builder(
-            text = plain(
-                getString(
+        return buildTextComplication(
+            request.complicationType,
+            TextComplicationContent(
+                shortText = countdown,
+                shortTitle = nextName,
+                longText = getString(
                     R.string.complication_countdown_text,
                     currentName,
                     countdown,
                     nextName
+                ),
+                contentDescription = getString(
+                    R.string.complication_countdown_description,
+                    currentName,
+                    nextName
                 )
             ),
-            contentDescription = plain(
-                getString(R.string.complication_countdown_description, currentName, nextName)
-            )
+            tapAction()
         )
-            .setTapAction(tapAction())
-            .build()
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
-        if (type == ComplicationType.SHORT_TEXT) {
-            ShortTextComplicationData.Builder(
-                text = plain("Ishaa | 2h 15m until Fajr"),
-                contentDescription = plain("Countdown from Ishaa to Fajr")
+        buildTextComplication(
+            type,
+            TextComplicationContent(
+                shortText = "2h 15m",
+                shortTitle = "Fajr",
+                longText = "Ishaa | 2h 15m until Fajr",
+                contentDescription = "Countdown from Ishaa to Fajr"
             )
-                .build()
-        } else {
-            null
-        }
+        )
 }
 
 class PrayerProgressComplicationService : PrayerComplicationService() {
@@ -230,50 +264,35 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
 class HijriDateComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         val model = model() ?: return noData()
-        val description = plain(
-            getString(R.string.complication_hijri_description, model.hijriText)
+        return buildTextComplication(
+            request.complicationType,
+            TextComplicationContent(
+                shortText = model.hijriDay,
+                shortTitle = model.hijriMonthYear,
+                longText = model.hijriText,
+                contentDescription = getString(
+                    R.string.complication_hijri_description,
+                    model.hijriText
+                )
+            ),
+            tapAction()
         )
-        return when (request.complicationType) {
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
-                text = plain(model.hijriDay),
-                contentDescription = description
-            )
-                .setTitle(plain(model.hijriMonthYear))
-                .setTapAction(tapAction())
-                .build()
-
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
-                text = plain(model.hijriText),
-                contentDescription = description
-            )
-                .setTapAction(tapAction())
-                .build()
-
-            else -> null
-        }
     }
 
-    override fun getPreviewData(type: ComplicationType): ComplicationData? = when (type) {
-        ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
-            text = plain("27"),
-            contentDescription = plain("Hijri date: 27. Jumada al-awwal 1448")
+    override fun getPreviewData(type: ComplicationType): ComplicationData? =
+        buildTextComplication(
+            type,
+            TextComplicationContent(
+                shortText = "27",
+                shortTitle = "Jumada al-awwal 1448",
+                longText = "27. Jumada al-awwal 1448",
+                contentDescription = "Hijri date: 27. Jumada al-awwal 1448"
+            )
         )
-            .setTitle(plain("Jumada al-awwal 1448"))
-            .build()
-
-        ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
-            text = plain("27. Jumada al-awwal 1448"),
-            contentDescription = plain("Hijri date: 27. Jumada al-awwal 1448")
-        )
-            .build()
-
-        else -> null
-    }
 }
 
 class PrayerTimeComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        if (request.complicationType != ComplicationType.SHORT_TEXT) return null
         val model = model() ?: return noData()
         val index = PrayerTimeComplicationSettings.selectedIndex(
             this,
@@ -282,26 +301,30 @@ class PrayerTimeComplicationService : PrayerComplicationService() {
         val entry = model.today.getOrNull(index) ?: return noData()
         val name = getString(entry.labelRes)
         val time = entry.time.format(ComplicationTimeFormat)
-        return ShortTextComplicationData.Builder(
-            text = plain(time),
-            contentDescription = plain(
-                getString(R.string.complication_prayer_time_description, name, time)
-            )
+        return buildTextComplication(
+            request.complicationType,
+            TextComplicationContent(
+                shortText = time,
+                shortTitle = name,
+                longText = getString(R.string.complication_prayer_time_description, name, time),
+                contentDescription = getString(
+                    R.string.complication_prayer_time_description,
+                    name,
+                    time
+                )
+            ),
+            tapAction()
         )
-            .setTitle(plain(name))
-            .setTapAction(tapAction())
-            .build()
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
-        if (type == ComplicationType.SHORT_TEXT) {
-            ShortTextComplicationData.Builder(
-                text = plain("05:30"),
-                contentDescription = plain("Fajr at 05:30")
+        buildTextComplication(
+            type,
+            TextComplicationContent(
+                shortText = "05:30",
+                shortTitle = "Fajr",
+                longText = "Fajr at 05:30",
+                contentDescription = "Fajr at 05:30"
             )
-                .setTitle(plain("Fajr"))
-                .build()
-        } else {
-            null
-        }
+        )
 }
