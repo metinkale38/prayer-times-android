@@ -1,12 +1,14 @@
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/prayer-times-android/localized.svg)](https://crowdin.com/project/prayer-times-android)
 
-# namaz-vakti-android
+# prayer-times-android
 A useful Application with a set of tools needed by every muslim.
 
 Play Store: https://play.google.com/store/apps/details?id=com.metinkale.prayer
 
 If you want to help me translating this Application into other languages contact me under metinkale38[at]gmail.com or directly start translating at 
 https://crowdin.com/project/prayer-times-android
+
+This project is tested with BrowserStack.
 
 ## DESCRIPTION
 ### English
@@ -157,3 +159,5 @@ Die Inhalte der Gebetszeit-Anwendungen:
     Additional from the Developer: if you plan to publish your own Prayer
     App, please do not to publish a too similiar Application. At least
     make a Redesign of the Application!
+
+
