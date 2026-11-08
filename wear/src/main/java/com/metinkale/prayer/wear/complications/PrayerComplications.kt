@@ -20,7 +20,7 @@ import com.metinkale.prayer.wear.tiles.PrayerTileModel
 import com.metinkale.prayer.wear.tiles.loadPrayerTileModel
 import java.time.format.DateTimeFormatter
 
-private val ComplicationTimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+internal val ComplicationTimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
 internal object PrayerTimeComplicationSettings {
     private const val PREFS = "prayer_time_complications"
@@ -46,7 +46,8 @@ object PrayerComplicationsUpdater {
         PrayerCountdownComplicationService::class.java,
         PrayerProgressComplicationService::class.java,
         HijriDateComplicationService::class.java,
-        PrayerTimeComplicationService::class.java
+        PrayerTimeComplicationService::class.java,
+        CustomPrayerTextComplicationService::class.java
     )
 
     fun requestUpdates(context: Context) {
@@ -74,7 +75,7 @@ object PrayerComplicationsUpdater {
 private fun plain(text: CharSequence): PlainComplicationText =
     PlainComplicationText.Builder(text).build()
 
-private data class TextComplicationContent(
+internal data class TextComplicationContent(
     val shortText: CharSequence,
     val shortTitle: CharSequence? = null,
     val longText: CharSequence,
@@ -82,7 +83,7 @@ private data class TextComplicationContent(
     val contentDescription: CharSequence
 )
 
-private fun buildTextComplication(
+internal fun buildTextComplication(
     type: ComplicationType,
     content: TextComplicationContent,
     tapAction: PendingIntent? = null
@@ -106,7 +107,7 @@ private fun buildTextComplication(
     else -> null
 }
 
-private fun Context.formatCountdown(minutes: Int): String {
+internal fun Context.formatCountdown(minutes: Int): String {
     val hours = minutes / 60
     val remaining = minutes % 60
     return if (hours > 0) {
