@@ -60,6 +60,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
         </service>
 
         <service
@@ -77,7 +80,21 @@
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="300" />
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="com.metinkale.prayer.wear.action.CONFIGURE_PROGRESS_TEXT" />
         </service>
+
+        <activity
+            android:name=".complications.PrayerProgressComplicationConfigActivity"
+            android:exported="true"
+            android:label="@string/complication_progress_name">
+            <intent-filter>
+                <action android:name="com.metinkale.prayer.wear.action.CONFIGURE_PROGRESS_TEXT" />
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".complications.CustomPrayerTextComplicationService"

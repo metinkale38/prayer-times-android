@@ -122,21 +122,20 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
         } else {
             ((now - model.periodStartEpochMillis).toFloat() / duration).coerceIn(0f, 1f)
         }
-        val currentLabelRes = model.today.getOrNull(model.currentIndex)?.labelRes
-            ?: R.string.ishaa
-        val currentName = getString(currentLabelRes)
-        val nextName = getString(model.next.labelRes)
+        val option = PrayerProgressTextSettings.option(
+            this,
+            request.complicationInstanceId
+        )
+        val text = formatPrayerTextOption(this, model, option)
         return RangedValueComplicationData.Builder(
             value = progress * 100f,
             min = 0f,
             max = 100f,
-            contentDescription = plain(
-                getString(R.string.complication_progress_description, currentName, nextName)
-            )
+            contentDescription = plain(text)
         )
             .setValueType(RangedValueComplicationData.TYPE_PERCENTAGE)
             .setTitle(plain(getString(R.string.complication_progress_title)))
-            .setText(plain(getString(R.string.complication_progress_text, currentName, nextName)))
+            .setText(plain(text))
             .setTapAction(tapAction())
             .build()
     }
@@ -151,7 +150,7 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
             )
                 .setValueType(RangedValueComplicationData.TYPE_PERCENTAGE)
                 .setTitle(plain("Prayer"))
-                .setText(plain("Asr → Maghrib"))
+                .setText(plain("Ishaa 18:22 | Fajr 04:00"))
                 .build()
         } else {
             null
