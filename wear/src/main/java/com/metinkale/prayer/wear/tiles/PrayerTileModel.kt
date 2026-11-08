@@ -29,8 +29,12 @@ internal data class PrayerTileModel(
     val countdownMinutes: Int,
     val dateText: String,
     val hijriText: String,
+    val hijriDateText: String,
     val hijriDay: String,
+    val hijriMonth: String,
     val hijriMonthYear: String,
+    val hijriYear: String,
+    val prayerCountdownMinutes: List<Int>,
     val nextEpochMillis: Long,
     val periodStartEpochMillis: Long,
     val periodEndEpochMillis: Long
@@ -145,6 +149,23 @@ internal suspend fun loadPrayerTileModel(
     } else {
         ""
     }
+    val hijriDateText = if (hijri != null && hijriMonth != null) {
+        "${hijri.day} $hijriMonth ${hijri.year}"
+    } else {
+        ""
+    }
+    val hijriYear = hijri?.year?.toString() ?: ""
+    val tomorrow = days[todayDate.plusDays(1).toString()]?.toPrayerTimes()
+    val prayerCountdownMinutes = times.mapIndexed { index, time ->
+        val target = if (time > nowTime) {
+            LocalDateTime.of(todayDate, time)
+        } else {
+            val nextTime = tomorrow?.asList()?.getOrNull(index) ?: time
+            LocalDateTime.of(todayDate.plusDays(1), nextTime)
+        }
+        val seconds = Duration.between(now, target).seconds
+        if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
+    }
     val zone = ZoneId.systemDefault()
     val nextEpochMillis = target.atZone(zone).toInstant().toEpochMilli()
     val previousIshaa = days[todayDate.minusDays(1).toString()]?.toPrayerTimes()?.ishaa
@@ -173,8 +194,12 @@ internal suspend fun loadPrayerTileModel(
         countdownMinutes = countdownMinutes,
         dateText = dateText,
         hijriText = hijriText,
+        hijriDateText = hijriDateText,
         hijriDay = hijriDay,
+        hijriMonth = hijriMonth ?: "",
         hijriMonthYear = hijriMonthYear,
+        hijriYear = hijriYear,
+        prayerCountdownMinutes = prayerCountdownMinutes,
         nextEpochMillis = nextEpochMillis,
         periodStartEpochMillis = periodStartEpochMillis,
         periodEndEpochMillis = nextEpochMillis

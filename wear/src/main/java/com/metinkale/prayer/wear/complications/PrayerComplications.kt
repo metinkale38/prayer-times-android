@@ -25,7 +25,6 @@ internal val ComplicationTimeFormat: DateTimeFormatter = DateTimeFormatter.ofPat
 object PrayerComplicationsUpdater {
     private val services = listOf(
         PrayerProgressComplicationService::class.java,
-        HijriDateComplicationService::class.java,
         CustomPrayerTextComplicationService::class.java
     )
 
@@ -157,34 +156,4 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
         } else {
             null
         }
-}
-
-class HijriDateComplicationService : PrayerComplicationService() {
-    override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        val model = model() ?: return noData()
-        return buildTextComplication(
-            request.complicationType,
-            TextComplicationContent(
-                shortText = model.hijriDay,
-                shortTitle = model.hijriMonthYear,
-                longText = model.hijriText,
-                contentDescription = getString(
-                    R.string.complication_hijri_description,
-                    model.hijriText
-                )
-            ),
-            tapAction()
-        )
-    }
-
-    override fun getPreviewData(type: ComplicationType): ComplicationData? =
-        buildTextComplication(
-            type,
-            TextComplicationContent(
-                shortText = "27",
-                shortTitle = "Jumada al-awwal 1448",
-                longText = "27. Jumada al-awwal 1448",
-                contentDescription = "Hijri date: 27. Jumada al-awwal 1448"
-            )
-        )
 }
