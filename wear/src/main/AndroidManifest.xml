@@ -102,7 +102,7 @@
         <activity
             android:name=".complications.CustomPrayerTextComplicationConfigActivity"
             android:exported="true"
-            android:label="@string/complication_custom_config_title">
+            android:label="@string/complication_custom_name">
             <intent-filter>
                 <action android:name="com.metinkale.prayer.wear.action.CONFIGURE_PRAYER_TEXT" />
                 <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />

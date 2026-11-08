@@ -81,7 +81,7 @@ private fun PrayerTextConfig(instanceId: Int, onDone: () -> Unit) {
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.complication_custom_config_title),
+                    text = stringResource(R.string.complication_custom_name),
                     style = MaterialTheme.typography.titleSmall
                 )
             }
