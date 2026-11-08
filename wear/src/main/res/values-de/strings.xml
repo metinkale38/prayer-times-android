@@ -59,15 +59,19 @@
     <string name="wear_tile_open_app">App öffnen und aktualisieren.</string>
 
 
-    <string name="complication_next_prayer_name">Nächstes Gebet</string>
+    <string name="complication_next_prayer_name">Aktuelles/Nächstes Gebet</string>
     <string name="complication_countdown_name">Gebets-Countdown</string>
     <string name="complication_progress_name">Gebetsfortschritt</string>
     <string name="complication_hijri_name">Hijri-Datum</string>
     <string name="complication_prayer_time_name">Gebetszeit</string>
     <string name="complication_prayer_time_config_title">Gebet wählen</string>
-    <string name="complication_next_prayer_title">Nächstes: %1$s</string>
     <string name="complication_next_description">Nächstes Gebet: %1$s um %2$s</string>
-    <string name="complication_countdown_description">Countdown bis %1$s</string>
+    <string name="complication_countdown_description">Countdown von %1$s bis %2$s</string>
+    <string name="complication_current_next_text">%1$s %2$s | %3$s %4$s</string>
+    <string name="complication_current_next_description">Aktuell: %1$s um %2$s; nächstes: %3$s um %4$s</string>
+    <string name="complication_countdown_text">%1$s | %2$s bis %3$s</string>
+    <string name="complication_duration_hours_minutes">%1$dh %2$02dm</string>
+    <string name="complication_duration_minutes">%1$dm</string>
     <string name="complication_progress_description">Gebetsfortschritt von %1$s bis %2$s</string>
     <string name="complication_progress_title">Gebet</string>
     <string name="complication_progress_text">%1$s → %2$s</string>

@@ -23,6 +23,7 @@ internal data class PrayerTimeEntry(
 internal data class PrayerTileModel(
     val today: List<PrayerTimeEntry>,
     val currentIndex: Int,
+    val current: PrayerTimeEntry,
     val nextIndex: Int,
     val next: PrayerTimeEntry,
     val countdownMinutes: Int,
@@ -146,15 +147,18 @@ internal suspend fun loadPrayerTileModel(
     }
     val zone = ZoneId.systemDefault()
     val nextEpochMillis = target.atZone(zone).toInstant().toEpochMilli()
+    val previousIshaa = days[todayDate.minusDays(1).toString()]?.toPrayerTimes()?.ishaa
+    val current = if (currentIndex >= 0) {
+        PrayerTimeEntry(labelResForIndex(currentIndex), times[currentIndex])
+    } else {
+        PrayerTimeEntry(R.string.ishaa, previousIshaa ?: today.ishaa)
+    }
     val periodStart = if (currentIndex >= 0) {
         LocalDateTime.of(todayDate, times[currentIndex])
+    } else if (previousIshaa != null) {
+        LocalDateTime.of(todayDate.minusDays(1), previousIshaa)
     } else {
-        val previousIshaa = days[todayDate.minusDays(1).toString()]?.toPrayerTimes()?.ishaa
-        if (previousIshaa != null) {
-            LocalDateTime.of(todayDate.minusDays(1), previousIshaa)
-        } else {
-            LocalDateTime.of(todayDate, LocalTime.MIDNIGHT)
-        }
+        LocalDateTime.of(todayDate, LocalTime.MIDNIGHT)
     }
     val periodStartEpochMillis = periodStart.atZone(zone).toInstant().toEpochMilli()
 
@@ -163,6 +167,7 @@ internal suspend fun loadPrayerTileModel(
             PrayerTimeEntry(labelResForIndex(index), time)
         },
         currentIndex = currentIndex,
+        current = current,
         nextIndex = if (nextIsTomorrow) -1 else nextTodayIndex,
         next = PrayerTimeEntry(labelResForIndex(nextIndexInList), nextTime),
         countdownMinutes = countdownMinutes,

@@ -6,14 +6,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationType
-import androidx.wear.watchface.complications.data.CountDownTimeReference
 import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.NoDataComplicationData
 import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
-import androidx.wear.watchface.complications.data.TimeDifferenceComplicationText
-import androidx.wear.watchface.complications.data.TimeDifferenceStyle
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
@@ -21,7 +18,6 @@ import com.metinkale.prayer.wear.MainActivity
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.tiles.PrayerTileModel
 import com.metinkale.prayer.wear.tiles.loadPrayerTileModel
-import java.time.Instant
 import java.time.format.DateTimeFormatter
 
 private val ComplicationTimeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -78,6 +74,16 @@ object PrayerComplicationsUpdater {
 private fun plain(text: CharSequence): PlainComplicationText =
     PlainComplicationText.Builder(text).build()
 
+private fun Context.formatCountdown(minutes: Int): String {
+    val hours = minutes / 60
+    val remaining = minutes % 60
+    return if (hours > 0) {
+        getString(R.string.complication_duration_hours_minutes, hours, remaining)
+    } else {
+        getString(R.string.complication_duration_minutes, remaining)
+    }
+}
+
 private fun Context.openAppPendingIntent(): PendingIntent =
     PendingIntent.getActivity(
         this,
@@ -98,15 +104,30 @@ class NextPrayerComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         if (request.complicationType != ComplicationType.SHORT_TEXT) return null
         val model = model() ?: return noData()
-        val name = getString(model.next.labelRes)
-        val time = model.next.time.format(ComplicationTimeFormat)
+        val currentName = getString(model.current.labelRes)
+        val currentTime = model.current.time.format(ComplicationTimeFormat)
+        val nextName = getString(model.next.labelRes)
+        val nextTime = model.next.time.format(ComplicationTimeFormat)
         return ShortTextComplicationData.Builder(
-            text = plain(time),
+            text = plain(
+                getString(
+                    R.string.complication_current_next_text,
+                    currentName,
+                    currentTime,
+                    nextName,
+                    nextTime
+                )
+            ),
             contentDescription = plain(
-                getString(R.string.complication_next_description, name, time)
+                getString(
+                    R.string.complication_current_next_description,
+                    currentName,
+                    currentTime,
+                    nextName,
+                    nextTime
+                )
             )
         )
-            .setTitle(plain(getString(R.string.complication_next_prayer_title, name)))
             .setTapAction(tapAction())
             .build()
     }
@@ -114,10 +135,9 @@ class NextPrayerComplicationService : PrayerComplicationService() {
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
         if (type == ComplicationType.SHORT_TEXT) {
             ShortTextComplicationData.Builder(
-                text = plain("05:30"),
-                contentDescription = plain("Next prayer: Fajr at 05:30")
+                text = plain("Ishaa 18:22 | Fajr 05:30"),
+                contentDescription = plain("Current: Ishaa at 18:22; next: Fajr at 05:30")
             )
-                .setTitle(plain("Next: Fajr"))
                 .build()
         } else {
             null
@@ -128,18 +148,22 @@ class PrayerCountdownComplicationService : PrayerComplicationService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         if (request.complicationType != ComplicationType.SHORT_TEXT) return null
         val model = model() ?: return noData()
-        val name = getString(model.next.labelRes)
-        val countdown = TimeDifferenceComplicationText.Builder(
-            TimeDifferenceStyle.SHORT_DUAL_UNIT,
-            CountDownTimeReference(Instant.ofEpochMilli(model.nextEpochMillis))
-        ).build()
+        val currentName = getString(model.current.labelRes)
+        val nextName = getString(model.next.labelRes)
+        val countdown = formatCountdown(model.countdownMinutes)
         return ShortTextComplicationData.Builder(
-            text = countdown,
+            text = plain(
+                getString(
+                    R.string.complication_countdown_text,
+                    currentName,
+                    countdown,
+                    nextName
+                )
+            ),
             contentDescription = plain(
-                getString(R.string.complication_countdown_description, name)
+                getString(R.string.complication_countdown_description, currentName, nextName)
             )
         )
-            .setTitle(plain(name))
             .setTapAction(tapAction())
             .build()
     }
@@ -147,10 +171,9 @@ class PrayerCountdownComplicationService : PrayerComplicationService() {
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
         if (type == ComplicationType.SHORT_TEXT) {
             ShortTextComplicationData.Builder(
-                text = plain("2h 15m"),
-                contentDescription = plain("Countdown to Fajr")
+                text = plain("Ishaa | 2h 15m until Fajr"),
+                contentDescription = plain("Countdown from Ishaa to Fajr")
             )
-                .setTitle(plain("Fajr"))
                 .build()
         } else {
             null
