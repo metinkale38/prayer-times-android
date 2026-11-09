@@ -113,11 +113,11 @@ internal fun formatPrayerTextOption(
     fun prayerName(index: Int) = context.getString(model.today[index].labelRes)
     fun prayerTime(index: Int) = model.today[index].time.format(ComplicationTimeFormat)
     fun prayerCountdown(index: Int) = context.formatCountdown(
-        model.prayerCountdownSeconds.getOrElse(index) { 0 }
+        model.prayerCountdownMinutes.getOrElse(index) { 0 }
     )
     fun prayerNameCountdown(index: Int) =
         "${prayerName(index)} ${context.formatCountdownIn(
-            model.prayerCountdownSeconds.getOrElse(index) { 0 }
+            model.prayerCountdownMinutes.getOrElse(index) { 0 }
         )}"
 
     return when (option) {
@@ -131,13 +131,13 @@ internal fun formatPrayerTextOption(
         PrayerTextOption.NEXT_PRAYER -> nextName
         PrayerTextOption.NEXT_TIME -> nextTime
         PrayerTextOption.NEXT_NAME_TIME -> "$nextName $nextTime"
-        PrayerTextOption.COUNTDOWN -> context.formatCountdown(model.countdownSeconds)
+        PrayerTextOption.COUNTDOWN -> context.formatCountdown(model.countdownMinutes)
         PrayerTextOption.NEXT_NAME_COUNTDOWN ->
-            "$nextName ${context.formatCountdownIn(model.countdownSeconds)}"
+            "$nextName ${context.formatCountdownIn(model.countdownMinutes)}"
 
         PrayerTextOption.COMBINED_TIMES -> "$currentName $currentTime | $nextName $nextTime"
         PrayerTextOption.COMBINED_COUNTDOWN ->
-            "$currentName $currentTime | $nextName ${context.formatCountdownIn(model.countdownSeconds)}"
+            "$currentName $currentTime | $nextName ${context.formatCountdownIn(model.countdownMinutes)}"
 
         PrayerTextOption.FAJR_TIME -> prayerTime(0)
         PrayerTextOption.FAJR_COUNTDOWN -> prayerCountdown(0)
@@ -271,15 +271,7 @@ private fun prayerName(context: Context, option: PrayerTextOption): String = whe
     else -> ""
 }
 
-internal fun Context.formatCountdownIn(seconds: Int): String {
-    if (seconds < 600) {
-        return getString(
-            R.string.complication_in_minutes_seconds,
-            seconds / 60,
-            seconds % 60
-        )
-    }
-    val minutes = (seconds + 59) / 60
+internal fun Context.formatCountdownIn(minutes: Int): String {
     val hours = minutes / 60
     val remaining = minutes % 60
     return if (hours > 0) {

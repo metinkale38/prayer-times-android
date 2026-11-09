@@ -61,7 +61,6 @@
 
     <string name="complication_progress_name">Gebetsfortschritt</string>
     <string name="complication_duration_hours_minutes">%1$dh %2$02dm</string>
-    <string name="complication_duration_minutes_seconds">%1$dm %2$02ds</string>
     <string name="complication_duration_minutes">%1$dm</string>
     <string name="complication_progress_description">Gebetsfortschritt von %1$s bis %2$s</string>
     <string name="complication_progress_text">%1$s → %2$s</string>
@@ -86,7 +85,6 @@
     <string name="complication_option_prayer_name_time">%1$s Name und Uhrzeit</string>
     <string name="complication_option_prayer_name_countdown">%1$s Name und Countdown</string>
     <string name="complication_in_hours_minutes">in %1$dh %2$02dmin</string>
-    <string name="complication_in_minutes_seconds">in %1$dm %2$02ds</string>
     <string name="complication_in_minutes">in %1$dmin</string>
     <string name="dhikr">Dhikr</string>
     <string name="dhikr_new">Neuer Dhikr</string>

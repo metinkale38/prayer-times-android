@@ -9,21 +9,15 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
-import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
-import androidx.wear.protolayout.material3.Typography.BODY_EXTRA_SMALL
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
-import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.modifiers.clickable
-import androidx.wear.protolayout.expression.DynamicBuilders
-import androidx.wear.protolayout.types.LayoutColor
-import androidx.wear.protolayout.types.LayoutString
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders.Tile
@@ -33,7 +27,6 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
 import com.metinkale.prayer.wear.MainActivity
 import com.metinkale.prayer.wear.R
-import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
@@ -44,13 +37,6 @@ import kotlinx.coroutines.launch
 
 private const val RESOURCES_VERSION = "1"
 private const val REFRESH_INTERVAL_MILLIS = 60_000L
-private const val CELL_HEIGHT_DP = 42f
-private const val ROW_HEIGHT_DP = 42f
-private const val ROW_SPACING_DP = 5f
-private const val GRID_SPACING_DP = 5f
-private const val GRID_SIDE_PADDING_DP = 16f
-private const val GRID_TOP_PADDING_DP = 22f
-private const val GRID_BOTTOM_PADDING_DP = 10f
 private const val BACKGROUND_ARGB = 0xFF121212.toInt()
 private const val CELL_ARGB = 0xFF242424.toInt()
 private const val HIGHLIGHT_ARGB = 0xFF4A768A.toInt()
@@ -102,8 +88,12 @@ class PrayerTimesTileService : PrayerTileService() {
         requestParams: RequestBuilders.TileRequest
     ): Tile {
         val model = loadPrayerTileModel(context)
-        val layout = materialScope(context, requestParams.deviceConfiguration) {
-            prayerTimesLayout(context, model)
+        val device = requestParams.deviceConfiguration
+        val shortestDp = minOf(device.screenWidthDp, device.screenHeightDp).toFloat()
+        val largeScreen = device.screenWidthDp >= 192
+        val scale = (shortestDp / 192f).coerceIn(1f, 1.25f)
+        val layout = materialScope(context, device) {
+            prayerTimesLayout(context, model, largeScreen, scale)
         }
         return tile(layout)
     }
@@ -126,7 +116,6 @@ private fun openApp(context: Context) = clickable(
 private fun colorProp(argb: Int): ColorBuilders.ColorProp =
     ColorBuilders.ColorProp.Builder(argb).build()
 
-private fun textColor(argb: Int): LayoutColor = LayoutColor(argb)
 
 private fun textWithSize(
     text: String,
@@ -166,25 +155,12 @@ private fun horizontalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
 private fun countdownClock(minutes: Int): String =
     String.format(Locale.US, "%02d:%02d", minutes / 60, minutes % 60)
 
-private fun secondsCountdown(targetEpochMillis: Long): DynamicBuilders.DynamicString {
-    val formatter = DynamicBuilders.DynamicInt32.IntFormatter.Builder()
-        .setMinIntegerDigits(2)
-        .build()
-    val target = DynamicBuilders.DynamicInstant.withSecondsPrecision(
-        Instant.ofEpochMilli(targetEpochMillis)
-    )
-    val duration = DynamicBuilders.DynamicInstant.platformTimeWithSecondsPrecision()
-        .durationUntil(target)
-    return duration.toIntHours().format(formatter)
-        .concat(DynamicBuilders.DynamicString.constant(":"))
-        .concat(duration.getMinutesPart().format(formatter))
-        .concat(DynamicBuilders.DynamicString.constant(":"))
-        .concat(duration.getSecondsPart().format(formatter))
-}
 
 private fun MaterialScope.prayerTimesLayout(
     context: Context,
-    model: PrayerTileModel?
+    model: PrayerTileModel?,
+    largeScreen: Boolean,
+    scale: Float
 ): LayoutElementBuilders.LayoutElement {
     if (model == null) {
         return primaryLayout(
@@ -230,11 +206,15 @@ private fun MaterialScope.prayerTimesLayout(
     }
 
     val nextName = context.getString(model.next.labelRes)
-    val countdown = LayoutString(
-        countdownClock(model.countdownMinutes),
-        secondsCountdown(model.nextEpochMillis),
-        TypeBuilders.StringLayoutConstraint.Builder("00:00:00").build()
-    )
+    val countdown = countdownClock(model.countdownMinutes)
+    val sidePadding = (if (largeScreen) 16f else 24f) * scale
+    val topPadding = (if (largeScreen) 22f else 28f) * scale
+    val bottomPadding = (if (largeScreen) 5f else 24f) * scale
+    val gridSpacing = (if (largeScreen) 5f else 4f) * scale
+    val dateSize = (if (largeScreen) 12f else 11f) * scale
+    val hijriSize = (if (largeScreen) 9f else 8f) * scale
+    val countdownSize = (if (largeScreen) 16f else 15f) * scale
+    val untilSize = (if (largeScreen) 9f else 8f) * scale
     return LayoutElementBuilders.Box.Builder()
         .setWidth(DimensionBuilders.expand())
         .setHeight(DimensionBuilders.expand())
@@ -257,56 +237,64 @@ private fun MaterialScope.prayerTimesLayout(
                     ModifiersBuilders.Modifiers.Builder()
                         .setPadding(
                             ModifiersBuilders.Padding.Builder()
-                                .setStart(DimensionBuilders.dp(GRID_SIDE_PADDING_DP))
-                                .setEnd(DimensionBuilders.dp(GRID_SIDE_PADDING_DP))
-                                .setTop(DimensionBuilders.dp(GRID_TOP_PADDING_DP))
-                                .setBottom(DimensionBuilders.dp(GRID_BOTTOM_PADDING_DP))
+                                .setStart(DimensionBuilders.dp(sidePadding))
+                                .setEnd(DimensionBuilders.dp(sidePadding))
+                                .setTop(DimensionBuilders.dp(topPadding))
+                                .setBottom(DimensionBuilders.dp(bottomPadding))
                                 .build()
                         )
                         .build()
                 )
                 .addContent(
-                    text(
-                        model.dateText.layoutString,
-                        typography = BODY_SMALL,
-                        color = textColor(TEXT_PRIMARY_ARGB)
+                    textWithSize(
+                        model.dateText,
+                        sizeSp = dateSize,
+                        color = TEXT_PRIMARY_ARGB
                     )
                 )
                 .apply {
                     if (model.hijriText.isNotEmpty()) {
-                        addContent(verticalSpacer(1f))
+                        addContent(verticalSpacer(1f * scale))
                         addContent(
                             textWithSize(
                                 model.hijriText,
-                                sizeSp = 9f,
-                                color = TEXT_SECONDARY_ARGB
+                                sizeSp = hijriSize,
+                                color = TEXT_SECONDARY_ARGB,
+                                weight = 300
                             )
                         )
                     }
                 }
-                .addContent(weightedVerticalSpacer(1f))
+                .addContent(
+                    if (largeScreen) {
+                        verticalSpacer(2.5f * scale)
+                    } else {
+                        weightedVerticalSpacer(1f)
+                    }
+                )
                 .addContent(
                     LayoutElementBuilders.Column.Builder()
                         .setWidth(DimensionBuilders.expand())
                         .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                        .addContent(prayerRow(context, model, model.today.take(3), 0))
-                        .addContent(verticalSpacer(GRID_SPACING_DP))
-                        .addContent(prayerRow(context, model, model.today.drop(3), 3))
+                        .addContent(prayerRow(context, model, model.today.take(3), 0, largeScreen, scale))
+                        .addContent(verticalSpacer(gridSpacing))
+                        .addContent(prayerRow(context, model, model.today.drop(3), 3, largeScreen, scale))
                         .build()
                 )
                 .addContent(weightedVerticalSpacer(1f))
                 .addContent(
-                    text(
+                    textWithSize(
                         countdown,
-                        typography = TITLE_MEDIUM,
-                        color = textColor(TEXT_PRIMARY_ARGB)
+                        sizeSp = countdownSize,
+                        color = TEXT_PRIMARY_ARGB,
+                        weight = 500
                     )
                 )
-                .addContent(verticalSpacer(1f))
+                .addContent(verticalSpacer(1f * scale))
                 .addContent(
                     textWithSize(
                         context.getString(R.string.wear_until, nextName),
-                        sizeSp = 9f,
+                        sizeSp = untilSize,
                         color = TEXT_SECONDARY_ARGB
                     )
                 )
@@ -319,28 +307,38 @@ private fun MaterialScope.prayerRow(
     context: Context,
     model: PrayerTileModel,
     entries: List<PrayerTimeEntry>,
-    offset: Int
-): LayoutElementBuilders.Row =
-    LayoutElementBuilders.Row.Builder()
+    offset: Int,
+    largeScreen: Boolean,
+    scale: Float
+): LayoutElementBuilders.Row {
+    val cellHeight = (if (largeScreen) 42f else 38f) * scale
+    val spacing = (if (largeScreen) 5f else 4f) * scale
+    return LayoutElementBuilders.Row.Builder()
         .setWidth(DimensionBuilders.expand())
-        .setHeight(DimensionBuilders.dp(ROW_HEIGHT_DP))
+        .setHeight(DimensionBuilders.dp(cellHeight))
         .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
         .apply {
             entries.forEachIndexed { index, entry ->
                 if (index > 0) {
-                    addContent(horizontalSpacer(ROW_SPACING_DP))
+                    addContent(horizontalSpacer(spacing))
                 }
-                addContent(prayerCell(context, model, entry, offset + index))
+                addContent(prayerCell(context, model, entry, offset + index, largeScreen, scale))
             }
         }
         .build()
+}
 
 private fun MaterialScope.prayerCell(
     context: Context,
     model: PrayerTileModel,
     entry: PrayerTimeEntry,
-    index: Int
+    index: Int,
+    largeScreen: Boolean,
+    scale: Float
 ): LayoutElementBuilders.Box {
+    val cellHeight = (if (largeScreen) 42f else 38f) * scale
+    val labelSize = (if (largeScreen) 9f else 8f) * scale
+    val timeSize = (if (largeScreen) 15f else 14f) * scale
     val isSun = entry.labelRes == R.string.sun
     val isCurrent = !isSun && index == model.currentIndex
     val isNext = !isSun && index == model.nextIndex && !isCurrent
@@ -370,7 +368,7 @@ private fun MaterialScope.prayerCell(
 
     return LayoutElementBuilders.Box.Builder()
         .setWidth(DimensionBuilders.weight(1f))
-        .setHeight(DimensionBuilders.dp(CELL_HEIGHT_DP))
+        .setHeight(DimensionBuilders.dp(cellHeight))
         .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
         .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
         .setModifiers(modifiers.build())
@@ -380,16 +378,17 @@ private fun MaterialScope.prayerCell(
                 .addContent(
                     textWithSize(
                         context.getString(entry.labelRes),
-                        sizeSp = 9f,
+                        sizeSp = labelSize,
                         color = labelColor,
                         weight = if (isCurrent) 500 else 400
                     )
                 )
                 .addContent(
-                    text(
-                        entry.time.format(TileTimeFormat).layoutString,
-                        typography = LABEL_MEDIUM,
-                        color = textColor(timeColor)
+                    textWithSize(
+                        entry.time.format(TileTimeFormat),
+                        sizeSp = timeSize,
+                        color = timeColor,
+                        weight = if (isCurrent) 500 else 300
                     )
                 )
                 .build()
