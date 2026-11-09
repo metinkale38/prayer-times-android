@@ -162,6 +162,7 @@ class MainActivity : ComponentActivity() {
 
                             2 -> DhikrPage(
                                 repository = dhikrRepository,
+                                isActive = currentPage == 2,
                                 modifier = Modifier.fillMaxSize()
                             )
                         }

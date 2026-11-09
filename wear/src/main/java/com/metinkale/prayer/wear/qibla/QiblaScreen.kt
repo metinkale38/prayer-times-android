@@ -36,6 +36,7 @@ import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.Text
 import com.metinkale.prayer.sync.WearCity
 import com.metinkale.prayer.wear.R
+import com.metinkale.prayer.wear.ui.KeepScreenOn
 import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.abs
@@ -72,6 +73,7 @@ fun QiblaPage(
     isActive: Boolean,
     modifier: Modifier = Modifier
 ) {
+    KeepScreenOn(isActive)
     val permission = rememberLocationPermissionState()
 
     LaunchedEffect(isActive, permission.granted, permission.requestedOnce) {

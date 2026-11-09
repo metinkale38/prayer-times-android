@@ -68,6 +68,7 @@ import com.metinkale.prayer.sync.WearDhikr
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.data.DhikrRepository
 import com.metinkale.prayer.wear.ui.CurvedEdgeLabel
+import com.metinkale.prayer.wear.ui.KeepScreenOn
 import com.metinkale.prayer.wear.ui.EdgeBodyStyle
 import com.metinkale.prayer.wear.ui.EdgeTitleStyle
 import kotlin.math.min
@@ -75,7 +76,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun DhikrPage(repository: DhikrRepository, modifier: Modifier = Modifier) {
+fun DhikrPage(
+    repository: DhikrRepository,
+    isActive: Boolean,
+    modifier: Modifier = Modifier
+) {
+    KeepScreenOn(isActive)
     val dhikrs by repository.dhikrs.collectAsStateWithLifecycle(initialValue = emptyList())
     val pagerState = rememberPagerState(pageCount = { dhikrs.size + 1 })
     val scope = rememberCoroutineScope()
