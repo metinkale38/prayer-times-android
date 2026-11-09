@@ -35,7 +35,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-private const val RESOURCES_VERSION = "2"
+private const val RESOURCES_VERSION = "3"
 private const val REFRESH_INTERVAL_MILLIS = 60_000L
 private const val BACKGROUND_ARGB = 0xFF121212.toInt()
 private const val CELL_ARGB = 0xFF242424.toInt()
@@ -131,7 +131,7 @@ private fun textWithSize(
                 .setSize(DimensionBuilders.sp(sizeSp))
                 .setColor(colorProp(color))
                 .setWeight(weight)
-                .setPreferredFontFamilies("roboto-flex")
+                .setPreferredFontFamilies("roboto")
                 .build()
         )
         .setMaxLines(maxLines)

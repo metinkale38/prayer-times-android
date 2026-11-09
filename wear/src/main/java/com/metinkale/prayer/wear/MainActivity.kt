@@ -58,6 +58,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OpenOnPhoneDialogContent
 import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
 import androidx.wear.compose.material3.Text
+import androidx.wear.tiles.TileService
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import com.metinkale.prayer.sync.WearDayTimes
 import com.metinkale.prayer.sync.WearTimesPayload
@@ -65,6 +66,7 @@ import com.metinkale.prayer.wear.data.DhikrRepository
 import com.metinkale.prayer.wear.data.WearTimesRepository
 import com.metinkale.prayer.wear.dhikr.DhikrPage
 import com.metinkale.prayer.wear.qibla.QiblaPage
+import com.metinkale.prayer.wear.tiles.PrayerTimesTileService
 import com.metinkale.prayer.wear.ui.CurvedEdgeLabel
 import com.metinkale.prayer.wear.ui.EdgeTitleStyle
 import com.metinkale.prayer.wear.sync.WearDhikrDataLayer
@@ -193,6 +195,9 @@ private fun ScaledMaterialTheme(content: @Composable () -> Unit) {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        runCatching {
+            TileService.getUpdater(this).requestUpdate(PrayerTimesTileService::class.java)
+        }
         setContent {
             ScaledMaterialTheme {
                 val context = LocalContext.current
