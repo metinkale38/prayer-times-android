@@ -7,6 +7,8 @@ import androidx.datastore.dataStore
 import com.metinkale.prayer.sync.SyncJson
 import com.metinkale.prayer.sync.WearTimesPayload
 import com.metinkale.prayer.wear.complications.PrayerComplicationsUpdater
+import com.metinkale.prayer.wear.tiles.PrayerTimesTileService
+import androidx.wear.tiles.TileService
 import java.io.InputStream
 import java.io.OutputStream
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +51,11 @@ class WearTimesRepository private constructor(
             }
         }
         PrayerComplicationsUpdater.requestUpdates(context)
+        runCatching {
+            TileService.getUpdater(context).requestUpdate(
+                PrayerTimesTileService::class.java
+            )
+        }
     }
 
     companion object {
