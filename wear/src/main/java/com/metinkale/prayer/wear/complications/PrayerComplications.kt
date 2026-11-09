@@ -134,7 +134,6 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
             contentDescription = plain(text)
         )
             .setValueType(RangedValueComplicationData.TYPE_PERCENTAGE)
-            .setTitle(plain(getString(R.string.complication_progress_title)))
             .setText(plain(text))
             .setTapAction(tapAction())
             .build()
@@ -149,7 +148,6 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
                 contentDescription = plain("Prayer progress from Asr to Maghrib")
             )
                 .setValueType(RangedValueComplicationData.TYPE_PERCENTAGE)
-                .setTitle(plain("Prayer"))
                 .setText(plain("Ishaa 18:22 | Fajr 04:00"))
                 .build()
         } else {

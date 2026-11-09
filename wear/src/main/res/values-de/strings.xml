@@ -63,7 +63,6 @@
     <string name="complication_duration_hours_minutes">%1$dh %2$02dm</string>
     <string name="complication_duration_minutes">%1$dm</string>
     <string name="complication_progress_description">Gebetsfortschritt von %1$s bis %2$s</string>
-    <string name="complication_progress_title">Gebet</string>
     <string name="complication_progress_text">%1$s → %2$s</string>
     <string name="complication_loading">Lade…</string>
     <string name="complication_custom_name">Gebetszeiten</string>
