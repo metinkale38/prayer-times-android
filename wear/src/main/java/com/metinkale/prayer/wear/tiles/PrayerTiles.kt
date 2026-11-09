@@ -121,7 +121,6 @@ private fun textWithSize(
     text: String,
     sizeSp: Float,
     color: Int,
-    weight: Int = 400,
     maxLines: Int = 1
 ): LayoutElementBuilders.Text =
     LayoutElementBuilders.Text.Builder()
@@ -130,7 +129,6 @@ private fun textWithSize(
             LayoutElementBuilders.FontStyle.Builder()
                 .setSize(DimensionBuilders.sp(sizeSp))
                 .setColor(colorProp(color))
-                .setWeight(weight)
                 .setPreferredFontFamilies("roboto")
                 .build()
         )
@@ -259,8 +257,7 @@ private fun MaterialScope.prayerTimesLayout(
                             textWithSize(
                                 model.hijriText,
                                 sizeSp = hijriSize,
-                                color = TEXT_SECONDARY_ARGB,
-                                weight = 300
+                                color = TEXT_SECONDARY_ARGB
                             )
                         )
                     }
@@ -286,8 +283,7 @@ private fun MaterialScope.prayerTimesLayout(
                     textWithSize(
                         countdown,
                         sizeSp = countdownSize,
-                        color = TEXT_PRIMARY_ARGB,
-                        weight = 500
+                        color = TEXT_PRIMARY_ARGB
                     )
                 )
                 .addContent(verticalSpacer(1f * scale))
@@ -379,16 +375,14 @@ private fun MaterialScope.prayerCell(
                     textWithSize(
                         context.getString(entry.labelRes),
                         sizeSp = labelSize,
-                        color = labelColor,
-                        weight = if (isCurrent) 500 else 400
+                        color = labelColor
                     )
                 )
                 .addContent(
                     textWithSize(
                         entry.time.format(TileTimeFormat),
                         sizeSp = timeSize,
-                        color = timeColor,
-                        weight = if (isCurrent) 500 else 300
+                        color = timeColor
                     )
                 )
                 .build()
