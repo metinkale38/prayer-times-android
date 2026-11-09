@@ -27,6 +27,7 @@ internal data class PrayerTileModel(
     val nextIndex: Int,
     val next: PrayerTimeEntry,
     val countdownMinutes: Int,
+    val countdownSeconds: Int,
     val dateText: String,
     val hijriText: String,
     val hijriDateText: String,
@@ -35,6 +36,7 @@ internal data class PrayerTileModel(
     val hijriMonthYear: String,
     val hijriYear: String,
     val prayerCountdownMinutes: List<Int>,
+    val prayerCountdownSeconds: List<Int>,
     val nextEpochMillis: Long,
     val periodStartEpochMillis: Long,
     val periodEndEpochMillis: Long
@@ -123,7 +125,8 @@ internal suspend fun loadPrayerTileModel(
     val nextIndexInList = if (nextIsTomorrow) 0 else nextTodayIndex
     val target = LocalDateTime.of(nextDate, nextTime)
     val seconds = Duration.between(now, target).seconds
-    val countdownMinutes = if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
+    val countdownSeconds = seconds.coerceAtLeast(0L).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+    val countdownMinutes = (countdownSeconds + 59) / 60
 
     val dateText = String.format(
         Locale.US,
@@ -156,16 +159,19 @@ internal suspend fun loadPrayerTileModel(
     }
     val hijriYear = hijri?.year?.toString() ?: ""
     val tomorrow = days[todayDate.plusDays(1).toString()]?.toPrayerTimes()
-    val prayerCountdownMinutes = times.mapIndexed { index, time ->
+    val prayerCountdownSeconds = times.mapIndexed { index, time ->
         val target = if (time > nowTime) {
             LocalDateTime.of(todayDate, time)
         } else {
             val nextTime = tomorrow?.asList()?.getOrNull(index) ?: time
             LocalDateTime.of(todayDate.plusDays(1), nextTime)
         }
-        val seconds = Duration.between(now, target).seconds
-        if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
+        Duration.between(now, target).seconds
+            .coerceAtLeast(0L)
+            .coerceAtMost(Int.MAX_VALUE.toLong())
+            .toInt()
     }
+    val prayerCountdownMinutes = prayerCountdownSeconds.map { (it + 59) / 60 }
     val zone = ZoneId.systemDefault()
     val nextEpochMillis = target.atZone(zone).toInstant().toEpochMilli()
     val previousIshaa = days[todayDate.minusDays(1).toString()]?.toPrayerTimes()?.ishaa
@@ -192,6 +198,7 @@ internal suspend fun loadPrayerTileModel(
         nextIndex = if (nextIsTomorrow) -1 else nextTodayIndex,
         next = PrayerTimeEntry(labelResForIndex(nextIndexInList), nextTime),
         countdownMinutes = countdownMinutes,
+        countdownSeconds = countdownSeconds,
         dateText = dateText,
         hijriText = hijriText,
         hijriDateText = hijriDateText,
@@ -200,6 +207,7 @@ internal suspend fun loadPrayerTileModel(
         hijriMonthYear = hijriMonthYear,
         hijriYear = hijriYear,
         prayerCountdownMinutes = prayerCountdownMinutes,
+        prayerCountdownSeconds = prayerCountdownSeconds,
         nextEpochMillis = nextEpochMillis,
         periodStartEpochMillis = periodStartEpochMillis,
         periodEndEpochMillis = nextEpochMillis

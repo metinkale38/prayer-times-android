@@ -9,6 +9,7 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
+import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.BODY_EXTRA_SMALL
@@ -20,7 +21,9 @@ import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.types.LayoutColor
+import androidx.wear.protolayout.types.LayoutString
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders.Tile
@@ -30,6 +33,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
 import com.metinkale.prayer.wear.MainActivity
 import com.metinkale.prayer.wear.R
+import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
@@ -46,7 +50,7 @@ private const val ROW_SPACING_DP = 5f
 private const val GRID_SPACING_DP = 5f
 private const val GRID_SIDE_PADDING_DP = 16f
 private const val GRID_TOP_PADDING_DP = 22f
-private const val GRID_BOTTOM_PADDING_DP = 18f
+private const val GRID_BOTTOM_PADDING_DP = 10f
 private const val BACKGROUND_ARGB = 0xFF121212.toInt()
 private const val CELL_ARGB = 0xFF242424.toInt()
 private const val HIGHLIGHT_ARGB = 0xFF4A768A.toInt()
@@ -124,6 +128,26 @@ private fun colorProp(argb: Int): ColorBuilders.ColorProp =
 
 private fun textColor(argb: Int): LayoutColor = LayoutColor(argb)
 
+private fun textWithSize(
+    text: String,
+    sizeSp: Float,
+    color: Int,
+    weight: Int = 400,
+    maxLines: Int = 1
+): LayoutElementBuilders.Text =
+    LayoutElementBuilders.Text.Builder()
+        .setText(text)
+        .setFontStyle(
+            LayoutElementBuilders.FontStyle.Builder()
+                .setSize(DimensionBuilders.sp(sizeSp))
+                .setColor(colorProp(color))
+                .setWeight(weight)
+                .setPreferredFontFamilies("roboto-flex")
+                .build()
+        )
+        .setMaxLines(maxLines)
+        .build()
+
 private fun verticalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
     LayoutElementBuilders.Spacer.Builder()
         .setHeight(DimensionBuilders.dp(dp))
@@ -141,6 +165,22 @@ private fun horizontalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
 
 private fun countdownClock(minutes: Int): String =
     String.format(Locale.US, "%02d:%02d", minutes / 60, minutes % 60)
+
+private fun secondsCountdown(targetEpochMillis: Long): DynamicBuilders.DynamicString {
+    val formatter = DynamicBuilders.DynamicInt32.IntFormatter.Builder()
+        .setMinIntegerDigits(2)
+        .build()
+    val target = DynamicBuilders.DynamicInstant.withSecondsPrecision(
+        Instant.ofEpochMilli(targetEpochMillis)
+    )
+    val duration = DynamicBuilders.DynamicInstant.platformTimeWithSecondsPrecision()
+        .durationUntil(target)
+    return duration.toIntHours().format(formatter)
+        .concat(DynamicBuilders.DynamicString.constant(":"))
+        .concat(duration.getMinutesPart().format(formatter))
+        .concat(DynamicBuilders.DynamicString.constant(":"))
+        .concat(duration.getSecondsPart().format(formatter))
+}
 
 private fun MaterialScope.prayerTimesLayout(
     context: Context,
@@ -190,6 +230,11 @@ private fun MaterialScope.prayerTimesLayout(
     }
 
     val nextName = context.getString(model.next.labelRes)
+    val countdown = LayoutString(
+        countdownClock(model.countdownMinutes),
+        secondsCountdown(model.nextEpochMillis),
+        TypeBuilders.StringLayoutConstraint.Builder("00:00:00").build()
+    )
     return LayoutElementBuilders.Box.Builder()
         .setWidth(DimensionBuilders.expand())
         .setHeight(DimensionBuilders.expand())
@@ -229,11 +274,12 @@ private fun MaterialScope.prayerTimesLayout(
                 )
                 .apply {
                     if (model.hijriText.isNotEmpty()) {
+                        addContent(verticalSpacer(1f))
                         addContent(
-                            text(
-                                model.hijriText.layoutString,
-                                typography = BODY_EXTRA_SMALL,
-                                color = textColor(TEXT_SECONDARY_ARGB)
+                            textWithSize(
+                                model.hijriText,
+                                sizeSp = 9f,
+                                color = TEXT_SECONDARY_ARGB
                             )
                         )
                     }
@@ -251,16 +297,17 @@ private fun MaterialScope.prayerTimesLayout(
                 .addContent(weightedVerticalSpacer(1f))
                 .addContent(
                     text(
-                        countdownClock(model.countdownMinutes).layoutString,
+                        countdown,
                         typography = TITLE_MEDIUM,
                         color = textColor(TEXT_PRIMARY_ARGB)
                     )
                 )
+                .addContent(verticalSpacer(1f))
                 .addContent(
-                    text(
-                        context.getString(R.string.wear_until, nextName).layoutString,
-                        typography = BODY_EXTRA_SMALL,
-                        color = textColor(TEXT_SECONDARY_ARGB)
+                    textWithSize(
+                        context.getString(R.string.wear_until, nextName),
+                        sizeSp = 9f,
+                        color = TEXT_SECONDARY_ARGB
                     )
                 )
                 .build()
@@ -331,10 +378,11 @@ private fun MaterialScope.prayerCell(
             LayoutElementBuilders.Column.Builder()
                 .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
                 .addContent(
-                    text(
-                        context.getString(entry.labelRes).layoutString,
-                        typography = BODY_EXTRA_SMALL,
-                        color = textColor(labelColor)
+                    textWithSize(
+                        context.getString(entry.labelRes),
+                        sizeSp = 9f,
+                        color = labelColor,
+                        weight = if (isCurrent) 500 else 400
                     )
                 )
                 .addContent(

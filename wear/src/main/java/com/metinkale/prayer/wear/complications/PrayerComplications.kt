@@ -85,7 +85,15 @@ internal fun buildTextComplication(
     else -> null
 }
 
-internal fun Context.formatCountdown(minutes: Int): String {
+internal fun Context.formatCountdown(seconds: Int): String {
+    if (seconds < 600) {
+        return getString(
+            R.string.complication_duration_minutes_seconds,
+            seconds / 60,
+            seconds % 60
+        )
+    }
+    val minutes = (seconds + 59) / 60
     val hours = minutes / 60
     val remaining = minutes % 60
     return if (hours > 0) {
