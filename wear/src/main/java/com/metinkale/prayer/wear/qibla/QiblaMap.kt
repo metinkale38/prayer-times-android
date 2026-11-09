@@ -176,4 +176,4 @@ private fun MapMessage(
     }
 }
 
-private const val MAP_ZOOM = 21f
+private const val MAP_ZOOM = 19f

@@ -224,7 +224,7 @@ internal fun MaterialScope.prayerTimesLayout(
                         color = TEXT_PRIMARY_ARGB
                     )
                 )
-                .addContent(verticalSpacer(1f * scale))
+                .addContent(verticalSpacer(2f * scale))
                 .addContent(
                     textWithSize(
                         context.getString(R.string.wear_until, nextName),
@@ -232,6 +232,8 @@ internal fun MaterialScope.prayerTimesLayout(
                         color = TEXT_SECONDARY_ARGB
                     )
                 )
+
+                .addContent(weightedVerticalSpacer(1f))
                 .build()
         )
         .build()
