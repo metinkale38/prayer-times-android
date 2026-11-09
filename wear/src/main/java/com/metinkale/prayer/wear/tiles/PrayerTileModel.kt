@@ -15,42 +15,6 @@ import java.util.Locale
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate as KLocalDate
 
-internal data class PrayerTimeEntry(
-    val labelRes: Int,
-    val time: LocalTime
-)
-
-internal data class PrayerTileModel(
-    val today: List<PrayerTimeEntry>,
-    val currentIndex: Int,
-    val current: PrayerTimeEntry,
-    val nextIndex: Int,
-    val next: PrayerTimeEntry,
-    val countdownMinutes: Int,
-    val dateText: String,
-    val hijriText: String,
-    val hijriDateText: String,
-    val hijriDay: String,
-    val hijriMonth: String,
-    val hijriMonthYear: String,
-    val hijriYear: String,
-    val prayerCountdownMinutes: List<Int>,
-    val nextEpochMillis: Long,
-    val periodStartEpochMillis: Long,
-    val periodEndEpochMillis: Long
-)
-
-private data class PrayerTimes(
-    val fajr: LocalTime,
-    val sun: LocalTime,
-    val dhuhr: LocalTime,
-    val asr: LocalTime,
-    val maghrib: LocalTime,
-    val ishaa: LocalTime
-) {
-    fun asList(): List<LocalTime> = listOf(fajr, sun, dhuhr, asr, maghrib, ishaa)
-}
-
 private fun WearDayTimes.toPrayerTimes(): PrayerTimes? = runCatching {
     PrayerTimes(
         fajr = LocalTime.parse(fajr),

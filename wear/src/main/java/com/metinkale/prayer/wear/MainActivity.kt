@@ -68,6 +68,8 @@ import com.metinkale.prayer.wear.dhikr.DhikrPage
 import com.metinkale.prayer.wear.qibla.QiblaPage
 import com.metinkale.prayer.wear.times.PrayerTimesPage
 import com.metinkale.prayer.wear.ui.HighlightBright
+import com.metinkale.prayer.wear.ui.ScaledMaterialTheme
+import com.metinkale.prayer.wear.ui.TopLevelPageIndicator
 import com.metinkale.prayer.wear.ui.IndicatorInactive
 import com.metinkale.prayer.wear.tiles.PrayerTimesTileService
 import com.metinkale.prayer.wear.ui.CurvedEdgeLabel
@@ -89,24 +91,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.datetime.LocalDate as KLocalDate
 
 private const val TOP_LEVEL_PAGE_COUNT = 3
-
-@Composable
-private fun ScaledMaterialTheme(content: @Composable () -> Unit) {
-    val configuration = LocalConfiguration.current
-    val baseDensity = LocalDensity.current
-    val shortestDp = minOf(
-        configuration.screenWidthDp,
-        configuration.screenHeightDp
-    ).toFloat()
-    val scale = (shortestDp / 192f).coerceIn(1f, 1.25f)
-    val scaledDensity = Density(
-        density = baseDensity.density * scale,
-        fontScale = baseDensity.fontScale
-    )
-    CompositionLocalProvider(LocalDensity provides scaledDensity) {
-        MaterialTheme(content = content)
-    }
-}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -183,7 +167,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    PageIndicator(
+                    TopLevelPageIndicator(
                         pageCount = TOP_LEVEL_PAGE_COUNT,
                         currentPage = currentPage,
                         modifier = Modifier
@@ -195,29 +179,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-private fun PageIndicator(
-    pageCount: Int,
-    currentPage: Int,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        repeat(pageCount) { index ->
-            val selected = index == currentPage
-            Box(
-                modifier = Modifier
-                    .size(if (selected) 5.dp else 3.dp)
-                    .background(
-                        if (selected) HighlightBright else IndicatorInactive,
-                        CircleShape
-                    )
-            )
-        }
-    }
-}
-
