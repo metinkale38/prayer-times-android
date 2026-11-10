@@ -9,6 +9,8 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
+import androidx.wear.protolayout.TypeBuilders
+import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
@@ -61,6 +63,36 @@ internal fun textWithSize(
     color: Int,
     maxLines: Int = 1
 ): LayoutElementBuilders.Text =
+    textWithSize(
+        TypeBuilders.StringProp.Builder(text).build(),
+        sizeSp,
+        color,
+        maxLines
+    )
+
+internal fun textWithSize(
+    text: DynamicBuilders.DynamicString,
+    fallback: String,
+    sizeSp: Float,
+    color: Int,
+    maxLines: Int = 1
+): LayoutElementBuilders.Text =
+    textWithSize(
+        TypeBuilders.StringProp.Builder()
+            .setValue(fallback)
+            .setDynamicValue(text)
+            .build(),
+        sizeSp,
+        color,
+        maxLines
+    )
+
+private fun textWithSize(
+    text: TypeBuilders.StringProp,
+    sizeSp: Float,
+    color: Int,
+    maxLines: Int
+): LayoutElementBuilders.Text =
     LayoutElementBuilders.Text.Builder()
         .setText(text)
         .setFontStyle(
@@ -88,8 +120,26 @@ internal fun horizontalSpacer(dp: Float): LayoutElementBuilders.LayoutElement =
         .setWidth(DimensionBuilders.dp(dp))
         .build()
 
-private fun countdownClock(minutes: Int): String =
+private fun staticCountdownClock(minutes: Int): String =
     String.format(Locale.US, "%02d:%02d", minutes / 60, minutes % 60)
+
+private fun countdownClock(targetEpochMillis: Long): DynamicBuilders.DynamicString {
+    val duration = DynamicBuilders.DynamicInstant.platformTimeWithSecondsPrecision()
+        .durationUntil(
+            DynamicBuilders.DynamicInstant.withSecondsPrecision(
+                java.time.Instant.ofEpochMilli(targetEpochMillis)
+            )
+        )
+    val formatter = DynamicBuilders.DynamicInt32.IntFormatter.Builder()
+        .setMinIntegerDigits(2)
+        .setGroupingUsed(false)
+        .build()
+    val hours = duration.toIntHours().format(formatter)
+    val minutes = duration.getMinutesPart().format(formatter)
+    return hours
+        .concat(DynamicBuilders.DynamicString.constant(":"))
+        .concat(minutes)
+}
 
 
 internal fun MaterialScope.prayerTimesLayout(
@@ -142,7 +192,7 @@ internal fun MaterialScope.prayerTimesLayout(
     }
 
     val nextName = context.getString(model.next.labelRes)
-    val countdown = countdownClock(model.countdownMinutes)
+    val countdown = countdownClock(model.nextEpochMillis)
     val sidePadding = (if (largeScreen) 16f else 24f) * scale
     val topPadding = (if (largeScreen) 22f else 28f) * scale
     val bottomPadding = (if (largeScreen) 5f else 24f) * scale
@@ -220,6 +270,7 @@ internal fun MaterialScope.prayerTimesLayout(
                 .addContent(
                     textWithSize(
                         countdown,
+                        fallback = staticCountdownClock(model.countdownMinutes),
                         sizeSp = countdownSize,
                         color = TEXT_PRIMARY_ARGB
                     )
