@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.wear.watchface.complications.data.ComplicationData
+import androidx.wear.watchface.complications.data.ComplicationText
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.NoDataComplicationData
@@ -85,6 +86,29 @@ internal fun buildTextComplication(
     else -> null
 }
 
+internal fun buildTextComplication(
+    type: ComplicationType,
+    text: ComplicationText,
+    contentDescription: CharSequence,
+    tapAction: PendingIntent? = null
+): ComplicationData? = when (type) {
+    ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
+        text = text,
+        contentDescription = plain(contentDescription)
+    ).apply {
+        tapAction?.let { setTapAction(it) }
+    }.build()
+
+    ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
+        text = text,
+        contentDescription = plain(contentDescription)
+    ).apply {
+        tapAction?.let { setTapAction(it) }
+    }.build()
+
+    else -> null
+}
+
 internal fun Context.formatCountdown(minutes: Int): String {
     val hours = minutes / 60
     val remaining = minutes % 60
@@ -127,6 +151,8 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
             request.complicationInstanceId
         )
         val text = formatPrayerTextOption(this, model, option)
+        val countdown = countdownSpec(this, model, option)
+        val complicationText = countdown?.let { countdownComplicationText(it) } ?: plain(text)
         return RangedValueComplicationData.Builder(
             value = progress * 100f,
             min = 0f,
@@ -134,7 +160,7 @@ class PrayerProgressComplicationService : PrayerComplicationService() {
             contentDescription = plain(text)
         )
             .setValueType(RangedValueComplicationData.TYPE_PERCENTAGE)
-            .setText(plain(text))
+            .setText(complicationText)
             .setTapAction(tapAction())
             .build()
     }

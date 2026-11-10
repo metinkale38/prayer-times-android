@@ -35,6 +35,7 @@ internal data class PrayerTileModel(
     val hijriMonthYear: String,
     val hijriYear: String,
     val prayerCountdownMinutes: List<Int>,
+    val prayerNextEpochMillis: List<Long>,
     val nextEpochMillis: Long,
     val periodStartEpochMillis: Long,
     val periodEndEpochMillis: Long
