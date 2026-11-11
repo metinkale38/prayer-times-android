@@ -16,6 +16,7 @@
 package com.metinkale.prayer.times.alarm.sounds
 
 import android.media.MediaPlayer
+import android.net.Uri
 import com.metinkale.prayer.times.alarm.Alarm
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -51,6 +52,6 @@ object SoundSerializer : KSerializer<Sound> {
             Sounds.getSound(decoder.decodeInt())
         }.getOrNull() ?: runCatching {
             Sounds.getSound(decoder.decodeString())
-        }.getOrNull()!!
+        }.getOrNull() ?: UserSound(Uri.EMPTY)
     }
 }

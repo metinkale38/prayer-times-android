@@ -71,7 +71,7 @@
     <string name="volume">Madhësia e zërit</string>
     <string name="volumeNotification">Madhësia e zërit të njoftimit</string>
     <string name="noti_beforeTime">Minuta para</string>
-    <string name="noti_exactTime">në%</string>
+    <string name="noti_exactTime">në %2$s</string>
     <string name="noti_exactAll">Deri në kohën e namazit tjetër</string>
     <string name="noti_beforeAll">$edhe sa minuta deri në namazin tjetër</string>
     <string name="noti_afterAll">Minuta pas namazit</string>
