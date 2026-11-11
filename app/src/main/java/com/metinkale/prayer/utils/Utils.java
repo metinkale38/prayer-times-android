@@ -89,9 +89,6 @@ public class Utils {
                 }
             }
         }
-        if (mills.isEmpty()) {
-            return new long[]{0, 300, 150, 300, 150, 500};
-        }
         long[] pattern = new long[mills.size()];
         for (int i = 0; i < pattern.length; i++) {
             pattern[i] = mills.get(i);

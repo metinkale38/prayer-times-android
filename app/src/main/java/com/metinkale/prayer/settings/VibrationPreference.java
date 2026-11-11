@@ -90,7 +90,9 @@ public class VibrationPreference extends EditTextPreference {
             for (int i = 0; i < pattern.length; i++) {
                 pattern[i] = mills.get(i);
             }
-            vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
+            if (pattern.length > 0) {
+                vib.vibrate(VibrationEffect.createWaveform(pattern, -1));
+            }
 
         });
         editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
