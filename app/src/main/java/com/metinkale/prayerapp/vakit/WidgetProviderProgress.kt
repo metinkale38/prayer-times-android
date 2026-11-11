@@ -57,8 +57,8 @@ class WidgetProviderProgress : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        for (widgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, widgetId)
+        updateWidgetsAsync(context, appWidgetManager, appWidgetIds) { ctx, manager, widgetId ->
+            updateAppWidget(ctx, manager, widgetId)
         }
     }
 
@@ -69,7 +69,9 @@ class WidgetProviderProgress : AppWidgetProvider() {
         appWidgetId: Int,
         newOptions: Bundle
     ) {
-        updateAppWidget(context, appWidgetManager, appWidgetId)
+        updateWidgetsAsync(context, appWidgetManager, intArrayOf(appWidgetId)) { ctx, manager, id ->
+            updateAppWidget(ctx, manager, id)
+        }
     }
 
     companion object {
@@ -99,7 +101,9 @@ class WidgetProviderProgress : AppWidgetProvider() {
             val builder = CalendarContract.CONTENT_URI.buildUpon()
             builder.appendPath("time")
             ContentUris.appendId(builder, startMillis)
-            val calendarIntent = Intent(Intent.ACTION_VIEW).setData(builder.build())
+            val calendarIntent = Intent(Intent.ACTION_VIEW)
+                .setData(builder.build())
+                .setType("vnd.android.cursor.dir/event")
             val pendingIntentCalendar = PendingIntent.getActivity(
                 context,
                 UUID.asInt(),

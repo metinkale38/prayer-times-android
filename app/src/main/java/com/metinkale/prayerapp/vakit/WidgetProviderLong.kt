@@ -48,8 +48,8 @@ class WidgetProviderLong : AppWidgetProvider() {
     override fun onUpdate(
         context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
     ) {
-        for (widgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, widgetId)
+        updateWidgetsAsync(context, appWidgetManager, appWidgetIds) { ctx, manager, widgetId ->
+            updateAppWidget(ctx, manager, widgetId)
         }
     }
 
@@ -57,7 +57,9 @@ class WidgetProviderLong : AppWidgetProvider() {
     override fun onAppWidgetOptionsChanged(
         context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle
     ) {
-        updateAppWidget(context, appWidgetManager, appWidgetId)
+        updateWidgetsAsync(context, appWidgetManager, intArrayOf(appWidgetId)) { ctx, manager, id ->
+            updateAppWidget(ctx, manager, id)
+        }
     }
 
     companion object {

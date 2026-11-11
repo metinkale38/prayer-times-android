@@ -2,6 +2,7 @@ package com.metinkale.prayerapp.vakit
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
@@ -9,7 +10,27 @@ import android.widget.RemoteViews
 import com.metinkale.prayer.App
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.times.Times
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
+
+internal fun AppWidgetProvider.updateWidgetsAsync(
+    context: Context,
+    appWidgetManager: AppWidgetManager,
+    appWidgetIds: IntArray,
+    update: (Context, AppWidgetManager, Int) -> Unit
+) {
+    val pendingResult = goAsync()
+    CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        try {
+            appWidgetIds.forEach { update(context, appWidgetManager, it) }
+        } finally {
+            pendingResult.finish()
+        }
+    }
+}
 
 object WidgetUtils {
 
