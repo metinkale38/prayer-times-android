@@ -55,6 +55,7 @@ appId: com.metinkale.prayer
 - tapOn:
     id: "com.metinkale.prayer:id/search"
 - inputText: "Abakan"
+- pressKey: Enter
 - hideKeyboard
 - extendedWaitUntil:
     visible:
@@ -85,9 +86,10 @@ appId: com.metinkale.prayer
     visible: "Settings"
     timeout: 10000
 - tapOn: "Settings"
-- extendedWaitUntil:
-    visible: "Hijri calculation"
-    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: "Hijri calculation"
+    direction: DOWN
 - tapOn: "Hijri calculation"
 - extendedWaitUntil:
     visible: "Umm al-Qura"
