@@ -29,8 +29,14 @@ import java.util.List;
 
 @Dao
 public interface DhikrDao {
-    @Query("select * from dhikr ORDER BY position")
+    @Query("select * from dhikr WHERE deleted = 0 ORDER BY position")
     LiveData<List<Dhikr>> getAllDhikrs();
+
+    @Query("select * from dhikr ORDER BY position")
+    List<Dhikr> getAllDhikrsForSync();
+
+    @Query("select * from dhikr WHERE syncId = :syncId LIMIT 1")
+    Dhikr getDhikrBySyncId(String syncId);
 
     @Update
     void saveDhikr(Dhikr...dhikr);

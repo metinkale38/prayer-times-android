@@ -22,12 +22,18 @@ import com.metinkale.prayer.receiver.OnStartListener
 import com.metinkale.prayer.times.times.SyncTimesWorker
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
+import com.metinkale.prayer.wear.scheduleWearSync
 
 object TimesBroadcastReceiver : OnStartListener, OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
         when (key) {
             "useAlarm" -> Times.setAlarms()
-            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "widget_countdown", "alternativeOngoing" ->
+            "widget_countdown", "hijri_calculation", "hijri_day_offset" -> {
+                AppEventManager.sendTimeTick()
+                scheduleWearSync(App.get())
+            }
+
+            "use12h", "ongoingIcon", "ongoingNumber", "SHOW_ALT_WIDGET_HIGHLIGHT", "alternativeOngoing" ->
                 AppEventManager.sendTimeTick()
         }
     }

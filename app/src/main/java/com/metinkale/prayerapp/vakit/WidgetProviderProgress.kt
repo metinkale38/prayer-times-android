@@ -23,7 +23,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.provider.CalendarContract
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -179,23 +178,13 @@ class WidgetProviderProgress : AppWidgetProvider() {
                 TypedValue.COMPLEX_UNIT_PX,
                 height * 2 / 5f
             )
-            if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
-                .setChronometer(
-                    R.id.countdown,
-                    times.getTime(LocalDate.now(), next)
-                        .atZone(ZoneId.systemDefault()).toInstant()
-                        .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                    null,
-                    true
-                ) else {
-                val txt = LocaleUtils.formatPeriod(
-                    LocalDateTime.now(),
-                    times.getTime(LocalDate.now(), next),
-                    false
-                )
-                remoteViews.setString(R.id.countdown, "setFormat", txt)
-                remoteViews.setChronometer(R.id.countdown, 0, txt, false)
-            }
+            val txt = LocaleUtils.formatPeriod(
+                LocalDateTime.now(),
+                times.getTime(LocalDate.now(), next),
+                false
+            )
+            remoteViews.setString(R.id.countdown, "setFormat", txt)
+            remoteViews.setChronometer(R.id.countdown, 0, txt, false)
             remoteViews.setViewPadding(R.id.progresscontainer, width / 10, 0, width / 10, 0)
             remoteViews.setViewPadding(R.id.greg, width / 10, 0, 0, 0)
             remoteViews.setViewPadding(R.id.hicri, 0, 0, width / 10, 0)

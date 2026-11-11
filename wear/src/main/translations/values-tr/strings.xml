@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">Namaz Vakti</string>
+    <string name="fajr">İmsak</string>
+    <string name="wear_until">%1$s’a kadar</string>
+</resources>

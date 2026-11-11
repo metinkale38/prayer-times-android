@@ -99,6 +99,14 @@
     <string name="translate">Übersetzen</string>
     <string name="language">Sprache</string>
     <string name="shareText">Hey, schau dir diese Gebetszeiten App an: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
+
+    <string name="wearInstallTitle">Watch-App installieren?</string>
+    <string name="wearInstallMessage">Auf deiner Wear OS Uhr ist die Gebetszeiten-App noch nicht installiert. Du kannst sie jetzt direkt auf der Uhr installieren.</string>
+    <string name="wearInstallNow">Jetzt installieren</string>
+    <string name="wearInstallDismissForever">Nicht nochmal anzeigen</string>
+    <string name="wearSyncCity">Auf Uhr anzeigen</string>
+    <string name="wearSyncCityCurrent">Wird auf der Uhr angezeigt</string>
+    <string name="wearSyncCitySelected">„%1$s“ wird jetzt auf der Uhr angezeigt</string>
     <!-- Other -->
     <string name="systemLanguage">Systemsprache</string>
     <string name="notification">Benachrichtigung</string>

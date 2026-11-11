@@ -28,6 +28,8 @@ import com.metinkale.prayer.CrashReporter.setUserId
 import com.metinkale.prayer.receiver.AppEventManager
 import com.metinkale.prayer.settings.FlavorSettings
 import com.metinkale.prayer.utils.LocaleUtils.init
+import com.metinkale.prayer.wear.scheduleDhikrSync
+import com.metinkale.prayer.wear.scheduleWearSync
 import kotlin.coroutines.cancellation.CancellationException
 
 open class App : Application(), OnSharedPreferenceChangeListener {
@@ -67,6 +69,8 @@ open class App : Application(), OnSharedPreferenceChangeListener {
         FlavorSettings.configure()
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this)
+        scheduleWearSync(this)
+        scheduleDhikrSync(this)
 
 
         /*if (AppRatingDialog.getInstallationTime() == 0) {

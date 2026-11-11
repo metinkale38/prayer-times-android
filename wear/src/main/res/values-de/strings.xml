@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="imsak">Imsak</string>
+    <string name="fajr">Fajr</string>
+    <string name="sun">Sonne</string>
+    <string name="zuhr">Zuhr</string>
+    <string name="asr">Asr</string>
+    <string name="asrSani">Asr Sânî</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Ischa</string>
+
+    <string name="hmonth1">Muharram</string>
+    <string name="hmonth2">Safar</string>
+    <string name="hmonth3">Rabi al-awwal</string>
+    <string name="hmonth4">Rabi al-achir</string>
+    <string name="hmonth5">Dschumada al-awwal</string>
+    <string name="hmonth6">Dschumada l-achira</string>
+    <string name="hmonth7">Rajab</string>
+    <string name="hmonth8">Schaban</string>
+    <string name="hmonth9">Ramadan</string>
+    <string name="hmonth10">Schawwal</string>
+    <string name="hmonth11">Dhu l-qaʿda</string>
+    <string name="hmonth12">Dhū l-Hiddscha</string>
+
+    <string name="wear_prayer_times">Gebetszeiten</string>
+    <string name="wear_no_connection_title">Noch keine Daten</string>
+    <string name="wear_no_connection_body">Öffne die App auf dem Smartphone und synchronisiere.</string>
+    <string name="wear_no_times_title">Keine Gebetszeiten</string>
+    <string name="wear_no_times_body">Keine Daten geladen. Öffne die App und aktualisiere.</string>
+    <string name="wear_sync_action">Erneut synchronisieren</string>
+    <string name="wear_syncing">Synchronisiere…</string>
+
+
+    <string name="wear_no_data">Keine Gebetszeiten für diesen Tag</string>
+
+
+    <string name="map">Karte</string>
+
+    <string name="heading">Kurs</string>
+
+
+    <string name="location_searching">Standort wird gesucht…</string>
+    <string name="location_permission">Standortberechtigung</string>
+
+    <string name="location_from_city">Standort aus Stadt: %1$s</string>
+    <string name="location_ready">Standort gefunden</string>
+    <string name="qibla_angle">Qibla %1$d°</string>
+    <string name="qibla_distance">%1$s</string>
+    <string name="qibla_aligned">Ausgerichtet</string>
+    <string name="map_unavailable_body">Die Karte kann auf der Uhr gerade nicht angezeigt werden. Nutze den Kompass.</string>
+    <string name="open_compass">Zum Kompass</string>
+
+
+
+    <string name="wear_until">bis %1$s</string>
+    <string name="wear_today">Heute</string>
+    <string name="wear_tile_times_name">Gebetszeiten</string>
+    <string name="wear_tile_times_description">Alle heutigen Gebetszeiten auf einen Blick</string>
+    <string name="wear_tile_open_app">App öffnen und aktualisieren.</string>
+
+
+    <string name="complication_progress_name">Gebetsfortschritt</string>
+    <string name="complication_duration_hours_minutes">%1$dh %2$02dm</string>
+    <string name="complication_duration_minutes">%1$dm</string>
+    <string name="complication_progress_description">Gebetsfortschritt von %1$s bis %2$s</string>
+    <string name="complication_progress_text">%1$s → %2$s</string>
+    <string name="complication_loading">Lade…</string>
+    <string name="complication_custom_name">Gebetszeiten</string>
+    <string name="complication_option_hijri_date">Hijri Datum</string>
+    <string name="complication_option_hijri_month">Hijri Monat</string>
+    <string name="complication_option_hijri_year">Hijri Jahr</string>
+    <string name="complication_option_hijri_day">Hijri Tag</string>
+    <string name="complication_option_current_prayer">Aktuelles Gebet</string>
+    <string name="complication_option_current_time">Aktuelle Gebetszeit</string>
+    <string name="complication_option_current_name_time">Aktuelles Gebet und Zeit</string>
+    <string name="complication_option_next_prayer">Nächstes Gebet</string>
+    <string name="complication_option_next_time">Nächste Gebetszeit</string>
+    <string name="complication_option_next_name_time">Nächstes Gebet und Zeit</string>
+    <string name="complication_option_countdown">Countdown</string>
+    <string name="complication_option_next_countdown">Nächstes Gebet mit Countdown</string>
+    <string name="complication_option_combined_times">Kombiniert Uhrzeiten</string>
+    <string name="complication_option_combined_countdown">Kombiniert mit Countdown</string>
+    <string name="complication_option_prayer_time">%1$s Uhrzeit</string>
+    <string name="complication_option_prayer_countdown">%1$s Countdown</string>
+    <string name="complication_option_prayer_name_time">%1$s Name und Uhrzeit</string>
+    <string name="complication_option_prayer_name_countdown">%1$s Name und Countdown</string>
+    <string name="complication_in_hours_minutes">in %1$dh %2$02dmin</string>
+    <string name="complication_in_minutes">in %1$dmin</string>
+    <string name="dhikr">Dhikr</string>
+    <string name="dhikr_new">Neuer Dhikr</string>
+    <string name="dhikr_invalid_target">Ziel: 1–100.000</string>
+
+    <string name="dhikr_name">Name</string>
+    <string name="dhikr_target">Ziel</string>
+    <string name="dhikr_target_hint">33</string>
+    <string name="dhikr_add">Dhikr hinzufügen</string>
+    <string name="dhikr_reset">Zurücksetzen</string>
+    <string name="dhikr_delete">Löschen</string>
+    <string name="dhikr_cancel">Abbrechen</string>
+
+
+    <string name="dhikr_round">Runde %1$d</string>
+
+    <string name="dhikr_tap_hint">Tippen zum Zählen</string>
+    <string name="dhikr_hold_hint">Halten für Optionen</string>
+</resources>

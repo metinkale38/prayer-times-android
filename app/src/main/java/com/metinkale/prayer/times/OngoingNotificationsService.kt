@@ -24,7 +24,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.os.SystemClock
 import android.text.Spannable
 import android.text.style.StyleSpan
 import android.util.TypedValue
@@ -182,18 +181,9 @@ class OngoingNotificationsService : LifecycleService(), OnTimeTickListener, OnPr
 
         // Countdown
         val nextTime = t.getTime(today, t.getNextTime()).atZone(ZoneId.systemDefault()).toInstant()
-        if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) {
-            views.setChronometer(
-                R.id.countdown,
-                nextTime.toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                null,
-                true
-            )
-        } else {
-            val txt = LocaleUtils.formatPeriod(Instant.now(), nextTime, false)
-            views.setString(R.id.countdown, "setFormat", txt)
-            views.setChronometer(R.id.countdown, 0, txt, false)
-        }
+        val txt = LocaleUtils.formatPeriod(Instant.now(), nextTime, false)
+        views.setString(R.id.countdown, "setFormat", txt)
+        views.setChronometer(R.id.countdown, 0, txt, false)
         textColor?.let { views.setTextColor(R.id.countdown, it) }
     }
 

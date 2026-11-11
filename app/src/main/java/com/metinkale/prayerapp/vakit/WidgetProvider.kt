@@ -20,7 +20,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.Html
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -163,23 +162,13 @@ class WidgetProvider : AppWidgetProvider() {
                 scale.toInt() / 2,
                 scale.toInt() / 4
             )
-            if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
-                .setChronometer(
-                    R.id.countdown,
-                    times.getTime(LocalDate.now(), next)
-                        .atZone(ZoneId.systemDefault()).toInstant()
-                        .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                    null,
-                    true
-                ) else {
-                val txt = LocaleUtils.formatPeriod(
-                    LocalDateTime.now(),
-                    times.getTime(LocalDate.now(), next),
-                    false
-                )
-                remoteViews.setString(R.id.countdown, "setFormat", txt)
-                remoteViews.setChronometer(R.id.countdown, 0, txt, false)
-            }
+            val txt = LocaleUtils.formatPeriod(
+                LocalDateTime.now(),
+                times.getTime(LocalDate.now(), next),
+                false
+            )
+            remoteViews.setString(R.id.countdown, "setFormat", txt)
+            remoteViews.setChronometer(R.id.countdown, 0, txt, false)
             remoteViews.setTextViewTextSize(
                 R.id.countdown,
                 TypedValue.COMPLEX_UNIT_PX,

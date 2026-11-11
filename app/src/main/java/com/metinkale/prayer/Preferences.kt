@@ -33,7 +33,6 @@ object Preferences {
 
     const val COUNTDOWN_TYPE_FLOOR = "default"
     const val COUNTDOWN_TYPE_TOP = "alt"
-    const val COUNTDOWN_TYPE_SHOW_SECONDS = "secs"
 
 
     var USE_ARABIC by object : BooleanPreference("arabicNames", false) {
@@ -124,6 +123,12 @@ object Preferences {
         }.getOrDefault(HijriCalculation.Diyanet)
         HijriConfig.current = HijriConfiguration(calculation, HIJRI_DAY_OFFSET)
     }
+
+    val COUNTDOWN_ROUND_UP: Boolean
+        get() = COUNTDOWN_TYPE == COUNTDOWN_TYPE_TOP
+
+    var WEAR_SYNC_CITY by IntPreference("wearSyncCity", 0)
+    var WEAR_INSTALL_PROMPT_DISMISSED by BooleanPreference("wearInstallPromptDismissed", false)
 
     fun clear() = prefs.edit(commit = true) { clear() }
 }
