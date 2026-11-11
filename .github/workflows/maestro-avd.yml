@@ -58,7 +58,7 @@ jobs:
 
       - name: Build debug APK
         run: |
-          ./gradlew :app:assemblePlayDebug --no-daemon --max-workers=2 \
+          bash ./gradlew :app:assemblePlayDebug --no-daemon --max-workers=2 \
             -Pkotlin.compiler.execution.strategy=in-process \
             -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
 
