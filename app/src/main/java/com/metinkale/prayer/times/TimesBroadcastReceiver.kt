@@ -28,7 +28,7 @@ object TimesBroadcastReceiver : OnStartListener, OnPrefsChangedListener {
     override fun onPrefsChanged(key: String) {
         when (key) {
             "useAlarm" -> Times.setAlarms()
-            "widget_countdown" -> {
+            "widget_countdown", "hijri_calculation", "hijri_day_offset" -> {
                 AppEventManager.sendTimeTick()
                 scheduleWearSync(App.get())
             }

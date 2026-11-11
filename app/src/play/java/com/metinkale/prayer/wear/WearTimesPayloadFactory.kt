@@ -35,6 +35,8 @@ internal object WearTimesPayloadFactory {
             longitude = times.lng
         ),
         days = days,
-        countdownRoundUp = Preferences.COUNTDOWN_ROUND_UP
+        countdownRoundUp = Preferences.COUNTDOWN_ROUND_UP,
+        hijriCalculation = Preferences.HIJRI_CALCULATION,
+        hijriDayOffset = Preferences.HIJRI_DAY_OFFSET
     )
 }

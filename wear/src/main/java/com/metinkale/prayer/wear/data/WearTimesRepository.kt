@@ -9,10 +9,14 @@ import com.metinkale.prayer.sync.WearTimesPayload
 import com.metinkale.prayer.wear.complications.PrayerComplicationsUpdater
 import com.metinkale.prayer.wear.tiles.PrayerTimesTileService
 import androidx.wear.tiles.TileService
+import dev.metinkale.openprayertimes.hijri.HijriCalculation
+import dev.metinkale.openprayertimes.hijri.HijriConfig
+import dev.metinkale.openprayertimes.hijri.HijriConfiguration
 import java.io.InputStream
 import java.io.OutputStream
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
 
 private val Context.wearTimesDataStore: DataStore<WearTimesPayload?> by dataStore(
     fileName = "wear_times.json",
@@ -38,7 +42,9 @@ class WearTimesRepository private constructor(
     private val context: Context,
     private val dataStore: DataStore<WearTimesPayload?>
 ) {
-    val payload: Flow<WearTimesPayload?> = dataStore.data.catch { emit(null) }
+    val payload: Flow<WearTimesPayload?> = dataStore.data
+        .catch { emit(null) }
+        .onEach { it?.applyHijriConfig() }
 
     suspend fun save(payload: WearTimesPayload) {
         dataStore.updateData { current ->
@@ -56,6 +62,13 @@ class WearTimesRepository private constructor(
                 PrayerTimesTileService::class.java
             )
         }
+    }
+
+    private fun WearTimesPayload.applyHijriConfig() {
+        val calculation = runCatching {
+            HijriCalculation.valueOf(hijriCalculation)
+        }.getOrDefault(HijriCalculation.Diyanet)
+        HijriConfig.current = HijriConfiguration(calculation, hijriDayOffset)
     }
 
     companion object {

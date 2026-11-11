@@ -15,7 +15,9 @@ data class WearTimesPayload(
     val generatedAtEpochMillis: Long,
     val city: WearCity,
     val days: List<WearDayTimes>,
-    val countdownRoundUp: Boolean = false
+    val countdownRoundUp: Boolean = false,
+    val hijriCalculation: String = "Diyanet",
+    val hijriDayOffset: Int = 0
 )
 
 @Serializable
