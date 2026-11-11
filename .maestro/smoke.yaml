@@ -68,33 +68,35 @@ appId: com.metinkale.prayer
       id: "com.metinkale.prayer:id/addCity"
     timeout: 15000
 
-# Add a deterministic city via the manual chooser.
+# Add a deterministic, widely available city via search.
 - tapOn:
     id: "com.metinkale.prayer:id/addCity"
 - extendedWaitUntil:
     visible: "Auto Location"
     timeout: 15000
 - tapOn:
-    id: "com.metinkale.prayer:id/chooseByList"
+    id: "com.metinkale.prayer:id/search"
+- tapOn:
+    id: "com.metinkale.prayer:id/search_src_text"
+- inputText: "Istanbul"
+- pressKey: Enter
+- hideKeyboard
 - extendedWaitUntil:
-    visible: "LondonPrayerTimes.com"
+    visible:
+      id: "com.metinkale.prayer:id/city"
     timeout: 30000
-- tapOn: "Diyanet"
+- tapOn:
+    id: "com.metinkale.prayer:id/city"
+    index: 0
 - extendedWaitUntil:
-    visible: "Russia"
-    timeout: 30000
-- tapOn: "Russia"
-- extendedWaitUntil:
-    visible: "Abakan"
-    timeout: 30000
-- tapOn: "Abakan"
-- extendedWaitUntil:
-    visible: "Cities"
+    visible:
+      id: "com.metinkale.prayer:id/city"
     timeout: 15000
-- assertVisible: "Abakan"
 
 # Open the city prayer times page.
-- tapOn: "Abakan"
+- tapOn:
+    id: "com.metinkale.prayer:id/city"
+    index: 0
 - extendedWaitUntil:
     visible: "Month View"
     timeout: 15000
