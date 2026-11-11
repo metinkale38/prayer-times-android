@@ -4,6 +4,7 @@ import android.app.Application
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import io.sentry.protocol.User
+import kotlinx.coroutines.CancellationException
 
 object CrashReporter {
     enum class Severity {
@@ -30,6 +31,7 @@ object CrashReporter {
         e: Throwable
     ) {
         e.printStackTrace()
+        if (!shouldReport(e)) return
         Sentry.captureException(e)
     }
 
@@ -40,10 +42,24 @@ object CrashReporter {
         severity: Severity = Severity.WARNING
     ) {
         e.printStackTrace()
+        if (!shouldReport(e)) return
         Sentry.captureException(e) { scope ->
             scope.level = SentryLevel.valueOf(severity.name)
             scope.fingerprint = listOf(*fingerprint)
         }
+    }
+
+    private fun shouldReport(e: Throwable): Boolean {
+        if (e is CancellationException || e.cause is CancellationException) return false
+        val name = e.javaClass.name
+        if (name == "kotlinx.coroutines.JobCancellationException") return false
+        // Expected connectivity/transport failures. These are handled by retry/fallback logic
+        // and would otherwise dominate the crash dashboard.
+        return !(name.startsWith("java.net.") ||
+                name.startsWith("java.nio.channels.") ||
+                name.startsWith("javax.net.ssl.") ||
+                name.startsWith("java.security.cert.") ||
+                name.startsWith("io.ktor."))
     }
 
     @JvmStatic
