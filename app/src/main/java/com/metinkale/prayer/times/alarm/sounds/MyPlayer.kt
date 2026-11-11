@@ -71,18 +71,6 @@ class MyPlayer private constructor() {
             }
 
         }
-        if (mediaPlayers.isEmpty()) {
-            mediaPlayers = Sounds.rootSounds.firstOrNull()?.let { fallback ->
-                fallback.createMediaPlayer(alarm)?.also {
-                    it.setAudioStreamType(streamType)
-                    try {
-                        it.prepare()
-                    } catch (e: IOException) {
-                        CrashReporter.recordException(e)
-                    }
-                }
-            }?.let { listOf(it) } ?: emptyList()
-        }
         if (mediaPlayers.isEmpty()) return this
 
         for (i in mediaPlayers.size - 2 downTo 0) {
