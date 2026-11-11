@@ -2,6 +2,7 @@ appId: com.metinkale.prayer
 ---
 - launchApp:
     clearState: true
+- startRecording: smoke
 
 # Language selection
 - runFlow:
@@ -38,32 +39,55 @@ appId: com.metinkale.prayer
       - tapOn: "CONTINUE"
 - runFlow:
     when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
       visible: "DONE"
     commands:
       - tapOn: "DONE"
 
 - extendedWaitUntil:
-    visible: "Cities"
+    visible:
+      id: "com.metinkale.prayer:id/addCity"
     timeout: 15000
 
-# Add a deterministic city via search.
+# Add a deterministic city via the manual chooser.
 - tapOn:
     id: "com.metinkale.prayer:id/addCity"
 - extendedWaitUntil:
     visible: "Auto Location"
     timeout: 15000
 - tapOn:
-    id: "com.metinkale.prayer:id/search"
-- inputText: "Abakan"
-- pressKey: Enter
-- hideKeyboard
+    id: "com.metinkale.prayer:id/chooseByList"
 - extendedWaitUntil:
-    visible:
-      id: "com.metinkale.prayer:id/city"
+    visible: "LondonPrayerTimes.com"
     timeout: 30000
-- tapOn:
-    id: "com.metinkale.prayer:id/city"
-    index: 0
+- tapOn: "Diyanet"
+- extendedWaitUntil:
+    visible: "Russia"
+    timeout: 30000
+- tapOn: "Russia"
+- extendedWaitUntil:
+    visible: "Abakan"
+    timeout: 30000
+- tapOn: "Abakan"
 - extendedWaitUntil:
     visible: "Cities"
     timeout: 15000
@@ -183,3 +207,4 @@ appId: com.metinkale.prayer
 - tapOn: "Missed Prayers"
 - assertVisible: "Missed Prayers"
 - back
+- stopRecording
