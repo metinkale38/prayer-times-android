@@ -1,5 +1,6 @@
 package com.metinkale.prayer.wear
 
+import com.metinkale.prayer.Preferences
 import com.metinkale.prayer.sync.WearCity
 import com.metinkale.prayer.sync.WearDayTimes
 import com.metinkale.prayer.sync.WearTimesPayload
@@ -33,6 +34,7 @@ internal object WearTimesPayloadFactory {
             latitude = times.lat,
             longitude = times.lng
         ),
-        days = days
+        days = days,
+        countdownRoundUp = Preferences.COUNTDOWN_ROUND_UP
     )
 }

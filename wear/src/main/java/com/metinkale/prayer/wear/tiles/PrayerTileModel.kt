@@ -57,6 +57,11 @@ private fun currentPrayerIndex(times: PrayerTimes, now: LocalTime): Int {
     return if (nextIndex <= 0) 5 else nextIndex - 1
 }
 
+private fun countdownMinutes(seconds: Long, roundUp: Boolean): Int {
+    if (seconds <= 0) return 0
+    return (if (roundUp) (seconds + 59) / 60 else seconds / 60).toInt()
+}
+
 internal suspend fun loadPrayerTileModel(
     context: Context,
     now: LocalDateTime = LocalDateTime.now()
@@ -64,6 +69,7 @@ internal suspend fun loadPrayerTileModel(
     val payload = runCatching {
         WearTimesRepository.get(context).payload.first()
     }.getOrNull() ?: return null
+    val roundUp = payload.countdownRoundUp
 
     val days = payload.days.associateBy { it.date }
     val todayDate = now.toLocalDate()
@@ -87,7 +93,7 @@ internal suspend fun loadPrayerTileModel(
     val nextIndexInList = if (nextIsTomorrow) 0 else nextTodayIndex
     val target = LocalDateTime.of(nextDate, nextTime)
     val seconds = Duration.between(now, target).seconds
-    val countdownMinutes = if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
+    val countdownMinutes = countdownMinutes(seconds, roundUp)
 
     val dateText = String.format(
         Locale.US,
@@ -130,8 +136,7 @@ internal suspend fun loadPrayerTileModel(
         }
     }
     val prayerCountdownMinutes = prayerTargets.map {
-        val seconds = Duration.between(now, it).seconds
-        if (seconds <= 0) 0 else ((seconds + 59) / 60).toInt()
+        countdownMinutes(Duration.between(now, it).seconds, roundUp)
     }
     val prayerNextEpochMillis = prayerTargets.map {
         it.atZone(zone).toInstant().toEpochMilli()
@@ -171,6 +176,7 @@ internal suspend fun loadPrayerTileModel(
         prayerCountdownMinutes = prayerCountdownMinutes,
         prayerNextEpochMillis = prayerNextEpochMillis,
         nextEpochMillis = nextEpochMillis,
+        countdownRoundUp = roundUp,
         periodStartEpochMillis = periodStartEpochMillis,
         periodEndEpochMillis = nextEpochMillis
     )

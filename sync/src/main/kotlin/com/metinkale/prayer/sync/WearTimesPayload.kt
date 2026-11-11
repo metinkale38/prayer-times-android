@@ -14,7 +14,8 @@ data class WearTimesPayload(
     val schemaVersion: Int = SyncConstants.SCHEMA_VERSION,
     val generatedAtEpochMillis: Long,
     val city: WearCity,
-    val days: List<WearDayTimes>
+    val days: List<WearDayTimes>,
+    val countdownRoundUp: Boolean = false
 )
 
 @Serializable

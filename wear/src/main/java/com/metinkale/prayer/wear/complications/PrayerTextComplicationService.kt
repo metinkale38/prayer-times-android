@@ -72,15 +72,17 @@ internal fun countdownSpec(
     val nextName = context.getString(model.next.labelRes)
     val currentName = context.getString(model.current.labelRes)
     fun prayerName(index: Int) = context.getString(model.today[index].labelRes)
-    fun target(index: Int) = model.prayerNextEpochMillis.getOrElse(index) { 0L }
+    fun adjust(epochMillis: Long) =
+        if (model.countdownRoundUp) epochMillis + 59_000L else epochMillis
+    fun target(index: Int) = adjust(model.prayerNextEpochMillis.getOrElse(index) { 0L })
     return when (option) {
-        PrayerTextOption.COUNTDOWN -> CountdownSpec(model.nextEpochMillis, null)
+        PrayerTextOption.COUNTDOWN -> CountdownSpec(adjust(model.nextEpochMillis), null)
         PrayerTextOption.NEXT_NAME_COUNTDOWN ->
-            CountdownSpec(model.nextEpochMillis, "$nextName in ^1")
+            CountdownSpec(adjust(model.nextEpochMillis), "$nextName in ^1")
 
         PrayerTextOption.COMBINED_COUNTDOWN ->
             CountdownSpec(
-                model.nextEpochMillis,
+                adjust(model.nextEpochMillis),
                 "$currentName ${model.current.time.format(ComplicationTimeFormat)} | $nextName in ^1"
             )
 

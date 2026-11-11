@@ -192,7 +192,9 @@ internal fun MaterialScope.prayerTimesLayout(
     }
 
     val nextName = context.getString(model.next.labelRes)
-    val countdown = countdownClock(model.nextEpochMillis)
+    val countdown = countdownClock(
+        model.nextEpochMillis + if (model.countdownRoundUp) 59_000L else 0L
+    )
     val sidePadding = (if (largeScreen) 16f else 24f) * scale
     val topPadding = (if (largeScreen) 22f else 28f) * scale
     val bottomPadding = (if (largeScreen) 5f else 24f) * scale

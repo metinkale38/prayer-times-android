@@ -25,7 +25,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
@@ -151,19 +150,11 @@ class WidgetProviderClock2 : AppWidgetProvider() {
             )
             val wd = date.format(DateTimeFormatter.ofPattern("EEEE"))
             remoteViews.setTextViewText(R.id.weekDay, wd)
-            if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews.setChronometer(
-                R.id.countdown,
-                times.getTime(LocalDate.now(), next).atZone(ZoneId.systemDefault()).toInstant()
-                    .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                null,
-                true
-            ) else {
-                val txt = LocaleUtils.formatPeriod(
-                    LocalDateTime.now(), times.getTime(LocalDate.now(), next), false
-                )
-                remoteViews.setString(R.id.countdown, "setFormat", txt)
-                remoteViews.setChronometer(R.id.countdown, 0, txt, false)
-            }
+            val txt = LocaleUtils.formatPeriod(
+                LocalDateTime.now(), times.getTime(LocalDate.now(), next), false
+            )
+            remoteViews.setString(R.id.countdown, "setFormat", txt)
+            remoteViews.setChronometer(R.id.countdown, 0, txt, false)
             remoteViews.setTextViewTextSize(
                 R.id.countdown, TypedValue.COMPLEX_UNIT_PX, (height * 0.15).toFloat()
             )

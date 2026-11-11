@@ -285,9 +285,7 @@ object LocaleUtils {
                     d.toSecondsPart()
                 )
             } else {
-                val duration =
-                    if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_FLOOR) d
-                    else d.plusSeconds(59)
+                val duration = if (Preferences.COUNTDOWN_ROUND_UP) d.plusSeconds(59) else d
                 String.format("%02d:%02d", duration.toHoursPart(), duration.toMinutesPart())
             }
         )

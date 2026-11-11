@@ -37,6 +37,7 @@ internal data class PrayerTileModel(
     val prayerCountdownMinutes: List<Int>,
     val prayerNextEpochMillis: List<Long>,
     val nextEpochMillis: Long,
+    val countdownRoundUp: Boolean,
     val periodStartEpochMillis: Long,
     val periodEndEpochMillis: Long
 )
