@@ -63,6 +63,7 @@ open class App : Application(), OnSharedPreferenceChangeListener {
         mDefaultUEH = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler)
         init(baseContext)
+        Preferences.applyHijriConfig()
         FlavorSettings.configure()
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this)

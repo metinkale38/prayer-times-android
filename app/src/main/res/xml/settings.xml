@@ -117,6 +117,24 @@
             android:key="hdateformat"
             android:title="@string/hdateFormat" />
 
+        <ListPreference
+            android:defaultValue="Diyanet"
+            android:dialogTitle="@string/hijriCalculation"
+            android:entries="@array/hijri_calculation"
+            android:entryValues="@array/hijri_calculation_values"
+            android:key="hijri_calculation"
+            android:summary="%s"
+            android:title="@string/hijriCalculation" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/hijriDayOffset"
+            android:entries="@array/hijri_day_offset"
+            android:entryValues="@array/hijri_day_offset_values"
+            android:key="hijri_day_offset"
+            android:summary="%s"
+            android:title="@string/hijriDayOffset" />
+
 
     </PreferenceCategory>
 

@@ -25,6 +25,8 @@
     <string name="hDateFormat2">30 Muharram 34</string>
     <string name="hdateFormat">Hijri Date Format</string>
     <string name="hijriFix">Hijri Date adjustment</string>
+    <string name="hijriCalculation">Hijri calculation</string>
+    <string name="hijriDayOffset">Hijri day offset</string>
     <string name="kerahatDuration">Makruh Time - Duration</string>
     <string name="kerahatIstiwa">Istiwa Time (before Zuhr Prayer) </string>
     <string name="kerahatMaghrib">Sunset (before Maghrib Prayer)</string>

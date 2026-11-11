@@ -26,6 +26,8 @@
     <string name="hDateFormat2">30 Muharrem 34</string>
     <string name="hdateFormat">Hicri Tarih bicimi</string>
     <string name="hijriFix">Hicri Tarihi düzelt</string>
+    <string name="hijriCalculation">Hicri hesaplama</string>
+    <string name="hijriDayOffset">Hicri gün kaydırma</string>
     <string name="kerahatDuration">Kerahat Vakti - Süresi</string>
     <string name="kerahatIstiwa">İstiva Vakti (Ögle\'den önce)</string>
     <string name="kerahatMaghrib">Güneş batması (Akşam\'dan önce)</string>

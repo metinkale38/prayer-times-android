@@ -153,6 +153,32 @@
         <item>31/12</item>
         <item>31 12</item>
     </string-array>
+    <string-array name="hijri_day_offset">
+        <item>-3</item>
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>+1</item>
+        <item>+2</item>
+        <item>+3</item>
+    </string-array>
+    <string-array name="hijri_day_offset_values">
+        <item>-3</item>
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="hijri_calculation">
+        <item>Diyanet</item>
+        <item>Umm al-Qura</item>
+    </string-array>
+    <string-array name="hijri_calculation_values">
+        <item>Diyanet</item>
+        <item>UmmulQura</item>
+    </string-array>
     <string-array name="hicri_text">
         <item>@string/hDateFormat1</item>
         <item>@string/hDateFormat2</item>

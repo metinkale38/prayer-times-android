@@ -22,6 +22,9 @@ import android.os.LocaleList
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.metinkale.prayer.utils.LocaleUtils.locale
+import dev.metinkale.openprayertimes.hijri.HijriCalculation
+import dev.metinkale.openprayertimes.hijri.HijriConfig
+import dev.metinkale.openprayertimes.hijri.HijriConfiguration
 import java.util.Locale
 import kotlin.reflect.KProperty
 
@@ -62,6 +65,21 @@ object Preferences {
     var DIGITS by StringPreference("numbers", "normal")
     var DATE_FORMAT by StringPreference("dateformat", "DD MMM YYYY")
     var HIJRI_DATE_FORMAT by StringPreference("hdateformat", "DD MMM YYYY")
+    var HIJRI_CALCULATION by StringPreference(
+        "hijri_calculation",
+        HijriCalculation.Diyanet.name
+    )
+    var HIJRI_DAY_OFFSET by object : Preference<Int> {
+        override fun getValue(): Int = when (val value = prefs.all["hijri_day_offset"]) {
+            is Int -> value
+            is String -> value.toIntOrNull() ?: 0
+            else -> 0
+        }
+
+        override fun setValue(value: Int) {
+            prefs.edit { putString("hijri_day_offset", value.toString()) }
+        }
+    }
     var CLOCK_12H by BooleanPreference("use12h", false)
     var STOP_ALARM_ON_FACEDOWN by BooleanPreference("stopFacedown", false)
     var CHANGELOG_VERSION by IntPreference("changelog_version", -1)
@@ -96,6 +114,16 @@ object Preferences {
     }
 
     var COUNTDOWN_TYPE by StringPreference("widget_countdown", "default")
+
+    fun applyHijriConfig() {
+        (prefs.all["hijri_day_offset"] as? Int)?.let { value ->
+            prefs.edit { putString("hijri_day_offset", value.toString()) }
+        }
+        val calculation = runCatching {
+            HijriCalculation.valueOf(HIJRI_CALCULATION)
+        }.getOrDefault(HijriCalculation.Diyanet)
+        HijriConfig.current = HijriConfiguration(calculation, HIJRI_DAY_OFFSET)
+    }
 
     fun clear() = prefs.edit(commit = true) { clear() }
 }

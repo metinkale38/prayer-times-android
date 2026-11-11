@@ -53,6 +53,8 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
             findPreference<Preference>("ongoingIcon")!!.onPreferenceClickListener = this
             findPreference<Preference>("ongoingNumber")!!.onPreferenceClickListener = this
             findPreference<Preference>("kerahatDuration")!!.onPreferenceClickListener = this
+            findPreference<Preference>("hijri_calculation")!!.onPreferenceChangeListener = this
+            findPreference<Preference>("hijri_day_offset")!!.onPreferenceChangeListener = this
             findPreference<Preference>("arabicNames")!!.isEnabled = Locale("ar").language != locale.language
             val lang = findPreference<ListPreference>("language")!!
             lang.onPreferenceChangeListener = this
@@ -169,6 +171,13 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
     }
 
     override fun onPreferenceChange(pref: Preference, newValue: Any): Boolean {
+        if ("hijri_calculation" == pref.key) {
+            Preferences.HIJRI_CALCULATION = newValue as String
+            Preferences.applyHijriConfig()
+        } else if ("hijri_day_offset" == pref.key) {
+            Preferences.HIJRI_DAY_OFFSET = newValue.toString().toIntOrNull() ?: 0
+            Preferences.applyHijriConfig()
+        }
         if ("language" == pref.key || "digits" == pref.key) {
             if ("language" == pref.key) Preferences.LANGUAGE = newValue as String
             val act: Activity? = activity
