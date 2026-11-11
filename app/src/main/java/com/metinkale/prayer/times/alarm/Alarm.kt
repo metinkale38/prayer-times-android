@@ -163,8 +163,10 @@ data class Alarm(
 
     fun vibrateNow(c: Context) {
         if (!vibrate) return
+        val pattern = Utils.getVibrationPattern(c, "vibration")
+        if (pattern.isEmpty()) return
         val v = c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        v.vibrate(VibrationEffect.createWaveform(Utils.getVibrationPattern(c, "vibration"), -1))
+        v.vibrate(VibrationEffect.createWaveform(pattern, -1))
     }
 
 

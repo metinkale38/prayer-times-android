@@ -21,7 +21,6 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import android.provider.OpenableColumns
 import com.metinkale.prayer.App
-import com.metinkale.prayer.CrashReporter.recordException
 import com.metinkale.prayer.times.alarm.Alarm
 import java.io.IOException
 
@@ -61,8 +60,7 @@ data class UserSound(val uri: Uri) : Sound {
                     }
                 }
                 return result
-            } catch (e: Exception) {
-                recordException(e)
+            } catch (_: Exception) {
             }
             return "Unknown"
         }
@@ -72,8 +70,7 @@ data class UserSound(val uri: Uri) : Sound {
         val mp = MediaPlayer()
         try {
             mp.setDataSource(App.get(), uri)
-        } catch (e: IOException) {
-            recordException(e)
+        } catch (_: IOException) {
             return null
         }
         return mp

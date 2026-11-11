@@ -73,7 +73,7 @@ class MyPlayer private constructor() {
         }
         if (mediaPlayers.isEmpty()) return this
 
-        for (i in sound.size - 2 downTo 0) {
+        for (i in mediaPlayers.size - 2 downTo 0) {
             mediaPlayers[i].setNextMediaPlayer(mediaPlayers[i + 1])
         }
         val am = App.get().getSystemService(Context.AUDIO_SERVICE) as AudioManager

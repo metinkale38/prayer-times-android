@@ -38,6 +38,7 @@ import com.metinkale.prayer.times.alarm.AlarmUtils.buildAlarmNotification
 import com.metinkale.prayer.times.alarm.AlarmUtils.buildPlayingNotification
 import com.metinkale.prayer.times.alarm.sounds.MyPlayer
 import com.metinkale.prayer.times.fragments.NotificationPopup
+import com.metinkale.prayer.times.utils.NotificationUtils
 import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.setAlarms
 import kotlinx.coroutines.delay
@@ -48,6 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class AlarmService : IntentService("AlarmService") {
     override fun onHandleIntent(intent: Intent?) {
+        startForegroundPlaceholder()
         intent?.let {
             val alarmId = intent.getIntExtra(EXTRA_ALARMID, -1).takeIf { it >= 0 }
             val time = intent.getLongExtra(EXTRA_TIME, -1).takeIf { it >= 0 }
@@ -70,8 +72,19 @@ class AlarmService : IntentService("AlarmService") {
                 }
             }
         }
-        stopForeground(STOP_FOREGROUND_DETACH)
+        stopForeground(STOP_FOREGROUND_REMOVE)
         Times.setAlarms()
+    }
+
+    private fun startForegroundPlaceholder() {
+        runCatching {
+            ServiceCompat.startForeground(
+                this,
+                NotificationUtils.getDummyNotificationId(),
+                NotificationUtils.createDummyNotification(this),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            )
+        }
     }
 
     private suspend fun fireAlarm(alarmId: Int, time: Long) {
