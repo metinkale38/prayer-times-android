@@ -1,0 +1,183 @@
+appId: com.metinkale.prayer
+---
+- launchApp:
+    clearState: true
+
+# Language selection
+- runFlow:
+    when:
+      visible: "Language"
+    commands:
+      - tapOn: "CONTINUE"
+
+# Changelog / intro
+- runFlow:
+    when:
+      visible: "What's new?"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "CONTINUE"
+    commands:
+      - tapOn: "CONTINUE"
+- runFlow:
+    when:
+      visible: "DONE"
+    commands:
+      - tapOn: "DONE"
+
+- extendedWaitUntil:
+    visible: "Cities"
+    timeout: 15000
+
+# Add a deterministic city via search.
+- tapOn:
+    id: "com.metinkale.prayer:id/addCity"
+- extendedWaitUntil:
+    visible: "Auto Location"
+    timeout: 15000
+- tapOn:
+    id: "com.metinkale.prayer:id/search"
+- inputText: "Abakan"
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: "com.metinkale.prayer:id/city"
+    timeout: 30000
+- tapOn:
+    id: "com.metinkale.prayer:id/city"
+    index: 0
+- extendedWaitUntil:
+    visible: "Cities"
+    timeout: 15000
+- assertVisible: "Abakan"
+
+# Open the city prayer times page.
+- tapOn: "Abakan"
+- extendedWaitUntil:
+    visible: "Month View"
+    timeout: 15000
+- assertVisible: "Fajr"
+- assertVisible: "Ishaa"
+
+# Settings: change Hijri calculation and offset.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Settings"
+    timeout: 10000
+- tapOn: "Settings"
+- extendedWaitUntil:
+    visible: "Hijri calculation"
+    timeout: 15000
+- tapOn: "Hijri calculation"
+- extendedWaitUntil:
+    visible: "Umm al-Qura"
+    timeout: 10000
+- tapOn: "Umm al-Qura"
+- scrollUntilVisible:
+    element:
+      text: "Hijri day offset"
+    direction: DOWN
+- tapOn: "Hijri day offset"
+- extendedWaitUntil:
+    visible: "+3"
+    timeout: 10000
+- tapOn: "+3"
+- back
+
+# Dhikr smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Dhikr"
+    timeout: 10000
+- tapOn: "Dhikr"
+- extendedWaitUntil:
+    visible: "Tasbih"
+    timeout: 10000
+- assertVisible: "Tasbih"
+- back
+
+# Qibla smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Prayer Compass"
+    timeout: 10000
+- tapOn: "Prayer Compass"
+- extendedWaitUntil:
+    visible: "Prayer Compass"
+    timeout: 15000
+- assertVisible: "Prayer Compass"
+- back
+
+# Names smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "99 Names of Allah"
+    timeout: 10000
+- tapOn: "99 Names of Allah"
+- assertVisible: "99 Names of Allah"
+- back
+
+# Holy Days / calendar smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Holy Days"
+    timeout: 10000
+- tapOn: "Holy Days"
+- assertVisible: "Holy Days"
+- back
+
+# Tasbeehat smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Tasbeehat"
+    timeout: 10000
+- tapOn: "Tasbeehat"
+- assertVisible: "Tasbeehat"
+- back
+
+# Missed prayers smoke check.
+- swipe:
+    start: "0%,50%"
+    end: "75%,50%"
+    duration: 400
+- extendedWaitUntil:
+    visible: "Missed Prayers"
+    timeout: 10000
+- tapOn: "Missed Prayers"
+- assertVisible: "Missed Prayers"
+- back
