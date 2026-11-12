@@ -82,12 +82,8 @@ jobs:
             -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
             -no-snapshot -camera-back none -camera-front none
           script: |
-            set -euo pipefail
             adb install -r app/build/outputs/apk/play/debug/app-play-debug.apk
-            maestro test .maestro/smoke.yaml \
-              --test-output-dir build/maestro-output \
-              --format junit \
-              --output maestro-report.xml
+            maestro test .maestro/smoke.yaml --test-output-dir build/maestro-output --format junit --output maestro-report.xml
 
       - name: Upload Maestro results
         if: always()
