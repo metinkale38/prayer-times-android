@@ -1,0 +1,104 @@
+name: Maestro Smoke Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Maestro smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Read open-prayer-times commit
+        id: open-prayer-times-ref
+        run: echo "ref=$(tr -d '[:space:]' < open-prayer-times.commit)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout open-prayer-times
+        uses: actions/checkout@v5
+        with:
+          repository: metinkale38/open-prayer-times
+          ref: ${{ steps.open-prayer-times-ref.outputs.ref }}
+          path: open-prayer-times
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Publish open-prayer-times to Maven local
+        run: |
+          cd open-prayer-times
+          ./gradlew publishToMavenLocal --no-daemon --max-workers=2 \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
+
+      - name: Prepare debug secrets
+        run: |
+          SECRETS_FILE="app/src/main/res/values/secrets.xml"
+          if [ ! -f "$SECRETS_FILE" ]; then
+            mkdir -p "$(dirname "$SECRETS_FILE")"
+            cat > "$SECRETS_FILE" <<'EOF'
+          <resources>
+            <string name="GOOGLE_API_KEY"></string>
+            <string name="SENTRY_DSN"></string>
+          </resources>
+          EOF
+          fi
+
+      - name: Build debug APK
+        run: |
+          bash ./gradlew :app:assemblePlayDebug --no-daemon --max-workers=2 \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=768m"
+
+      - name: Install Maestro
+        env:
+          MAESTRO_VERSION: 2.12.1
+          MAESTRO_CLI_NO_ANALYTICS: 1
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Enable KVM
+        run: |
+          ls -l /dev/kvm || true
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run Maestro smoke tests on AVD
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-options: >-
+            -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+            -no-snapshot -camera-back none -camera-front none
+          script: |
+            adb install -r app/build/outputs/apk/play/debug/app-play-debug.apk
+            maestro test .maestro/smoke.yaml --test-output-dir build/maestro-output --debug-output build/maestro-debug --format junit --output maestro-report.xml
+
+      - name: Upload Maestro results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results
+          if-no-files-found: warn
+          path: |
+            maestro-report.xml
+            build/maestro-output/**
+            build/maestro-debug/**
