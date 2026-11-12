@@ -83,7 +83,7 @@ jobs:
             -no-snapshot -camera-back none -camera-front none
           script: |
             adb install -r app/build/outputs/apk/play/debug/app-play-debug.apk
-            maestro test .maestro/smoke.yaml --test-output-dir build/maestro-output --format junit --output maestro-report.xml
+            maestro test .maestro/smoke.yaml --test-output-dir build/maestro-output --debug-output build/maestro-debug --format junit --output maestro-report.xml
 
       - name: Upload Maestro results
         if: always()
@@ -94,3 +94,4 @@ jobs:
           path: |
             maestro-report.xml
             build/maestro-output/**/startRecording/*.mp4
+            build/maestro-debug/**

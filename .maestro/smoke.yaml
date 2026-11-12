@@ -63,14 +63,25 @@ appId: com.metinkale.prayer
     commands:
       - tapOn: "DONE"
 
-- extendedWaitUntil:
-    visible:
-      id: "com.metinkale.prayer:id/addCity"
-    timeout: 15000
+# On a fresh install the city search opens directly after onboarding.
+# Dismiss the location permission prompts if they appear.
+- tapOn:
+    text: "OK"
+    optional: true
+- tapOn:
+    text: "While using the app|Only this time|Deny|Don't allow"
+    optional: true
+
+# Fall back to opening the search from the times screen when it is not auto-opened.
+- runFlow:
+    when:
+      visible:
+        id: "com.metinkale.prayer:id/addCity"
+    commands:
+      - tapOn:
+          id: "com.metinkale.prayer:id/addCity"
 
 # Add a deterministic, widely available city via search.
-- tapOn:
-    id: "com.metinkale.prayer:id/addCity"
 - extendedWaitUntil:
     visible: "Auto Location"
     timeout: 15000
