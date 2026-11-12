@@ -70,6 +70,13 @@ jobs:
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
 
+      - name: Enable KVM
+        run: |
+          ls -l /dev/kvm || true
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: Run Maestro smoke tests on AVD
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -93,5 +100,5 @@ jobs:
           if-no-files-found: warn
           path: |
             maestro-report.xml
-            build/maestro-output/**/startRecording/*.mp4
+            build/maestro-output/**
             build/maestro-debug/**
