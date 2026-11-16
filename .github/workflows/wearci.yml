@@ -1,0 +1,38 @@
+name: Build Wear App
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Wear app
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+    - uses: actions/checkout@v5
+    - name: Read open-prayer-times commit
+      id: open-prayer-times-ref
+      run: echo "ref=$(tr -d '[:space:]' < open-prayer-times.commit)" >> "$GITHUB_OUTPUT"
+    - name: Checkout open-prayer-times
+      uses: actions/checkout@v5
+      with:
+        repository: metinkale38/open-prayer-times
+        ref: ${{ steps.open-prayer-times-ref.outputs.ref }}
+        path: open-prayer-times
+    - name: set up JDK 17
+      uses: actions/setup-java@v5
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Build Wear app
+      run: bash ci_build.sh wear

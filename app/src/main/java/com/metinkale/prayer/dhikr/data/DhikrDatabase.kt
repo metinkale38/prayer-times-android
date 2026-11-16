@@ -19,13 +19,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Dhikr::class], version = 1, exportSchema = false)
+@Database(entities = [Dhikr::class], version = 2, exportSchema = false)
 abstract class DhikrDatabase : RoomDatabase() {
     abstract fun dhikrDao(): DhikrDao?
 
     companion object {
         private var INSTANCE: DhikrDatabase? = null
+
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE dhikr ADD COLUMN syncId TEXT NOT NULL DEFAULT ''")
+                database.execSQL("ALTER TABLE dhikr ADD COLUMN updatedAt INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE dhikr ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("UPDATE dhikr SET syncId = 'legacy-' || id WHERE syncId = ''")
+            }
+        }
 
         @JvmStatic
         fun getDatabase(context: Context): DhikrDatabase {
@@ -42,7 +53,7 @@ abstract class DhikrDatabase : RoomDatabase() {
                     context.applicationContext,
                     DhikrDatabase::class.java,
                     "dhikr"
-                ).build().also { INSTANCE = it }
+                ).addMigrations(MIGRATION_1_2).build().also { INSTANCE = it }
             }
         }
     }

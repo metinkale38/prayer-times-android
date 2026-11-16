@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.os.SystemClock
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.text.Spannable
@@ -194,23 +193,13 @@ class WidgetProviderClock : AppWidgetProvider() {
             remoteViews.setTextViewTextSize(R.id.lastText, TypedValue.COMPLEX_UNIT_PX, height / 9f)
             remoteViews.setTextViewTextSize(R.id.nextText, TypedValue.COMPLEX_UNIT_PX, height / 9f)
             remoteViews.setTextViewTextSize(R.id.countdown, TypedValue.COMPLEX_UNIT_PX, height / 5f)
-            if (Preferences.COUNTDOWN_TYPE == Preferences.COUNTDOWN_TYPE_SHOW_SECONDS) remoteViews
-                .setChronometer(
-                    R.id.countdown,
-                    times.getTime(LocalDate.now(), next)
-                        .atZone(ZoneId.systemDefault()).toInstant()
-                        .toEpochMilli() - (System.currentTimeMillis() - SystemClock.elapsedRealtime()),
-                    null,
-                    true
-                ) else {
-                val txt = LocaleUtils.formatPeriod(
-                    LocalDateTime.now(),
-                    times.getTime(LocalDate.now(), next),
-                    false
-                )
-                remoteViews.setString(R.id.countdown, "setFormat", txt)
-                remoteViews.setChronometer(R.id.countdown, 0, txt, false)
-            }
+            val txt = LocaleUtils.formatPeriod(
+                LocalDateTime.now(),
+                times.getTime(LocalDate.now(), next),
+                false
+            )
+            remoteViews.setString(R.id.countdown, "setFormat", txt)
+            remoteViews.setChronometer(R.id.countdown, 0, txt, false)
             remoteViews.setViewPadding(R.id.progresscontainer, width / 10, 0, width / 10, 0)
             remoteViews.setViewPadding(R.id.time, 0, -height / 6, 0, -height / 7)
             remoteViews.setViewPadding(R.id.greg, width / 10, 0, 0, 0)

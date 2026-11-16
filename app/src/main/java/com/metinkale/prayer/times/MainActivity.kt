@@ -22,6 +22,7 @@ import com.metinkale.prayer.BaseActivity
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.fragments.SearchCityFragment
 import com.metinkale.prayer.times.fragments.TimesFragment
+import com.metinkale.prayer.wear.WearInstallPrompt
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -40,6 +41,11 @@ open class MainActivity : BaseActivity(R.string.appName, R.mipmap.ic_launcher, T
         }
 
         lifecycle.addObserver(LocationUtil().also { locationScanning = it.running })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        WearInstallPrompt.maybeShow(this)
     }
 }
 

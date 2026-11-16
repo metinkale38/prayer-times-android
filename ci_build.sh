@@ -58,6 +58,17 @@ else
 EOF
 fi
 
+WEAR_SECRETS_FILE="wear/src/main/res/values/secrets.xml"
+if [ -d "wear" ] && [ ! -f "$WEAR_SECRETS_FILE" ]; then
+  echo "Generate wear secrets.xml"
+  mkdir -p "$(dirname "$WEAR_SECRETS_FILE")"
+  cat > "$WEAR_SECRETS_FILE" <<'EOF'
+<resources>
+  <string name="GOOGLE_API_KEY" translatable="false"></string>
+</resources>
+EOF
+fi
+
 FLAVORS=("$@")
 if [ ${#FLAVORS[@]} -eq 0 ]; then
   FLAVORS=(fdroid play)
@@ -72,6 +83,10 @@ for flavor in "${FLAVORS[@]}"; do
     play)
       task=assemblePlay
       label=Play
+      ;;
+    wear)
+      task=:wear:assembleDebug
+      label=Wear
       ;;
     *)
       echo "Unknown flavor: ${flavor}" >&2

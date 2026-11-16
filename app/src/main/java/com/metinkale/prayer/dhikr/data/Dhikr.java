@@ -28,6 +28,9 @@ public class Dhikr {
     private int value;
     private int color = 0xFF33B5E5;
     private int position = -1;
+    private String syncId = "";
+    private long updatedAt = 0L;
+    private boolean deleted = false;
 
     public int getId() {
         return id;
@@ -76,5 +79,29 @@ public class Dhikr {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getSyncId() {
+        return syncId;
+    }
+
+    public void setSyncId(String syncId) {
+        this.syncId = syncId;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

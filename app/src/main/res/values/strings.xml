@@ -105,6 +105,14 @@
 
     <string name="shareText">Hey, check out this prayer times app: https://play.google.com/store/apps/details?id=com.metinkale.prayer</string>
 
+    <string name="wearInstallTitle">Install watch app?</string>
+    <string name="wearInstallMessage">The Prayer Times app isn\'t installed on your Wear OS watch yet. You can install it on the watch now.</string>
+    <string name="wearInstallNow">Install now</string>
+    <string name="wearInstallDismissForever">Don\'t show again</string>
+    <string name="wearSyncCity">Show on watch</string>
+    <string name="wearSyncCityCurrent">Shown on watch</string>
+    <string name="wearSyncCitySelected">\"%1$s\" is now shown on the watch</string>
+
 
     <!-- Other -->
     <string name="systemLanguage">System language</string>

@@ -10,6 +10,11 @@
     "dest": "base.xml"
   },
   {
+    "source": "wear/src/main/res/values/strings.xml",
+    "translation": "wear/src/main/translations/values-%two_letters_code%/strings.xml",
+    "dest": "wear.xml"
+  },
+  {
     "source": "app/src/main/res/values/about.xml",
     "translation": "app/src/main/translations/values-%two_letters_code%/about.xml",
     "dest": "about.xml"

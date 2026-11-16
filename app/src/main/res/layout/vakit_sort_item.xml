@@ -68,9 +68,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_toStartOf="@+id/handle"
+        android:layout_toStartOf="@+id/wearSync"
         android:layout_toEndOf="@+id/gps"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/wearSync"
+        android:layout_width="?listPreferredItemHeight"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/handle"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/wearSyncCity"
+        android:focusable="true"
+        android:padding="8dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_times_action_watch"
+        android:visibility="gone"
+        app:tint="@color/foregroundSecondary" />
 
     <ImageView
         android:id="@+id/handle"
