@@ -52,7 +52,7 @@ class CustomPrayerTextComplicationService : PrayerComplicationService() {
 
 internal fun countdownComplicationText(spec: CountdownSpec): TimeDifferenceComplicationText =
     TimeDifferenceComplicationText.Builder(
-        TimeDifferenceStyle.SHORT_DUAL_UNIT,
+        TimeDifferenceStyle.STOPWATCH,
         CountDownTimeReference(Instant.ofEpochMilli(spec.targetEpochMillis))
     )
         .setMinimumTimeUnit(TimeUnit.MINUTES)
