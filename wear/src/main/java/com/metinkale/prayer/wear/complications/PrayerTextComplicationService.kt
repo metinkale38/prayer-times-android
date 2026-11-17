@@ -73,7 +73,11 @@ internal fun countdownSpec(
     val currentName = context.getString(model.current.labelRes)
     fun prayerName(index: Int) = context.getString(model.today[index].labelRes)
     fun adjust(epochMillis: Long) =
-        if (model.countdownRoundUp) epochMillis + 59_000L else epochMillis
+        if (model.countdownRoundUp) {
+            epochMillis
+        } else {
+            epochMillis - (TimeUnit.MINUTES.toMillis(1) - 1)
+        }
     fun target(index: Int) = adjust(model.prayerNextEpochMillis.getOrElse(index) { 0L })
     return when (option) {
         PrayerTextOption.COUNTDOWN -> CountdownSpec(adjust(model.nextEpochMillis), null)
