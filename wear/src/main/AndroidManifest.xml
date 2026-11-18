@@ -51,6 +51,27 @@
         </service>
 
         <service
+            android:name=".watchface.PrayerWatchFaceService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/watch_face_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/prayer_watch_face" />
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview"
+                android:resource="@drawable/tile_preview" />
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview_circular"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
+        <service
             android:name=".tiles.PrayerTimesTileService"
             android:description="@string/wear_tile_times_description"
             android:exported="true"

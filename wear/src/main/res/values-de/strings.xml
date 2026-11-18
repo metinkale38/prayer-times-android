@@ -103,4 +103,6 @@
 
     <string name="dhikr_tap_hint">Tippen zum Zählen</string>
     <string name="dhikr_hold_hint">Halten für Optionen</string>
+    <string name="watch_face_name">Gebetszeiten</string>
+    <string name="watch_face_countdown">%1$s | %2$s bis %3$s</string>
 </resources>

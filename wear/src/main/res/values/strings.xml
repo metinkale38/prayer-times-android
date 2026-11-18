@@ -104,4 +104,6 @@
     <string name="dhikr_tap_hint">Tap to count</string>
     <string name="dhikr_hold_hint">Hold for options</string>
     <string name="appName">Prayer Times</string>
+    <string name="watch_face_name">Prayer Times</string>
+    <string name="watch_face_countdown">%1$s | %2$s until %3$s</string>
 </resources>
