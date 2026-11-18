@@ -113,7 +113,7 @@ function draw() {
     arcs.push({ start, end, from, to });
   });
 
-  ctx.globalAlpha = ambient ? 0.4 : 1;
+  ctx.globalAlpha = ambient ? 0.6 : 1;
   arcs.forEach(a => {
     strokeArc(a.start, a.end, COLORS.track);
   });
@@ -130,7 +130,7 @@ function draw() {
     const rotation = flipped ? angle + 180 : angle;
     const nameRadius = flipped ? TIME_R : NAME_R;
     const timeRadius = flipped ? NAME_R : TIME_R;
-    ctx.globalAlpha = ambient ? 0.35 : 1;
+    ctx.globalAlpha = ambient ? 0.8 : 1;
     if (key === "dhuhr") {
       drawLabel(NAMES[key] + " " + state.times[key], angle, 171, 16, COLORS.secondary, rotation);
     } else {
@@ -142,7 +142,7 @@ function draw() {
 
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.globalAlpha = ambient ? 0.55 : 1;
+  ctx.globalAlpha = ambient ? 0.9 : 1;
   ctx.fillStyle = COLORS.primary;
   ctx.font = "bold 106px Roboto, system-ui, sans-serif";
   ctx.fillText(clock(now), C, 200);
@@ -152,8 +152,8 @@ function draw() {
     const date = new Date(2026, 3, 16);
     const dateText = date.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
     ctx.fillStyle = COLORS.primary;
-    ctx.font = "21px Roboto, system-ui, sans-serif";
-    ctx.fillText(dateText.replace(/^(\w+)\.?,?/, "$1,"), C, 104);
+    ctx.font = "19px Roboto, system-ui, sans-serif";
+    ctx.fillText(dateText.replace(/^(\w+)\.?,?/, "$1,"), C, 116);
 
     ctx.fillStyle = COLORS.accent;
     ctx.font = "22px Roboto, system-ui, sans-serif";
@@ -200,9 +200,9 @@ function drawLabel(text, angle, radius, size, color, rotation) {
 
 function drawWeather() {
   ctx.fillStyle = COLORS.accent;
-  ctx.font = "26px Roboto, system-ui, sans-serif";
+  ctx.font = "20px Roboto, system-ui, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("32°", C, 44);
+  ctx.fillText("32°", C, 74);
 }
 
 function drawGoals() {
@@ -235,9 +235,9 @@ function drawSteps() {
   const left = C - (numberWidth + wordWidth) / 2;
   ctx.textAlign = "left";
   ctx.fillStyle = COLORS.primary;
-  ctx.fillText(number, left, 366);
+  ctx.fillText(number, left, 368);
   ctx.fillStyle = COLORS.secondary;
-  ctx.fillText(word, left + numberWidth, 366);
+  ctx.fillText(word, left + numberWidth, 368);
 }
 
 function bind() {

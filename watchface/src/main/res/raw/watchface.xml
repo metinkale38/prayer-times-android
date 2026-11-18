@@ -4,7 +4,7 @@
     <Metadata key="PREVIEW_TIME" value="13:30:00"/>
     <Scene backgroundColor="#ff000000">
         <PartDraw x="0" y="0" width="450" height="450">
-            <Variant mode="AMBIENT" target="alpha" value="110"/>
+            <Variant mode="AMBIENT" target="alpha" value="150"/>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="60" endAngle="82.857">
             <Stroke color="#40ffffff" thickness="9" cap="BUTT"/>
         </Arc>
@@ -25,7 +25,7 @@
         </Arc>
         </PartDraw>
         <PartDraw x="0" y="0" width="450" height="450">
-            <Variant mode="AMBIENT" target="alpha" value="110"/>
+            <Variant mode="AMBIENT" target="alpha" value="150"/>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="0" endAngle="60">
                 <Transform target="endAngle" value="60.000 * clamp(([SECONDS_IN_DAY] - 450) / 15750, 0, 1)"/>
             <Stroke color="#ff3f9bbf" thickness="9" cap="BUTT"/>
@@ -125,18 +125,18 @@
         </Group>
         <DigitalClock x="0" y="0" width="450" height="450">
             <TimeText format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" x="0" y="140" width="450" height="120">
-                <Variant mode="AMBIENT" target="alpha" value="140"/>
+                <Variant mode="AMBIENT" target="alpha" value="230"/>
                 <Font family="SYNC_TO_DEVICE" size="106" weight="BOLD" color="#fff2f2f2"/>
             </TimeText>
         </DigitalClock>
-        <PartText x="75" y="92" width="300" height="24">
+        <PartText x="75" y="105" width="300" height="24">
             <Variant mode="AMBIENT" target="alpha" value="0"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="21" color="#fff2f2f2"><Template>%s<Parameter expression="[DAY_OF_WEEK_S]"/>, %s<Parameter expression="[DAY]"/> %s<Parameter expression="[MONTH_F]"/> %s<Parameter expression="[YEAR]"/></Template></Font>
+                <Font family="SYNC_TO_DEVICE" size="19" color="#fff2f2f2"><Template>%s<Parameter expression="[DAY_OF_WEEK_S]"/>, %s<Parameter expression="[DAY]"/> %s<Parameter expression="[MONTH_F]"/> %s<Parameter expression="[YEAR]"/></Template></Font>
             </Text>
         </PartText>
         <PartText x="0" y="250" width="450" height="26">
-            <Variant mode="AMBIENT" target="alpha" value="110"/>
+            <Variant mode="AMBIENT" target="alpha" value="150"/>
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="22" color="#ff3f9bbf">28 Shawwal 1447</Font>
             </Text>
@@ -147,12 +147,12 @@
                 <Font family="SYNC_TO_DEVICE" size="20" color="#ffa9b0b4">Zuhr | 03:30 bis Asr</Font>
             </Text>
         </PartText>
-        <ComplicationSlot slotId="0" x="166" y="20" width="117" height="40" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE RANGED_VALUE SMALL_IMAGE EMPTY">
-            <BoundingBox x="0" y="0" width="117" height="40"/>
+        <ComplicationSlot slotId="0" x="166" y="48" width="117" height="54" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE RANGED_VALUE SMALL_IMAGE EMPTY">
+            <BoundingBox x="0" y="0" width="117" height="54"/>
             <Complication type="SHORT_TEXT">
-                <Group x="0" y="0" width="117" height="40" name="complication_0">
+                <Group x="0" y="0" width="117" height="54" name="complication_0">
                     <Variant mode="AMBIENT" target="alpha" value="0"/>
-                    <PartText x="0" y="0" width="117" height="40">
+                    <PartText x="0" y="0" width="117" height="54">
                         <Text align="CENTER">
                             <Font family="SYNC_TO_DEVICE" size="26" color="#fff2f2f2"><Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template></Font>
                         </Text>
@@ -199,7 +199,7 @@
                 </Group>
             </Complication>
         </ComplicationSlot>
-        <ComplicationSlot slotId="4" x="99" y="358" width="252" height="20" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
+        <ComplicationSlot slotId="4" x="99" y="360" width="252" height="20" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
             <BoundingBox x="0" y="0" width="252" height="20"/>
             <Complication type="SHORT_TEXT">
                 <Group x="0" y="0" width="252" height="20" name="complication_4">
