@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.metinkale.prayer.watchface-debug-3:/drawable-nodpi_preview.png.flat",
+        "source": "com.metinkale.prayer.watchface-main-5:/drawable-nodpi/preview.png"
+    },
+    {
+        "merged": "com.metinkale.prayer.watchface-debug-3:/raw_watchface.xml.flat",
+        "source": "com.metinkale.prayer.watchface-main-5:/raw/watchface.xml"
+    },
+    {
+        "merged": "com.metinkale.prayer.watchface-debug-3:/xml_watch_face_info.xml.flat",
+        "source": "com.metinkale.prayer.watchface-main-5:/xml/watch_face_info.xml"
+    }
+]

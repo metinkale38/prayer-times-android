@@ -5,6 +5,7 @@
 
     <application
         android:hasCode="false"
+        android:icon="@drawable/preview"
         android:label="@string/watch_face_name">
 
         <meta-data

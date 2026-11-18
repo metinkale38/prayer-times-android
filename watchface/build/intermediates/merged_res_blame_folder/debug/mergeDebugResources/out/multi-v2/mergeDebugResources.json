@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.metinkale.prayer.watchface-debug-3:/values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "/home/opencode/projects/prayer-times-android/wear/watchface/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "56",
+                        "endOffsets": "107"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.metinkale.prayer.watchface-debug-3:/values-de_values-de.arsc.flat",
+            "map": [
+                {
+                    "source": "/home/opencode/projects/prayer-times-android/wear/watchface/src/main/res/values-de/strings.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "56",
+                        "endOffsets": "107"
+                    }
+                }
+            ]
+        }
+    ]
+}

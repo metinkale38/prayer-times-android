@@ -1,0 +1,4 @@
+com.metinkale.prayer.watchface:xml/watch_face_info = 0x7f040000
+com.metinkale.prayer.watchface:string/watch_face_name = 0x7f030000
+com.metinkale.prayer.watchface:raw/watchface = 0x7f020000
+com.metinkale.prayer.watchface:drawable/preview = 0x7f010000

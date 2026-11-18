@@ -1,0 +1,6 @@
+R_DEF: Internal format may change without notice
+local
+drawable preview
+raw watchface
+string watch_face_name
+xml watch_face_info

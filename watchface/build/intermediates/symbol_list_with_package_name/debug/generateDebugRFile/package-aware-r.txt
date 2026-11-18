@@ -1,0 +1,5 @@
+com.metinkale.prayer.watchface
+drawable preview
+raw watchface
+string watch_face_name
+xml watch_face_info

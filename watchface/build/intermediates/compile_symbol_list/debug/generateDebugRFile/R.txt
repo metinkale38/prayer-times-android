@@ -1,0 +1,4 @@
+int drawable preview 0x0
+int raw watchface 0x0
+int string watch_face_name 0x0
+int xml watch_face_info 0x0

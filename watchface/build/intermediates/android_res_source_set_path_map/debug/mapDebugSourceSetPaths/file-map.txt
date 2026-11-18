@@ -1,0 +1,8 @@
+com.metinkale.prayer.watchface-pngs-0 /home/opencode/projects/prayer-times-android/wear/watchface/build/generated/res/pngs/debug
+com.metinkale.prayer.watchface-updated_navigation_xml-1 /home/opencode/projects/prayer-times-android/wear/watchface/build/generated/updated_navigation_xml/debug
+com.metinkale.prayer.watchface-packageDebugResources-2 /home/opencode/projects/prayer-times-android/wear/watchface/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.metinkale.prayer.watchface-packageDebugResources-3 /home/opencode/projects/prayer-times-android/wear/watchface/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.metinkale.prayer.watchface-debug-4 /home/opencode/projects/prayer-times-android/wear/watchface/build/intermediates/merged_res/debug/mergeDebugResources
+com.metinkale.prayer.watchface-debug-5 /home/opencode/projects/prayer-times-android/wear/watchface/src/debug/res
+com.metinkale.prayer.watchface-main-6 /home/opencode/projects/prayer-times-android/wear/watchface/src/main/res
+gradleHome-0 /home/opencode/.gradle
