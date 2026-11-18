@@ -132,7 +132,7 @@
         <PartText x="75" y="105" width="300" height="24">
             <Variant mode="AMBIENT" target="alpha" value="0"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="19" color="#fff2f2f2"><Template>%s<Parameter expression="[DAY_OF_WEEK_S]"/>, %s<Parameter expression="[DAY]"/> %s<Parameter expression="[MONTH_F]"/> %s<Parameter expression="[YEAR]"/></Template></Font>
+                <Font family="SYNC_TO_DEVICE" size="19" color="#fff2f2f2"><Template>%s, %s. %s %s<Parameter expression="[DAY_OF_WEEK_S]"/><Parameter expression="[DAY]"/><Parameter expression="[MONTH_F]"/><Parameter expression="[YEAR]"/></Template></Font>
             </Text>
         </PartText>
         <PartText x="0" y="250" width="450" height="26">
