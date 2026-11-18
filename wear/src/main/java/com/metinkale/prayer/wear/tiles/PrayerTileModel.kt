@@ -2,6 +2,7 @@ package com.metinkale.prayer.wear.tiles
 
 import android.content.Context
 import com.metinkale.prayer.sync.WearDayTimes
+import com.metinkale.prayer.sync.WearTimesPayload
 import com.metinkale.prayer.wear.R
 import com.metinkale.prayer.wear.data.WearTimesRepository
 import dev.metinkale.openprayertimes.hijri.HijriDate
@@ -69,6 +70,14 @@ internal suspend fun loadPrayerTileModel(
     val payload = runCatching {
         WearTimesRepository.get(context).payload.first()
     }.getOrNull() ?: return null
+    return buildPrayerTileModel(context, payload, now)
+}
+
+internal fun buildPrayerTileModel(
+    context: Context,
+    payload: WearTimesPayload,
+    now: LocalDateTime
+): PrayerTileModel? {
     val roundUp = payload.countdownRoundUp
 
     val days = payload.days.associateBy { it.date }
