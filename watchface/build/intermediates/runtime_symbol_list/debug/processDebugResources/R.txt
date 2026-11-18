@@ -1,4 +1,0 @@
-int drawable preview 0x7f010000
-int raw watchface 0x7f020000
-int string watch_face_name 0x7f030000
-int xml watch_face_info 0x7f040000

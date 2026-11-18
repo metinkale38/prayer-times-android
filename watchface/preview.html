@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"/>
+<title>Gebetszeiten Zifferblatt – Vorschau</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #050505; color: #f2f2f2; font: 14px/1.4 Roboto, system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px; }
+  canvas { width: 450px; height: 450px; border-radius: 50%; }
+  .controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 16px; width: 450px; }
+  label { display: flex; flex-direction: column; gap: 4px; color: #a9b0b4; font-size: 12px; }
+  input[type=time], input[type=range] { width: 100%; }
+  .wide { grid-column: 1 / -1; }
+  .row { display: flex; align-items: center; gap: 8px; color: #a9b0b4; }
+  .value { color: #f2f2f2; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<canvas id="dial" width="450" height="450"></canvas>
+<div class="controls">
+  <label class="wide">Uhrzeit <span class="value" id="timeLabel"></span>
+    <input id="time" type="range" min="0" max="1439" step="1" value="810"/>
+  </label>
+  <label>Fajr <input id="fajr" type="time" value="04:30"/></label>
+  <label>Sonne <input id="sun" type="time" value="06:10"/></label>
+  <label>Zuhr <input id="dhuhr" type="time" value="13:15"/></label>
+  <label>Asr <input id="asr" type="time" value="17:00"/></label>
+  <label>Maghrib <input id="maghrib" type="time" value="19:45"/></label>
+  <label>Ishaa <input id="ishaa" type="time" value="21:15"/></label>
+  <div class="row wide"><input id="ambient" type="checkbox"/><label for="ambient" style="flex-direction: row; gap: 6px;">Ambient</label></div>
+</div>
+<script>
+const W = 450, C = W / 2;
+const RING_R = 0.455 * W, RING_STROKE = 9, GAP = 5;
+const NAME_R = 0.415 * W, TIME_R = 0.368 * W;
+const COLORS = {
+  background: "#000000",
+  primary: "#f2f2f2",
+  secondary: "#a9b0b4",
+  accent: "#3f9bbf",
+  track: "rgba(255,255,255,0.25)"
+};
+
+const canvas = document.getElementById("dial");
+const ctx = canvas.getContext("2d");
+
+const params = new URLSearchParams(location.search);
+const state = {
+  now: params.has("min") ? Number(params.get("min")) : 810,
+  ambient: params.get("ambient") === "1",
+  times: {
+    fajr: params.get("fajr") || "04:30",
+    sun: params.get("sun") || "06:10",
+    dhuhr: params.get("dhuhr") || "13:15",
+    asr: params.get("asr") || "17:00",
+    maghrib: params.get("maghrib") || "19:45",
+    ishaa: params.get("ishaa") || "21:15"
+  }
+};
+
+const ORDER = ["fajr", "sun", "dhuhr", "asr", "maghrib", "ishaa"];
+const NAMES = { fajr: "Fajr", sun: "Sonne", dhuhr: "Zuhr", asr: "Asr", maghrib: "Maghrib", ishaa: "Ishaa" };
+
+function minutes(value) {
+  const [h, m] = value.split(":").map(Number);
+  return h * 60 + (m || 0);
+}
+
+function clock(value) {
+  const h = Math.floor(value / 60) % 24;
+  const m = Math.round(value % 60);
+  return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+}
+
+function geometry() {
+  const t = {};
+  ORDER.forEach(k => t[k] = minutes(state.times[k]));
+  const nextFajr = t.fajr + 1440;
+  const anchor = (t.maghrib + nextFajr) / 2;
+  const startS = (anchor - 1440) * 60;
+  const noonS = t.dhuhr * 60;
+  const endS = anchor * 60;
+  const angleOf = (minutesOfDay) => {
+    const s = minutesOfDay * 60;
+    return s < noonS
+      ? 180 * (s - startS) / (noonS - startS)
+      : 180 + 180 * (s - noonS) / (endS - noonS);
+  };
+  return { t, nextFajr, anchor, startS, noonS, endS, angleOf };
+}
+
+function draw() {
+  const g = geometry();
+  const ambient = state.ambient;
+  const now = state.now;
+
+  ctx.clearRect(0, 0, W, W);
+  ctx.fillStyle = COLORS.background;
+  ctx.fillRect(0, 0, W, W);
+  ctx.lineCap = "butt";
+  ctx.lineWidth = RING_STROKE;
+
+  const arcs = [];
+  arcs.push({ start: 0, end: g.angleOf(g.t.fajr), from: g.anchor - 1440, to: g.t.fajr });
+  ORDER.forEach((key, index) => {
+    const start = g.angleOf(g.t[key]) + GAP;
+    const end = index === ORDER.length - 1 ? 360 : g.angleOf(g.t[ORDER[index + 1]]);
+    const from = g.t[key];
+    const to = index === ORDER.length - 1 ? g.anchor : g.t[ORDER[index + 1]];
+    arcs.push({ start, end, from, to });
+  });
+
+  ctx.globalAlpha = ambient ? 0.4 : 1;
+  arcs.forEach(a => {
+    strokeArc(a.start, a.end, COLORS.track);
+  });
+  arcs.forEach(a => {
+    const fraction = Math.min(1, Math.max(0, (now - a.from) / (a.to - a.from)));
+    if (fraction <= 0) return;
+    strokeArc(a.start, a.start + (a.end - a.start) * fraction, COLORS.accent);
+  });
+  ctx.globalAlpha = 1;
+
+  ORDER.forEach(key => {
+    const angle = g.angleOf(g.t[key]);
+    const flipped = angle >= 90 && angle <= 270;
+    const rotation = flipped ? angle + 180 : angle;
+    const nameRadius = flipped ? TIME_R : NAME_R;
+    const timeRadius = flipped ? NAME_R : TIME_R;
+    ctx.globalAlpha = ambient ? 0.35 : 1;
+    if (key === "dhuhr") {
+      drawLabel(NAMES[key] + " " + state.times[key], angle, 171, 16, COLORS.secondary, rotation);
+    } else {
+      drawLabel(NAMES[key], angle, nameRadius, 17, COLORS.secondary, rotation);
+      drawLabel(state.times[key], angle, timeRadius, 14, COLORS.secondary, rotation);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.globalAlpha = ambient ? 0.55 : 1;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = "bold 106px Roboto, system-ui, sans-serif";
+  ctx.fillText(clock(now), C, 200);
+  ctx.globalAlpha = 1;
+
+  if (!ambient) {
+    const date = new Date(2026, 3, 16);
+    const dateText = date.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
+    ctx.fillStyle = COLORS.primary;
+    ctx.font = "21px Roboto, system-ui, sans-serif";
+    ctx.fillText(dateText.replace(/^(\w+)\.?,?/, "$1,"), C, 104);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = "22px Roboto, system-ui, sans-serif";
+    ctx.fillText("28 Shawwal 1447", C, 263);
+
+    const nextIndex = ORDER.findIndex(k => g.t[k] > now);
+    const nextKey = nextIndex < 0 ? "fajr" : ORDER[nextIndex];
+    const currentKey = nextIndex <= 0 ? "ishaa" : ORDER[nextIndex - 1];
+    const target = nextIndex < 0 ? g.nextFajr : g.t[nextKey];
+    const remaining = Math.max(0, target - now);
+    const countdown = clock(remaining);
+    ctx.fillStyle = COLORS.secondary;
+    ctx.font = "20px Roboto, system-ui, sans-serif";
+    ctx.fillText(NAMES[currentKey] + " | " + countdown + " bis " + NAMES[nextKey], C, 292);
+
+    drawWeather();
+    drawGoals();
+    drawSteps();
+  }
+}
+
+function strokeArc(start, end, color) {
+  if (end - start <= 0.01) return;
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.arc(C, C, RING_R, (start - 90) * Math.PI / 180, (end - 90) * Math.PI / 180);
+  ctx.stroke();
+}
+
+function drawLabel(text, angle, radius, size, color, rotation) {
+  const rad = (angle - 90) * Math.PI / 180;
+  const x = C + radius * Math.cos(rad);
+  const y = C + radius * Math.sin(rad);
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rotation * Math.PI / 180);
+  ctx.fillStyle = color;
+  ctx.font = size + "px Roboto, system-ui, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 0, 0);
+  ctx.restore();
+}
+
+function drawWeather() {
+  ctx.fillStyle = COLORS.accent;
+  ctx.font = "26px Roboto, system-ui, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("32°", C, 44);
+}
+
+function drawGoals() {
+  [173, 225, 279].forEach(cx => {
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = COLORS.track;
+    ctx.beginPath();
+    ctx.arc(cx, 330, 22, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = COLORS.accent;
+    ctx.beginPath();
+    ctx.arc(cx, 330, 22, -Math.PI / 2, Math.PI * 1.5);
+    ctx.stroke();
+    ctx.fillStyle = COLORS.primary;
+    ctx.font = "14px Roboto, system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("100%", cx, 330);
+  });
+}
+
+function drawSteps() {
+  ctx.font = "20px Roboto, system-ui, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const number = "1000";
+  const word = " Schritte";
+  const numberWidth = ctx.measureText(number).width;
+  const wordWidth = ctx.measureText(word).width;
+  const left = C - (numberWidth + wordWidth) / 2;
+  ctx.textAlign = "left";
+  ctx.fillStyle = COLORS.primary;
+  ctx.fillText(number, left, 366);
+  ctx.fillStyle = COLORS.secondary;
+  ctx.fillText(word, left + numberWidth, 366);
+}
+
+function bind() {
+  const timeInput = document.getElementById("time");
+  const ambientInput = document.getElementById("ambient");
+  const timeLabel = document.getElementById("timeLabel");
+  timeInput.value = state.now;
+  ambientInput.checked = state.ambient;
+  ORDER.forEach(key => document.getElementById(key).value = state.times[key]);
+  const refresh = () => {
+    state.now = Number(timeInput.value);
+    state.ambient = ambientInput.checked;
+    ORDER.forEach(key => state.times[key] = document.getElementById(key).value || state.times[key]);
+    timeLabel.textContent = clock(state.now);
+    draw();
+  };
+  timeInput.addEventListener("input", refresh);
+  ambientInput.addEventListener("change", refresh);
+  ORDER.forEach(key => document.getElementById(key).addEventListener("input", refresh));
+  timeLabel.textContent = clock(state.now);
+  draw();
+}
+
+document.fonts.ready.then(bind);
+</script>
+</body>
+</html>
