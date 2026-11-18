@@ -21,6 +21,20 @@ show their own progress. Arcs and labels are drawn with `PartDraw`/`PartText`, t
   See https://developer.android.com/training/wearables/watch-face-push
 - Localise the strings and render the Hijri date and countdown from pushed values.
 
+## Verified on device
+
+Rendered on a Wear OS 4 emulator (384x384) with KVM: the face is listed in the picker,
+the date, ring, labels and countdown render correctly.
+
+Things learned while testing:
+
+- `<Parameter>` elements must all come **after** the format string (`%s, %s. %s %s` with all
+  parameters at the end). Interleaved parameters render as `Error`.
+- A whitespace-only `<Font>` is dropped; put the space at the start of the next span.
+- Wear OS 4 only understands format version 1, so the face has to be built with
+  `format.version=1`, `minSdk 33` and `targetSdk <= 33` to boot there. Wear OS 6 needs version 4.
+- `GOAL_PROGRESS` does not exist in version 1 and has to be dropped for such a test build.
+
 ## Validation
 
 ```bash
