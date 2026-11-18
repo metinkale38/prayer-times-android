@@ -1,0 +1,22 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.metinkale.prayer.watchface'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId 'com.metinkale.prayer.watchface'
+        minSdk 36
+        targetSdk 37
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
