@@ -8,22 +8,22 @@
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="0" endAngle="60">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="65" endAngle="82.857">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="64" endAngle="82.857">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="87.857" endAngle="180">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="86.857" endAngle="180">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="185" endAngle="242.069">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="184" endAngle="242.069">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="247.069" endAngle="287.586">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="246.069" endAngle="287.586">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="292.586" endAngle="312.414">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="291.586" endAngle="312.414">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="317.414" endAngle="360">
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="316.414" endAngle="360">
             <Stroke color="#ff33373a" thickness="10" cap="BUTT"/>
         </Arc>
         </PartDraw>
@@ -33,28 +33,28 @@
                 <Transform target="endAngle" value="0.000 + 60.000 * clamp(([SECONDS_IN_DAY] - 450) / 15750, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="65" endAngle="65">
-                <Transform target="endAngle" value="65.000 + 17.857 * clamp(([SECONDS_IN_DAY] - 16200) / 6000, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="64" endAngle="64">
+                <Transform target="endAngle" value="64.000 + 18.857 * clamp(([SECONDS_IN_DAY] - 16200) / 6000, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="87.857" endAngle="87.857">
-                <Transform target="endAngle" value="87.857 + 92.143 * clamp(([SECONDS_IN_DAY] - 22200) / 25500, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="86.857" endAngle="86.857">
+                <Transform target="endAngle" value="86.857 + 93.143 * clamp(([SECONDS_IN_DAY] - 22200) / 25500, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="185" endAngle="185">
-                <Transform target="endAngle" value="185.000 + 57.069 * clamp(([SECONDS_IN_DAY] - 47700) / 13500, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="184" endAngle="184">
+                <Transform target="endAngle" value="184.000 + 58.069 * clamp(([SECONDS_IN_DAY] - 47700) / 13500, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="247.069" endAngle="247.069">
-                <Transform target="endAngle" value="247.069 + 40.517 * clamp(([SECONDS_IN_DAY] - 61200) / 9900, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="246.069" endAngle="246.069">
+                <Transform target="endAngle" value="246.069 + 41.517 * clamp(([SECONDS_IN_DAY] - 61200) / 9900, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="292.586" endAngle="292.586">
-                <Transform target="endAngle" value="292.586 + 19.828 * clamp(([SECONDS_IN_DAY] - 71100) / 5400, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="291.586" endAngle="291.586">
+                <Transform target="endAngle" value="291.586 + 20.828 * clamp(([SECONDS_IN_DAY] - 71100) / 5400, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="317.414" endAngle="317.414">
-                <Transform target="endAngle" value="317.414 + 42.586 * clamp(([SECONDS_IN_DAY] - 76500) / 10350, 0, 1)"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="316.414" endAngle="316.414">
+                <Transform target="endAngle" value="316.414 + 43.586 * clamp(([SECONDS_IN_DAY] - 76500) / 10350, 0, 1)"/>
             <Stroke color="#ff6a7074" thickness="10" cap="BUTT"/>
         </Arc>
         </PartDraw>
@@ -64,70 +64,70 @@
                 <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 76500) || ([SECONDS_IN_DAY] &lt; 16200)) ? 60.000 : 0.000"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="65" endAngle="65">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 16200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 22200)) ? 82.857 : 65.000"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="64" endAngle="64">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 16200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 22200)) ? 82.857 : 64.000"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="87.857" endAngle="87.857">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 22200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 47700)) ? 180.000 : 87.857"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="86.857" endAngle="86.857">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 22200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 47700)) ? 180.000 : 86.857"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="185" endAngle="185">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 47700) &amp;&amp; ([SECONDS_IN_DAY] &lt; 61200)) ? 242.069 : 185.000"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="184" endAngle="184">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 47700) &amp;&amp; ([SECONDS_IN_DAY] &lt; 61200)) ? 242.069 : 184.000"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="247.069" endAngle="247.069">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 61200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 71100)) ? 287.586 : 247.069"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="246.069" endAngle="246.069">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 61200) &amp;&amp; ([SECONDS_IN_DAY] &lt; 71100)) ? 287.586 : 246.069"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="292.586" endAngle="292.586">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 71100) &amp;&amp; ([SECONDS_IN_DAY] &lt; 76500)) ? 312.414 : 292.586"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="291.586" endAngle="291.586">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 71100) &amp;&amp; ([SECONDS_IN_DAY] &lt; 76500)) ? 312.414 : 291.586"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="317.414" endAngle="317.414">
-                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 76500) || ([SECONDS_IN_DAY] &lt; 16200)) ? 360.000 : 317.414"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="316.414" endAngle="316.414">
+                <Transform target="endAngle" value="(([SECONDS_IN_DAY] >= 76500) || ([SECONDS_IN_DAY] &lt; 16200)) ? 360.000 : 316.414"/>
             <Stroke color="#ff3f9bbf" thickness="10" cap="BUTT"/>
         </Arc>
         </PartDraw>
         <Group x="0" y="0" width="450" height="450" name="labels">
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="65" endAngle="125" direction="CLOCKWISE" align="START">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="64" endAngle="124" direction="CLOCKWISE" align="START">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Fajr</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 04:30</Font>
             </TextCircular>
         </PartText>
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="87.857" endAngle="147.857" direction="CLOCKWISE" align="START">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="86.857" endAngle="146.857" direction="CLOCKWISE" align="START">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Sonne</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 06:10</Font>
             </TextCircular>
         </PartText>
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="245" endAngle="185" direction="COUNTER_CLOCKWISE" align="END">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="244" endAngle="184" direction="COUNTER_CLOCKWISE" align="END">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Zuhr</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 13:15</Font>
             </TextCircular>
         </PartText>
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="307.069" endAngle="247.069" direction="COUNTER_CLOCKWISE" align="END">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="306.069" endAngle="246.069" direction="COUNTER_CLOCKWISE" align="END">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Asr</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 17:00</Font>
             </TextCircular>
         </PartText>
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="292.586" endAngle="352.586" direction="CLOCKWISE" align="START">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="291.586" endAngle="351.586" direction="CLOCKWISE" align="START">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Maghrib</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 19:45</Font>
             </TextCircular>
         </PartText>
         <PartText x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <TextCircular centerX="225" centerY="225" width="370" height="370" startAngle="317.414" endAngle="360" direction="CLOCKWISE" align="START">
+            <TextCircular centerX="225" centerY="225" width="376" height="376" startAngle="316.414" endAngle="360" direction="CLOCKWISE" align="START">
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ff8e9499">Ishaa</Font>
                 <Font family="SYNC_TO_DEVICE" size="11" color="#ffe0e4e6"> 21:15</Font>
             </TextCircular>
