@@ -61,3 +61,33 @@ Notes for automated agents working on this repository.
   java -jar /tmp/opencode/wff-validator.jar 4 watchface/src/main/res/raw/watchface.xml
   ```
 - Legacy `androidx.wear.watchface` watch faces are not installed on Wear OS 6 at all, only WFF.
+
+### Testing a v4 face on the Wear OS 4 emulator
+
+The emulator only accepts format version 1. For a visual check, temporarily patch the module, build,
+install, then revert:
+
+```bash
+sed -i 's/android:value="4"/android:value="1"/' watchface/src/main/AndroidManifest.xml
+sed -i 's/minSdk 36/minSdk 33/; s/targetSdk 37/targetSdk 33/' watchface/build.gradle
+sed -i 's/supportedTypes="GOAL_PROGRESS RANGED_VALUE/supportedTypes="RANGED_VALUE/g' \
+  watchface/src/main/res/raw/watchface.xml
+# build, adb install -r, then:
+git checkout -- watchface/src/main/AndroidManifest.xml watchface/build.gradle
+```
+
+Set a specific time for screenshots with `adb root`, then
+`adb shell "date MMDDhhmmYYYY.ss"` + `adb shell am broadcast -a android.intent.action.TIME_SET`.
+`settings put global auto_time 0` first; restore with `1` afterwards.
+
+## UI review loop
+
+- The reviewer agent lives in `.opencode/agents/wear-ui-reviewer.md` and is read-only by design.
+- It must run on a **vision-capable model**. `evren/glm-5.3` cannot read images and silently falls
+  back to guessing from the XML; `opencode-go/gemini-4-argon` sees the PNGs.
+- Only screenshots from the real emulator count. `watchface/preview.html` is a design proxy, never
+  evidence for system rendering.
+- Feed it two or three states in one round (e.g. 04:00, 13:30, 22:00) plus `watch.png`, and keep one
+  session per review so it remembers earlier rounds.
+- It returns severity-ranked findings with numbers in the 450x450 design space; apply, rebuild,
+  re-screenshot, repeat until it explicitly approves.

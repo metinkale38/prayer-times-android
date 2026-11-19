@@ -5,23 +5,26 @@
     <Scene backgroundColor="#ff000000">
         <PartDraw x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="150"/>
-        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="60" endAngle="82.857">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="0" endAngle="60">
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
+        </Arc>
+        <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="65" endAngle="82.857">
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="87.857" endAngle="180">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="185" endAngle="242.069">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="247.069" endAngle="287.586">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="292.586" endAngle="312.414">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         <Arc centerX="225" centerY="225" width="409.5" height="409.5" startAngle="317.414" endAngle="360">
-            <Stroke color="#66ffffff" thickness="10" cap="BUTT"/>
+            <Stroke color="#ff4f5356" thickness="10" cap="BUTT"/>
         </Arc>
         </PartDraw>
         <PartDraw x="0" y="0" width="450" height="450">
@@ -56,96 +59,67 @@
         </Arc>
         </PartDraw>
         <Group x="0" y="0" width="450" height="450" name="labels">
-        <PartText x="271" y="115" width="220" height="41" angle="60">
+        <PartText x="291" y="150" width="220" height="31" angle="71.429">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="17" color="#ffa9b0b4">Fajr</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Fajr 04:30</Font>
             </Text>
         </PartText>
-        <PartText x="255" y="129" width="220" height="31" angle="60">
+        <PartText x="254" y="332" width="220" height="31" angle="311.429">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="13" color="#ffa9b0b4">04:30</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Sonne 06:10</Font>
             </Text>
         </PartText>
-        <PartText x="294" y="182" width="220" height="41" angle="82.857">
+        <PartText x="115" y="389" width="220" height="31" angle="360">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="17" color="#ffa9b0b4">Sonne</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Zuhr 13:15</Font>
             </Text>
         </PartText>
-        <PartText x="275" y="189" width="220" height="31" angle="82.857">
+        <PartText x="-70" y="226" width="220" height="31" angle="444.828">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="13" color="#ffa9b0b4">06:10</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Asr 17:00</Font>
             </Text>
         </PartText>
-        <PartText x="115" y="371" width="220" height="38" angle="360">
+        <PartText x="-46" y="116" width="220" height="31" angle="300">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="16" color="#ffa9b0b4">Zuhr 13:15</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Maghrib 19:45</Font>
             </Text>
         </PartText>
-        <PartText x="-27" y="280" width="220" height="41" angle="422.069">
+        <PartText x="40" y="39" width="220" height="31" angle="336.207">
             <Variant mode="AMBIENT" target="alpha" value="90"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="17" color="#ffa9b0b4">Asr</Font>
-            </Text>
-        </PartText>
-        <PartText x="-44" y="294" width="220" height="31" angle="422.069">
-            <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="13" color="#ffa9b0b4">17:00</Font>
-            </Text>
-        </PartText>
-        <PartText x="-57" y="150" width="220" height="41" angle="287.586">
-            <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="17" color="#ffa9b0b4">Maghrib</Font>
-            </Text>
-        </PartText>
-        <PartText x="-39" y="161" width="220" height="31" angle="287.586">
-            <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="13" color="#ffa9b0b4">19:45</Font>
-            </Text>
-        </PartText>
-        <PartText x="-18" y="83" width="220" height="41" angle="312.414">
-            <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="17" color="#ffa9b0b4">Ishaa</Font>
-            </Text>
-        </PartText>
-        <PartText x="-4" y="101" width="220" height="31" angle="312.414">
-            <Variant mode="AMBIENT" target="alpha" value="90"/>
-            <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="13" color="#ffa9b0b4">21:15</Font>
+                <Font family="SYNC_TO_DEVICE" size="13" color="#ffc2c9cc">Ishaa 21:15</Font>
             </Text>
         </PartText>
         </Group>
         <DigitalClock x="0" y="0" width="450" height="450">
-            <TimeText format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" x="0" y="140" width="450" height="120">
+            <TimeText format="hh:mm" hourFormat="24" align="CENTER" x="0" y="132" width="450" height="112">
                 <Variant mode="AMBIENT" target="alpha" value="230"/>
                 <Font family="SYNC_TO_DEVICE" size="100" weight="BOLD" color="#fff2f2f2"/>
             </TimeText>
         </DigitalClock>
-        <PartText x="75" y="105" width="300" height="24">
+        <PartText x="75" y="100" width="300" height="24">
             <Variant mode="AMBIENT" target="alpha" value="0"/>
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="18" color="#fff2f2f2"><Template>%s, %s. %s %s<Parameter expression="[DAY_OF_WEEK_S]"/><Parameter expression="[DAY]"/><Parameter expression="[MONTH_F]"/><Parameter expression="[YEAR]"/></Template></Font>
             </Text>
         </PartText>
-        <PartText x="0" y="250" width="450" height="26">
+        <PartText x="0" y="242" width="450" height="26">
             <Variant mode="AMBIENT" target="alpha" value="150"/>
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="22" color="#ff3f9bbf">28 Shawwal 1447</Font>
             </Text>
         </PartText>
-        <PartText x="0" y="283" width="450" height="24">
+        <PartText x="0" y="274" width="450" height="24">
             <Variant mode="AMBIENT" target="alpha" value="0"/>
             <Text align="CENTER">
-                <Font family="SYNC_TO_DEVICE" size="20" color="#fff2f2f2">Zuhr | 03:30</Font>
-                <Font family="SYNC_TO_DEVICE" size="20" color="#ff96a0a5"> bis Asr</Font>
+                <Font family="SYNC_TO_DEVICE" size="20" weight="BOLD" color="#fff2f2f2">Zuhr |</Font>
+                <Font family="SYNC_TO_DEVICE" size="20" color="#fff2f2f2"> 03:30</Font>
+                <Font family="SYNC_TO_DEVICE" size="20" color="#ff7a7d82"> bis Asr</Font>
             </Text>
         </PartText>
         <ComplicationSlot slotId="0" x="166" y="48" width="117" height="54" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE RANGED_VALUE SMALL_IMAGE EMPTY">
@@ -161,12 +135,12 @@
                 </Group>
             </Complication>
         </ComplicationSlot>
-        <ComplicationSlot slotId="1" x="151" y="311" width="44" height="44" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
-            <BoundingBox x="0" y="0" width="44" height="44"/>
+        <ComplicationSlot slotId="1" x="147" y="310" width="52" height="52" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
+            <BoundingBox x="0" y="0" width="52" height="52"/>
             <Complication type="SHORT_TEXT">
-                <Group x="0" y="0" width="44" height="44" name="complication_1">
+                <Group x="0" y="0" width="52" height="52" name="complication_1">
                     <Variant mode="AMBIENT" target="alpha" value="0"/>
-                    <PartText x="0" y="0" width="44" height="44">
+                    <PartText x="0" y="0" width="52" height="52">
                         <Text align="CENTER">
                             <Font family="SYNC_TO_DEVICE" size="14" color="#fff2f2f2"><Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template></Font>
                         </Text>
@@ -174,12 +148,12 @@
                 </Group>
             </Complication>
         </ComplicationSlot>
-        <ComplicationSlot slotId="2" x="203" y="311" width="44" height="44" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
-            <BoundingBox x="0" y="0" width="44" height="44"/>
+        <ComplicationSlot slotId="2" x="199" y="310" width="52" height="52" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
+            <BoundingBox x="0" y="0" width="52" height="52"/>
             <Complication type="SHORT_TEXT">
-                <Group x="0" y="0" width="44" height="44" name="complication_2">
+                <Group x="0" y="0" width="52" height="52" name="complication_2">
                     <Variant mode="AMBIENT" target="alpha" value="0"/>
-                    <PartText x="0" y="0" width="44" height="44">
+                    <PartText x="0" y="0" width="52" height="52">
                         <Text align="CENTER">
                             <Font family="SYNC_TO_DEVICE" size="14" color="#fff2f2f2"><Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template></Font>
                         </Text>
@@ -187,12 +161,12 @@
                 </Group>
             </Complication>
         </ComplicationSlot>
-        <ComplicationSlot slotId="3" x="257" y="311" width="44" height="44" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
-            <BoundingBox x="0" y="0" width="44" height="44"/>
+        <ComplicationSlot slotId="3" x="251" y="310" width="52" height="52" supportedTypes="GOAL_PROGRESS RANGED_VALUE SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
+            <BoundingBox x="0" y="0" width="52" height="52"/>
             <Complication type="SHORT_TEXT">
-                <Group x="0" y="0" width="44" height="44" name="complication_3">
+                <Group x="0" y="0" width="52" height="52" name="complication_3">
                     <Variant mode="AMBIENT" target="alpha" value="0"/>
-                    <PartText x="0" y="0" width="44" height="44">
+                    <PartText x="0" y="0" width="52" height="52">
                         <Text align="CENTER">
                             <Font family="SYNC_TO_DEVICE" size="14" color="#fff2f2f2"><Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template></Font>
                         </Text>
@@ -200,12 +174,12 @@
                 </Group>
             </Complication>
         </ComplicationSlot>
-        <ComplicationSlot slotId="4" x="99" y="360" width="252" height="20" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
-            <BoundingBox x="0" y="0" width="252" height="20"/>
+        <ComplicationSlot slotId="4" x="106" y="368" width="238" height="24" supportedTypes="SHORT_TEXT MONOCHROMATIC_IMAGE EMPTY">
+            <BoundingBox x="0" y="0" width="238" height="24"/>
             <Complication type="SHORT_TEXT">
-                <Group x="0" y="0" width="252" height="20" name="complication_4">
+                <Group x="0" y="0" width="238" height="24" name="complication_4">
                     <Variant mode="AMBIENT" target="alpha" value="0"/>
-                    <PartText x="0" y="0" width="252" height="20">
+                    <PartText x="0" y="0" width="238" height="24">
                         <Text align="CENTER">
                             <Font family="SYNC_TO_DEVICE" size="20" color="#fff2f2f2"><Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template></Font>
                         </Text>
