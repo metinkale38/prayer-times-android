@@ -35,6 +35,8 @@
 <script>
 const W = 450, C = W / 2;
 const RING_R = 0.455 * W, RING_STROKE = 10, GAP = 5;
+const LABEL_R = 189, LABEL_SIZE = 13;
+const NAME_R = 170, NAME_SIZE = 12;
 const COLORS = {
   background: "#000000",
   primary: "#f2f2f2",
@@ -123,13 +125,12 @@ function draw() {
   });
   ctx.globalAlpha = 1;
 
-  ORDER.forEach((key, index) => {
-    const next = index === ORDER.length - 1 ? g.anchor : g.t[ORDER[index + 1]];
-    const angle = key === "dhuhr" ? g.angleOf(g.t[key]) : g.angleOf((g.t[key] + next) / 2);
-    const flipped = angle >= 90 && angle <= 270;
-    const rotation = flipped ? angle + 180 : angle;
+  ORDER.forEach(key => {
+    const start = g.angleOf(g.t[key]) + GAP;
+    const upper = start < 90 || start >= 270;
     ctx.globalAlpha = ambient ? 0.8 : 1;
-    drawLabel(NAMES[key] + " " + state.times[key], angle, key === "dhuhr" ? 180 : 186, 13, COLORS.secondary, rotation);
+    drawCircular(state.times[key], start, LABEL_R, LABEL_SIZE, COLORS.secondary, upper);
+    drawCircular(NAMES[key], start, NAME_R, NAME_SIZE, "#a2aab0", upper);
     ctx.globalAlpha = 1;
   });
 
@@ -190,6 +191,31 @@ function strokeArc(start, end, color) {
   ctx.stroke();
 }
 
+function drawCircular(text, startAngle, radius, size, color, clockwise) {
+  const chars = [...text];
+  ctx.font = size + "px Roboto, system-ui, sans-serif";
+  const widths = chars.map(ch => Math.max(ctx.measureText(ch).width, 0.1));
+  const degPerPx = 180 / (Math.PI * radius);
+  const total = widths.reduce((a, b) => a + b, 0) * degPerPx;
+  let cursor = clockwise ? startAngle : startAngle + total;
+  ctx.fillStyle = color;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  chars.forEach((ch, i) => {
+    const wDeg = widths[i] * degPerPx;
+    const center = clockwise ? cursor + wDeg / 2 : cursor - wDeg / 2;
+    cursor += clockwise ? wDeg : -wDeg;
+    const rad = (center - 90) * Math.PI / 180;
+    const x = C + radius * Math.cos(rad);
+    const y = C + radius * Math.sin(rad);
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate((clockwise ? center : center + 180) * Math.PI / 180);
+    ctx.fillText(ch, 0, 0);
+    ctx.restore();
+  });
+}
+
 function drawLabel(text, angle, radius, size, color, rotation) {
   const rad = (angle - 90) * Math.PI / 180;
   const x = C + radius * Math.cos(rad);
@@ -217,17 +243,17 @@ function drawGoals() {
     ctx.lineWidth = 4;
     ctx.strokeStyle = COLORS.track;
     ctx.beginPath();
-    ctx.arc(cx, 336, 26, 0, Math.PI * 2);
+    ctx.arc(cx, 331, 25, 0, Math.PI * 2);
     ctx.stroke();
     ctx.strokeStyle = COLORS.accent;
     ctx.beginPath();
-    ctx.arc(cx, 336, 26, -Math.PI / 2, Math.PI * 1.5);
+    ctx.arc(cx, 331, 25, -Math.PI / 2, Math.PI * 1.5);
     ctx.stroke();
     ctx.fillStyle = COLORS.primary;
     ctx.font = "14px Roboto, system-ui, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("100%", cx, 336);
+    ctx.fillText("100%", cx, 331);
   });
 }
 
@@ -242,9 +268,9 @@ function drawSteps() {
   const left = C - (numberWidth + wordWidth) / 2;
   ctx.textAlign = "left";
   ctx.fillStyle = COLORS.primary;
-  ctx.fillText(number, left, 380);
+  ctx.fillText(number, left, 372);
   ctx.fillStyle = COLORS.secondary;
-  ctx.fillText(word, left + numberWidth, 380);
+  ctx.fillText(word, left + numberWidth, 372);
 }
 
 function bind() {
