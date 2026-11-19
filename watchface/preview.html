@@ -34,8 +34,11 @@
 </div>
 <script>
 const W = 450, C = W / 2;
-const RING_R = 0.455 * W, RING_STROKE = 10, GAP = 4;
-const LABEL_R = 188, LABEL_SIZE = 11;
+const RING_R = 0.455 * W, RING_STROKE = 10, GAP = 2.5;
+const LABEL_SIZE = 11;
+// Der Renderer setzt die Labels je nach Position unterschiedlich weit vom Ring ab;
+// diese Radien sind an echten Screenshots ausgemessen (Abstand zur Ringkante ~5).
+const LABEL_RADII = { Fajr: 191.2, Sonne: 191.7, Zuhr: 192.6, Asr: 190.7, Maghrib: 189.6, Ishaa: 189.8 };
 const COLORS = {
   background: "#000000",
   primary: "#f2f2f2",
@@ -137,7 +140,7 @@ function draw() {
     const upper = start < 90 || start >= 270;
     ctx.globalAlpha = ambient ? 0.8 : 1;
     drawCircular([{ text: NAMES[key], color: "#8e9499" }, { text: " " + state.times[key], color: "#e0e4e6" }],
-                 start, LABEL_R, LABEL_SIZE, upper);
+                 start, LABEL_RADII[NAMES[key]], LABEL_SIZE, upper);
     ctx.globalAlpha = 1;
   });
 
