@@ -35,14 +35,14 @@
 <script>
 const W = 450, C = W / 2;
 const RING_R = 0.455 * W, RING_STROKE = 10, GAP = 5;
-const LABEL_R = 189, LABEL_SIZE = 13;
-const NAME_R = 170, NAME_SIZE = 12;
+const LABEL_R = 185, LABEL_SIZE = 11;
 const COLORS = {
   background: "#000000",
   primary: "#f2f2f2",
-  secondary: "#c2c9cc",
+  secondary: "#d2d6d8",
   accent: "#3f9bbf",
-  track: "#4f5356"
+  past: "#6a7074",
+  future: "#33373a"
 };
 
 const canvas = document.getElementById("dial");
@@ -105,23 +105,30 @@ function draw() {
   ctx.lineWidth = RING_STROKE;
 
   const arcs = [];
-  arcs.push({ start: 0, end: g.angleOf(g.t.fajr), from: g.anchor - 1440, to: g.t.fajr });
+  const anchor = g.anchor;
+  arcs.push({ start: 0, end: g.angleOf(g.t.fajr), from: anchor - 1440, to: g.t.fajr });
   ORDER.forEach((key, index) => {
     const start = g.angleOf(g.t[key]) + GAP;
     const end = index === ORDER.length - 1 ? 360 : g.angleOf(g.t[ORDER[index + 1]]);
     const from = g.t[key];
-    const to = index === ORDER.length - 1 ? g.anchor : g.t[ORDER[index + 1]];
+    const to = index === ORDER.length - 1 ? anchor : g.t[ORDER[index + 1]];
     arcs.push({ start, end, from, to });
   });
 
   ctx.globalAlpha = ambient ? 0.6 : 1;
-  arcs.forEach(a => {
-    strokeArc(a.start, a.end, COLORS.track);
-  });
+  // Zukuenftig (dunkel), vergangen (hell), aktiv (teal) - wie im Zifferblatt.
+  arcs.forEach(a => strokeArc(a.start, a.end, COLORS.future));
   arcs.forEach(a => {
     const fraction = Math.min(1, Math.max(0, (now - a.from) / (a.to - a.from)));
     if (fraction <= 0) return;
-    strokeArc(a.start, a.start + (a.end - a.start) * fraction, COLORS.accent);
+    strokeArc(a.start, a.start + (a.end - a.start) * fraction, COLORS.past);
+  });
+  const nightActive = now >= g.t.ishaa || now < g.t.fajr;
+  arcs.forEach((a, index) => {
+    const isNight = index === 0 || index === arcs.length - 1;
+    const active = isNight ? nightActive : (now >= a.from && now < a.to);
+    if (!active) return;
+    strokeArc(a.start, a.end, COLORS.accent);
   });
   ctx.globalAlpha = 1;
 
@@ -129,8 +136,8 @@ function draw() {
     const start = g.angleOf(g.t[key]) + GAP;
     const upper = start < 90 || start >= 270;
     ctx.globalAlpha = ambient ? 0.8 : 1;
-    drawCircular(state.times[key], start, LABEL_R, LABEL_SIZE, COLORS.secondary, upper);
-    drawCircular(NAMES[key], start, NAME_R, NAME_SIZE, "#a2aab0", upper);
+    drawCircular([{ text: NAMES[key], color: "#8e9499" }, { text: " " + state.times[key], color: "#e0e4e6" }],
+                 start, LABEL_R, LABEL_SIZE, upper);
     ctx.globalAlpha = 1;
   });
 
@@ -191,27 +198,28 @@ function strokeArc(start, end, color) {
   ctx.stroke();
 }
 
-function drawCircular(text, startAngle, radius, size, color, clockwise) {
-  const chars = [...text];
+function drawCircular(parts, startAngle, radius, size, clockwise) {
+  const chars = [];
+  parts.forEach(part => [...part.text].forEach(ch => chars.push({ ch, color: part.color })));
   ctx.font = size + "px Roboto, system-ui, sans-serif";
-  const widths = chars.map(ch => Math.max(ctx.measureText(ch).width, 0.1));
+  const widths = chars.map(c => Math.max(ctx.measureText(c.ch).width, 0.1));
   const degPerPx = 180 / (Math.PI * radius);
   const total = widths.reduce((a, b) => a + b, 0) * degPerPx;
   let cursor = clockwise ? startAngle : startAngle + total;
-  ctx.fillStyle = color;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  chars.forEach((ch, i) => {
+  chars.forEach((c, i) => {
     const wDeg = widths[i] * degPerPx;
     const center = clockwise ? cursor + wDeg / 2 : cursor - wDeg / 2;
     cursor += clockwise ? wDeg : -wDeg;
+    ctx.fillStyle = c.color;
     const rad = (center - 90) * Math.PI / 180;
     const x = C + radius * Math.cos(rad);
     const y = C + radius * Math.sin(rad);
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate((clockwise ? center : center + 180) * Math.PI / 180);
-    ctx.fillText(ch, 0, 0);
+    ctx.fillText(c.ch, 0, 0);
     ctx.restore();
   });
 }
