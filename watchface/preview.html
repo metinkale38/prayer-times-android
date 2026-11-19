@@ -34,14 +34,13 @@
 </div>
 <script>
 const W = 450, C = W / 2;
-const RING_R = 0.455 * W, RING_STROKE = 9, GAP = 5;
-const NAME_R = 0.415 * W, TIME_R = 0.368 * W;
+const RING_R = 0.455 * W, RING_STROKE = 10, GAP = 5;
 const COLORS = {
   background: "#000000",
   primary: "#f2f2f2",
-  secondary: "#a9b0b4",
+  secondary: "#c2c9cc",
   accent: "#3f9bbf",
-  track: "rgba(255,255,255,0.25)"
+  track: "#4f5356"
 };
 
 const canvas = document.getElementById("dial");
@@ -124,19 +123,13 @@ function draw() {
   });
   ctx.globalAlpha = 1;
 
-  ORDER.forEach(key => {
-    const angle = g.angleOf(g.t[key]);
+  ORDER.forEach((key, index) => {
+    const next = index === ORDER.length - 1 ? g.anchor : g.t[ORDER[index + 1]];
+    const angle = key === "dhuhr" ? g.angleOf(g.t[key]) : g.angleOf((g.t[key] + next) / 2);
     const flipped = angle >= 90 && angle <= 270;
     const rotation = flipped ? angle + 180 : angle;
-    const nameRadius = flipped ? TIME_R : NAME_R;
-    const timeRadius = flipped ? NAME_R : TIME_R;
     ctx.globalAlpha = ambient ? 0.8 : 1;
-    if (key === "dhuhr") {
-      drawLabel(NAMES[key] + " " + state.times[key], angle, 171, 16, COLORS.secondary, rotation);
-    } else {
-      drawLabel(NAMES[key], angle, nameRadius, 17, COLORS.secondary, rotation);
-      drawLabel(state.times[key], angle, timeRadius, 14, COLORS.secondary, rotation);
-    }
+    drawLabel(NAMES[key] + " " + state.times[key], angle, key === "dhuhr" ? 180 : 186, 13, COLORS.secondary, rotation);
     ctx.globalAlpha = 1;
   });
 
@@ -144,20 +137,20 @@ function draw() {
   ctx.textBaseline = "middle";
   ctx.globalAlpha = ambient ? 0.9 : 1;
   ctx.fillStyle = COLORS.primary;
-  ctx.font = "bold 106px Roboto, system-ui, sans-serif";
-  ctx.fillText(clock(now), C, 200);
+  ctx.font = "bold 100px Roboto, system-ui, sans-serif";
+  ctx.fillText(clock(now), C, 188);
   ctx.globalAlpha = 1;
 
   if (!ambient) {
     const date = new Date(2026, 3, 16);
     const dateText = date.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
     ctx.fillStyle = COLORS.primary;
-    ctx.font = "19px Roboto, system-ui, sans-serif";
-    ctx.fillText(dateText.replace(/^(\w+)\.?,?/, "$1,"), C, 116);
+    ctx.font = "18px Roboto, system-ui, sans-serif";
+    ctx.fillText(dateText.replace(/^(\w+)\.?,?/, "$1,"), C, 112);
 
     ctx.fillStyle = COLORS.accent;
     ctx.font = "22px Roboto, system-ui, sans-serif";
-    ctx.fillText("28 Shawwal 1447", C, 263);
+    ctx.fillText("28 Shawwal 1447", C, 255);
 
     const nextIndex = ORDER.findIndex(k => g.t[k] > now);
     const nextKey = nextIndex < 0 ? "fajr" : ORDER[nextIndex];
@@ -165,9 +158,23 @@ function draw() {
     const target = nextIndex < 0 ? g.nextFajr : g.t[nextKey];
     const remaining = Math.max(0, target - now);
     const countdown = clock(remaining);
-    ctx.fillStyle = COLORS.secondary;
+    const label = NAMES[currentKey] + " | ";
+    const suffix = " bis " + NAMES[nextKey];
+    ctx.textAlign = "left";
+    ctx.font = "bold 20px Roboto, system-ui, sans-serif";
+    const labelW = ctx.measureText(label).width;
     ctx.font = "20px Roboto, system-ui, sans-serif";
-    ctx.fillText(NAMES[currentKey] + " | " + countdown + " bis " + NAMES[nextKey], C, 292);
+    const timeW = ctx.measureText(countdown).width;
+    const suffixW = ctx.measureText(suffix).width;
+    const left = C - (labelW + timeW + suffixW) / 2;
+    ctx.fillStyle = COLORS.primary;
+    ctx.font = "bold 20px Roboto, system-ui, sans-serif";
+    ctx.fillText(label, left, 286);
+    ctx.font = "20px Roboto, system-ui, sans-serif";
+    ctx.fillText(countdown, left + labelW, 286);
+    ctx.fillStyle = "#7a7d82";
+    ctx.fillText(suffix, left + labelW + timeW, 286);
+    ctx.textAlign = "center";
 
     drawWeather();
     drawGoals();
@@ -206,21 +213,21 @@ function drawWeather() {
 }
 
 function drawGoals() {
-  [173, 225, 279].forEach(cx => {
+  [173, 225, 277].forEach(cx => {
     ctx.lineWidth = 4;
     ctx.strokeStyle = COLORS.track;
     ctx.beginPath();
-    ctx.arc(cx, 330, 22, 0, Math.PI * 2);
+    ctx.arc(cx, 336, 26, 0, Math.PI * 2);
     ctx.stroke();
     ctx.strokeStyle = COLORS.accent;
     ctx.beginPath();
-    ctx.arc(cx, 330, 22, -Math.PI / 2, Math.PI * 1.5);
+    ctx.arc(cx, 336, 26, -Math.PI / 2, Math.PI * 1.5);
     ctx.stroke();
     ctx.fillStyle = COLORS.primary;
     ctx.font = "14px Roboto, system-ui, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("100%", cx, 330);
+    ctx.fillText("100%", cx, 336);
   });
 }
 
@@ -235,9 +242,9 @@ function drawSteps() {
   const left = C - (numberWidth + wordWidth) / 2;
   ctx.textAlign = "left";
   ctx.fillStyle = COLORS.primary;
-  ctx.fillText(number, left, 368);
+  ctx.fillText(number, left, 380);
   ctx.fillStyle = COLORS.secondary;
-  ctx.fillText(word, left + numberWidth, 368);
+  ctx.fillText(word, left + numberWidth, 380);
 }
 
 function bind() {
