@@ -21,7 +21,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.View
 import android.widget.RemoteViews
 import com.metinkale.prayer.R
 import com.metinkale.prayer.times.fragments.TimesFragment
@@ -29,17 +28,12 @@ import com.metinkale.prayer.times.times.Times
 import com.metinkale.prayer.times.times.Vakit
 import com.metinkale.prayer.times.times.getTime
 import com.metinkale.prayer.utils.LocaleUtils
-import dev.metinkale.openprayertimes.hijri.HijriDate
-import dev.metinkale.openprayertimes.hijri.HijriMonth
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toKotlinLocalDate
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 /**
- * Ramadan widget: counts down to iftar during the day and to imsak after iftar.
- * Outside Ramadan it shows the number of days until the next Ramadan.
+ * Ramadan widget: shows the imsak and maghrib times for the current/next fast
+ * and counts down to the next event.
  */
 class WidgetProviderRamadan : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
@@ -93,142 +87,123 @@ class WidgetProviderRamadan : AppWidgetProvider() {
                 TimesFragment.getPendingIntent(times)
             )
 
-            remoteViews.setTextViewText(R.id.city, times.name)
+            val now = LocalDateTime.now()
+            val today = LocalDate.now()
+            val todayFajr = times.getTime(today, Vakit.FAJR.ordinal)
+            val todayIftar = times.getTime(today, Vakit.MAGHRIB.ordinal)
+            val previousIftar = times.getTime(today, Vakit.MAGHRIB.ordinal - Vakit.LENGTH)
+            val nextFajr = times.getTime(today, Vakit.LENGTH + Vakit.FAJR.ordinal)
+            val countdown = ramadanCountdownTarget(
+                now = now,
+                previousIftar = previousIftar,
+                fajr = todayFajr,
+                iftar = todayIftar,
+                nextFajr = nextFajr
+            )
+
+            // After iftar the next fast already belongs to the following day.
+            val displayDate = if (now.isBefore(todayIftar)) today else today.plusDays(1)
+            val imsak = times.getTime(displayDate, Vakit.FAJR.ordinal)
+            val maghrib = times.getTime(displayDate, Vakit.MAGHRIB.ordinal)
+
             remoteViews.setTextColor(R.id.city, theme.textcolor)
             remoteViews.setTextViewTextSize(
                 R.id.city,
                 TypedValue.COMPLEX_UNIT_PX,
                 minOf(scale * 1.2f, 1.5f * w / times.name.length.coerceAtLeast(1))
             )
+            remoteViews.setTextViewText(R.id.city, times.name)
             remoteViews.setViewPadding(
                 R.id.city,
-                (scale / 2).toInt(),
                 0,
-                (scale / 2).toInt(),
+                0,
+                0,
                 (scale / 4).toInt()
             )
-
-            val now = LocalDateTime.now()
-            val today = LocalDate.now()
-            val previousIftar = times.getTime(today, Vakit.MAGHRIB.ordinal - Vakit.LENGTH)
-            val fajr = times.getTime(today, Vakit.FAJR.ordinal)
-            val iftar = times.getTime(today, Vakit.MAGHRIB.ordinal)
-            val nextFajr = times.getTime(today, Vakit.LENGTH + Vakit.FAJR.ordinal)
-            val countdown = ramadanCountdownTarget(
-                now = now,
-                previousIftar = previousIftar,
-                fajr = fajr,
-                iftar = iftar,
-                nextFajr = nextFajr
-            )
-            val hijriTarget =
-                HijriDate.fromLocalDate(countdown.target.toLocalDate().toKotlinLocalDate())
-
-            remoteViews.setTextColor(R.id.event, theme.textcolor)
-            remoteViews.setTextViewTextSize(R.id.event, TypedValue.COMPLEX_UNIT_PX, scale * 1.4f)
-            remoteViews.setTextColor(R.id.time, theme.textcolor)
-            remoteViews.setTextColor(R.id.ramadanDay, theme.textcolor)
-            remoteViews.setTextViewTextSize(
-                R.id.ramadanDay,
-                TypedValue.COMPLEX_UNIT_PX,
-                scale * 1.1f
-            )
             remoteViews.setViewPadding(
-                R.id.ramadanDay,
-                (scale / 2).toInt(),
-                (scale / 4).toInt(),
-                (scale / 2).toInt(),
+                R.id.content,
+                (scale / 1.5f).toInt(),
+                0,
+                (scale / 1.5f).toInt(),
                 0
             )
 
-            if (hijriTarget.month == HijriMonth.RAMADAN) {
-                remoteViews.setTextViewText(
-                    R.id.event,
-                    context.getString(if (countdown.isIftar) R.string.iftar else R.string.imsak)
-                )
-
-                val txt = LocaleUtils.formatPeriod(now, countdown.target, false)
-                remoteViews.setString(R.id.countdown, "setFormat", txt)
-                remoteViews.setChronometer(R.id.countdown, 0, txt, false)
-                remoteViews.setTextColor(R.id.countdown, theme.textcolor)
+            val rowTextIds = intArrayOf(R.id.fajrText, R.id.fajr, R.id.maghribText, R.id.maghrib)
+            for (id in rowTextIds) {
+                remoteViews.setTextColor(id, theme.textcolor)
                 remoteViews.setTextViewTextSize(
-                    R.id.countdown,
+                    id,
                     TypedValue.COMPLEX_UNIT_PX,
-                    minOf(scale * 2.6f, h * 0.24f)
+                    scale * 1.35f
                 )
-                remoteViews.setViewPadding(
-                    R.id.countdown,
-                    0,
-                    -(scale / 4).toInt(),
-                    0,
-                    -(scale / 3).toInt()
-                )
-                remoteViews.setViewVisibility(R.id.countdown, View.VISIBLE)
-
-                remoteViews.setTextViewText(
-                    R.id.time,
-                    LocaleUtils.formatTimeForHTML(countdown.target.toLocalTime())
-                )
-                remoteViews.setTextViewTextSize(
-                    R.id.time,
-                    TypedValue.COMPLEX_UNIT_PX,
-                    scale * 1.6f
-                )
-                remoteViews.setViewPadding(
-                    R.id.time,
-                    0,
-                    (scale / 8).toInt(),
-                    0,
-                    0
-                )
-
-                remoteViews.setTextViewText(
-                    R.id.ramadanDay,
-                    context.getString(
-                        R.string.ramadanDay,
-                        LocaleUtils.formatNumber(hijriTarget.day.toString())
-                    )
-                )
-                remoteViews.setViewVisibility(R.id.ramadanDay, View.VISIBLE)
-            } else {
-                val days = daysUntilNextRamadan(today)
-                remoteViews.setTextViewText(R.id.event, context.getString(R.string.hmonth9))
-                remoteViews.setTextViewText(
-                    R.id.time,
-                    context.resources.getQuantityString(
-                        R.plurals.ramadanStartsInDays,
-                        days,
-                        days
-                    )
-                )
-                remoteViews.setTextViewTextSize(
-                    R.id.time,
-                    TypedValue.COMPLEX_UNIT_PX,
-                    scale * 1.4f
-                )
-                remoteViews.setViewPadding(
-                    R.id.time,
-                    0,
-                    (scale / 2).toInt(),
-                    0,
-                    0
-                )
-                remoteViews.setViewVisibility(R.id.countdown, View.GONE)
-                remoteViews.setViewVisibility(R.id.ramadanDay, View.GONE)
             }
+            remoteViews.setTextViewText(R.id.fajrText, context.getString(R.string.imsak))
+            remoteViews.setTextViewText(R.id.maghribText, context.getString(R.string.maghrib))
+            remoteViews.setTextViewText(
+                R.id.fajr,
+                LocaleUtils.formatTimeForHTML(imsak.toLocalTime())
+            )
+            remoteViews.setTextViewText(
+                R.id.maghrib,
+                LocaleUtils.formatTimeForHTML(maghrib.toLocalTime())
+            )
+            remoteViews.setViewPadding(
+                R.id.imsakRow,
+                0,
+                (scale / 8).toInt(),
+                0,
+                (scale / 8).toInt()
+            )
+            remoteViews.setViewPadding(
+                R.id.maghribRow,
+                0,
+                (scale / 8).toInt(),
+                0,
+                (scale / 8).toInt()
+            )
+
+            remoteViews.setInt(
+                R.id.divider,
+                "setBackgroundColor",
+                (theme.textcolor and 0x00FFFFFF) or 0x33000000
+            )
+
+            remoteViews.setTextViewText(
+                R.id.countdownLabel,
+                context.getString(if (countdown.isIftar) R.string.iftar else R.string.imsak)
+            )
+            remoteViews.setTextColor(R.id.countdownLabel, theme.textcolor)
+            remoteViews.setTextViewTextSize(
+                R.id.countdownLabel,
+                TypedValue.COMPLEX_UNIT_PX,
+                scale * 1.2f
+            )
+            remoteViews.setViewPadding(
+                R.id.countdownLabel,
+                0,
+                (scale / 6).toInt(),
+                0,
+                0
+            )
+
+            val txt = LocaleUtils.formatPeriod(now, countdown.target, false)
+            remoteViews.setString(R.id.countdown, "setFormat", txt)
+            remoteViews.setChronometer(R.id.countdown, 0, txt, false)
+            remoteViews.setTextColor(R.id.countdown, theme.textcolor)
+            remoteViews.setTextViewTextSize(
+                R.id.countdown,
+                TypedValue.COMPLEX_UNIT_PX,
+                minOf(scale * 2.6f, h * 0.24f)
+            )
+            remoteViews.setViewPadding(
+                R.id.countdown,
+                0,
+                -(scale / 6).toInt(),
+                0,
+                -(scale / 6).toInt()
+            )
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews)
-        }
-
-        private fun daysUntilNextRamadan(today: LocalDate): Int {
-            val hijri = HijriDate.now()
-            val year = if (hijri.month.value < HijriMonth.RAMADAN.value) {
-                hijri.year
-            } else {
-                hijri.year + 1
-            }
-            val start = HijriDate.of(year, HijriMonth.RAMADAN, 1).toLocalDate().toJavaLocalDate()
-            return ChronoUnit.DAYS.between(today, start).coerceAtLeast(0).toInt()
         }
     }
 }

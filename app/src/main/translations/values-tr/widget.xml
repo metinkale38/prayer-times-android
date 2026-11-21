@@ -32,9 +32,4 @@
     <string name="widgetRamadan">Namaz Vakti - Ramazan Geri Sayım</string>
     <!-- Ramadan Countdown Widget -->
     <string name="iftar">İftar</string>
-    <string name="ramadanDay">Ramazan %1$s</string>
-    <plurals name="ramadanStartsInDays">
-        <item quantity="one">%1$d gün sonra</item>
-        <item quantity="other">%1$d gün sonra</item>
-    </plurals>
 </resources>

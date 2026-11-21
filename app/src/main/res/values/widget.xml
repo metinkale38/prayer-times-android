@@ -34,11 +34,6 @@
 
     <!-- Ramadan Countdown Widget -->
     <string name="iftar">Iftar</string>
-    <string name="ramadanDay">Ramadan %1$s</string>
-    <plurals name="ramadanStartsInDays">
-        <item quantity="one">in %1$d day</item>
-        <item quantity="other">in %1$d days</item>
-    </plurals>
 
 
 </resources>
