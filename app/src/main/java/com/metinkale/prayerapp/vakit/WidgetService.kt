@@ -110,6 +110,7 @@ class WidgetService : Service(), OnTimeTickListener {
         update(WidgetProviderClock::class.java) { c, m, i -> WidgetProviderClock.updateAppWidget(c, m, i) }
         update(WidgetProviderClock2::class.java) { c, m, i -> WidgetProviderClock2.updateAppWidget(c, m, i) }
         update(WidgetProviderProgress::class.java) { c, m, i -> WidgetProviderProgress.updateAppWidget(c, m, i) }
+        update(WidgetProviderRamadan::class.java) { c, m, i -> WidgetProviderRamadan.updateAppWidget(c, m, i) }
 
         return hasWidgets
     }
