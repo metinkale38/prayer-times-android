@@ -30,6 +30,10 @@
     <string name="widgetSilenter">Prayer Times - Silenter Widget</string>
     <string name="widgetSmall">Prayer Times - 1*1 Widget</string>
     <string name="widgetClock2">Prayer Times - 2*2 Clock</string>
+    <string name="widgetRamadan">Prayer Times - Ramadan Countdown</string>
+
+    <!-- Ramadan Countdown Widget -->
+    <string name="iftar">Iftar</string>
 
 
 </resources>

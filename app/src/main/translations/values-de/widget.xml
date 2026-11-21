@@ -29,4 +29,7 @@
     <string name="widgetSilenter">Gebetszeiten - Lautlos-Widget</string>
     <string name="widgetSmall">Gebetszeiten - 1*1 Widget</string>
     <string name="widgetClock2">Gebetszeiten - 2*2 Uhr</string>
+    <string name="widgetRamadan">Gebetszeiten - Ramadan-Countdown</string>
+    <!-- Ramadan Countdown Widget -->
+    <string name="iftar">Iftar</string>
 </resources>

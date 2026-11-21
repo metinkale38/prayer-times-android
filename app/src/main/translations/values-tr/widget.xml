@@ -29,4 +29,7 @@
     <string name="widgetSilenter">Namaz Vakti - Sessize al</string>
     <string name="widgetSmall">Namaz Vakti - Kücük Widget</string>
     <string name="widgetClock2">Namaz Vakti - Saat 2*2</string>
+    <string name="widgetRamadan">Namaz Vakti - Ramazan Geri Sayım</string>
+    <!-- Ramadan Countdown Widget -->
+    <string name="iftar">İftar</string>
 </resources>
